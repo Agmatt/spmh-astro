@@ -1,5 +1,6 @@
 ---
 import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.jsx';
 import '../styles/global.css';
 import 'aos/dist/aos.css';
 const { title = 'St Pauls Mission Hospital' } = Astro.props;
@@ -30,5 +31,6 @@ const { title = 'St Pauls Mission Hospital' } = Astro.props;
   <body>
     <Navbar />
     <slot />
+    <Footer />
   </body>
 </html>

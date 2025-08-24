@@ -2,6 +2,7 @@
 import Layout from '../Layout/Layout.astro';
 import Carousel from '../components/Carousel.jsx';
 import Services from '../components/Services.jsx';
+import Testimonials from '../components/Testimonials.jsx';
 ---
 
 <Layout title="St Paul's Mission Hospital">
@@ -9,5 +10,6 @@ import Services from '../components/Services.jsx';
   
   <Services />
 
-  
+  <Testimonials client:load />
+
 </Layout>
