@@ -3,13 +3,13 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const slides = [
   {
-    img: "/img/10.jpg",
+    img: "/img/6.jpg",
     title: "Compassionate Care for Your Family",
     text: "Our dedicated team of healthcare professionals is here to provide the highest standard of care, ensuring your well-being is our top priority.",
     button: { label: "Learn More", link: "/about" },
   },
   {
-    img: "/img/8.jpg",
+    img: "/img/10.jpg",
     title: "Our Mission",
     text: "Promoting health and well-being through preventive, promotive, and curative services, guided by our Catholic values.",
     button: { label: "View Services", link: "/services" },
