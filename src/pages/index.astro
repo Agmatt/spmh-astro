@@ -1,0 +1,76 @@
+---
+import Layout from '../Layout/Layout.astro';
+---
+
+<Layout title="St Paul's Mission Hospital">
+  <section
+    class='relative bg-cover bg-center py-28 text-white'
+    style="background-image: url('/public/hosp.jpg');">
+    <div class='absolute inset-0 bg-black/50'></div>
+    <div
+      class='relative z-10 text-center max-w-4xl mx-auto px-6'
+      data-aos='fade-down'>
+      <h1 class='text-2xl md:text-5xl text-white font-bold mb-4'>
+        Empowering Communities for a Sustainable Future
+      </h1>
+      <p class='text-lg'>
+        ICAN works to improve health, protect the environment, and promote
+        economic opportunities for all.
+      </p>
+    </div>
+    <div class='flex justify-center mt-6 gap-4' data-aos='fade-down'>
+      <a href='/donate' class='btn-primary font-semibold py-3 px-6 rounded-lg'>
+        Donate Now
+      </a>
+      <a
+        href='/about-us'
+        class='btn-secondary font-semibold py-3 px-6 rounded-lg'>
+        Learn More
+      </a>
+    </div>
+  </section>
+  <main class='text-center py-12'>
+    <section>
+      <h1 class='text-4xl md:text-5xl font-bold'>
+        Your Health is Our Priority
+      </h1>
+      <p class='mt-4 text-lg'>Compassionate care for a healthier community.</p>
+      <button
+        class='mt-8 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition duration-300'>
+        Schedule an Appointment
+      </button>
+    </section>
+
+    <section class='mt-20'>
+      <h2 class='text-3xl font-bold'>Our Services</h2>
+      <div class='mt-8 grid grid-cols-1 md:grid-cols-3 gap-8'>
+        <div class='bg-gray-100 p-6 rounded-lg shadow-md'>
+          <h3 class='text-xl font-semibold'>Emergency Care</h3>
+          <p class='mt-2 text-gray-600'>
+            Available 24/7 for urgent medical needs.
+          </p>
+        </div>
+        <div class='bg-gray-100 p-6 rounded-lg shadow-md'>
+          <h3 class='text-xl font-semibold'>Find a Doctor</h3>
+          <p class='mt-2 text-gray-600'>
+            Search our directory of qualified specialists.
+          </p>
+        </div>
+        <div class='bg-gray-100 p-6 rounded-lg shadow-md'>
+          <h3 class='text-xl font-semibold'>Patient Portal</h3>
+          <p class='mt-2 text-gray-600'>
+            Access your records and lab results online.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class='mt-20'>
+      <h2 class='text-3xl font-bold'>Building Trust</h2>
+      <p class='mt-4 text-gray-600'>
+        We will add sections for patient testimonials and hospital
+        accreditations here.
+      </p>
+    </section>
+  </main>
+</Layout>

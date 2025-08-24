@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+
+@layer base {
+  body {
+    font-family: 'Lato', sans-serif;
+    overflow-x: hidden
+  }
+  h1, h2, h3, h4, h5, h6 {
+    color: #922020;
+  }
+}
+
+
+
+@layer components {
+  .btn-primary {
+    @apply inline-block px-5 py-2 rounded-lg text-white bg-[#0185ff] hover:bg-[#922020] transition duration-700 ease-in-out shadow;
+  }
+  .btn-secondary {
+    @apply inline-block px-5 py-2 rounded-lg bg-[#922020] hover:bg-[#0185ff] text-white hover:text-white transition duration-700 ease-in-out shadow;
+  }
+  .btn-tertiary {
+    @apply inline-block px-5 py-2 rounded-lg bg-[#d70a0a] text-white  hover:bg-[#b60f0f] font-medium hover:text-shadow-white transition duration-700 ease-in-out shadow;
+  }
+}
+
+
+@layer components {
+  .spacer-end {
+    position: relative;
+    color: #185a69;
+  }
+
+  .spacer-end::before {
+    content: '';
+    position: absolute;
+    background-color: #185a69;
+    height: 4px;
+    width: 8%;
+    left: 0;
+    bottom: -8px;
+    margin: auto;
+  }
+
+  .spacer-equal {
+    position: relative;
+  }
+
+  .spacer-equal::before {
+    content: '';
+    position: absolute;
+    background-color: #185a69;
+    height: 4px;
+    width: 6%;
+    /* left: 25%; */
+    top: 0;
+    bottom: -60px;
+    margin: auto;
+  }
+
+  .spacer-center {
+    position: relative;
+    height: 6px;
+    /* Optional: adjust as needed */
+  }
+
+  .spacer-center::before {
+    content: '';
+    position: absolute;
+    background-color: #185a69;
+    height: 4px;
+    width: 8%;
+    left: 20%;
+    right: 20%;
+    bottom: -35px;
+    margin: auto;
+  }
+}
