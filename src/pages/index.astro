@@ -1,9 +1,11 @@
 ---
 import Layout from '../Layout/Layout.astro';
+import Carousel from '../components/Carousel.jsx';
 ---
 
 <Layout title="St Paul's Mission Hospital">
-  <section
+  <Carousel client:load />
+  <!-- <section
     class='relative bg-cover bg-center py-28 text-white'
     style="background-image: url('/public/hosp.jpg');">
     <div class='absolute inset-0 bg-black/50'></div>
@@ -28,7 +30,8 @@ import Layout from '../Layout/Layout.astro';
         Learn More
       </a>
     </div>
-  </section>
+  </section> -->
+
   <main class='text-center py-12'>
     <section>
       <h1 class='text-4xl md:text-5xl font-bold'>

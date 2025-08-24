@@ -1,12 +1,17 @@
 <nav class='sticky top-0 z-50 bg-white shadow-md'>
   <div class='container mx-auto px-6 py-4 flex items-center justify-between'>
     <!-- Hospital Logo -->
-    <a href='/' class='flex items-center space-x-2'>
-      <img src='/logos/logo.png' alt='SPMH Logo' class='h-10 w-auto' />
+    <a href='/' class='flex items-center space-x-2' title='Home'>
+      <!-- Using a placeholder image to ensure the logo is always visible -->
+      <img
+        src='/logos/logo.png'
+        alt='SPMH Logo'
+        class='h-10 w-auto'
+      />
     </a>
 
     <!-- Desktop Navigation -->
-    <div class='hidden md:flex items-center space-x-6'>
+    <div class='hidden md:flex items-center space-x-4 lg:space-x-6 px-4'>
       <!-- About Us Dropdown -->
       <div class='relative group'>
         <a
@@ -27,7 +32,7 @@
           </svg>
         </a>
         <ul
-          class='absolute hidden group-hover:flex flex-col mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-opacity duration-500 delay-200'>
+          class='absolute hidden group-hover:flex flex-col mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-opacity duration-700 delay-300'>
           <li>
             <a
               href='/about/history'
@@ -78,7 +83,7 @@
           </svg>
         </a>
         <ul
-          class='absolute hidden group-hover:flex flex-col mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-opacity duration-500 delay-150'>
+          class='absolute hidden group-hover:flex flex-col mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-opacity duration-700 delay-300'>
           <li>
             <a
               href='/services/cardiology'
@@ -130,7 +135,7 @@
           </svg>
         </a>
         <ul
-          class='absolute hidden group-hover:flex flex-col mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-opacity duration-500 delay-150'>
+          class='absolute hidden group-hover:flex flex-col mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-opacity duration-700 delay-300'>
           <li>
             <a
               href='/get-involved/volunteer'
@@ -173,7 +178,7 @@
           </svg>
         </a>
         <ul
-          class='absolute hidden group-hover:flex flex-col mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-opacity duration-500 delay-150'>
+          class='absolute hidden group-hover:flex flex-col mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-opacity duration-700 delay-300'>
           <li>
             <a
               href='/news/press-releases'
@@ -198,9 +203,9 @@
 
       <!-- Prominent Emergency Button -->
       <a
-        href='/emergency#'
+        href='/emergency'
         class='px-4 py-2 bg-red-600 text-white font-semibold rounded-full hover:bg-red-700 transition-colors duration-300 shadow-md text-sm'>
-        EMERGENCY:+254 111 817447
+        +254 111 817447
       </a>
     </div>
 
@@ -237,7 +242,7 @@
               class='w-4 h-4 transform transition-transform duration-300'
               fill='none'
               stroke='currentColor'
-              viewBox='0 0 24 24'
+              viewbox='0 0 24 24'
               xmlns='http://www.w3.org/2000/svg'>
               <path
                 stroke-linecap='round'
@@ -289,7 +294,7 @@
               class='w-4 h-4 transform transition-transform duration-300'
               fill='none'
               stroke='currentColor'
-              viewBox='0 0 24 24'
+              viewbox='0 0 24 24'
               xmlns='http://www.w3.org/2000/svg'>
               <path
                 stroke-linecap='round'
@@ -339,7 +344,7 @@
               class='w-4 h-4 transform transition-transform duration-300'
               fill='none'
               stroke='currentColor'
-              viewBox='0 0 24 24'
+              viewbox='0 0 24 24'
               xmlns='http://www.w3.org/2000/svg'>
               <path
                 stroke-linecap='round'
@@ -383,7 +388,7 @@
               class='w-4 h-4 transform transition-transform duration-300'
               fill='none'
               stroke='currentColor'
-              viewBox='0 0 24 24'
+              viewbox='0 0 24 24'
               xmlns='http://www.w3.org/2000/svg'>
               <path
                 stroke-linecap='round'
@@ -422,6 +427,7 @@
 </nav>
 
 <script>
+  // This JavaScript handles the toggle behavior for the mobile menu and dropdowns.
   document.addEventListener('DOMContentLoaded', () => {
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
