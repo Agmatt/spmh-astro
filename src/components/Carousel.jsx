@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 const slides = [
   {
@@ -26,24 +25,29 @@ export default function Carousel() {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
+    const preload = slides.map((s) => {
+      const img = new Image();
+      img.src = s.img;
+      return img;
+    });
+
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 6000);
+
     return () => clearInterval(timer);
   }, []);
 
   return (
     <div className="relative w-full h-[80vh] overflow-hidden">
-      <AnimatePresence>
-        <motion.div
-          key={current}
-          className="absolute inset-0 w-full h-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
+      {slides.map((slide, i) => (
+        <div
+          key={i}
+          className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
+            current === i ? "opacity-100" : "opacity-0"
+          }`}
           style={{
-            backgroundImage: `url(${slides[current].img})`,
+            backgroundImage: `url(${slide.img})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -53,21 +57,21 @@ export default function Carousel() {
 
           {/* Content */}
           <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white px-6">
-            <h2 className="text-3xl text-white md:text-5xl font-bold mb-4 drop-shadow-lg">
-              {slides[current].title}
+            <h2 className="text-3xl text-white  md:text-5xl font-bold mb-4 drop-shadow-lg">
+              {slide.title}
             </h2>
             <p className="max-w-2xl mb-6 text-lg md:text-xl drop-shadow-md">
-              {slides[current].text}
+              {slide.text}
             </p>
             <a
-              href={slides[current].button.link}
+              href={slide.button.link}
               className="btn-primary"
             >
-              {slides[current].button.label}
+              {slide.button.label}
             </a>
           </div>
-        </motion.div>
-      </AnimatePresence>
+        </div>
+      ))}
 
       {/* Dots */}
       <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
@@ -84,8 +88,3 @@ export default function Carousel() {
     </div>
   );
 }
-
-
-
-
-

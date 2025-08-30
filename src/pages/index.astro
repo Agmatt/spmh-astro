@@ -1,15 +1,59 @@
 ---
 import Layout from '../Layout/Layout.astro';
 import Carousel from '../components/Carousel.jsx';
-import Services from '../components/Services.jsx';
-import Testimonials from '../components/Testimonials.jsx';
+import Mission from '../components/Mission.jsx';
 ---
 
 <Layout title="St Paul's Mission Hospital">
   <Carousel client:load />
-  
-  <Services />
 
-  <Testimonials client:load />
+  <!-- services -->
+  <section class='py-16 bg-white'>
+    <div
+      class='max-w-screen-xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center'>
 
+      <div>
+        <h2 class='text-3xl font-bold text-[#922020] mb-4'>
+          Comprehensive Healthcare Services
+        </h2>
+        <p class='text-gray-600 mb-6'>
+          We provide quality, cost-effective, promotive, preventive, and
+          curative healthcare services to our community — ensuring every patient
+          receives compassionate care guided by our mission in Christ.
+        </p>
+        <a
+          href='/services'
+          class='btn-secondary'>
+          Explore Our Services
+        </a>
+      </div>
+
+      <div class='w-full'>
+        <img
+          src='/img/10.jpg'
+          alt='Hospital services'
+          class='w-full h-auto'
+          loading='lazy'
+        />
+      </div>
+
+    </div>
+  </section>
+
+  <Mission />
+
+
+  <!-- CTA -->
+  <section class='bg-gray-300 py-10 px-4 shadow-xl' data-aos='fade-up'>
+    <div class='container mx-auto text-center'>
+      <h2 class='text-4xl md:text-5xl font-bold mb-4'>
+        Ready for Compassionate Care?
+      </h2>
+      <p class='text-lg md:text-xl max-w-2xl mx-auto mb-8'>
+        We are here to provide exceptional medical services and support for you
+        and your family.
+      </p>
+      <a href='/contact' class='btn-secondary'> Schedule an Appointment </a>
+    </div>
+  </section>
 </Layout>
