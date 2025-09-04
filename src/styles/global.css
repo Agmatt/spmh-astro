@@ -17,10 +17,10 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-block px-5 py-2 rounded-lg text-white bg-[#0185ff] hover:bg-[#922020] transition duration-700 ease-in-out shadow;
+    @apply inline-block px-5 py-2 rounded-lg text-white bg-[#1565C0] hover:bg-[#922020] transition duration-700 ease-in-out shadow;
   }
   .btn-secondary {
-    @apply inline-block px-5 py-2 rounded-lg bg-[#922020] hover:bg-[#0185ff] text-white hover:text-white transition duration-700 ease-in-out shadow;
+    @apply inline-block px-5 py-2 rounded-lg bg-[#922020] hover:bg-[#1565C0] text-white hover:text-white transition duration-700 ease-in-out shadow;
   }
   .btn-tertiary {
     @apply inline-block px-5 py-2 rounded-lg bg-[#d70a0a] text-white  hover:bg-[#b60f0f] font-medium hover:text-shadow-white transition duration-700 ease-in-out shadow;

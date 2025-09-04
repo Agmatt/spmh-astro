@@ -1,0 +1,101 @@
+---
+import Layout from '../../Layout/Layout.astro';
+
+const services = [
+  {
+    title: 'Medical',
+    desc: 'General outpatient consultations and treatments for all ages.',
+    img: '/img/10.jpg',
+    link: '/services/medical',
+  },
+  {
+    title: 'Surgical',
+    desc: 'Minor and major surgical procedures performed with expert care.',
+    img: '/img/15.jpg',
+    link: '/services/surgical',
+  },
+  {
+    title: 'Maternity',
+    desc: 'Comprehensive maternal care before, during, and after childbirth.',
+    img: '/img/14.jpg',
+    link: '/services/maternity',
+  },
+  {
+    title: 'Diagnostics',
+    desc: 'Accurate and reliable laboratory and diagnostic services.',
+    img: '/img/16.jpg',
+    link: '/services/diagnostics',
+  },
+  {
+    title: 'Pharmacy',
+    desc: 'Fully stocked pharmacy for all prescribed medications.',
+    img: '/img/11.jpg',
+    link: '/services/pharmacy',
+  },
+];
+---
+
+<Layout title='Our Services'>
+  <section class='py-20 px-4 bg-gray-200'>
+    <div class='max-w-6xl mx-auto text-center mb-16'>
+      <h2 class='text-4xl font-bold text-[#074351] mb-4'>Our Services</h2>
+      <p class='text-lg text-gray-600 max-w-3xl mx-auto'>
+        Explore the wide range of healthcare services we provide with care and
+        excellence.
+      </p>
+    </div>
+
+    <div class='space-y-16'>
+      {
+        services.map((service, index) => (
+          <div class='flex flex-col md:flex-row items-center gap-10 bg-teal-50  overflow-hidden transition'>
+            {/* Alternate image/text sides */}
+            {index % 2 === 0 ? (
+              <>
+                <img
+                  src={service.img}
+                  alt={service.title}
+                  class='w-full md:w-1/2 h-96 object-cover'
+                />
+                <div class='flex-1 p-8 text-center md:text-left'>
+                  <h3 class='text-3xl font-semibold mb-4 text-[#074351]'>
+                    {service.title}
+                  </h3>
+                  <p class='text-gray-700 mb-6 leading-relaxed'>
+                    {service.desc}
+                  </p>
+                  <a
+                    href={service.link}
+                    class='btn-secondary'>
+                    Learn More
+                  </a>
+                </div>
+              </>
+            ) : (
+              <>
+                <div class='flex-1 p-8 text-center md:text-left'>
+                  <h3 class='text-3xl font-semibold mb-4 text-[#074351]'>
+                    {service.title}
+                  </h3>
+                  <p class='text-gray-700 mb-6 leading-relaxed'>
+                    {service.desc}
+                  </p>
+                  <a
+                    href={service.link}
+                    class='btn-secondary'>
+                    Learn More
+                  </a>
+                </div>
+                <img
+                  src={service.img}
+                  alt={service.title}
+                  class='w-full md:w-1/2 h-96 object-cover'
+                />
+              </>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

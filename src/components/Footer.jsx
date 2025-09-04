@@ -36,15 +36,15 @@ const App = () => {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center">
                 <IoLocationSharp className="mr-2 text-white" />
-                123 Mission Lane, Homa Bay, Kenya
+                426 Cyprian Awiti Street, Homa Bay, Kenya
               </li>
               <li className="flex items-center">
                 <IoCall className="mr-2 text-white" />
-                +254 712 345 678
+                +254111817447
               </li>
               <li className="flex items-center">
                 <IoMail className="mr-2 text-white" />
-                info@stpaulshospital.org
+                hospital.stpauls@yahoo.com
               </li>
             </ul>
           </div>

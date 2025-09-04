@@ -1,47 +1,263 @@
 ---
 import Layout from '../Layout/Layout.astro';
 import Carousel from '../components/Carousel.jsx';
-import Mission from '../components/Mission.jsx';
+// import Services from '../components/Services.jsx';
+import { Hospital } from 'lucide';
 ---
 
 <Layout title="St Paul's Mission Hospital">
   <Carousel client:load />
+  <main class='pt-5'>
+    <!-- About Us Section -->
+    <section id='about' class='container mx-auto px-4 py-6 max-w-6xl'>
+      <div
+        class='bg-white flex flex-col lg:flex-row items-center gap-8 p-8 md:p-12'
+        data-aos='fade-up'>
+        <div class='lg:w-1/2'>
+          <h2 class='text-4xl font-extrabold text-[#1565C0] mb-4'>
+            A Legacy of Care
+          </h2>
+          <p class='text-gray-700 text-lg leading-relaxed mb-6'>
+            For over 50 years, our hospital has been a beacon of health and hope
+            in the community. Our mission is to provide compassionate,
+            high-quality, and accessible healthcare to all, serving in the
+            spirit of Christ's love. We are dedicated to your well-being,
+            offering a healing environment where every patient is treated with
+            dignity and respect.
+          </p>
+          <a href='#' class='btn-secondary my-5'>Learn More</a>
+        </div>
+        <div
+          class='lg:w-1/2 w-full mt-8 lg:mt-0'
+          data-aos='fade-left'
+          data-aos-delay='200'>
+          <img
+            src='/img/13.jpg'
+            alt='A doctor interacting with a patient.'
+            class='w-full h-auto object-cover'
+          />
+        </div>
+      </div>
+    </section>
 
-  <!-- services -->
-  <section class='py-16 bg-white'>
-    <div
-      class='max-w-screen-xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center'>
-
-      <div>
-        <h2 class='text-3xl font-bold text-[#922020] mb-4'>
-          Comprehensive Healthcare Services
+    <!-- Services Section -->
+    <section id='services' class='container bg-teal-50 mx-auto px-4 py-16 max-w-6xl'>
+      <header class='text-center mb-12' data-aos='fade-up'>
+        <h2 class='text-4xl font-extrabold text-[#1565C0] mb-2'>
+          Our Services
         </h2>
-        <p class='text-gray-600 mb-6'>
-          We provide quality, cost-effective, promotive, preventive, and
-          curative healthcare services to our community — ensuring every patient
-          receives compassionate care guided by our mission in Christ.
+        <p class='text-lg text-gray-600'>
+          Comprehensive care tailored for you and your family.
         </p>
+      </header>
+
+      <!-- Service Cards -->
+      <div
+        class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12'
+        data-aos='fade-up'
+        data-aos-delay='200'>
+        <!-- General Medicine -->
+        <div
+          class='bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+          <h3 class='text-xl font-bold text-gray-800 mb-2'>General Medicine</h3>
+          <p class='text-gray-600'>
+            Routine check-ups and long-term care for all ages, guided by trusted
+            doctors.
+          </p>
+        </div>
+
+        <!-- Emergency -->
+        <div
+          class='bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+          <h3 class='text-xl font-bold text-gray-800 mb-2'>Emergency Care</h3>
+          <p class='text-gray-600'>
+            Our 24/7 emergency team is always ready for urgent and life-saving
+            care.
+          </p>
+        </div>
+
+        <!-- Surgery -->
+        <div
+          class='bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+          <h3 class='text-xl font-bold text-gray-800 mb-2'>
+            Surgical Services
+          </h3>
+          <p class='text-gray-600'>
+            Safe surgical procedures with advanced technology and compassionate
+            recovery.
+          </p>
+        </div>
+      </div>
+
+      <!-- Section CTA -->
+      <div class='text-center' data-aos='fade-up' data-aos-delay='400'>
         <a
           href='/services'
           class='btn-secondary'>
-          Explore Our Services
+          Find Out More →
         </a>
       </div>
+    </section>
 
-      <div class='w-full'>
-        <img
-          src='/img/10.jpg'
-          alt='Hospital services'
-          class='w-full h-auto'
-          loading='lazy'
-        />
+    <!-- Why Choose Us Section (from previous conversation) -->
+    <section class='container mx-auto px-4 py-16 max-w-6xl' data-aos='fade-up'>
+      <header class='text-center mb-10'>
+        <h2 class='text-4xl font-extrabold text-[#1565C0] mb-2'>
+          Why Choose Us?
+        </h2>
+        <p class='text-lg text-gray-600'>
+          Experience the difference that sets our hospital apart.
+        </p>
+      </header>
+
+      <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+        <!-- Card 1: Patient-Centered Care -->
+        <div
+          class='bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+          <div class='bg-blue-100 p-4 rounded-full mb-4'>
+            <svg
+              class='h-10 w-10 text-blue-600'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
+              stroke-width='2'
+              xmlns='http://www.w3.org/2000/svg'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                d='M12 4.354a4 4 0 110 5.292m0 5.292a4 4 0 110-5.292m0 5.292v1.5a4 4 0 004 4h-.5a4 4 0 01-4-4v-1.5m0-5.292V1.5a4 4 0 00-4 4h.5a4 4 0 014 4v1.5z'
+              ></path>
+            </svg>
+          </div>
+          <h3 class='text-xl font-bold text-gray-800 mb-2'>
+            Patient-Centered Care
+          </h3>
+          <p class='text-gray-600'>
+            Your well-being is at the heart of everything we do. We tailor our
+            services to your individual needs for a personalized healthcare
+            journey.
+          </p>
+        </div>
+
+        <!-- Card 2: Expert Medical Team -->
+        <div
+          class='bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+          <div class='bg-green-100 p-4 rounded-full mb-4'>
+            <svg
+              class='h-10 w-10 text-green-600'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
+              stroke-width='2'
+              xmlns='http://www.w3.org/2000/svg'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                d='M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.082 12.082 0 002.944 12c.119 1.487.676 2.915 1.636 4.148M12 21a11.955 11.955 0 01-8.618-3.04A12.082 12.082 0 002.944 12c.119 1.487.676 2.915 1.636 4.148M12 21c2.115 0 4.14-.543 5.923-1.571m-4.323 2.152l.27-.27c.4-.4.8-1.2 1.2-1.6'
+              ></path>
+            </svg>
+          </div>
+          <h3 class='text-xl font-bold text-gray-800 mb-2'>
+            Expert Medical Team
+          </h3>
+          <p class='text-gray-600'>
+            Our physicians and staff are highly skilled and compassionate,
+            providing the best possible care with professional excellence.
+          </p>
+        </div>
+
+        <!-- Card 3: A Healing Environment -->
+        <div
+          class='bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+          <div class='bg-purple-100 p-4 rounded-full mb-4'>
+            <svg
+              class='h-10 w-10 text-purple-600'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
+              stroke-width='2'
+              xmlns='http://www.w3.org/2000/svg'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                d='M4 14h6m8-6h-6m4 12H8m4-4h2m4-2h-4m-2 4h4'></path>
+            </svg>
+          </div>
+          <h3 class='text-xl font-bold text-gray-800 mb-2'>
+            A Healing Environment
+          </h3>
+          <p class='text-gray-600'>
+            Our facilities are thoughtfully designed to provide a clean, safe,
+            and comfortable space for your care. We focus on creating a
+            welcoming and peaceful atmosphere that supports your well-being
+            throughout your treatment.
+          </p>
+        </div>
       </div>
+    </section>
 
-    </div>
-  </section>
-
-  <Mission />
-
+    <!-- Featured Reports Section -->
+    <section class='py-16 bg-gray-100'>
+      <div class='container mx-auto px-4 max-w-6xl'>
+        <header class='mb-12' data-aos='fade-up'>
+          <h2 class='text-4xl font-extrabold text-[#1565C0] mb-2'>
+            Featured Reports & Updates
+          </h2>
+          <p class='text-lg text-gray-600'>
+            Stay informed about our latest news.
+          </p>
+        </header>
+        <div
+          class='flex flex-col lg:flex-row lg:space-x-8 space-y-8 lg:space-y-0'
+          data-aos='fade-up'
+          data-aos-delay='200'>
+          <!-- Report Card 1 -->
+          <div
+            class='flex-1 bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+            <img
+              src='/img/18.jpg'
+              alt='Groundbreaking ceremony image'
+              class='rounded-t-xl w-full h-64 object-cover'
+            />
+            <div class='p-6'>
+              <h3 class='text-xl font-bold text-[#1565C0] mb-2'>
+                Groundbreaking for New Wing
+              </h3>
+              <p class='text-gray-600 text-sm mb-4'>October 26, 2025</p>
+              <p class='text-gray-700'>
+                We are thrilled to announce the groundbreaking celebration for
+                our new surgical and maternity wing. This expansion will allow
+                us to provide even more comprehensive care to our community.
+              </p>
+              <a href='#' class='mt-4 btn-secondary'>Read More &rarr;</a>
+            </div>
+          </div>
+          <!-- Report Card 2 -->
+          <div
+            class='flex-1 bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+            <img
+              src='/img/19.jpg'
+              alt='Newsletter image'
+              class='rounded-t-xl w-full h-64 object-cover'
+            />
+            <div class='p-6'>
+              <h3 class='text-xl font-bold text-[#1565C0] mb-2'>
+                Introducing Our Newsletter
+              </h3>
+              <p class='text-gray-600 text-sm mb-4'>October 15, 2025</p>
+              <p class='text-gray-700'>
+                Stay connected with our hospital community! For the first time,
+                we are launching a newsletter to bring you the latest health
+                tips, hospital news, and event announcements directly to your
+                inbox.
+              </p>
+              <a href='#' class='mt-4 btn-secondary'>Read More &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <!-- CTA -->
   <section class='bg-gray-300 py-10 px-4 shadow-xl' data-aos='fade-up'>
