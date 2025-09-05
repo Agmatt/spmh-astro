@@ -37,5 +37,13 @@ const { title = 'St Pauls Mission Hospital' } = Astro.props;
     <Navbar />
     <slot />
     <Footer />
+    <div class='mx-auto text-center bg-[#0c3851] py-6 text-sm text-white'>
+      <p>
+        &copy; {new Date().getFullYear()} St. Paul’s Mission Hospital | All Rights
+        Reserved | <span class='text-teal-400'
+          >Designed by Editorial Team</span
+        >
+      </p>
+    </div>
   </body>
 </html>
