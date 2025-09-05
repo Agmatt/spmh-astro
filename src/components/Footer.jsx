@@ -7,7 +7,7 @@ import { IoLocationSharp, IoCall, IoMail } from 'react-icons/io5';
  */
 const App = () => {
   return (
-    <footer className="bg-[#4d0c0c] text-gray-300 py-12">
+    <footer className="bg-[#1565C0] text-gray-300 py-12">
       <div className="container mx-auto px-4">
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 border-b border-gray-600 pb-8">
