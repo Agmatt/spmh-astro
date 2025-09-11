@@ -1,0 +1,106 @@
+---
+import Layout from '../../Layout/Layout.astro';
+---
+
+<Layout title='Our Mission Vision and Values'>
+  <!-- Hero Section -->
+  <section class='relative text-gray-950 py-20'>
+    <img
+      src='/img/21.jpg'
+      alt='Hospital exterior'
+      class='absolute inset-0 w-full h-full object-cover object-[50%_30%] opacity-70'
+    />
+    <div class='relative container mx-auto px-6 max-w-5xl text-center'>
+      <h1 class='text-4xl md:text-5xl font-extrabold mb-4'>
+        Our Mission & Vision
+      </h1>
+      <p class='text-lg md:text-xl max-w-3xl mx-auto'>
+        Guided by faith, driven by compassion — we are committed to delivering
+        healthcare that transforms lives and communities.
+      </p>
+    </div>
+  </section>
+
+  <!-- Mission & Vision -->
+  <section
+    class='container mx-auto px-6 py-16 max-w-6xl grid md:grid-cols-2 gap-12'>
+    <!-- Mission -->
+    <div
+      class='bg-white rounded-2xl shadow-md p-8 border-b-4 border-t-4 border-secondary hover:shadow-xl transition'>
+      <img
+        src='/img/6.jpg'
+        alt='Doctor caring for patient'
+        class='rounded-lg mb-6 w-full h-56 object-cover'
+      />
+      <h2 class='text-2xl font-bold text-[#125276] mb-4'>Our Mission</h2>
+      <p class='text-gray-700 leading-relaxed'>
+        To facilitate the provision of quality, cost-effective, promotive,
+        preventive, and curative services to all, particularly the
+        underprivileged — all in accordance with the mission of Christ.
+      </p>
+    </div>
+
+    <!-- Vision -->
+    <div
+      class='bg-white rounded-2xl shadow-md p-8 border-b-4 border-t-4 border-secondary hover:shadow-xl transition'>
+      <img
+        src='/img/8.jpg'
+        alt='Modern hospital vision'
+        class='rounded-lg mb-6 w-full h-56 object-cover'
+      />
+      <h2 class='text-2xl font-bold text-[#125276] mb-4'>Our Vision</h2>
+      <p class='text-gray-700 leading-relaxed'>
+        To be a center of excellence in the provision of personalized healthcare
+        in the community and beyond.
+      </p>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class='py-20 bg-gray-50'>
+    <div
+      class='container mx-auto px-6 lg:px-12 max-w-6xl flex flex-col lg:flex-row items-center gap-12'>
+      <!-- Values Text -->
+      <div class='flex-1'>
+        <h2 class='text-4xl font-extrabold text-primary mb-6'>
+          Our Core Values
+        </h2>
+        <ul class='space-y-4 text-lg text-gray-700'>
+          <li class='flex items-center gap-3'>
+            <span class='w-3 h-3 bg-primary rounded-full'></span>
+            Christ Centered
+          </li>
+          <li class='flex items-center gap-3'>
+            <span class='w-3 h-3 bg-primary rounded-full'></span>
+            Commitment
+          </li>
+          <li class='flex items-center gap-3'>
+            <span class='w-3 h-3 bg-primary rounded-full'></span>
+            Teamwork
+          </li>
+          <li class='flex items-center gap-3'>
+            <span class='w-3 h-3 bg-primary rounded-full'></span>
+            Accountability
+          </li>
+          <li class='flex items-center gap-3'>
+            <span class='w-3 h-3 bg-primary rounded-full'></span>
+            Respect for Human Rights
+          </li>
+          <li class='flex items-center gap-3'>
+            <span class='w-3 h-3 bg-primary rounded-full'></span>
+            Professional Competence
+          </li>
+        </ul>
+      </div>
+
+      <!-- Image -->
+      <div class='flex-1'>
+        <img
+          src='/img/22.jpg'
+          alt='Our dedicated hospital staff'
+          class='w-full object-cover h-full'
+        />
+      </div>
+    </div>
+  </section>
+</Layout>

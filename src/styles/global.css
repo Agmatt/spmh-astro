@@ -1,43 +1,51 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-
 
 @layer base {
   body {
     font-family: 'Lato', sans-serif;
-    overflow-x: hidden
+    overflow-x: hidden;
   }
-  h1, h2, h3, h4, h5, h6 {
-    color: #922020;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #1565c0;
   }
 }
 
-
-
 @layer components {
   .btn-primary {
-    @apply inline-block px-5 py-2 rounded-lg text-white bg-[#1565C0] hover:bg-[#922020] transition duration-700 ease-in-out shadow;
+    @apply inline-block px-5 py-2 rounded-lg text-white bg-primary hover:bg-secondary transition duration-700 ease-in-out shadow;
   }
   .btn-secondary {
-    @apply inline-block px-5 py-2 rounded-lg bg-[#922020] hover:bg-[#1565C0] text-white hover:text-white transition duration-700 ease-in-out shadow;
+    @apply inline-block px-5 py-2 rounded-lg border-2 border-[#125276] text-[#125276] hover:bg-secondary hover:text-white transition duration-700 ease-in-out shadow;
   }
   .btn-tertiary {
     @apply inline-block px-5 py-2 rounded-lg bg-[#d70a0a] text-white  hover:bg-[#b60f0f] font-medium hover:text-shadow-white transition duration-700 ease-in-out shadow;
   }
 }
 
+@import 'tailwindcss';
+
+@theme {
+    --color-primary: #1565c0; /* Main blue */
+    --color-secondary: #125276; /* Deep supportive blue */
+    --color-accent: #860f0f; /* Emergency/alert red */  
+}
 
 @layer components {
   .spacer-end {
     position: relative;
-    color: #185a69;
   }
 
   .spacer-end::before {
     content: '';
     position: absolute;
-    background-color: #185a69;
+    background-color: #1565c0;
     height: 4px;
     width: 8%;
     left: 0;
@@ -52,7 +60,7 @@
   .spacer-equal::before {
     content: '';
     position: absolute;
-    background-color: #185a69;
+    background-color: #125276;
     height: 4px;
     width: 6%;
     /* left: 25%; */
@@ -70,12 +78,12 @@
   .spacer-center::before {
     content: '';
     position: absolute;
-    background-color: #185a69;
+    background-color: #1565c0;
     height: 4px;
     width: 8%;
     left: 20%;
     right: 20%;
-    bottom: -35px;
+    bottom: -45px;
     margin: auto;
   }
 }

@@ -14,7 +14,7 @@ import { Hospital } from 'lucide';
         class='bg-white flex flex-col lg:flex-row items-center gap-8'
         data-aos='fade-up'>
         <div class='lg:w-1/2'>
-          <h2 class='text-4xl font-extrabold text-[#1565C0] mb-4'>
+          <h2 class='text-4xl font-extrabold mb-4 spacer-end'>
             A Legacy of Care
           </h2>
           <p class='text-gray-700 text-lg leading-relaxed mb-6'>
@@ -25,7 +25,7 @@ import { Hospital } from 'lucide';
             offering a healing environment where every patient is treated with
             dignity and respect.
           </p>
-          <a href='#' class='btn-secondary my-5'>Learn More</a>
+          <a href='/about-us/' class='btn-primary my-5'>Learn More</a>
         </div>
         <div
           class='lg:w-1/2 w-full mt-8 lg:mt-0'
@@ -41,12 +41,12 @@ import { Hospital } from 'lucide';
     </section>
 
     <!-- Services Section -->
-    <section id='services' class='container bg-teal-50 mx-auto px-4 py-16 max-w-6xl'>
+    <section
+      id='services'
+      class='container bg-teal-50 mx-auto px-4 py-16 max-w-6xl'>
       <header class='text-center mb-12' data-aos='fade-up'>
-        <h2 class='text-4xl font-extrabold text-[#1565C0] mb-2'>
-          Our Services
-        </h2>
-        <p class='text-lg text-gray-600'>
+        <h2 class='text-4xl font-extrabold mb-4 spacer-center'>Our Services</h2>
+        <p class='text-lg text-gray-600 pt-8 py-3'>
           Comprehensive care tailored for you and your family.
         </p>
       </header>
@@ -58,8 +58,8 @@ import { Hospital } from 'lucide';
         data-aos-delay='200'>
         <!-- General Medicine -->
         <div
-          class='bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
-          <h3 class='text-xl font-bold text-gray-800 mb-2'>General Medicine</h3>
+          class='bg-white border-l-4 border-r-4 border-primary p-8 rounded-xl shadow-lg flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+          <h3 class='text-xl font-bold mb-2'>General Medicine</h3>
           <p class='text-gray-600'>
             Routine check-ups and long-term care for all ages, guided by trusted
             doctors.
@@ -68,8 +68,8 @@ import { Hospital } from 'lucide';
 
         <!-- Emergency -->
         <div
-          class='bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
-          <h3 class='text-xl font-bold text-gray-800 mb-2'>Emergency Care</h3>
+          class='bg-white border-l-4 border-r-4 border-accent p-8 rounded-xl shadow-lg flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+          <h3 class='text-xl font-bold mb-2'>Emergency Care</h3>
           <p class='text-gray-600'>
             Our 24/7 emergency team is always ready for urgent and life-saving
             care.
@@ -78,10 +78,8 @@ import { Hospital } from 'lucide';
 
         <!-- Surgery -->
         <div
-          class='bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
-          <h3 class='text-xl font-bold text-gray-800 mb-2'>
-            Surgical Services
-          </h3>
+          class='bg-white border-l-4 border-r-4 border-secondary p-8 rounded-xl shadow-lg flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+          <h3 class='text-xl font-bold mb-2'>Surgical Services</h3>
           <p class='text-gray-600'>
             Safe surgical procedures with advanced technology and compassionate
             recovery.
@@ -91,21 +89,17 @@ import { Hospital } from 'lucide';
 
       <!-- Section CTA -->
       <div class='text-center' data-aos='fade-up' data-aos-delay='400'>
-        <a
-          href='/services'
-          class='btn-secondary'>
-          Find Out More →
-        </a>
+        <a href='/services' class='btn-secondary'> Find Out More → </a>
       </div>
     </section>
 
     <!-- Why Choose Us Section (from previous conversation) -->
     <section class='container mx-auto px-4 py-16 max-w-6xl' data-aos='fade-up'>
       <header class='text-center mb-10'>
-        <h2 class='text-4xl font-extrabold text-[#1565C0] mb-2'>
+        <h2 class='text-4xl font-extrabold mb-4 spacer-center'>
           Why Choose Us?
         </h2>
-        <p class='text-lg text-gray-600'>
+        <p class='text-lg text-gray-600 pt-8'>
           Experience the difference that sets our hospital apart.
         </p>
       </header>
@@ -113,10 +107,10 @@ import { Hospital } from 'lucide';
       <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
         <!-- Card 1: Patient-Centered Care -->
         <div
-          class='bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+          class='bg-white p-8 rounded-xl shadow-lg border-b-5 border-primary flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
           <div class='bg-blue-100 p-4 rounded-full mb-4'>
             <svg
-              class='h-10 w-10 text-blue-600'
+              class='h-10 w-10 text-primary'
               fill='none'
               viewBox='0 0 24 24'
               stroke='currentColor'
@@ -129,7 +123,7 @@ import { Hospital } from 'lucide';
               ></path>
             </svg>
           </div>
-          <h3 class='text-xl font-bold text-gray-800 mb-2'>
+          <h3 class='text-xl font-bold text-secondary mb-2'>
             Patient-Centered Care
           </h3>
           <p class='text-gray-600'>
@@ -141,10 +135,10 @@ import { Hospital } from 'lucide';
 
         <!-- Card 2: Expert Medical Team -->
         <div
-          class='bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+          class='bg-white p-8 rounded-xl shadow-lg border-b-5 border-primary flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
           <div class='bg-green-100 p-4 rounded-full mb-4'>
             <svg
-              class='h-10 w-10 text-green-600'
+              class='h-10 w-10 text-primary'
               fill='none'
               viewBox='0 0 24 24'
               stroke='currentColor'
@@ -157,7 +151,7 @@ import { Hospital } from 'lucide';
               ></path>
             </svg>
           </div>
-          <h3 class='text-xl font-bold text-gray-800 mb-2'>
+          <h3 class='text-xl font-bold text-secondary mb-2'>
             Expert Medical Team
           </h3>
           <p class='text-gray-600'>
@@ -168,10 +162,10 @@ import { Hospital } from 'lucide';
 
         <!-- Card 3: A Healing Environment -->
         <div
-          class='bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
+          class='bg-white p-8 rounded-xl shadow-lg border-b-5 border-primary flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
           <div class='bg-purple-100 p-4 rounded-full mb-4'>
             <svg
-              class='h-10 w-10 text-purple-600'
+              class='h-10 w-10 text-primary'
               fill='none'
               viewBox='0 0 24 24'
               stroke='currentColor'
@@ -183,7 +177,7 @@ import { Hospital } from 'lucide';
                 d='M4 14h6m8-6h-6m4 12H8m4-4h2m4-2h-4m-2 4h4'></path>
             </svg>
           </div>
-          <h3 class='text-xl font-bold text-gray-800 mb-2'>
+          <h3 class='text-xl font-bold text-secondary mb-2'>
             A Healing Environment
           </h3>
           <p class='text-gray-600'>
@@ -200,7 +194,7 @@ import { Hospital } from 'lucide';
     <section class='py-16 bg-gray-100'>
       <div class='container mx-auto px-4 max-w-6xl'>
         <header class='mb-12' data-aos='fade-up'>
-          <h2 class='text-4xl font-extrabold text-[#1565C0] mb-2'>
+          <h2 class='text-4xl font-extrabold mb-2 spacer-end'>
             Featured Reports & Updates
           </h2>
           <p class='text-lg text-gray-600'>
@@ -236,7 +230,7 @@ import { Hospital } from 'lucide';
           <div
             class='flex-1 bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
             <img
-              src='/img/19.jpg'
+              src='/img/20.jpg'
               alt='Newsletter image'
               class='rounded-t-xl w-full h-64 object-cover'
             />
@@ -258,7 +252,32 @@ import { Hospital } from 'lucide';
       </div>
     </section>
   </main>
-
+  <!-- LEADERSHIP MESSAGE -->
+  <section class='py-16 bg-teal-50'>
+    <div class='max-w-5xl mx-auto py-6 px-4'>
+      <div class='flex flex-col md:flex-row items-center justify-center gap-12'>
+        <!-- Admin -->
+        <figure
+          class='flex flex-col items-center text-center space-y-6 max-w-sm'
+          data-aos='fade-up'>
+          <img
+            src='/board/4.jpg'
+            alt='Founder portrait'
+            class='w-40 h-40 rounded-full shadow-xl object-cover'
+            loading='lazy'
+          />
+          <blockquote class='text-gray-700 text-base leading-relaxed'>
+            With our professional team and unwavering commitment to excellence,
+            you can trust that your health and safety are always in the best
+            hands.
+          </blockquote>
+          <figcaption class='text-sm text-gray-500'>
+            / Sr. Beatrice Osanga, Hospital C.E.O
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
   <!-- CTA -->
   <section class='bg-gray-300 py-10 px-4 shadow-xl' data-aos='fade-up'>
     <div class='container mx-auto text-center'>
@@ -269,7 +288,7 @@ import { Hospital } from 'lucide';
         We are here to provide exceptional medical services and support for you
         and your family.
       </p>
-      <a href='/contact' class='btn-secondary'> Schedule an Appointment </a>
+      <a href='/contact' class='btn-secondary'> Find more about Events </a>
     </div>
   </section>
 </Layout>

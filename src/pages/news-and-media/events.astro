@@ -1,0 +1,214 @@
+---
+import Layout from '../../Layout/Layout.astro';
+---
+
+<Layout title='Events'>
+  <!-- Hero Section -->
+  <section class='relative bg-[#1565C0] text-white py-20 px-6 text-center'>
+    <div class='max-w-4xl mx-auto'>
+      <h1 class='text-4xl md:text-5xl text-white font-extrabold mb-4'>
+        Hospital Events & Programs
+      </h1>
+      <p class='text-lg md:text-xl text-blue-100'>
+        Stay updated with our clinic schedules, hospital programs, and community
+        events that keep our patients and staff connected.
+      </p>
+    </div>
+  </section>
+
+  <!-- Featured Event -->
+  <section class='py-16 px-4 bg-gray-50'>
+    <div class='max-w-6xl mx-auto md:px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center'>
+      <div>
+        <h2 class='text-3xl font-bold text-[#125276] mb-4 spacer-end'>
+          Community Medical Camp
+        </h2>
+        <p class='text-gray-700 mb-6'>
+          Join us for our upcoming <strong>Community Medical Camp</strong> where
+          we’ll be offering free consultations, screenings, and health education.
+          Open to all members of the community.
+        </p>
+        <ul class='space-y-2 text-gray-600'>
+          <li><strong>Date:</strong> September 25, 2025</li>
+          <li><strong>Time:</strong> 9:00 AM – 4:00 PM</li>
+          <li><strong>Venue:</strong> St. Paul’s Mission Hospital Grounds</li>
+        </ul>
+      </div>
+      <div>
+        <img
+          src='/img/4.jpg'
+          alt='Community Medical Camp'
+          class='object-cover w-full h-72'
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Events Calendar Table -->
+  <section class='py-16 px-4'>
+    <div class='max-w-6xl mx-auto md:px-4 sm:px-6'>
+      <h2 class='text-3xl font-bold text-[#1565C0] mb-10 pb-2 text-center spacer-center'>
+        Event Calendar
+      </h2>
+      <div class='overflow-x-auto py-8 bg-white shadow-lg rounded-xl'>
+        <table class='w-full border-collapse'>
+          <thead class='bg-[#125276] text-white'>
+            <tr>
+              <th class='py-3 px-4 text-left'>Event</th>
+              <th class='py-3 px-4'>Frequency</th>
+              <th class='py-3 px-4'>Date/Time</th>
+              <th class='py-3 px-4'>Venue</th>
+            </tr>
+          </thead>
+          <tbody class='text-gray-700 divide-y divide-gray-200'>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>CQI</td>
+              <td class='py-3 px-4'>Wednesday</td>
+              <td class='py-3 px-4'>3 PM</td>
+              <td class='py-3 px-4'>CCC</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>HMT</td>
+              <td class='py-3 px-4'>Thursday</td>
+              <td class='py-3 px-4'>2 PM</td>
+              <td class='py-3 px-4'>Admin</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>Mass</td>
+              <td class='py-3 px-4'>Wednesday</td>
+              <td class='py-3 px-4'>7:30 – 8:15 AM</td>
+              <td class='py-3 px-4'>Waiting Bay</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>IPC</td>
+              <td class='py-3 px-4'>Last Thursday Monthly</td>
+              <td class='py-3 px-4'>2 PM</td>
+              <td class='py-3 px-4'>—</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>Physician Ward Rounds</td>
+              <td class='py-3 px-4'>Tuesdays & Thursdays</td>
+              <td class='py-3 px-4'>8 AM</td>
+              <td class='py-3 px-4'>Wards</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>Performance Reviews/DQA</td>
+              <td class='py-3 px-4'>Quarterly</td>
+              <td class='py-3 px-4'>3 PM</td>
+              <td class='py-3 px-4'>CCC</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>Facility Report Discussions</td>
+              <td class='py-3 px-4'>Monthly</td>
+              <td class='py-3 px-4'>2nd Every Month</td>
+              <td class='py-3 px-4'>—</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>Staff Appraisal</td>
+              <td class='py-3 px-4'>End of Contract</td>
+              <td class='py-3 px-4'>—</td>
+              <td class='py-3 px-4'>—</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>Sharps Collection</td>
+              <td class='py-3 px-4'>1st Friday Monthly</td>
+              <td class='py-3 px-4'>—</td>
+              <td class='py-3 px-4'>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clinic Schedule -->
+  <section class='py-16 px-4 bg-gray-50'>
+    <div class='max-w-6xl mx-auto md:px-4 sm:px-6'>
+      <h2 class='text-3xl font-bold text-[#1565C0] mb-10 text-center spacer-center'>
+        Clinic Schedules
+      </h2>
+      <p class='text-center text-gray-600 py-5 mb-8'>
+        Our specialized clinics ensure patients receive the right care at the
+        right time. Below is the current schedule:
+      </p>
+      <div class='overflow-x-auto bg-white shadow-lg rounded-xl'>
+        <table class='w-full border-collapse'>
+          <thead class='bg-[#860f0f] text-white'>
+            <tr>
+              <th class='py-3 px-4 text-left'>Clinic</th>
+              <th class='py-3 px-4'>Days of the Week</th>
+              <th class='py-3 px-4'>Time</th>
+              <th class='py-3 px-4'>Doctor/Staff</th>
+            </tr>
+          </thead>
+          <tbody class='text-gray-700 divide-y divide-gray-200'>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>Diabetes / Hypertension</td>
+              <td class='py-3 px-4'>Tuesday</td>
+              <td class='py-3 px-4'>9 AM – 5 PM</td>
+              <td class='py-3 px-4'>Clinical Officer</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>Comprehensive Care Centre</td>
+              <td class='py-3 px-4'>Mon – Friday</td>
+              <td class='py-3 px-4'>8 AM – 4 PM</td>
+              <td class='py-3 px-4'>Clinical Officer</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>General Surgery</td>
+              <td class='py-3 px-4'>Mon – Friday</td>
+              <td class='py-3 px-4'>9 AM – 5 PM</td>
+              <td class='py-3 px-4'>Resident Doctor / Surgeon</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>Sickle Cell Disease</td>
+              <td class='py-3 px-4'>Thursday</td>
+              <td class='py-3 px-4'>9 AM – 1 PM</td>
+              <td class='py-3 px-4'>—</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>Obs / Gyn</td>
+              <td class='py-3 px-4'>Friday</td>
+              <td class='py-3 px-4'>9 AM – 1 PM</td>
+              <td class='py-3 px-4'>Dr. Ondigo</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>Physiotherapy</td>
+              <td class='py-3 px-4'>Mon – Friday</td>
+              <td class='py-3 px-4'>9 AM – 5 PM</td>
+              <td class='py-3 px-4'>—</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>Counselling / Psychology</td>
+              <td class='py-3 px-4'>Mon – Friday</td>
+              <td class='py-3 px-4'>9 AM – 5 PM</td>
+              <td class='py-3 px-4'>—</td>
+            </tr>
+            <tr class='hover:bg-gray-50'>
+              <td class='py-3 px-4'>Immunization</td>
+              <td class='py-3 px-4'>Mon – Friday</td>
+              <td class='py-3 px-4'>9 AM – 5 PM</td>
+              <td class='py-3 px-4'>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class='py-20 bg-teal-50 text-center'>
+    <div class='max-w-3xl mx-auto px-6'>
+      <h2 class='text-3xl font-bold mb-4'>Stay Connected</h2>
+      <p class='text-lg mb-6'>
+        Subscribe to our newsletter and never miss an update about upcoming
+        events and clinic schedules.
+      </p>
+      <a
+        href='/contact'
+        class='btn-primary'>
+        Contact Us
+      </a>
+    </div>
+  </section>
+</Layout>

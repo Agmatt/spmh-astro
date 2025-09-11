@@ -2,24 +2,23 @@
   <div class='container mx-auto px-6 py-4 flex items-center justify-between'>
     <!-- Hospital Logo -->
     <a href='/' class='flex items-center space-x-2' title='Home'>
-      <!-- Using a placeholder image to ensure the logo is always visible -->
       <img
         src='/logos/logo.png'
         alt='SPMH Logo'
-        class='h-10 w-auto'
+        class='h-10 w-auto rounded-md'
       />
     </a>
 
     <!-- Desktop Navigation -->
     <div class='hidden md:flex items-center space-x-4 lg:space-x-6 px-4'>
       <!-- About Us Dropdown -->
-      <div class='relative group'>
+      <div id='about-us-menu-group' class='relative'>
         <a
-          href='#'
-          class='inline-flex items-center text-gray-700 hover:text-blue-700 transition-colors duration-500 peer'>
+          href='/about-us'
+          class='inline-flex items-center text-gray-700 hover:text-blue-700 transition-colors duration-300'>
           About Us
           <svg
-            class='w-4 h-4 ml-1 transform transition-transform duration-500 group-hover:rotate-180'
+            class='w-4 h-4 ml-1 transform transition-transform duration-300'
             fill='none'
             stroke='currentColor'
             viewBox='0 0 24 24'
@@ -32,45 +31,47 @@
           </svg>
         </a>
         <ul
-          class='absolute hidden group-hover:flex flex-col mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-opacity duration-700 delay-300'>
+          id='about-us-menu'
+          class='absolute mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-all duration-300 opacity-0 scale-95 pointer-events-none'>
           <li>
             <a
-              href='/about/history'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'>History</a
+              href='/about-us/organization'
+              class='block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md'
+              >Organization</a
             >
           </li>
           <li>
             <a
-              href='/about/leadership'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'
-              >Leadership</a
-            >
-          </li>
-          <li>
-            <a
-              href='/about/accreditations'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'
-              >Accreditations</a
-            >
-          </li>
-          <li>
-            <a
-              href='/about/mission'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'
+              href='/about-us/mission-vision-values'
+              class='block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md'
               >Our Mission</a
+            >
+          </li>
+          <li>
+            <a
+              href='/about-us/contact'
+              class='block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md'
+              >Contact</a
+            >
+          </li>
+          <li>
+            <a
+              href='/about-us/tenders'
+              class='block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md'
+              >Tenders</a
             >
           </li>
         </ul>
       </div>
 
       <!-- Services Dropdown -->
-      <div class='relative group'>
+      <div id='services-menu-group' class='relative'>
         <a
-          href='#'
-          class='inline-flex items-center text-gray-700 hover:text-blue-700 transition-colors duration-500'>
-          Services
+          href='/services'
+          class='inline-flex items-center text-gray-700 hover:text-blue-700 transition-colors duration-300'>
+          Our Services
           <svg
-            class='w-4 h-4 ml-1 transform transition-transform duration-500 group-hover:rotate-180'
+            class='w-4 h-4 ml-1 transform transition-transform duration-300'
             fill='none'
             stroke='currentColor'
             viewBox='0 0 24 24'
@@ -83,46 +84,40 @@
           </svg>
         </a>
         <ul
-          class='absolute hidden group-hover:flex flex-col mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-opacity duration-700 delay-300'>
+          id='services-menu'
+          class='absolute mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-all duration-300 opacity-0 scale-95 pointer-events-none'>
           <li>
             <a
               href='/services/cardiology'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'
-              >Cardiology</a
+              class='block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md'
+              >Clinical Services</a
+            >
+          </li>
+          <li>
+            <a
+              href='/services/clinic-schedule'
+              class='block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md'
+              >Clinic-Schedule</a
             >
           </li>
           <li>
             <a
               href='/services/pediatrics'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'
-              >Pediatrics</a
-            >
-          </li>
-          <li>
-            <a
-              href='/services/oncology'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'
-              >Oncology</a
-            >
-          </li>
-          <li>
-            <a
-              href='/services/emergency'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'
-              >Emergency</a
+              class='block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md'
+              >Patient Affairs</a
             >
           </li>
         </ul>
       </div>
 
       <!-- Get Involved Dropdown -->
-      <div class='relative group'>
+      <div id='get-involved-menu-group' class='relative'>
         <a
-          href='#'
-          class='inline-flex items-center text-gray-700 hover:text-blue-700 transition-colors duration-500'>
+          href='/get-involved'
+          class='inline-flex items-center text-gray-700 hover:text-blue-700 transition-colors duration-300'>
           Get Involved
           <svg
-            class='w-4 h-4 ml-1 transform transition-transform duration-500 group-hover:rotate-180'
+            class='w-4 h-4 ml-1 transform transition-transform duration-300'
             fill='none'
             stroke='currentColor'
             viewBox='0 0 24 24'
@@ -135,37 +130,40 @@
           </svg>
         </a>
         <ul
-          class='absolute hidden group-hover:flex flex-col mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-opacity duration-700 delay-300'>
+          id='get-involved-menu'
+          class='absolute mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-all duration-300 opacity-0 scale-95 pointer-events-none'>
           <li>
             <a
               href='/get-involved/volunteer'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'
+              class='block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md'
               >Volunteer</a
             >
           </li>
           <li>
             <a
               href='/get-involved/donate'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'>Donate</a
+              class='block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md'
+              >Donate</a
             >
           </li>
           <li>
             <a
               href='/get-involved/careers'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'>Careers</a
+              class='block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md'
+              >Careers</a
             >
           </li>
         </ul>
       </div>
 
       <!-- News and Media Dropdown -->
-      <div class='relative group'>
+      <div id='news-media-menu-group' class='relative'>
         <a
-          href='#'
-          class='inline-flex items-center text-gray-700 hover:text-blue-700 transition-colors duration-500'>
+          href='/news-and-media'
+          class='inline-flex items-center text-gray-700 hover:text-blue-700 transition-colors duration-300'>
           News & Media
           <svg
-            class='w-4 h-4 ml-1 transform transition-transform duration-500 group-hover:rotate-180'
+            class='w-4 h-4 ml-1 transform transition-transform duration-300'
             fill='none'
             stroke='currentColor'
             viewBox='0 0 24 24'
@@ -178,24 +176,27 @@
           </svg>
         </a>
         <ul
-          class='absolute hidden group-hover:flex flex-col mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-opacity duration-700 delay-300'>
+          id='news-media-menu'
+          class='absolute mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-all duration-300 opacity-0 scale-95 pointer-events-none'>
           <li>
             <a
-              href='/news/press-releases'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'
-              >Press Releases</a
+              href='/news-and-media/blog'
+              class='block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md'
+              >Blog</a
             >
           </li>
           <li>
             <a
-              href='/news/blog'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'>Blog</a
+              href='/news-and-media/events'
+              class='block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md'
+              >Events</a
             >
           </li>
           <li>
             <a
-              href='/news/events'
-              class='block px-4 py-2 text-gray-700 hover:bg-gray-100'>Events</a
+              href='/news-and-media/gallery'
+              class='block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md'
+              >Gallery</a
             >
           </li>
         </ul>
@@ -204,14 +205,14 @@
       <!-- Prominent Emergency Button -->
       <a
         href='tel:+254111817447'
-        class='px-4 py-2 bg-red-600 text-white font-semibold rounded-full hover:bg-red-700 transition-colors duration-300 shadow-md text-sm'>
+        class='px-4 py-2 bg-[#860f0f] text-white font-semibold rounded-full hover:bg-red-700 transition-colors duration-300 shadow-md text-sm'>
         +254 111 817447
       </a>
     </div>
 
     <!-- Mobile Hamburger Menu Button -->
     <div class='md:hidden flex items-center'>
-      <button id='mobile-menu-btn' class='text-gray-700 focus:outline-none'>
+      <button id='mobile-menu-btn' class='text-secondary focus:outline-none'>
         <svg
           class='w-8 h-8'
           fill='none'
@@ -242,7 +243,7 @@
               class='w-4 h-4 transform transition-transform duration-300'
               fill='none'
               stroke='currentColor'
-              viewbox='0 0 24 24'
+              viewBox='0 0 24 24'
               xmlns='http://www.w3.org/2000/svg'>
               <path
                 stroke-linecap='round'
@@ -256,26 +257,26 @@
             class='hidden pl-4 mt-2 space-y-2 border-l border-gray-200'>
             <li>
               <a
-                href='/about/history'
+                href='/about-us/history'
                 class='block py-2 text-gray-700 hover:bg-gray-100'>History</a
               >
             </li>
             <li>
               <a
-                href='/about/leadership'
+                href='/about-us/leadership'
                 class='block py-2 text-gray-700 hover:bg-gray-100'>Leadership</a
               >
             </li>
             <li>
               <a
-                href='/about/accreditations'
+                href='/about-us/accreditations'
                 class='block py-2 text-gray-700 hover:bg-gray-100'
                 >Accreditations</a
               >
             </li>
             <li>
               <a
-                href='/about/mission'
+                href='/about-us/mission'
                 class='block py-2 text-gray-700 hover:bg-gray-100'
                 >Our Mission</a
               >
@@ -294,7 +295,7 @@
               class='w-4 h-4 transform transition-transform duration-300'
               fill='none'
               stroke='currentColor'
-              viewbox='0 0 24 24'
+              viewBox='0 0 24 24'
               xmlns='http://www.w3.org/2000/svg'>
               <path
                 stroke-linecap='round'
@@ -344,7 +345,7 @@
               class='w-4 h-4 transform transition-transform duration-300'
               fill='none'
               stroke='currentColor'
-              viewbox='0 0 24 24'
+              viewBox='0 0 24 24'
               xmlns='http://www.w3.org/2000/svg'>
               <path
                 stroke-linecap='round'
@@ -388,7 +389,7 @@
               class='w-4 h-4 transform transition-transform duration-300'
               fill='none'
               stroke='currentColor'
-              viewbox='0 0 24 24'
+              viewBox='0 0 24 24'
               xmlns='http://www.w3.org/2000/svg'>
               <path
                 stroke-linecap='round'
@@ -427,46 +428,90 @@
 </nav>
 
 <script>
-  // This JavaScript handles the toggle behavior for the mobile menu and dropdowns.
   document.addEventListener('DOMContentLoaded', () => {
+    // --- Mobile Menu Logic ---
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileDropdownBtns = document.querySelectorAll(
       '.mobile-dropdown-btn'
     );
 
-    // Toggle the main mobile menu
-    mobileMenuBtn.addEventListener('click', () => {
+    const closeAllMobileDropdowns = () => {
+      mobileDropdownBtns.forEach((button) => {
+        const targetId = button.getAttribute('data-target');
+        const targetMenu = document.getElementById(targetId);
+        const svg = button.querySelector('svg');
+        targetMenu.classList.add('hidden');
+        svg.classList.remove('rotate-180');
+      });
+    };
+
+    mobileMenuBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
       mobileMenu.classList.toggle('hidden');
+      if (mobileMenu.classList.contains('hidden')) {
+        closeAllMobileDropdowns();
+      }
     });
 
-    // Toggle mobile dropdown menus
     mobileDropdownBtns.forEach((button) => {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', (event) => {
+        event.stopPropagation();
         const targetId = button.getAttribute('data-target');
         const targetMenu = document.getElementById(targetId);
         const svg = button.querySelector('svg');
 
         if (targetMenu.classList.contains('hidden')) {
-          // Close all other dropdowns
-          mobileDropdownBtns.forEach((otherButton) => {
-            const otherTargetId = otherButton.getAttribute('data-target');
-            const otherTargetMenu = document.getElementById(otherTargetId);
-            const otherSvg = otherButton.querySelector('svg');
-            if (otherTargetMenu !== targetMenu) {
-              otherTargetMenu.classList.add('hidden');
-              otherSvg.classList.remove('rotate-180');
-            }
-          });
-          // Open the clicked dropdown
+          closeAllMobileDropdowns();
           targetMenu.classList.remove('hidden');
           svg.classList.add('rotate-180');
         } else {
-          // Close the clicked dropdown
           targetMenu.classList.add('hidden');
           svg.classList.remove('rotate-180');
         }
       });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (
+        !mobileMenu.contains(event.target) &&
+        !mobileMenuBtn.contains(event.target) &&
+        !mobileMenu.classList.contains('hidden')
+      ) {
+        mobileMenu.classList.add('hidden');
+        closeAllMobileDropdowns();
+      }
+    });
+
+    // --- Corrected Desktop Dropdown Logic with Delay ---
+    const desktopDropdowns = document.querySelectorAll(
+      'div[id$="-menu-group"]'
+    );
+    const closeDelay = 200; // milliseconds
+
+    desktopDropdowns.forEach((group) => {
+      const button = group.querySelector('a');
+      const menu = group.querySelector('ul');
+      const svg = button.querySelector('svg');
+      let timeout;
+
+      const showMenu = () => {
+        clearTimeout(timeout);
+        menu.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+        menu.classList.add('opacity-100', 'scale-100');
+        svg.classList.add('rotate-180');
+      };
+
+      const hideMenu = () => {
+        timeout = setTimeout(() => {
+          menu.classList.remove('opacity-100', 'scale-100');
+          menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+          svg.classList.remove('rotate-180');
+        }, closeDelay);
+      };
+
+      group.addEventListener('mouseover', showMenu);
+      group.addEventListener('mouseout', hideMenu);
     });
   });
 </script>

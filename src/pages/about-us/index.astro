@@ -1,0 +1,148 @@
+---
+import Layout from '../../Layout/Layout.astro';
+---
+
+<Layout title='About Us'>
+  <!-- About Us Section -->
+  <section
+    id='about'
+    class='container mx-auto mt-0 sm:mt-0 px-4 pb-8 max-w-5xl'>
+    <div
+      class='flex flex-col lg:flex-row items-center gap-8'
+      data-aos='fade-up'>
+      <div class='lg:w-1/2'>
+        <h2 class='text-4xl font-extrabold mb-6 mt-5 sm:mt-4 spacer-end'>
+          About us
+        </h2>
+        <p class='text-gray-700 text-lg leading-relaxed mb-6'>
+          St. Paul’s Mission Hospital, Homa Bay’s lifeline since the 1960s,
+          where Franciscan Sisters deliver compassionate care to 500,000+
+          underserved. <br /> As the only healthcare beacon, your donation fuels
+          hope, healing, and life-saving services for families in need.
+        </p>
+      </div>
+      <div
+        class='lg:w-1/2 w-full mt-8 lg:mt-0'
+        data-aos='fade-left'
+        data-aos-delay='200'>
+        <img
+          src='/img/9.jpg'
+          alt='A doctor interacting with a patient.'
+          class='w-full h-auto object-cover'
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- History Page -->
+  <section class='py-8 mb-4' data-aos='fade-right'>
+    <div class='container mx-auto px-6 max-w-5xl'>
+      <h1 class='text-4xl md:text-4xl font-extrabold mb-4 spacer-end'>
+        Who we are
+      </h1>
+      <p class='text-lg text-gray-700 max-w-3xl'>
+        St. Paul’s Mission Hospital, under the Catholic Diocese of Homa Bay and
+        overseen by the Franciscan Sisters of St. Joseph Asumbi, has been a
+        beacon of hope since the 1960s. Rooted in compassion, the hospital has
+        grown from a small nutrition centre to a vital health institution
+        serving over half a million people.
+      </p>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class='py-10 bg-gray-50' data-aos='fade-left'>
+    <div class='container mx-auto px-6 max-w-5xl'>
+      <div class='relative border-l-4 border-secondary pl-8 space-y-12'>
+        <!-- 1960s -->
+        <div>
+          <h3 class='text-2xl font-bold'>1960s — The Beginning</h3>
+          <p class='text-gray-700 mt-2'>
+            The Franciscan Sisters of St. Joseph began St. Paul’s as a
+            <strong>Nutrition Centre</strong> to help malnourished children from
+            the nearby Makongeni and Shauri Yako settlements.
+          </p>
+        </div>
+
+        <!-- Expansion -->
+        <div>
+          <h3 class='text-2xl font-bold'>Expansion into Healthcare</h3>
+          <p class='text-gray-700 mt-2'>
+            As demand grew, the Sisters expanded services beyond nutrition,
+            offering <strong>preventive, promotive, and curative care</strong>
+            to low-income families and fishermen in the peri-urban region.
+          </p>
+        </div>
+
+        <!-- Today -->
+        <div>
+          <h3 class='text-2xl font-bold'>Today</h3>
+          <p class='text-gray-700 mt-2'>
+            St. Paul’s Mission Hospital is now the only facility of its kind in
+            the area, serving a population of over
+            <strong>500,000 residents</strong> who live mostly below the poverty
+            line. The hospital remains a trusted home for compassionate, affordable
+            care.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Section -->
+  <section class='relative py-20 bg-gray-200'>
+    <div class='container mx-auto px-6 max-w-6xl' data-aos='fade-up'>
+      <!-- Header -->
+      <div class='text-center mb-16'>
+        <h2 class='text-4xl md:text-5xl font-extrabold mb-4'>Our Impact</h2>
+        <p class='text-lg md:text-xl text-gray-700 max-w-3xl mx-auto'>
+          For over six decades, St. Paul’s Mission Hospital has been committed
+          to providing compassionate and affordable healthcare to the Homa Bay
+          community and beyond.
+        </p>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10'>
+        <!-- Stat 1 -->
+        <div
+          class='bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center border-b-4 border-secondary shadow-lg'>
+          <h3 class='text-5xl font-extrabold mb-3'>60+</h3>
+          <p class='font-medium'>Years of Dedicated Service</p>
+        </div>
+
+        <!-- Stat 2 -->
+        <div
+          class='bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center border-b-4 border-secondary shadow-lg'>
+          <h3 class='text-5xl font-extrabold mb-3'>500,000+</h3>
+          <p class='font-medium'>Community Members Served</p>
+        </div>
+
+        <!-- Stat 3 -->
+        <div
+          class='bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center border-b-4 border-secondary shadow-lg'>
+          <h3 class='text-5xl font-extrabold mb-3'>24/7</h3>
+          <p class='font-medium'>Emergency Care Availability</p>
+        </div>
+
+        <!-- Stat 4 -->
+        <div
+          class='bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center border-b-4 border-secondary shadow-lg'>
+          <h3 class='text-5xl font-extrabold mb-3'>5 Core</h3>
+          <p class='font-medium'>
+            Specialties: Medical, Surgical, Maternity, Diagnostics, Pharmacy
+          </p>
+        </div>
+      </div>
+
+      <!-- Closing Statement -->
+      <div class='mt-16 text-center'>
+        <p class='text-lg md:text-xl max-w-4xl mx-auto text-blue-100'>
+          Our mission is not just about treatment, but about building healthier
+          communities. Every patient we serve reflects our unwavering commitment
+          to excellence and compassion in healthcare.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

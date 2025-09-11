@@ -1,0 +1,269 @@
+---
+import Layout from '../../Layout/Layout.astro';
+---
+
+<Layout title='Clinic Schedule'>
+  <!-- Hero Section -->
+  <section class='bg-primary text-white py-16'>
+    <div class='container mx-auto px-4 max-w-5xl text-center'>
+      <h1 class='text-4xl text-white font-extrabold mb-4'>Clinic Schedule</h1>
+      <p class='text-l max-w-2xl mx-auto'>
+        Stay updated with our weekly clinics and specialist consultation
+        schedules. We’re committed to making healthcare accessible, reliable,
+        and easy to plan for.
+      </p>
+    </div>
+  </section>
+
+  <!-- General Info -->
+  <section class='py-12 bg-gray-50'>
+    <div class='container mx-auto px-4 max-w-4xl text-center'>
+      <p class='text-gray-700 text-lg mb-4'>
+        Our clinics run on scheduled days to ensure every patient gets timely
+        care. Emergency services remain available 24/7.
+      </p>
+    </div>
+  </section>
+
+  <!-- Schedule Table -->
+  <section class='py-12'>
+    <div class='container mx-auto px-4 max-w-6xl'>
+      <h2 class='text-2xl font-bold text-primary mb-6 text-center'>
+        Weekly Clinic Schedule
+      </h2>
+      <div class='overflow-x-auto'>
+        <table
+          class='min-w-full border border-gray-200 bg-white shadow-lg rounded-lg'>
+          <thead class='bg-secondary text-white'>
+            <tr>
+              <th class='py-3 px-4 text-left'>Clinic</th>
+              <th class='py-3 px-4 text-left'>Days of the Week</th>
+              <th class='py-3 px-4 text-left'>Time</th>
+              <th class='py-3 px-4 text-left'>Doctor/Staff</th>
+            </tr>
+          </thead>
+          <tbody class='divide-y divide-gray-200'>
+            <tr>
+              <td class='py-3 px-4'>Pediatrics</td>
+              <td class='py-3 px-4'>Monday</td>
+              <td class='py-3 px-4'>9:00am – 1:00pm</td>
+              <td class='py-3 px-4'>Dr. Achieng</td>
+            </tr>
+            <tr>
+              <td class='py-3 px-4'>Maternity ANC</td>
+              <td class='py-3 px-4'>Tuesday</td>
+              <td class='py-3 px-4'>8:30am – 12:30pm</td>
+              <td class='py-3 px-4'>Nurse Atieno</td>
+            </tr>
+            <tr>
+              <td class='py-3 px-4'>Surgical Clinic</td>
+              <td class='py-3 px-4'>Wednesday</td>
+              <td class='py-3 px-4'>10:00am – 3:00pm</td>
+              <td class='py-3 px-4'>Dr. Onyango</td>
+            </tr>
+            <tr>
+              <td class='py-3 px-4'>HIV Care</td>
+              <td class='py-3 px-4'>Friday</td>
+              <td class='py-3 px-4'>9:00am – 2:00pm</td>
+              <td class='py-3 px-4'>Dr. Oduor</td>
+            </tr>
+            <tr>
+              <td class='py-3 px-4'>Nutrition Clinic</td>
+              <td class='py-3 px-4'>Thursday</td>
+              <td class='py-3 px-4'>10:00am – 1:00pm</td>
+              <td class='py-3 px-4'>Dietician Team</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Special Programs -->
+  <section class='py-12 bg-gray-50'>
+    <div class='container mx-auto px-4 max-w-5xl'>
+      <h2 class='text-2xl font-bold text-primary mb-6 text-center'>
+        Special Health Programs
+      </h2>
+      <ul class='space-y-4 text-gray-700'>
+        <li>✔ First Friday of every month – Free Diabetes Screening</li>
+        <li>✔ Last Wednesday – Child Immunization Program</li>
+        <li>✔ Quarterly – Community Medical Outreach</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class='py-12 text-center bg-gray-200 text-white'>
+    <h3 class='text-2xl font-bold mb-4'>Need to book an appointment?</h3>
+    <p class='mb-6'>
+      Contact us today to schedule your visit with our specialists.
+    </p>
+    <a href='/contact' class='btn-secondary'> Contact Us </a>
+  </section>
+
+  <!-- Tables Grid -->
+  <section class='px-4 py-10'>
+    <div class='grid grid-cols-1 lg:grid-cols-2 gap-10'>
+      <!-- Clinic Schedule Table -->
+      <div
+        class='bg-white shadow-xl rounded-xl overflow-hidden border border-gray-200'>
+        <h2 class='bg-[#125276] text-white text-lg font-semibold px-6 py-4'>
+          Clinic Schedule
+        </h2>
+        <div class='overflow-x-auto'>
+          <table class='min-w-full text-left text-sm'>
+            <thead class='bg-[#1565C0] text-white'>
+              <tr>
+                <th class='px-6 py-3 font-semibold'>Clinic</th>
+                <th class='px-6 py-3 font-semibold'>Days</th>
+                <th class='px-6 py-3 font-semibold'>Time</th>
+                <th class='px-6 py-3 font-semibold'>Doctor/Staff</th>
+              </tr>
+            </thead>
+            <tbody class='divide-y divide-gray-200'>
+              <tr class='hover:bg-blue-50 transition'>
+                <td class='px-6 py-3'>Pediatrics</td>
+                <td class='px-6 py-3'>Monday</td>
+                <td class='px-6 py-3'>9:00am – 1:00pm</td>
+                <td class='px-6 py-3'>Dr. Achieng</td>
+              </tr>
+              <tr class='hover:bg-blue-50 transition bg-gray-50'>
+                <td class='px-6 py-3'>Maternity</td>
+                <td class='px-6 py-3'>Tuesday & Thursday</td>
+                <td class='px-6 py-3'>8:00am – 2:00pm</td>
+                <td class='px-6 py-3'>Sr. Atieno</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Events & Programs Table -->
+      <div
+        class='bg-white shadow-xl rounded-xl overflow-hidden border border-gray-200'>
+        <h2 class='bg-[#125276] text-white text-lg font-semibold px-6 py-4'>
+          Events Calender
+        </h2>
+        <div class='overflow-x-auto'>
+          <table class='min-w-full text-left text-sm'>
+            <thead class='bg-[#1565C0] text-white'>
+              <tr>
+                <th class='px-6 py-3 font-semibold'>Event</th>
+                <th class='px-6 py-3 font-semibold'>Date</th>
+                <th class='px-6 py-3 font-semibold'>Time</th>
+                <th class='px-6 py-3 font-semibold'>Venue</th>
+              </tr>
+            </thead>
+            <tbody class='divide-y divide-gray-200'>
+              <tr class='hover:bg-blue-50 transition'>
+                <td class='px-6 py-3'>CQI</td>
+                <td class='px-6 py-3'>1st Friday (Monthly)</td>
+                <td class='px-6 py-3'>9:00am – 12:00pm</td>
+                <td class='px-6 py-3'>Main Clinic</td>
+              </tr>
+              <tr class='hover:bg-blue-50 transition bg-gray-50'>
+                <td class='px-6 py-3'>Maternal Health Awareness</td>
+                <td class='px-6 py-3'>15th Nov 2025</td>
+                <td class='px-6 py-3'>10:00am – 1:00pm</td>
+                <td class='px-6 py-3'>Community Hall</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--  -->
+  <section class='py-16 bg-gray-50'>
+    <div class='container mx-auto px-4 max-w-6xl'>
+      <!-- Header -->
+      <header class='text-center mb-10'>
+        <h1 class='text-4xl font-extrabold text-[#125276]'>
+          Facility Events Calendar
+        </h1>
+        <p class='mt-3 text-gray-600 text-lg'>
+          Stay updated on regular programs, clinical governance meetings, and
+          community activities.
+        </p>
+      </header>
+
+      <!-- Table Card -->
+      <div
+        class='bg-white shadow-xl rounded-xl overflow-hidden border border-gray-200'>
+        <h2 class='bg-[#1565C0] text-white text-lg font-semibold px-6 py-4'>
+          Events & Programs
+        </h2>
+        <div class='overflow-x-auto'>
+          <table class='min-w-full text-left text-sm'>
+            <thead class='bg-[#125276] text-white'>
+              <tr>
+                <th class='px-6 py-3 font-semibold'>Event</th>
+                <th class='px-6 py-3 font-semibold'>Frequency</th>
+                <th class='px-6 py-3 font-semibold'>Date/Time</th>
+                <th class='px-6 py-3 font-semibold'>Venue</th>
+              </tr>
+            </thead>
+            <tbody class='divide-y divide-gray-200'>
+              <tr class='hover:bg-blue-50 transition'>
+                <td class='px-6 py-3'>CQI</td>
+                <td class='px-6 py-3'>Wednesday</td>
+                <td class='px-6 py-3'>3PM</td>
+                <td class='px-6 py-3'>CCC</td>
+              </tr>
+              <tr class='hover:bg-blue-50 transition bg-gray-50'>
+                <td class='px-6 py-3'>HMT</td>
+                <td class='px-6 py-3'>Thursday</td>
+                <td class='px-6 py-3'>2PM</td>
+                <td class='px-6 py-3'>ADMIN</td>
+              </tr>
+              <tr class='hover:bg-blue-50 transition'>
+                <td class='px-6 py-3'>Mass</td>
+                <td class='px-6 py-3'>Wednesday</td>
+                <td class='px-6 py-3'>7:30 – 8:15</td>
+                <td class='px-6 py-3'>Waiting Bay</td>
+              </tr>
+              <tr class='hover:bg-blue-50 transition bg-gray-50'>
+                <td class='px-6 py-3'>IPC</td>
+                <td class='px-6 py-3'>Last Thursday (Monthly)</td>
+                <td class='px-6 py-3'>2PM</td>
+                <td class='px-6 py-3'>—</td>
+              </tr>
+              <tr class='hover:bg-blue-50 transition'>
+                <td class='px-6 py-3'>Physician Ward Rounds</td>
+                <td class='px-6 py-3'>Tuesdays & Thursday</td>
+                <td class='px-6 py-3'>8AM</td>
+                <td class='px-6 py-3'>Wards</td>
+              </tr>
+              <tr class='hover:bg-blue-50 transition bg-gray-50'>
+                <td class='px-6 py-3'>Performance Reviews / DQA</td>
+                <td class='px-6 py-3'>Quarterly</td>
+                <td class='px-6 py-3'>3PM</td>
+                <td class='px-6 py-3'>CCC</td>
+              </tr>
+              <tr class='hover:bg-blue-50 transition'>
+                <td class='px-6 py-3'>Facility Report Discussions</td>
+                <td class='px-6 py-3'>Monthly</td>
+                <td class='px-6 py-3'>2nd Every Month (Adjustable)</td>
+                <td class='px-6 py-3'>—</td>
+              </tr>
+              <tr class='hover:bg-blue-50 transition bg-gray-50'>
+                <td class='px-6 py-3'>Staff Appraisal</td>
+                <td class='px-6 py-3'>End of Contract</td>
+                <td class='px-6 py-3'>—</td>
+                <td class='px-6 py-3'>—</td>
+              </tr>
+              <tr class='hover:bg-blue-50 transition'>
+                <td class='px-6 py-3'>Sharps Collection</td>
+                <td class='px-6 py-3'>1st Friday (Monthly)</td>
+                <td class='px-6 py-3'>—</td>
+                <td class='px-6 py-3'>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

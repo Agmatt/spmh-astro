@@ -1,0 +1,155 @@
+---
+import Layout from '../Layout/Layout.astro';
+---
+
+<Layout title='FAQ'>
+  <main>
+    <div class='container bg-teal-200 mx-auto px-2 py-10 md:px-4 max-w-7xl'>
+      <!-- Main Content Section with Responsive Flexbox -->
+      <div class='flex flex-col lg:flex-row gap-12 items-start'>
+        <!-- Left-hand Item: Text and Contact Button -->
+        <div class='w-full lg:w-1/2 rounded-xl'>
+          <h1 class='text-4xl lg:text-5xl font-extrabold mb-6'>
+            Can't find what you're looking for?
+          </h1>
+          <p class='text-lg text-gray-700 leading-relaxed mb-8'>
+            Our dedicated support team is ready to assist you. If your question
+            hasn't been answered, please don't hesitate to reach out. We are
+            here to help and ensure you have all the information you need.
+          </p>
+          <a
+            href='/about-us/contact'
+            class='btn-primary'>
+            Contact Us
+          </a>
+        </div>
+
+        <!-- Right-hand Item: Accordion FAQ -->
+        <div class='w-full lg:w-1/2 rounded-xl'>
+          <div class='space-y-6'>
+            <!-- FAQ Accordion Item -->
+            <div
+              class='accordion-item bg-white p-6 rounded-xl shadow-lg cursor-pointer'>
+              <h2
+                class='accordion-header flex items-center justify-between font-semibold text-lg text-blue-800 transition-colors duration-300 hover:text-blue-600'>
+                How do I schedule an appointment?
+                <svg
+                  class='accordion-icon w-6 h-6 text-blue-500 transform transition-transform duration-300'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                  xmlns='http://www.w3.org/2000/svg'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M19 9l-7 7-7-7'></path>
+                </svg>
+              </h2>
+              <div class='accordion-content hidden mt-4 text-gray-700'>
+                <p>
+                  You can schedule an appointment by calling our main reception
+                  at (123) 456-7890 or by using our online patient portal. We
+                  recommend having your insurance information ready when you
+                  call.
+                </p>
+              </div>
+            </div>
+
+            <!-- FAQ Accordion Item -->
+            <div
+              class='accordion-item bg-white p-6 rounded-xl shadow-lg cursor-pointer'>
+              <h2
+                class='accordion-header flex items-center justify-between font-semibold text-lg text-blue-800 transition-colors duration-300 hover:text-blue-600'>
+                What are your visiting hours?
+                <svg
+                  class='accordion-icon w-6 h-6 text-blue-500 transform transition-transform duration-300'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                  xmlns='http://www.w3.org/2000/svg'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M19 9l-7 7-7-7'></path>
+                </svg>
+              </h2>
+              <div class='accordion-content hidden mt-4 text-gray-700'>
+                <p>
+                  General visiting hours are from 10:00 AM to 8:00 PM. Please
+                  check with the specific ward or department for any variations,
+                  as some units have different policies to ensure patient rest
+                  and recovery.
+                </p>
+              </div>
+            </div>
+
+            <!-- FAQ Accordion Item -->
+            <div
+              class='accordion-item bg-white p-6 rounded-xl shadow-lg cursor-pointer'>
+              <h2
+                class='accordion-header flex items-center justify-between font-semibold text-lg text-blue-800 transition-colors duration-300 hover:text-blue-600'>
+                What insurance plans do you accept?
+                <svg
+                  class='accordion-icon w-6 h-6 text-blue-500 transform transition-transform duration-300'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                  xmlns='http://www.w3.org/2000/svg'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M19 9l-7 7-7-7'></path>
+                </svg>
+              </h2>
+              <div class='accordion-content hidden mt-4 text-gray-700'>
+                <p>
+                  We accept a wide range of insurance providers. For a complete
+                  list or to verify your plan, please contact our billing
+                  department directly.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const accordionItems = document.querySelectorAll('.accordion-item');
+
+      accordionItems.forEach((item) => {
+        const header = item.querySelector('.accordion-header');
+        const content = item.querySelector('.accordion-content');
+        const icon = item.querySelector('.accordion-icon');
+
+        header.addEventListener('click', () => {
+          // Check if the current item is already active
+          const isCurrentlyActive = item.classList.contains('active');
+
+          // Close all open items
+          accordionItems.forEach((otherItem) => {
+            if (otherItem !== item) {
+              otherItem.classList.remove('active');
+              otherItem
+                .querySelector('.accordion-content')
+                .classList.add('hidden');
+              otherItem
+                .querySelector('.accordion-icon')
+                .classList.remove('rotate-180');
+            }
+          });
+
+          // Toggle the clicked item
+          item.classList.toggle('active');
+          content.classList.toggle('hidden');
+          icon.classList.toggle('rotate-180');
+        });
+      });
+    });
+  </script>
+</Layout>

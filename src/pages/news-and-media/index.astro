@@ -1,0 +1,331 @@
+---
+import Layout from '../../Layout/Layout.astro';
+---
+
+<Layout title='News & Media'>
+  <!-- Header -->
+  <main class='container mx-auto p-4 sm:p-8'>
+    <!-- Hero Section -->
+    <section class='text-center py-16 px-4'>
+      <h2 class='text-4xl sm:text-5xl font-extrabold text-accent mb-4'>
+        Stay Informed. Stay Healthy.
+      </h2>
+      <p class='text-lg text-gray-600 max-w-2xl mx-auto'>
+        Discover the latest news from our hospital, attend community health
+        events, and see the faces of our dedicated team.
+      </p>
+    </section>
+
+    <!-- News & Insights Section -->
+    <section id='news' class='bg-white p-6 rounded-xl shadow-lg my-8'>
+      <div
+        class='flex justify-between items-center mb-6 border-b-2 border-accent pb-2'>
+        <h2 class='text-3xl font-bold text-gray-900'>Latest News & Insights</h2>
+        <a href='#' class='text-accent hover:underline font-semibold'
+          >View All Articles &rarr;</a
+        >
+      </div>
+      <div class='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <!-- Blog Post 1 -->
+        <article
+          class='bg-gray-50 p-6 rounded-lg shadow-md hover-lift transition-transform duration-300'>
+          <h3 class='text-xl font-semibold mb-2 text-gray-800'>
+            New Clinic for Cardiac Care Opens
+          </h3>
+          <p class='text-gray-600 text-sm mb-4'>
+            St. Paul's is proud to announce the opening of a state-of-the-art
+            cardiology clinic, offering advanced diagnostic and treatment
+            options.
+          </p>
+          <a
+            href='#'
+            class='inline-block text-accent hover:underline font-medium'
+            >Read More &rarr;</a
+          >
+        </article>
+        <!-- Blog Post 2 -->
+        <article
+          class='bg-gray-50 p-6 rounded-lg shadow-md hover-lift transition-transform duration-300'>
+          <h3 class='text-xl font-semibold mb-2 text-gray-800'>
+            Tips for a Healthy Winter Season
+          </h3>
+          <p class='text-gray-600 text-sm mb-4'>
+            Our health experts share essential advice on boosting your immune
+            system and staying well during the colder months.
+          </p>
+          <a
+            href='#'
+            class='inline-block text-accent hover:underline font-medium'
+            >Read More &rarr;</a
+          >
+        </article>
+        <!-- Blog Post 3 -->
+        <article
+          class='bg-gray-50 p-6 rounded-lg shadow-md hover-lift transition-transform duration-300'>
+          <h3 class='text-xl font-semibold mb-2 text-gray-800'>
+            Volunteers Make a Difference
+          </h3>
+          <p class='text-gray-600 text-sm mb-4'>
+            A special feature on our incredible volunteers and the vital role
+            they play in our hospital community.
+          </p>
+          <a
+            href='#'
+            class='inline-block text-accent hover:underline font-medium'
+            >Read More &rarr;</a
+          >
+        </article>
+      </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id='events' class='bg-white p-6 rounded-xl shadow-lg my-8'>
+      <div
+        class='flex justify-between items-center mb-6 border-b-2 border-accent pb-2'>
+        <h2 class='text-3xl font-bold text-gray-900'>Upcoming Events</h2>
+        <a href='#' class='text-accent hover:underline font-semibold'
+          >View All Events &rarr;</a
+        >
+      </div>
+      <div class='space-y-4'>
+        <!-- Event 1 -->
+        <article
+          class='bg-gray-50 p-4 rounded-lg flex items-center shadow-sm hover-lift transition-transform duration-300'>
+          <div
+            class='flex-shrink-0 text-center mr-4 p-2 rounded-lg bg-accent text-white font-bold'>
+            <p class='text-xl'>15</p>
+            <p class='uppercase text-xs -mt-1'>Sep</p>
+          </div>
+          <div>
+            <h3 class='text-xl font-semibold text-gray-800'>
+              Free Blood Pressure Screening
+            </h3>
+            <p class='text-gray-600 text-sm'>Main Lobby, 9:00 AM - 12:00 PM</p>
+          </div>
+        </article>
+        <!-- Event 2 -->
+        <article
+          class='bg-gray-50 p-4 rounded-lg flex items-center shadow-sm hover-lift transition-transform duration-300'>
+          <div
+            class='flex-shrink-0 text-center mr-4 p-2 rounded-lg bg-accent text-white font-bold'>
+            <p class='text-xl'>22</p>
+            <p class='uppercase text-xs -mt-1'>Oct</p>
+          </div>
+          <div>
+            <h3 class='text-xl font-semibold text-gray-800'>
+              Community Health & Wellness Fair
+            </h3>
+            <p class='text-gray-600 text-sm'>
+              St. Paul's Mission Park, 10:00 AM - 3:00 PM
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id='gallery' class='bg-white p-6 rounded-xl shadow-lg my-8'>
+      <div
+        class='flex justify-between items-center mb-6 border-b-2 border-accent pb-2'>
+        <h2 class='text-3xl font-bold text-gray-900'>Photo Gallery</h2>
+        <a href='#' class='text-accent hover:underline font-semibold'
+          >View All Photos &rarr;</a
+        >
+      </div>
+      <div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+        <img
+          src='https://placehold.co/600x400/e0e7ff/1e3a8a?text=Our+Team'
+          alt='Hospital team'
+          class='w-full h-auto rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-300'
+        />
+        <img
+          src='https://placehold.co/600x400/e0e7ff/1e3a8a?text=New+Wing'
+          alt='New hospital wing'
+          class='w-full h-auto rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-300'
+        />
+        <img
+          src='https://placehold.co/600x400/e0e7ff/1e3a8a?text=Patient+Care'
+          alt='Patient receiving care'
+          class='w-full h-auto rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-300'
+        />
+        <img
+          src='https://placehold.co/600x400/e0e7ff/1e3a8a?text=Community+Event'
+          alt='Community health event'
+          class='w-full h-auto rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-300'
+        />
+        <img
+          src='https://placehold.co/600x400/e0e7ff/1e3a8a?text=Research'
+          alt='Medical research'
+          class='w-full h-auto rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-300'
+        />
+        <img
+          src='https://placehold.co/600x400/e0e7ff/1e3a8a?text=Lab+Facilities'
+          alt='Laboratory facilities'
+          class='w-full h-auto rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-300'
+        />
+      </div>
+    </section>
+  </main>
+
+  <Layout title='News & Media'>
+    <section class='bg-gray-50 py-16'>
+      <div class='max-w-7xl mx-auto px-6 lg:px-8'>
+        <header class='text-center mb-12'>
+          <h1 class='text-4xl font-extrabold text-[#1565C0] mb-4'>
+            News & Media
+          </h1>
+          <p class='text-lg text-gray-600'>
+            Stay updated with our latest stories, moments, and events.
+          </p>
+        </header>
+
+        <!-- Blog Section -->
+        <div class='mb-16'>
+          <h2 class='text-2xl font-bold text-gray-800 mb-6'>From Our Blog</h2>
+          <div class='grid grid-cols-1 md:grid-cols-3 gap-8'>
+            <div
+              class='bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition'>
+              <img
+                src='/img/blog1.jpg'
+                alt='Blog preview'
+                class='h-48 w-full object-cover'
+              />
+              <div class='p-6'>
+                <h3 class='text-xl font-semibold text-[#1565C0]'>
+                  Improving Patient Care
+                </h3>
+                <p class='text-gray-600 mt-2'>
+                  Discover how our team is enhancing healthcare delivery through
+                  innovation and compassion.
+                </p>
+                <a
+                  href='/news-media/blog'
+                  class='text-[#1565C0] font-semibold mt-4 inline-block hover:underline'>
+                  Read More →
+                </a>
+              </div>
+            </div>
+            <div
+              class='bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition'>
+              <img
+                src='/img/blog2.jpg'
+                alt='Blog preview'
+                class='h-48 w-full object-cover'
+              />
+              <div class='p-6'>
+                <h3 class='text-xl font-semibold text-[#1565C0]'>
+                  Community Outreach
+                </h3>
+                <p class='text-gray-600 mt-2'>
+                  Learn about our outreach programs bringing essential services
+                  to underserved communities.
+                </p>
+                <a
+                  href='/news-media/blog'
+                  class='text-[#1565C0] font-semibold mt-4 inline-block hover:underline'>
+                  Read More →
+                </a>
+              </div>
+            </div>
+            <div
+              class='bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition'>
+              <img
+                src='/img/blog3.jpg'
+                alt='Blog preview'
+                class='h-48 w-full object-cover'
+              />
+              <div class='p-6'>
+                <h3 class='text-xl font-semibold text-[#1565C0]'>
+                  Staff Excellence
+                </h3>
+                <p class='text-gray-600 mt-2'>
+                  Meet the dedicated professionals making a difference every day
+                  at our facility.
+                </p>
+                <a
+                  href='/news-media/blog'
+                  class='text-[#1565C0] font-semibold mt-4 inline-block hover:underline'>
+                  Read More →
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gallery Section -->
+        <div class='mb-16'>
+          <h2 class='text-2xl font-bold text-gray-800 mb-6'>Gallery</h2>
+          <div class='grid grid-cols-2 md:grid-cols-4 gap-4'>
+            <img
+              src='/img/gallery1.jpg'
+              alt='Hospital gallery'
+              class='rounded-lg shadow-md object-cover h-40 w-full'
+            />
+            <img
+              src='/img/gallery2.jpg'
+              alt='Hospital gallery'
+              class='rounded-lg shadow-md object-cover h-40 w-full'
+            />
+            <img
+              src='/img/gallery3.jpg'
+              alt='Hospital gallery'
+              class='rounded-lg shadow-md object-cover h-40 w-full'
+            />
+            <img
+              src='/img/gallery4.jpg'
+              alt='Hospital gallery'
+              class='rounded-lg shadow-md object-cover h-40 w-full'
+            />
+          </div>
+          <div class='text-center mt-6'>
+            <a
+              href='/news-media/gallery'
+              class='inline-block px-6 py-2 bg-[#1565C0] text-white rounded-lg shadow hover:bg-[#125276] transition'>
+              View Full Gallery
+            </a>
+          </div>
+        </div>
+
+        <!-- Events Section -->
+        <div>
+          <h2 class='text-2xl font-bold text-gray-800 mb-6'>Upcoming Events</h2>
+          <div class='overflow-x-auto bg-white shadow-md rounded-xl'>
+            <table class='w-full border-collapse'>
+              <thead>
+                <tr class='bg-[#1565C0] text-white text-left'>
+                  <th class='py-3 px-4'>Event</th>
+                  <th class='py-3 px-4'>Date/Time</th>
+                  <th class='py-3 px-4'>Venue</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class='border-b hover:bg-gray-50'>
+                  <td class='py-3 px-4'>Community Health Fair</td>
+                  <td class='py-3 px-4'>Sept 28, 2025 – 10AM</td>
+                  <td class='py-3 px-4'>Hospital Grounds</td>
+                </tr>
+                <tr class='border-b hover:bg-gray-50'>
+                  <td class='py-3 px-4'>Blood Donation Drive</td>
+                  <td class='py-3 px-4'>Oct 15, 2025 – 9AM</td>
+                  <td class='py-3 px-4'>Main Hall</td>
+                </tr>
+                <tr class='hover:bg-gray-50'>
+                  <td class='py-3 px-4'>Wellness Seminar</td>
+                  <td class='py-3 px-4'>Nov 5, 2025 – 2PM</td>
+                  <td class='py-3 px-4'>Conference Room</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class='text-center mt-6'>
+            <a
+              href='/news-media/event'
+              class='inline-block px-6 py-2 bg-[#1565C0] text-white rounded-lg shadow hover:bg-[#125276] transition'>
+              View All Events
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </Layout>
+</Layout>
