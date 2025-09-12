@@ -1,8 +1,7 @@
 ---
 import Layout from '../Layout/Layout.astro';
 import Carousel from '../components/Carousel.jsx';
-// import Services from '../components/Services.jsx';
-import { Hospital } from 'lucide';
+import PartnerCarousel from '../components/PartnerCarousel.jsx';
 ---
 
 <Layout title="St Paul's Mission Hospital">
@@ -278,6 +277,17 @@ import { Hospital } from 'lucide';
       </div>
     </div>
   </section>
+
+  <!-- Partners -->
+  <section class='py-16 bg-gray-50'>
+    <div class='max-w-7xl mx-auto px-6'>
+      <h2 class='text-3xl font-bold text-center text-[#1565C0] mb-12'>
+        Our Trusted Partners
+      </h2>
+      <PartnerCarousel client:only='react' />
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class='bg-gray-300 py-10 px-4 shadow-xl' data-aos='fade-up'>
     <div class='container mx-auto text-center'>
@@ -288,7 +298,7 @@ import { Hospital } from 'lucide';
         We are here to provide exceptional medical services and support for you
         and your family.
       </p>
-      <a href='/contact' class='btn-secondary'> Find more about Events </a>
+      <a href='/news-and-media/events' class='btn-secondary'> Find more about Events </a>
     </div>
   </section>
 </Layout>

@@ -1,0 +1,77 @@
+---
+import Layout from '../../Layout/Layout.astro';
+---
+
+<Layout title='Blog'>
+  <main class='container mx-auto p-4 sm:p-8'>
+    <section class='text-center py-16 px-4'>
+      <h2 class='text-4xl sm:text-5xl font-extrabold text-accent mb-4'>
+        From Our Blog
+      </h2>
+      <p class='text-lg text-gray-600 max-w-2xl mx-auto'>
+        Insights, stories, and updates from St. Paul's Hospital. Stay informed
+        with the latest in healthcare and community news.
+      </p>
+    </section>
+
+    <section id='blog-posts' class='bg-white p-6 rounded-xl shadow-lg my-8'>
+      <div
+        class='flex justify-between items-center mb-6 border-b-2 border-accent pb-2'>
+        <h2 class='text-3xl font-bold text-gray-900'>Latest Blog Posts</h2>
+        <a href='#' class='text-accent hover:underline font-semibold'
+          >View All Posts &rarr;</a
+        >
+      </div>
+      <div class='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <!-- Blog Post 1 -->
+        <article
+          class='bg-gray-50 p-6 rounded-lg shadow-md hover-lift transition-transform duration-300'>
+          <h3 class='text-xl font-semibold mb-2 text-gray-800'>
+            Advancements in Telemedicine at St. Paul's
+          </h3>
+          <p class='text-gray-600 text-sm mb-4'>
+            Explore how St. Paul's Hospital is leveraging technology to provide
+            remote healthcare services, ensuring patients receive care from the
+            comfort of their homes.
+          </p>
+          <a
+            href='#'
+            class='inline-block text-accent hover:underline font-medium'
+            >Read More &rarr;</a
+          >
+        </article>
+        <!-- Blog Post 2 -->
+        <article
+          class='bg-gray-50 p-6 rounded-lg shadow-md hover-lift transition-transform duration-300'>
+          <h3 class='text-xl font-semibold mb-2 text-gray-800'>
+            Community Health Initiatives
+          </h3>
+          <p class='text-gray-600 text-sm mb-4'>
+            Learn about our recent community outreach programs aimed at
+            promoting health and wellness among local residents.
+          </p>
+          <a
+            href='#'
+            class='inline-block text-accent hover:underline font-medium'
+            >Read More &rarr;</a
+          >
+        </article>
+        <!-- Blog Post 3 -->
+        <article
+          class='bg-gray-50 p-6 rounded-lg shadow-md hover-lift transition-transform duration-300'>
+          <h3 class='text-xl font-semibold mb-2 text-gray-800'>
+            Meet Our New Medical Staff
+          </h3>
+          <p class='text-gray-600 text-sm mb-4'>
+            Get to know the latest additions to our medical team and their
+            commitment to providing exceptional care to our patients.
+          </p>
+          <a
+            href='#'
+            class='inline-block text-accent hover:underline font-medium'
+            >Read More &rarr;</a
+          >
+        </article>
+</main>
+</Layout>
+        

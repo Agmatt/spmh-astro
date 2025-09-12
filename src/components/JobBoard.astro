@@ -1,0 +1,293 @@
+---
+// This script block runs on the server during build time.
+// We define the job data here to keep everything in one place.
+const jobOpenings = [
+  {
+    id: 'nurse-icu',
+    title: 'Registered Nurse (ICU)',
+    department: 'Intensive Care Unit',
+    description:
+      'Seeking a compassionate and skilled RN to provide critical care in our state-of-the-art ICU...',
+    fullDescription:
+      "St. Paul's is seeking a highly motivated and compassionate Registered Nurse to join our Intensive Care Unit. The ideal candidate will be responsible for providing direct patient care, administering medications, and collaborating with a multidisciplinary team. You must possess a Bachelor of Science in Nursing (BSN) and have at least 2 years of experience in an ICU setting. This role is a vital part of our mission to provide the highest level of care to our most critical patients.",
+    responsibilities: [
+      'Provide direct patient care according to established protocols.',
+      'Administer medications and treatments.',
+      'Collaborate with a multidisciplinary team.',
+      'Maintain accurate patient records.',
+      'Educate patients and families on health management.',
+    ],
+    qualifications: [
+      'Bachelor of Science in Nursing (BSN) or equivalent.',
+      'At least 2 years of experience in an ICU or related setting.',
+      'Valid RN license.',
+      'Strong communication and interpersonal skills.',
+      'Ability to work in a fast-paced environment.',
+    ],
+  },
+  {
+    id: 'lab-technologist',
+    title: 'Medical Laboratory Technologist',
+    department: 'Pathology and Laboratory Services',
+    description:
+      'Responsible for performing complex medical tests and analyses...',
+    fullDescription:
+      "We are looking for a dedicated Medical Laboratory Technologist to join our cutting-edge lab. You will be responsible for performing a wide range of medical tests, analyzing samples, and ensuring the accuracy and integrity of all lab data. The role requires a degree in Medical Laboratory Science and a valid certification. This is an opportunity to support the entire hospital's diagnostic process and contribute to accurate patient care.",
+    responsibilities: [
+      'Perform complex medical tests and analyses.',
+      'Ensure accuracy and integrity of lab data.',
+      'Maintain laboratory equipment.',
+      'Adhere to all safety and quality control protocols.',
+      'Assist in the training of new staff.',
+    ],
+    qualifications: [
+      'Degree in Medical Laboratory Science.',
+      'Valid technologist certification.',
+      'Proficiency in laboratory techniques.',
+      'Strong attention to detail.',
+      'Ability to work independently and as part of a team.',
+    ],
+  },
+  {
+    id: 'patient-affairs',
+    title: 'Patient Affairs Officer',
+    department: 'Patient Relations',
+    description:
+      'A customer-service oriented role to assist patients and their families...',
+    fullDescription:
+      "As a Patient Affairs Officer, you will be the first point of contact for patients and their families, assisting them with questions, concerns, and feedback. You will play a crucial role in ensuring a positive patient experience and upholding our hospital's commitment to compassionate service. We are seeking someone with excellent communication skills, empathy, and a strong problem-solving ability.",
+    responsibilities: [
+      'Serve as the primary point of contact for patients and families.',
+      'Address patient questions, concerns, and feedback.',
+      'Ensure a positive patient experience.',
+      'Collaborate with other departments to resolve issues.',
+      'Maintain a high level of professionalism and empathy.',
+    ],
+    qualifications: [
+      'Excellent communication and interpersonal skills.',
+      'Proven problem-solving ability.',
+      'Strong sense of empathy and customer service.',
+      'Previous experience in patient relations or a similar field is a plus.',
+      'Ability to handle sensitive information with discretion.',
+    ],
+  },
+  {
+    id: 'administrator',
+    title: 'Hospital Administrator',
+    department: 'Administration',
+    description:
+      'Oversee the daily operations and strategic planning of hospital departments...',
+    fullDescription:
+      "We are seeking a seasoned Hospital Administrator to lead our administrative team. This senior-level position requires overseeing daily hospital operations, managing budgets, and developing strategic plans to ensure the long-term success of St. Paul's. The ideal candidate will have an MBA in Healthcare Administration and a minimum of 5 years of proven leadership experience in a healthcare setting.",
+    responsibilities: [
+      'Oversee daily hospital operations.',
+      'Manage departmental budgets and resources.',
+      'Develop and implement strategic plans.',
+      'Ensure compliance with healthcare regulations.',
+      'Lead and mentor the administrative team.',
+    ],
+    qualifications: [
+      'MBA in Healthcare Administration or related field.',
+      'Minimum of 5 years of leadership experience in a healthcare setting.',
+      'Strong financial management skills.',
+      'Excellent leadership and communication abilities.',
+      'Knowledge of healthcare regulations and best practices.',
+    ],
+  },
+];
+---
+
+<div class='container mx-auto py-4 sm:py-8 flex-grow'>
+   <div
+    id='job-container'
+    class='max-w-4xl mx-auto bg-white px-4 py-5 md:px-4 sm:p-8'>
+    <!-- Content will be rendered here by JavaScript -->
+  </div>
+</div>
+
+<script>
+  // This script block runs on the client-side
+  const jobOpenings = [
+    {
+      id: 'nurse-icu',
+      title: 'Registered Nurse (ICU)',
+      department: 'Intensive Care Unit',
+      description:
+        'Seeking a compassionate and skilled RN to provide critical care in our state-of-the-art ICU...',
+      fullDescription:
+        "St. Paul's is seeking a highly motivated and compassionate Registered Nurse to join our Intensive Care Unit. The ideal candidate will be responsible for providing direct patient care, administering medications, and collaborating with a multidisciplinary team. You must possess a Bachelor of Science in Nursing (BSN) and have at least 2 years of experience in an ICU setting. This role is a vital part of our mission to provide the highest level of care to our most critical patients.",
+      responsibilities: [
+        'Provide direct patient care according to established protocols.',
+        'Administer medications and treatments.',
+        'Collaborate with a multidisciplinary team.',
+        'Maintain accurate patient records.',
+        'Educate patients and families on health management.',
+      ],
+      qualifications: [
+        'Bachelor of Science in Nursing (BSN) or equivalent.',
+        'At least 2 years of experience in an ICU or related setting.',
+        'Valid RN license.',
+        'Strong communication and interpersonal skills.',
+        'Ability to work in a fast-paced environment.',
+      ],
+    },
+    {
+      id: 'lab-technologist',
+      title: 'Medical Laboratory Technologist',
+      department: 'Pathology and Laboratory Services',
+      description:
+        'Responsible for performing complex medical tests and analyses...',
+      fullDescription:
+        "We are looking for a dedicated Medical Laboratory Technologist to join our cutting-edge lab. You will be responsible for performing a wide range of medical tests, analyzing samples, and ensuring the accuracy and integrity of all lab data. The role requires a degree in Medical Laboratory Science and a valid certification. This is an opportunity to support the entire hospital's diagnostic process and contribute to accurate patient care.",
+      responsibilities: [
+        'Perform complex medical tests and analyses.',
+        'Ensure accuracy and integrity of lab data.',
+        'Maintain laboratory equipment.',
+        'Adhere to all safety and quality control protocols.',
+        'Assist in the training of new staff.',
+      ],
+      qualifications: [
+        'Degree in Medical Laboratory Science.',
+        'Valid technologist certification.',
+        'Proficiency in laboratory techniques.',
+        'Strong attention to detail.',
+        'Ability to work independently and as part of a team.',
+      ],
+    },
+    {
+      id: 'patient-affairs',
+      title: 'Patient Affairs Officer',
+      department: 'Patient Relations',
+      description:
+        'A customer-service oriented role to assist patients and their families...',
+      fullDescription:
+        "As a Patient Affairs Officer, you will be the first point of contact for patients and their families, assisting them with questions, concerns, and feedback. You will play a crucial role in ensuring a positive patient experience and upholding our hospital's commitment to compassionate service. We are seeking someone with excellent communication skills, empathy, and a strong problem-solving ability.",
+      responsibilities: [
+        'Serve as the primary point of contact for patients and families.',
+        'Address patient questions, concerns, and feedback.',
+        'Ensure a positive patient experience.',
+        'Collaborate with other departments to resolve issues.',
+        'Maintain a high level of professionalism and empathy.',
+      ],
+      qualifications: [
+        'Excellent communication and interpersonal skills.',
+        'Proven problem-solving ability.',
+        'Strong sense of empathy and customer service.',
+        'Previous experience in patient relations or a similar field is a plus.',
+        'Ability to handle sensitive information with discretion.',
+      ],
+    },
+    {
+      id: 'administrator',
+      title: 'Hospital Administrator',
+      department: 'Administration',
+      description:
+        'Oversee the daily operations and strategic planning of hospital departments...',
+      fullDescription:
+        "We are seeking a seasoned Hospital Administrator to lead our administrative team. This senior-level position requires overseeing daily hospital operations, managing budgets, and developing strategic plans to ensure the long-term success of St. Paul's. The ideal candidate will have an MBA in Healthcare Administration and a minimum of 5 years of proven leadership experience in a healthcare setting.",
+      responsibilities: [
+        'Oversee daily hospital operations.',
+        'Manage departmental budgets and resources.',
+        'Develop and implement strategic plans.',
+        'Ensure compliance with healthcare regulations.',
+        'Lead and mentor the administrative team.',
+      ],
+      qualifications: [
+        'MBA in Healthcare Administration or related field.',
+        'Minimum of 5 years of leadership experience in a healthcare setting.',
+        'Strong financial management skills.',
+        'Excellent leadership and communication abilities.',
+        'Knowledge of healthcare regulations and best practices.',
+      ],
+    },
+  ];
+
+  const jobContainer = document.getElementById('job-container');
+
+  function renderJobList() {
+    const html = `
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Current Opportunities</h2>
+            <div class="space-y-6">
+                ${jobOpenings
+                  .map(
+                    (job) => `
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:border-accent transition-colors duration-300">
+                        <h3 class="text-xl font-bold text-gray-800">${job.title}</h3>
+                        <p class="text-gray-600 mt-1">${job.department}</p>
+                        <p class="text-gray-500 mt-4 leading-relaxed">${job.description}</p>
+                        <a href="#" data-job-id="${job.id}" class="view-details mt-4 inline-block text-accent font-semibold hover:underline">View Details & Apply &rarr;</a>
+                    </div>
+                `
+                  )
+                  .join('')}
+            </div>
+        `;
+    jobContainer.innerHTML = html;
+
+    document.querySelectorAll('.view-details').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const jobId = e.target.dataset.jobId;
+        renderJobDetails(jobId);
+      });
+    });
+  }
+
+  function renderJobDetails(jobId) {
+    const job = jobOpenings.find((j) => j.id === jobId);
+
+    if (!job) {
+      jobContainer.innerHTML =
+        '<h2 class="text-3xl font-bold text-center text-gray-900">Job Not Found.</h2><p class="text-center mt-4"><a href="#" id="back-to-list" class="text-blue-600 hover:underline">Back to Job List</a></p>';
+      document.getElementById('back-to-list').addEventListener('click', (e) => {
+        e.preventDefault();
+        renderJobList();
+      });
+      return;
+    }
+
+    const detailsHtml = `
+            <div class="px-4 py-6 sm:py-6 md:px-">
+                <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">${job.title}</h1>
+                <p class="text-lg text-gray-600 mb-6">${job.department}</p>
+                <div class="border-t border-gray-200 pt-6 mt-6">
+                    <p class="text-gray-700 leading-relaxed text-base sm:text-lg">${job.fullDescription}</p>
+                </div>
+
+                <div class="mt-8">
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Responsibilities</h2>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        ${job.responsibilities.map((item) => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div class="mt-8">
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Qualifications</h2>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        ${job.qualifications.map((item) => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <!-- IMPORTANT: Replace the href with your Google Form URL -->
+                    <a href="https://forms.gle/your-google-form-url" target="_blank" class="inline-block bg-accent text-white font-bold py-3 px-8 rounded-full shadow-md hover:bg-accent transition-colors duration-300 transform hover:scale-105">
+                        Apply Now
+                    </a>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <a href="#" id="back-to-list" class="text-gray-600 font-semibold hover:underline">← Back to All Openings</a>
+                </div>
+            </div>
+        `;
+    jobContainer.innerHTML = detailsHtml;
+
+    document.getElementById('back-to-list').addEventListener('click', (e) => {
+      e.preventDefault();
+      renderJobList();
+    });
+  }
+
+  // We can't use window.onload in an Astro component, so we just run the render function directly
+  renderJobList();
+</script>

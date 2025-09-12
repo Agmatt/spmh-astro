@@ -1,0 +1,245 @@
+---
+import Layout from '../Layout/Layout.astro';
+import JobBoard from '../components/JobBoard.astro';
+
+const pageTitle = "Join the St. Paul's Mission Hospital Family";
+const heroHeadline = 'A Career of Compassion and Purpose';
+const heroText =
+  "At St. Paul's, we believe in providing exceptional care with a deep sense of mission. Join a team dedicated to making a tangible difference in our community and beyond.";
+
+const jobOpenings = [
+  {
+    id: 'nurse-icu',
+    title: 'Registered Nurse (ICU)',
+    department: 'Intensive Care Unit',
+    description:
+      'Seeking a compassionate and skilled RN to provide critical care in our state-of-the-art ICU...',
+    fullDescription:
+      "St. Paul's is seeking a highly motivated and compassionate Registered Nurse to join our Intensive Care Unit. The ideal candidate will be responsible for providing direct patient care, administering medications, and collaborating with a multidisciplinary team. You must possess a Bachelor of Science in Nursing (BSN) and have at least 2 years of experience in an ICU setting. This role is a vital part of our mission to provide the highest level of care to our most critical patients.",
+  },
+  {
+    id: 'lab-technologist',
+    title: 'Medical Laboratory Technologist',
+    department: 'Pathology and Laboratory Services',
+    description:
+      'Responsible for performing complex medical tests and analyses...',
+    fullDescription:
+      "We are looking for a dedicated Medical Laboratory Technologist to join our cutting-edge lab. You will be responsible for performing a wide range of medical tests, analyzing samples, and ensuring the accuracy and integrity of all lab data. The role requires a degree in Medical Laboratory Science and a valid certification. This is an opportunity to support the entire hospital's diagnostic process and contribute to accurate patient care.",
+  },
+  {
+    id: 'patient-affairs',
+    title: 'Patient Affairs Officer',
+    department: 'Patient Relations',
+    description:
+      'A customer-service oriented role to assist patients and their families...',
+    fullDescription:
+      "As a Patient Affairs Officer, you will be the first point of contact for patients and their families, assisting them with questions, concerns, and feedback. You will play a crucial role in ensuring a positive patient experience and upholding our hospital's commitment to compassionate service. We are seeking someone with excellent communication skills, empathy, and a strong problem-solving ability.",
+  },
+  {
+    id: 'administrator',
+    title: 'Hospital Administrator',
+    department: 'Administration',
+    description:
+      'Oversee the daily operations and strategic planning of hospital departments...',
+    fullDescription:
+      "We are seeking a seasoned Hospital Administrator to lead our administrative team. This senior-level position requires overseeing daily hospital operations, managing budgets, and developing strategic plans to ensure the long-term success of St. Paul's. The ideal candidate will have an MBA in Healthcare Administration and a minimum of 5 years of proven leadership experience in a healthcare setting.",
+  },
+];
+---
+
+<Layout title='Careers'>
+  <main>
+    <!-- Hero Section -->
+    <section
+      class='relative bg-gray-100 py-20 px-4 text-center overflow-hidden'>
+      <!-- Background image -->
+      <div
+        class='absolute inset-0 bg-cover bg-center'
+        style="background-image: url('/img/11.jpg');">
+      </div>
+
+      <!-- Overlay (optional, makes text more readable) -->
+      <div class='absolute inset-0 bg-black/40'></div>
+
+      <!-- Content -->
+      <div class='relative z-10 container mx-auto'>
+        <h1
+          class='text-4xl sm:text-6xl font-extrabold text-white mb-4 tracking-tight leading-tight'>
+          {heroHeadline}
+        </h1>
+        <p class='text-lg sm:text-xl text-gray-100 max-w-2xl mx-auto'>
+          {heroText}
+        </p>
+      </div>
+    </section>
+
+    <!-- Our Mission & Values -->
+    <section class='container mx-auto py-16 px-4'>
+      <div class='max-w-4xl mx-auto text-center'>
+        <h2 class='text-3xl font-bold text-gray-900 mb-6'>
+          Our Commitment to Care
+        </h2>
+        <p class='text-gray-700 leading-relaxed'>
+          St. Paul's Mission Hospital is more than a workplace—it's a calling.
+          Our mission is to provide compassionate, high-quality healthcare to
+          all, regardless of their background. We are guided by our core values
+          of integrity, respect, and service, which inform every decision and
+          action we take.
+        </p>
+        <div class='mt-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center'>
+          <div>
+            <svg
+              class='h-12 w-12 text-accent mx-auto mb-4'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
+              xmlns='http://www.w3.org/2000/svg'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
+              ></path>
+            </svg>
+            <h3 class='font-bold text-lg text-gray-800'>Compassionate Care</h3>
+            <p class='text-gray-600 text-sm mt-2'>
+              Putting patient well-being at the heart of everything we do.
+            </p>
+          </div>
+          <div>
+            <svg
+              class='h-12 w-12 text-accent mx-auto mb-4'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
+              xmlns='http://www.w3.org/2000/svg'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M13 10V3L4 14h7v7l9-11h-7z'></path>
+            </svg>
+            <h3 class='font-bold text-lg text-gray-800'>Team Collaboration</h3>
+            <p class='text-gray-600 text-sm mt-2'>
+              Working together to achieve the best outcomes for our community.
+            </p>
+          </div>
+          <div>
+            <svg
+              class='h-12 w-12 text-accent mx-auto mb-4'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
+              xmlns='http://www.w3.org/2000/svg'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.047M12 14V3l7 7-7 7z'
+              ></path>
+            </svg>
+            <h3 class='font-bold text-lg text-gray-800'>Professional Growth</h3>
+            <p class='text-gray-600 text-sm mt-2'>
+              Committed to the development and success of our staff.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Employee Testimonials -->
+    <section class='bg-white py-16 px-4'>
+      <div class='container mx-auto'>
+        <h2 class='text-3xl font-bold text-center text-gray-900 mb-10'>
+          Hear from Our Team
+        </h2>
+        <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+          <!-- Testimonial Card 1 -->
+          <div
+            class='bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center text-center'>
+            <img
+              class='w-24 h-24 rounded-full mx-auto mb-4'
+              src='/img/23.jpg'
+              alt='RN'
+            />
+            <p class='italic text-gray-700 mb-4'>
+              "The supportive environment and the chance to truly connect with
+              patients here is unlike anywhere else. I feel like I'm part of a
+              family."
+            </p>
+            <p class='font-semibold text-accent'>- Evance Wangao, RN</p>
+          </div>
+          <!-- Testimonial Card 2 -->
+          <div
+            class='bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center text-center'>
+            <img
+              class='w-24 h-24 rounded-full mx-auto mb-4'
+              src='/img/7.jpg'
+              alt='Doctor'
+            />
+            <p class='italic text-gray-700 mb-4'>
+              "Working at St. Paul's has given me the opportunity to contribute
+              to the health of the community in a meaningful way. It's a truly
+              rewarding experience."
+            </p>
+            <p class='font-semibold text-accent'>- Crispin Muhrula, MD</p>
+          </div>
+          <!-- Testimonial Card 3 -->
+          <div
+            class='bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center text-center'>
+            <img
+              class='w-24 h-24 rounded-full mx-auto mb-4'
+              src='/board/4.jpg'
+              alt='Administrator'
+            />
+            <p class='italic text-gray-700 mb-4'>
+              "The focus on mission and service is woven into every aspect of
+              our work. It makes coming to work feel like more than just a job."
+            </p>
+            <p class='font-semibold text-accent'>
+              - Sr. Beatrice, Administrator
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Current Openings -->
+    <JobBoard />
+
+    <!-- Application Process & Call to Action -->
+    <section class='bg-gray-100 py-16 px-4 text-center'>
+      <div class='container mx-auto'>
+        <h2 class='text-3xl font-bold text-gray-900 mb-4'>Ready to Join Us?</h2>
+        <p class='text-lg text-gray-600 mb-8'>
+          We invite you to apply for our open positions and become part of a
+          team dedicated to healing and hope.
+        </p>
+        <div class='max-w-xl mx-auto'>
+          <form class='space-y-4'>
+            <input
+              type='text'
+              placeholder='Full Name'
+              class='w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent transition-colors duration-200'
+            />
+            <input
+              type='email'
+              placeholder='Email Address'
+              class='w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent transition-colors duration-200'
+            />
+            <textarea
+              placeholder="Tell us why you're a great fit (optional)"
+              rows='4'
+              class='w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent transition-colors duration-200'
+            ></textarea>
+            <button
+              type='submit'
+              class='w-full bg-accent text-white font-bold py-3 rounded-lg shadow-md hover:bg-red-700 transition-colors duration-300'
+              >Submit Your Application</button
+            >
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

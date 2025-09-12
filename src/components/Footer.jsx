@@ -20,10 +20,10 @@ const App = () => {
           <div>
             <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="/about" className="hover:text-white transition-colors duration-300">Our Mission</a></li>
+              <li><a href="/about-us/mission-vision-values" className="hover:text-white transition-colors duration-300">Our Mission</a></li>
               <li><a href="/services" className="hover:text-white transition-colors duration-300">Services</a></li>
-              <li><a href="/team" className="hover:text-white transition-colors duration-300">Our Team</a></li>
-              <li><a href="/news" className="hover:text-white transition-colors duration-300">News & Blog</a></li>
+              <li><a href="/about-us/organization" className="hover:text-white transition-colors duration-300">Our Team</a></li>
+              <li><a href="/news-and-media" className="hover:text-white transition-colors duration-300">News & Blog</a></li>
             </ul>
           </div>
 
@@ -33,7 +33,7 @@ const App = () => {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center">
                 <IoLocationSharp className="mr-2 text-white" />
-                426 Cyprian Awiti Street, Homa Bay, Kenya
+                426 Gov Cyprian Awiti Street, Homa Bay, Kenya
               </li>
               <li className="flex items-center">
                 <IoCall className="mr-2 text-white" />
