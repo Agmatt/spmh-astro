@@ -1,62 +1,59 @@
 ---
 import Layout from '../../Layout/Layout.astro';
+import Cards from '../../components/Cards.astro';
+
+
+
 ---
 
 <Layout title='About Us'>
   <!-- About Us Section -->
   <section
     id='about'
-    class='container mx-auto mt-0 sm:mt-0 px-4 pb-8 max-w-5xl'>
+    class='relative mt-0 sm:mt-0 min-h-[35vh] sm:min-h-[70vh] bg-cover bg-center'
+    style="background-image: url('/img/9.jpg');">
+    <!-- Overlay -->
+    <div class='absolute inset-0 bg-black/40'></div>
+
+    <!-- Only H2 -->
     <div
-      class='flex flex-col lg:flex-row items-center gap-8'
-      data-aos='fade-up'>
-      <div class='lg:w-1/2'>
-        <h2 class='text-4xl font-extrabold mb-6 mt-5 sm:mt-4 spacer-end'>
-          About us
-        </h2>
-        <p class='text-gray-700 text-lg leading-relaxed mb-6'>
-          St. Paul’s Mission Hospital, Homa Bay’s lifeline since the 1960s,
-          where Franciscan Sisters deliver compassionate care to 500,000+
-          underserved. <br /> As the only healthcare beacon, your donation fuels
-          hope, healing, and life-saving services for families in need.
-        </p>
-      </div>
-      <div
-        class='lg:w-1/2 w-full mt-8 lg:mt-0'
-        data-aos='fade-left'
-        data-aos-delay='200'>
-        <img
-          src='/img/9.jpg'
-          alt='A doctor interacting with a patient.'
-          class='w-full h-auto object-cover'
-        />
-      </div>
+      class='absolute z-10 flex items-end justify-start h-full px-6 pb-8 sm:pb-12 lg:pb-16'>
+      <h2 class='text-3xl sm:text-4xl font-bold text-white'>About Us</h2>
     </div>
   </section>
 
   <!-- History Page -->
   <section class='py-8 mb-4' data-aos='fade-right'>
-    <div class='container mx-auto px-6 max-w-5xl'>
+    <div class='container mx-auto px-6 max-w-2xl'>
       <h1 class='text-4xl md:text-4xl font-extrabold mb-4 spacer-end'>
         Who we are
       </h1>
-      <p class='text-lg text-gray-700 max-w-3xl'>
-        St. Paul’s Mission Hospital, under the Catholic Diocese of Homa Bay and
-        overseen by the Franciscan Sisters of St. Joseph Asumbi, has been a
-        beacon of hope since the 1960s. Rooted in compassion, the hospital has
-        grown from a small nutrition centre to a vital health institution
-        serving over half a million people.
+      <p class='text-lg text-gray-700 max-w-3xl mb-4'>
+        St. Paul’s Mission Hospital, Homa Bay, is a faith-based, not-for-profit
+        health institution deeply rooted in the Catholic Church’s healing
+        mission and the Franciscan tradition of compassionate service.
+      </p>
+      <p class='text-lg text-gray-700 max-w-3xl mb-4'>
+        Founded in 1983 by the Franciscan Sisters of St. Joseph Asumbi as a
+        direct response to the child malnutrition crisis in the region, it has
+        since evolved into a critical health anchor for Homa Bay County,
+        offering promotive, preventive, curative, and rehabilitative services.
+      </p>
+      <p class='text-lg text-gray-700 max-w-3xl mb-4'>
+        Currently designated as a Level 4 facility, St. Paul’s operates under
+        the Catholic Diocese of Homa Bay and is affiliated with the Kenya
+        Episcopal Conference – Catholic Health Commission.
       </p>
     </div>
   </section>
 
   <!-- Timeline -->
   <section class='py-10 bg-gray-50' data-aos='fade-left'>
-    <div class='container mx-auto px-6 max-w-5xl'>
+    <div class='container mx-auto px-6 max-w-2xl'>
       <div class='relative border-l-4 border-secondary pl-8 space-y-12'>
         <!-- 1960s -->
         <div>
-          <h3 class='text-2xl font-bold'>1960s — The Beginning</h3>
+          <h3 class='text-2xl font-bold'>1983 — The Beginning</h3>
           <p class='text-gray-700 mt-2'>
             The Franciscan Sisters of St. Joseph began St. Paul’s as a
             <strong>Nutrition Centre</strong> to help malnourished children from
@@ -90,15 +87,15 @@ import Layout from '../../Layout/Layout.astro';
   </section>
 
   <!-- Impact Section -->
-  <section class='relative py-20 bg-gray-200'>
+  <section class='relative pt-10 bg-gray-200'>
     <div class='container mx-auto px-6 max-w-6xl' data-aos='fade-up'>
       <!-- Header -->
       <div class='text-center mb-16'>
         <h2 class='text-4xl md:text-5xl font-extrabold mb-4'>Our Impact</h2>
         <p class='text-lg md:text-xl text-gray-700 max-w-3xl mx-auto'>
-          For over six decades, St. Paul’s Mission Hospital has been committed
-          to providing compassionate and affordable healthcare to the Homa Bay
-          community and beyond.
+          For over <span class='text-accent font-extrabold'>four</span> decades,
+          St. Paul’s Mission Hospital has been committed to providing compassionate
+          and affordable healthcare to the Homa Bay community and beyond.
         </p>
       </div>
 
@@ -107,7 +104,7 @@ import Layout from '../../Layout/Layout.astro';
         <!-- Stat 1 -->
         <div
           class='bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center border-b-4 border-secondary shadow-lg'>
-          <h3 class='text-5xl font-extrabold mb-3'>60+</h3>
+          <h3 class='text-5xl font-extrabold mb-3'>40+</h3>
           <p class='font-medium'>Years of Dedicated Service</p>
         </div>
 
@@ -145,4 +142,10 @@ import Layout from '../../Layout/Layout.astro';
       </div>
     </div>
   </section>
+  
+  
+
+    
+  
+
 </Layout>

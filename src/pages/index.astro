@@ -17,7 +17,7 @@ import PartnerCarousel from '../components/PartnerCarousel.jsx';
             A Legacy of Care
           </h2>
           <p class='text-gray-700 text-lg leading-relaxed mb-6'>
-            For over 50 years, our hospital has been a beacon of health and hope
+            For over 40 years, our hospital has been a beacon of health and hope
             in the community. Our mission is to provide compassionate,
             high-quality, and accessible healthcare to all, serving in the
             spirit of Christ's love. We are dedicated to your well-being,
@@ -40,9 +40,7 @@ import PartnerCarousel from '../components/PartnerCarousel.jsx';
     </section>
 
     <!-- Services Section -->
-    <section
-      id='services'
-      class='container bg-teal-50 mx-auto px-4 py-16 max-w-6xl'>
+    <section id='services' class='bg-teal-100 mx-auto px-4 py-16 w-full'>
       <header class='text-center mb-12' data-aos='fade-up'>
         <h2 class='text-4xl font-extrabold mb-4 spacer-center'>Our Services</h2>
         <p class='text-lg text-gray-600 pt-8 py-3'>
@@ -88,110 +86,86 @@ import PartnerCarousel from '../components/PartnerCarousel.jsx';
 
       <!-- Section CTA -->
       <div class='text-center' data-aos='fade-up' data-aos-delay='400'>
-        <a href='/services' class='btn-secondary'> Find Out More → </a>
+        <a href='/services/clinical' class='btn-secondary'> Find Out More → </a>
       </div>
     </section>
 
-    <!-- Why Choose Us Section (from previous conversation) -->
-    <section class='container mx-auto px-4 py-16 max-w-6xl' data-aos='fade-up'>
-      <header class='text-center mb-10'>
-        <h2 class='text-4xl font-extrabold mb-4 spacer-center'>
+    <section id='about' class='py-20 bg-white'>
+      <div
+        class='container mx-auto px-2 lg:px-0 w-full grid lg:grid-cols-2 gap-12 items-center'>
+        <!-- Image -->
+        <div class='relative'>
+          <img
+            src='/img/28.jpg'
+            alt='St. Paul’s Mission Hospital'
+            class='w-full h-full object-cover'
+          />
+        </div>
+
+        <!-- Text -->
+        <div>
+          <h2 class='text-4xl font-extrabold text-primary mb-6'>
+            Professional & Trustworthy
+          </h2>
+          <p class='text-lg text-gray-700 leading-relaxed mb-6'>
+            St. Paul’s Mission Hospital is dedicated to delivering reliable,
+            accessible, and holistic healthcare. With a skilled medical team,
+            modern practices, and a commitment to community wellbeing, we ensure
+            every patient receives care that transforms lives.
+          </p>
+          <a
+            href='/services/clinical'
+            class='inline-block bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-secondary transition'>
+            Learn More
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class='py-20 bg-white'>
+      <div class='container mx-auto px-4 md:px-4 lg:px-12 text-center'>
+        <h2 class='text-4xl font-extrabold text-primary mb-12'>
           Why Choose Us?
         </h2>
-        <p class='text-lg text-gray-600 pt-8'>
-          Experience the difference that sets our hospital apart.
-        </p>
-      </header>
-
-      <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-        <!-- Card 1: Patient-Centered Care -->
-        <div
-          class='bg-white p-8 rounded-xl shadow-lg border-b-5 border-primary flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
-          <div class='bg-blue-100 p-4 rounded-full mb-4'>
-            <svg
-              class='h-10 w-10 text-primary'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-              stroke-width='2'
-              xmlns='http://www.w3.org/2000/svg'>
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                d='M12 4.354a4 4 0 110 5.292m0 5.292a4 4 0 110-5.292m0 5.292v1.5a4 4 0 004 4h-.5a4 4 0 01-4-4v-1.5m0-5.292V1.5a4 4 0 00-4 4h.5a4 4 0 014 4v1.5z'
-              ></path>
-            </svg>
+        <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
+          <!-- Card 1 -->
+          <div
+            class='bg-gray-50 rounded-xl shadow-md p-8 hover:shadow-xl transition'>
+            <h3 class='text-xl font-bold text-secondary mb-3'>
+              Compassionate Care
+            </h3>
+            <p class='text-gray-600'>
+              We treat every patient with dignity, love, and Christ-centered
+              compassion.
+            </p>
           </div>
-          <h3 class='text-xl font-bold text-secondary mb-2'>
-            Patient-Centered Care
-          </h3>
-          <p class='text-gray-600'>
-            Your well-being is at the heart of everything we do. We tailor our
-            services to your individual needs for a personalized healthcare
-            journey.
-          </p>
-        </div>
-
-        <!-- Card 2: Expert Medical Team -->
-        <div
-          class='bg-white p-8 rounded-xl shadow-lg border-b-5 border-primary flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
-          <div class='bg-green-100 p-4 rounded-full mb-4'>
-            <svg
-              class='h-10 w-10 text-primary'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-              stroke-width='2'
-              xmlns='http://www.w3.org/2000/svg'>
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                d='M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.082 12.082 0 002.944 12c.119 1.487.676 2.915 1.636 4.148M12 21a11.955 11.955 0 01-8.618-3.04A12.082 12.082 0 002.944 12c.119 1.487.676 2.915 1.636 4.148M12 21c2.115 0 4.14-.543 5.923-1.571m-4.323 2.152l.27-.27c.4-.4.8-1.2 1.2-1.6'
-              ></path>
-            </svg>
+          <!-- Card 2 -->
+          <div
+            class='bg-gray-50 rounded-xl shadow-md p-8 hover:shadow-xl transition'>
+            <h3 class='text-xl font-bold text-secondary mb-3'>Expert Team</h3>
+            <p class='text-gray-600'>
+              Our staff includes skilled doctors, nurses, and specialists
+              dedicated to excellence.
+            </p>
           </div>
-          <h3 class='text-xl font-bold text-secondary mb-2'>
-            Expert Medical Team
-          </h3>
-          <p class='text-gray-600'>
-            Our physicians and staff are highly skilled and compassionate,
-            providing the best possible care with professional excellence.
-          </p>
-        </div>
-
-        <!-- Card 3: A Healing Environment -->
-        <div
-          class='bg-white p-8 rounded-xl shadow-lg border-b-5 border-primary flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
-          <div class='bg-purple-100 p-4 rounded-full mb-4'>
-            <svg
-              class='h-10 w-10 text-primary'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-              stroke-width='2'
-              xmlns='http://www.w3.org/2000/svg'>
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                d='M4 14h6m8-6h-6m4 12H8m4-4h2m4-2h-4m-2 4h4'></path>
-            </svg>
+          <!-- Card 3 -->
+          <div
+            class='bg-gray-50 rounded-xl shadow-md p-8 hover:shadow-xl transition'>
+            <h3 class='text-xl font-bold text-secondary mb-3'>
+              Affordable Services
+            </h3>
+            <p class='text-gray-600'>
+              We provide high-quality care that is accessible and affordable for
+              the community.
+            </p>
           </div>
-          <h3 class='text-xl font-bold text-secondary mb-2'>
-            A Healing Environment
-          </h3>
-          <p class='text-gray-600'>
-            Our facilities are thoughtfully designed to provide a clean, safe,
-            and comfortable space for your care. We focus on creating a
-            welcoming and peaceful atmosphere that supports your well-being
-            throughout your treatment.
-          </p>
         </div>
       </div>
     </section>
 
     <!-- Featured Reports Section -->
     <section class='py-16 bg-gray-100'>
-      <div class='container mx-auto px-4 max-w-6xl'>
+      <div class='mx-auto px-2 md:px:4'>
         <header class='mb-12' data-aos='fade-up'>
           <h2 class='text-4xl font-extrabold mb-2 spacer-end'>
             Featured Reports & Updates
@@ -201,7 +175,7 @@ import PartnerCarousel from '../components/PartnerCarousel.jsx';
           </p>
         </header>
         <div
-          class='flex flex-col lg:flex-row lg:space-x-8 space-y-8 lg:space-y-0'
+          class='flex flex-col lg:flex-row lg:space-x-10 space-y-8 lg:space-y-0'
           data-aos='fade-up'
           data-aos-delay='200'>
           <!-- Report Card 1 -->
@@ -250,40 +224,131 @@ import PartnerCarousel from '../components/PartnerCarousel.jsx';
         </div>
       </div>
     </section>
-  </main>
-  <!-- LEADERSHIP MESSAGE -->
-  <section class='py-16 bg-teal-50'>
-    <div class='max-w-5xl mx-auto py-6 px-4'>
-      <div class='flex flex-col md:flex-row items-center justify-center gap-12'>
-        <!-- Admin -->
-        <figure
-          class='flex flex-col items-center text-center space-y-6 max-w-sm'
-          data-aos='fade-up'>
-          <img
-            src='/board/4.jpg'
-            alt='Founder portrait'
-            class='w-40 h-40 rounded-full shadow-xl object-cover'
-            loading='lazy'
-          />
-          <blockquote class='text-gray-700 text-base leading-relaxed'>
-            With our professional team and unwavering commitment to excellence,
-            you can trust that your health and safety are always in the best
-            hands.
-          </blockquote>
-          <figcaption class='text-sm text-gray-500'>
-            / Sr. Beatrice Osanga, Hospital C.E.O
-          </figcaption>
-        </figure>
+
+    <!-- Featured Reports Section -->
+    <section class='py-16 bg-gray-100'>
+      <div class='mx-auto px-4 max-w-7xl'>
+        <header class='mb-12 text-center' data-aos='fade-up'>
+          <h2 class='text-4xl font-extrabold mb-2 text-gray-900'>
+            Featured Reports & Updates
+          </h2>
+          <p class='text-lg text-gray-600'>
+            Stay informed about our latest news.
+          </p>
+        </header>
+
+        <!-- Grid for 4 compact cards -->
+        <div
+          class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'
+          data-aos='fade-up'
+          data-aos-delay='200'>
+          <!-- Card Template -->
+          <div
+            class='bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-2'>
+            <img
+              src='/img/18.jpg'
+              alt='Groundbreaking ceremony'
+              class='rounded-t-xl w-full h-40 object-cover'
+            />
+            <div class='p-4'>
+              <h3 class='text-lg font-bold text-[#1565C0] mb-1'>
+                New Wing Groundbreaking
+              </h3>
+              <p class='text-gray-600 text-xs mb-2'>Oct 26, 2025</p>
+              <p class='text-gray-700 text-sm line-clamp-3'>
+                We are thrilled to announce the groundbreaking celebration for
+                our new surgical and maternity wing.
+              </p>
+              <a
+                href='#'
+                class='mt-3 inline-block text-[#1565C0] text-sm font-medium hover:underline'
+                >Read More →</a
+              >
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div
+            class='bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-2'>
+            <img
+              src='/img/20.jpg'
+              alt='Newsletter image'
+              class='rounded-t-xl w-full h-40 object-cover'
+            />
+            <div class='p-4'>
+              <h3 class='text-lg font-bold text-[#1565C0] mb-1'>
+                Our First Newsletter
+              </h3>
+              <p class='text-gray-600 text-xs mb-2'>Oct 15, 2025</p>
+              <p class='text-gray-700 text-sm line-clamp-3'>
+                Stay connected with our hospital community through our first
+                newsletter launch.
+              </p>
+              <a
+                href='#'
+                class='mt-3 inline-block text-[#1565C0] text-sm font-medium hover:underline'
+                >Read More →</a
+              >
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div
+            class='bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-2'>
+            <img
+              src='/img/21.jpg'
+              alt='Health camp'
+              class='rounded-t-xl w-full h-40 object-cover'
+            />
+            <div class='p-4'>
+              <h3 class='text-lg font-bold text-[#1565C0] mb-1'>
+                Community Health Camp
+              </h3>
+              <p class='text-gray-600 text-xs mb-2'>Sep 30, 2025</p>
+              <p class='text-gray-700 text-sm line-clamp-3'>
+                Hundreds of residents benefited from free consultations and
+                screenings.
+              </p>
+              <a
+                href='#'
+                class='mt-3 inline-block text-[#1565C0] text-sm font-medium hover:underline'
+                >Read More →</a
+              >
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div
+            class='bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-2'>
+            <img
+              src='/img/22.jpg'
+              alt='Award'
+              class='rounded-t-xl w-full h-40 object-cover'
+            />
+            <div class='p-4'>
+              <h3 class='text-lg font-bold text-[#1565C0] mb-1'>
+                Excellence in Patient Care
+              </h3>
+              <p class='text-gray-600 text-xs mb-2'>Sep 10, 2025</p>
+              <p class='text-gray-700 text-sm line-clamp-3'>
+                We were honored with the regional award for excellence in
+                patient care.
+              </p>
+              <a
+                href='#'
+                class='mt-3 inline-block text-[#1565C0] text-sm font-medium hover:underline'
+                >Read More →</a
+              >
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <!-- Partners -->
   <section class='py-16 bg-gray-50'>
     <div class='max-w-7xl mx-auto px-6'>
-      <h2 class='text-3xl font-bold text-center text-[#1565C0] mb-12'>
-        Our Trusted Partners
-      </h2>
       <PartnerCarousel client:only='react' />
     </div>
   </section>
@@ -298,7 +363,9 @@ import PartnerCarousel from '../components/PartnerCarousel.jsx';
         We are here to provide exceptional medical services and support for you
         and your family.
       </p>
-      <a href='/news-and-media/events' class='btn-secondary'> Find more about Events </a>
+      <a href='/news-and-media/events' class='btn-secondary'>
+        Find more about Events
+      </a>
     </div>
   </section>
 </Layout>

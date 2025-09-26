@@ -5,19 +5,16 @@ const slides = [
     img: "/img/6.jpg",
     title: "Compassionate Care for Your Family",
     text: "Our dedicated team of healthcare professionals is here to provide the highest standard of care, ensuring your well-being is our top priority.",
-    button: { label: "Learn More", link: "/about-us" },
   },
   {
     img: "/img/10.jpg",
     title: "Our Mission",
     text: "Promoting health and well-being through preventive, promotive, and curative services, guided by our Catholic values.",
-    button: { label: "Learn More", link: "/about-us/mission-vision-values" },
   },
   {
     img: "/img/2.jpg",
     title: "Dedicated Emergency Services, 24/7",
     text: "Our emergency department is staffed around the clock to provide immediate and life-saving care when you need it most.",
-    button: { label: "Contact Us", link: "/about-us/contact" },
   },
 ];
 
@@ -63,12 +60,7 @@ export default function Carousel() {
             <p className="max-w-2xl mb-6 text-lg md:text-xl drop-shadow-md">
               {slide.text}
             </p>
-            <a
-              href={slide.button.link}
-              className="btn-primary"
-            >
-              {slide.button.label}
-            </a>
+            
           </div>
         </div>
       ))}

@@ -3,31 +3,45 @@ import Layout from '../../Layout/Layout.astro';
 ---
 
 <Layout title='Leadership'>
+  <section
+    id='about'
+    class='relative mt-0 sm:mt-0 min-h-[35vh] sm:min-h-[70vh] bg-cover bg-center'
+    style="background-image: url('/img/24.jpg');">
+    <!-- Overlay -->
+    <div class='absolute inset-0 bg-black/40'></div>
+
+    <!-- Only H2 -->
+    <div
+      class='absolute z-10 flex items-end justify-start h-full px-6 pb-8 sm:pb-12 lg:pb-16'>
+      <h2 class='text-3xl sm:text-4xl font-bold text-white'>Organization</h2>
+    </div>
+  </section>
   <main>
     <section class='py-6'>
-      <div class='mx-auto text-left px-4 md:px-4 max-w-6xl'>
-        <a href='/about-us' class='mb-8 border-accent border-b-2 text-accent'
-          >About us</a
+      <div class='mx-auto text-lg px-4 md:px-4 max-w-6xl'>
+        <a
+          href='/about-us/history'
+          class='mb-8 border-accent border-b-2 text-accent'>About us</a
         >
 
         <h2 class='text-2xl pt-5 font-extrabold'>The Organization</h2>
-        <p class='py-2 leading'>
+        <p class='py-2 leading-relaxed'>
           St. Paul's Mission Hospital is a Faith Base Organization was founded
-          in the 1960s.
+          in the 1983.
         </p>
       </div>
     </section>
 
     <!-- Secretariat -->
     <section class='py-4'>
-      <div class='mx-auto text-left px-4 md:px-4 max-w-6xl'>
+      <div class='mx-auto text-lg px-4 md:px-4 max-w-6xl'>
         <h2 class='text-2xl pt-5 font-extrabold'>
           The Executive Management Team
         </h2>
-        <p class='py-2 leading'>
-          The executive management team of the St. Pul's Mission Hospital and
-          the Secretary General are responsible for running SPMH's daily
-          affairs. The Secretary General is appointed by the Board of Directors.
+        <p class='py-2 leading-relaxed'>
+          The governance structure comprises a multidisciplinary Board of
+          Management, providing strategic oversight, <br /> and a Health Management
+          Team responsible for daily coordination.
         </p>
       </div>
     </section>
@@ -35,14 +49,14 @@ import Layout from '../../Layout/Layout.astro';
     <!-- Hospital CEO -->
     <section
       id='about'
-      class='container mx-auto mt-0 sm:mt-0 px-4 md:px-4 max-w-6xl py-16'>
+      class='container mx-auto mt-0 sm:mt-0 px-4 md:px-4 max-w-6xl py-12'>
       <div
         class='flex flex-col lg:flex-row items-center gap-8'
         data-aos='fade-up'>
         <div
           class='lg:w-1/2 w-full mt-8 lg:mt-0'
-          data-aos='fade-left'
-          data-aos-delay='200'>
+          data-aos='fade-up'
+          data-aos-delay='50'>
           <img
             src='/board/4.jpg'
             alt='A doctor interacting with a patient.'
@@ -53,81 +67,90 @@ import Layout from '../../Layout/Layout.astro';
           <h2 class='text-4xl font-extrabold mb-6 mt-5 sm:mt-4 spacer-end'>
             Hospital CEO Sr. Beatrice Osanga
           </h2>
-          <p class='text-gray-700 text-lg leading-relaxed mb-6'>
-            St. Paul’s Mission Hospital, Homa Bay’s lifeline since the 1960s,
-            where Franciscan Sisters deliver compassionate care to 500,000+
-            underserved. <br /> As the only healthcare beacon, your donation fuels
-            hope, healing, and life-saving services for families in need.
+          <p class='text-gray-700 text-lg leading-relaxed mb-4'>
+            St. Paul's Mission Hospital is more than just a healthcare facility;
+            we are a family committed to providing a truly unique and exciting
+            experience for both our staff and patients.
+          </p>
+          <p class='text-gray-700 text-lg leading-relaxed mb-4'>
+            We are focused on continuous growth, a collaborative leadership
+            style, and leveraging technology to enhance our services. Our
+            aspirational goal is to become a center of excellence and the best
+            in the county and beyond.
+          </p>
+          <p class='text-gray-700 text-lg leading-relaxed mb-3'>
+            We put our customers first and promise to deliver an outstanding
+            experience, because with us, <span
+              class='text-secondary font-semibold'
+              >"YOU ARE SAFE IN OUR HANDS."</span
+            >
           </p>
         </div>
       </div>
     </section>
 
     <!-- Team -->
-    <section class='py-16 bg-white'>
-      <div class='max-w-7xl mx-auto px-4'>
-        <div class='text-center mb-12'>
-          <h2 class='text-3xl md:text-4xl font-bold stories-header'>
-            Our Team
-          </h2>
-          <p class='my-6 text-lg text-gray-950'>Board Members</p>
-        </div>
+    <section id='executive-team' class='py-20 bg-gray-50'>
+      <div class='container mx-auto px-4 max-w-6xl text-center'>
+        <!-- Section Header -->
+        <h2
+          class='text-3xl letter-spacing-wide font-stretch-200% text-primary py-8'>
+          Executive Directors
+        </h2>
 
-        <div class='grid grid-cols-2 md:grid-cols-4 gap-4'>
-          <!-- Team Member -->
-          <div class='text-center'>
+        <!-- Team Grid -->
+        <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+          <!-- Team Member 1 -->
+          <div class='flex flex-col items-center text-center transition'>
             <img
-              src='/img/frank-min.jpg'
-              alt='Frank Ochieng'
-              class='w-28 h-28 md:w-36 md:h-36 rounded-full object-cover mx-auto mb-4'
+              src='/board/3.jpg'
+              alt='Executive Member 1'
+              class='w-30 h-30 object-cover rounded-full shadow-md'
             />
-            <h5 class='text-lg font-semibold text-gray-800'>Frank Ochieng</h5>
-            <p class='text-sm text-gray-600'>Founder</p>
+            <div class='mt-4'>
+              <h3 class='text-lg font-bold text-gray-800'>Fr. Romanus</h3>
+              <p class='text-gray-600'>Hospital Chaplain</p>
+            </div>
           </div>
 
-          <div class='text-center'>
+          <!-- Team Member 2 -->
+          <div class='flex flex-col items-center text-center transition'>
             <img
-              src='/img/edna.jpg'
-              alt='Edna Awuor'
-              class='w-28 h-28 md:w-36 md:h-36 rounded-full object-cover mx-auto mb-4'
+              src='/board/5.jpg'
+              alt='Executive Member 2'
+              class='w-30 h-30 object-cover rounded-full shadow-md'
             />
-            <h5 class='text-lg font-semibold text-gray-800'>Edna Awuor</h5>
-            <p class='text-sm text-gray-600'>CO-Founder</p>
+            <div class='mt-4'>
+              <h3 class='text-lg font-bold text-gray-800'>Mr. Charles Saka</h3>
+              <p class='text-gray-600'>Chair, B.O.M</p>
+            </div>
           </div>
 
-          <div class='text-center'>
+          <!-- Team Member 3 -->
+          <div class='flex flex-col items-center text-center transition'>
             <img
-              src='/img/ben-min.jpg'
-              alt='Ben Otieno'
-              class='w-28 h-28 md:w-36 md:h-36 rounded-full object-cover mx-auto mb-4'
+              src='/board/2.jpg'
+              alt='Executive Member 3'
+              class='w-30 h-30 object-cover rounded-full shadow-md'
             />
-            <h5 class='text-lg font-semibold text-gray-800'>Ben Otieno</h5>
-            <p class='text-sm text-gray-600'>M.E.A.R.L.A Officer</p>
+            <div class='mt-4'>
+              <h3 class='text-lg font-bold text-gray-800'>Mary Achieng</h3>
+              <p class='text-gray-600'>Board Member</p>
+            </div>
           </div>
 
-          <div class='text-center'>
+          <!-- Team Member 4 -->
+          <div class='flex flex-col items-center text-center transition'>
             <img
-              src='/img/collince-min.jpg'
-              alt='Collince Ochieng'
-              class='w-28 h-28 md:w-36 md:h-36 rounded-full object-cover mx-auto mb-4'
+              src='/board/1.jpg'
+              alt='Executive Member 4'
+              class='w-30 h-30 object-cover rounded-full shadow-md'
             />
-            <h5 class='text-lg font-semibold text-gray-800'>
-              Collince Ochieng
-            </h5>
-            <p class='text-sm text-gray-600'>Finance Officer</p>
+            <div class='mt-4'>
+              <h3 class='text-lg font-bold text-gray-800'>J Okoth</h3>
+              <p class='text-gray-600'>Board Member</p>
+            </div>
           </div>
-
-          <div class='text-center'>
-            <img
-              src='/img/grace-min.jpg'
-              alt='Grace Onyango'
-              class='w-28 h-28 md:w-36 md:h-36 rounded-full object-cover mx-auto mb-4'
-            />
-            <h5 class='text-lg font-semibold text-gray-800'>Grace Onyango</h5>
-            <p class='text-sm text-gray-600'>Secretary</p>
-          </div>
-
-          
         </div>
       </div>
     </section>
