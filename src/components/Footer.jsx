@@ -12,7 +12,7 @@ const App = () => {
           <div>
             <h3 className="text-xl font-bold text-white mb-4">About Us</h3>
             <p className="text-sm leading-relaxed">
-              Serving the community with compassionate, affordable, and accessible healthcare since the 1960s. We are committed to your well-being.
+              Serving the community with compassionate, affordable, and accessible healthcare since the 1980s. We are committed to your well-being.
             </p>
           </div>
 
@@ -21,7 +21,7 @@ const App = () => {
             <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li><a href="/about-us/mission-vision-values" className="hover:text-white transition-colors duration-300">Our Mission</a></li>
-              <li><a href="/services" className="hover:text-white transition-colors duration-300">Services</a></li>
+              <li><a href="/services/clinical" className="hover:text-white transition-colors duration-300">Services</a></li>
               <li><a href="/about-us/organization" className="hover:text-white transition-colors duration-300">Our Team</a></li>
               <li><a href="/news-and-media" className="hover:text-white transition-colors duration-300">News & Blog</a></li>
             </ul>

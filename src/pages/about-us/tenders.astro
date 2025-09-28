@@ -3,154 +3,16 @@ import Layout from '../../Layout/Layout.astro';
 ---
 
 <Layout title='Tenders'>
-  <main class='py-12 md:py-24'>
-    <div class='container mx-auto px-4 md:px-8 max-w-7xl'>
-      <div class='flex flex-col items-center text-center'>
-        <h1 class='text-4xl md:text-5xl font-extrabold text-gray-800 mb-4'>
-          Hospital Tenders
-        </h1>
-        <p class='text-lg text-gray-600 max-w-3xl mb-12'>
-          This is the official page for all procurement opportunities at St.
-          Paul's Mission Hospital. We are committed to a transparent and fair
-          bidding process for all our projects.
-        </p>
-
-        <!-- Current Tenders Section -->
-        <div
-          class='bg-white p-6 md:p-12 rounded-2xl shadow-lg w-full max-w-3xl mb-12'>
-          <h2 class='text-2xl font-bold text-gray-800 mb-4 text-left'>
-            Current Open Tenders
-          </h2>
-          <div
-            class='p-6 bg-gray-50 rounded-lg border border-gray-200 text-left'>
-            <div class='mb-4'>
-              <h3 class='text-xl md:text-2xl font-semibold text-gray-800'>
-                Tender for the Supply of Construction Materials for New Building
-              </h3>
-              <p class='text-sm text-gray-600 mt-1'>
-                <span class='font-bold'>Tender No:</span> SPMH/TNDR/003-2025
-              </p>
-              <p class='text-sm text-gray-600'>
-                <span class='font-bold'>Closing Date:</span> October 29, 2025 at
-                10:00 AM EAT
-              </p>
-            </div>
-            <p class='text-gray-700 leading-relaxed mb-4'>
-              St. Paul's Mission Hospital invites sealed bids from eligible and
-              qualified bidders for the supply of various construction materials
-              for a new medical education and research building. The tender
-              includes, but is not limited to, steel, cement, roofing materials,
-              and electrical fittings.
-            </p>
-            <a
-              href='#'
-              class='inline-block bg-blue-600 text-white px-6 py-3 rounded-full font-medium shadow-md hover:bg-blue-700 transition duration-300'>
-              Download Tender Document
-            </a>
-          </div>
-        </div>
-
-        <!-- Application Process Section -->
-        <div
-          class='bg-white p-6 md:p-12 rounded-2xl shadow-lg w-full max-w-3xl mb-12'>
-          <h2 class='text-2xl font-bold text-gray-800 mb-6 text-left'>
-            How to Apply
-          </h2>
-          <div class='grid grid-cols-1 md:grid-cols-3 gap-6 text-center'>
-            <!-- Step 1 -->
-            <div class='p-6 bg-gray-50 rounded-lg border border-gray-200'>
-              <span class='text-3xl font-bold text-blue-600 block mb-2'>1.</span
-              >
-              <h4 class='text-lg font-bold text-gray-800 mb-2'>
-                Download Document
-              </h4>
-              <p class='text-sm text-gray-600 leading-relaxed'>
-                Get the full tender document with all technical specifications
-                and terms.
-              </p>
-            </div>
-            <!-- Step 2 -->
-            <div class='p-6 bg-gray-50 rounded-lg border border-gray-200'>
-              <span class='text-3xl font-bold text-blue-600 block mb-2'>2.</span
-              >
-              <h4 class='text-lg font-bold text-gray-800 mb-2'>
-                Prepare Your Bid
-              </h4>
-              <p class='text-sm text-gray-600 leading-relaxed'>
-                Compile your proposal, ensuring it meets all criteria outlined
-                in the document.
-              </p>
-            </div>
-            <!-- Step 3 -->
-            <div class='p-6 bg-gray-50 rounded-lg border border-gray-200'>
-              <span class='text-3xl font-bold text-blue-600 block mb-2'>3.</span
-              >
-              <h4 class='text-lg font-bold text-gray-800 mb-2'>
-                Submit on Time
-              </h4>
-              <p class='text-sm text-gray-600 leading-relaxed'>
-                Submit your sealed bid to the hospital's procurement office
-                before the deadline.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Past Tenders Section -->
-        <div
-          class='bg-white p-6 md:p-12 rounded-2xl shadow-lg w-full max-w-3xl'>
-          <h2 class='text-2xl font-bold text-gray-800 mb-4 text-left'>
-            Past Tenders
-          </h2>
-          <div class='flex flex-col space-y-6 text-left'>
-            <!-- Example Past Tender 1 -->
-            <div class='p-4 bg-gray-50 rounded-lg border border-gray-200'>
-              <h3 class='text-lg font-semibold text-gray-800'>
-                Tender for Construction of New Maternity Ward
-              </h3>
-              <p class='text-sm text-gray-600 mt-1'>
-                Tender No: SPMH/TNDR/001-2024
-              </p>
-              <p class='text-sm text-gray-600'>
-                Awarded to: ABC Construction Ltd.
-              </p>
-            </div>
-            <!-- Example Past Tender 2 -->
-            <div class='p-4 bg-gray-50 rounded-lg border border-gray-200'>
-              <h3 class='text-lg font-semibold text-gray-800'>
-                Tender for Supply of Medical Consumables
-              </h3>
-              <p class='text-sm text-gray-600 mt-1'>
-                Tender No: SPMH/TNDR/002-2024
-              </p>
-              <p class='text-sm text-gray-600'>
-                Awarded to: MedSupply Solutions Inc.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-</Layout>
-
-
-
-
-
-
-<Layout title="Tenders | St. Paul’s Mission Hospital">
   <!-- Hero Section -->
   <section
-    class="relative text-center py-20 px-6 bg-cover bg-center"
-    style="background-image: url('/img/procurement.jpg');"
-  >
-    <div class="absolute inset-0 bg-gray-900 bg-opacity-50"></div>
-    <div class="relative z-10 max-w-4xl mx-auto text-white">
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+    class='relative text-center py-20 px-6 bg-cover bg-center'
+    style="background-image: url('/img/procurement.jpg');">
+    <div class='absolute inset-0 bg-gray-900 bg-opacity-50'></div>
+    <div class='relative z-10 max-w-4xl mx-auto text-white'>
+      <h1 class='text-4xl md:text-5xl font-extrabold mb-4'>
         Tenders & Procurement
       </h1>
-      <p class="text-lg md:text-xl">
+      <p class='text-lg md:text-xl'>
         Transparent. Accountable. Fair. Explore our current procurement
         opportunities and guidelines.
       </p>
@@ -158,50 +20,49 @@ import Layout from '../../Layout/Layout.astro';
   </section>
 
   <!-- Active Tenders -->
-  <section class="py-16 bg-gray-50">
-    <div class="container mx-auto px-4 max-w-6xl">
-      <h2 class="text-3xl font-bold text-primary mb-8 text-center">
+  <section class='py-16 bg-gray-50'>
+    <div class='container mx-auto px-4 max-w-6xl'>
+      <h2 class='text-3xl font-bold text-primary mb-8 text-center'>
         Active Tenders
       </h2>
 
-      <div class="overflow-x-auto">
+      <div class='overflow-x-auto'>
         <table
-          class="w-full text-left bg-white rounded-xl shadow-md overflow-hidden"
-        >
-          <thead class="bg-primary text-white">
+          class='w-full text-left bg-white rounded-xl shadow-md overflow-hidden'>
+          <thead class='bg-primary text-white'>
             <tr>
-              <th class="p-4">Tender Title</th>
-              <th class="p-4">Reference No.</th>
-              <th class="p-4">Category</th>
-              <th class="p-4">Closing Date</th>
-              <th class="p-4">Documents</th>
+              <th class='p-4'>Tender Title</th>
+              <th class='p-4'>Reference No.</th>
+              <th class='p-4'>Category</th>
+              <th class='p-4'>Closing Date</th>
+              <th class='p-4'>Documents</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200">
-            <tr class="hover:bg-gray-50 transition">
-              <td class="p-4">Supply of Medical Equipment</td>
-              <td class="p-4">SPMH/TDR/001/2025</td>
-              <td class="p-4">Supplies</td>
-              <td class="p-4 text-red-600 font-semibold">30 Sept 2025</td>
-              <td class="p-4">
+          <tbody class='divide-y divide-gray-200'>
+            <tr class='hover:bg-gray-50 transition'>
+              <td class='p-4'>Supply of Medical Equipment</td>
+              <td class='p-4'>SPMH/TDR/001/2025</td>
+              <td class='p-4'>Supplies</td>
+              <td class='p-4 text-red-600 font-semibold'>30 Sept 2025</td>
+              <td class='p-4'>
                 <a
-                  href="/docs/tender1.pdf"
-                  target="_blank"
-                  class="text-primary font-semibold hover:underline"
+                  href='/docs/tender1.pdf'
+                  target='_blank'
+                  class='text-primary font-semibold hover:underline'
                   >📄 Download</a
                 >
               </td>
             </tr>
-            <tr class="hover:bg-gray-50 transition">
-              <td class="p-4">Hospital Laundry Services</td>
-              <td class="p-4">SPMH/TDR/002/2025</td>
-              <td class="p-4">Services</td>
-              <td class="p-4 text-red-600 font-semibold">10 Oct 2025</td>
-              <td class="p-4">
+            <tr class='hover:bg-gray-50 transition'>
+              <td class='p-4'>Hospital Laundry Services</td>
+              <td class='p-4'>SPMH/TDR/002/2025</td>
+              <td class='p-4'>Services</td>
+              <td class='p-4 text-red-600 font-semibold'>10 Oct 2025</td>
+              <td class='p-4'>
                 <a
-                  href="/docs/tender2.pdf"
-                  target="_blank"
-                  class="text-primary font-semibold hover:underline"
+                  href='/docs/tender2.pdf'
+                  target='_blank'
+                  class='text-primary font-semibold hover:underline'
                   >📄 Download</a
                 >
               </td>
@@ -213,17 +74,17 @@ import Layout from '../../Layout/Layout.astro';
   </section>
 
   <!-- Instructions -->
-  <section class="py-16 container mx-auto px-4 max-w-5xl">
-    <h2 class="text-3xl font-bold text-primary mb-6 text-center">
+  <section class='py-16 container mx-auto px-4 max-w-5xl'>
+    <h2 class='text-3xl font-bold text-primary mb-6 text-center'>
       How to Apply
     </h2>
-    <p class="text-gray-700 leading-relaxed text-center mb-6">
+    <p class='text-gray-700 leading-relaxed text-center mb-6'>
       Interested bidders are invited to submit their proposals in sealed
       envelopes clearly marked with the tender reference number, and addressed
       to:
     </p>
-    <div class="bg-white rounded-lg shadow p-6 text-center">
-      <p class="font-semibold text-lg">The Procurement Office</p>
+    <div class='bg-white rounded-lg shadow p-6 text-center'>
+      <p class='font-semibold text-lg'>The Procurement Office</p>
       <p>St. Paul’s Mission Hospital</p>
       <p>P.O. Box 123, Nairobi, Kenya</p>
       <p>Email: procurement@spmh.org</p>
@@ -231,38 +92,38 @@ import Layout from '../../Layout/Layout.astro';
   </section>
 
   <!-- Past Tenders -->
-  <section class="py-16 bg-gray-100">
-    <div class="container mx-auto px-4 max-w-6xl">
-      <h2 class="text-3xl font-bold text-primary mb-8 text-center">
+  <section class='py-16 bg-gray-100'>
+    <div class='container mx-auto px-4 max-w-6xl'>
+      <h2 class='text-3xl font-bold text-primary mb-8 text-center'>
         Recently Closed Tenders
       </h2>
-      <ul class="space-y-4 text-gray-700">
-        <li class="flex items-center justify-between bg-white p-4 rounded-lg shadow">
+      <ul class='space-y-4 text-gray-700'>
+        <li
+          class='flex items-center justify-between bg-white p-4 rounded-lg shadow'>
           <span>Supply of Office Furniture - Ref: SPMH/TDR/015/2024</span>
-          <span class="text-sm text-gray-500">Closed: Aug 15, 2025</span>
+          <span class='text-sm text-gray-500'>Closed: Aug 15, 2025</span>
         </li>
-        <li class="flex items-center justify-between bg-white p-4 rounded-lg shadow">
+        <li
+          class='flex items-center justify-between bg-white p-4 rounded-lg shadow'>
           <span>Renovation of Pediatric Ward - Ref: SPMH/TDR/010/2024</span>
-          <span class="text-sm text-gray-500">Closed: July 20, 2025</span>
+          <span class='text-sm text-gray-500'>Closed: July 20, 2025</span>
         </li>
       </ul>
     </div>
   </section>
 
   <!-- Compliance Section -->
-  <section class="py-16 container mx-auto px-4 max-w-5xl text-center">
-    <h2 class="text-2xl font-bold text-primary mb-4">Our Procurement Policy</h2>
-    <p class="text-gray-700 mb-6">
+  <section class='py-16 container mx-auto px-4 max-w-5xl text-center'>
+    <h2 class='text-2xl font-bold text-primary mb-4'>Our Procurement Policy</h2>
+    <p class='text-gray-700 mb-6'>
       St. Paul’s Mission Hospital is committed to ensuring fairness, integrity,
       and transparency in all its procurement processes. We encourage suppliers
       who share our values to participate in our tenders.
     </p>
     <a
-      href="/docs/procurement-policy.pdf"
-      class="inline-block px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow hover:bg-[#0a3140] transition"
-      target="_blank"
-      >📑 View Procurement Policy</a
+      href='/docs/procurement-policy.pdf'
+      class='inline-block px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow hover:bg-[#0a3140] transition'
+      target='_blank'>📑 View Procurement Policy</a
     >
   </section>
 </Layout>
-
