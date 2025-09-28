@@ -1,5 +1,189 @@
 ---
 import Layout from '../../Layout/Layout.astro';
-
 ---
-<Layout title="Contact Us"></Layout>
+
+<Layout title='Contact Us'>
+  <section
+    id='about'
+    class='relative mt-0 sm:mt-0 min-h-[35vh] sm:min-h-[70vh] bg-cover bg-center'
+    style="background-image: url('/img/30.png');">
+    <!-- Overlay -->
+    <div class='absolute inset-0 bg-black/70'></div>
+
+    <!-- Only H2 -->
+    <div
+      class='absolute z-10 flex items-end justify-start h-full px-6 pb-8 sm:pb-12 lg:pb-16'>
+      <h2 class='text-3xl sm:text-4xl font-bold text-white'>Contact Us</h2>
+    </div>
+  </section>
+
+  <main class='py-8 md:py-10'>
+    <div class='container mx-auto px-2 md:px-4 max-w-7xl'>
+      <!-- Contact Grid -->
+      <div
+        class='bg-white px-2 md:px-4 py-4 md:py-6 grid grid-cols-1 lg:grid-cols-2 gap-12'>
+        <!-- Left: Hospital Details -->
+        <aside class='space-y-8 lg:sticky top-12'>
+          <!-- Emergency Contact -->
+          <div
+            class='bg-red-50 border-l-4 border-red-600 p-4 rounded-xl shadow-sm'>
+            <h2 class='text-xl font-bold text-accent'>
+              Emergency Hotline (24/7)
+            </h2>
+            <a
+              href='tel:+254111817447'
+              class='block mt-2 text-2xl font-extrabold text-red-600 hover:underline'>
+              +254111817447
+            </a>
+          </div>
+
+          <!-- General Contact -->
+          <div>
+            <h2 class='text-2xl font-bold text-gray-800 mb-4'>Our Details</h2>
+            <ul class='space-y-4 text-gray-700'>
+              <li class='flex items-center space-x-3'>
+                <span class='text-indigo-600 text-xl'>📞</span>
+                <a
+                  href='tel:+254701234567'
+                  class='text-lg font-medium hover:text-indigo-600 transition'>
+                  +254111817447
+                </a>
+              </li>
+              <li class='flex items-center space-x-3'>
+                <span class='text-indigo-600 text-xl'>📧</span>
+                <a
+                  href='mailto:info@spmh.co.ke'
+                  class='text-lg font-medium hover:text-indigo-600 transition'>
+                  hospital.stpauls@yahoo.com
+                </a>
+              </li>
+
+              <li class='flex items-start space-x-3'>
+                <span class='text-indigo-600 text-xl flex-shrink-0 mt-1'
+                  >📍</span
+                >
+                <span class='text-lg font-medium'>
+                  Off Homa Bay-Rongo Road, Homa Bay Town, Kenya
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Hospital Hours -->
+          <div>
+            <h2 class='text-2xl font-bold text-gray-800 mb-4'>
+              Hospital Hours
+            </h2>
+            <p class='text-lg text-gray-700'>
+              <span class='font-semibold text-secondary'
+                >Open 24 hours a day, 7 days a week.</span
+              ><br />
+              We are always here to care for you — day or night.
+            </p>
+          </div>
+
+          <!-- Map (OpenStreetMap) -->
+          <div>
+            <h2 class='text-2xl font-bold text-gray-800 mb-4'>Find Us</h2>
+            <div class='rounded-xl overflow-hidden shadow-md aspect-video'>
+              <iframe
+                src='https://www.openstreetmap.org/export/embed.html?bbox=34.45294073041936,-0.5355382890197219,34.47294073041936,-0.5155382890197219&layer=mapnik&marker=-0.5255382890197219,34.46294073041936'
+                class='w-full h-full'
+                style='border:0;'
+                allowfullscreen
+                loading='lazy'
+                title="St. Paul's Mission Hospital Location"></iframe>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Contact Form -->
+        <section>
+          <h2 class='text-2xl font-bold text-secondary mb-6'>
+            Send Us a Message
+          </h2>
+
+          <form
+            action='https://formspree.io/f/movnbakk'
+            method='POST'
+            class='space-y-6'>
+            <!-- Full Name -->
+            <div class='relative z-0 w-full group'>
+              <input
+                type='text'
+                name='fullName'
+                id='fullName'
+                class='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent peer'
+                placeholder=' '
+                required
+              />
+              <label
+                for='fullName'
+                class='absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-accent peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
+                >Full Name</label
+              >
+            </div>
+
+            <!-- Email -->
+            <div class='relative z-0 w-full group'>
+              <input
+                type='email'
+                name='emailAddress'
+                id='emailAddress'
+                class='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent peer'
+                placeholder=' '
+                required
+              />
+              <label
+                for='emailAddress'
+                class='absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-accent peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
+                >Email Address</label
+              >
+            </div>
+
+            <!-- Subject -->
+            <div class='relative z-0 w-full group'>
+              <input
+                type='text'
+                name='subject'
+                id='subject'
+                class='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent peer'
+                placeholder=' '
+              />
+              <label
+                for='subject'
+                class='absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-accent peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
+                >Subject</label
+              >
+            </div>
+
+            <!-- Message -->
+            <div class='relative z-0 w-full group'>
+              <textarea
+                name='message'
+                id='message'
+                rows='4'
+                class='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-accent peer'
+                placeholder=' '
+                required></textarea>
+              <label
+                for='message'
+                class='absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-accent peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
+                >Message</label
+              >
+            </div>
+
+            <!-- Submit -->
+            <div class='flex justify-center mt-8'>
+              <button
+                type='submit'
+                class='px-8 py-3 bg-accent text-white font-semibold rounded-full shadow-md hover:bg-accent focus:ring-2 focus:ring-offset-2 focus:ring-accent transition'>
+                Send Message
+              </button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+</Layout>
