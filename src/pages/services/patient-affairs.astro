@@ -1,6 +1,573 @@
 ---
 import Layout from '../../Layout/Layout.astro';
-
 ---
 
-<Layout title="Patient Affairs"></Layout>
+<style>
+  /* Custom styles for required asterisk */
+  .required::after {
+    content: '*';
+    color: #ef4444; /* Red color */
+    margin-left: 4px;
+  }
+
+  /* Likert scale input styling for mobile/tablet */
+  .likert-radio:checked {
+    border-color: #3b82f6;
+    background-color: #3b82f6;
+  }
+
+  /* Custom focus ring for better accessibility and polish */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    --tw-ring-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    border-color: #3b82f6; /* Blue 500 */
+  }
+</style>
+<Layout title='Patient Affairs'>
+  <!-- Hero Section -->
+  <section
+    id='about'
+    class='relative mt-0 sm:mt-0 min-h-[35vh] sm:min-h-[70vh] bg-cover bg-center'
+    style="background-image: url('/img/32.png');">
+    <!-- Overlay -->
+    <div class='absolute inset-0 bg-black/40'></div>
+
+    <!-- Only H2 -->
+    <div
+      class='absolute z-10 flex items-end justify-start h-full px-6 pb-8 sm:pb-12 lg:pb-16'>
+      <h2 class='text-3xl sm:text-4xl font-bold text-white'>Your Feedback Matters</h2>
+    </div>
+  </section>
+
+  <!-- Feedback Form -->
+  <section class='bg-gray-100 py-12'>
+    <div class='mx-auto px-2 md:px-4'>
+      <form
+        id='knh-survey'
+        method='POST'
+        action='https://formspree.io/f/movnbakk'
+        class='space-y-12'>
+        <!-- Section 1: Basic Information -->
+        <div class='space-y-6 p-6 bg-gray-50 rounded-xl border border-gray-200'>
+          <h2 class='text-xl font-bold text-primary border-b pb-3 mb-4'>
+            1. Your Visit Details
+          </h2>
+
+          <!-- Area Visited (Required) -->
+          <div>
+            <label
+              for='area-visited'
+              class='block text-sm font-medium text-gray-700 required'
+              >Which department did you visit?</label
+            >
+            <input
+              type='text'
+              id='area-visited'
+              name='area_visited'
+              placeholder='e.g., OPD, Lab, Pharmacy, MCH, Radiology, Ward, Theatre'
+              required
+              class='mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150'
+            />
+          </div>
+
+          <!-- Reason for Visit (Required) -->
+          <div>
+            <label class='block text-sm font-medium text-gray-700 required mb-3'
+              >Reason for your visit?</label
+            >
+            <div class='grid grid-cols-2 md:grid-cols-3 gap-4'>
+              <label
+                class='flex items-center p-3 bg-white rounded-lg shadow-sm cursor-pointer hover:bg-blue-50 transition duration-150 border'>
+                <input
+                  type='radio'
+                  name='reason_for_visit'
+                  value='New condition'
+                  required
+                  class='w-5 h-5 text-primary border-gray-300 focus:ring-blue-500'
+                />
+                <span class='ml-3 text-sm font-medium text-gray-700'
+                  >New condition</span
+                >
+              </label>
+              <label
+                class='flex items-center p-3 bg-white rounded-lg shadow-sm cursor-pointer hover:bg-blue-50 transition duration-150 border'>
+                <input
+                  type='radio'
+                  name='reason_for_visit'
+                  value='Follow-up/Existing condition'
+                  class='w-5 h-5 text-primary border-gray-300 focus:ring-blue-500'
+                />
+                <span class='ml-3 text-sm font-medium text-gray-700'
+                  >Follow-up/Existing</span
+                >
+              </label>
+              <label
+                class='flex items-center p-3 bg-white rounded-lg shadow-sm cursor-pointer hover:bg-blue-50 transition duration-150 border'>
+                <input
+                  type='radio'
+                  name='reason_for_visit'
+                  value='Diagnostic Test (Lab/Imaging)'
+                  class='w-5 h-5 text-primary border-gray-300 focus:ring-blue-500'
+                />
+                <span class='ml-3 text-sm font-medium text-gray-700'
+                  >Diagnostic Test</span
+                >
+              </label>
+              <label
+                class='flex items-center p-3 bg-white rounded-lg shadow-sm cursor-pointer hover:bg-blue-50 transition duration-150 border'>
+                <input
+                  type='radio'
+                  name='reason_for_visit'
+                  value='Questions/Information'
+                  class='w-5 h-5 text-primary border-gray-300 focus:ring-blue-500'
+                />
+                <span class='ml-3 text-sm font-medium text-gray-700'
+                  >I had a question</span
+                >
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Care Quality (Likert Grid) -->
+        <div class='p-6 border rounded-xl shadow-md'>
+          <h2
+            class='text-xl font-bold text-gray-900 border-b pb-3 mb-6 required'>
+            2. Quality of Care
+          </h2>
+          <p class='text-sm text-gray-600 mb-6'>
+            Rate your level of agreement with the statements below (1=Strongly
+            Disagree, 5=Strongly Agree).
+          </p>
+
+          <!-- Desktop Header (Visible on medium screens and up) -->
+          <div
+            class='hidden md:grid grid-cols-7 gap-1 text-center border-b pb-2 mb-2 font-medium text-xs uppercase text-gray-500'>
+            <div class='col-span-2 text-left'>Statement</div>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+            <div>5</div>
+          </div>
+
+          <!-- Likert Scale Questions -->
+          <div id='care-quality-questions' class='space-y-1'>
+            <!-- Row 1: Doctor listened -->
+            <div
+              class='survey-matrix-row bg-white rounded-lg p-3 md:p-0 md:grid md:grid-cols-7 md:gap-1 items-center hover:bg-blue-50 transition duration-100 border md:border-none'>
+              <div
+                class='md:col-span-2 text-sm font-medium text-gray-800 mb-3 md:mb-0'>
+                My doctor listened carefully to my concerns.
+              </div>
+              <div class='grid grid-cols-5 md:col-span-5 gap-1'>
+                <!-- 1 (Strongly Disagree) -->
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-red-100 rounded-md transition duration-100'>
+                  <span
+                    class='md:hidden text-xs text-red-600 font-semibold mb-1'
+                    >Str. Disagree (1)</span
+                  >
+                  <input
+                    type='radio'
+                    name='care_doctor_listen'
+                    value='1'
+                    required
+                    class='likert-radio'
+                  />
+                </label>
+                <!-- 2 -->
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-yellow-100 rounded-md transition duration-100'>
+                  <span
+                    class='md:hidden text-xs text-yellow-600 font-semibold mb-1'
+                    >2</span
+                  >
+                  <input
+                    type='radio'
+                    name='care_doctor_listen'
+                    value='2'
+                    class='likert-radio'
+                  />
+                </label>
+                <!-- 3 (Neutral) -->
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-gray-200 rounded-md transition duration-100'>
+                  <span
+                    class='md:hidden text-xs text-gray-600 font-semibold mb-1'
+                    >Neutral (3)</span
+                  >
+                  <input
+                    type='radio'
+                    name='care_doctor_listen'
+                    value='3'
+                    class='likert-radio'
+                  />
+                </label>
+                <!-- 4 -->
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-green-100 rounded-md transition duration-100'>
+                  <span
+                    class='md:hidden text-xs text-green-600 font-semibold mb-1'
+                    >4</span
+                  >
+                  <input
+                    type='radio'
+                    name='care_doctor_listen'
+                    value='4'
+                    class='likert-radio'
+                  />
+                </label>
+                <!-- 5 (Strongly Agree) -->
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-green-200 rounded-md transition duration-100'>
+                  <span
+                    class='md:hidden text-xs text-green-800 font-semibold mb-1'
+                    >Str. Agree (5)</span
+                  >
+                  <input
+                    type='radio'
+                    name='care_doctor_listen'
+                    value='5'
+                    class='likert-radio'
+                  />
+                </label>
+              </div>
+            </div>
+
+            <!-- Row 2: Staff politeness -->
+            <div
+              class='survey-matrix-row bg-white rounded-lg p-3 md:p-0 md:grid md:grid-cols-7 md:gap-1 items-center hover:bg-blue-50 transition duration-100 border md:border-none mt-1'>
+              <div
+                class='md:col-span-2 text-sm font-medium text-gray-800 mb-3 md:mb-0'>
+                All staff were polite and respectful.
+              </div>
+              <div class='grid grid-cols-5 md:col-span-5 gap-1'>
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-red-100 rounded-md transition duration-100'
+                  ><input
+                    type='radio'
+                    name='care_staff_polite'
+                    value='1'
+                    required
+                    class='likert-radio'
+                  /></label
+                >
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-yellow-100 rounded-md transition duration-100'
+                  ><input
+                    type='radio'
+                    name='care_staff_polite'
+                    value='2'
+                    class='likert-radio'
+                  /></label
+                >
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-gray-200 rounded-md transition duration-100'
+                  ><input
+                    type='radio'
+                    name='care_staff_polite'
+                    value='3'
+                    class='likert-radio'
+                  /></label
+                >
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-green-100 rounded-md transition duration-100'
+                  ><input
+                    type='radio'
+                    name='care_staff_polite'
+                    value='4'
+                    class='likert-radio'
+                  /></label
+                >
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-green-200 rounded-md transition duration-100'
+                  ><input
+                    type='radio'
+                    name='care_staff_polite'
+                    value='5'
+                    class='likert-radio'
+                  /></label
+                >
+              </div>
+            </div>
+
+            <!-- Row 3: Clear instructions -->
+            <div
+              class='survey-matrix-row bg-white rounded-lg p-3 md:p-0 md:grid md:grid-cols-7 md:gap-1 items-center hover:bg-blue-50 transition duration-100 border md:border-none mt-1'>
+              <div
+                class='md:col-span-2 text-sm font-medium text-gray-800 mb-3 md:mb-0'>
+                I received clear instructions for follow-up care.
+              </div>
+              <div class='grid grid-cols-5 md:col-span-5 gap-1'>
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-red-100 rounded-md transition duration-100'
+                  ><input
+                    type='radio'
+                    name='care_instructions_clear'
+                    value='1'
+                    required
+                    class='likert-radio'
+                  /></label
+                >
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-yellow-100 rounded-md transition duration-100'
+                  ><input
+                    type='radio'
+                    name='care_instructions_clear'
+                    value='2'
+                    class='likert-radio'
+                  /></label
+                >
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-gray-200 rounded-md transition duration-100'
+                  ><input
+                    type='radio'
+                    name='care_instructions_clear'
+                    value='3'
+                    class='likert-radio'
+                  /></label
+                >
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-green-100 rounded-md transition duration-100'
+                  ><input
+                    type='radio'
+                    name='care_instructions_clear'
+                    value='4'
+                    class='likert-radio'
+                  /></label
+                >
+                <label
+                  class='flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-green-200 rounded-md transition duration-100'
+                  ><input
+                    type='radio'
+                    name='care_instructions_clear'
+                    value='5'
+                    class='likert-radio'
+                  /></label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Environment & Efficiency -->
+        <div class='p-6 border rounded-xl shadow-md'>
+          <h2
+            class='text-xl font-bold text-gray-900 border-b pb-3 mb-6 required'>
+            3. Environment & Efficiency
+          </h2>
+
+          <!-- Waiting Time -->
+          <div class='mb-8'>
+            <label class='block text-sm font-medium text-gray-700 required mb-3'
+              >How would you rate the total waiting time for your appointment?</label
+            >
+            <div class='grid grid-cols-2 md:grid-cols-4 gap-4'>
+              <label
+                class='flex items-center p-3 bg-white rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition duration-150 border'>
+                <input
+                  type='radio'
+                  name='efficiency_waiting_time'
+                  value='Too Long'
+                  required
+                  class='w-5 h-5 text-red-600 border-gray-300 focus:ring-red-500'
+                />
+                <span class='ml-3 text-sm font-medium text-gray-700'
+                  >Too Long</span
+                >
+              </label>
+              <label
+                class='flex items-center p-3 bg-white rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition duration-150 border'>
+                <input
+                  type='radio'
+                  name='efficiency_waiting_time'
+                  value='Long'
+                  class='w-5 h-5 text-yellow-600 border-gray-300 focus:ring-yellow-500'
+                />
+                <span class='ml-3 text-sm font-medium text-gray-700'>Long</span>
+              </label>
+              <label
+                class='flex items-center p-3 bg-white rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition duration-150 border'>
+                <input
+                  type='radio'
+                  name='efficiency_waiting_time'
+                  value='Acceptable'
+                  class='w-5 h-5 text-green-600 border-gray-300 focus:ring-green-500'
+                />
+                <span class='ml-3 text-sm font-medium text-gray-700'
+                  >Acceptable</span
+                >
+              </label>
+              <label
+                class='flex items-center p-3 bg-white rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition duration-150 border'>
+                <input
+                  type='radio'
+                  name='efficiency_waiting_time'
+                  value='Short/Excellent'
+                  class='w-5 h-5 text-primary border-gray-300 focus:ring-blue-500'
+                />
+                <span class='ml-3 text-sm font-medium text-gray-700'
+                  >Short/Excellent</span
+                >
+              </label>
+            </div>
+          </div>
+
+          <!-- Facility Cleanliness (Likert) -->
+          <div class='mb-8'>
+            <label class='block text-sm font-medium text-gray-700 required mb-3'
+              >The facility and waiting areas were clean and well-maintained.</label
+            >
+            <div class='flex flex-wrap gap-3'>
+              <label
+                class='flex items-center p-3 bg-white rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition duration-150 border'>
+                <input
+                  type='radio'
+                  name='facility_cleanliness'
+                  value='Strongly Disagree'
+                  required
+                  class='w-5 h-5 text-red-600 border-gray-300 focus:ring-red-500'
+                />
+                <span class='ml-3 text-sm font-medium text-gray-700'
+                  >Str. Disagree</span
+                >
+              </label>
+              <label
+                class='flex items-center p-3 bg-white rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition duration-150 border'>
+                <input
+                  type='radio'
+                  name='facility_cleanliness'
+                  value='Disagree'
+                  class='w-5 h-5 text-yellow-600 border-gray-300 focus:ring-yellow-500'
+                />
+                <span class='ml-3 text-sm font-medium text-gray-700'
+                  >Disagree</span
+                >
+              </label>
+              <label
+                class='flex items-center p-3 bg-white rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition duration-150 border'>
+                <input
+                  type='radio'
+                  name='facility_cleanliness'
+                  value='Neutral'
+                  class='w-5 h-5 text-gray-600 border-gray-300 focus:ring-gray-500'
+                />
+                <span class='ml-3 text-sm font-medium text-gray-700'
+                  >Neutral</span
+                >
+              </label>
+              <label
+                class='flex items-center p-3 bg-white rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition duration-150 border'>
+                <input
+                  type='radio'
+                  name='facility_cleanliness'
+                  value='Agree'
+                  class='w-5 h-5 text-green-600 border-gray-300 focus:ring-green-500'
+                />
+                <span class='ml-3 text-sm font-medium text-gray-700'>Agree</span
+                >
+              </label>
+              <label
+                class='flex items-center p-3 bg-white rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition duration-150 border'>
+                <input
+                  type='radio'
+                  name='facility_cleanliness'
+                  value='Strongly Agree'
+                  class='w-5 h-5 text-primary border-gray-300 focus:ring-blue-500'
+                />
+                <span class='ml-3 text-sm font-medium text-gray-700'
+                  >Str. Agree</span
+                >
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Final Comments & Overall Rating -->
+        <div
+          class='p-6 border rounded-xl shadow-md space-y-8 bg-green-50 border-green-200'>
+          <h2
+            class='text-xl font-bold text-green-700 border-b pb-3 mb-6 required'>
+            4. Final Feedback
+          </h2>
+
+          <!-- Overall Rating NPS Style -->
+          <div>
+            <label class='block text-lg font-medium text-gray-700 required mb-4'
+              >How likely are you to recommend SPMH to others? (0 = Not at all
+              likely, 10 = Extremely likely)</label
+            >
+            <div id='nps-scale' class='grid grid-cols-6 md:grid-cols-11 gap-2'>
+              <!-- Scale from 0 to 10 will be dynamically inserted here -->
+            </div>
+            <!-- Label key for NPS scale -->
+            <div class='flex justify-between text-xs text-gray-500 mt-2'>
+              <span class='text-red-600 font-semibold'
+                >0 - Not at all likely (Detractor)</span
+              >
+              <span class='text-green-800 font-semibold'
+                >10 - Extremely likely (Promoter)</span
+              >
+            </div>
+          </div>
+
+          <!-- Open Feedback -->
+          <div>
+            <label
+              for='open-feedback'
+              class='block text-sm font-medium text-gray-700 mb-2'
+              >Any additional comments or suggestions?</label
+            >
+            <textarea
+              id='open-feedback'
+              name='open_feedback'
+              rows='4'
+              placeholder='Share your experience here...'
+              class='mt-1 block w-full rounded-lg border-gray-700 shadow-sm p-3 focus:ring-primary focus:border-primary transition duration-150'
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class='mt-10 pt-6 border-t flex justify-center md:justify-end'>
+          <button
+            type='submit'
+            class='btn-primary transition duration-300 transform hover:scale-[1.03] text-lg'>
+            Submit My Feedback
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+</Layout>
+
+<!-- JavaScript to dynamically generate the NPS scale and handle form setup -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Dynamically generate 0-10 scale for NPS
+    const npsContainer = document.getElementById('nps-scale');
+    if (npsContainer) {
+      for (let i = 0; i <= 10; i++) {
+        const colorClass =
+          i <= 6
+            ? 'bg-red-100 hover:bg-red-200'
+            : i <= 8
+              ? 'bg-yellow-100 hover:bg-yellow-200'
+              : 'bg-green-100 hover:bg-green-200';
+        const requiredAttr = i === 0 ? 'required' : '';
+        const label = `
+                        <label class="flex flex-col items-center p-2 rounded-lg cursor-pointer transition duration-150 border border-gray-300 ${colorClass}">
+                            <span class="text-xs font-semibold text-gray-800">${i}</span>
+                            <input type="radio" name="nps_score" value="${i}" ${requiredAttr} class="w-4 h-4 text-primary border-gray-300 focus:ring-blue-500 mt-1">
+                        </label>
+                    `;
+        npsContainer.insertAdjacentHTML('beforeend', label);
+      }
+    }
+  });
+
+  // Removed the local handleFormSubmission function as Formspree/Basin handles the POST request directly.
+</script>
