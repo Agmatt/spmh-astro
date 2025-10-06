@@ -1,0 +1,50 @@
+---
+import Layout from '../../Layout/Layout.astro';
+---
+
+<Layout title='Medical Services'>
+  <!-- Hero Section -->
+  <section
+    class='py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50 via-blue-50 to-indigo-50 text-center'>
+    <h1
+      class='text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight section-header'
+      style='animation-delay: 0.2s;'>
+      <span class='text-primary'>Advanced Medical</span> Services for Optimal Health
+    </h1>
+    <p
+      class='mt-4 text-lg text-gray-600 max-w-2xl mx-auto section-header'
+      style='animation-delay: 0.4s;'>
+      Discover our comprehensive medical services designed to provide you with
+      the best care possible.
+    </p>
+  </section>
+
+  <!-- Services Section with Links -->
+  <section id='services' class='py-16 bg-white'>
+    <div class='container mx-auto px-4'>
+      <h2 class='text-3xl font-bold text-center mb-12'>Our Medical Services</h2>
+      <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+        <!-- Primary Care Card -->
+        <div
+          class='bg-green-50 p-8 rounded-3xl shadow-lg border-t-4 border-primary hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1'>
+          <h3 class='text-xl font-semibold mb-2'>Primary Care</h3>
+          <p class='text-gray-600 leading-relaxed mb-4'>
+            Comprehensive primary care services including routine check-ups,
+            immunizations, and management of chronic conditions to keep you and
+            your family healthy.
+          </p>
+          <a
+            href='/medical/primary-care'
+            class='inline-block text-green-500 font-semibold hover:underline'
+            >Learn More →</a
+          >
+        </div>
+        <!-- Specialty Care Card -->
+        <div
+          class='bg-blue-50 p-8 rounded-3xl shadow-lg border-t-4 border-blue-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1'>
+          <h3 class='text-xl font-semibold mb-2'>Specialty Care</h3>
+        </div>
+      </div>
+    </div>
+  </section></Layout
+>
