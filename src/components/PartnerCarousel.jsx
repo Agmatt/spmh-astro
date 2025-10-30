@@ -40,6 +40,9 @@ export default function PartnerCarousel() {
         <img src="/logos/sha.png" alt="NGO C" className="h-16 mx-auto" />
       </SwiperSlide>
       <SwiperSlide>
+        <img src="/logos/moh.png" alt="NGO C" className="h-16 mx-auto" />
+      </SwiperSlide>
+      <SwiperSlide>
         <img src="/logos/nps.png" alt="NGO C" className="h-16 mx-auto" />
       </SwiperSlide>
       <SwiperSlide>

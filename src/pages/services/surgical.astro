@@ -2,6 +2,25 @@
 import Layout from '../../Layout/Layout.astro';
 ---
 
+<style>
+  /* Custom Clinical Palette */
+  :root {
+    --color-primary: #004a77; /* Deep Navy/Hospital Blue */
+    --color-accent: #00a9c6; /* Teal Accent */
+    --color-light: #f7f9fb;
+  }
+
+  .nav-active {
+    background-color: white;
+    color: var(--color-primary);
+    border-left-color: var(--color-accent);
+    font-weight: 600;
+  }
+  .nav-item:hover {
+    background-color: #ebf8ff; /* Light blue hover */
+  }
+</style>
+
 <Layout title='Surgical Services'>
   <!-- Hero Section -->
   <section
@@ -50,6 +69,539 @@ import Layout from '../../Layout/Layout.astro';
       </div>
     </div>
   </section>
+
+  <!-- Surgical Procedures -->
+  <section>
+    <div class='container mx-auto px-4 md:px-4 py-12 md:py-16 max-w-7xl'>
+      <!-- Header and Intro -->
+      <div class='mb-10 text-center'>
+        <h1 class='text-4xl md:text-5xl font-extrabold text-gray-900'>
+          Comprehensive Procedure Directory
+        </h1>
+        <p class='mt-2 text-xl text-gray-600'>
+          Detailed information on our full spectrum of specialized surgical
+          treatments.
+        </p>
+      </div>
+
+      <!-- Procedure Hub Layout -->
+      <div class='lg:grid lg:grid-cols-4 lg:gap-10'>
+        <!-- Sidebar Navigation (1/4 width) -->
+        <div class='lg:col-span-1 mb-8 lg:mb-0'>
+          <aside class='bg-white rounded-xl shadow-xl px-2 py-4 sticky top-4'>
+            <h2 class='text-lg font-bold text-gray-900 mb-4 px-2 border-b pb-2'>
+              Select a Procedure
+            </h2>
+            <nav id='procedure-nav' class='space-y-1'>
+              <!-- Navigation items will be injected here by JS -->
+            </nav>
+          </aside>
+        </div>
+
+        <!-- Detailed Content Area (3/4 width) -->
+        <div
+          class='lg:col-span-3 bg-white px-4 py-8 md:p-10 rounded-xl shadow-2xl'
+          id='procedure-detail'>
+          <!-- Procedure content will be rendered here by JS -->
+          <div class='text-center py-20'>
+            <svg
+              class='w-12 h-12 text-blue-600 mx-auto mb-4'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
+              xmlns='http://www.w3.org/2000/svg'
+              ><path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='1.5'
+                d='M11 19l-7-7 7-7m8 14l-7-7 7-7'></path></svg
+            >
+            <p class='text-xl text-gray-600'>
+              Please select a surgical procedure from the list on the left to
+              view detailed information.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const procedures = {
+      herniorrhaphy: {
+        title: 'Herniorrhaphy: Tension-Free Hernia Repair',
+        specialty: 'General Surgery',
+        tagColor: 'blue',
+        description:
+          'A highly successful procedure to treat hernias, restoring strength and function to the abdominal wall and preventing severe complications like strangulation.',
+        sections: [
+          {
+            title: 'Understanding a Hernia',
+            content:
+              'A **hernia** occurs when tissue pushes through a weak spot in the muscle wall. Herniorrhaphy corrects this by moving the tissue back into place, relieving discomfort and preventing severe complications. ',
+          },
+          {
+            title: 'The Repair Process',
+            subContent: [
+              {
+                title: 'Open Repair (Hernioplasty)',
+                color: 'yellow',
+                content:
+                  "A single incision is made. The hernia sac is returned, and a sterile **surgical mesh** is placed over the weakness to provide a permanent, tension-free 'patch' (Hernioplasty).",
+              },
+              {
+                title: 'Laparoscopic/Robotic Repair',
+                color: 'green',
+                content:
+                  'Uses several tiny incisions, a small camera, and specialized instruments to repair the hernia from the *inside*. This method is preferred for quicker recovery and less post-operative pain.',
+              },
+            ],
+          },
+          {
+            title: 'Recovery and Outcomes',
+            list: [
+              'Typically performed as an **outpatient procedure** (go home the same day).',
+              'Avoid **heavy lifting and strenuous exercise** for 4-6 weeks to ensure the repair fully integrates.',
+              'Most patients resume light, normal activities within a few days to a week.',
+            ],
+          },
+        ],
+      },
+      hysterectomy: {
+        title: 'Hysterectomy: Minimally Invasive Uterine Removal',
+        specialty: "Gynecology & Women's Health",
+        tagColor: 'pink',
+        description:
+          'The surgical removal of the uterus, primarily used to manage severe uterine conditions like fibroids, endometriosis, adenomyosis, or uterine cancer.',
+        sections: [
+          {
+            title: 'Why is it performed?',
+            content:
+              'This procedure is a definitive treatment for conditions causing significant bleeding, pain, or when malignancy is present. It addresses issues that conservative treatments cannot resolve, offering a permanent solution.',
+          },
+          {
+            title: 'Surgical Approaches',
+            subContent: [
+              {
+                title: 'Laparoscopic/Robotic Hysterectomy',
+                color: 'purple',
+                content:
+                  'Our preferred method. Uses small keyhole incisions. Minimally invasive, resulting in less blood loss, faster recovery, and reduced scarring compared to open surgery.',
+              },
+              {
+                title: 'Abdominal Hysterectomy',
+                color: 'red',
+                content:
+                  'Involves a larger incision in the abdomen. This is reserved for complex cases, very large uteri, or advanced cancer where broader visualization is necessary.',
+              },
+            ],
+          },
+          {
+            title: 'Post-Operative Care',
+            list: [
+              'Hospital stay varies (outpatient to 2 days) depending on the method used.',
+              'Full recovery period is generally 4-6 weeks.',
+              'Patients are advised to avoid vaginal penetration and heavy lifting during the initial recovery phase.',
+            ],
+          },
+        ],
+      },
+      'lipoma-excision': {
+        title: 'Lipoma Excision: Subcutaneous Mass Removal',
+        specialty: 'Dermatological Surgery',
+        tagColor: 'green',
+        description:
+          'The precise surgical removal of lipomas—non-cancerous, fatty tumors—with a focus on minimal scarring and aesthetic preservation.',
+        sections: [
+          {
+            title: 'What is a Lipoma?',
+            content:
+              'A lipoma is a slow-growing, benign tumor made of fat cells, located just beneath the skin. Excision is recommended when they cause pain, grow rapidly, or for cosmetic reasons.',
+          },
+          {
+            title: 'The Procedure',
+            subContent: [
+              {
+                title: 'Local Excision',
+                color: 'indigo',
+                content:
+                  'The area is numbed with local anesthesia. A small incision is made, and the lipoma is carefully dissected and removed entirely. The incision is closed with fine sutures.',
+              },
+              {
+                title: 'Minimizing Scars',
+                color: 'teal',
+                content:
+                  'Our surgeons utilize specialized techniques to place incisions in natural skin folds or creases to ensure the resulting scar is as inconspicuous as possible.',
+              },
+            ],
+          },
+          {
+            title: 'Recovery and Outcomes',
+            list: [
+              'Usually a quick, in-office procedure; patients can leave immediately afterward.',
+              'Minor discomfort and bruising are common for a few days.',
+              'Sutures are typically removed within 7-10 days.',
+            ],
+          },
+        ],
+      },
+      'mcdonald-stitch': {
+        title: 'McDonald Stitch: Cervical Cerclage',
+        specialty: 'High-Risk Obstetrics',
+        tagColor: 'amber',
+        description:
+          'A prophylactic surgical procedure (cerclage) to strengthen the cervix, significantly reducing the risk of premature birth in high-risk pregnancies.',
+        sections: [
+          {
+            title: 'Addressing Cervical Incompetence',
+            content:
+              'The stitch is performed to support a cervix that is weak or incompetent, which may prematurely shorten or open during the second trimester, leading to preterm delivery.',
+          },
+          {
+            title: 'The Technique',
+            subContent: [
+              {
+                title: 'Procedure Details',
+                color: 'orange',
+                content:
+                  'Performed under regional anesthesia, a strong suture (the McDonald stitch) is placed high around the cervix to keep it closed and reinforced. The procedure is typically done between 12 and 14 weeks of gestation.',
+              },
+            ],
+          },
+          {
+            title: 'Post-Procedure Monitoring',
+            list: [
+              'Short hospital stay (often less than 24 hours).',
+              'Strict restrictions on physical activity, including bed rest, may be advised for a period.',
+              'The stitch is removed by the obstetrician when the pregnancy reaches full-term (around 37 weeks).',
+            ],
+          },
+        ],
+      },
+      cystectomy: {
+        title: 'Cystectomy: Bladder Removal for Oncology',
+        specialty: 'Urological Oncology',
+        tagColor: 'indigo',
+        description:
+          'The radical removal of the urinary bladder, often the definitive treatment for muscle-invasive bladder cancer, ensuring optimal oncologic outcomes.',
+        sections: [
+          {
+            title: 'When is it Necessary?',
+            content:
+              'Radical cystectomy is required when bladder cancer has invaded the muscle wall (muscle-invasive) or if high-grade cancer recurs after initial treatments. It involves removing the bladder, surrounding lymph nodes, and potentially reproductive organs.',
+          },
+          {
+            title: 'Urinary Diversion',
+            subContent: [
+              {
+                title: 'Creation of a Neo-Bladder',
+                color: 'blue',
+                content:
+                  "In select cases, we can construct a new internal bladder using a segment of the patient's small intestine, allowing for a near-normal urinary function.",
+              },
+              {
+                title: 'Ileal Conduit',
+                color: 'sky',
+                content:
+                  'This is a common, reliable method where a segment of the intestine is used to divert urine to an external collection pouch (stoma).',
+              },
+            ],
+          },
+          {
+            title: 'Recovery and Care',
+            list: [
+              'Requires a typical hospital stay of 5-7 days for close monitoring and rehabilitation.',
+              'Extensive patient education on urinary diversion care is provided pre- and post-surgery.',
+              'Full recovery and adjustment to new urinary function takes several weeks to months.',
+            ],
+          },
+        ],
+      },
+      'surgical-debridement': {
+        title: 'Surgical Debridement: Advanced Wound Cleaning',
+        specialty: 'Advanced Wound Care',
+        tagColor: 'red',
+        description:
+          'A critical procedure involving the meticulous removal of dead, damaged, or infected tissue to promote optimal wound healing and prevent systemic infection.',
+        sections: [
+          {
+            title: 'Importance for Healing',
+            content:
+              'Dead tissue acts as a barrier to healing and a breeding ground for bacteria. Debridement is essential for treating chronic, non-healing wounds, such as diabetic ulcers or pressure injuries.',
+          },
+          {
+            title: 'The Technique',
+            subContent: [
+              {
+                title: 'Precision Removal',
+                color: 'red',
+                content:
+                  'Performed in a sterile environment, the surgeon carefully removes only the necrotic tissue until healthy, bleeding tissue is reached. This is done to preserve surrounding viable tissue.',
+              },
+              {
+                title: 'Pain Management',
+                color: 'orange',
+                content:
+                  'Depending on the wound size, the procedure may be done under local anesthesia, sedation, or general anesthesia to ensure patient comfort.',
+              },
+            ],
+          },
+          {
+            title: 'Recovery and Care',
+            list: [
+              'Post-operative care involves specialized dressings and continued monitoring.',
+              'Patients may need repeated debridement sessions for complex wounds.',
+              'Healing progress is monitored closely by our wound care team to transition the patient to the next stage of treatment.',
+            ],
+          },
+        ],
+      },
+      myomectomy: {
+        title: 'Myomectomy: Fertility-Sparing Fibroid Removal',
+        specialty: 'Fertility Preservation',
+        tagColor: 'pink',
+        description:
+          'The surgical removal of uterine fibroids (myomas) while preserving the uterus, making it the preferred option for women wishing to retain their fertility.',
+        sections: [
+          {
+            title: 'Targeting Fibroids',
+            content:
+              'Fibroids are benign tumors of the uterus that can cause heavy bleeding, pelvic pain, and interfere with conception or pregnancy. Myomectomy specifically targets and removes these tumors.',
+          },
+          {
+            title: 'Advanced Methods',
+            subContent: [
+              {
+                title: 'Hysteroscopic Myomectomy',
+                color: 'pink',
+                content:
+                  'Used for fibroids protruding into the uterine cavity. Instruments are passed through the cervix, requiring no abdominal incision.',
+              },
+              {
+                title: 'Laparoscopic/Robotic Myomectomy',
+                color: 'purple',
+                content:
+                  'Used for fibroids within the uterine wall. Minimally invasive techniques allow for detailed repair of the uterine muscle, critical for future pregnancy.',
+              },
+            ],
+          },
+          {
+            title: 'Recovery and Fertility',
+            list: [
+              'Recovery time depends on the size and location of fibroids removed.',
+              'Laparoscopic recovery is faster (2-4 weeks) than open abdominal surgery (4-6 weeks).',
+              'Patients are usually advised to wait 3-6 months before attempting conception to allow the uterine incision to heal completely.',
+            ],
+          },
+        ],
+      },
+      prostatectomy: {
+        title: 'Prostatectomy: Robotic-Assisted Gland Removal',
+        specialty: 'Robotic Urology',
+        tagColor: 'indigo',
+        description:
+          'The surgical removal of the prostate gland, often performed robotically to maximize nerve-sparing outcomes and minimize side effects related to urinary control and sexual function.',
+        sections: [
+          {
+            title: 'Primary Indication',
+            content:
+              'Radical prostatectomy is primarily performed as a curative treatment for localized prostate cancer. Our focus is on removing the cancer while preserving quality of life.',
+          },
+          {
+            title: 'The Robotic Advantage',
+            subContent: [
+              {
+                title: 'Da Vinci Robotic System',
+                color: 'blue-900',
+                content:
+                  'Utilizing the advanced robotic platform, the surgeon has enhanced 3D visualization and tremor-free, magnified instrument control, leading to greater precision.',
+              },
+              {
+                title: 'Nerve Sparing',
+                color: 'cyan-700',
+                content:
+                  'This precision is crucial for sparing the delicate nerves responsible for erectile function, improving the chances of full recovery of sexual function.',
+              },
+            ],
+          },
+          {
+            title: 'Recovery and Outcomes',
+            list: [
+              'Hospital stay is typically 1-2 nights.',
+              'A catheter remains in place for 1-3 weeks.',
+              'The main rehabilitation focus is on pelvic floor exercises to regain urinary continence, which often improves significantly over 3-6 months.',
+            ],
+          },
+        ],
+      },
+      'skin-grafting': {
+        title: 'Skin Grafting: Reconstructive Tissue Transfer',
+        specialty: 'Reconstructive Surgery',
+        tagColor: 'red',
+        description:
+          'The expert transfer of healthy skin from one part of the body (donor site) to cover large wounds, burns, or areas after cancer removal, optimizing aesthetic and functional results.',
+        sections: [
+          {
+            title: 'Types of Grafts',
+            content:
+              'We use various techniques including **Split-Thickness Grafts** (epidermis and superficial dermis) for large areas like burns, and **Full-Thickness Grafts** (all layers of skin) for smaller, high-visibility areas like the face.',
+          },
+          {
+            title: 'The Procedure',
+            subContent: [
+              {
+                title: 'Harvesting the Graft',
+                color: 'pink',
+                content:
+                  'Skin is carefully removed from the donor site (e.g., thigh or buttocks) and then prepared and fixed onto the recipient wound bed, often using specialized sutures or staples.',
+              },
+              {
+                title: 'Healing and Take',
+                color: 'purple',
+                content:
+                  "The success of the graft ('take') depends on the recipient site maintaining a good blood supply. The graft receives initial nourishment through diffusion before new blood vessels grow into it.",
+              },
+            ],
+          },
+          {
+            title: 'Recovery and Care',
+            list: [
+              'The grafted area must be kept immobilized and protected for 5-7 days to allow vascular integration.',
+              'The donor site typically heals faster than the recipient site.',
+              'Long-term care involves moisturizing and massaging the graft area to maximize flexibility and final appearance.',
+            ],
+          },
+        ],
+      },
+    };
+
+    const detailContainer = document.getElementById('procedure-detail');
+    const navContainer = document.getElementById('procedure-nav');
+
+    // Function to create Tailwind class strings dynamically
+    const getColorClasses = (tagColor, type = 'tag') => {
+      const colors = {
+        blue: { tag: 'text-blue-700 bg-blue-100', border: 'border-blue-600' },
+        pink: { tag: 'text-pink-700 bg-pink-100', border: 'border-pink-600' },
+        green: {
+          tag: 'text-green-700 bg-green-100',
+          border: 'border-green-600',
+        },
+        amber: {
+          tag: 'text-amber-700 bg-amber-100',
+          border: 'border-amber-600',
+        },
+        indigo: {
+          tag: 'text-indigo-700 bg-indigo-100',
+          border: 'border-indigo-600',
+        },
+        red: { tag: 'text-red-700 bg-red-100', border: 'border-red-600' },
+        yellow: { border: 'border-yellow-600' }, // Used for internal subContent only
+        purple: { border: 'border-purple-600' }, // Used for internal subContent only
+        cyan: { border: 'border-cyan-700' }, // Used for internal subContent only
+        sky: { border: 'border-sky-600' }, // Used for internal subContent only
+      };
+      return colors[tagColor] ? colors[tagColor][type] : '';
+    };
+
+    // Function to render the procedure details
+    const renderProcedureDetail = (key) => {
+      const proc = procedures[key];
+      const borderClass = getColorClasses(proc.tagColor, 'border');
+
+      let html = `
+                <!-- Header -->
+                <div class="mb-10 border-b border-gray-200 pb-6">
+                    <p class="text-sm font-semibold uppercase tracking-widest text-gray-500 mb-2">
+                        <span class="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full ${getColorClasses(proc.tagColor, 'tag')}">${proc.specialty}</span>
+                    </p>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">${proc.title}</h2>
+                    <p class="mt-3 text-lg text-gray-700">${proc.description}</p>
+                </div>
+
+                <div class="space-y-12">
+            `;
+
+      // Loop through sections
+      proc.sections.forEach((section) => {
+        html += `<section>`;
+        html += `<h3 class="text-2xl font-bold text-gray-900 mb-5 border-l-4 ${borderClass} pl-4">${section.title}</h3>`;
+
+        if (section.content) {
+          html += `<p class="text-lg text-gray-700 leading-relaxed mb-6">${section.content}</p>`;
+        }
+
+        if (section.subContent) {
+          html += `<div class="space-y-6">`;
+          section.subContent.forEach((sub) => {
+            html += `
+                            <div class="p-6 bg-gray-50 rounded-xl border-l-4 ${getColorClasses(sub.color || proc.tagColor, 'border')} shadow-sm">
+                                <h4 class="text-xl font-semibold text-gray-900 mb-2">${sub.title}</h4>
+                                <p class="text-gray-700">${sub.content}</p>
+                            </div>
+                        `;
+          });
+          html += `</div>`;
+        }
+
+        if (section.list) {
+          html += `<ul class="list-disc list-outside text-lg text-gray-700 space-y-3 pl-8">`;
+          section.list.forEach((item) => {
+            html += `<li>${item}</li>`;
+          });
+          html += `</ul>`;
+        }
+
+        html += `</section>`;
+      });
+
+      // Final CTA block
+      html += `
+                </div>
+                <div class="mt-12 pt-8 border-t border-gray-200">
+                    <h4 class="text-xl font-bold text-gray-900 mb-4">Request a Consultation with a Specialist</h4>
+                    <a href="#" class="inline-flex items-center justify-center btn-primary text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition duration-150 text-base">
+                        Schedule Appointment for ${proc.specialty} &rarr;
+                    </a>
+                </div>
+            `;
+
+      detailContainer.innerHTML = html;
+
+      // Update navigation active state
+      document.querySelectorAll('.nav-item').forEach((item) => {
+        item.classList.remove('nav-active');
+      });
+      document.getElementById(`nav-${key}`).classList.add('nav-active');
+    };
+
+    // Function to initialize the navigation bar
+    const initializeNav = () => {
+      Object.keys(procedures).forEach((key) => {
+        const proc = procedures[key];
+        const listItem = document.createElement('a');
+        listItem.href = `#${key}`;
+        listItem.id = `nav-${key}`;
+        listItem.className = `nav-item block px-4 py-3 text-gray-700 rounded-lg transition duration-150 border-l-4 border-transparent hover:border-gray-300 hover:bg-gray-50`;
+        listItem.innerHTML = `
+                    <span class="font-medium">${proc.title.split(':')[0]}</span>
+                    <span class="block text-xs text-gray-500">${proc.specialty}</span>
+                `;
+        listItem.addEventListener('click', (e) => {
+          e.preventDefault();
+          renderProcedureDetail(key);
+        });
+        navContainer.appendChild(listItem);
+      });
+
+      // Load the first procedure by default
+      if (Object.keys(procedures).length > 0) {
+        renderProcedureDetail(Object.keys(procedures)[0]);
+      }
+    };
+
+    window.onload = initializeNav;
+  </script>
 
   <!-- Surgical Services Section -->
   <div
@@ -107,7 +659,7 @@ import Layout from '../../Layout/Layout.astro';
           </p>
         </div>
         <a
-          href='#'
+          href='/services/herniorhapy'
           class='mt-4 inline-flex items-center justify-center cta-button text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl hover:translate-y-0.5 transition duration-150'
           style='background-color: #6366F1;'>
           Explore Procedure &rarr;
