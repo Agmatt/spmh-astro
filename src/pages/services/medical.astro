@@ -3,48 +3,132 @@ import Layout from '../../Layout/Layout.astro';
 ---
 
 <Layout title='Medical Services'>
-  <!-- Hero Section -->
+  <!-- HERO -->
   <section
-    class='py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50 via-blue-50 to-indigo-50 text-center'>
-    <h1
-      class='text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight section-header'
-      style='animation-delay: 0.2s;'>
-      <span class='text-primary'>Advanced Medical</span> Services for Optimal Health
-    </h1>
-    <p
-      class='mt-4 text-lg text-gray-600 max-w-2xl mx-auto section-header'
-      style='animation-delay: 0.4s;'>
-      Discover our comprehensive medical services designed to provide you with
-      the best care possible.
-    </p>
+    class='relative h-[55vh] bg-cover bg-center flex items-center justify-center text-center'
+    style="background-image: url('/img/21.jpg');">
+    <div class='absolute inset-0 bg-black/40'></div>
+    <div class='relative z-10 px-4'>
+      <h1 class='text-4xl md:text-5xl font-extrabold text-white mb-4'>
+        Medical Services
+      </h1>
+      <p class='text-lg text-gray-100 max-w-2xl mx-auto'>
+        Compassionate, comprehensive, and reliable care for every stage of life.
+      </p>
+    </div>
   </section>
 
-  <!-- Services Section with Links -->
-  <section id='services' class='py-16 bg-white'>
-    <div class='container mx-auto px-4'>
-      <h2 class='text-3xl font-bold text-center mb-12'>Our Medical Services</h2>
-      <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-        <!-- Primary Care Card -->
-        <div
-          class='bg-green-50 p-8 rounded-3xl shadow-lg border-t-4 border-primary hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1'>
-          <h3 class='text-xl font-semibold mb-2'>Primary Care</h3>
-          <p class='text-gray-600 leading-relaxed mb-4'>
-            Comprehensive primary care services including routine check-ups,
-            immunizations, and management of chronic conditions to keep you and
-            your family healthy.
+  <!-- INTRO -->
+  <section class='py-16 bg-white'>
+    <div class='container mx-auto px-6 lg:px-12 text-center'>
+      <h2 class='text-3xl md:text-4xl font-extrabold text-[#074351] mb-6'>
+        Holistic Care Rooted in Compassion
+      </h2>
+      <p class='text-gray-700 max-w-3xl mx-auto leading-relaxed text-lg'>
+        Our medical department is dedicated to delivering high-quality care with
+        dignity, respect, and clinical excellence. We provide diagnosis,
+        treatment, and continuity of care guided by coordinated teams of
+        doctors, nurses, specialists, and support staff.
+      </p>
+    </div>
+  </section>
+
+  <!-- CORE SERVICES GRID -->
+  <section class='py-12 bg-gray-50'>
+    <div class='container mx-auto px-6 lg:px-12'>
+      <h3 class='text-2xl font-bold text-[#074351] text-center mb-10'>
+        Scope of Medical Services
+      </h3>
+
+      <div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-8'>
+        <div class='bg-white p-6 shadow rounded-xl hover:shadow-lg transition'>
+          <h4 class='text-xl font-semibold text-[#074351] mb-2'>
+            Outpatient Clinic
+          </h4>
+          <p class='text-gray-600 text-sm leading-relaxed'>
+            Daily consultations, chronic disease management, and follow-up care.
           </p>
-          <a
-            href='/medical/primary-care'
-            class='inline-block text-green-500 font-semibold hover:underline'
-            >Learn More →</a
-          >
         </div>
-        <!-- Specialty Care Card -->
-        <div
-          class='bg-blue-50 p-8 rounded-3xl shadow-lg border-t-4 border-blue-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1'>
-          <h3 class='text-xl font-semibold mb-2'>Specialty Care</h3>
+
+        <div class='bg-white p-6 shadow rounded-xl hover:shadow-lg transition'>
+          <h4 class='text-xl font-semibold text-[#074351] mb-2'>
+            Inpatient Medical Ward
+          </h4>
+          <p class='text-gray-600 text-sm leading-relaxed'>
+            Dedicated care spaces for medical admissions requiring observation
+            or treatment.
+          </p>
+        </div>
+
+        <div class='bg-white p-6 shadow rounded-xl hover:shadow-lg transition'>
+          <h4 class='text-xl font-semibold text-[#074351] mb-2'>
+            Emergency & Stabilization
+          </h4>
+          <p class='text-gray-600 text-sm leading-relaxed'>
+            Rapid assessment, urgent medical interventions, and life support
+            care.
+          </p>
+        </div>
+
+        <div class='bg-white p-6 shadow rounded-xl hover:shadow-lg transition'>
+          <h4 class='text-xl font-semibold text-[#074351] mb-2'>
+            Chronic Disease Care
+          </h4>
+          <p class='text-gray-600 text-sm leading-relaxed'>
+            Skilled management of diabetes, hypertension, heart failure, asthma,
+            and more.
+          </p>
+        </div>
+
+        <div class='bg-white p-6 shadow rounded-xl hover:shadow-lg transition'>
+          <h4 class='text-xl font-semibold text-[#074351] mb-2'>
+            Pediatric & Adult Medical Care
+          </h4>
+          <p class='text-gray-600 text-sm leading-relaxed'>
+            Age-appropriate assessment and continuous care across all life
+            stages.
+          </p>
+        </div>
+
+        <div class='bg-white p-6 shadow rounded-xl hover:shadow-lg transition'>
+          <h4 class='text-xl font-semibold text-[#074351] mb-2'>
+            Nutrition & Counseling
+          </h4>
+          <p class='text-gray-600 text-sm leading-relaxed'>
+            Support for lifestyle improvement, recovery, and long-term health
+            outcomes.
+          </p>
         </div>
       </div>
     </div>
-  </section></Layout
->
+  </section>
+
+  <!-- SPECIAL FOCUS HIGHLIGHT -->
+  <section class='py-20 bg-white'>
+    <div
+      class='container mx-auto px-6 lg:px-12 grid md:grid-cols-2 gap-12 items-center'>
+      <img
+        src='/img/doctor-patient.jpg'
+        alt='Doctor consulting patient'
+        class='rounded-xl shadow-xl object-cover w-full h-full'
+      />
+
+      <div>
+        <h3 class='text-3xl font-bold text-[#074351] mb-4'>
+          Patient-Centered Medical Care
+        </h3>
+        <p class='text-gray-700 text-lg leading-relaxed mb-6'>
+          Our approach honors the physical, emotional, and spiritual well-being
+          of every person. We take time to listen, explain, and partner with you
+          in achieving lasting health.
+        </p>
+
+        <a
+          href='/contact'
+          class='inline-block bg-[#074351] hover:bg-[#06333f] text-white px-6 py-3 rounded-full font-semibold transition'>
+          Book a Consultation
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
