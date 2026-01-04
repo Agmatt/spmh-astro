@@ -2,26 +2,170 @@
 import Layout from '../../Layout/Layout.astro';
 ---
 
-<Layout title='News & Media'>
-  <!-- Header -->
-  <main class='container mx-auto p-4 sm:p-8'>
-    <!-- Hero Section -->
-    <section class='text-center py-16 px-4'>
-      <h2 class='text-4xl sm:text-5xl font-extrabold text-accent mb-4'>
-        Stay Informed. Stay Healthy.
-      </h2>
-      <p class='text-lg text-gray-600 max-w-2xl mx-auto'>
-        Discover the latest news from our hospital, attend community health
-        events, and see the faces of our dedicated team.
-      </p>
-    </section>
+<style>
+  .glass-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
 
+  .news-ticker {
+    animation: ticker 10s linear infinite;
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(2, minmax(200px, auto));
+    gap: 1.5rem;
+  }
+</style>
+
+<Layout title='News & Media'>
+  <!-- Top-Level Live Ticker (Authority Indicator) -->
+  <div
+    class='bg-slate-900 text-white overflow-hidden py-3 mb-0 border-b border-slate-800'>
+    <div class='flex whitespace-nowrap news-ticker'>
+      <div class='flex items-center space-x-8 px-4'>
+        <span
+          class='flex items-center gap-2 text-xs font-bold tracking-widest uppercase'
+          ><span class='h-2 w-2 rounded-full bg-red-700 animate-pulse'></span> Breaking:</span
+        >
+        <span class='text-sm font-medium text-slate-300'
+          >New Cardiology Wing Opening Spring 2024</span
+        >
+        <span class='text-slate-600'>|</span>
+        <span class='text-sm font-medium text-slate-300'
+          >Dr. Sarah Chen Awarded National Excellence in Oncology</span
+        >
+        <span class='text-slate-600'>|</span>
+        <span class='text-sm font-medium text-slate-300'
+          >Free Community Health Screening: This Saturday at 9 AM</span
+        >
+        <span class='text-slate-600'>|</span>
+        <span class='text-sm font-medium text-slate-300'
+          >Updated Patient Safety Protocols Published</span
+        >
+      </div>
+
+      <!-- Duplicate for seamless loop -->
+      <div class='flex items-center space-x-8 px-4'>
+        <span
+          class='flex items-center gap-2 text-xs font-bold tracking-widest uppercase'
+          ><span class='h-2 w-2 rounded-full bg-red-500 animate-pulse'></span> Breaking:</span
+        >
+
+        <span class='text-sm font-medium text-slate-300'
+          >New Cardiology Wing Opening Spring 2024</span
+        >
+        <span class='text-slate-600'>|</span>
+        <span class='text-sm font-medium text-slate-300'
+          >Dr. Sarah Chen Awarded National Excellence in Oncology</span
+        >
+        <span class='text-slate-600'>|</span>
+        <span class='text-sm font-medium text-slate-300'
+          >Free Community Health Screening: This Saturday at 9 AM</span
+        >
+        <span class='text-slate-600'>|</span>
+        <span class='text-sm font-medium text-slate-300'
+          >Updated Patient Safety Protocols Published</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class='relative bg-slate-50 overflow-hidden shadow-lg mt-0 mb-6'>
+    <!-- Subtle Background Accent -->
+    <div
+      class='absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent pointer-events-none'>
+    </div>
+
+    <div class='relative px-2 md:px-4 py-10 md:py-14 max-w-7xl mx-auto'>
+      <div class='grid grid-cols-1 lg:grid-cols-2 gap-10 items-center'>
+        <!-- Text Content -->
+        <div>
+          <span
+            class='inline-block mb-3 text-xs font-semibold tracking-wider text-accent uppercase'>
+            News & Media
+          </span>
+
+          <h1
+            class='text-3xl md:text-4xl font-bold text-gray-900 leading-tight max-w-xl'>
+            Advancing Care Through Growth, Collaboration, and Referrals
+          </h1>
+
+          <p class='mt-4 text-gray-600 max-w-xl leading-relaxed'>
+            Our hospital continues to strengthen patient care through the
+            groundbreaking of a new maternity and surgical wing, while
+            facilitating timely referrals to specialized partner hospitals for
+            advanced treatment when needed.
+          </p>
+
+          <div class='mt-6 flex flex-wrap gap-4'>
+            <a
+              href='/news-and-media/new-maternity-surgical-wing'
+              class='inline-flex items-center justify-center px-6 py-3 rounded-lg bg-accent text-white font-semibold hover:bg-accent/90 transition'>
+              Read Latest Update
+            </a>
+
+            <a
+              href='/services/referrals'
+              class='inline-flex items-center justify-center px-6 py-3 rounded-lg border border-accent/30 text-accent font-semibold hover:bg-accent/5 transition'>
+              Our Referral Services
+            </a>
+          </div>
+        </div>
+
+        <!-- Visual -->
+        <div class='relative'>
+          <div class='aspect-[4/3] rounded-xl overflow-hidden shadow-md'>
+            <img
+              src='/img/18.jpg'
+              alt='Groundbreaking ceremony for the new maternity and surgical wing'
+              class='w-full h-full object-cover'
+              loading='lazy'
+            />
+          </div>
+
+          <!-- Quiet Info Badge -->
+          <div
+            class='absolute -bottom-4 left-4 bg-white/95 backdrop-blur px-4 py-2 rounded-lg shadow text-sm text-gray-700'>
+            New Maternity & Surgical Wing — Groundbreaking Ceremony
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <main class='container mx-auto px-2 md:px-4 py-4 sm:py-8'>
     <!-- News & Insights Section -->
-    <section id='news' class='bg-white p-6 rounded-xl shadow-lg my-8'>
+    <section
+      id='news'
+      class='bg-white px-2 md:px-4 py-6 rounded-xl shadow-xl my-8'>
       <div
         class='flex justify-between items-center mb-6 border-b-2 border-accent pb-2'>
         <h2 class='text-3xl font-bold text-gray-900'>Latest News & Insights</h2>
-        <a href='#' class='text-accent hover:underline font-semibold'
+        <a
+          href='/news-and-media/blog'
+          class='text-accent hover:underline font-semibold'
           >View All Articles &rarr;</a
         >
       </div>
@@ -79,11 +223,15 @@ import Layout from '../../Layout/Layout.astro';
     </section>
 
     <!-- Events Section -->
-    <section id='events' class='bg-white p-6 rounded-xl shadow-lg my-8'>
+    <section
+      id='events'
+      class='bg-white px-2 md::px-4 py-6 rounded-xl shadow-lg my-8'>
       <div
         class='flex justify-between items-center mb-6 border-b-2 border-accent pb-2'>
         <h2 class='text-3xl font-bold text-gray-900'>Upcoming Events</h2>
-        <a href='#' class='text-accent hover:underline font-semibold'
+        <a
+          href='/news-and-media/events'
+          class='text-accent hover:underline font-semibold'
           >View All Events &rarr;</a
         >
       </div>
@@ -123,48 +271,58 @@ import Layout from '../../Layout/Layout.astro';
       </div>
     </section>
 
-    <!-- Gallery Section -->
-    <section id='gallery' class='bg-white p-6 rounded-xl shadow-lg my-8'>
+    <section
+      id='gallery'
+      class='bg-white px-2 md:px-4 py-6 rounded-xl shadow-lg my-8'>
+      <!-- Header -->
       <div
         class='flex justify-between items-center mb-6 border-b-2 border-accent pb-2'>
         <h2 class='text-3xl font-bold text-gray-900'>Photo Gallery</h2>
-        <a href='#' class='text-accent hover:underline font-semibold'
-          >View All Photos &rarr;</a
-        >
+        <a
+          href='/news-and-media/gallery'
+          class='text-accent hover:underline font-semibold'>
+          View All Photos &rarr;
+        </a>
       </div>
+
+      <!-- Gallery Grid -->
       <div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-        <img
-          src='https://placehold.co/600x400/e0e7ff/1e3a8a?text=Our+Team'
-          alt='Hospital team'
-          class='w-full h-auto rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-300'
-        />
-        <img
-          src='https://placehold.co/600x400/e0e7ff/1e3a8a?text=New+Wing'
-          alt='New hospital wing'
-          class='w-full h-auto rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-300'
-        />
-        <img
-          src='https://placehold.co/600x400/e0e7ff/1e3a8a?text=Patient+Care'
-          alt='Patient receiving care'
-          class='w-full h-auto rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-300'
-        />
-        <img
-          src='https://placehold.co/600x400/e0e7ff/1e3a8a?text=Community+Event'
-          alt='Community health event'
-          class='w-full h-auto rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-300'
-        />
-        <img
-          src='https://placehold.co/600x400/e0e7ff/1e3a8a?text=Research'
-          alt='Medical research'
-          class='w-full h-auto rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-300'
-        />
-        <img
-          src='https://placehold.co/600x400/e0e7ff/1e3a8a?text=Lab+Facilities'
-          alt='Laboratory facilities'
-          class='w-full h-auto rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-300'
-        />
+        <!-- Image 1 -->
+        <div class='aspect-[4/3] overflow-hidden rounded-lg shadow-sm'>
+          <img
+            src='/gallery/3.jpg'
+            alt='Hospital team'
+            class='w-full h-full object-cover transition-transform duration-300 hover:scale-105'
+          />
+        </div>
+
+        <!-- Image 2 -->
+        <div class='aspect-[4/3] overflow-hidden rounded-lg shadow-sm'>
+          <img
+            src='/gallery/5.jpg'
+            alt='New hospital wing'
+            class='w-full h-full object-cover transition-transform duration-300 hover:scale-105'
+          />
+        </div>
+
+        <!-- Image 3 -->
+        <div class='aspect-[4/3] overflow-hidden rounded-lg shadow-sm'>
+          <img
+            src='/gallery/1.jpg'
+            alt='Patient receiving care'
+            class='w-full h-full object-cover transition-transform duration-300 hover:scale-105'
+          />
+        </div>
+
+        <!-- Image 4 -->
+        <div class='aspect-[4/3] overflow-hidden rounded-lg shadow-sm'>
+          <img
+            src='/gallery/2.jpg'
+            alt='Community health event'
+            class='w-full h-full object-cover transition-transform duration-300 hover:scale-105'
+          />
+        </div>
       </div>
     </section>
   </main>
-
 </Layout>

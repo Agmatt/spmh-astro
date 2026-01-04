@@ -3,75 +3,276 @@ import Layout from '../../Layout/Layout.astro';
 ---
 
 <Layout title='Blog'>
+  <section
+    class='relative overflow-hidden hero-bg min-h-screen flex items-center'>
+    <div class='container mx-auto px-2 md:px-4 pt-0 pb-18 relative z-10'>
+      <div class='grid lg:grid-cols-2 gap-16 items-center'>
+        <!-- Left Content: Trust & Action -->
+        <div class='space-y-8'>
+          <h1
+            class='serif-title text-5xl md:text-7xl text-slate-900 leading-[1.1]'>
+            Reliable health <br />
+            <span class='text-blue-600 italic'>answers</span> from our specialists.
+          </h1>
+
+          <p class='text-xl text-slate-600 max-w-lg leading-relaxed'>
+            Skip the guesswork. Access health guides, recovery stories, and
+            wellness advice written directly by the doctors who treat you.
+          </p>
+        </div>
+
+        <!-- Right Content: Professional Visuals -->
+        <div class='relative'>
+          <!-- Main Hero Image -->
+          <div class='overflow-hidden shadow-2xl border-0'>
+            <img
+              src='https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800'
+              alt='Professional Physician'
+              class='w-full h-[600px] object-cover'
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hero Header -->
+  <section class='text-center py-20 px-2 md:px-4 bg-gray-100'>
+    <div
+      class='inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest text-accent uppercase bg-teal-50 rounded-full'>
+      Knowledge Hub
+    </div>
+    <h1
+      class='text-4xl sm:text-6xl font-extrabold text-primary mb-6 tracking-tight'>
+      From Our <span class='text-accent'>Blog</span>
+    </h1>
+    <p class='text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed'>
+      Insights, stories, and updates from St. Paul's Hospital. Stay informed
+      with the latest in healthcare and community news.
+    </p>
+  </section>
+
   <main class='container mx-auto p-4 sm:p-8'>
-    <section class='text-center py-16 px-4'>
-      <h2 class='text-4xl sm:text-5xl font-extrabold text-accent mb-4'>
-        From Our Blog
-      </h2>
-      <p class='text-lg text-gray-600 max-w-2xl mx-auto'>
-        Insights, stories, and updates from St. Paul's Hospital. Stay informed
-        with the latest in healthcare and community news.
-      </p>
+    <section class='mb-16'>
+      <div
+        class='relative rounded-3xl overflow-hidden bg-primary group cursor-pointer shadow-2xl'>
+        <div
+          class='absolute inset-0 bg-gradient-to-r from-primary to-transparent z-10 opacity-90'>
+        </div>
+        <img
+          src='https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=2070'
+          alt='Surgery Room'
+          class='absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700'
+        />
+
+        <div class='relative z-20 p-8 md:p-16 max-w-2xl'>
+          <span
+            class='bg-accent text-white text-xs font-bold px-3 py-1 rounded mb-4 inline-block uppercase tracking-wider'
+            >Featured Story</span
+          >
+          <h2 class='text-3xl md:text-5xl font-bold text-white mb-6'>
+            The Future of Heart Surgery: Robotic Precision at St. Paul's
+          </h2>
+          <p class='text-gray-300 mb-8 text-lg'>
+            We recently integrated the latest Da Vinci surgical system, reducing
+            recovery times by 40%. Our lead surgeons discuss the impact on
+            patient outcomes.
+          </p>
+          <div class='flex items-center space-x-4'>
+            <img
+              src='https://i.pravatar.cc/150?u=dr_smith'
+              class='w-12 h-12 rounded-full border-2 border-accent'
+              alt='Author'
+            />
+            <div>
+              <p class='text-white font-semibold'>Dr. Sarah Jenkins</p>
+              <p class='text-gray-400 text-sm'>Chief of Surgery • 5 min read</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section id='blog-posts' class='bg-white p-6 rounded-xl shadow-lg my-8'>
+    
+    <section id='blog-posts' class='my-8'>
       <div
-        class='flex justify-between items-center mb-6 border-b-2 border-accent pb-2'>
-        <h2 class='text-3xl font-bold text-gray-900'>Latest Blog Posts</h2>
-        <a href='#' class='text-accent hover:underline font-semibold'
-          >View All Posts &rarr;</a
-        >
+        class='flex justify-between items-end mb-10 border-b border-gray-200 pb-6'>
+        <div>
+          <h2 class='text-3xl font-bold text-primary tracking-tight'>
+            Latest Articles
+          </h2>
+          <p class='text-gray-500 mt-1'>Updated daily by our medical board</p>
+        </div>
+        <a
+          href='#'
+          class='text-accent hover:text-teal-700 font-bold flex items-center group transition-colors'>
+          Explore Archive
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            class='h-5 w-5 ml-1 transform group-hover:translate-x-1 transition-transform'
+            viewBox='0 0 20 20'
+            fill='currentColor'>
+            <path
+              fill-rule='evenodd'
+              d='M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z'
+              clip-rule='evenodd'></path>
+          </svg>
+        </a>
       </div>
-      <div class='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
+
+      <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
         <!-- Blog Post 1 -->
         <article
-          class='bg-gray-50 p-6 rounded-lg shadow-md hover-lift transition-transform duration-300'>
-          <h3 class='text-xl font-semibold mb-2 text-gray-800'>
-            Advancements in Telemedicine at St. Paul's
-          </h3>
-          <p class='text-gray-600 text-sm mb-4'>
-            Explore how St. Paul's Hospital is leveraging technology to provide
-            remote healthcare services, ensuring patients receive care from the
-            comfort of their homes.
-          </p>
-          <a
-            href='#'
-            class='inline-block text-accent hover:underline font-medium'
-            >Read More &rarr;</a
-          >
+          class='bg-white rounded-2xl overflow-hidden shadow-soft hover-lift group border border-gray-100 flex flex-col'>
+          <div class='h-48 overflow-hidden relative'>
+            <div class='absolute top-4 left-4 z-10'>
+              <span
+                class='bg-white/90 backdrop-blur text-accent text-[10px] font-bold px-2 py-1 rounded uppercase'
+                >Tech</span
+              >
+            </div>
+            <img
+              src='https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?auto=format&fit=crop&q=80&w=800'
+              class='w-full h-full object-cover group-hover:scale-110 transition-transform duration-500'
+              alt='Telemedicine'
+            />
+          </div>
+          <div class='p-6 flex flex-col flex-grow'>
+            <p
+              class='text-xs text-gray-400 mb-3 font-medium uppercase tracking-widest'>
+              Oct 12, 2023 • 4 min read
+            </p>
+            <h3
+              class='text-xl font-bold mb-3 text-primary group-hover:text-accent transition-colors leading-snug'>
+              Advancements in Telemedicine at St. Paul's
+            </h3>
+            <p class='text-gray-500 text-sm mb-6 flex-grow leading-relaxed'>
+              Explore how St. Paul's Hospital is leveraging technology to
+              provide remote healthcare services, ensuring patients receive care
+              everywhere.
+            </p>
+            <a
+              href='#'
+              class='inline-flex items-center text-accent font-bold text-sm uppercase tracking-wider group/link'>
+              Read Story
+              <span
+                class='ml-2 transform group-hover/link:translate-x-1 transition-transform'
+                >&rarr;</span
+              >
+            </a>
+          </div>
         </article>
+
         <!-- Blog Post 2 -->
         <article
-          class='bg-gray-50 p-6 rounded-lg shadow-md hover-lift transition-transform duration-300'>
-          <h3 class='text-xl font-semibold mb-2 text-gray-800'>
-            Community Health Initiatives
-          </h3>
-          <p class='text-gray-600 text-sm mb-4'>
-            Learn about our recent community outreach programs aimed at
-            promoting health and wellness among local residents.
-          </p>
-          <a
-            href='#'
-            class='inline-block text-accent hover:underline font-medium'
-            >Read More &rarr;</a
-          >
+          class='bg-white rounded-2xl overflow-hidden shadow-soft hover-lift group border border-gray-100 flex flex-col'>
+          <div class='h-48 overflow-hidden relative'>
+            <div class='absolute top-4 left-4 z-10'>
+              <span
+                class='bg-white/90 backdrop-blur text-accent text-[10px] font-bold px-2 py-1 rounded uppercase'
+                >Community</span
+              >
+            </div>
+            <img
+              src='https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=800'
+              class='w-full h-full object-cover group-hover:scale-110 transition-transform duration-500'
+              alt='Health Initiative'
+            />
+          </div>
+          <div class='p-6 flex flex-col flex-grow'>
+            <p
+              class='text-xs text-gray-400 mb-3 font-medium uppercase tracking-widest'>
+              Oct 10, 2023 • 6 min read
+            </p>
+            <h3
+              class='text-xl font-bold mb-3 text-primary group-hover:text-accent transition-colors leading-snug'>
+              Community Health Initiatives: 2023 Report
+            </h3>
+            <p class='text-gray-500 text-sm mb-6 flex-grow leading-relaxed'>
+              Learn about our recent community outreach programs aimed at
+              promoting health and wellness among local residents in the
+              tri-state area.
+            </p>
+            <a
+              href='#'
+              class='inline-flex items-center text-accent font-bold text-sm uppercase tracking-wider group/link'>
+              Read Story
+              <span
+                class='ml-2 transform group-hover/link:translate-x-1 transition-transform'
+                >&rarr;</span
+              >
+            </a>
+          </div>
         </article>
+
         <!-- Blog Post 3 -->
         <article
-          class='bg-gray-50 p-6 rounded-lg shadow-md hover-lift transition-transform duration-300'>
-          <h3 class='text-xl font-semibold mb-2 text-gray-800'>
-            Meet Our New Medical Staff
-          </h3>
-          <p class='text-gray-600 text-sm mb-4'>
-            Get to know the latest additions to our medical team and their
-            commitment to providing exceptional care to our patients.
-          </p>
-          <a
-            href='#'
-            class='inline-block text-accent hover:underline font-medium'
-            >Read More &rarr;</a
-          >
+          class='bg-white rounded-2xl overflow-hidden shadow-soft hover-lift group border border-gray-100 flex flex-col'>
+          <div class='h-48 overflow-hidden relative'>
+            <div class='absolute top-4 left-4 z-10'>
+              <span
+                class='bg-white/90 backdrop-blur text-accent text-[10px] font-bold px-2 py-1 rounded uppercase'
+                >People</span
+              >
+            </div>
+            <img
+              src='/gallery/6.jpg'
+              class='w-full h-full object-cover group-hover:scale-110 transition-transform duration-500'
+              alt='Doctors'
+            />
+          </div>
+          <div class='p-6 flex flex-col flex-grow'>
+            <p
+              class='text-xs text-gray-400 mb-3 font-medium uppercase tracking-widest'>
+              Oct 08, 2023 • 3 min read
+            </p>
+            <h3
+              class='text-xl font-bold mb-3 text-primary group-hover:text-accent transition-colors leading-snug'>
+              Meet Our New Specialists in Oncology
+            </h3>
+            <p class='text-gray-500 text-sm mb-6 flex-grow leading-relaxed'>
+              Get to know the latest additions to our medical team and their
+              commitment to providing exceptional precision care to our
+              patients.
+            </p>
+            <a
+              href='#'
+              class='inline-flex items-center text-accent font-bold text-sm uppercase tracking-wider group/link'>
+              Read Story
+              <span
+                class='ml-2 transform group-hover/link:translate-x-1 transition-transform'
+                >&rarr;</span
+              >
+            </a>
+          </div>
         </article>
-</main>
+      </div>
+    </section>
+  </main>
+
+  <!-- Newsletter Subscription -->
+  <section
+    class='mt-20 bg-teal-50 p-8 md:p-12 text-center border border-teal-100 shadow-inner'>
+    <h2 class='text-3xl font-extrabold text-primary mb-4'>
+      Stay healthy, stay informed.
+    </h2>
+    <p class='text-gray-600 mb-8 max-w-md mx-auto'>
+      Get the monthly St. Paul’s health newsletter delivered directly to your
+      inbox.
+    </p>
+    <form class='flex flex-col sm:flex-row gap-4 max-w-lg mx-auto'>
+      <input
+        type='email'
+        placeholder='Enter your email'
+        class='flex-grow px-6 py-4 rounded-2xl border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-accent transition-all outline-none'
+      />
+      <button
+        class='bg-accent text-white px-8 py-4 rounded-2xl font-bold hover:bg-teal-700 transition-all shadow-lg shadow-teal-200'>
+        Subscribe
+      </button>
+    </form>
+    <p class='text-xs text-gray-400 mt-6 italic'>
+      We respect your privacy. Unsubscribe at any time.
+    </p>
+  </section>
 </Layout>
-        
