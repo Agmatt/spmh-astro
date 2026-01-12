@@ -11,23 +11,27 @@ import Layout from '../../Layout/Layout.astro';
       </h2>
       <div class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
         {
-          ['3.jpg', '49.jpg', '50.jpg', '52.jpg', '48.jpg', '46.jpg'].map((img, i) => (
-            <div class='group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition duration-300'>
-              <img
-                src={`/img/${img}`}
-                alt={`Facility ${i + 1}`}
-                class='w-full h-64 object-cover cursor-pointer transform group-hover:scale-110 transition duration-500'
-                data-lightbox
-              />
-              <div class='absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent text-white text-sm p-3'>
-                {/* {i === 0
+          ['3.jpg', '49.jpg', '50.jpg', '52.jpg', '48.jpg', '46.jpg'].map(
+            (img, i) => (
+              <div class='group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition duration-300'>
+                <img
+                  src={`/img/${img}`}
+                  loading='lazy'
+                  decoding='async'
+                  alt={`Facility ${i + 1}`}
+                  class='w-full h-64 object-cover cursor-pointer transform group-hover:scale-110 transition duration-500'
+                  data-lightbox
+                />
+                <div class='absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent text-white text-sm p-3'>
+                  {/* {i === 0
                       ? 'Modern Patient Ward'
                       : i === 1
                         ? 'Diagnostic Laboratory'
                         : 'Maternity Wing'} */}
+                </div>
               </div>
-            </div>
-          ))
+            )
+          )
         }
       </div>
     </div>
@@ -64,6 +68,8 @@ import Layout from '../../Layout/Layout.astro';
             <div class='group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition duration-300'>
               <img
                 src={`/img/${img}`}
+                loading='lazy'
+                decoding='async'
                 alt={`Staff ${i + 1}`}
                 class='w-full h-64 object-cover cursor-pointer transform group-hover:scale-110 transition duration-500'
                 data-lightbox
@@ -90,25 +96,25 @@ import Layout from '../../Layout/Layout.astro';
       </h2>
       <div class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
         {
-          ['51.jpg', '53.jpg', 'community3.jpg'].map(
-            (img, i) => (
-              <div class='group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition duration-300'>
-                <img
-                  src={`/img/${img}`}
-                  alt={`Community ${i + 1}`}
-                  class='w-full h-64 object-cover cursor-pointer transform group-hover:scale-110 transition duration-500'
-                  data-lightbox
-                />
-                <div class='absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent text-white text-sm p-3'>
-                  {/* {i === 0
+          ['51.jpg', '53.jpg', 'community3.jpg'].map((img, i) => (
+            <div class='group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition duration-300'>
+              <img
+                src={`/img/${img}`}
+                loading='lazy'
+                decoding='async'
+                alt={`Community ${i + 1}`}
+                class='w-full h-64 object-cover cursor-pointer transform group-hover:scale-110 transition duration-500'
+                data-lightbox
+              />
+              <div class='absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent text-white text-sm p-3'>
+                {/* {i === 0
                     ? 'Outreach in Makongeni'
                     : i === 1
                       ? 'Awareness Campaigns'
                       : 'Nutrition Programs'} */}
-                </div>
               </div>
-            )
-          )
+            </div>
+          ))
         }
       </div>
     </div>
@@ -121,6 +127,8 @@ import Layout from '../../Layout/Layout.astro';
       <div class='aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden shadow-lg'>
         <iframe
           src='https://www.youtube.com/embed/your-video-id'
+          loading='lazy'
+          decoding='async'
           title='Hospital Video'
           class='w-full h-full'
           allowfullscreen></iframe>
