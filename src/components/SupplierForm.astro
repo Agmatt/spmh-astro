@@ -1,0 +1,263 @@
+---
+// src/components/CompleteSupplierForm.astro
+---
+
+<section
+  class='max-w-4xl mx-auto my-12 p-8 bg-white shadow-xl rounded-2xl border border-gray-100'>
+  <div class='mb-10 text-center'>
+    <h2 class='text-3xl font-bold text-slate-800'>
+      Supplier Registration Portal
+    </h2>
+    <p class='mt-2 text-slate-600 font-medium'>
+      St. Paul’s Mission Hospital — 2026/2028 Prequalification
+    </p>
+    <div
+      class='mt-4 inline-flex items-center bg-blue-50 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-blue-100'>
+      Official Procurement Document
+    </div>
+  </div>
+
+  <form
+    action='/api/submit-supplier'
+    method='POST'
+    enctype='multipart/form-data'
+    class='space-y-10'>
+    <div class='space-y-6'>
+      <h3
+        class='text-lg font-semibold text-blue-700 flex items-center border-b pb-2'>
+        <span
+          class='bg-blue-600 text-white w-7 h-7 rounded-lg flex items-center justify-center mr-3 text-sm italic'
+          >01</span
+        >
+        Company Overview & Category
+      </h3>
+      <div class='grid grid-cols-1 md:grid-cols-2 gap-6'>
+        <div>
+          <label class='block text-sm font-bold text-gray-700 mb-1'
+            >Registered Business Name *</label
+          >
+          <input
+            type='text'
+            name='businessName'
+            required
+            class='w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition bg-gray-50/50'
+            placeholder='As per Certificate of Incorporation'
+          />
+        </div>
+        <div>
+          <label class='block text-sm font-bold text-gray-700 mb-1'
+            >Primary Supply Category *</label
+          >
+          <select
+            name='category'
+            required
+            class='w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-white'>
+            <option value=''>-- Select One --</option>
+            <option value='pharmaceuticals'>Pharmaceuticals</option>
+            <option value='non-pharms'>Non-Pharmaceuticals (Consumables)</option
+            >
+            <option value='medical-equipment'>Medical Equipment</option>
+            <option value='lab-reagents'>Laboratory Reagents</option>
+            <option value='food-catering'>Food & Catering</option>
+            <option value='general-supplies'>General Office Supplies</option>
+            <option value='maintenance'>Maintenance & Engineering</option>
+          </select>
+        </div>
+        <div>
+          <label class='block text-sm font-bold text-gray-700 mb-1'
+            >KRA PIN Number *</label
+          >
+          <input
+            type='text'
+            name='pinNumber'
+            required
+            class='w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none'
+            placeholder='P05...'
+          />
+        </div>
+        <div>
+          <label class='block text-sm font-bold text-gray-700 mb-1'
+            >KRA Compliance Expiry *</label
+          >
+          <input
+            type='date'
+            name='taxExpiry'
+            required
+            class='w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none'
+          />
+        </div>
+        <div class='md:col-span-2'>
+          <label class='block text-sm font-bold text-gray-700 mb-1'
+            >Physical Address *</label
+          >
+          <textarea
+            name='address'
+            rows='2'
+            required
+            class='w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none'
+            placeholder='Building/Street, Town, County'></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class='space-y-6'>
+      <h3
+        class='text-lg font-semibold text-blue-700 flex items-center border-b pb-2'>
+        <span
+          class='bg-blue-600 text-white w-7 h-7 rounded-lg flex items-center justify-center mr-3 text-sm italic'
+          >02</span
+        >
+        Clinical & Regulatory Compliance
+      </h3>
+      <p class='text-xs text-slate-500 font-medium italic -mt-2'>
+        Mandatory for medical and pharmaceutical vendors.
+      </p>
+      <div class='grid grid-cols-1 md:grid-cols-2 gap-4'>
+        <div
+          class='flex items-center space-x-3 p-4 bg-slate-50 rounded-xl border border-slate-200'>
+          <input
+            type='checkbox'
+            id='ppb'
+            name='licenses'
+            value='PPB'
+            class='w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500'
+          />
+          <label for='ppb' class='text-sm text-gray-700 font-semibold'
+            >Pharmacy & Poisons Board License</label
+          >
+        </div>
+        <div
+          class='flex items-center space-x-3 p-4 bg-slate-50 rounded-xl border border-slate-200'>
+          <input
+            type='checkbox'
+            id='kmlttb'
+            name='licenses'
+            value='KMLTTB'
+            class='w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500'
+          />
+          <label for='kmlttb' class='text-sm text-gray-700 font-semibold'
+            >KMLTTB (Lab) License</label
+          >
+        </div>
+        <div
+          class='md:col-span-2 flex items-center space-x-3 p-4 bg-emerald-50 rounded-xl border border-emerald-100'>
+          <input
+            type='checkbox'
+            id='agpo'
+            name='agpo'
+            class='w-5 h-5 text-emerald-600 rounded border-emerald-300 focus:ring-emerald-500'
+          />
+          <label for='agpo' class='text-sm text-emerald-800 font-bold'
+            >This firm is AGPO Registered (Women, Youth, PWD)</label
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class='space-y-6'>
+      <h3
+        class='text-lg font-semibold text-blue-700 flex items-center border-b pb-2'>
+        <span
+          class='bg-blue-600 text-white w-7 h-7 rounded-lg flex items-center justify-center mr-3 text-sm italic'
+          >03</span
+        >
+        Statutory Documents (PDF Only)
+      </h3>
+      <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+        <div
+          class='p-4 border-2 border-dashed border-gray-200 rounded-2xl text-center'>
+          <label class='block text-xs font-bold text-gray-500 mb-2 uppercase'
+            >Tax Compliance *</label
+          >
+          <input
+            type='file'
+            name='taxCert'
+            accept='.pdf'
+            required
+            class='text-[10px] w-full'
+          />
+        </div>
+        <div
+          class='p-4 border-2 border-dashed border-gray-200 rounded-2xl text-center'>
+          <label class='block text-xs font-bold text-gray-500 mb-2 uppercase'
+            >CR12 (Directors) *</label
+          >
+          <input
+            type='file'
+            name='cr12'
+            accept='.pdf'
+            required
+            class='text-[10px] w-full'
+          />
+        </div>
+        <div
+          class='p-4 border-2 border-dashed border-gray-200 rounded-2xl text-center'>
+          <label class='block text-xs font-bold text-gray-500 mb-2 uppercase'
+            >Business Permit *</label
+          >
+          <input
+            type='file'
+            name='permit'
+            accept='.pdf'
+            required
+            class='text-[10px] w-full'
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class='space-y-6'>
+      <h3
+        class='text-lg font-semibold text-blue-700 flex items-center border-b pb-2'>
+        <span
+          class='bg-blue-600 text-white w-7 h-7 rounded-lg flex items-center justify-center mr-3 text-sm italic'
+          >04</span
+        >
+        Payment & Trade Terms
+      </h3>
+      <div class='grid grid-cols-1 md:grid-cols-2 gap-6'>
+        <div>
+          <label class='block text-sm font-bold text-gray-700 mb-1'
+            >Standard Credit Period *</label
+          >
+          <select
+            name='creditPeriod'
+            required
+            class='w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-white'>
+            <option value='30'>30 Days (Standard)</option>
+            <option value='60'>60 Days</option>
+            <option value='90'>90 Days</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class='bg-amber-50 p-6 rounded-2xl border border-amber-100 shadow-inner'>
+      <div class='flex items-start space-x-4'>
+        <input
+          type='checkbox'
+          required
+          class='mt-1 w-5 h-5 text-amber-600 rounded border-amber-300 focus:ring-amber-500'
+        />
+        <div class='text-xs text-amber-900 leading-relaxed'>
+          <p class='font-bold text-sm mb-1 uppercase tracking-tight'>
+            Integrity & Anti-Corruption Declaration
+          </p>
+          I hereby declare that the information provided is true and accurate. I confirm
+          that no Director of this firm is an employee or board member of <strong
+            >St. Paul's Mission Hospital</strong
+          >. We agree to abide by the Hospital's Supplier Code of Conduct and
+          acknowledge that any form of bribery or collusion will lead to
+          permanent debarment.
+        </div>
+      </div>
+    </div>
+
+    <button
+      type='submit'
+      class='w-full bg-blue-700 hover:bg-blue-800 text-white font-black text-lg py-5 rounded-2xl shadow-xl transition-all active:scale-95 flex justify-center items-center'>
+      SUBMIT REGISTRATION DOSSIER
+    </button>
+  </form>
+</section>

@@ -1,0 +1,181 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { createClient } from '@supabase/supabase-js';
+
+// 1. Connect to Supabase
+const supabase = createClient(
+  import.meta.env.PUBLIC_SUPABASE_URL,
+  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+);
+
+// 2. Fetch all suppliers from the database
+const { data: suppliers, error } = await supabase
+  .from('suppliers')
+  .select('*')
+  .order('created_at', { ascending: false });
+
+// 3. Simple error handling
+if (error) {
+  console.error('Fetch error:', error);
+}
+
+// Helper to construct the full public URL for files
+const storageBase = `${import.meta.env.PUBLIC_SUPABASE_URL}/storage/v1/object/public/supplier-docs/`;
+---
+
+<Layout title="Admin Dashboard | St. Paul's Procurement">
+  <main class='bg-slate-50 min-h-screen'>
+    <nav
+      class='bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center sticky top-0 z-10 shadow-sm'>
+      <div class='flex items-center gap-2'>
+        <div
+          class='w-8 h-8 bg-blue-700 rounded-lg flex items-center justify-center text-white font-bold italic'>
+          SP
+        </div>
+        <h1 class='text-slate-800 font-bold tracking-tight text-lg'>
+          Procurement Admin Panel
+        </h1>
+      </div>
+      <div class='flex items-center gap-4 text-sm font-medium text-slate-500'>
+        <span>Logged in as: <strong>Committee Admin</strong></span>
+        <a href='/' class='text-blue-600 hover:underline'>Exit Dashboard</a>
+      </div>
+    </nav>
+
+    <div class='max-w-7xl mx-auto px-8 py-10'>
+      <div class='grid grid-cols-1 md:grid-cols-3 gap-6 mb-10'>
+        <div class='bg-white p-6 rounded-2xl shadow-sm border border-slate-200'>
+          <p class='text-slate-500 text-xs font-bold uppercase mb-1'>
+            Total Registrations
+          </p>
+          <p class='text-3xl font-black text-slate-900'>
+            {suppliers ? suppliers.length : 0}
+          </p>
+        </div>
+        <div class='bg-white p-6 rounded-2xl shadow-sm border border-slate-200'>
+          <p class='text-slate-500 text-xs font-bold uppercase mb-1'>
+            Pending Review
+          </p>
+          <p class='text-3xl font-black text-amber-600'>
+            {
+              suppliers
+                ? suppliers.filter((s) => s.status === 'Pending Review').length
+                : 0
+            }
+          </p>
+        </div>
+        <div class='bg-white p-6 rounded-2xl shadow-sm border border-slate-200'>
+          <p class='text-slate-500 text-xs font-bold uppercase mb-1'>
+            Categories Represented
+          </p>
+          <p class='text-3xl font-black text-blue-700'>
+            {
+              suppliers
+                ? [...new Set(suppliers.map((s) => s.category))].length
+                : 0
+            }
+          </p>
+        </div>
+      </div>
+
+      <div
+        class='bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden'>
+        <div
+          class='p-6 border-b border-slate-100 flex justify-between items-center'>
+          <h2 class='text-xl font-bold text-slate-800'>
+            Supplier Applications
+          </h2>
+          <button
+            onclick='window.print()'
+            class='text-xs bg-slate-100 px-4 py-2 rounded-lg font-bold hover:bg-slate-200 transition'
+            >Export PDF/Print</button
+          >
+        </div>
+
+        <div class='overflow-x-auto'>
+          <table class='w-full text-left border-collapse'>
+            <thead class='bg-slate-50 border-b border-slate-200'>
+              <tr>
+                <th class='px-6 py-4 text-xs font-bold text-slate-500 uppercase'
+                  >Business Name / PIN</th
+                >
+                <th class='px-6 py-4 text-xs font-bold text-slate-500 uppercase'
+                  >Category</th
+                >
+                <th class='px-6 py-4 text-xs font-bold text-slate-500 uppercase'
+                  >Credit Period</th
+                >
+                <th class='px-6 py-4 text-xs font-bold text-slate-500 uppercase'
+                  >Verification Docs</th
+                >
+                <th class='px-6 py-4 text-xs font-bold text-slate-500 uppercase'
+                  >Status</th
+                >
+              </tr>
+            </thead>
+            <tbody class='divide-y divide-slate-100'>
+              {
+                suppliers &&
+                  suppliers.map((supplier) => (
+                    <tr class='hover:bg-slate-50/50 transition'>
+                      <td class='px-6 py-6'>
+                        <div class='font-bold text-slate-900'>
+                          {supplier.business_name}
+                        </div>
+                        <div class='text-xs text-slate-400 font-mono mt-1'>
+                          PIN: {supplier.pin_number}
+                        </div>
+                      </td>
+                      <td class='px-6 py-6'>
+                        <span class='text-sm text-slate-600 bg-slate-100 px-3 py-1 rounded-full font-medium'>
+                          {supplier.category}
+                        </span>
+                      </td>
+                      <td class='px-6 py-6 text-sm text-slate-600'>
+                        {supplier.credit_period} Days
+                      </td>
+                      <td class='px-6 py-6'>
+                        <div class='flex flex-col gap-1'>
+                          <a
+                            href={storageBase + supplier.tax_cert_url}
+                            target='_blank'
+                            class='text-[10px] text-blue-600 hover:underline font-bold'>
+                            📄 Tax Compliance
+                          </a>
+                          <a
+                            href={storageBase + supplier.cr12_url}
+                            target='_blank'
+                            class='text-[10px] text-blue-600 hover:underline font-bold'>
+                            📄 CR12 Document
+                          </a>
+                          <a
+                            href={storageBase + supplier.permit_url}
+                            target='_blank'
+                            class='text-[10px] text-blue-600 hover:underline font-bold'>
+                            📄 Trade Permit
+                          </a>
+                        </div>
+                      </td>
+                      <td class='px-6 py-6'>
+                        <span class='px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-[10px] font-black uppercase tracking-widest'>
+                          {supplier.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+              }
+            </tbody>
+          </table>
+
+          {
+            (!suppliers || suppliers.length === 0) && (
+              <div class='p-20 text-center text-slate-400'>
+                <p>No supplier registrations found yet.</p>
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>

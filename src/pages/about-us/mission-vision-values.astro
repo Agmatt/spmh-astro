@@ -1,122 +1,212 @@
 ---
 import Layout from '../../Layout/Layout.astro';
+import { Image } from 'astro:assets'; // Using Astro's optimization
+
+// Missions & Vision Data
+const statements = [
+  {
+    label: 'Our Purpose',
+    title: 'The Mission',
+    content:
+      'To facilitate the provision of quality, cost-effective, promotive, preventive, and curative services to all, particularly the underprivileged — all in accordance with the mission of Christ. ',
+    highlight: true,
+  },
+  {
+    label: 'Our Goal',
+    title: 'The Vision',
+    content:
+      'To be a center of excellence in the provision of personalized healthcare in the community and beyond.',
+    highlight: false,
+  },
+];
+
+// Values Data
+const values = [
+  {
+    id: '01',
+    title: 'Christ Centered',
+    desc: "Our healing ministry is a direct extension of Christ's love and compassion.",
+  },
+  {
+    id: '02',
+    title: 'Commitment',
+    desc: 'An unwavering dedication to every life that enters our doors.',
+  },
+  {
+    id: '03',
+    title: 'Teamwork',
+    desc: 'The seamless collaboration of medical minds for superior outcomes.',
+  },
+  {
+    id: '04',
+    title: 'Accountability',
+    desc: "Transparent stewardship of our patients' trust and medical integrity.",
+  },
+  {
+    id: '05',
+    title: 'Human Rights',
+    desc: 'Ensuring dignity, privacy, and respect for every individual.',
+  },
+  {
+    id: '06',
+    title: 'Competence',
+    desc: 'Constant pursuit of the latest medical advancements and excellence.',
+  },
+];
 ---
 
-<Layout title='Our Mission Vision and Values'>
+<Layout title='Mission, Vision & Values'>
   <!-- Hero Section -->
   <section
-    id='about'
-    class='relative mt-0 sm:mt-0 min-h-[35vh] sm:min-h-[70vh] bg-cover bg-center'
-    style="background-image: url('/img/27.jpg');">
-    <!-- Overlay -->
-    <div class='absolute inset-0 bg-black/40'></div>
-
-    <!-- Only H2 -->
-    <div
-      class='absolute z-10 flex items-end justify-start h-full px-6 pb-8 sm:pb-12 lg:pb-16'>
-      <h2 class='text-3xl sm:text-4xl font-bold text-white'>
-        Our Mission & Vision
-      </h2>
+    class='relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-slate-800'>
+    <div class='absolute inset-0 z-0'>
+      <img
+        src='/img/17.jpg'
+        loading='lazy'
+        alt='Hospital Background'
+        class='h-full w-full object-cover object-center brightness-50 grayscale-[0.2]'
+      />
+      <div
+        class='absolute inset-0 bg-gradient-to-b from-slate-700/60 via-slate-700/40 to-slate-700/80'>
+      </div>
     </div>
-  </section>
 
-  <section
-    class='relative text-gray-950 py-20 bg-cover bg-center'
-    style="background-image: url('/img/21.jpg');">
-    <div class='absolute inset-0 bg-black/40'></div>
-    <div class='relative container mx-auto px-6 max-w-5xl text-center'>
-      <h1 class='text-4xl md:text-5xl font-extrabold mb-4 text-white'>
-        Our Mission & Vision
+    <div class='container relative z-10 mx-auto px-6 text-center'>
+      <h1
+        class='mb-12 text-5xl font-bold tracking-[0.15em] text-white/90 uppercase md:text-5xl'>
+        About Us
       </h1>
-      <p class='text-lg md:text-xl max-w-3xl mx-auto text-gray-100'>
-        Guided by faith, driven by compassion — we are committed to delivering
-        healthcare that transforms lives and communities.
-      </p>
+
+      <div class='flex flex-col items-center justify-center gap-6 sm:flex-row'>
+        <a
+          href='#mission'
+          class='min-w-[200px] border border-white/30 bg-white/10 px-8 py-4 text-xs font-black uppercase tracking-[0.3em] text-white backdrop-blur-md transition-all hover:bg-white hover:text-slate-900'>
+          Our Mission
+        </a>
+
+        <a
+          href='/services/clinical'
+          class='min-w-[200px] border border-white/10 bg-transparent px-8 py-4 text-xs font-black uppercase tracking-[0.3em] text-white/60 transition-all hover:border-white/40 hover:text-white'>
+          Our Services
+        </a>
+      </div>
     </div>
   </section>
 
   <!-- Mission & Vision -->
-  <section
-    class='container mx-auto px-6 py-16 max-w-6xl grid md:grid-cols-2 gap-12'>
-    <!-- Mission -->
-    <div
-      class='bg-white rounded-2xl shadow-md p-8 border-b-4 border-t-4 border-secondary hover:shadow-xl transition'>
-      <img
-        src='/img/6.jpg'
-        alt='Doctor caring for patient'
-        class='rounded-lg mb-6 w-full h-56 object-cover'
-        loading='lazy'
-      />
-      <h2 class='text-2xl font-bold text-[#125276] mb-4'>Our Mission</h2>
-      <p class='text-gray-700 leading-relaxed'>
-        To facilitate the provision of quality, cost-effective, promotive,
-        preventive, and curative services to all, particularly the
-        underprivileged — all in accordance with the mission of Christ.
-      </p>
-    </div>
+  <section id='mission' class='relative py-0 bg-white border-b border-gray-100'>
+    <div class='flex flex-col lg:flex-row min-h-[80vh] items-stretch'>
+      <div class='lg:w-1/2 relative min-h-[400px] bg-gray-100 overflow-hidden'>
+        <img
+          src='/img/6.jpg'
+          loading='lazy'
+          alt='Clinical Excellence'
+          class='absolute inset-0 w-full h-full object-cover filter grayscale-[0.2] hover:grayscale-0 transition-all duration-1000'
+        />
+      </div>
 
-    <!-- Vision -->
-    <div
-      class='bg-white rounded-2xl shadow-md p-8 border-b-4 border-t-4 border-secondary hover:shadow-xl transition'>
-      <img
-        src='/img/8.jpg'
-        alt='Modern hospital vision'
-        class='rounded-lg mb-6 w-full h-56 object-cover'
-        loading='lazy'
-      />
-      <h2 class='text-2xl font-bold text-[#125276] mb-4'>Our Vision</h2>
-      <p class='text-gray-700 leading-relaxed'>
-        To be a center of excellence in the provision of personalized healthcare
-        in the community and beyond.
-      </p>
+      <div
+        class='lg:w-1/2 flex items-center justify-center py-16 px-6 lg:px-24'>
+        <div class='max-w-xl w-full space-y-24'>
+          {
+            statements.map((s) => (
+              <div class='group relative'>
+                <div class='space-y-4'>
+                  <span class='text-[10px] font-bold tracking-[0.5em] text-primary uppercase opacity-60'>
+                    {s.label}
+                  </span>
+                  <h3 class='text-4xl font-light text-gray-900 tracking-tight'>
+                    {s.title}
+                  </h3>
+                  <p
+                    class={`text-xl leading-relaxed ${s.highlight ? 'text-gray-800 font-medium italic' : 'text-gray-500'}`}>
+                    {s.content}
+                  </p>
+                </div>
+
+                <div class='mt-8 w-12 h-[1px] bg-gray-300 group-hover:w-24 group-hover:bg-primary transition-all duration-500' />
+              </div>
+            ))
+          }
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Values Section -->
-  <section class='py-20 bg-gray-50'>
-    <div
-      class='container mx-auto px-6 lg:px-12 max-w-6xl flex flex-col lg:flex-row items-center gap-12'>
-      <!-- Values Text -->
-      <div class='flex-1'>
-        <h2 class='text-4xl font-extrabold text-primary mb-6'>
-          Our Core Values
-        </h2>
-        <ul class='space-y-4 text-lg text-gray-700'>
-          <li class='flex items-center gap-3'>
-            <span class='w-3 h-3 bg-primary rounded-full'></span>
-            Christ Centered
-          </li>
-          <li class='flex items-center gap-3'>
-            <span class='w-3 h-3 bg-primary rounded-full'></span>
-            Commitment
-          </li>
-          <li class='flex items-center gap-3'>
-            <span class='w-3 h-3 bg-primary rounded-full'></span>
-            Teamwork
-          </li>
-          <li class='flex items-center gap-3'>
-            <span class='w-3 h-3 bg-primary rounded-full'></span>
-            Accountability
-          </li>
-          <li class='flex items-center gap-3'>
-            <span class='w-3 h-3 bg-primary rounded-full'></span>
-            Respect for Human Rights
-          </li>
-          <li class='flex items-center gap-3'>
-            <span class='w-3 h-3 bg-primary rounded-full'></span>
-            Professional Competence
-          </li>
-        </ul>
-      </div>
+  <style>
+    /* Optional: Smooth reveal on scroll */
+    #mission {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s ease forwards;
+    }
 
-      <!-- Image -->
-      <div class='flex-1'>
-        <img
-          src='/img/22.jpg'
-          alt='Our dedicated hospital staff'
-          class='w-full h-auto object-cover rounded-lg shadow-md'
-          loading='lazy'
-        />
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+  <!-- Values -->
+  <section class='py-20 bg-gray-50'>
+    <div class='container mx-auto px-2 md:px-4 max-w-5xl'>
+      <div class='border-b border-accent pb-12 mb-10'>
+        <h2 class='text-4xl md:text-5xl font-semibold mt-4'>Our Heritage</h2>
+      </div>
+      <h2 class='grid
+          grid-cols-1
+          gap-0'>
+        {
+          values.map((v) => (
+            <div class='group relative border-b border-accent py-8 transition-all duration-700 hover:bg-white px-2 md:px-4'>
+              <div class='flex flex-col md:flex-row md:items-start gap-8'>
+                <div class='hidden md:block'>
+                  <span class='text-sm font-mono text-gray-400 group-hover:text-primary transition-colors italic'>
+                    ({v.id})
+                  </span>
+                </div>
+
+                <div class='flex-1'>
+                  <h3 class='text-2xl md:text-3xl font-medium text-gray-800 group-hover:translate-x-2 transition-transform duration-500'>
+                    {v.title}
+                  </h3>
+                </div>
+
+                <div class='flex-1 max-w-md'>
+                  <p class='text-gray-500 text-lg leading-relaxed group-hover:text-gray-800 transition-colors duration-500'>
+                    {v.desc}
+                  </p>
+                </div>
+
+                <div class='hidden md:block opacity-0 group-hover:opacity-100 transition-all duration-500 transform -translate-x-4 group-hover:translate-x-0'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='24'
+                    height='24'
+                    viewBox='0 0 24 24'
+                    fill='none'
+                    stroke='currentColor'
+                    stroke-width='1.5'
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    class='text-primary'>
+                    <path d='M5 12h14m-7-7 7 7-7 7' />
+                  </svg>
+                </div>
+              </div>
+
+              <div class='absolute bottom-0 left-0 h-[2px] bg-primary w-0 group-hover:w-full transition-all duration-700 ease-in-out' />
+            </div>
+          ))
+        }
+      </h2>
+
+      <div class='mt-20 text-center'>
+        <p class='text-sm text-gray-400 font-medium tracking-widest uppercase'>
+          Safe Hands • Caring Hearts
+        </p>
       </div>
     </div>
   </section>
