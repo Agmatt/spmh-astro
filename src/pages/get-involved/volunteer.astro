@@ -1,0 +1,131 @@
+---
+import Layout from '../../Layout/Layout.astro';
+
+const serviceSectors = [
+  {
+    id: '01',
+    sector: 'Clinical & Patient Flow',
+    roles: ['Triage Support', 'Ward Companionship', 'Patient Wayfinding'],
+    intent:
+      'Assisting nursing staff in non-clinical patient navigation and comfort.',
+  },
+  {
+    id: '02',
+    sector: 'Data & Health Informatics',
+    roles: ['ICT Support', 'Records Digitization', 'EMR Assistance'],
+    intent:
+      'Maintaining the integrity and digital flow of patient health records.',
+  },
+  {
+    id: '03',
+    sector: 'Institutional Admin',
+    roles: ['Claims Processing', 'Finance Support', 'Front Office'],
+    intent:
+      'Optimizing the administrative backbone and financial processing units.',
+  },
+  {
+    id: '04',
+    sector: 'Social & Community',
+    roles: ['Medical Social Work', 'Community Health Outreach', 'Liaison'],
+    intent:
+      'Extending care beyond hospital walls into the Southern Nyanza region.',
+  },
+  {
+    id: '05',
+    sector: 'Technical Logistics',
+    roles: ['Radiology Aide', 'Inventory Support', 'Lab Logistics'],
+    intent:
+      'Facilitating the movement of supplies and patients in specialized units.',
+  },
+];
+---
+
+<Layout title='Volunteer With Us'>
+  <!-- Breadcrump -->
+  <div class='max-w-5xl mx-auto py-8'>
+    <a
+      href='/get-involved'
+      class='text-accent hover:underline text-sm font-medium'>← Back</a
+    >
+  </div>
+
+  <section class='bg-white pt-14 pb-12 border-b border-slate-100'>
+    <div class='container mx-auto px-6 max-w-5xl'>
+      <div
+        class='flex flex-col md:flex-row justify-between items-end gap-8 mb-16'>
+        <div class='max-w-xl'>
+          <h1
+            class='text-5xl md:text-7xl font-black tracking-tighter text-secondary uppercase leading-[0.85]'>
+            Volunteer <br />
+            <span class='text-slate-300 italic font-serif font-light'
+              >Service.</span
+            >
+          </h1>
+        </div>
+        <div class='pb-2'>
+          <a
+            href='#apply'
+            class='group flex items-center gap-4 bg-primary text-white px-8 py-5 rounded-sm hover:bg-accent transition-all'>
+            <span class='text-[10px] font-black uppercase tracking-widest'
+              >Global Application Portal</span
+            >
+            <span
+              class='transform group-hover:translate-x-1 transition-transform'
+              >→</span
+            >
+          </a>
+        </div>
+      </div>
+
+      <!-- Grid of Service Sectors -->
+      <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+        {
+          serviceSectors.map((s) => (
+            <div class='group border-l border-secondary pl-8 py-4 hover:border-blue-600 transition-colors'>
+              <h3 class='text-xl font-bold text-secondary mb-3 uppercase tracking-tight group-hover:text-primary transition-colors'>
+                {s.sector}
+              </h3>
+              <p class='text-slate-800 text-sm leading-relaxed mb-6 font-light'>
+                {s.intent}
+              </p>
+
+              <div class='flex flex-wrap gap-x-4 gap-y-2 opacity-60 group-hover:opacity-100 transition-opacity'>
+                {s.roles.map((role) => (
+                  <span class='text-[9px] font-black uppercase tracking-widest text-slate-400 border-b border-slate-100'>
+                    {role}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Foot note -->
+      <div
+        class='mt-20 p-8 bg-slate-50 border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6'>
+        <div class='flex gap-8 items-center'>
+          <div class='text-center'>
+            <span class='block text-xl font-bold text-slate-900 uppercase'
+              >100%</span
+            >
+            <span
+              class='text-[8px] font-mono uppercase text-slate-500 tracking-tighter'
+              >Vetted Staffing</span
+            >
+          </div>
+          <div class='w-px h-8 bg-slate-200'></div>
+          <p class='text-[11px] text-slate-500 max-w-xs leading-tight'>
+            All volunteers are subject to mandatory background checks and
+            clinical safety orientation prior to placement.
+          </p>
+        </div>
+        <a
+          href='#guidelines'
+          class='text-[10px] font-black uppercase tracking-widest text-primary border-b-2 border-primary hover:border-accent hover:text-accent pb-1'>
+          Download Service Guidelines (PDF)
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
