@@ -1,28 +1,11 @@
 ---
 import Layout from '../../Layout/Layout.astro';
-// Services Data
+
 const services = [
   {
-    id: 'surgical',
-    title: 'Medical & Surgical',
-    image: '/img/15.jpg',
-    loading: 'lazy',
-    lead: 'Superior surgical outcomes through precision technology.',
-    description:
-      'Our unit features high-end theaters equipped for both minor and major procedures. We maintain a strict protocol for sterilization and post-operative recovery.',
-    highlights: [
-      'General Surgery',
-      'Specialized Theatre',
-      'In-patient Wards',
-      '24/7 Nursing',
-    ],
-    meta: 'Clinical',
-  },
-  {
-    id: 'maternity',
-    title: 'Maternity & Neonatal',
+    id: '01', // Matches Home Page
+    title: 'Maternal & Neonatal',
     image: '/img/49.jpg',
-    loading: 'lazy',
     lead: 'Dedicated to the safety and comfort of mother and child.',
     description:
       'A comprehensive maternity wing offering a serene environment for delivery. We provide integrated care from prenatal clinics to neonatal intensive care support.',
@@ -35,24 +18,52 @@ const services = [
     meta: 'Life',
   },
   {
-    id: 'diagnostics',
+    id: '02',
+    title: 'Medical & Surgical',
+    image: '/img/15.jpg',
+    lead: 'Superior surgical outcomes through precision technology.',
+    description:
+      'Our unit features high-end theaters equipped for both minor and major procedures. We maintain a strict protocol for sterilization and post-operative recovery.',
+    highlights: [
+      'General Surgery',
+      'Specialized Theatre',
+      'In-patient Wards',
+      '24/7 Nursing',
+    ],
+    meta: 'Clinical',
+  },
+  {
+    id: '03', // NEW: Physiotherapy Addition
+    title: 'Physiotherapy & Rehab',
+    image: '/img/43.jpg',
+    lead: 'Restoring mobility and independence through clinical therapy.',
+    description:
+      'Our rehabilitation department focuses on physical restoration following injury, surgery, or neurological events. We utilize evidence-based exercises to help patients return to their daily lives.',
+    highlights: [
+      'Orthopedic Rehab',
+      'Stroke Management',
+      'Occupational Therapy',
+      'Pain Management',
+    ],
+    meta: 'Recovery',
+  },
+  {
+    id: '04',
     title: 'Diagnostics & Imaging',
     image: '/img/2.jpg',
-    loading: 'lazy',
     lead: 'Precision data to drive accurate clinical decisions.',
     description:
       'Equipped with automated pathology systems and digital imaging, our lab provides rapid, reliable results to support all hospital departments.',
-    highlights: ['X-Ray', 'Ultrasound', 'Specialized Lab'],
+    highlights: ['Digital X-Ray', 'Ultrasound', 'Specialized Lab', 'Pathology'],
     meta: 'Technical',
   },
   {
-    id: 'pharmacy',
+    id: '05',
     title: 'Pharmacy & Wellness',
     image: '/img/11.jpg',
-    loading: 'lazy',
     lead: 'Fully stocked pharmaceutical care available 24/7.',
     description:
-      'Our pharmacy ensures the availability of essential medicines while providing professional clinical counseling on drug administration.',
+      'Our pharmacy ensures the availability of essential medicines while providing professional clinical counseling on drug administration and chronic care management.',
     highlights: [
       'In-patient Dispensing',
       'Chronic Med Management',
@@ -64,95 +75,60 @@ const services = [
 ];
 ---
 
-<Layout title='Clinical Services'>
-  <!-- Hero Section -->
-<!-- Hero section -->
-<section
-  id='about'
-  class='relative w-full h-[45vh] sm:h-[65vh] overflow-hidden bg-slate-900'>
-  
-  <div class='absolute inset-0'>
-    <img
-      src='/img/21.jpg'
-      alt='Hospital Exterior'
-      loading='eager' 
-      class='w-full h-full object-cover opacity-80 scale-105 transition-transform duration-[3000ms]'
-      style="object-position: center 15%;" 
-    />
-    </div>
-
-  <div class='absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent'></div>
-
-  <div class='relative z-10 h-full container mx-auto px-6 max-w-7xl flex flex-col justify-end pb-12 sm:pb-20'>
-
-    <h1
-      class='text-4xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tighter leading-[0.85]'
-      data-aos='fade-up'
-      data-aos-delay='100'>
-      <span class='font-bold opacity-90 text-blue-100'>Services</span>
-    </h1>
-  </div>
-</section>
-
-
-
-  <!-- <section
-    class='relative min-h-[70vh] flex items-center justify-center bg-slate-900 overflow-hidden'>
-    <div class='absolute inset-0 z-0'>
+<Layout title='Clinical Services | St. Paul’s Mission Hospital'>
+  <section
+    class='relative w-full h-[45vh] sm:h-[60vh] overflow-hidden bg-[#125276]'>
+    <div class='absolute inset-0'>
       <img
-        src='/img/17.jpg'
-        alt='Clinical Center'
-        class='w-full h-full object-cover opacity-40 grayscale-[0.5]'
+        src='/img/21.jpg'
+        alt='Hospital Exterior'
+        loading='eager'
+        fetchpriority='high'
+        class='w-full h-full object-cover opacity-60 scale-105'
+        style='object-position: center 15%;'
       />
-      <div
-        class='absolute inset-0 bg-gradient-to-b from-slate-900/80 via-transparent to-slate-900'>
-      </div>
     </div>
-
-    <div class='container relative z-10 mx-auto px-6 text-center'>
+    <div
+      class='absolute inset-0 bg-gradient-to-t from-[#125276] via-transparent to-transparent'>
+    </div>
+    <div
+      class='relative z-10 h-full container mx-auto px-6 max-w-7xl flex flex-col justify-end pb-12 sm:pb-20'>
       <span
-        class='text-xs font-black uppercase tracking-[0.5em] text-primary-400 mb-6 block'
-        >Our Capabilities</span
+        class='text-blue-300 font-mono text-[10px] uppercase tracking-[0.5em] mb-4'
+        >Level 4 Institution</span
       >
       <h1
-        class='text-6xl md:text-9xl font-bold text-white tracking-tighter mb-8'>
-        Medical <span class='font-serif italic font-light text-primary-300'
-          >Excellence.</span
-        >
+        class='text-5xl sm:text-7xl font-black text-white tracking-tighter uppercase leading-[0.85]'>
+        Clinical <br />
+        <span class='text-blue-400'>Capabilities</span>
       </h1>
-      <p
-        class='text-slate-400 max-w-2xl mx-auto text-lg md:text-xl font-light leading-relaxed'>
-        From specialized surgery to maternal care, we combine advanced
-        technology with a mission-driven approach to healing.
-      </p>
     </div>
-  </section> -->
+  </section>
 
-  <!-- Services -->
   <section class='bg-white'>
-    <div class='flex flex-col lg:flex-row min-h-screen'>
+    <div class='flex flex-col lg:flex-row'>
       <aside
-        class='lg:w-[40%] bg-slate-50 border-r border-slate-100 p-8 md:p-16 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-between'>
+        class='lg:w-[35%] bg-slate-50 border-r border-slate-100 p-8 md:p-16 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-between'>
         <div>
           <span
-            class='text-[10px] font-black uppercase tracking-[0.5em] text-primary mb-12 block'
-            >Hospital Capability Index</span
+            class='text-[10px] font-black uppercase tracking-[0.4em] text-[#1565c0] mb-12 block'
+            >Index protocol</span
           >
-          <nav class='space-y-4'>
+          <nav class='space-y-2'>
             {
               services.map((s) => (
                 <a
                   href={`#${s.id}`}
-                  class='group flex items-center justify-between py-4 border-b border-slate-200 transition-all hover:border-primary'>
-                  <div class='flex items-center gap-6'>
-                    <span class='text-xs font-mono text-slate-300 group-hover:text-primary-500'>
-                      {/* {s.meta.split(' // ')[0]} */}
+                  class='group flex items-center justify-between py-4 border-b border-slate-200 transition-all hover:border-[#1565c0]'>
+                  <div class='flex items-center gap-4'>
+                    <span class='text-[10px] font-mono text-slate-400 group-hover:text-[#1565c0]'>
+                      {s.id}
                     </span>
-                    <span class='text-2xl font-bold text-secondary tracking-tighter'>
+                    <span class='text-xl font-black text-[#125276] tracking-tighter uppercase group-hover:text-[#1565c0]'>
                       {s.title}
                     </span>
                   </div>
-                  <span class='opacity-0 group-hover:opacity-100 transition-opacity text-primary-500'>
+                  <span class='opacity-0 group-hover:opacity-100 transition-opacity text-[#1565c0]'>
                     →
                   </span>
                 </a>
@@ -161,45 +137,53 @@ const services = [
           </nav>
         </div>
 
-        <div class='hidden lg:block'>
+        <div class='pt-12'>
+          <div class='h-px w-12 bg-[#860f0f] mb-4'></div>
           <p
-            class='text-xs font-bold text-slate-400 uppercase tracking-widest leading-loose'>
-            Accredited Healthcare Services<br />
+            class='text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-loose'>
+            St. Paul's Mission Hospital<br />
+            Homa Bay County, Kenya
           </p>
         </div>
       </aside>
 
-      <main class='lg:w-[60%] p-8 md:p-20 space-y-32'>
+      <main class='lg:w-[65%] p-8 md:p-20 space-y-32 bg-white'>
         {
           services.map((s) => (
-            <article id={s.id} class='scroll-mt-32'>
+            <article id={s.id} class='scroll-mt-24 group'>
               <div class='mb-12'>
-                <h2 class='text-5xl md:text-7xl font-bold tracking-tighter mb-6'>
+                <div class='flex items-center gap-4 mb-4'>
+                  <span class='text-[10px] font-mono font-bold text-[#1565c0] bg-blue-50 px-2 py-1 uppercase tracking-widest'>
+                    {s.meta} Unit
+                  </span>
+                  <div class='h-px flex-grow bg-slate-100' />
+                </div>
+                <h2 class='text-5xl md:text-7xl font-black text-slate-900 tracking-tighter uppercase leading-none mb-6 group-hover:text-[#1565c0] transition-colors'>
                   {s.title}
                 </h2>
-                <p class='text-2xl text-slate-500 font-light leading-snug'>
-                  {s.lead}
+                <p class='text-2xl text-slate-500 font-light leading-snug max-w-2xl italic'>
+                  "{s.lead}"
                 </p>
               </div>
 
               <div class='grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-slate-100 pt-12'>
                 <div class='space-y-6'>
-                  <h4 class='text-xs font-black uppercase tracking-widest text-slate-400'>
-                    Description
+                  <h4 class='text-[10px] font-black uppercase tracking-widest text-[#125276]'>
+                    Infrastructure & Scope
                   </h4>
-                  <p class='text-slate-600 leading-relaxed font-light'>
+                  <p class='text-slate-600 leading-relaxed font-light text-lg'>
                     {s.description}
                   </p>
                 </div>
 
                 <div class='space-y-6'>
-                  <h4 class='text-xs font-black uppercase tracking-widest text-slate-400'>
+                  <h4 class='text-[10px] font-black uppercase tracking-widest text-[#125276]'>
                     Core Services
                   </h4>
-                  <ul class='space-y-3'>
+                  <ul class='grid grid-cols-1 gap-3'>
                     {s.highlights.map((h) => (
-                      <li class='flex items-center gap-3 text-sm font-bold text-slate-800'>
-                        <span class='h-1.5 w-1.5 bg-primary rounded-full' />
+                      <li class='flex items-center gap-3 text-xs font-black uppercase tracking-widest text-slate-800'>
+                        <span class='h-1.5 w-1.5 bg-[#860f0f] rounded-full' />
                         {h}
                       </li>
                     ))}
@@ -207,13 +191,13 @@ const services = [
                 </div>
               </div>
 
-              <div class='mt-12 h-80 md:h-[450px] bg-slate-100 rounded-[2rem] overflow-hidden relative group/img cursor-pointer'>
+              <div class='mt-12 aspect-video bg-slate-100 overflow-hidden relative border border-slate-200'>
                 <img
                   src={s.image}
                   alt={s.title}
-                  class='w-full h-full object-cover  transition-all duration-1000 ease-in-out group-hover/img:grayscale-0 group-hover/img:scale-105'
+                  loading='lazy'
+                  class='w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-700'
                 />
-                </div>
               </div>
             </article>
           ))
@@ -222,21 +206,32 @@ const services = [
     </div>
   </section>
 
-  <!-- Call to Action Section -->
-  <section class='py-16 bg-gray-200 text-center'>
-    <div class='container mx-auto px-4'>
-      <h2 class='text-3xl sm:text-4xl font-bold mb-4'>
-        Ready to Schedule an Appointment?
+  <section class='py-24 bg-slate-950 text-white relative overflow-hidden'>
+    <div
+      class='absolute top-0 right-0 w-1/2 h-full bg-[#1565c0] opacity-10 skew-x-12 translate-x-20'>
+    </div>
+    <div class='container mx-auto px-6 max-w-4xl text-center relative z-10'>
+      <h2
+        class='text-4xl md:text-6xl font-black mb-6 uppercase tracking-tighter'>
+        Patient Care is <br />
+        <span class='text-[#1565c0]'>Our Priority.</span>
       </h2>
-      <p class='text-lg mb-8'>
-        Our team is here to answer your questions and help you book a
-        consultation.
+      <p class='text-xl text-slate-400 mb-12 font-light'>
+        Our clinical team is ready to assist you 24/7. Contact us for inquiries
+        or to schedule a consultation.
       </p>
-      <a
-        href='/about-us/contact'
-        class='btn-primary transition-all duration-300'>
-        Contact Us
-      </a>
+      <div class='flex flex-wrap justify-center gap-4'>
+        <a
+          href='/contact'
+          class='bg-[#1565c0] hover:bg-white hover:text-[#1565c0] text-white px-10 py-5 text-[10px] font-black uppercase tracking-widest transition-all'>
+          Consult a Specialist
+        </a>
+        <a
+          href='tel:+254...'
+          class='border border-white/20 hover:bg-white/10 text-white px-10 py-5 text-[10px] font-black uppercase tracking-widest transition-all'>
+          Emergency: 24/7 Line
+        </a>
+      </div>
     </div>
   </section>
 </Layout>

@@ -2,13 +2,99 @@
 import Layout from '../Layout/Layout.astro';
 import Carousel from '../components/Carousel.jsx';
 import PartnerCarousel from '../components/PartnerCarousel.jsx';
+
+// pillars
+const pillars = [
+  {
+    id: '01', // Matches Maternity & Neonatal
+    sector: 'Maternity & Neonatal',
+    desc: 'Dedicated to the safety and comfort of mother and child.',
+    tags: ['Private Suites', 'Antenatal', 'Neonatal Unit'],
+    color: 'bg-[#1565c0]', // Primary Blue
+    span: 'md:col-span-2',
+  },
+  {
+    id: '02', // Matches Medical & Surgical
+    sector: 'Medical & Surgical',
+    desc: 'Superior surgical outcomes through precision clinical protocol.',
+    tags: ['Major Theatre', 'Post-Op Ward'],
+    color: 'bg-[#125276]', // Deep Blue
+    span: 'md:col-span-1',
+  },
+  {
+    id: '03', // Matches Physiotherapy & Rehab
+    sector: 'Physio & Rehab',
+    desc: 'Restoring mobility and independence through clinical therapy.',
+    tags: ['Orthopedic', 'Stroke Care', 'Occupational'],
+    color: 'bg-[#125276]', // Deep Blue
+    span: 'md:col-span-1',
+  },
+  {
+    id: '04', // Matches Diagnostics & Imaging
+    sector: 'Diagnostics & Imaging',
+    desc: 'Precision data to drive accurate clinical decisions.',
+    tags: ['Digital X-Ray', 'Ultrasound', 'Lab'],
+    color: 'bg-[#125276]', // Deep Blue
+    span: 'md:col-span-1',
+  },
+  {
+    id: '05', // Matches Pharmacy & Wellness
+    sector: 'Pharmacy & Wellness',
+    desc: 'Fully stocked pharmaceutical care available 24/7.',
+    tags: ['24hr Dispensing', 'Chronic Care'],
+    color: 'bg-[#860f0f]', // Accent Red
+    span: 'md:col-span-1',
+  },
+];
+
+// reliability
+const stats = [
+  { label: 'Accreditation', value: 'Level 4', detail: 'MoH / SHA Certified' },
+  { label: 'Availability', value: '24/7', detail: 'Emergency & Pharmacy' },
+  { label: 'Clinical Staff', value: '50+', detail: 'Specialists & Nurses' },
+  { label: 'History', value: '40yrs+', detail: 'Mission-Driven Care' },
+];
+
+// Blog
+const updates = [
+  {
+    date: '04',
+    month: 'Feb',
+    year: '2026',
+    category: 'Clinical Update',
+    title: 'New Specialist Services in Physiotherapy Unit',
+    excerpt:
+      'We have expanded our rehabilitation department with dedicated stroke recovery equipment...',
+    slug: '/news/physio-update',
+  },
+  {
+    date: '28',
+    month: 'Jan',
+    year: '2026',
+    category: 'Mission Outreach',
+    title: 'Free Maternal Health Camp: Asumbi Region',
+    excerpt:
+      'Over 200 mothers received prenatal screenings during our quarterly community outreach initiative...',
+    slug: '/news/maternal-camp',
+  },
+  {
+    date: '15',
+    month: 'Jan',
+    year: '2026',
+    category: 'Infrastructure',
+    title: 'Digital X-Ray System Fully Operational',
+    excerpt:
+      'Our diagnostic center has successfully transitioned to a fully digital imaging workflow for faster results...',
+    slug: '/news/digital-xray',
+  },
+];
 ---
 
 <Layout title="St Paul's Mission Hospital">
   <Carousel client:load />
   <main class='pt-5'>
     <!-- About Us Section -->
-    <section id='about' class='container mx-auto px-4 py-6 max-w-6xl'>
+    <!-- <section id='about' class='container mx-auto px-4 py-6 max-w-6xl'>
       <div
         class='bg-white flex flex-col lg:flex-row items-center gap-8'
         data-aos='fade-up'>
@@ -37,252 +123,208 @@ import PartnerCarousel from '../components/PartnerCarousel.jsx';
           />
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <!-- Services Section -->
-    <section id='services' class='bg-teal-100 mx-auto px-4 py-16 w-full'>
-      <header class='text-center mb-12' data-aos='fade-up'>
-        <h2 class='text-4xl font-extrabold mb-4 spacer-center'>Our Services</h2>
-        <p class='text-lg text-gray-600 pt-8 py-3'>
-          Comprehensive care tailored for you and your family.
-        </p>
-      </header>
-
-      <!-- Service Cards -->
-      <div
-        class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12'
-        data-aos='fade-up'
-        data-aos-delay='200'>
-        <!-- General Medicine -->
-        <div
-          class='bg-white border-l-4 border-r-4 border-primary p-8 rounded-xl shadow-lg flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
-          <h3 class='text-xl font-bold mb-2'>General Medicine</h3>
-          <p class='text-gray-600'>
-            Routine check-ups and long-term care for all ages, guided by trusted
-            doctors.
-          </p>
-        </div>
-
-        <!-- Emergency -->
-        <div
-          class='bg-white border-l-4 border-r-4 border-accent p-8 rounded-xl shadow-lg flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
-          <h3 class='text-xl font-bold mb-2'>Emergency Care</h3>
-          <p class='text-gray-600'>
-            Our 24/7 emergency team is always ready for urgent and life-saving
-            care.
-          </p>
-        </div>
-
-        <!-- Surgery -->
-        <div
-          class='bg-white border-l-4 border-r-4 border-secondary p-8 rounded-xl shadow-lg flex flex-col items-center text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2'>
-          <h3 class='text-xl font-bold mb-2'>Surgical Services</h3>
-          <p class='text-gray-600'>
-            Safe surgical procedures with advanced technology and compassionate
-            recovery.
-          </p>
-        </div>
-      </div>
-
-      <!-- Section CTA -->
-      <div class='text-center' data-aos='fade-up' data-aos-delay='400'>
-        <a href='/services/clinical' class='btn-secondary'> Find Out More → </a>
-      </div>
-    </section>
-
-    <section id='about' class='py-20 bg-white'>
-      <div
-        class='container mx-auto px-2 lg:px-0 w-full grid lg:grid-cols-2 gap-12 items-center'>
-        <!-- Image -->
-        <div class='relative'>
-          <img
-            src='/img/28.jpg'
-            alt='St. Paul’s Mission Hospital'
-            class='w-full h-full object-cover'
-          />
-        </div>
-
-        <!-- Text -->
-        <div>
-          <h2 class='text-4xl font-extrabold text-primary mb-6'>
-            Professional & Trustworthy
-          </h2>
-          <p class='text-lg text-gray-700 leading-relaxed mb-6'>
-            St. Paul’s Mission Hospital is dedicated to delivering reliable,
-            accessible, and holistic healthcare. With a skilled medical team,
-            modern practices, and a commitment to community wellbeing, we ensure
-            every patient receives care that transforms lives.
-          </p>
-          <a
-            href='/services/clinical'
-            class='inline-block bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-secondary transition'>
-            Learn More
-          </a>
-        </div>
-      </div>
-    </section>
-
+    <!-- pillars -->
     <section class='py-20 bg-white'>
-      <div class='container mx-auto px-4 md:px-4 lg:px-12 text-center'>
-        <h2 class='text-4xl font-extrabold text-primary mb-12'>
-          Why Choose Us?
-        </h2>
-        <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
-          <!-- Card 1 -->
-          <div
-            class='bg-gray-50 rounded-xl shadow-md p-8 hover:shadow-xl transition'>
-            <h3 class='text-xl font-bold text-secondary mb-3'>
-              Compassionate Care
-            </h3>
-            <p class='text-gray-600'>
-              We treat every patient with dignity, love, and Christ-centered
-              compassion.
-            </p>
-          </div>
-          <!-- Card 2 -->
-          <div
-            class='bg-gray-50 rounded-xl shadow-md p-8 hover:shadow-xl transition'>
-            <h3 class='text-xl font-bold text-secondary mb-3'>Expert Team</h3>
-            <p class='text-gray-600'>
-              Our staff includes skilled doctors, nurses, and specialists
-              dedicated to excellence.
-            </p>
-          </div>
-          <!-- Card 3 -->
-          <div
-            class='bg-gray-50 rounded-xl shadow-md p-8 hover:shadow-xl transition'>
-            <h3 class='text-xl font-bold text-secondary mb-3'>
-              Affordable Services
-            </h3>
-            <p class='text-gray-600'>
-              We provide high-quality care that is accessible and affordable for
-              the community.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Featured Reports Section -->
-    <section class='py-16 bg-gray-100'>
-      <div class='mx-auto px-4 max-w-7xl'>
-        <header class='mb-12 text-center' data-aos='fade-up'>
-          <h2 class='text-4xl font-extrabold mb-2 text-gray-900'>
-            Featured Reports & Updates
-          </h2>
-          <p class='text-lg text-gray-600'>
-            Stay informed about our latest news.
-          </p>
-        </header>
-
-        <!-- Grid for 4 compact cards -->
+      <div class='container mx-auto px-2 md:px-4 max-w-7xl'>
         <div
-          class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'
-          data-aos='fade-up'
-          data-aos-delay='200'>
-          <!-- Card Template -->
-          <div
-            class='bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-2'>
-            <img
-              src='/img/18.jpg'
-              alt='Groundbreaking ceremony'
-              class='rounded-t-xl w-full h-40 object-cover'
-            />
-            <div class='p-4'>
-              <h3 class='text-lg font-bold text-[#1565C0] mb-1'>
-                New Wing Groundbreaking
-              </h3>
-              <p class='text-gray-600 text-xs mb-2'>Oct 26, 2025</p>
-              <p class='text-gray-700 text-sm line-clamp-3'>
-                We are thrilled to announce the groundbreaking celebration for
-                our new surgical and maternity wing.
-              </p>
-              <a
-                href='#'
-                class='mt-3 inline-block text-[#1565C0] text-sm font-medium hover:underline'
-                >Read More →</a
+          class='flex flex-col md:flex-row justify-between items-end mb-12 gap-8'>
+          <div class='max-w-2xl'>
+            <nav class='flex items-center gap-3 mb-6'>
+              <div class='h-[2px] w-12 bg-[#1565c0]'></div>
+              <span
+                class='text-[10px] font-mono uppercase tracking-[0.4em] text-slate-400 font-black'
+                >Clinical Infrastructure</span
               >
+            </nav>
+            <h2
+              class='text-5xl md:text-7xl font-black text-slate-900 uppercase tracking-tighter leading-[0.85]'>
+              Our <span class='text-[#1565c0]'>Services</span>
+            </h2>
+          </div>
+          <p
+            class='text-slate-500 text-sm max-w-xs font-light leading-relaxed border-l-2 border-slate-400 pl-6 italic'>
+            Select a unit to view detailed clinical specifications and core
+            capabilities.
+          </p>
+        </div>
+
+        <div class='grid grid-cols-1 md:grid-cols-3 gap-2'>
+          {
+            pillars.map((p) => (
+              <div
+                class={`group relative overflow-hidden p-10 min-h-[380px] flex flex-col justify-between transition-all duration-500 ${p.span} ${p.color}`}>
+                <div class='absolute -right-4 -top-4 text-white/5 text-9xl font-black italic pointer-events-none'>
+                  {p.id}
+                </div>
+
+                <div class='relative z-10'>
+                  <div class='flex items-center gap-2 mb-6'>
+                    <span class='h-px w-6 bg-white/30' />
+                    <span class='text-[9px] font-mono text-white/60 uppercase tracking-[0.3em]'>
+                      {p.id} // Unit
+                    </span>
+                  </div>
+                  <h3 class='text-4xl font-black text-white uppercase tracking-tighter mb-4 leading-[0.9] group-hover:translate-x-1 transition-transform'>
+                    {p.sector}
+                  </h3>
+                  <p class='text-white/80 text-sm font-light leading-relaxed max-w-[280px]'>
+                    {p.desc}
+                  </p>
+                </div>
+
+                <div class='relative z-10'>
+                  <div class='flex flex-wrap gap-2 mb-8'>
+                    {p.tags.map((tag) => (
+                      <span class='text-[8px] font-black uppercase tracking-widest bg-black/20 text-white/90 px-3 py-1 rounded-full border border-white/10'>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <a
+                    href={`/services/clinical#${p.id}`}
+                    class='inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] text-white group-hover:gap-6 transition-all bg-white/10 hover:bg-white/20 px-6 py-3 border border-white/10'>
+                    Unit Specifications <span>→</span>
+                  </a>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Service reliability -->
+    <section
+      class='py-20 bg-slate-50 border-y border-slate-100 overflow-hidden'>
+      <div class='container mx-auto px-2 md:px-4 max-w-7xl'>
+        <div class='grid lg:grid-cols-12 gap-16 items-center'>
+          <div class='lg:col-span-6'>
+            <nav class='flex items-center gap-3 mb-8'>
+              <span
+                class='text-[10px] font-mono text-[#860f0f] uppercase tracking-[0.4em] font-black underline underline-offset-8'
+                >Our Identity</span
+              >
+            </nav>
+
+            <h2
+              class='text-4xl md:text-6xl font-black text-slate-900 uppercase tracking-tighter leading-[0.9] mb-8'>
+              Compassion Driven by <br />
+              <span class='text-[#1565c0]'>Clinical Precision.</span>
+            </h2>
+
+            <div class='space-y-6 max-w-xl'>
+              <p class='text-xl text-slate-600 leading-relaxed'>
+                As a premier Level 4 Mission Hospital in Homa Bay, St. Paul's
+                bridges the gap between <span class='text-slate-900 font-bold'
+                  >faith-based compassion</span
+                > and modern medical infrastructure.
+              </p>
+              <p
+                class='text-slate-500 leading-relaxed border-l-2 border-[#1565c0] pl-6 italic'>
+                "To provide holistic, affordable, and quality healthcare
+                services to all, inspired by the healing ministry of Jesus
+                Christ."
+              </p>
             </div>
           </div>
 
-          <!-- Card 2 -->
-          <div
-            class='bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-2'>
-            <img
-              src='/img/20.jpg'
-              alt='Newsletter image'
-              class='rounded-t-xl w-full h-40 object-cover'
-            />
-            <div class='p-4'>
-              <h3 class='text-lg font-bold text-[#1565C0] mb-1'>
-                Our First Newsletter
-              </h3>
-              <p class='text-gray-600 text-xs mb-2'>Oct 15, 2025</p>
-              <p class='text-gray-700 text-sm line-clamp-3'>
-                Stay connected with our hospital community through our first
-                newsletter launch.
-              </p>
-              <a
-                href='#'
-                class='mt-3 inline-block text-[#1565C0] text-sm font-medium hover:underline'
-                >Read More →</a
-              >
+          <div class='lg:col-span-6 relative'>
+            <div
+              class='absolute -right-20 -bottom-20 w-64 h-64 bg-[#1565c0]/5 rounded-full blur-3xl'>
             </div>
-          </div>
 
-          <!-- Card 3 -->
-          <div
-            class='bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-2'>
-            <img
-              src='/img/21.jpg'
-              alt='Health camp'
-              class='rounded-t-xl w-full h-40 object-cover'
-            />
-            <div class='p-4'>
-              <h3 class='text-lg font-bold text-[#1565C0] mb-1'>
-                Community Health Camp
-              </h3>
-              <p class='text-gray-600 text-xs mb-2'>Sep 30, 2025</p>
-              <p class='text-gray-700 text-sm line-clamp-3'>
-                Hundreds of residents benefited from free consultations and
-                screenings.
-              </p>
-              <a
-                href='#'
-                class='mt-3 inline-block text-[#1565C0] text-sm font-medium hover:underline'
-                >Read More →</a
-              >
-            </div>
-          </div>
-
-          <!-- Card 4 -->
-          <div
-            class='bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-2'>
-            <img
-              src='/img/22.jpg'
-              alt='Award'
-              class='rounded-t-xl w-full h-40 object-cover'
-            />
-            <div class='p-4'>
-              <h3 class='text-lg font-bold text-[#1565C0] mb-1'>
-                Excellence in Patient Care
-              </h3>
-              <p class='text-gray-600 text-xs mb-2'>Sep 10, 2025</p>
-              <p class='text-gray-700 text-sm line-clamp-3'>
-                We were honored with the regional award for excellence in
-                patient care.
-              </p>
-              <a
-                href='#'
-                class='mt-3 inline-block text-[#1565C0] text-sm font-medium hover:underline'
-                >Read More →</a
-              >
+            <div class='grid grid-cols-2 gap-4'>
+              {
+                stats.map((stat) => (
+                  <div class='bg-white p-7 border border-slate-200 shadow-sm hover:border-[#1565c0] transition-colors group'>
+                    <span class='text-[9px] font-mono text-slate-400 uppercase tracking-[0.2em] block mb-2'>
+                      {stat.label}
+                    </span>
+                    <span class='text-4xl md:text-5xl font-black text-slate-900 block mb-2 tracking-tighter group-hover:text-[#1565c0] transition-colors'>
+                      {stat.value}
+                    </span>
+                    <span class='text-[10px] font-bold text-[#860f0f] uppercase tracking-widest opacity-80 italic'>
+                      {stat.detail}
+                    </span>
+                  </div>
+                ))
+              }
             </div>
           </div>
         </div>
       </div>
     </section>
+
   </main>
+
+  <!-- Blog -->
+  <section class='py-18 bg-white overflow-hidden'>
+    <div class='container mx-auto px-2 md:px-4 max-w-7xl'>
+      <div
+        class='flex flex-col md:flex-row justify-between items-end mb-16 gap-8'>
+        <div class='max-w-2xl'>
+          <nav class='flex items-center gap-3 mb-6'>
+            <div class='h-[2px] w-12 bg-[#860f0f]'></div>
+            <span
+              class='text-[10px] font-mono uppercase tracking-[0.4em] text-slate-400 font-black'
+              >Institutional Journal</span
+            >
+          </nav>
+          <h2
+            class='text-5xl md:text-7xl font-black text-slate-900 uppercase tracking-tighter leading-[0.85]'>
+            Latest <br />
+            <span class='text-[#1565c0]'>Impact.</span>
+          </h2>
+        </div>
+        <a
+          href='/news'
+          class='text-[10px] font-black uppercase tracking-[0.3em] text-[#125276] hover:text-[#1565c0] transition-colors border-b-2 border-slate-100 pb-2'>
+          View All Archives
+        </a>
+      </div>
+
+      <div class='grid grid-cols-1 lg:grid-cols-3 gap-12'>
+        {
+          updates.map((post) => (
+            <article class='group cursor-pointer'>
+              <div class='flex gap-8 items-start mb-6'>
+                <div class='flex flex-col items-center'>
+                  <span class='text-4xl font-black text-slate-200 group-hover:text-[#1565c0] transition-colors leading-none'>
+                    {post.date}
+                  </span>
+                  <span class='text-[9px] font-mono uppercase tracking-widest text-slate-400'>
+                    {post.month}
+                  </span>
+                </div>
+
+                <div class='flex flex-col'>
+                  <span class='text-[9px] font-black uppercase tracking-[0.2em] text-[#860f0f] mb-3'>
+                    // {post.category}
+                  </span>
+                  <h3 class='text-2xl font-black text-[#125276] uppercase tracking-tighter leading-tight group-hover:underline decoration-2 underline-offset-4 decoration-[#1565c0]'>
+                    {post.title}
+                  </h3>
+                </div>
+              </div>
+
+              <div class='pl-[4.5rem]'>
+                <p class='text-slate-500 font-light text-sm leading-relaxed mb-6'>
+                  {post.excerpt}
+                </p>
+                <a
+                  href={post.slug}
+                  class='inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-900 group-hover:gap-4 transition-all'>
+                  Read Report <span>→</span>
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
 
   <!-- Partners -->
   <section class='py-16 bg-gray-50'>
@@ -306,4 +348,6 @@ import PartnerCarousel from '../components/PartnerCarousel.jsx';
       </a>
     </div>
   </section>
+
+ 
 </Layout>

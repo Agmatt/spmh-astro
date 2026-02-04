@@ -369,13 +369,13 @@
             </li>
             <li>
               <a
-                href='/get-involved/partner'
+                href='/get-involved/partners'
                 class='block py-2 text-gray-700 hover:bg-gray-100'>Partner</a
               >
             </li>
             <li>
               <a
-                href='/careers'
+                href='/get-involved/careers'
                 class='block py-2 text-gray-700 hover:bg-gray-100'>Careers</a
               >
             </li>
@@ -436,7 +436,7 @@
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileDropdownBtns = document.querySelectorAll(
-      '.mobile-dropdown-btn'
+      '.mobile-dropdown-btn',
     );
 
     const closeAllMobileDropdowns = () => {
@@ -488,7 +488,7 @@
 
     // --- Corrected Desktop Dropdown Logic with Delay ---
     const desktopDropdowns = document.querySelectorAll(
-      'div[id$="-menu-group"]'
+      'div[id$="-menu-group"]',
     );
     const closeDelay = 200; // milliseconds
 
