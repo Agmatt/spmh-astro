@@ -23,7 +23,7 @@ const pillars = [
   },
   {
     id: '03', // Matches Physiotherapy & Rehab
-    sector: 'Physio & Rehab',
+    sector: 'Physiotherapy & Rehab',
     desc: 'Restoring mobility and independence through clinical therapy.',
     tags: ['Orthopedic', 'Stroke Care', 'Occupational'],
     color: 'bg-[#125276]', // Deep Blue
@@ -131,13 +131,6 @@ const updates = [
         <div
           class='flex flex-col md:flex-row justify-between items-end mb-12 gap-8'>
           <div class='max-w-2xl'>
-            <nav class='flex items-center gap-3 mb-6'>
-              <div class='h-[2px] w-12 bg-[#1565c0]'></div>
-              <span
-                class='text-[10px] font-mono uppercase tracking-[0.4em] text-slate-400 font-black'
-                >Clinical Infrastructure</span
-              >
-            </nav>
             <h2
               class='text-5xl md:text-7xl font-black text-slate-900 uppercase tracking-tighter leading-[0.85]'>
               Our <span class='text-[#1565c0]'>Services</span>
@@ -154,7 +147,7 @@ const updates = [
           {
             pillars.map((p) => (
               <div
-                class={`group relative overflow-hidden p-10 min-h-[380px] flex flex-col justify-between transition-all duration-500 ${p.span} ${p.color}`}>
+                class={`group relative overflow-hidden p-8 min-h-[380px] flex flex-col justify-between transition-all duration-500 ${p.span} ${p.color}`}>
                 <div class='absolute -right-4 -top-4 text-white/5 text-9xl font-black italic pointer-events-none'>
                   {p.id}
                 </div>
@@ -256,7 +249,6 @@ const updates = [
         </div>
       </div>
     </section>
-
   </main>
 
   <!-- Blog -->
@@ -348,6 +340,4 @@ const updates = [
       </a>
     </div>
   </section>
-
- 
 </Layout>

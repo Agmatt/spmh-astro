@@ -75,45 +75,46 @@ const services = [
 ];
 ---
 
-<Layout title='Clinical Services | St. Paul’s Mission Hospital'>
+<Layout title='Our Services'>
   <section
-    class='relative w-full h-[45vh] sm:h-[60vh] overflow-hidden bg-[#125276]'>
-    <div class='absolute inset-0'>
-      <img
-        src='/img/21.jpg'
-        alt='Hospital Exterior'
-        loading='eager'
-        fetchpriority='high'
-        class='w-full h-full object-cover opacity-60 scale-105'
-        style='object-position: center 15%;'
-      />
-    </div>
-    <div
-      class='absolute inset-0 bg-gradient-to-t from-[#125276] via-transparent to-transparent'>
-    </div>
-    <div
-      class='relative z-10 h-full container mx-auto px-6 max-w-7xl flex flex-col justify-end pb-12 sm:pb-20'>
-      <span
-        class='text-blue-300 font-mono text-[10px] uppercase tracking-[0.5em] mb-4'
-        >Level 4 Institution</span
-      >
-      <h1
-        class='text-5xl sm:text-7xl font-black text-white tracking-tighter uppercase leading-[0.85]'>
-        Clinical <br />
-        <span class='text-blue-400'>Capabilities</span>
-      </h1>
+    class='relative pt-2 md:pt-0 pb-2 md:pb-0 bg-slate-200 overflow-hidden'>
+    <div class='container mx-auto px-2 md:px-4 max-w-7xl relative z-10'>
+      <div class='grid lg:grid-cols-2 gap-16 items-center'>
+        <div class='order-2 lg:order-1'>
+          <h1
+            class='text-5xl md:text-7xl font-extrabold text-[#125276] leading-[1.1] mb-8 tracking-tight'>
+            Caring with Grace, <br />
+            <span class='text-[#1565c0]'>Professional Care</span>
+          </h1>
+
+          <p class='text-lg text-slate-700 leading-relaxed max-w-lg mb-10'>
+            At St. Paul's, we believe in treating every person with kindness and
+            professional care.
+          </p>
+          <p class='text-lg text-slate-700 leading-relaxed max-w-lg mb-10'>
+            We are dedicated to supporting the health and well-being of our
+            families through reliable and gentle medical services.
+          </p>
+        </div>
+
+        <div class='order-1 lg:order-2 relative'>
+          <div class='relative z-10 overflow-hidden shadow-2xl'>
+            <img
+              src='/img/10.jpg'
+              alt='St. Pauls Infrastructure'
+              class='w-full aspect-[7/5] object-cover'
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <section class='bg-white'>
-    <div class='flex flex-col lg:flex-row'>
+    <div class='flex flex-col lg:flex-row max-w-7xl mx-auto px-2 md:px-4'>
       <aside
-        class='lg:w-[35%] bg-slate-50 border-r border-slate-100 p-8 md:p-16 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-between'>
+        class='lg:w-[35%] bg-slate-50 border-r border-slate-100 px-2 md:px-4 py-8 md:p-16 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-between'>
         <div>
-          <span
-            class='text-[10px] font-black uppercase tracking-[0.4em] text-[#1565c0] mb-12 block'
-            >Index protocol</span
-          >
           <nav class='space-y-2'>
             {
               services.map((s) => (
@@ -136,18 +137,9 @@ const services = [
             }
           </nav>
         </div>
-
-        <div class='pt-12'>
-          <div class='h-px w-12 bg-[#860f0f] mb-4'></div>
-          <p
-            class='text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-loose'>
-            St. Paul's Mission Hospital<br />
-            Homa Bay County, Kenya
-          </p>
-        </div>
       </aside>
 
-      <main class='lg:w-[65%] p-8 md:p-20 space-y-32 bg-white'>
+      <main class='lg:w-[65%] px-2 md:px-4 py-8 md:py-14 space-y-32 bg-white'>
         {
           services.map((s) => (
             <article id={s.id} class='scroll-mt-24 group'>
@@ -158,7 +150,7 @@ const services = [
                   </span>
                   <div class='h-px flex-grow bg-slate-100' />
                 </div>
-                <h2 class='text-5xl md:text-7xl font-black text-slate-900 tracking-tighter uppercase leading-none mb-6 group-hover:text-[#1565c0] transition-colors'>
+                <h2 class='text-3xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase leading-none mb-6 group-hover:text-[#1565c0] transition-colors'>
                   {s.title}
                 </h2>
                 <p class='text-2xl text-slate-500 font-light leading-snug max-w-2xl italic'>
@@ -196,7 +188,7 @@ const services = [
                   src={s.image}
                   alt={s.title}
                   loading='lazy'
-                  class='w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-700'
+                  class='w-full h-full object-cover transition-all duration-700'
                 />
               </div>
             </article>
@@ -206,29 +198,28 @@ const services = [
     </div>
   </section>
 
-  <section class='py-24 bg-slate-950 text-white relative overflow-hidden'>
+  <section class='py-14 md:py-18 bg-slate-600 relative overflow-hidden'>
+    <!-- CTA -->
     <div
-      class='absolute top-0 right-0 w-1/2 h-full bg-[#1565c0] opacity-10 skew-x-12 translate-x-20'>
-    </div>
-    <div class='container mx-auto px-6 max-w-4xl text-center relative z-10'>
+      class='container mx-auto px-6 max-w-4xl text-center text-white relative z-10'>
       <h2
-        class='text-4xl md:text-6xl font-black mb-6 uppercase tracking-tighter'>
+        class='text-4xl md:text-6xl text-white font-black mb-6 uppercase tracking-tighter'>
         Patient Care is <br />
-        <span class='text-[#1565c0]'>Our Priority.</span>
+        <span class='text-white'>Our Priority</span>
       </h2>
-      <p class='text-xl text-slate-400 mb-12 font-light'>
+      <p class='text-xl mb-12 font-light'>
         Our clinical team is ready to assist you 24/7. Contact us for inquiries
         or to schedule a consultation.
       </p>
       <div class='flex flex-wrap justify-center gap-4'>
         <a
-          href='/contact'
+          href='#'
           class='bg-[#1565c0] hover:bg-white hover:text-[#1565c0] text-white px-10 py-5 text-[10px] font-black uppercase tracking-widest transition-all'>
           Consult a Specialist
         </a>
         <a
-          href='tel:+254...'
-          class='border border-white/20 hover:bg-white/10 text-white px-10 py-5 text-[10px] font-black uppercase tracking-widest transition-all'>
+          href='tel:+254111817447'
+          class='border border-white/20 hover:bg-secondary text-white px-10 py-5 text-[10px] font-black uppercase tracking-widest transition-all'>
           Emergency: 24/7 Line
         </a>
       </div>

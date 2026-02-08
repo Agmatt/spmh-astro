@@ -40,7 +40,7 @@ export default function Carousel() {
           <img
             src={slide.img}
             alt={slide.title}
-            className='absolute inset-0 w-full h-full object-cover grayscale-[20%] brightness-[0.4]'
+            className='absolute inset-0 w-full h-full object-cover grayscale-[30%] brightness-[0.5]'
             loading={i === 0 ? 'eager' : 'lazy'} // Eager load only the first slide
             fetchPriority={i === 0 ? 'high' : 'low'}
           />
