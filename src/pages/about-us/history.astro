@@ -2,555 +2,208 @@
 import Layout from '../../Layout/Layout.astro';
 import Cards from '../../components/Cards.astro';
 
-// History Metadata
-const milestones = [
+const impactStats = [
   {
-    year: '1983',
-    title: 'A Response to Crisis',
-    description:
-      'Founded by the Franciscan Sisters of St. Joseph Asumbi as a direct response to the child malnutrition crisis in the region.',
-    icon: 'heart',
+    target: 40,
+    suffix: '+',
+    label: 'Years of Dedicated Service',
+    color: 'text-[#125276]',
   },
   {
-    year: 'Evolution',
-    title: 'A Regional Anchor',
-    description:
-      'Evolving from a specialized response unit into a critical health anchor for Homa Bay County, expanding to promotive and curative care.',
-    icon: 'trend',
+    target: 500,
+    suffix: 'k+',
+    label: 'Community Members Served',
+    color: 'text-[#125276]',
   },
   {
-    year: 'Present',
-    title: 'Level 4 Designation',
-    description:
-      'Now a fully designated Level 4 facility offering a complete spectrum of rehabilitative and specialized services.',
-    icon: 'hospital',
-  },
-];
-
-// Editorial Data
-const historyPoints = [
-  {
-    side: 'left',
-    year: '1983',
-    subtitle: 'The Franciscan Response',
-    text: 'Founded by the Franciscan Sisters of St. Joseph Asumbi as a direct response to the child malnutrition crisis in the region.',
+    target: 24,
+    suffix: '/7',
+    label: 'Emergency Care Availability',
+    color: 'text-[#125276]',
   },
   {
-    side: 'right',
-    year: 'Evolution',
-    subtitle: 'Expanding the Mission',
-    text: 'Evolved into a critical health anchor for Homa Bay County, offering promotive, preventive, curative, and rehabilitative services.',
-  },
-  {
-    side: 'left',
-    year: 'Status',
-    subtitle: 'Level 4 Designation',
-    text: 'Currently designated as a Level 4 facility, operating under the Catholic Diocese of Homa Bay.',
-  },
-];
-
-// Cinematic Story Beats
-const story = [
-  {
-    chapter: 'The Seed',
-    title: 'A Response to Suffering',
-    quote:
-      'Founded in 1983 by the Franciscan Sisters of St. Joseph Asumbi as a direct response to the child malnutrition crisis.',
-    theme: 'Compassion',
-  },
-  {
-    chapter: 'The Growth',
-    title: 'A Critical Anchor',
-    quote:
-      'Evolving into a vital health center for Homa Bay County, offering promotive, preventive, and curative services.',
-    theme: 'Resilience',
-  },
-  {
-    chapter: 'The Commitment',
-    title: 'A Level 4 Promise',
-    quote:
-      'Operating under the Catholic Diocese of Homa Bay, deeply rooted in the Franciscan tradition of compassionate service.',
-    theme: 'Legacy',
-  },
-];
-
-// Sectional Content
-const chapters = [
-  {
-    tag: '1983 Origin',
-    title: 'A Response to the Vulnerable',
-    content:
-      'Founded by the Franciscan Sisters of St. Joseph Asumbi as a direct response to the child malnutrition crisis in the region.',
-    highlight: 'Franciscan Tradition',
-    image: '/img/1.jpg', // Placeholder for an older/foundational photo
-  },
-  {
-    tag: 'The Evolution',
-    title: 'A Regional Anchor',
-    content:
-      'Evolved into a critical health anchor for Homa Bay County, offering promotive, preventive, curative, and rehabilitative services.',
-    highlight: 'Comprehensive Care',
-    image: '/img/13.jpg', // Placeholder for a photo of the building or team
+    target: 5,
+    suffix: ' Core',
+    label: 'Specialties Focused on You',
+    color: 'text-[#860f0f]',
   },
 ];
 ---
 
 <Layout title='About Us'>
-  <!-- <section class='py-24 bg-white'>
-    <div class='container mx-auto px-6 max-w-7xl'>
-      <div class='flex flex-col lg:flex-row gap-20'>
-        <div class='lg:w-1/3 lg:sticky lg:top-32 h-fit'>
-          <span
-            class='text-[10px] font-black uppercase tracking-[0.4em] text-[#860f0f] mb-6 block'
-            >Our Legacy</span
-          >
-          <h2 class='text-5xl font-extrabold text-[#125276] leading-tight mb-6'>
-            A Journey of <br /> Healing.
-          </h2>
-          <p class='text-slate-500 font-light leading-relaxed'>
-            From humble beginnings to a regional hub for clinical excellence,
-            our history is written in the lives of the patients we serve.
-          </p>
-        </div>
-
-        <div
-          class='lg:w-2/3 space-y-24 border-l border-slate-100 pl-8 md:pl-16'>
-          <div class='relative'>
-            <div
-              class='absolute -left-[41px] md:-left-[73px] top-0 h-4 w-4 rounded-full bg-[#1565c0] border-4 border-white shadow-sm'>
-            </div>
-            <span class='text-6xl font-black text-slate-100 block mb-4'
-              >1982</span
-            >
-            <h3
-              class='text-2xl font-bold text-[#125276] mb-4 text-transform: uppercase'>
-              The First Stone
-            </h3>
-            <p class='text-slate-500 font-light max-w-lg leading-relaxed'>
-              St. Paul's began as a small community dispensary, established by
-              the Diocese to provide basic care to families in the Asumbi
-              region.
-            </p>
-          </div>
-
-          <div class='relative'>
-            <div
-              class='absolute -left-[41px] md:-left-[73px] top-0 h-4 w-4 rounded-full bg-slate-200 border-4 border-white'>
-            </div>
-            <span class='text-6xl font-black text-slate-100 block mb-4'
-              >2005</span
-            >
-            <h3
-              class='text-2xl font-bold text-[#125276] mb-4 text-transform: uppercase'>
-              Expanding the Mission
-            </h3>
-            <p class='text-slate-500 font-light max-w-lg leading-relaxed'>
-              Recognition as a full hospital facility, introducing maternity
-              services and our first dedicated surgical theatre.
-            </p>
-          </div>
-
-          <div class='relative'>
-            <div
-              class='absolute -left-[41px] md:-left-[73px] top-0 h-4 w-4 rounded-full bg-slate-200 border-4 border-white'>
-            </div>
-            <span class='text-6xl font-black text-slate-100 block mb-4'
-              >Today</span
-            >
-            <h3
-              class='text-2xl font-bold text-[#1565c0] mb-4 text-transform: uppercase'>
-              Level 4 Excellence
-            </h3>
-            <p class='text-slate-500 font-light max-w-lg leading-relaxed'>
-              A tertiary-level institution serving Southern Nyanza with
-              specialized diagnostics, physiotherapy, and 24/7 emergency
-              response.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
-  <section class='bg-[#FCFBF7] py-24 border-b border-stone-200'>
-    <div class='container mx-auto px-6 max-w-7xl'>
-      <div class='max-w-4xl'>
-        <nav class='flex items-center gap-4 mb-12'>
-          <span class='w-12 h-[1px] bg-[#860f0f]'></span>
-          <span
-            class='text-[10px] font-bold uppercase tracking-[0.5em] text-[#860f0f]'
-            >Catholic Diocese of Homa Bay</span
-          >
-        </nav>
-
-        <h1
-          class='text-4xl md:text-7xl font-bold text-slate-900 leading-[1.1] tracking-tight mb-12'>
-          A faith-based mission <br />
-          <span class='text-[#125276] italic font-serif'
-            >dedicated to the healing</span
-          >
-          <br />
-          tradition of the Church.
-        </h1>
-
-        <div class='grid md:grid-cols-2 gap-12 items-end'>
-          <p class='text-lg text-slate-600 font-light leading-relaxed'>
-            St. Paul’s Mission Hospital is deeply rooted in the Franciscan
-            tradition of compassionate service, serving as a beacon of hope
-            since 1983.
-          </p>
-          <div class='flex gap-4'>
-            <div
-              class='h-14 w-14 rounded-full border border-stone-300 flex items-center justify-center italic font-serif text-stone-400'>
-              StP
-            </div>
-            <p
-              class='text-[10px] font-black uppercase tracking-widest text-stone-400 self-center'>
-              Level 4 <br /> Accredited
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class='py-32 bg-white'>
-    <div class='container mx-auto px-6 max-w-7xl'>
-      {
-        chapters.map((item, i) => (
-          <div
-            class={`flex flex-col lg:flex-row gap-16 mb-40 last:mb-0 items-center ${i % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
-            <div class='lg:w-1/2 relative'>
-              <div class='p-4 bg-[#F3F2EE] rounded-sm shadow-sm'>
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  class='w-full aspect-video object-cover grayscale sepia-[.2] hover:grayscale-0 transition-all duration-700'
-                />
-                <p class='mt-4 text-[9px] font-mono uppercase tracking-widest text-stone-400'>
-                  {item.tag}
-                </p>
-              </div>
-              <div
-                class={`absolute -bottom-6 ${i % 2 !== 0 ? '-right-6' : '-left-6'} bg-[#860f0f] text-white p-6 hidden md:block`}>
-                <p class='text-xs font-bold uppercase tracking-widest'>
-                  {item.highlight}
-                </p>
-              </div>
-            </div>
-
-            <div class='lg:w-1/2'>
-              <h2 class='text-3xl md:text-5xl font-bold text-[#125276] mb-8 leading-tight uppercase tracking-tighter'>
-                {item.title}
-              </h2>
-              <p class='text-xl text-slate-500 font-light leading-relaxed mb-8'>
-                {item.content}
-              </p>
-              <div class='h-px w-20 bg-stone-200' />
-            </div>
-          </div>
-        ))
-      }
-    </div>
-  </section>
-
-  <section class='py-24 bg-[#F3F2EE]'>
-    <div class='container mx-auto px-6 max-w-5xl'>
-      <div
-        class='bg-white p-12 md:p-20 shadow-sm border border-stone-200 text-center'>
-        <h3
-          class='text-[10px] font-black uppercase tracking-[0.5em] text-[#860f0f] mb-12'>
-          Institutional Affiliations
-        </h3>
-
-        <p
-          class='text-2xl md:text-3xl font-serif italic text-slate-800 mb-16 leading-relaxed'>
-          "Operating under the Catholic Diocese of Homa Bay and affiliated with
-          the Kenya Episcopal Conference – Catholic Health Commission."
-        </p>
-
-        <div class='flex flex-wrap justify-center gap-12 opacity-60'>
-          <span
-            class='text-xs font-black uppercase tracking-widest border-t border-stone-300 pt-4'
-            >Kenya Episcopal Conference</span
-          >
-          <span
-            class='text-xs font-black uppercase tracking-widest border-t border-stone-300 pt-4'
-            >Catholic Health Commission</span
-          >
-          <span
-            class='text-xs font-black uppercase tracking-widest border-t border-stone-300 pt-4'
-            >Diocese of Homa Bay</span
-          >
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 10 -->
+  <!-- Header -->
   <section
-    class='relative h-screen flex items-center justify-center bg-slate-900 overflow-hidden'>
-    <img
-      src='/img/21.jpg'
-      class='absolute inset-0 w-full h-full object-cover opacity-40 scale-110'
-      style='filter: sepia(0.3) contrast(1.1);'
-    />
+    class='relative min-h-[80vh] flex items-center justify-center py-24 overflow-hidden'>
     <div
-      class='absolute inset-0 bg-gradient-to-b from-slate-900/60 via-transparent to-slate-900'>
+      class='absolute inset-0 z-0 bg-fixed bg-center bg-cover transition-opacity duration-1000'
+      style="background-image: url('/img/fs1.jpg'); filter: sepia(0.4);"
+      loading='lazy'>
     </div>
 
-    <div class='relative z-10 text-center px-6'>
-      <span
-        class='text-[10px] font-black uppercase tracking-[0.8em] text-blue-300 mb-8 block animate-pulse'>
-        Est. 1983 // Homa Bay
-      </span>
-      <h1
-        class='text-5xl md:text-8xl font-serif italic text-white leading-tight mb-8'>
-        Born from a <br />
+    <div class='absolute inset-0 z-10 bg-white/70'></div>
+
+    <div class='container mx-auto px-6 max-w-5xl text-center relative z-20'>
+      <nav class='flex justify-center items-center gap-4 mb-10'>
         <span
-          class='font-sans not-italic font-black text-white uppercase tracking-tighter'
-          >Mission of Mercy</span
+          class='text-[10px] font-black uppercase tracking-[0.5em] text-[#860f0f]'
+          >Est. 1983 // Homa Bay</span
         >
+      </nav>
+
+      <h1
+        class='text-5xl md:text-8xl font-serif italic text-slate-900 leading-[1.1] mb-12 drop-shadow-sm'>
+        The Art of <br class='hidden md:block' />
+        <span
+          class='font-sans not-italic font-black text-[#125276] uppercase tracking-tighter'>
+          Healing Ministry
+        </span>
       </h1>
-      <div class='h-16 w-px bg-white/30 mx-auto'></div>
-    </div>
-  </section>
 
-  {
-    story.map((item, i) => (
-      <section class='py-32 bg-white flex items-center border-b border-slate-50'>
-        <div class='container mx-auto px-6 max-w-6xl'>
-          <div class='grid lg:grid-cols-2 gap-16 items-center'>
-            <div class={i % 2 === 0 ? 'order-1' : 'order-1 lg:order-2'}>
-              <div class='relative'>
-                <span class='text-[14vw] font-black text-slate-50 leading-none'>
-                  {i + 1}
-                </span>
-                <div class='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center'>
-                  <span class='text-[#860f0f] font-mono text-xs uppercase tracking-[0.4em] font-black'>
-                    {item.chapter}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class={i % 2 === 0 ? 'order-2' : 'order-2 lg:order-1'}>
-              <h3 class='text-xs font-black uppercase tracking-[0.3em] text-[#1565c0] mb-6'>
-                // {item.theme}
-              </h3>
-              <h2 class='text-4xl md:text-5xl font-black text-[#125276] uppercase tracking-tighter mb-8 leading-none'>
-                {item.title}
-              </h2>
-              <p class='text-2xl md:text-3xl font-light text-slate-500 leading-snug tracking-tight italic'>
-                "{item.quote}"
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    ))
-  }
-
-  <section class='py-40 bg-slate-50 relative overflow-hidden'>
-    <div class='container mx-auto px-6 max-w-4xl text-center relative z-10'>
-      <div
-        class='mb-12 inline-block p-4 border-2 border-[#125276] rounded-full'>
-        <div
-          class='w-16 h-16 bg-[#125276] rounded-full flex items-center justify-center text-white font-serif text-3xl'>
-          †
-        </div>
-      </div>
-
-      <h2
-        class='text-3xl md:text-5xl font-black text-[#125276] uppercase tracking-tighter mb-10'>
-        Governance & Faith
-      </h2>
-
-      <div
-        class='space-y-6 text-slate-600 font-light text-lg md:text-xl leading-relaxed'>
-        <p>
-          Currently designated as a Level 4 facility, St. Paul’s operates under
-          the
-          <span class='font-bold text-slate-900'
-            >Catholic Diocese of Homa Bay</span
-          >.
-        </p>
-        <p>
-          Affiliated with the <span class='font-bold text-slate-900'
-            >Kenya Episcopal Conference – Catholic Health Commission</span
-          >.
-        </p>
-      </div>
-
-      <a
-        href='/contact'
-        class='mt-16 inline-flex items-center gap-4 bg-[#860f0f] text-white px-10 py-5 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-[#125276] transition-all'>
-        Support Our Mission <span>→</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- THEME 1 -->
-  <section class='bg-[#f8f9fa] pt-32 pb-20 border-b border-slate-200'>
-    <div class='container mx-auto px-6 max-w-5xl'>
-      <div class='text-center'>
-        <h2
-          class='text-[10px] font-black uppercase tracking-[0.6em] text-[#860f0f] mb-8'>
-          Established 1983
-        </h2>
-        <h1
-          class='text-6xl md:text-8xl font-serif italic text-[#125276] tracking-tight leading-none mb-12'>
-          A Legacy of <br />
-          <span class='font-sans not-italic font-black text-slate-900'
-            >Healing Grace.</span
-          >
-        </h1>
+      <div class='max-w-3xl mx-auto'>
         <p
-          class='text-xl md:text-3xl font-light text-slate-500 leading-relaxed max-w-3xl mx-auto'>
-          St. Paul’s Mission Hospital is a faith-based institution deeply rooted
-          in the Franciscan tradition of compassionate service.
+          class='text-xl md:text-2xl font-light text-slate-900 leading-relaxed'>
+          St. Paul’s Mission Hospital, Homa Bay, is a
+          <span class='text-[#860f0f] font-bold'>faith-based,</span>
+          health institution deeply rooted in the Catholic Church’s healing mission
+          and the Franciscan tradition of compassionate service.
         </p>
       </div>
     </div>
   </section>
 
-  <section class='py-32 bg-white relative'>
-    <div
-      class='absolute left-1/2 top-0 bottom-0 w-px bg-slate-100 hidden md:block'>
-    </div>
-
-    <div class='container mx-auto px-6 max-w-6xl'>
-      {
-        historyPoints.map((point, i) => (
-          <div
-            class={`flex flex-col md:flex-row items-center mb-40 last:mb-0 ${point.side === 'right' ? 'md:flex-row-reverse' : ''}`}>
-            <div class='md:w-1/2 px-10'>
-              <div
-                class={`${point.side === 'right' ? 'text-left' : 'md:text-right'}`}>
-                <span class='text-7xl md:text-9xl font-black text-slate-50 leading-none block mb-4'>
-                  {point.year}
-                </span>
-                <h3 class='text-xs font-black uppercase tracking-widest text-[#1565c0] mb-4 underline underline-offset-8 decoration-slate-200'>
-                  {point.subtitle}
-                </h3>
-                <p class='text-slate-600 text-lg font-light leading-relaxed'>
-                  {point.text}
-                </p>
-              </div>
-            </div>
-
-            <div class='hidden md:flex md:w-px justify-center z-10 relative'>
-              <div class='w-4 h-4 rounded-full bg-white border-4 border-[#125276]' />
-            </div>
-
-            <div class='md:w-1/2' />
-          </div>
-        ))
+  <style>
+    @media (max-width: 1024px) {
+      div[style*='background-image'] {
+        background-attachment: scroll !important;
       }
-    </div>
-  </section>
+    }
+  </style>
 
-  <section class='py-24 bg-white'>
-    <div class='container mx-auto px-6 max-w-4xl'>
-      <div class='border-y border-slate-900 py-16'>
-        <div
-          class='flex flex-col md:flex-row items-center gap-12 text-center md:text-left'>
-          <div
-            class='flex-shrink-0 w-32 h-32 border-2 border-slate-100 rounded-full flex items-center justify-center p-4 italic text-[#125276] font-serif text-2xl'>
-            KEC
-          </div>
-          <div>
-            <h4
-              class='text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-4 font-sans'>
-              Official Affiliation
-            </h4>
-            <p
-              class='text-2xl font-bold text-slate-900 tracking-tight leading-snug'>
-              Affiliated with the Kenya Episcopal Conference – <br
-                class='hidden md:block'
-              /> Catholic Health Commission.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- THEME 2 -->
-  <section class='relative py-24 bg-white overflow-hidden'>
-    <div class='container mx-auto px-6 max-w-7xl'>
-      <div class='grid lg:grid-cols-12 gap-16 items-start'>
-        <div class='lg:col-span-7'>
-          <nav class='flex items-center gap-3 mb-8'>
-            <div class='h-px w-12 bg-[#860f0f]'></div>
-            <span
-              class='text-[10px] font-mono uppercase tracking-[0.4em] text-slate-400 font-black'
-              >Institutional Legacy</span
-            >
-          </nav>
-
-          <h1
-            class='text-5xl md:text-8xl font-black text-[#125276] uppercase tracking-tighter leading-[0.85] mb-10'>
-            Rooted in <br />
-            <span class='text-[#1565c0]'>Compassion.</span>
-          </h1>
-
-          <div class='max-w-xl space-y-8'>
-            <p
-              class='text-2xl text-slate-600 font-light leading-snug italic border-l-4 border-slate-100 pl-8'>
-              "St. Paul’s Mission Hospital, Homa Bay, is a faith-based,
-              not-for-profit health institution deeply rooted in the Catholic
-              Church’s healing mission and the Franciscan tradition of
-              compassionate service."
-            </p>
-          </div>
-        </div>
-
-        <div class='lg:col-span-5 relative'>
-          <div class='aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl'>
+  <section class='py-16 bg-white'>
+    <div class='container mx-auto px-2 md:px-4 max-w-6xl'>
+      <div class='grid md:grid-cols-2 gap-20 items-center mb-32'>
+        <div class='relative'>
+          <div class='aspect-[7/5] bg-slate-100 rounded overflow-hidden'>
             <img
-              src='/img/21.jpg'
-              alt='St. Pauls Mission Hospital History'
-              class='w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000'
+              src='/img/fs2.jpg'
+              class='w-full h-full object-cover grayscale opacity-80'
             />
           </div>
+        </div>
+        <div>
+          <h3
+            class='text-xs font-black uppercase tracking-[0.3em] text-[#1565c0] mb-6'>
+            The Beginning
+          </h3>
+          <h2 class='text-4xl font-bold text-secondary tracking-tight mb-6'>
+            A Response to Crisis
+          </h2>
+          <p class='text-lg text-slate-500 leading-relaxed'>
+            Founded by the Franciscan Sisters of St. Joseph Asumbi as a direct
+            response to the child malnutrition crisis. The Sisters began St.
+            Paul’s as a <span class='text-[#125276] font-bold'
+              >Nutrition Centre</span
+            > to help malnourished children from the nearby Makongeni and Shauri Yako
+            settlements.
+          </p>
+        </div>
+      </div>
+
+      <div
+        class='grid md:grid-cols-2 gap-8 items-center mb-12 md:flex-row-reverse'>
+        <div class='order-2 md:order-1'>
+          <h3
+            class='text-md font-black uppercase tracking-[0.3em] text-[#1565c0] mb-4'>
+            Expansion into Healthcare
+          </h3>
+          <p class='text-lg text-slate-700 leading-relaxed'>
+            As demand grew, the Sisters expanded services beyond nutrition,
+            offering preventive, promotive, and curative care to low-income
+            families and fishermen in the peri-urban region.
+          </p>
+        </div>
+        <div
+          class='order-1 md:order-2 bg-slate-200 p-6 rounded-lg border border-slate-100'>
+          <p class='text-2xl md:text-4xl font-serif italic text-[#125276]'>
+            "Evolving into a critical health anchor for Homa Bay County."
+          </p>
+        </div>
+      </div>
+
+      <div
+        class='bg-secondary rounded-md p-4 md:p-18 text-white relative overflow-hidden'>
+        <div class='relative z-10 grid lg:grid-cols-2 gap-12 items-center'>
+          <div>
+            <h2
+              class='text-5xl text-white font-black uppercase tracking-tighter mb-8'>
+              Today
+            </h2>
+            <p class='text-xl text-blue-100/80 font-light leading-relaxed'>
+              St. Paul’s Mission Hospital is now the only facility of its kind
+              in the area, serving a population of over <span
+                class='text-white font-bold'>500,000 residents</span
+              > who live mostly below the poverty line.
+            </p>
+          </div>
           <div
-            class='absolute -bottom-10 -right-10 w-40 h-40 bg-[#125276] rounded-full flex items-center justify-center text-white shadow-xl'>
-            <span
-              class='text-xs font-black uppercase tracking-[0.2em] text-center px-4'
-              >Franciscan <br /> Tradition</span
-            >
+            class='p-4 md:p-8 bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl'>
+            <p class='text-sm font-medium leading-relaxed italic opacity-90'>
+              Currently designated as a Level 4 facility, St. Paul’s operates
+              under the Catholic Diocese of Homa Bay and is affiliated with the
+              Kenya Episcopal Conference – Catholic Health Commission.
+            </p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class='py-24 bg-slate-50 border-y border-slate-100'>
-    <div class='container mx-auto px-6 max-w-7xl'>
-      <div class='text-center mb-20'>
-        <h2
-          class='text-xs font-black uppercase tracking-[0.5em] text-[#860f0f] mb-4'>
-          Chronicle of Growth
-        </h2>
-        <p class='text-slate-500 max-w-2xl mx-auto font-light'>
-          From a malnutrition crisis response to a comprehensive Level 4
-          Hospital.
+  <!-- Impact Section -->
+  <section class='py-12  overflow-hidden' id='impact-section'>
+    <div class='container mx-auto px-6 md:px-4 max-w-6xl'>
+      <div
+        class='flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8'>
+        <div class='max-w-2xl'>
+          <nav class='flex items-center gap-3 mb-6'>
+            <div class='h-[2px] w-8 bg-[#860f0f]'></div>
+            <span
+              class='text-[10px] font-black uppercase tracking-[0.5em] text-[#860f0f]'
+              >Our Impact</span
+            >
+          </nav>
+          <p
+            class='text-4xl md:text-6xl font-bold text-slate-900 tracking-tighter leading-[0.9]'>
+            Over four decades of <br />
+            <span class='text-[#1565c0]'>unwavering care.</span>
+          </p>
+        </div>
+        <p
+          class='text-slate-500 max-w-xs text-sm leading-relaxed border-l border-slate-600 pl-6'>
+          Measuring our success by the lives touched and the health restored to
+          the Homa Bay community.
         </p>
       </div>
 
-      <div class='grid md:grid-cols-3 gap-1 px-4'>
+      <div class='grid grid-cols-2 lg:grid-cols-4 gap-12'>
         {
-          milestones.map((m, index) => (
-            <div class='bg-white p-12 border border-slate-100 group hover:border-[#1565c0] transition-all duration-500'>
-              <span class='text-5xl font-black text-slate-100 group-hover:text-[#1565c0]/10 transition-colors block mb-6'>
-                {m.year}
-              </span>
-              <h3 class='text-xl font-bold text-[#125276] uppercase tracking-tight mb-4'>
-                {m.title}
-              </h3>
-              <p class='text-sm text-slate-500 font-light leading-relaxed'>
-                {m.description}
-              </p>
+          impactStats.map((stat) => (
+            <div class='relative group'>
+              <div class='absolute top-0 left-0 w-full h-[1px] bg-slate-200 group-hover:bg-[#1565c0] transition-colors duration-500' />
+
+              <div class='pt-8'>
+                <span
+                  class={`counter text-6xl md:text-7xl font-black ${stat.color} block mb-2 tabular-nums tracking-tighter`}
+                  data-target={stat.target}>
+                  0
+                </span>
+                <span
+                  class={`text-2xl font-bold ${stat.color} opacity-80 block -mt-2 mb-4 uppercase tracking-tighter`}>
+                  {stat.suffix}
+                </span>
+                <span class='text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 leading-relaxed block max-w-[150px]'>
+                  {stat.label}
+                </span>
+              </div>
             </div>
           ))
         }
@@ -558,177 +211,191 @@ const chapters = [
     </div>
   </section>
 
-  <section class='py-24 bg-[#125276] text-white'>
-    <div class='container mx-auto px-6 max-w-7xl text-center'>
-      <div class='max-w-4xl mx-auto'>
-        <h2
-          class='text-3xl md:text-5xl font-black uppercase tracking-tighter mb-12'>
-          Ecclesial <span class='text-blue-300'>Governance</span>
-        </h2>
-
-        <p
-          class='text-xl md:text-2xl font-light text-blue-100/80 leading-relaxed mb-16'>
-          "Currently designated as a Level 4 facility, St. Paul’s operates under
-          the Catholic Diocese of Homa Bay and is affiliated with the Kenya
-          Episcopal Conference – Catholic Health Commission."
+  <!-- CTA -->
+  <section class='py-24 border-t border-accent'>
+    <div class='container mx-auto px-2 md:px-4 max-w-6xl'>
+      <div class='mb-10'>
+        <p class='text-3xl font-bold text-[#125276] tracking-tighter'>
+          Discover Our <span class='italic font-serif font-light'
+            >Structure & Vision.</span>
         </p>
+      </div>
 
-        <div class='grid grid-cols-1 md:grid-cols-2 gap-8 text-left'>
-          <div class='p-8 bg-white/5 border border-white/10 rounded-2xl'>
-            <h4
-              class='text-[10px] font-black uppercase tracking-[0.3em] text-blue-300 mb-4'>
-              Authority
-            </h4>
-            <p class='text-sm font-bold uppercase tracking-widest'>
-              Catholic Diocese of Homa Bay
-            </p>
+      <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+        <a
+          href='/about-us/organization'
+          class='group bg-white p-5 md:p-3 rounded-2xl border border-slate-400 hover:border-[#1565c0] hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 flex flex-col h-full'>
+          <div
+            class='w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-50 transition-colors'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              class='w-6 h-6 text-[#125276]'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='1.5'
+                d='M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4'
+              ></path>
+            </svg>
           </div>
-          <div class='p-8 bg-white/5 border border-white/10 rounded-2xl'>
-            <h4
-              class='text-[10px] font-black uppercase tracking-[0.3em] text-blue-300 mb-4'>
-              Affiliation
-            </h4>
-            <p class='text-sm font-bold uppercase tracking-widest text-wrap'>
-              KEC – Catholic Health Commission
-            </p>
+          <h3
+            class='text-lg font-bold mb-2 uppercase tracking-tight'>
+            Organization
+          </h3>
+          <p class='text-sm text-slate-500 leading-relaxed mb-6'>
+            Explore our governance, administrative structure, and departmental
+            oversight.
+          </p>
+          <span
+            class='mt-auto text-[10px] font-black uppercase tracking-widest text-[#1565c0] group-hover:translate-x-2 transition-transform duration-300'
+            >View Structure →</span
+          >
+        </a>
+
+        <a
+          href='/about-us/strategic-plan'
+          class='group bg-white p-5 md:p-3 rounded-2xl border border-slate-400 hover:border-[#1565c0] hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 flex flex-col h-full'>
+          <div
+            class='w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-50 transition-colors'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              class='w-6 h-6 text-[#125276]'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='1.5'
+                d='M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'
+              ></path>
+            </svg>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- About Us Section -->
-  <section
-    id='about'
-    class='relative mt-0 sm:mt-0 min-h-[35vh] sm:min-h-[70vh] bg-cover bg-center'
-    style="background-image: url('/img/9.jpg');">
-    <!-- Overlay -->
-    <div class='absolute inset-0 bg-black/40'></div>
-
-    <!-- Only H2 -->
-    <div
-      class='absolute z-10 flex items-end justify-start h-full px-6 pb-8 sm:pb-12 lg:pb-16'>
-      <h2 class='text-3xl sm:text-4xl font-bold text-white'>About Us</h2>
-    </div>
-  </section>
-
-  <!-- History Page -->
-  <section class='py-8 mb-4' data-aos='fade-right'>
-    <div class='container mx-auto px-6 max-w-2xl'>
-      <h1 class='text-4xl md:text-4xl font-extrabold mb-4 spacer-end'>
-        Who we are
-      </h1>
-      <p class='text-lg text-gray-700 max-w-3xl mb-4'>
-        St. Paul’s Mission Hospital, Homa Bay, is a faith-based, not-for-profit
-        health institution deeply rooted in the Catholic Church’s healing
-        mission and the Franciscan tradition of compassionate service.
-      </p>
-      <p class='text-lg text-gray-700 max-w-3xl mb-4'>
-        Founded in 1983 by the Franciscan Sisters of St. Joseph Asumbi as a
-        direct response to the child malnutrition crisis in the region, it has
-        since evolved into a critical health anchor for Homa Bay County,
-        offering promotive, preventive, curative, and rehabilitative services.
-      </p>
-      <p class='text-lg text-gray-700 max-w-3xl mb-4'>
-        Currently designated as a Level 4 facility, St. Paul’s operates under
-        the Catholic Diocese of Homa Bay and is affiliated with the Kenya
-        Episcopal Conference – Catholic Health Commission.
-      </p>
-    </div>
-  </section>
-
-  <!-- Timeline -->
-  <section class='py-10 bg-gray-50' data-aos='fade-left'>
-    <div class='container mx-auto px-6 max-w-2xl'>
-      <div class='relative border-l-4 border-secondary pl-8 space-y-12'>
-        <!-- 1960s -->
-        <div>
-          <h3 class='text-2xl font-bold'>1983 — The Beginning</h3>
-          <p class='text-gray-700 mt-2'>
-            The Franciscan Sisters of St. Joseph began St. Paul’s as a
-            <strong>Nutrition Centre</strong> to help malnourished children from the
-            nearby Makongeni and Shauri Yako settlements.
+          <h3
+            class='text-lg font-bold mb-2 uppercase tracking-tight'>
+            Strategic Plan
+          </h3>
+          <p class='text-sm text-slate-500 leading-relaxed mb-6'>
+            Our roadmap for the future: sustainable growth and advanced clinical
+            excellence.
           </p>
-        </div>
+          <span
+            class='mt-auto text-[10px] font-black uppercase tracking-widest text-[#1565c0] group-hover:translate-x-2 transition-transform duration-300'
+            >Read Roadmap →</span
+          >
+        </a>
 
-        <!-- Expansion -->
-        <div>
-          <h3 class='text-2xl font-bold'>Expansion into Healthcare</h3>
-          <p class='text-gray-700 mt-2'>
-            As demand grew, the Sisters expanded services beyond nutrition,
-            offering <strong>preventive, promotive, and curative care</strong>
-            to low-income families and fishermen in the peri-urban region.
+        <a
+          href='/about-us/mission-vision-values'
+          class='group bg-white p-5 md:p-3 rounded-2xl border border-slate-400 hover:border-[#1565c0] hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 flex flex-col h-full'>
+          <div
+            class='w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-50 transition-colors'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              class='w-6 h-6 text-[#125276]'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='1.5'
+                d='M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
+              ></path>
+            </svg>
+          </div>
+          <h3
+            class='text-lg font-bold mb-2 uppercase tracking-tight'>
+            Our Mission
+          </h3>
+          <p class='text-sm text-slate-500 leading-relaxed mb-6'>
+            Rooted in the Franciscan tradition of compassionate service and
+            healing.
           </p>
-        </div>
+          <span
+            class='mt-auto text-[10px] font-black uppercase tracking-widest text-[#1565c0] group-hover:translate-x-2 transition-transform duration-300'
+            >Our Core →</span
+          >
+        </a>
 
-        <!-- Today -->
-        <div>
-          <h3 class='text-2xl font-bold'>Today</h3>
-          <p class='text-gray-700 mt-2'>
-            St. Paul’s Mission Hospital is now the only facility of its kind in
-            the area, serving a population of over
-            <strong>500,000 residents</strong> who live mostly below the poverty line.
-            The hospital remains a trusted home for compassionate, affordable care.
+        <a
+          href='/about-us/contact'
+          class='group bg-[#125276] p-5 md:p-3 rounded-2xl border border-transparent hover:bg-[#1565c0] transition-all duration-500 flex flex-col h-full shadow-lg'>
+          <div
+            class='w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-6 text-white'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              class='w-6 h-6'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='1.5'
+                d='M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'
+              ></path>
+            </svg>
+          </div>
+          <h3
+            class='text-lg font-bold text-white mb-2 uppercase tracking-tight'>
+            Contact
+          </h3>
+          <p class='text-sm text-blue-100/70 leading-relaxed mb-6'>
+            Reach out to our patient affairs or administrative offices today.
           </p>
-        </div>
+          <span
+            class='mt-auto text-[10px] font-black uppercase tracking-widest text-white group-hover:translate-x-2 transition-transform duration-300'
+            >Get in Touch →</span
+          >
+        </a>
       </div>
     </div>
   </section>
+  
+  
+  <script>
+    // Senior Dev JS: Intersection Observer for Auto-Counting
+    function animateCounters() {
+      const counters = document.querySelectorAll('.counter');
+      const speed = 60; // Lower is faster
 
-  <!-- Impact Section -->
-  <section class='relative pt-10 bg-gray-200'>
-    <div class='container mx-auto px-6 max-w-6xl' data-aos='fade-up'>
-      <!-- Header -->
-      <div class='text-center mb-16'>
-        <h2 class='text-4xl md:text-5xl font-extrabold mb-4'>Our Impact</h2>
-        <p class='text-lg md:text-xl text-gray-700 max-w-3xl mx-auto'>
-          For over <span class='text-accent font-extrabold'>four</span> decades, St.
-          Paul’s Mission Hospital has been committed to providing compassionate and
-          affordable healthcare to the Homa Bay community and beyond.
-        </p>
-      </div>
+      const startCounter = (el) => {
+        const target = +el.getAttribute('data-target');
+        let count = 0;
 
-      <!-- Stats Grid -->
-      <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10'>
-        <!-- Stat 1 -->
-        <div
-          class='bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center border-b-4 border-secondary shadow-lg'>
-          <h3 class='text-5xl font-extrabold mb-3'>40+</h3>
-          <p class='font-medium'>Years of Dedicated Service</p>
-        </div>
+        const updateCount = () => {
+          const inc = target / speed;
+          if (count < target) {
+            count = Math.ceil(count + inc);
+            el.innerText = count;
+            setTimeout(updateCount, 20);
+          } else {
+            el.innerText = target;
+          }
+        };
+        updateCount();
+      };
 
-        <!-- Stat 2 -->
-        <div
-          class='bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center border-b-4 border-secondary shadow-lg'>
-          <h3 class='text-5xl font-extrabold mb-3'>500,000+</h3>
-          <p class='font-medium'>Community Members Served</p>
-        </div>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              startCounter(entry.target);
+              observer.unobserve(entry.target); // Run only once
+            }
+          });
+        },
+        { threshold: 0.5 },
+      );
 
-        <!-- Stat 3 -->
-        <div
-          class='bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center border-b-4 border-secondary shadow-lg'>
-          <h3 class='text-5xl font-extrabold mb-3'>24/7</h3>
-          <p class='font-medium'>Emergency Care Availability</p>
-        </div>
+      counters.forEach((counter) => observer.observe(counter));
+    }
 
-        <!-- Stat 4 -->
-        <div
-          class='bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center border-b-4 border-secondary shadow-lg'>
-          <h3 class='text-5xl font-extrabold mb-3'>5 Core</h3>
-          <p class='font-medium'>
-            Specialties: Medical, Surgical, Maternity, Diagnostics, Pharmacy
-          </p>
-        </div>
-      </div>
-
-      <!-- Closing Statement -->
-      <div class='mt-16 text-center'>
-        <p class='text-lg md:text-xl max-w-4xl mx-auto text-blue-100'>
-          Our mission is not just about treatment, but about building healthier
-          communities. Every patient we serve reflects our unwavering commitment
-          to excellence and compassion in healthcare.
-        </p>
-      </div>
-    </div>
-  </section>
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', animateCounters);
+  </script>
 </Layout>
