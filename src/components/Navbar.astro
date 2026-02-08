@@ -1,232 +1,150 @@
-<nav class='sticky top-0 z-50 bg-white shadow-md'>
-  <div class='container mx-auto px-6 py-4 flex items-center justify-between'>
-    <!-- Hospital Logo -->
-    <a href='/' class='flex items-center space-x-2' title='Home'>
+<nav class='sticky top-0 z-[100] bg-white border-b border-slate-100 shadow-sm'>
+  <div class='container mx-auto px-6 py-3 flex items-center justify-between'>
+    <a href='/' class='flex items-center space-x-3 group' title='Home'>
       <img
         src='/logos/logo.png'
         alt='SPMH Logo'
-        class='h-10 w-auto rounded-md'
+        class='h-12 w-auto transition-transform duration-300 group-hover:scale-105'
       />
-      <span class='text-primary'>St Paul's Mission Hospital</span>
+      <div class='flex flex-col'>
+        <span
+          class='text-[#125276] font-black tracking-tighter leading-none text-lg uppercase'
+          >St. Paul's</span
+        >
+        <span
+          class='text-[#860f0f] text-[10px] font-bold tracking-[0.2em] uppercase'
+          >Mission Hospital</span
+        >
+      </div>
     </a>
 
-    <!-- Desktop Navigation -->
-    <div class='hidden md:flex items-center space-x-4 lg:space-x-6 px-4'>
-      <!-- About Us Dropdown -->
-      <div id='about-us-menu-group' class='relative'>
-        <a
-          href='#'
-          class='inline-flex items-center text-gray-700 hover:text-blue-700 transition-colors duration-300'>
+    <div class='hidden lg:flex items-center space-x-4 lg:space-x-8'>
+      <div class='relative group py-4'>
+        <button
+          class='flex items-center text-slate-600 font-bold text-sm hover:text-[#125276] transition-colors focus:outline-none'>
           About Us
           <svg
-            class='w-4 h-4 ml-1 transform transition-transform duration-300'
+            class='w-4 h-4 ml-1 transform transition-transform duration-300 group-hover:rotate-180'
             fill='none'
             stroke='currentColor'
-            viewBox='0 0 24 24'
-            xmlns='http://www.w3.org/2000/svg'>
+            viewBox='0 0 24 24'>
             <path
               stroke-linecap='round'
               stroke-linejoin='round'
               stroke-width='2'
               d='M19 9l-7 7-7-7'></path>
           </svg>
-        </a>
+        </button>
         <ul
-          id='about-us-menu'
-          class='absolute mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-all duration-300 opacity-0 scale-95 pointer-events-none'>
+          class='absolute top-full left-0 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-3 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-200 z-[110]'>
           <li>
             <a
               href='/about-us/history'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >History</a
-            >
+              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
+              >History</a>
           </li>
           <li>
             <a
               href='/about-us/organization'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >Organization</a
-            >
+              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
+              >Organization</a>
           </li>
           <li>
             <a
               href='/about-us/mission-vision-values'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >Our Mission</a
-            >
+              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
+              >Mission & Values</a>
           </li>
           <li>
             <a
               href='/about-us/strategic-plan'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >Strategic Plan</a
-            >
+              class='block px-5 py-2.5 text-sm text-[#860f0f] font-black hover:bg-red-50 italic'
+              >Strategic Plan 2030</a>
           </li>
           <li>
             <a
               href='/about-us/contact'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >Contact</a
-            >
+              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
+              >Contact</a>
           </li>
           <li>
             <a
               href='/about-us/tenders'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >Tenders</a
-            >
+              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
+              >Tenders</a>
           </li>
         </ul>
       </div>
 
-      <!-- Services Dropdown -->
-      <div id='services-menu-group' class='relative'>
-        <a
-          href='#'
-          class='inline-flex items-center text-gray-700 hover:text-blue-700 transition-colors duration-300'>
+      <div class='relative group py-4'>
+        <button
+          class='flex items-center text-slate-600 font-bold text-sm hover:text-[#125276] transition-colors focus:outline-none'>
           Our Services
           <svg
-            class='w-4 h-4 ml-1 transform transition-transform duration-300'
+            class='w-4 h-4 ml-1 transform transition-transform duration-300 group-hover:rotate-180'
             fill='none'
             stroke='currentColor'
-            viewBox='0 0 24 24'
-            xmlns='http://www.w3.org/2000/svg'>
+            viewBox='0 0 24 24'>
             <path
               stroke-linecap='round'
               stroke-linejoin='round'
               stroke-width='2'
               d='M19 9l-7 7-7-7'></path>
           </svg>
-        </a>
+        </button>
         <ul
-          id='services-menu'
-          class='absolute mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-all duration-300 opacity-0 scale-95 pointer-events-none'>
+          class='absolute top-full left-0 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-3 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-200 z-[110]'>
           <li>
             <a
               href='/services/clinical'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >Clinical Services</a
-            >
+              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
+              >Clinical Services</a>
           </li>
           <li>
             <a
               href='/services/patient-affairs'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >Patient Affairs</a
-            >
+              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
+              >Patient Affairs</a>
           </li>
         </ul>
       </div>
 
-      <!-- Get Involved Dropdown -->
-      <div id='get-involved-menu-group' class='relative'>
-        <a
-          href='/get-involved'
-          class='inline-flex items-center text-gray-700 hover:text-blue-700 transition-colors duration-300'>
-          Get Involved
-          <!-- <svg
-            class='w-4 h-4 ml-1 transform transition-transform duration-300'
-            fill='none'
-            stroke='currentColor'
-            viewBox='0 0 24 24'
-            xmlns='http://www.w3.org/2000/svg'>
-            <path
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              stroke-width='2'
-              d='M19 9l-7 7-7-7'></path>
-          </svg> -->
-        </a>
-        <!-- <ul
-          id='get-involved-menu'
-          class='absolute mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-all duration-300 opacity-0 scale-95 pointer-events-none'>
-          <li>
-            <a
-              href='/get-involved/volunteer'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >Volunteer</a
-            >
-          </li>
-          <li>
-            <a
-              href='/get-involved/partner'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >Partner</a
-            >
-          </li>
-          <li>
-            <a
-              href='../careers'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >Careers</a
-            >
-          </li>
-        </ul> -->
-      </div>
+      <a
+        href='/get-involved'
+        class='text-slate-600 font-bold text-sm hover:text-[#125276] py-4 transition-colors'
+        >Get Involved</a
+      >
+      <a
+        href='/news-and-media'
+        class='text-slate-600 font-bold text-sm hover:text-[#125276] py-4 transition-colors'
+        >News & Media</a
+      >
 
-      <!-- News and Media Dropdown -->
-      <div id='news-media-menu-group' class='relative'>
-        <a
-          href='/news-and-media'
-          class='inline-flex items-center text-gray-700 hover:text-blue-700 transition-colors duration-300'>
-          News & Media
-          <!-- <svg
-            class='w-4 h-4 ml-1 transform transition-transform duration-300'
-            fill='none'
-            stroke='currentColor'
-            viewBox='0 0 24 24'
-            xmlns='http://www.w3.org/2000/svg'>
-            <path
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              stroke-width='2'
-              d='M19 9l-7 7-7-7'></path>
-          </svg> -->
-        </a>
-        <!-- <ul
-          id='news-media-menu'
-          class='absolute mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 transition-all duration-300 opacity-0 scale-95 pointer-events-none'>
-          <li>
-            <a
-              href='/news-and-media/blog'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >Blog</a
-            >
-          </li>
-          <li>
-            <a
-              href='/news-and-media/events'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >Events</a
-            >
-          </li>
-          <li>
-            <a
-              href='/news-and-media/gallery'
-              class='block px-4 py-2 text-gray-700 hover:bg-accent/60 rounded-md'
-              >Gallery</a
-            >
-          </li>
-        </ul> -->
-      </div>
-
-      <!-- Prominent Emergency Button -->
       <a
         href='tel:+254111817447'
-        class='px-4 py-2 bg-[#860f0f] text-white font-semibold rounded-full hover:bg-red-700 transition-colors duration-300 shadow-md text-sm'>
-        +254 111 817447
+        class='flex items-center gap-3 px-6 py-2.5 bg-[#860f0f] text-white rounded-full hover:bg-[#6d0c0c] transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 ml-4'>
+        <span class='relative flex h-2 w-2'>
+          <span
+            class='animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75'
+          ></span>
+          <span class='relative inline-flex rounded-full h-2 w-2 bg-white'
+          ></span>
+        </span>
+        <span class='text-xs font-black uppercase tracking-widest'
+          >+254 111 817447</span
+        >
       </a>
     </div>
 
-    <!-- Mobile Hamburger Menu Button -->
-    <div class='md:hidden flex items-center'>
-      <button id='mobile-menu-btn' class='text-secondary focus:outline-none'>
+    <div class='lg:hidden flex items-center'>
+      <button
+        id='mobile-menu-btn'
+        class='text-[#125276] p-2 hover:bg-slate-50 rounded-lg focus:outline-none'>
         <svg
           class='w-8 h-8'
           fill='none'
           stroke='currentColor'
-          viewBox='0 0 24 24'
-          xmlns='http://www.w3.org/2000/svg'>
+          viewBox='0 0 24 24'>
           <path
             stroke-linecap='round'
             stroke-linejoin='round'
@@ -237,291 +155,127 @@
     </div>
   </div>
 
-  <!-- Mobile Navigation Menu -->
-  <div id='mobile-menu' class='md:hidden hidden bg-slate-200 shadow-lg py-2'>
-    <ul class='flex flex-col space-y-2'>
-      <!-- Mobile "About Us" Dropdown -->
-      <li>
-        <div class='relative px-6'>
-          <button
-            class='w-full flex justify-between items-center py-2 text-gray-700 hover:bg-accent/60 focus:outline-none mobile-dropdown-btn'
-            data-target='about-dropdown'>
-            <span>About Us</span>
-            <svg
-              class='w-4 h-4 transform transition-transform duration-300'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'>
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                stroke-width='2'
-                d='M19 9l-7 7-7-7'></path>
-            </svg>
-          </button>
-          <ul
-            id='about-dropdown'
-            class='hidden pl-4 mt-2 space-y-2 border-l border-gray-200'>
-            <li>
-              <a
-                href='/about-us/history'
-                class='block py-2 text-gray-700 hover:bg-accent/60'>History</a
-              >
-            </li>
-            <li>
-              <a
-                href='/about-us/organization'
-                class='block py-2 text-gray-700 hover:bg-accent/60'
-                >Organization</a
-              >
-            </li>
-            <li>
-              <a
-                href='/about-us/mission-vision-values'
-                class='block py-2 text-gray-700 hover:bg-accent/60'
-                >Our Mission</a
-              >
-            </li>
-            <li>
-              <a
-                href='/about-us/strategic-plan'
-                class='block py-2 text-gray-700 hover:bg-accent/60'
-                >Strategic Plan</a
-              >
-            </li>
-            <li>
-              <a
-                href='/about-us/contact'
-                class='block py-2 text-gray-700 hover:bg-accent/60'>Contact</a
-              >
-            </li>
-            <li>
-              <a
-                href='/about-us/tenders'
-                class='block py-2 text-gray-700 hover:bg-accent/60'>Tenders</a
-              >
-            </li>
-          </ul>
-        </div>
-      </li>
-      <!-- Mobile "Services" Dropdown -->
-      <li>
-        <div class='relative px-6'>
-          <button
-            class='w-full flex justify-between items-center py-2 text-gray-700 hover:bg-accent/60 focus:outline-none mobile-dropdown-btn'
-            data-target='services-dropdown'>
-            <span>Services</span>
-            <svg
-              class='w-4 h-4 transform transition-transform duration-300'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'>
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                stroke-width='2'
-                d='M19 9l-7 7-7-7'></path>
-            </svg>
-          </button>
-          <ul
-            id='services-dropdown'
-            class='hidden pl-4 mt-2 space-y-2 border-l border-gray-200'>
-            <li>
-              <a
-                href='/services/clinical'
-                class='block py-2 text-gray-700 hover:bg-accent/60'
-                >Clinical Services</a
-              >
-            </li>
-            <li>
-              <a
-                href='/services/patient-affairs'
-                class='block py-2 text-gray-700 hover:bg-accent/60'
-                >Patient Affairs</a
-              >
-            </li>
-          </ul>
-        </div>
-      </li>
-      <!-- Mobile "Get Involved" Dropdown -->
-      <li>
-        <div class='relative px-6'>
-          <button
-            class='w-full flex justify-between items-center py-2 text-gray-700 hover:bg-accent/60 focus:outline-none mobile-dropdown-btn'
-            data-target='get-involved-dropdown'>
-            <span>Get Involved</span>
-            <svg
-              class='w-4 h-4 transform transition-transform duration-300'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'>
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                stroke-width='2'
-                d='M19 9l-7 7-7-7'></path>
-            </svg>
-          </button>
-          <ul
-            id='get-involved-dropdown'
-            class='hidden pl-4 mt-2 space-y-2 border-l border-gray-200'>
-            <li>
-              <a
-                href='/get-involved/volunteer'
-                class='block py-2 text-gray-700 hover:bg-accent/60'>Volunteer</a
-              >
-            </li>
-            <li>
-              <a
-                href='/get-involved/partners'
-                class='block py-2 text-gray-700 hover:bg-accent/60'>Partner</a
-              >
-            </li>
-            <li>
-              <a
-                href='/get-involved/careers'
-                class='block py-2 text-gray-700 hover:bg-accent/60'>Careers</a
-              >
-            </li>
-          </ul>
-        </div>
-      </li>
-      <!-- Mobile "News & Media" Dropdown -->
-      <li>
-        <div class='relative px-6'>
-          <button
-            class='w-full flex justify-between items-center py-2 text-gray-700 hover:bg-accent/60 focus:outline-none mobile-dropdown-btn'
-            data-target='news-dropdown'>
-            <span>News & Media</span>
-            <svg
-              class='w-4 h-4 transform transition-transform duration-300'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'>
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                stroke-width='2'
-                d='M19 9l-7 7-7-7'></path>
-            </svg>
-          </button>
-          <ul
-            id='news-dropdown'
-            class='hidden pl-4 mt-2 space-y-2 border-l border-gray-200'>
-            <li>
-              <a
-                href='/news-and-media/blog'
-                class='block py-2 text-gray-700 hover:bg-accent/60'>Blog</a
-              >
-            </li>
-            <li>
-              <a
-                href='/news-and-media/events'
-                class='block py-2 text-gray-700 hover:bg-accent/60'>Events</a
-              >
-            </li>
-            <li>
-              <a
-                href='/news-and-media/gallery'
-                class='block py-2 text-gray-700 hover:bg-accent/60'>Gallery</a
-              >
-            </li>
-          </ul>
-        </div>
-      </li>
-    </ul>
+  <div
+    id='mobile-menu'
+    class='hidden lg:hidden bg-[#FDFCF8] border-t border-slate-100 shadow-inner max-h-screen overflow-y-auto'>
+    <div class='px-6 py-8 space-y-4'>
+      <div class='space-y-2'>
+        <button
+          class='mobile-dropdown-btn w-full flex justify-between items-center p-4 rounded-xl bg-white border border-slate-100 text-[#125276] font-black uppercase tracking-tighter text-sm'
+          data-target='mob-about'>
+          About Us
+          <svg
+            class='w-5 h-5 transition-transform duration-300'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'
+            ><path stroke-width='2' d='M19 9l-7 7-7-7'></path></svg
+          >
+        </button>
+        <ul
+          id='mob-about'
+          class='hidden px-4 py-2 space-y-3 bg-white/50 rounded-b-xl border-x border-b border-slate-50'>
+          <li>
+            <a
+              href='/about-us/history'
+              class='block py-2 text-slate-600 text-sm font-medium'>History</a>
+          </li>
+          <li>
+            <a
+              href='/about-us/organization'
+              class='block py-2 text-slate-600 text-sm font-medium'
+              >Organization</a>
+          </li>
+          <li>
+            <a
+              href='/about-us/strategic-plan'
+              class='block py-2 text-[#860f0f] text-sm font-black italic'
+              >Strategic Plan 2030</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class='space-y-2'>
+        <button
+          class='mobile-dropdown-btn w-full flex justify-between items-center p-4 rounded-xl bg-white border border-slate-100 text-[#125276] font-black uppercase tracking-tighter text-sm'
+          data-target='mob-services'>
+          Our Services
+          <svg
+            class='w-5 h-5 transition-transform duration-300'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'
+            ><path stroke-width='2' d='M19 9l-7 7-7-7'></path></svg
+          >
+        </button>
+        <ul
+          id='mob-services'
+          class='hidden px-4 py-2 space-y-3 bg-white/50 rounded-b-xl border-x border-b border-slate-50'>
+          <li>
+            <a
+              href='/services/clinical'
+              class='block py-2 text-slate-600 text-sm font-medium'
+              >Clinical Services</a>
+          </li>
+          <li>
+            <a
+              href='/services/patient-affairs'
+              class='block py-2 text-slate-600 text-sm font-medium'
+              >Patient Affairs</a>
+          </li>
+        </ul>
+      </div>
+
+      <a
+        href='/get-involved'
+        class='block p-4 text-[#125276] font-black uppercase tracking-tighter text-sm'
+        >Get Involved</a
+      >
+      <a
+        href='/news-and-media'
+        class='block p-4 text-[#125276] font-black uppercase tracking-tighter text-sm'
+        >News & Media</a
+      >
+
+      <a
+        href='tel:+254111817447'
+        class='block w-full text-center p-5 bg-[#860f0f] text-white rounded-2xl font-black uppercase tracking-[0.2em] text-xs shadow-lg mt-6'>
+        Call Emergency
+      </a>
+    </div>
   </div>
 </nav>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // --- Mobile Menu Logic ---
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileDropdownBtns = document.querySelectorAll(
       '.mobile-dropdown-btn',
     );
 
-    const closeAllMobileDropdowns = () => {
-      mobileDropdownBtns.forEach((button) => {
-        const targetId = button.getAttribute('data-target');
-        const targetMenu = document.getElementById(targetId);
-        const svg = button.querySelector('svg');
-        targetMenu.classList.add('hidden');
-        svg.classList.remove('rotate-180');
-      });
-    };
-
-    mobileMenuBtn.addEventListener('click', (event) => {
-      event.stopPropagation();
+    // Toggle Mobile Menu
+    mobileMenuBtn.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
-      if (mobileMenu.classList.contains('hidden')) {
-        closeAllMobileDropdowns();
-      }
     });
 
-    mobileDropdownBtns.forEach((button) => {
-      button.addEventListener('click', (event) => {
-        event.stopPropagation();
-        const targetId = button.getAttribute('data-target');
+    // Handle Mobile Dropdowns
+    mobileDropdownBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
         const targetMenu = document.getElementById(targetId);
-        const svg = button.querySelector('svg');
+        const icon = btn.querySelector('svg');
 
-        if (targetMenu.classList.contains('hidden')) {
-          closeAllMobileDropdowns();
-          targetMenu.classList.remove('hidden');
-          svg.classList.add('rotate-180');
-        } else {
-          targetMenu.classList.add('hidden');
-          svg.classList.remove('rotate-180');
-        }
+        targetMenu.classList.toggle('hidden');
+        icon.classList.toggle('rotate-180');
       });
     });
 
-    document.addEventListener('click', (event) => {
-      if (
-        !mobileMenu.contains(event.target) &&
-        !mobileMenuBtn.contains(event.target) &&
-        !mobileMenu.classList.contains('hidden')
-      ) {
+    // Close mobile menu on outside click
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
         mobileMenu.classList.add('hidden');
-        closeAllMobileDropdowns();
       }
-    });
-
-    // --- Corrected Desktop Dropdown Logic with Delay ---
-    const desktopDropdowns = document.querySelectorAll(
-      'div[id$="-menu-group"]',
-    );
-    const closeDelay = 200; // milliseconds
-
-    desktopDropdowns.forEach((group) => {
-      const button = group.querySelector('a');
-      const menu = group.querySelector('ul');
-      const svg = button.querySelector('svg');
-      let timeout;
-
-      const showMenu = () => {
-        clearTimeout(timeout);
-        menu.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
-        menu.classList.add('opacity-100', 'scale-100');
-        svg.classList.add('rotate-180');
-      };
-
-      const hideMenu = () => {
-        timeout = setTimeout(() => {
-          menu.classList.remove('opacity-100', 'scale-100');
-          menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-          svg.classList.remove('rotate-180');
-        }, closeDelay);
-      };
-
-      group.addEventListener('mouseover', showMenu);
-      group.addEventListener('mouseout', hideMenu);
     });
   });
 </script>

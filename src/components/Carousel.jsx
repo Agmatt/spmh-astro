@@ -46,7 +46,7 @@ export default function Carousel() {
           />
 
           {/* CONTENT LAYER */}
-          <div className='absolute inset-0 flex flex-col justify-center px-6 md:px-20 lg:px-32'>
+          <div className='absolute inset-0 flex flex-col justify-center px-4 md:px-6 lg:px-32'>
             <div
               className={`transition-all duration-1000 delay-300 transform ${
                 current === i
@@ -56,7 +56,7 @@ export default function Carousel() {
               <span className='text-blue-500 font-mono text-[10px] uppercase tracking-[0.4em] font-bold mb-4 block'>
                 {slide.label}
               </span>
-              <h2 className='text-5xl md:text-8xl font-black text-white uppercase tracking-tighter leading-[0.85] max-w-4xl mb-6'>
+              <h2 className='text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.85] max-w-4xl mb-6'>
                 {slide.title.split(' ').map((word, index) =>
                   index === 2 ? (
                     <span
