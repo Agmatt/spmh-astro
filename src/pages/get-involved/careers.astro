@@ -1,6 +1,7 @@
 ---
 import Layout from '../../Layout/Layout.astro';
 import JobBoard from '../../components/JobBoard.astro';
+import JobPortal from '../../components/JobPortal.astro';
 ---
 
 <Layout title='Careers'>
@@ -19,15 +20,15 @@ import JobBoard from '../../components/JobBoard.astro';
         <h2 class='text-3xl sm:text-6xl font-extrabold text-white'>Careers</h2>
       </div>
     </section>
+    <JobPortal />
+   
     <!-- Breadcrump -->
-    <div class='max-w-4xl mx-auto px-2 md:px-4 py-8'>
+    <!-- <div class='max-w-4xl mx-auto px-2 md:px-4 py-8'>
       <a
         href='/get-involved'
         class='text-accent hover:underline text-sm font-medium'>← Back</a
       >
-    </div>
-
-    <!-- Current Openings -->
-    <JobBoard />
+    </div> -->
+    
   </main>
 </Layout>
