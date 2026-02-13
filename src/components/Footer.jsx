@@ -24,6 +24,7 @@ const App = () => {
               <li><a href="/services/clinical" className="hover:text-white transition-colors duration-300">Services</a></li>
               <li><a href="/about-us/organization" className="hover:text-white transition-colors duration-300">Our Team</a></li>
               <li><a href="/news-and-media" className="hover:text-white transition-colors duration-300">News & Blog</a></li>
+              <li><a href="/get-involved/careers" className="hover:text-white transition-colors duration-300">Careers</a></li>
             </ul>
           </div>
 

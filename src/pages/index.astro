@@ -47,14 +47,6 @@ const pillars = [
   },
 ];
 
-// reliability
-const stats = [
-  { label: 'Accreditation', value: 'Level 4', detail: 'MoH / SHA Certified' },
-  { label: 'Availability', value: '24/7', detail: 'Emergency & Pharmacy' },
-  { label: 'Clinical Staff', value: '50+', detail: 'Specialists & Nurses' },
-  { label: 'History', value: '40yrs+', detail: 'Mission-Driven Care' },
-];
-
 // Blog
 const updates = [
   {
@@ -188,132 +180,151 @@ const updates = [
       </div>
     </section>
 
-    <!-- Service reliability -->
-    <section
-      class='py-20 bg-slate-50 border-y border-slate-100 overflow-hidden'>
-      <div class='container mx-auto px-2 md:px-4 max-w-7xl'>
-        <div class='grid lg:grid-cols-12 gap-16 items-center'>
-          <div class='lg:col-span-6'>
-            <nav class='flex items-center gap-3 mb-8'>
-              <span
-                class='text-[10px] font-mono text-[#860f0f] uppercase tracking-[0.4em] font-black underline underline-offset-8'
-                >Our Identity</span
-              >
-            </nav>
+    <section class='max-w-7xl mx-auto px-6 py-24 bg-white'>
+      <div class='mb-16'>
+        <h4
+          class='text-[#860f0f] text-[11px] font-black uppercase tracking-[0.5em] mb-4'>
+          Centers of Excellence
+        </h4>
+        <h2
+          class='text-5xl font-black text-[#125276] tracking-tighter leading-none'>
+          Specialized Care. <br />
+          <span class='text-slate-300 font-light italic'
+            >Advanced Medicine.</span
+          >
+        </h2>
+      </div>
 
-            <h2
-              class='text-4xl md:text-6xl font-black text-slate-900 uppercase tracking-tighter leading-[0.9] mb-8'>
-              Compassion Driven by <br />
-              <span class='text-[#1565c0]'>Clinical Precision.</span>
-            </h2>
-
-            <div class='space-y-6 max-w-xl'>
-              <p class='text-xl text-slate-600 leading-relaxed'>
-                As a premier Level 4 Mission Hospital in Homa Bay, St. Paul's
-                bridges the gap between <span class='text-slate-900 font-bold'
-                  >faith-based compassion</span
-                > and modern medical infrastructure.
-              </p>
-              <p
-                class='text-slate-500 leading-relaxed border-l-2 border-[#1565c0] pl-6 italic'>
-                "To provide holistic, affordable, and quality healthcare
-                services to all, inspired by the healing ministry of Jesus
-                Christ."
-              </p>
-            </div>
-          </div>
-
-          <div class='lg:col-span-6 relative'>
+      <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+        <div
+          class='group relative p-10 bg-slate-50 rounded-[3rem] overflow-hidden hover:bg-[#125276] transition-all duration-500 hover:-translate-y-2'>
+          <div class='relative z-10'>
             <div
-              class='absolute -right-20 -bottom-20 w-64 h-64 bg-[#1565c0]/5 rounded-full blur-3xl'>
+              class='w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-[#125276] mb-8 shadow-sm group-hover:scale-110 transition-transform'>
+              <svg
+                class='w-8 h-8'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+                ><path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  stroke-width='1.5'
+                  d='M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
+                ></path></svg
+              >
             </div>
-
-            <div class='grid grid-cols-2 gap-4'>
-              {
-                stats.map((stat) => (
-                  <div class='bg-white p-7 border border-slate-200 shadow-sm hover:border-[#1565c0] transition-colors group'>
-                    <span class='text-[9px] font-mono text-slate-400 uppercase tracking-[0.2em] block mb-2'>
-                      {stat.label}
-                    </span>
-                    <span class='text-4xl md:text-5xl font-black text-slate-900 block mb-2 tracking-tighter group-hover:text-[#1565c0] transition-colors'>
-                      {stat.value}
-                    </span>
-                    <span class='text-[10px] font-bold text-[#860f0f] uppercase tracking-widest opacity-80 italic'>
-                      {stat.detail}
-                    </span>
-                  </div>
-                ))
-              }
-            </div>
+            <h3
+              class='text-2xl font-black text-[#125276] group-hover:text-white tracking-tighter mb-4'>
+              Critical Care Unit
+            </h3>
+            <p
+              class='text-slate-500 group-hover:text-white/70 text-sm leading-relaxed mb-6'>
+              Equipped with the latest life-support technology and 24/7
+              specialist monitoring for complex recoveries.
+            </p>
+            <a
+              href='/icu'
+              class='text-[10px] font-black uppercase tracking-widest text-[#860f0f] group-hover:text-white border-b border-[#860f0f] group-hover:border-white pb-1'
+              >Explore Unit</a
+            >
           </div>
+        </div>
+
+        <div
+          class='group relative p-10 bg-slate-50 rounded-[3rem] overflow-hidden hover:bg-[#125276] transition-all duration-500 hover:-translate-y-2'>
+          <h3
+            class='text-2xl font-black text-[#125276] group-hover:text-white tracking-tighter mb-4 text-left'>
+            Advanced Diagnostics
+          </h3>
+          <p
+            class='text-slate-500 group-hover:text-white/70 text-sm leading-relaxed mb-6 text-left'>
+            High-resolution MRI, CT-Scan, and automated laboratory services for
+            precise medical insights.
+          </p>
+          <a
+            href='/diagnostics'
+            class='text-[10px] font-black uppercase tracking-widest text-[#860f0f] group-hover:text-white border-b border-[#860f0f] group-hover:border-white pb-1'
+            >View Lab Services</a
+          >
+        </div>
+
+        <div
+          class='group relative p-10 bg-slate-50 rounded-[3rem] overflow-hidden hover:bg-[#125276] transition-all duration-500 hover:-translate-y-2'>
+          <h3
+            class='text-2xl font-black text-[#125276] group-hover:text-white tracking-tighter mb-4 text-left'>
+            Surgical Excellence
+          </h3>
+          <p
+            class='text-slate-500 group-hover:text-white/70 text-sm leading-relaxed mb-6 text-left'>
+            Modern modular theatres designed for minimally invasive and complex
+            surgical interventions.
+          </p>
+          <a
+            href='/theatre'
+            class='text-[10px] font-black uppercase tracking-widest text-[#860f0f] group-hover:text-white border-b border-[#860f0f] group-hover:border-white pb-1'
+            >Surgical Wings</a
+          >
         </div>
       </div>
     </section>
   </main>
-
-  <!-- Blog -->
-  <section class='py-18 bg-white overflow-hidden'>
-    <div class='container mx-auto px-2 md:px-4 max-w-7xl'>
-      <div
-        class='flex flex-col md:flex-row justify-between items-end mb-16 gap-8'>
-        <div class='max-w-2xl'>
-          <nav class='flex items-center gap-3 mb-6'>
-            <div class='h-[2px] w-12 bg-[#860f0f]'></div>
-            <span
-              class='text-[10px] font-mono uppercase tracking-[0.4em] text-slate-400 font-black'
-              >Institutional Journal</span
-            >
-          </nav>
-          <h2
-            class='text-5xl md:text-7xl font-black text-slate-900 uppercase tracking-tighter leading-[0.85]'>
-            Latest <br />
-            <span class='text-[#1565c0]'>Impact.</span>
-          </h2>
+  <section class='max-w-7xl mx-auto px-6 py-32'>
+    <div class='grid lg:grid-cols-2 gap-24 items-center'>
+      <div class='relative'>
+        <div
+          class='aspect-[4/5] bg-slate-100 rounded-[4rem] overflow-hidden shadow-2xl relative'>
+          <div
+            class='absolute inset-0 bg-gradient-to-t from-[#125276]/40 to-transparent'>
+          </div>
+          <div class='w-full h-full bg-slate-200'></div>
         </div>
-        <a
-          href='/news'
-          class='text-[10px] font-black uppercase tracking-[0.3em] text-[#125276] hover:text-[#1565c0] transition-colors border-b-2 border-slate-100 pb-2'>
-          View All Archives
-        </a>
+        <div
+          class='absolute -bottom-10 -right-10 bg-white p-10 rounded-[3rem] shadow-xl border border-slate-50 max-w-[280px]'>
+          <h4
+            class='text-[#860f0f] text-[10px] font-black uppercase tracking-[0.3em] mb-2'>
+            Phase 1 Launch
+          </h4>
+          <p class='text-slate-600 text-xs font-bold leading-relaxed'>
+            Currently operating at Tertiary Level standards with focus on
+            Critical Care and Diagnostics.
+          </p>
+        </div>
       </div>
 
-      <div class='grid grid-cols-1 lg:grid-cols-3 gap-12'>
-        {
-          updates.map((post) => (
-            <article class='group cursor-pointer'>
-              <div class='flex gap-8 items-start mb-6'>
-                <div class='flex flex-col items-center'>
-                  <span class='text-4xl font-black text-slate-200 group-hover:text-[#1565c0] transition-colors leading-none'>
-                    {post.date}
-                  </span>
-                  <span class='text-[9px] font-mono uppercase tracking-widest text-slate-400'>
-                    {post.month}
-                  </span>
-                </div>
+      <div>
+        <h2
+          class='text-6xl font-black text-[#125276] tracking-tighter leading-[0.9] mb-8'>
+          Precision <br />Before <br /><span class='text-slate-200'
+            >Expansion.</span
+          >
+        </h2>
+        <p class='text-xl text-slate-500 mb-12 leading-relaxed'>
+          St. Paul's isn't trying to be everything at once. We are starting with
+          the most critical needs—bringing elite, specialized interventions to
+          Kenya with zero margin for error.
+        </p>
 
-                <div class='flex flex-col'>
-                  <span class='text-[9px] font-black uppercase tracking-[0.2em] text-[#860f0f] mb-3'>
-                    // {post.category}
-                  </span>
-                  <h3 class='text-2xl font-black text-[#125276] uppercase tracking-tighter leading-tight group-hover:underline decoration-2 underline-offset-4 decoration-[#1565c0]'>
-                    {post.title}
-                  </h3>
-                </div>
-              </div>
-
-              <div class='pl-[4.5rem]'>
-                <p class='text-slate-500 font-light text-sm leading-relaxed mb-6'>
-                  {post.excerpt}
-                </p>
-                <a
-                  href={post.slug}
-                  class='inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-900 group-hover:gap-4 transition-all'>
-                  Read Report <span>→</span>
-                </a>
-              </div>
-            </article>
-          ))
-        }
+        <div class='space-y-8'>
+          <div class='flex items-center gap-6 group cursor-pointer'>
+            <div
+              class='w-12 h-12 rounded-2xl bg-[#125276] text-white flex items-center justify-center font-black'>
+              01
+            </div>
+            <h3 class='text-2xl font-bold text-[#125276] group-hover:underline'>
+              Advanced Critical Care (ICU)
+            </h3>
+          </div>
+          <div class='flex items-center gap-6 group cursor-pointer'>
+            <div
+              class='w-12 h-12 rounded-2xl bg-[#125276] text-white flex items-center justify-center font-black'>
+              02
+            </div>
+            <h3 class='text-2xl font-bold text-[#125276] group-hover:underline'>
+              Specialized Laboratory Suite
+            </h3>
+          </div>
+        </div>
       </div>
     </div>
   </section>
