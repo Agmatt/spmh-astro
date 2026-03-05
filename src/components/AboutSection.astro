@@ -1,0 +1,152 @@
+---
+const images = {
+  // Large left: hospital exterior / building entrance feel
+  exterior:
+    '/img/15.jpg',
+  // Top right: medical staff / team
+  staff1:
+    '/img/11.jpg',
+  // Bottom right: ward / corridor / care setting
+  staff2:
+    '/img/17.jpg',
+};
+---
+
+<section id='about' class='bg-white py-20 overflow-hidden'>
+  <div class='max-w-7xl mx-auto px-2 md:px-4 lg:px-10'>
+    <!-- Section eyebrow -->
+    <div class='flex items-center gap-4 mb-10 reveal'>
+      <p class='text-primary text-xs tracking-[0.22em] uppercase font-semibold'>
+        Who We Are
+      </p>
+      <div class='h-px flex-1 max-w-[60px] bg-primary/30'></div>
+    </div>
+
+    <!-- ── Main editorial grid ── -->
+    <div class='grid lg:grid-cols-12 gap-5 items-stretch'>
+      <!-- LEFT: large exterior image — spans 7 cols -->
+      <div class='lg:col-span-7 relative reveal'>
+        <!-- Main image -->
+        <div class='relative h-[420px] lg:h-[560px] overflow-hidden'>
+          <img
+            src={images.exterior}
+            alt="St. Paul's Mission Hospital — our facility"
+            class='absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105'
+            loading='lazy'
+          />
+          <!-- Subtle gradient overlay — bottom so text sits cleanly -->
+          <div
+            class='absolute inset-0 bg-gradient-to-t from-secondary/70 via-secondary/10 to-transparent'>
+          </div>
+        </div>
+
+        <!-- Founding year badge — overlaps image bottom-right corner -->
+      </div>
+
+      <!-- RIGHT: stacked staff images + text panel — spans 5 cols -->
+      <div class='lg:col-span-5 flex flex-col gap-5'>
+        <!-- Top staff image -->
+        <div class='relative h-48 lg:h-56 overflow-hidden reveal'>
+          <img
+            src={images.staff1}
+            alt="St. Paul's medical team"
+            class='absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105'
+            loading='lazy'
+          />
+          <div
+            class='absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent'>
+          </div>
+          <!-- Staff label badge -->
+          <div
+            class='absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 flex items-center gap-2'>
+            <div class='size-2 rounded-full bg-primary'></div>
+            <span
+              class='text-secondary text-[0.65rem] tracking-[0.14em] uppercase font-semibold'>
+              Our Team
+            </span>
+          </div>
+        </div>
+
+        <!-- Text panel — the emotional core -->
+        <div
+          class='bg-surface border border-border/50 p-4 lg:p-8 flex flex-col justify-between flex-1 reveal'>
+          <div>
+            <h2
+              class='font-display text-secondary text-2xl lg:text-3xl font-normal leading-snug mb-4'>
+              Built on faith.<br />
+            </h2>
+
+            <p class='text-muted text-sm leading-relaxed mb-5'>
+              St. Paul's Mission Hospital has been part of this community since
+              1983 — built not just as a medical facility, but as a place of
+              genuine service. We started with a simple conviction: that every
+              person deserves attentive, dignified care regardless of their
+              circumstances.
+            </p>
+
+            <p class='text-muted text-sm leading-relaxed'>
+              Today, our dedicated team of doctors, nurses, and support staff
+              carry that same conviction into every consultation, every ward
+              round, and every family they walk alongside.
+            </p>
+          </div>
+
+          <!-- Bottom row: values pills -->
+          <div class='flex flex-wrap gap-2 mt-6 pt-6 border-t border-border/60'>
+            {
+              [
+                'Compassionate',
+                'Dedicated',
+                'Community-first',
+                'Mission-driven',
+              ].map((v) => (
+                <span
+                  class='text-[0.65rem] tracking-[0.12em] uppercase font-semibold text-primary
+                           bg-primary/8 border border-primary/15 px-3 py-1.5'>
+                  {v}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Bottom staff image — partially hidden, revealed on scroll -->
+        <div class='relative h-36 overflow-hidden reveal'>
+          <img
+            src={images.staff2}
+            alt="Care at St. Paul's Mission Hospital"
+            class='absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105'
+            loading='lazy'
+          />
+          <div
+            class='absolute inset-0 bg-gradient-to-r from-secondary/40 to-transparent'>
+          </div>
+
+          <!-- Overlay stat -->
+          <div class='absolute inset-0 flex items-center px-6 gap-5'>
+            <div class='border-l-2 border-white/50 pl-4'>
+              <div
+                class='font-display text-white text-3xl font-bold leading-none'>
+                40+
+              </div>
+              <div
+                class='text-white/70 text-[0.65rem] tracking-[0.15em] uppercase mt-0.5'>
+                Years of service
+              </div>
+            </div>
+            <div class='border-l-2 border-white/30 pl-4'>
+              <div
+                class='font-display text-white text-3xl font-bold leading-none'>
+                6+
+              </div>
+              <div
+                class='text-white/70 text-[0.65rem] tracking-[0.15em] uppercase mt-0.5'>
+                Departments
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

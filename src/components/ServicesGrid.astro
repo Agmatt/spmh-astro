@@ -1,0 +1,194 @@
+---
+/**
+ * ServicesGrid.astro
+ * Filterable service directory — Alpine.js handles the filter state,
+ * Tailwind handles all styling. Zero manual CSS.
+ */
+
+const categories = ["All", "Primary Care", "Specialist", "Support"]
+
+const services = [
+  {
+    name: "Emergency & Trauma",
+    category: "Primary Care",
+    tag: "24 / 7",
+    tagColor: "accent",
+    desc: "Immediate response for trauma, acute illness, and critical conditions. Always open — no referral needed.",
+    href: "/services/emergency",
+    icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
+  },
+  {
+    name: "General Outpatient",
+    category: "Primary Care",
+    tag: "Walk-In",
+    tagColor: "primary",
+    desc: "Accessible consultations for all ages. Your first port of call for non-emergency health concerns.",
+    href: "/services/outpatient",
+    icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z",
+  },
+  {
+    name: "Medical",
+    category: "Primary Care",
+    tag: null,
+    tagColor: null,
+    desc: "Internal medicine for diagnosis and management of complex and chronic medical conditions.",
+    href: "/services/medical",
+    icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
+  },
+  {
+    name: "Surgery",
+    category: "Specialist",
+    tag: null,
+    tagColor: null,
+    desc: "General and specialised surgical procedures with a full pre- and post-operative care pathway.",
+    href: "/services/surgery",
+    icon: "M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z",
+  },
+  {
+    name: "Maternity & Newborn",
+    category: "Specialist",
+    tag: null,
+    tagColor: null,
+    desc: "Complete antenatal, delivery, and postnatal care in a safe, dedicated maternity environment.",
+    href: "/services/maternity",
+    icon: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z",
+  },
+  {
+    name: "Physiotherapy & Rehab",
+    category: "Specialist",
+    tag: null,
+    tagColor: null,
+    desc: "Evidence-based rehabilitation restoring movement, strength, and independence after illness or injury.",
+    href: "/services/physio",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z",
+  },
+  {
+    name: "Mother & Child Clinic",
+    category: "Primary Care",
+    tag: null,
+    tagColor: null,
+    desc: "Immunisation, growth monitoring, and preventive care for mothers and children under five.",
+    href: "/services/mch",
+    icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
+  },
+  {
+    name: "Pharmacy & Wellness",
+    category: "Support",
+    tag: null,
+    tagColor: null,
+    desc: "In-house dispensing, medication counselling, and holistic wellness products — all under one roof.",
+    href: "/services/pharmacy",
+    icon: "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z",
+  },
+  {
+    name: "Comprehensive Care Centre",
+    category: "Support",
+    tag: "CCC",
+    tagColor: "secondary",
+    desc: "Confidential, integrated HIV/AIDS care: counselling, testing, treatment, and long-term management.",
+    href: "/services/ccc",
+    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+  },
+]
+
+const tagClasses: Record<string, string> = {
+  accent:    "bg-accent/10 text-accent border border-accent/20",
+  primary:   "bg-primary/10 text-primary border border-primary/20",
+  secondary: "bg-secondary/10 text-secondary border border-secondary/20",
+}
+---
+
+<section
+  id="services"
+  class="py-24 bg-gray-100"
+  x-data="{ active: 'All' }"
+>
+  <div class="max-w-7xl mx-auto px-2 md:px-4 lg:px-16">
+
+    <!-- Section label + filter row -->
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+
+      <div>
+        <p class="text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-3">
+          What We Offer
+        </p>
+        <h2 class="font-display text-4xl lg:text-5xl text-secondary font-normal leading-tight">
+          Our Services
+        </h2>
+      </div>
+
+      <!-- Alpine filter pills -->
+      <div class="flex flex-wrap gap-2">
+        {categories.map(cat => (
+          <button
+            @click={`active = '${cat}'`}
+            :class={`active === '${cat}'
+              ? 'bg-primary text-white border-primary'
+              : 'bg-white text-muted border-border hover:border-primary hover:text-primary'`}
+            class="px-4 py-2 text-xs font-semibold tracking-wide uppercase border transition-all duration-200"
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+    </div>
+
+    <!-- Divider -->
+    <div class="h-px bg-gradient-to-r from-primary/30 via-border to-transparent mb-12"></div>
+
+    <!-- Grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {services.map((s) => (
+        <a
+          href={s.href}
+          x-show={`active === 'All' || active === '${s.category}'`}
+          x-transition:enter="transition duration-300"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          class="group relative flex flex-col gap-5 p-7 border border-border/60
+                 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5
+                 transition-all duration-300 bg-white hover:bg-surface"
+        >
+          <!-- Top row: icon + tag -->
+          <div class="flex items-start justify-between">
+            <div class="size-12 flex items-center justify-center bg-surface-2 text-primary
+                        group-hover:bg-primary group-hover:text-white transition-all duration-300">
+              <svg class="size-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d={s.icon}/>
+              </svg>
+            </div>
+            {s.tag && (
+              <span class={`text-[0.62rem] font-bold tracking-[0.15em] uppercase px-2.5 py-1 ${tagClasses[s.tagColor!]}`}>
+                {s.tag}
+              </span>
+            )}
+          </div>
+
+          <!-- Text -->
+          <div class="flex-1">
+            <h3 class="font-display text-lg font-semibold text-secondary group-hover:text-primary
+                       transition-colors duration-200 mb-2 leading-snug">
+              {s.name}
+            </h3>
+            <p class="text-muted text-sm leading-relaxed">{s.desc}</p>
+          </div>
+
+          <!-- Category + arrow -->
+          <div class="flex items-center justify-between pt-4 border-t border-border/50">
+            <span class="text-[0.62rem] tracking-[0.15em] uppercase text-border font-semibold">
+              {s.category}
+            </span>
+            <svg class="size-4 text-border group-hover:text-primary group-hover:translate-x-1
+                        transition-all duration-200"
+                 fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </div>
+
+        </a>
+      ))}
+    </div>
+
+  </div>
+</section>

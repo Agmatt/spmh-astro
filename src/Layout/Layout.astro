@@ -5,7 +5,6 @@ import PatientAffairs from '../components/PatientAffairs.astro';
 import '../styles/global.css';
 import 'aos/dist/aos.css';
 const { title = 'St Pauls Mission Hospital' } = Astro.props;
-
 ---
 
 <script>
@@ -34,6 +33,11 @@ const { title = 'St Pauls Mission Hospital' } = Astro.props;
       href='https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css'
     />
     <script src='https://cdn.tailwindcss.com'></script>
+    <!-- in your Layout.astro <head> or before </body> -->
+    <script
+      defer
+      src='https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js'
+    ></script>
   </head>
   <body>
     <Navbar />

@@ -1,0 +1,161 @@
+---
+const PHONE = '254700000000';
+const GOOGLE_FORM = 'https://forms.gle/XXXXXXXXXXXXXX';
+const EMAIL = 'appointments@stpauls.go.ke';
+const TEL_DISPLAY = '+254 700 000 000';
+
+const WA_LINK = `https://wa.me/${PHONE}?text=${encodeURIComponent(
+  "Hello, I would like to book an appointment at St. Paul's Mission Hospital.",
+)}`;
+---
+
+<section id='book' class='bg-muted'>
+  <!-- ── Top: headline band ── -->
+  <div class='px-4 lg:px-16 pt-16 pb-12 max-w-7xl mx-auto'>
+    <p
+      class='text-primary-light text-xs tracking-[0.22em] uppercase font-semibold mb-4'>
+      Book an Appointment
+    </p>
+    <div
+      class='flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4'>
+      <h2
+        class='font-display text-white text-3xl sm:text-4xl lg:text-5xl font-normal leading-tight'>
+        Your next step<br />
+        <span class='font-semibold italic text-primary-light'>starts here.</span
+        >
+      </h2>
+      <p
+        class='text-white/50 text-sm leading-relaxed lg:max-w-sm lg:text-right'>
+        Choose how you'd like to reach us. Both channels go directly to our
+        team.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Divider ── -->
+  <div class='h-px bg-white/10 mx-6 lg:mx-16'></div>
+
+  <!-- ── Channel cards ── -->
+  <div class='px-4 lg:px-10 py-10 max-w-7xl mx-auto grid sm:grid-cols-2 gap-4'>
+    <!-- Card 1: WhatsApp -->
+    <a
+      href={WA_LINK}
+      target='_blank'
+      rel='noopener noreferrer'
+      class='group flex flex-col gap-6 p-4 md:p-8 bg-white/5 border border-white/10
+             hover:bg-white/10 hover:border-[#25D366]/50
+             transition-all duration-300'>
+      <!-- Top row: icon + badge -->
+      <div class='flex items-start justify-between'>
+        <div
+          class='size-10 md:size-14 flex items-center justify-center bg-[#25D366] group-hover:scale-105 transition-transform duration-300'>
+          <svg
+            class='size-7 text-white'
+            fill='currentColor'
+            viewBox='0 0 24 24'>
+            <path
+              d='M11.99 2C6.477 2 2 6.477 2 12c0 1.99.578 3.844 1.576 5.403L2 22l4.757-1.547A9.958 9.958 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 11.99 2z'
+            ></path>
+            <path
+              d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z'
+            ></path>
+          </svg>
+        </div>
+        <span
+          class='text-[#25D366] text-[0.6rem] font-bold tracking-[0.15em] uppercase border border-[#25D366]/30 bg-[#25D366]/10 px-2.5 py-1'>
+          Fastest
+        </span>
+      </div>
+
+      <!-- Label + description -->
+      <div class='flex-1'>
+        <h3 class='text-white font-semibold text-xl mb-2'>WhatsApp</h3>
+        <p class='text-white/50 text-sm leading-relaxed'>
+          Tap to open a chat with our team. We'll confirm your appointment slot
+          directly in the conversation — no forms, no waiting.
+        </p>
+      </div>
+
+      <!-- CTA -->
+      <div
+        class='flex items-center justify-between pt-5 border-t border-white/10'>
+        <span class='text-[#25D366] text-sm font-semibold'>
+          Open WhatsApp chat
+        </span>
+        <svg
+          class='size-5 text-[#25D366] group-hover:translate-x-1 transition-transform duration-200'
+          fill='none'
+          stroke='currentColor'
+          stroke-width='2'
+          viewBox='0 0 24 24'>
+          <path
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            d='M17 8l4 4m0 0l-4 4m4-4H3'></path>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Card 2: Google Form -->
+    <a
+      href={GOOGLE_FORM}
+      target='_blank'
+      rel='noopener noreferrer'
+      class='group flex flex-col gap-6 p-6 md:p-8 bg-white/5 border border-white/10
+             hover:bg-white/10 hover:border-primary/50
+             transition-all duration-300'>
+      <!-- Top row: icon + badge -->
+      <div class='flex items-start justify-between'>
+        <div
+          class='size-10 md:size-14 flex items-center justify-center bg-primary group-hover:scale-105 transition-transform duration-300'>
+          <svg
+            class='size-6 text-white'
+            fill='none'
+            stroke='currentColor'
+            stroke-width='1.5'
+            viewBox='0 0 24 24'>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              d='M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01'
+            ></path>
+          </svg>
+        </div>
+        <span
+          class='text-primary-light text-[0.6rem] font-bold tracking-[0.15em] uppercase border border-primary/30 bg-primary/10 px-2.5 py-1'>
+          Recommended
+        </span>
+      </div>
+
+      <!-- Label + description -->
+      <div class='flex-1'>
+        <h3 class='text-white font-semibold text-xl mb-2'>Online Form</h3>
+        <p class='text-white/50 text-sm leading-relaxed'>
+          Fill in your name, phone number, preferred department, and date. Our
+          team will review your request and follow up within 24 hours.
+        </p>
+      </div>
+
+      <!-- CTA -->
+      <div
+        class='flex items-center justify-between pt-5 border-t border-white/10'>
+        <span class='text-primary-light text-sm font-semibold'>
+          Open booking form
+        </span>
+        <svg
+          class='size-5 text-primary-light group-hover:translate-x-1 transition-transform duration-200'
+          fill='none'
+          stroke='currentColor'
+          stroke-width='2'
+          viewBox='0 0 24 24'>
+          <path
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            d='M17 8l4 4m0 0l-4 4m4-4H3'></path>
+        </svg>
+      </div>
+    </a>
+  </div>
+
+  
+</section>
