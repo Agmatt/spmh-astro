@@ -37,7 +37,7 @@ const features = [
     ctaHref: "/services/maternity",
     accentColor: "#1565c0",
     bgAccent: "bg-primary",
-    stat: { val: "1983", label: "Serving mothers since" },
+    stat: { val: "MCH", label: "Serving mothers since" },
   },
   {
     id: "ccc",
@@ -173,16 +173,6 @@ export default function FeaturedServices() {
               <div className="text-white/70 text-sm">{f.stat.label}</div>
             </div>
 
-            {/* Large cross watermark */}
-            <div className="relative my-8 flex items-center justify-center">
-              <div className="size-28 opacity-10">
-                <div className="absolute left-1/2 top-0 -translate-x-1/2 w-4 h-full bg-white rounded-sm"></div>
-                <div className="absolute top-1/2 left-0 -translate-y-1/2 h-4 w-full bg-white rounded-sm"></div>
-              </div>
-              <p className="absolute font-display text-white text-lg italic font-normal text-center leading-snug px-4">
-                "Every patient, every time."
-              </p>
-            </div>
 
             {/* Tab dots */}
             <div className="flex gap-2 mt-auto">
