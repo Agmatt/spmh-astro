@@ -19,7 +19,7 @@
     </a>
     <!-- Dropdown menu -->
     <div class='hidden lg:flex items-center space-x-4 lg:space-x-8'>
-      <div class='relative group py-4'>
+      <div class='relative group py-4' data-dropdown='desktop'>
         <button
           class='flex items-center text-slate-600 font-bold text-sm hover:text-[#125276] transition-colors focus:outline-none'>
           About Us
@@ -278,36 +278,86 @@
   </div>
 </nav>
 
+<!-- CORRECTED SCRIPT — replace your existing <script> block with this -->
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
-    const mobileDropdownBtns = document.querySelectorAll(
-      '.mobile-dropdown-btn',
-    );
 
-    // Toggle Mobile Menu
+    // ── Mobile hamburger toggle ───────────────────────────────────────────
     mobileMenuBtn.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
     });
 
-    // Handle Mobile Dropdowns
-    mobileDropdownBtns.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const targetId = btn.getAttribute('data-target');
-        const targetMenu = document.getElementById(targetId);
-        const icon = btn.querySelector('svg');
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
 
+    // ── Mobile accordion dropdowns ────────────────────────────────────────
+    document.querySelectorAll('.mobile-dropdown-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetMenu = document.getElementById(
+          btn.getAttribute('data-target'),
+        );
+        const icon = btn.querySelector('svg');
         targetMenu.classList.toggle('hidden');
         icon.classList.toggle('rotate-180');
       });
     });
 
-    // Close mobile menu on outside click
-    document.addEventListener('click', (e) => {
-      if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-        mobileMenu.classList.add('hidden');
-      }
+    // ── Desktop dropdowns — click/tap fix for tablets ─────────────────────
+    //
+    // ROOT CAUSE:
+    //   The desktop dropdowns rely entirely on CSS group-hover: utilities.
+    //   On touch devices (tablets) there is no persistent hover state —
+    //   a tap fires a momentary hover then immediately loses it.
+    //   Result: dropdown flashes or never opens on iPad / Android tablets.
+    //
+    // FIX:
+    //   Add click-based toggle on the desktop dropdown buttons.
+    //   Mouse users are unaffected — hover still works for them.
+    //   Touch users get a reliable tap-to-open / tap-to-close behaviour.
+
+    const desktopGroups = document.querySelectorAll(
+      '[data-dropdown="desktop"]',
+    );
+
+    function closeAll() {
+      desktopGroups.forEach((g) => {
+        g.classList.remove('is-open');
+        const ul = g.querySelector('ul');
+        if (!ul) return;
+        ul.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+        ul.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+      });
+    }
+
+    desktopGroups.forEach((group) => {
+      const btn = group.querySelector('button');
+      const ul = group.querySelector('ul');
+      if (!btn || !ul) return;
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = group.classList.contains('is-open');
+        closeAll();
+        if (!isOpen) {
+          group.classList.add('is-open');
+          ul.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+          ul.classList.add('opacity-100', 'scale-100', 'pointer-events-auto');
+        }
+      });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', closeAll);
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAll();
     });
   });
 </script>

@@ -51,7 +51,7 @@ const App = () => {
               </li>
               <li>
                 <a
-                  href='/careers'
+                  href='/get-involved/careers' target='_blank'
                   className='hover:text-white transition-colors duration-300'>
                   Careers
                 </a>
