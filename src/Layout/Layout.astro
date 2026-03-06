@@ -1,6 +1,6 @@
 ---
 import Navbar from '../components/Navbar.astro';
-import HomeFooter from '../components/HomeFooter.astro';
+import Footer from '../components/Footer.astro';
 import PatientAffairs from '../components/PatientAffairs.astro';
 import '../styles/global.css';
 import 'aos/dist/aos.css';
@@ -45,7 +45,7 @@ const { title = 'St Pauls Mission Hospital' } = Astro.props;
     <Navbar />
     <slot />
     <PatientAffairs />
-    <HomeFooter />
+    <Footer />
   <WhatsappFloat />
   </body>
   <script src='https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js'

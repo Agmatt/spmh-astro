@@ -1,62 +1,192 @@
 ---
 import Layout from '../../Layout/Layout.astro';
-import JobBoard from '../../components/JobBoard.astro';
 import JobPortal from '../../components/JobPortal.astro';
-
-const generalApplicationLink =
-  'https://docs.google.com/forms/d/e/YOUR_GENERAL_FORM_ID/viewform';
 ---
 
-<Layout title='Careers'>
-  <header
-    class='relative pt-18 pb-16 min-h-[65vh] flex items-center overflow-hidden'>
+<Layout title="Careers — St. Paul's Mission Hospital">
+  <!-- ════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════ -->
+  <header class='relative min-h-[65vh] flex items-end overflow-hidden'>
     <div class='absolute inset-0 z-0'>
       <img
         src='/img/55.jpg'
-        alt='Hospital Background'
-        class='absolute inset-0 w-full h-full object-cover object-center grayscale-[50%] brightness-[0.35]'
-        loading='lazy'
+        alt="Careers at St. Paul's Mission Hospital"
+        class='absolute inset-0 w-full h-full object-cover object-center brightness-[0.3]'
+        loading='eager'
+        fetchpriority='high'
       />
       <div
-        class='absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent opacity-90'>
+        class='absolute inset-0 bg-gradient-to-t from-secondary-dark via-secondary/40 to-transparent'>
       </div>
     </div>
 
-    <div class='container mx-auto px-4 md:px-6 max-w-6xl relative z-10'>
-      <div class='grid lg:grid-cols-12 gap-12'>
+    <div
+      class='relative z-10 max-w-7xl mx-auto px-6 lg:px-16 pb-16 pt-32 w-full'>
+      <div class='grid lg:grid-cols-12 gap-8 items-end'>
+        <!-- Left: headline -->
         <div class='lg:col-span-7'>
+          <p
+            class='text-primary-light text-xs tracking-[0.22em] uppercase font-semibold mb-5 flex items-center gap-3'>
+            <span class='w-8 h-px bg-primary-light inline-block'></span>
+            Join Our Team
+          </p>
           <h1
-            class='text-5xl md:text-7xl font-black tracking-tighter text-white leading-[0.85] uppercase'>
-            Careers <br />
+            class='font-display text-white text-5xl sm:text-6xl lg:text-7xl font-normal leading-[1.0]'>
+            Meaningful work.<br />
+            <span class='font-semibold italic text-primary-light'
+              >Real impact.</span
+            >
           </h1>
         </div>
 
-        
+        <!-- Right: context -->
+        <div class='lg:col-span-5 pb-1'>
+          <div class='border-l-2 border-white/20 pl-6'>
+            <p
+              class='text-white/70 text-base lg:text-lg font-display italic font-normal leading-relaxed'>
+              St. Paul's Mission Hospital is a growing Level 4 faith-based
+              facility on the path to Level 5 by 2030. We are looking for
+              dedicated professionals who share our commitment to compassionate,
+              dignified care for every patient.
+            </p>
+            <div class='flex items-center gap-4 mt-5'>
+              <div class='text-center'>
+                <p
+                  class='font-display text-white text-2xl font-bold leading-none'>
+                  9+
+                </p>
+                <p
+                  class='text-white/40 text-[0.6rem] tracking-widest uppercase mt-1'>
+                  Departments
+                </p>
+              </div>
+              <div class='w-px h-8 bg-white/15'></div>
+              <div class='text-center'>
+                <p
+                  class='font-display text-white text-2xl font-bold leading-none'>
+                  1983
+                </p>
+                <p
+                  class='text-white/40 text-[0.6rem] tracking-widest uppercase mt-1'>
+                  Est.
+                </p>
+              </div>
+              <div class='w-px h-8 bg-white/15'></div>
+              <div class='text-center'>
+                <p
+                  class='font-display text-white text-2xl font-bold leading-none'>
+                  L4→5
+                </p>
+                <p
+                  class='text-white/40 text-[0.6rem] tracking-widest uppercase mt-1'>
+                  By 2030
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </header>
-  <main>
-    <!-- Hero Section -->
-    <!-- <section
-      id='about'
-      class='relative mt-0 sm:mt-0 min-h-[35vh] sm:min-h-[70vh] bg-cover bg-center'
-      style="background-image: url('/img/11.jpg'); loading: lazy;">
-      <div class='absolute inset-0 bg-black/40'></div>
 
-      <div
-        class='absolute z-10 flex items-end justify-start h-full px-6 pb-8 sm:pb-12 lg:pb-16'>
-        <h2 class='text-3xl sm:text-6xl font-extrabold text-white'>Careers</h2>
+  <!-- ════════════════════════════════════════
+       INTRO BAND
+  ════════════════════════════════════════ -->
+  <div class='bg-secondary border-b border-white/10'>
+    <div
+      class='max-w-7xl mx-auto px-6 lg:px-16 py-7
+                flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
+      <p class='text-white/60 text-sm leading-relaxed max-w-2xl'>
+        All roles at St. Paul's are governed by our Ethics and Clinical
+        Governance Committee and aligned with the Catholic Diocese of Homa Bay.
+        We are an equal opportunity, faith-based employer.
+      </p>
+      <div class='flex items-center gap-2 shrink-0'>
+        <span class='relative flex size-2'>
+          <span
+            class='absolute inline-flex size-full rounded-full bg-primary-light/70 animate-ping'
+          ></span>
+          <span
+            class='relative inline-flex size-2 rounded-full bg-primary-light'
+          ></span>
+        </span>
+        <span
+          class='text-white/50 text-xs tracking-[0.16em] uppercase font-semibold'>
+          SHA Accredited · KMPDC Certified
+        </span>
       </div>
-    </section> -->
-    <JobPortal />
+    </div>
+  </div>
 
-    <!-- Breadcrump -->
-    <!-- <div class='max-w-4xl mx-auto px-2 md:px-4 py-8'>
-      <a
-        href='/get-involved'
-        class='text-accent hover:underline text-sm font-medium'>← Back</a
-      >
-    </div> -->
+  <!-- ════════════════════════════════════════
+       JOB PORTAL
+  ════════════════════════════════════════ -->
+  <main class='bg-surface'>
+    <JobPortal />
   </main>
-  <script defer src='https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js'></script>
+
+  <!-- ════════════════════════════════════════
+       WHY JOIN US STRIP
+  ════════════════════════════════════════ -->
+  <section class='bg-white border-t border-border/60 py-16'>
+    <div class='max-w-7xl mx-auto px-6 lg:px-16'>
+      <div class='grid lg:grid-cols-12 gap-10 items-start'>
+        <div class='lg:col-span-4'>
+          <p
+            class='text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-4 flex items-center gap-3'>
+            <span class='w-8 h-px bg-primary inline-block'></span>
+            Why St. Paul's
+          </p>
+          <h2
+            class='font-display text-secondary text-3xl font-normal leading-snug'>
+            Work that<br />
+            <span class='font-semibold italic text-primary'>matters.</span>
+          </h2>
+        </div>
+
+        <div class='lg:col-span-8 grid sm:grid-cols-2 gap-6'>
+          {
+            [
+              {
+                title: 'Mission-driven environment',
+                desc: 'Every role here contributes to the founding charism of the Franciscan Sisters of St. Joseph Asumbi — care for the whole person, especially the most vulnerable.',
+              },
+              {
+                title: 'Professional growth',
+                desc: 'As we grow toward Level 5 status, new specialities and departments are being established — offering opportunities for leadership and career development.',
+              },
+              {
+                title: 'Community impact',
+                desc: "You will serve one of Kenya's most underserved regions. The work you do at St. Paul's has a direct and visible impact on the families of Homa Bay County.",
+              },
+              {
+                title: 'Faith-based values',
+                desc: 'We operate in accordance with Catholic Social Teaching — dignity, solidarity, and a preferential option for the poor guide everything we do.',
+              },
+            ].map((item) => (
+              <div class='flex flex-col gap-3 p-6 bg-surface border border-border/60'>
+                <svg
+                  class='size-5 text-primary'
+                  fill='none'
+                  stroke='currentColor'
+                  stroke-width='1.5'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+                  />
+                </svg>
+                <h3 class='text-secondary font-semibold text-sm'>
+                  {item.title}
+                </h3>
+                <p class='text-muted text-xs leading-relaxed'>{item.desc}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>

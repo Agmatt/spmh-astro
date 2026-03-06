@@ -1,37 +1,71 @@
 ---
-// DATA: Centralized for easy maintenance
+/**
+ * JobPortal.astro
+ *
+ * Institutional careers portal — Alpine.js powered.
+ * Single Google Form for all applications.
+ * Brand tokens throughout — no hardcoded hex.
+ *
+ * ── Update this one value ────────────────────────────────────────────
+ * Replace the APPLY_FORM_URL with your real Google Form link.
+ * The job title is passed as a pre-filled URL parameter so the form
+ * knows which role the applicant is applying for.
+ *
+ * In Google Forms:
+ *   1. Add a question: "Position applying for" (short answer)
+ *   2. Get the pre-fill link for that field
+ *   3. The entry ID will look like: entry.1234567890
+ *   4. Set FORM_ENTRY_ID below to that value
+ */
+
+const APPLY_FORM_BASE = 'https://tinyurl.com/nhcphwwa';
+const FORM_ENTRY_ID = 'entry.1234567890'; // ← field entry ID for "Position applying for"
+
+// ── Job data — replace with real vacancies ───────────────────────────
 const jobs = [
   {
     id: 'SPMH-2026-001',
     title: 'Senior Medical Officer',
-    category: 'Emergency',
+    category: 'Clinical',
     department: 'Emergency Medicine',
+    type: 'Full-time',
     posted: '3 days ago',
     deadline: '18 March 2026',
-    formLink: '#',
-    summary: 'Oversee daily operations and strategic planning.',
+    summary:
+      'Lead clinical care in our Emergency & Trauma Unit, supervising junior officers and ensuring compliance with Ministry of Health standards.',
     responsibilities: [
       'Supervise junior medical officers and interns during clinical rotations.',
       'Lead emergency response protocols and critical care interventions.',
       'Conduct clinical audits to ensure compliance with Ministry of Health standards.',
+      'Participate in departmental meetings, mortality reviews, and CME sessions.',
     ],
     requirements: [
-      'Bachelor of Medicine and Bachelor of Surgery (MBChB)', 'Valid KMPDC License and Annual Retention Certificate.', 'Minimum 5 years post-internship experience in a busy hospital setting.',
+      'Bachelor of Medicine and Bachelor of Surgery (MBChB).',
+      'Valid KMPDC licence and current Annual Retention Certificate.',
+      'Minimum 5 years post-internship experience in a busy hospital setting.',
+      'Demonstrable experience in emergency or acute care settings.',
     ],
   },
   {
     id: 'SPMH-2026-002',
-    title: 'Specialized Nurse (ICU)',
-    category: 'Emergency',
-    department: 'ICU',
+    title: 'Specialized Nurse — ICU',
+    category: 'Nursing',
+    department: 'Intensive Care',
+    type: 'Full-time',
     posted: '3 days ago',
     deadline: '18 March 2026',
-    formLink: '#',
-    summary: 'Oversee daily operations and strategic planning.',
-    responsibilities: ['Manage staff scheduling', 'Budget oversight'],
+    summary:
+      'Provide specialist nursing care for critically ill patients in our developing High Dependency and ICU environment.',
+    responsibilities: [
+      'Monitor and manage critically ill patients, including those on ventilator support.',
+      'Collaborate with the multi-disciplinary team for patient stabilisation and recovery.',
+      'Administer specialised medications and monitor haemodynamics.',
+      'Maintain accurate clinical documentation and handover notes.',
+    ],
     requirements: [
-      'Diploma or Degree in Nursing (KRCHN/KRN).',
+      'Diploma or Degree in Nursing (KRCHN / KRN) — registered with NCK.',
       'Higher Diploma in Critical Care Nursing.',
+      'Minimum 2 years experience in a critical care or HDU environment.',
     ],
   },
   {
@@ -39,29 +73,44 @@ const jobs = [
     title: 'Hospital Administrator',
     category: 'Management',
     department: 'Administration',
+    type: 'Full-time',
     posted: '3 days ago',
     deadline: '18 March 2026',
-    formLink: 'https://docs.google.com/forms/...',
-    summary: 'Oversee daily operations and strategic planning.',
+    summary:
+      'Oversee daily hospital operations, administrative systems, and support services to ensure efficient and compliant facility management.',
     responsibilities: [
-      'Monitor and manage critically ill patients on ventilator support.',
-      'Collaborate with the multi-disciplinary team for patient recovery.',
-      'Administer specialized medications and monitor hemodynamics.',
-      'Budget oversight',
+      'Oversee day-to-day administrative operations across all departments.',
+      'Coordinate with department heads on resource allocation and planning.',
+      'Ensure regulatory compliance with Ministry of Health and SHA requirements.',
+      'Manage procurement, logistics, and non-clinical support services.',
     ],
-    requirements: ['Degree in Health Management'],
+    requirements: [
+      'Degree in Health Systems Management, Business Administration, or related field.',
+      'Minimum 3 years experience in hospital or healthcare administration.',
+      'Familiarity with SHA accreditation requirements and health facility regulations.',
+    ],
   },
   {
     id: 'SPMH-2026-004',
     title: 'Laboratory Technologist',
     category: 'Technical',
-    department: 'Pathology',
+    department: 'Pathology & Lab',
+    type: 'Full-time',
     posted: '5 days ago',
     deadline: '25 March 2026',
-    formLink: 'https://docs.google.com/forms/...',
-    summary: 'Process and analyze clinical specimens.',
-    responsibilities: ['Calibrate lab equipment', 'Maintain sample integrity'],
-    requirements: ['Diploma in Medical Lab Technology'],
+    summary:
+      'Process and analyse clinical specimens to support accurate diagnosis and patient management across all departments.',
+    responsibilities: [
+      'Receive, process, and analyse clinical specimens in accordance with SOPs.',
+      'Calibrate and maintain laboratory equipment and reagent stocks.',
+      'Ensure sample integrity, labelling accuracy, and turnaround times.',
+      'Generate timely and accurate lab reports for clinical teams.',
+    ],
+    requirements: [
+      'Diploma or Degree in Medical Laboratory Technology.',
+      'Registered with the Kenya Medical Laboratory Technicians and Technologists Board (KMLTTB).',
+      'Minimum 1 year post-qualification experience in a clinical laboratory.',
+    ],
   },
 ];
 ---
@@ -69,199 +118,425 @@ const jobs = [
 <div
   id='job-portal'
   x-data={`{
-        searchQuery: '',
-        showModal: false,
-        allJobs: ${JSON.stringify(jobs)},
-        activeJob: ${JSON.stringify(jobs[0])},
-        get filteredJobs() {
-            if (this.searchQuery === '') return this.allJobs;
-            return this.allJobs.filter(job => 
-                job.title.toLowerCase().includes(this.searchQuery.toLowerCase())
-            );
-        },
-        selectJob(job) {
-            this.activeJob = job;
-            this.showModal = true;
-            document.body.classList.add('overflow-hidden');
-        },
-        closeModal() {
-            this.showModal = false;
-            document.body.classList.remove('overflow-hidden');
-        }
-    }`}
-  class='max-w-7xl mx-auto px-2 md:px-4 py-4 md:py-8'>
-  <div class='mb-8 border-b border-slate-100 pb-6'>
-    <h3
-      class='text-xl font-black text-[#125276] uppercase tracking-tighter mb-4'>
-      Current Openings
-    </h3>
-    <div class='relative max-w-md'>
-      <input
-        type='text'
-        x-model='searchQuery'
-        placeholder='Search roles...'
-        class='w-full pl-10 pr-4 py-3 bg-slate-100 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-[#125276]/20 outline-none transition-all'
-      />
-      <svg
-        class='w-4 h-4 absolute left-4 top-3.5 text-slate-400'
-        fill='none'
-        stroke='currentColor'
-        viewBox='0 0 24 24'
-        ><path
-          stroke-linecap='round'
-          stroke-linejoin='round'
+    searchQuery: '',
+    categoryFilter: 'All',
+    showModal: false,
+    allJobs: ${JSON.stringify(jobs)},
+    activeJob: ${JSON.stringify(jobs[0])},
+    get categories() {
+      const cats = [...new Set(this.allJobs.map(j => j.category))];
+      return ['All', ...cats];
+    },
+    get filteredJobs() {
+      return this.allJobs.filter(job => {
+        const matchSearch = this.searchQuery === '' ||
+          job.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          job.department.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const matchCat = this.categoryFilter === 'All' || job.category === this.categoryFilter;
+        return matchSearch && matchCat;
+      });
+    },
+    applyLink(title) {
+      return '${APPLY_FORM_BASE}?${FORM_ENTRY_ID}=' + encodeURIComponent(title);
+    },
+    selectJob(job) {
+      this.activeJob = job;
+      this.showModal = true;
+      document.body.classList.add('overflow-hidden');
+    },
+    closeModal() {
+      this.showModal = false;
+      document.body.classList.remove('overflow-hidden');
+    }
+  }`}
+  class='max-w-7xl mx-auto px-2 md:px-4 lg:px-10 py-16'>
+  <!-- ── Header + filters ── -->
+  <div
+    class='flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10 pb-8 border-b border-border/60'>
+    <div>
+      <p
+        class='text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-2'>
+        Current Openings
+      </p>
+      <p class='text-muted text-sm'>
+        <span class='text-secondary font-semibold' x-text='filteredJobs.length'
+        ></span>
+        <span
+          x-text="filteredJobs.length === 1 ? ' position available' : ' positions available'"
+        ></span>
+      </p>
+    </div>
+
+    <!-- Search + category filter -->
+    <div class='flex flex-col sm:flex-row gap-3'>
+      <!-- Search -->
+      <div class='relative'>
+        <input
+          type='text'
+          x-model='searchQuery'
+          placeholder='Search roles or departments…'
+          class='w-full sm:w-64 pl-9 pr-4 py-2.5 bg-white border border-border/70
+                 text-sm text-secondary placeholder:text-muted/50
+                 focus:outline-none focus:border-primary/40 focus:ring-2 focus:ring-primary/10
+                 transition-all duration-200'
+        />
+        <svg
+          class='absolute left-3 top-3 size-3.5 text-muted/50'
+          fill='none'
+          stroke='currentColor'
           stroke-width='2'
-          d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'></path></svg
-      >
+          viewBox='0 0 24 24'>
+          <path
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'></path>
+        </svg>
+      </div>
+
+      <!-- Category filter pills -->
+      <div class='flex flex-wrap gap-2'>
+        <template x-for='cat in categories' :key='cat'>
+          <button
+            @click='categoryFilter = cat'
+            :class="categoryFilter === cat
+              ? 'bg-primary text-white border-primary'
+              : 'bg-white text-muted border-border/70 hover:border-primary/40 hover:text-secondary'"
+            class='px-3.5 py-2 text-[0.65rem] font-bold tracking-[0.12em] uppercase
+                   border transition-all duration-200'
+            x-text='cat'></button>
+        </template>
+      </div>
     </div>
   </div>
 
-  <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+  <!-- ── Job cards grid ── -->
+  <div
+    class='grid sm:grid-cols-2 lg:grid-cols-3 gap-5'
+    x-show='filteredJobs.length > 0'>
     <template x-for='job in filteredJobs' :key='job.id'>
-      <a
-        href='javascript:void(0)'
+      <button
         @click='selectJob(job)'
-        class='block p-6 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-[#125276]/30 transition-all duration-300 group'>
-        <span
-          class='text-[10px] font-black uppercase tracking-[0.2em] text-[#860f0f]'
-          x-text='job.category'></span>
-        <h4
-          class='text-xl font-bold text-slate-900 mt-2 group-hover:text-[#125276]'
-          x-text='job.title'>
-        </h4>
-        <p
-          class='text-sm text-slate-500 mt-2 line-clamp-2'
-          x-text='job.summary'>
-        </p>
-        <div class='mt-6 flex items-center justify-between'>
+        class='group text-left bg-white rounded-[1.5rem] border border-border/60
+               hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5
+               transition-all duration-300 hover:-translate-y-0.5
+               flex flex-col p-7 focus:outline-none focus:border-primary/40'>
+        <!-- Top row -->
+        <div class='flex items-start justify-between mb-5'>
           <span
-            class='text-[10px] font-bold text-slate-400 uppercase tracking-widest'
-            x-text='job.department'></span>
+            class='text-accent text-[0.58rem] font-bold tracking-[0.18em] uppercase'
+            x-text='job.category'></span>
           <span
-            class='text-[#125276] font-black text-[10px] uppercase tracking-widest'
-            >View Details →</span
-          >
+            class='text-muted/50 text-[0.58rem] font-mono tracking-wide'
+            x-text='job.id'></span>
         </div>
-      </a>
+
+        <!-- Title + summary -->
+        <div class='flex-1'>
+          <h4
+            class='font-display text-xl font-semibold text-secondary
+                     group-hover:text-primary transition-colors duration-200 mb-2 leading-snug'
+            x-text='job.title'>
+          </h4>
+          <p
+            class='text-muted text-xs leading-relaxed line-clamp-2'
+            x-text='job.summary'>
+          </p>
+        </div>
+
+        <!-- Footer row -->
+        <div
+          class='flex items-center justify-between mt-6 pt-5 border-t border-border/50'>
+          <div>
+            <p class='text-muted/60 text-[0.58rem] tracking-widest uppercase'>
+              Department
+            </p>
+            <p
+              class='text-secondary text-xs font-semibold mt-0.5'
+              x-text='job.department'>
+            </p>
+          </div>
+          <div
+            class='flex items-center gap-1.5 text-primary text-[0.65rem] font-bold
+                      tracking-[0.1em] uppercase group-hover:gap-2.5 transition-all duration-200'>
+            View role
+            <svg
+              class='size-3.5'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2.5'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                d='M17 8l4 4m0 0l-4 4m4-4H3'></path>
+            </svg>
+          </div>
+        </div>
+      </button>
     </template>
   </div>
-  <!-- Modal -->
+
+  <!-- Empty state -->
+  <div x-show='filteredJobs.length === 0' class='py-20 text-center'>
+    <div
+      class='size-14 bg-surface-2 flex items-center justify-center mx-auto mb-4'>
+      <svg
+        class='size-6 text-muted/40'
+        fill='none'
+        stroke='currentColor'
+        stroke-width='1.5'
+        viewBox='0 0 24 24'>
+        <path
+          stroke-linecap='round'
+          stroke-linejoin='round'
+          d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'></path>
+      </svg>
+    </div>
+    <p class='text-secondary font-semibold text-sm mb-1'>No roles found</p>
+    <p class='text-muted text-xs'>Try a different search term or category.</p>
+  </div>
+
+  <!-- General application nudge -->
+  <div
+    class='mt-12 pt-8 border-t border-border/60 flex flex-col sm:flex-row
+              sm:items-center justify-between gap-5'>
+    <div>
+      <p class='text-secondary font-semibold text-sm mb-1'>
+        Don't see a role that fits?
+      </p>
+      <p class='text-muted text-xs leading-relaxed max-w-md'>
+        We welcome general applications from motivated healthcare professionals.
+        Send us your CV and a brief note about how you'd like to contribute.
+      </p>
+    </div>
+    <a
+      :href="applyLink('General Application')"
+      target='_blank'
+      rel='noopener noreferrer'
+      class='shrink-0 inline-flex items-center gap-2.5 px-6 py-3.5
+             border border-secondary text-secondary hover:bg-secondary hover:text-white
+             text-xs font-bold tracking-[0.12em] uppercase
+             transition-all duration-200'>
+      Submit General Application
+      <svg
+        class='size-3.5'
+        fill='none'
+        stroke='currentColor'
+        stroke-width='2.5'
+        viewBox='0 0 24 24'>
+        <path
+          stroke-linecap='round'
+          stroke-linejoin='round'
+          d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
+        ></path>
+      </svg>
+    </a>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       MODAL
+  ══════════════════════════════════════ -->
   <div
     x-show='showModal'
-    class='fixed inset-0 z-[100] flex items-center justify-center px-2 md:px-4 py-4 md:py-8'
+    class='fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8'
     x-cloak>
+    <!-- Backdrop -->
     <div
       x-show='showModal'
-      x-transition:enter='transition ease-out duration-300'
+      x-transition:enter='transition ease-out duration-200'
       x-transition:enter-start='opacity-0'
       x-transition:enter-end='opacity-100'
-      x-transition:leave='transition ease-in duration-200'
+      x-transition:leave='transition ease-in duration-150'
       x-transition:leave-start='opacity-100'
       x-transition:leave-end='opacity-0'
       @click='closeModal()'
-      class='absolute inset-0 bg-[#125276]/60 backdrop-blur-md'>
+      class='absolute inset-0 bg-secondary/70 backdrop-blur-sm'>
     </div>
 
+    <!-- Modal panel -->
     <div
       x-show='showModal'
       x-transition:enter='transition ease-out duration-300'
-      x-transition:enter-start='opacity-0 translate-y-8 scale-95'
-      x-transition:enter-end='opacity-100 translate-y-0 scale-100'
+      x-transition:enter-start='opacity-0 scale-95 translate-y-4'
+      x-transition:enter-end='opacity-100 scale-100 translate-y-0'
       x-transition:leave='transition ease-in duration-200'
-      x-transition:leave-start='opacity-100 translate-y-0 scale-100'
-      x-transition:leave-end='opacity-0 translate-y-8 scale-95'
-      class='relative w-full max-w-4xl bg-white rounded-[1rem] shadow-2xl flex flex-col h-[85vh] overflow-hidden'>
-      <div
-        class='p-6 md:p-8 bg-[#FDFCF8]/50 border-b border-slate-100 relative'>
+      x-transition:leave-start='opacity-100 scale-100'
+      x-transition:leave-end='opacity-0 scale-95'
+      class='relative w-full max-w-3xl bg-white shadow-2xl
+             flex flex-col max-h-[88vh] overflow-hidden'>
+      <!-- Modal header -->
+      <div class='px-8 pt-8 pb-6 border-b border-border/60'>
+        <!-- Close -->
         <button
           @click='closeModal()'
-          class='absolute top-6 right-6 text-slate-400 hover:text-[#860f0f] transition-colors'>
+          class='absolute top-6 right-6 size-8 flex items-center justify-center
+                 text-muted hover:text-accent transition-colors duration-200'
+          aria-label='Close'>
           <svg
-            class='w-6 h-6'
+            class='size-5'
             fill='none'
             stroke='currentColor'
-            viewBox='0 0 24 24'
-            ><path
+            stroke-width='2'
+            viewBox='0 0 24 24'>
+            <path
               stroke-linecap='round'
               stroke-linejoin='round'
-              stroke-width='2'
-              d='M6 18L18 6M6 6l12 12'></path></svg
-          >
+              d='M6 18L18 6M6 6l12 12'></path>
+          </svg>
         </button>
+
+        <!-- Category + title -->
         <span
-          class='text-[#860f0f] text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded bg-[#860f0f]/5'
+          class='text-accent text-[0.6rem] font-bold tracking-[0.2em] uppercase'
           x-text='activeJob.category'></span>
         <h2
-          class='text-3xl md:text-4xl font-black text-[#125276] uppercase tracking-tighter leading-tight mt-4'
+          class='font-display text-secondary text-3xl sm:text-4xl font-semibold
+                   leading-snug mt-2 mb-6 pr-10'
           x-text='activeJob.title'>
         </h2>
 
+        <!-- Meta pills + Apply CTA -->
         <div
-          class='mt-8 flex flex-col sm:flex-row gap-4 justify-between items-center'>
-          <div class='flex gap-3'>
+          class='flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
+          <div class='flex flex-wrap gap-2'>
             <span
-              class='text-slate-400 text-[10px] font-bold border border-slate-200 px-3 py-1 rounded-full uppercase'
-              x-text="'ID: ' + activeJob.id"></span>
+              class='text-[0.6rem] font-bold tracking-[0.14em] uppercase
+                         bg-surface border border-border/70 text-muted px-3 py-1'
+              x-text='activeJob.id'></span>
             <span
-              class='text-slate-400 text-[10px] font-bold border border-slate-200 px-3 py-1 rounded-full uppercase'
+              class='text-[0.6rem] font-bold tracking-[0.14em] uppercase
+                         bg-surface border border-border/70 text-muted px-3 py-1'
               x-text='activeJob.department'></span>
+            <span
+              class='text-[0.6rem] font-bold tracking-[0.14em] uppercase
+                         bg-surface border border-border/70 text-muted px-3 py-1'
+              x-text='activeJob.type'></span>
           </div>
+
           <a
-            :href='activeJob.formLink'
+            :href='applyLink(activeJob.title)'
             target='_blank'
-            class='w-full sm:w-auto text-center px-10 py-4 bg-[#860f0f] text-white rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 shadow-lg transition-all'
-            >Apply Now</a
-          >
+            rel='noopener noreferrer'
+            class='shrink-0 inline-flex items-center justify-center gap-2.5
+                   bg-primary hover:bg-primary-dark text-white
+                   text-[0.65rem] font-bold tracking-[0.14em] uppercase
+                   px-8 py-3.5 transition-all duration-200
+                   hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/25'>
+            Apply for this role
+            <svg
+              class='size-3.5'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2.5'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
+              ></path>
+            </svg>
+          </a>
         </div>
       </div>
 
-      <div
-        class='flex-1 overflow-y-auto px-2 md:px-4 py-4 md:p-8 space-y-12 custom-scrollbar'>
-        <section>
+      <!-- Modal body — scrollable -->
+      <div class='flex-1 overflow-y-auto px-8 py-8 space-y-10 custom-scrollbar'>
+        <!-- Summary -->
+        <div class='bg-surface border-l-2 border-primary px-5 py-4'>
+          <p
+            class='text-secondary text-sm leading-relaxed italic font-display'
+            x-text='activeJob.summary'>
+          </p>
+        </div>
+
+        <!-- Responsibilities -->
+        <div>
           <h5
-            class='text-[11px] font-black uppercase text-[#125276] tracking-[0.2em] mb-6 flex items-center gap-2'>
-            <span class='w-6 h-[1px] bg-[#125276]/30'></span> Roles & Responsibilities
+            class='text-[0.62rem] font-bold uppercase tracking-[0.22em] text-primary
+                     mb-5 flex items-center gap-2.5'>
+            <span class='w-5 h-px bg-primary/40'></span>
+            Roles & Responsibilities
           </h5>
-          <ul class='space-y-4 text-slate-600'>
+          <ul class='space-y-3'>
             <template x-for='task in activeJob.responsibilities'>
-              <li class='flex gap-4 text-sm leading-relaxed'>
-                <span class='text-[#860f0f] mt-1 shrink-0'>•</span>
+              <li
+                class='flex items-start gap-3 text-sm text-muted leading-relaxed'>
+                <svg
+                  class='size-4 text-primary shrink-0 mt-0.5'
+                  fill='none'
+                  stroke='currentColor'
+                  stroke-width='2.5'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    d='M5 13l4 4L19 7'></path>
+                </svg>
                 <span x-text='task'></span>
               </li>
             </template>
           </ul>
-        </section>
+        </div>
 
-        <section>
+        <!-- Requirements -->
+        <div>
           <h5
-            class='text-[11px] font-black uppercase text-[#125276] tracking-[0.2em] mb-6 flex items-center gap-2'>
-            <span class='w-6 h-[1px] bg-[#125276]/30'></span> Requirements
+            class='text-[0.62rem] font-bold uppercase tracking-[0.22em] text-primary
+                     mb-5 flex items-center gap-2.5'>
+            <span class='w-5 h-px bg-primary/40'></span>
+            Requirements
           </h5>
-          <div class='grid gap-3'>
+          <div class='grid gap-2.5'>
             <template x-for='req in activeJob.requirements'>
               <div
-                class='flex items-start gap-4 p-4 rounded-xl border border-slate-100 bg-slate-50/50'>
+                class='flex items-start gap-3 p-4 bg-surface border border-border/60'>
                 <svg
-                  class='w-5 h-5 text-emerald-500 shrink-0 mt-0.5'
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                  ><path
-                    d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293l-4 4a1 1 0 01-1.414 0l-2-2a1 1 0 111.414-1.414L9 10.586l3.293-3.293a1 1 0 111.414 1.414z'
-                  ></path></svg
-                >
-                <span class='text-sm text-slate-700 font-medium' x-text='req'
+                  class='size-4 text-primary shrink-0 mt-0.5'
+                  fill='none'
+                  stroke='currentColor'
+                  stroke-width='2'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'></path>
+                </svg>
+                <span class='text-sm text-secondary font-medium' x-text='req'
                 ></span>
               </div>
             </template>
           </div>
-        </section>
+        </div>
       </div>
 
+      <!-- Modal footer -->
       <div
-        class='p-6 bg-slate-50 border-t border-slate-100 flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]'>
-        <span x-text="'Posted: ' + activeJob.posted"></span>
-        <span class='text-[#860f0f]' x-text="'Deadline: ' + activeJob.deadline"
-        ></span>
+        class='px-8 py-5 bg-surface border-t border-border/60
+                  flex items-center justify-between gap-4'>
+        <div class='flex gap-6'>
+          <div>
+            <p class='text-muted/50 text-[0.58rem] tracking-widest uppercase'>
+              Posted
+            </p>
+            <p
+              class='text-secondary text-xs font-semibold mt-0.5'
+              x-text='activeJob.posted'>
+            </p>
+          </div>
+          <div>
+            <p class='text-muted/50 text-[0.58rem] tracking-widest uppercase'>
+              Deadline
+            </p>
+            <p
+              class='text-accent text-xs font-semibold mt-0.5'
+              x-text='activeJob.deadline'>
+            </p>
+          </div>
+        </div>
+        <p
+          class='text-muted/40 text-[0.6rem] tracking-wide text-right hidden sm:block'>
+          St. Paul's Mission Hospital · Homa Bay, Kenya
+        </p>
       </div>
     </div>
   </div>
@@ -272,13 +547,12 @@ const jobs = [
     display: none !important;
   }
   .custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
+    width: 3px;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #e2e8f0;
-    border-radius: 10px;
+    background: #c5d8f7;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #125276;
+    background: #1565c0;
   }
 </style>
