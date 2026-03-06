@@ -4,6 +4,7 @@ import Footer from '../components/Footer.jsx';
 import PatientAffairs from '../components/PatientAffairs.astro';
 import '../styles/global.css';
 import 'aos/dist/aos.css';
+import WhatsappFloat from '../components/WhatsappFloat.astro';
 const { title = 'St Pauls Mission Hospital' } = Astro.props;
 ---
 
@@ -39,6 +40,7 @@ const { title = 'St Pauls Mission Hospital' } = Astro.props;
       src='https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js'
     ></script>
   </head>
+
   <body>
     <Navbar />
     <slot />
@@ -68,6 +70,7 @@ const { title = 'St Pauls Mission Hospital' } = Astro.props;
         </p>
       </div>
     </div>
+  <WhatsappFloat />
   </body>
   <script src='https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js'
   ></script>
