@@ -92,7 +92,8 @@
     width: 8%;
     left: 20%;
     right: 20%;
-    bottom: -45px;
+    bottom: -90px;
     margin: auto;
+    padding: 0 30px;
   }
 }
