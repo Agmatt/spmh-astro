@@ -109,9 +109,16 @@
           </li>
           <li>
             <a
-              href='/services/patient-affairs'
+              href='/services/patient-support'
               class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
-              >Patient Affairs</a
+              >Patient Support</a
+            >
+          </li>
+          <li>
+            <a
+              href='/services/appointment'
+              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
+              >Appointment</a
             >
           </li>
         </ul>
@@ -250,9 +257,16 @@
           </li>
           <li>
             <a
-              href='/services/patient-affairs'
+              href='/services/patient-support'
               class='block py-2 text-slate-600 text-sm font-medium'
-              >Patient Affairs</a
+              >Patient Support</a
+            >
+          </li>
+          <li>
+            <a
+              href='/services/appointment'
+              class='block py-2 text-slate-600 text-sm font-medium'
+              >Appointment</a
             >
           </li>
         </ul>
@@ -307,19 +321,6 @@
         icon.classList.toggle('rotate-180');
       });
     });
-
-    // ── Desktop dropdowns — click/tap fix for tablets ─────────────────────
-    //
-    // ROOT CAUSE:
-    //   The desktop dropdowns rely entirely on CSS group-hover: utilities.
-    //   On touch devices (tablets) there is no persistent hover state —
-    //   a tap fires a momentary hover then immediately loses it.
-    //   Result: dropdown flashes or never opens on iPad / Android tablets.
-    //
-    // FIX:
-    //   Add click-based toggle on the desktop dropdown buttons.
-    //   Mouse users are unaffected — hover still works for them.
-    //   Touch users get a reliable tap-to-open / tap-to-close behaviour.
 
     const desktopGroups = document.querySelectorAll(
       '[data-dropdown="desktop"]',
