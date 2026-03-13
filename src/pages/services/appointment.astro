@@ -6,7 +6,7 @@ import Layout from '../../Layout/Layout.astro';
  *
  * ── Update these values when Google Form is ready ────────────────────
  */
-const GOOGLE_FORM   = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform"
+const GOOGLE_FORM   = "https://tinyurl.com/5fbsmj9x"
 const PHONE         = "+254 111 817 447"
 const WHATSAPP      = "254111817447"
 const WA_LINK       = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent("Hello, I would like to book an appointment at St. Paul's Mission Hospital.")}`
@@ -24,8 +24,8 @@ const departments = [
     meta:   "General",
     icon:   "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
     iconFill: false,
-    days:   ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    time:   "8:00 AM – 5:00 PM",
+    days:   ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    time:   "24 hours a day, 7 days a week",
     desc:   "Walk in any day or book ahead to reduce your waiting time. Our clinical officers and doctors handle general consultations, chronic disease follow-ups, and referrals.",
     note:   null,
     surgery: false,
@@ -36,9 +36,9 @@ const departments = [
     meta:   "Maternity",
     icon:   "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
     iconFill: true,
-    days:   ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    days:   ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     time:   "8:00 AM – 5:00 PM",
-    desc:   "Antenatal care, postnatal follow-up, family planning, and maternal health services available every day. Our midwives and obstetricians are here to support you at every stage.",
+    desc:   "Antenatal care, postnatal follow-up, and maternal health services available every day. Our midwives and obstetricians are here to support you at every stage.",
     note:   "Emergency maternity care is available 24 hours, 7 days a week.",
     surgery: false,
   },
@@ -136,7 +136,7 @@ const allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
        HOW IT WORKS — 3 steps
   ════════════════════════════════════════ -->
   <div class="bg-surface border-b border-border/60">
-    <div class="max-w-7xl mx-auto px-6 lg:px-16 py-8">
+    <div class="max-w-7xl mx-auto px-4 lg:px-16 py-8">
       <div class="grid sm:grid-cols-3 gap-6 lg:gap-10">
         {[
           { num: "01", title: "Choose your department", desc: "Find your department below and check which days it runs." },
@@ -162,7 +162,7 @@ const allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
        DEPARTMENT CARDS
   ════════════════════════════════════════ -->
   <section class="bg-white py-16 lg:py-20">
-    <div class="max-w-7xl mx-auto px-6 lg:px-16">
+    <div class="max-w-7xl mx-auto px-4 lg:px-16">
 
       <div class="flex items-end justify-between mb-12">
         <div>
