@@ -271,6 +271,7 @@ const supportGroups = [
     </div>
   </header>
 
+
   <!--  WALK-IN STRIP -->
   <div class='bg-primary'>
     <div class='max-w-7xl mx-auto px-2 md:px-4 lg:px-16 py-4'>
@@ -306,9 +307,45 @@ const supportGroups = [
     </div>
   </div>
 
-  <div class='max-w-7xl mx-auto px-2 md:px-4 lg:px-16 py-16 lg:py-20 space-y-24'>
+
+<!-- KCCB-ACTS ACKNOWLEDGEMENT BAND -->
+<div class="bg-surface border-y border-border/60">
+  <div class="max-w-7xl mx-auto px-2 md:px-4 lg:px-16 py-8">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10">
+
+      <!-- Label -->
+      <div class="shrink-0 border-l-2 border-primary pl-4">
+        <p class="text-[0.6rem] font-bold tracking-[0.2em] uppercase text-muted/50 mb-1">
+          Supported by
+        </p>
+        <p class="text-secondary font-bold text-sm mb-0.5">KCCB-ACTS</p>
+        <p class="text-muted text-[0.62rem] leading-snug">
+          Acceleration & Transition Towards<br/>
+          Sustainable HIV Care Services
+        </p>
+      </div>
+
+      <!-- Divider -->
+      <div class="hidden sm:block w-px h-12 bg-border/60 shrink-0"></div>
+      <div class="sm:hidden h-px w-12 bg-border/60"></div>
+
+      <!-- Text -->
+      <p class="text-muted text-xs leading-relaxed max-w-2xl">
+        St. Paul's Mission Hospital CCC is supported by
+        <span class="text-secondary font-semibold">KCCB-ACTS</span> —
+        the Kenya Conference of Catholic Bishops body responsible for
+        accelerating and transitioning Catholic health facilities towards
+        sustainable, facility-owned HIV care services. This partnership
+        ensures our programme meets national standards and is built to last.
+      </p>
+
+    </div>
+  </div>
+</div>
+
+  <div class='max-w-7xl mx-auto px-2 md:px-4 lg:px-16 py-16 lg:py-20 space-y-24 bg-gray-300'>
     <!--  SECTION 1 — ABOUT -->
-    <section class='grid lg:grid-cols-12 gap-10 lg:gap-16 items-center'>
+    <section class='grid lg:grid-cols-12 gap-10 lg:gap-16 items-center' data-aos='fade-up'>
       <div class='lg:col-span-5'>
         <div class='relative overflow-hidden aspect-[4/3]'>
           <img
@@ -382,8 +419,7 @@ const supportGroups = [
     </section>
 
     <!-- SECTION 2 — SERVICES ACCORDION-->
-
-<section>
+     <section data-aos='fade-left'>
   <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
     <div>
       <p class="text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-3 flex items-center gap-3">
@@ -468,10 +504,11 @@ const supportGroups = [
         </div>
       </div>
     ))}
-  </div>
-</section>
+     </div>
+     </section>
+
     <!--  SECTION 3 — SUPPORT GROUPS -->
-    <section>
+    <section data-aos="fade-right">
       <div class='grid lg:grid-cols-12 gap-10 lg:gap-16 items-start'>
         <div class='lg:col-span-4 lg:sticky lg:top-24 space-y-6'>
           <div>
@@ -577,7 +614,7 @@ const supportGroups = [
     </section>
 
     <!-- SECTION 4 — COUPLE COUNSELLING -->
-    <section>
+    <section data-aos='fade-down'>
       <div class='grid lg:grid-cols-12 gap-10 lg:gap-16 items-start'>
         <div class='lg:col-span-5 lg:order-2 space-y-4'>
           <div class='relative overflow-hidden aspect-[4/3]'>
@@ -652,7 +689,7 @@ const supportGroups = [
     </section>
 
     <!--  CLOSING CTA -->
-    <section>
+    <section data-aos='fade-up'>
       <div class='bg-secondary relative overflow-hidden'>
         <div class='absolute inset-0 z-0'>
           <img
@@ -689,7 +726,7 @@ const supportGroups = [
               >
             </h3>
             <p class='text-white/50 text-sm leading-relaxed max-w-sm mb-6'>
-              Whether you need testing, are starting treatment, want to join a
+              Whether you need testing, starting treatment, want to join a
               support group, or just need someone to talk to — our team is here.
               No appointment, no referral needed.
             </p>
