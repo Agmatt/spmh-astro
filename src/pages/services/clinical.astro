@@ -138,7 +138,7 @@ const needsCards = [
   <!-- ════════════════════════════════════════
        HERO
   ════════════════════════════════════════ -->
-  <header class="relative min-h-[55vh] flex items-end overflow-hidden">
+  <header class="relative min-h-[55vh] flex items-end overflow-hidden" data-aos='fade-up'>
     <div class="absolute inset-0 z-0">
       <img
         src="/img/18.jpg"
@@ -226,6 +226,7 @@ const needsCards = [
     class="sticky top-0 z-[90] bg-white border-b border-border/60 shadow-sm"
     x-data="{ active: 'opd' }"
     x-init="
+    data-aos='fade-left'
       const obs = new IntersectionObserver(entries => {
         entries.forEach(e => { if(e.isIntersecting) active = e.target.id })
       }, { rootMargin: '-40% 0px -55% 0px' });
@@ -254,7 +255,7 @@ const needsCards = [
   <!-- ════════════════════════════════════════
        DEPARTMENT SECTIONS
   ════════════════════════════════════════ -->
-  <div class="max-w-7xl mx-auto px-4 lg:px-16 py-16 lg:py-20 space-y-24 lg:space-y-32">
+  <div class="max-w-7xl mx-auto px-4 lg:px-16 py-16 lg:py-20 space-y-24 lg:space-y-32" data-aos='fade-right'>
 
     {departments.map((dept, idx) => (
       <article
@@ -351,7 +352,7 @@ const needsCards = [
   ════════════════════════════════════════ -->
   <section class="bg-muted py-16 lg:py-20 relative overflow-hidden">
    
-    <div class="relative max-w-7xl mx-auto px-4 lg:px-16">
+    <div class="relative max-w-7xl mx-auto px-4 lg:px-16" data-aos='fade-up'>
       <div class="grid lg:grid-cols-2 gap-10 items-center">
 
         <div>

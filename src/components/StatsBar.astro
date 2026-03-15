@@ -1,40 +1,54 @@
 ---
 /**
  * StatsBar.astro
- * Four key trust metrics in a clean full-width band.
- * Pure Astro — no client JS needed.
+ * Four key trust metrics — animated counters on scroll into view.
+ * IntersectionObserver triggers count-up once when section enters viewport.
+ *
+ * How the counter works:
+ *  - data-target  = the final numeric value to count to
+ *  - data-suffix  = any text appended after the number ("+", " / 7", etc.)
+ *  - data-static  = if present, skip animation and just display as-is (e.g. "1983")
  */
 
 const stats = [
   {
-    value: "40+",
-    label: "Years of Service",
-    sub: "Est. 1983",
-    icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
+    value:  "40+",
+    target: 40,
+    suffix: "+",
+    label:  "Years of Service",
+    sub:    "Est. 1983",
+    icon:   "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
   },
   {
-    value: "24 / 7",
-    label: "Emergency Care",
-    sub: "Always open",
-    icon: "M13 10V3L4 14h7v7l9-11h-7z",
+    value:  "24 / 7",
+    target: 24,
+    suffix: " / 7",
+    label:  "Emergency Care",
+    sub:    "Always open",
+    icon:   "M13 10V3L4 14h7v7l9-11h-7z",
   },
   {
-    value: "6+",
-    label: "Specialities",
-    sub: "Under one roof",
-    icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10",
+    value:  "9+",
+    target: 9,
+    suffix: "+",
+    label:  "Specialities",
+    sub:    "Under one roof",
+    icon:   "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10",
   },
   {
-    value: "1983",
-    label: "Year Founded",
-    sub: "Mission-driven since day one",
-    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+    value:  "1983",
+    target: 1983,
+    suffix: "",
+    label:  "Year Founded",
+    sub:    "Mission-driven since day one",
+    icon:   "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
   },
 ]
 ---
 
 <section class="bg-secondary py-0">
-  <!-- Top micro-bar: mission statement -->
+
+  <!-- Top micro-bar -->
   <div class="border-b border-white/10 px-2 md:px-4 lg:px-10 py-5">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <p class="font-display text-white/80 text-base italic font-normal">
@@ -53,12 +67,15 @@ const stats = [
   </div>
 
   <!-- Stats row -->
-  <div class="max-w-7xl mx-auto px-2 md:px-4 lg:px-10">
+  <div class="max-w-7xl mx-auto px-2 md:px-4 lg:px-10" id="stats-bar">
     <div class="grid grid-cols-2 lg:grid-cols-4">
-      {stats.map((s) => (
-        <div class="group flex items-center gap-5 px-6 py-10 hover:bg-white/10 transition-colors duration-300">
+      {stats.map((s, i) => (
+        <div class="group flex items-center gap-5 px-6 py-10
+                    hover:bg-white/10 transition-colors duration-300
+                    border-r border-white/10 last:border-r-0
+                    [&:nth-child(2)]:border-r-0 lg:[&:nth-child(2)]:border-r">
 
-     {/* icons */}
+          <!-- Icon -->
           <div class="size-6 md:size-11 flex items-center justify-center bg-white/10
                       group-hover:bg-primary transition-all duration-300 shrink-0">
             <svg class="size-5 text-white/70 group-hover:text-white transition-colors duration-300"
@@ -67,9 +84,17 @@ const stats = [
             </svg>
           </div>
 
-          {/* Text */}
+          <!-- Text -->
           <div>
-            <div class="font-display text-white text-2xl md:text-3xl font-bold leading-none mb-1">
+            <div
+              class="font-display text-white text-2xl md:text-3xl font-bold leading-none mb-1
+                     tabular-nums"
+              data-counter
+              data-target={s.target}
+              data-suffix={s.suffix}
+              data-duration="1800"
+              data-delay={i * 120}
+            >
               {s.value}
             </div>
             <div class="text-white/80 text-sm font-medium">{s.label}</div>
@@ -80,4 +105,71 @@ const stats = [
       ))}
     </div>
   </div>
+
 </section>
+
+<script>
+  (function () {
+    const bar = document.getElementById('stats-bar');
+    if (!bar) return;
+
+    let fired = false;
+
+    /**
+     * Easing — ease-out quad so it decelerates naturally at the end
+     */
+    function easeOut(t) {
+      return t * (2 - t);
+    }
+
+    /**
+     * Animate a single counter element
+     */
+    function animateCounter(el) {
+      const target   = parseInt(el.dataset.target, 10);
+      const suffix   = el.dataset.suffix ?? '';
+      const duration = parseInt(el.dataset.duration ?? '1800', 10);
+      const delay    = parseInt(el.dataset.delay ?? '0', 10);
+
+      setTimeout(() => {
+        const start = performance.now();
+
+        function tick(now) {
+          const elapsed  = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased    = easeOut(progress);
+          const current  = Math.floor(eased * target);
+
+          el.textContent = current.toLocaleString() + suffix;
+
+          if (progress < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            // Ensure exact final value
+            el.textContent = target.toLocaleString() + suffix;
+          }
+        }
+
+        requestAnimationFrame(tick);
+      }, delay);
+    }
+
+    /**
+     * Fire all counters once when the bar enters the viewport
+     */
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !fired) {
+            fired = true;
+            bar.querySelectorAll('[data-counter]').forEach(animateCounter);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(bar);
+  })();
+</script>

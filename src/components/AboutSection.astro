@@ -27,7 +27,7 @@ const images = {
       <!-- LEFT: large exterior image — spans 7 cols -->
       <div class='lg:col-span-7 relative reveal'>
         <!-- Main image -->
-        <div class='relative h-[420px] lg:h-[560px] overflow-hidden'>
+        <div class='relative h-[420px] lg:h-[560px] overflow-hidden' data-aos="fade-right">
           <img
             src={images.exterior}
             alt="St. Paul's Mission Hospital — our facility"
@@ -46,7 +46,7 @@ const images = {
       <!-- RIGHT: stacked staff images + text panel — spans 5 cols -->
       <div class='lg:col-span-5 flex flex-col gap-5'>
         <!-- Top staff image -->
-        <div class='relative h-48 lg:h-56 overflow-hidden reveal'>
+        <div class='relative h-48 lg:h-56 overflow-hidden reveal' data-aos="fade-right">
           <img
             src={images.staff1}
             alt="St. Paul's medical team"
@@ -69,7 +69,7 @@ const images = {
 
         <!-- Text panel — the emotional core -->
         <div
-          class='bg-surface border border-border/50 p-4 lg:p-8 flex flex-col justify-between flex-1 reveal'>
+          class='bg-surface border border-border/50 p-4 lg:p-8 flex flex-col justify-between flex-1 reveal' data-aos="fade-left">
           <div>
             <h2
               class='font-display text-secondary text-2xl lg:text-3xl font-normal leading-snug mb-4'>
@@ -92,7 +92,7 @@ const images = {
           </div>
 
           <!-- Bottom row: values pills -->
-          <div class='flex flex-wrap gap-2 mt-6 pt-6 border-t border-border/60'>
+          <div class='flex flex-wrap gap-2 mt-6 pt-6 border-t border-border/60' data-aos="fade-up">
             {
               [
                 'Compassionate',
@@ -107,43 +107,6 @@ const images = {
                 </span>
               ))
             }
-          </div>
-        </div>
-
-        <!-- Bottom staff image — partially hidden, revealed on scroll -->
-        <div class='relative h-36 overflow-hidden reveal'>
-          <img
-            src={images.staff2}
-            alt="Care at St. Paul's Mission Hospital"
-            class='absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105'
-            loading='lazy'
-          />
-          <div
-            class='absolute inset-0 bg-gradient-to-r from-secondary/40 to-transparent'>
-          </div>
-
-          <!-- Overlay stat -->
-          <div class='absolute inset-0 flex items-center px-6 gap-5'>
-            <div class='border-l-2 border-white/50 pl-4'>
-              <div
-                class='font-display text-white text-3xl font-bold leading-none'>
-                40+
-              </div>
-              <div
-                class='text-white/70 text-[0.65rem] tracking-[0.15em] uppercase mt-0.5'>
-                Years of service
-              </div>
-            </div>
-            <div class='border-l-2 border-white/30 pl-4'>
-              <div
-                class='font-display text-white text-3xl font-bold leading-none'>
-                6+
-              </div>
-              <div
-                class='text-white/70 text-[0.65rem] tracking-[0.15em] uppercase mt-0.5'>
-                Departments
-              </div>
-            </div>
           </div>
         </div>
       </div>

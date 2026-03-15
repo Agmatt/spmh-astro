@@ -38,7 +38,7 @@ const departments = [
     iconFill: true,
     days:   ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     time:   "8:00 AM – 5:00 PM",
-    desc:   "Antenatal care, postnatal follow-up, and maternal health services available every day. Our midwives and obstetricians are here to support you at every stage.",
+    desc:   "Antenatal care, postnatal follow-up, available weekdays. Our midwives and obstetricians are here to support you at every stage.",
     note:   "Emergency maternity care is available 24 hours, 7 days a week.",
     surgery: false,
   },
@@ -60,8 +60,8 @@ const departments = [
     meta:   "Diagnostics",
     icon:   "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
     iconFill: false,
-    days:   ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    time:   "7:30 AM – 5:00 PM",
+    days:   ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    time:   "24 hours a day, 7 days a week",
     desc:   "Blood tests, urinalysis, imaging (X-Ray & Ultrasound), and pathology services. Most routine results are available same day. No prior appointment needed for standard tests.",
     note:   "Fasting tests (blood sugar, lipid profile) — please arrive before 9:00 AM.",
     surgery: false,
@@ -80,7 +80,7 @@ const departments = [
   },
 ]
 
-const allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+const allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 ---
 
 <Layout title="Book an Appointment — St. Paul's Mission Hospital">
@@ -89,7 +89,7 @@ const allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
        HERO
   ════════════════════════════════════════ -->
   <header class="bg-secondary border-b border-white/10">
-    <div class="max-w-7xl mx-auto px-6 lg:px-16 py-10 pt-16">
+    <div class="max-w-7xl mx-auto px-6 lg:px-16 py-10 pt-16" data-aos='fade-right'>
       <div class="grid lg:grid-cols-2 gap-8 items-end">
         <div>
           <p class="text-primary-light text-xs tracking-[0.22em] uppercase font-semibold mb-4 flex items-center gap-3">
@@ -106,7 +106,7 @@ const allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
             Select your department below, check availability, and submit your request. Our team will confirm your appointment within 24 hours via the contact details you provide.
           </p>
           <!-- Quick contact strip -->
-          <div class="flex flex-wrap items-center gap-4 mt-5">
+          <div class="flex flex-wrap items-center gap-4 mt-5" data-aos='fade-right'>
             <a href={`tel:${PHONE}`}
                class="flex items-center gap-2 text-white/60 hover:text-white text-xs
                       font-semibold transition-colors duration-200">
@@ -135,7 +135,7 @@ const allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   <!-- ════════════════════════════════════════
        HOW IT WORKS — 3 steps
   ════════════════════════════════════════ -->
-  <div class="bg-surface border-b border-border/60">
+  <div class="bg-surface border-b border-border/60" data-aos='fade-up'>
     <div class="max-w-7xl mx-auto px-4 lg:px-16 py-8">
       <div class="grid sm:grid-cols-3 gap-6 lg:gap-10">
         {[
@@ -162,12 +162,11 @@ const allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
        DEPARTMENT CARDS
   ════════════════════════════════════════ -->
   <section class="bg-white py-16 lg:py-20">
-    <div class="max-w-7xl mx-auto px-4 lg:px-16">
+    <div class="max-w-7xl mx-auto text-center px-4 lg:px-16" data-aos='fade-up'>
 
-      <div class="flex items-end justify-between mb-12">
+      <div class="justify-between mb-12">
         <div>
-          <p class="text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-3 flex items-center gap-3">
-            <span class="w-8 h-px bg-primary inline-block"></span>
+          <p class="text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-3 items-center gap-3">
             Available departments
           </p>
           <h2 class="font-display text-secondary text-3xl font-normal leading-snug">
@@ -175,9 +174,6 @@ const allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
             <span class="font-semibold italic text-primary">department.</span>
           </h2>
         </div>
-        <p class="text-muted text-xs leading-relaxed max-w-xs text-right hidden sm:block">
-          Emergency? Call us directly or use the WhatsApp button — do not use this form.
-        </p>
       </div>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -296,12 +292,12 @@ const allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
        EMERGENCY STRIP
   ════════════════════════════════════════ -->
   <section class="bg-accent py-10">
-    <div class="max-w-7xl mx-auto px-6 lg:px-16">
+    <div class="max-w-7xl mx-auto px-2 md:px-4 lg:px-16">
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div class="flex items-start gap-4">
           <div class="size-10 bg-white/10 border border-white/20 flex items-center justify-center shrink-0">
             <span class="relative flex size-2">
-              <span class="absolute inline-flex size-full rounded-full bg-white animate-ping opacity-75"></span>
+              <span class="absolute inline-flex size-full rounded-full bg-white opacity-75"></span>
               <span class="relative inline-flex size-2 rounded-full bg-white"></span>
             </span>
           </div>

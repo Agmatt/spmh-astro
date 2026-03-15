@@ -34,7 +34,7 @@ const features = [
       "Newborn special care unit",
     ],
     cta: "Book Antenatal Visit",
-    ctaHref: "/services/maternity",
+    ctaHref: "/services/antenatal-clinic",
     accentColor: "#1565c0",
     bgAccent: "bg-primary",
     stat: { val: "MCH", label: "Serving mothers since" },
@@ -65,7 +65,7 @@ export default function FeaturedServices() {
   const f = features[active]
 
   return (
-    <section id="featured" className="py-24 bg-surface overflow-hidden">
+    <section id="featured" className="py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-2 md:px-4 lg:px-10">
 
         {/* Header */}
@@ -78,7 +78,7 @@ export default function FeaturedServices() {
               Featured Services
             </h2>
           </div>
-          
+
         </div>
 
         {/* Tab strip */}
@@ -136,7 +136,7 @@ export default function FeaturedServices() {
                       style={{ color: f.accentColor }}
                       fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"
                     >
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                     <span className="text-sm text-slate-700">{pt}</span>
                   </li>
@@ -151,7 +151,7 @@ export default function FeaturedServices() {
             >
               {f.cta}
               <svg className="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
 
@@ -180,9 +180,8 @@ export default function FeaturedServices() {
                 <button
                   key={i}
                   onClick={() => setActive(i)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    active === i ? "w-8 bg-white" : "w-3 bg-white/30 hover:bg-white/60"
-                  }`}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${active === i ? "w-8 bg-white" : "w-3 bg-white/30 hover:bg-white/60"
+                    }`}
                 />
               ))}
             </div>
