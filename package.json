@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@astrojs/alpinejs": "^0.4.9",
-    "@astrojs/react": "^4.4.2",
+    "@astrojs/markdoc": "^0.15.10",
+    "@astrojs/react": "^5.0.0",
+    "@keystatic/astro": "^5.0.6",
+    "@keystatic/core": "^0.5.48",
     "@supabase/supabase-js": "^2.90.1",
     "@tailwindcss/vite": "^4.1.12",
     "@types/alpinejs": "^3.13.11",
