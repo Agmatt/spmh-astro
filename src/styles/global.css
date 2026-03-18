@@ -46,7 +46,10 @@
   --font-body: 'Outfit', system-ui, sans-serif;
 }
 
-@layer components {
+
+@plugin "@tailwindcss/typography"
+
+/* @layer components {
   .spacer-end {
     position: relative;
   }
@@ -72,7 +75,6 @@
     background-color: #125276;
     height: 4px;
     width: 6%;
-    /* left: 25%; */
     top: 0;
     bottom: -60px;
     margin: auto;
@@ -81,7 +83,6 @@
   .spacer-center {
     position: relative;
     height: 6px;
-    /* Optional: adjust as needed */
   }
 
   .spacer-center::before {
@@ -96,4 +97,4 @@
     margin: auto;
     padding: 0 30px;
   }
-}
+} */

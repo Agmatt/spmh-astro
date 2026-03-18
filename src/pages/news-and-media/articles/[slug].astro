@@ -43,7 +43,7 @@ const related = allArticles
 <Layout title={`${article.data.title} | St. Paul's Mission Hospital`}>
   <!-- Breadcrumb -->
   <div class='bg-surface border-b border-border/60'>
-    <div class='max-w-4xl mx-auto px-6 lg:px-8 py-3'>
+    <div class='max-w-4xl mx-auto px-4 lg:px-8 py-3'>
       <nav
         class='flex items-center gap-2 text-[0.6rem] font-semibold tracking-[0.12em] uppercase text-muted/50'>
         <a
@@ -66,7 +66,7 @@ const related = allArticles
 
   <!-- Article header -->
   <header class='bg-white border-b border-border/60'>
-    <div class='max-w-4xl mx-auto px-6 lg:px-8 py-10 lg:py-14'>
+    <div class='max-w-4xl mx-auto px-4 lg:px-8 py-10 lg:py-14'>
       <span
         class='text-primary text-[0.6rem] font-bold tracking-[0.2em] uppercase mb-4 block'>
         {article.data.category}
@@ -118,7 +118,7 @@ const related = allArticles
   }
 
   <!-- Article body -->
-  <article class='max-w-4xl mx-auto px-6 lg:px-8 pb-16'>
+  <article class='max-w-4xl mx-auto px-4 lg:px-8 pb-16'>
     <div
       class='prose prose-lg max-w-none
                 prose-headings:font-display prose-headings:text-secondary
@@ -137,7 +137,7 @@ const related = allArticles
   {
     related.length > 0 && (
       <section class='bg-surface border-t border-border/60 py-12 lg:py-16'>
-        <div class='max-w-7xl mx-auto px-6 lg:px-16'>
+        <div class='max-w-7xl mx-auto px-4 lg:px-16'>
           <p class='text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-3 flex items-center gap-3'>
             <span class='w-8 h-px bg-primary inline-block' />
             More in {article.data.category}
@@ -186,7 +186,7 @@ const related = allArticles
   }
 
   <!-- Back link -->
-  <div class='max-w-7xl mx-auto px-6 lg:px-16 py-8 border-t border-border/60'>
+  <div class='max-w-7xl mx-auto px-4 lg:px-16 py-8 border-t border-border/60'>
     <a
       href='/news-and-media/articles'
       class='inline-flex items-center gap-2 text-primary text-xs font-bold
