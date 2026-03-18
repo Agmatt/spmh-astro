@@ -1,9 +1,9 @@
 ---
+export const prerender = true;
+
 import Layout from '../../../Layout/Layout.astro';
 import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
-
-
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const articles = await getCollection('articles', ({ data }) => !data.draft);
