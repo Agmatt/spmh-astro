@@ -98,8 +98,7 @@ const tableColumns = [
         src="/img/14.jpg"
         alt="Antenatal care at St. Paul's Mission Hospital"
         class="absolute inset-0 w-full h-full object-cover object-center brightness-[0.45]"
-        loading="la"
-        fetchpriority="high"
+        loading="lazy"
       />
       <div class="absolute inset-0 bg-gradient-to-t from-secondary-dark via-secondary/20 to-transparent"></div>
     </div>
@@ -372,55 +371,6 @@ const tableColumns = [
       </div>
     </section>
 
-
-    <!--  SECTION 4 — TRACKING TABLE (PRINTABLE) -->
-    <section id="anc-table bg-surface" data-aos="fade-down">
-      <div class="mb-8 px-2 md:px-4 text-center">
-        <p class="text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-3 gap-3">
-          Visit Record
-        </p>
-        <h2 class="font-display text-secondary text-3xl font-normal leading-snug">
-          Pregnancy Tracking<br/>
-          <span class="font-semibold italic text-primary">Table.</span>
-        </h2>
-      </div>
-
-      <p class="text-muted text-xs leading-relaxed mb-6 mx-auto text-center">
-        This table is completed by your clinical team at each visit and forms part of your ongoing pregnancy record.
-      </p>
-
-      <div class="overflow-x-auto border border-border/60">
-        <table class="min-w-full text-xs text-secondary">
-          <thead>
-            <tr class="bg-secondary text-white">
-              {tableColumns.map(col => (
-                <th class="py-3 px-3 text-left font-semibold whitespace-nowrap tracking-wide text-[0.62rem] uppercase">
-                  {col}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-border/40">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <tr class="hover:bg-surface/60 transition-colors duration-100">
-                <td class="py-3.5 px-3 text-muted/60 font-mono text-[0.6rem]">
-                  {String(i + 1).padStart(2, '0')}
-                </td>
-                {Array.from({ length: tableColumns.length - 1 }).map(() => (
-                  <td class="py-3.5 px-3 border-r border-border/30 last:border-r-0">
-                    <div class="h-4 w-full border-b border-dashed border-border/50"></div>
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <p class="text-muted/40 text-[0.6rem] tracking-wide uppercase mt-3 text-right">
-        8 contact rows
-      </p>
-    </section>
 
 
   </div>
