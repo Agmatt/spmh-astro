@@ -1,0 +1,294 @@
+---
+import Layout from '../../Layout/Layout.astro';
+
+/**
+ * Mission, Vision & Values — St. Paul's Mission Hospital
+ * File placement: src/pages/about-us/mission-vision-values/index.astro
+ */
+
+const values = [
+  {
+    id:    "01",
+    title: "Christ Centred",
+    desc:  "Our healing ministry is a direct extension of Christ's love and compassion. Every patient is received with dignity, gentleness, and unconditional care.",
+    verse: "Whatever you did for one of the least of these, you did for me. — Matthew 25:40",
+  },
+  {
+    id:    "02",
+    title: "Commitment",
+    desc:  "An unwavering dedication to every life that enters our doors — regardless of the complexity of the case or the patient's ability to pay.",
+    verse: "Commit to the Lord whatever you do, and he will establish your plans. — Proverbs 16:3",
+  },
+  {
+    id:    "03",
+    title: "Teamwork",
+    desc:  "The seamless collaboration of clinical, administrative, and support staff — each playing their part to produce outcomes none could achieve alone.",
+    verse: "Two are better than one, because they have a good return for their labour. — Ecclesiastes 4:9",
+  },
+  {
+    id:    "04",
+    title: "Accountability",
+    desc:  "Transparent stewardship of our patients' trust, our donors' resources, and the community's confidence. We answer for what we do.",
+    verse: "From everyone who has been given much, much will be demanded. — Luke 12:48",
+  },
+  {
+    id:    "05",
+    title: "Human Rights",
+    desc:  "Every person is treated with equal dignity — regardless of HIV status, tribe, economic standing, or background. Privacy and respect are foundational.",
+    verse: "There is neither Jew nor Gentile, neither slave nor free — you are all one in Christ Jesus. — Galatians 3:28",
+  },
+  {
+    id:    "06",
+    title: "Competence",
+    desc:  "Caring hearts without skilled hands are not enough. We pursue continuous learning and evidence-based practice because our patients deserve both.",
+    verse: "Do you see someone skilled in their work? They will serve before kings. — Proverbs 22:29",
+  },
+]
+---
+
+<Layout title="Mission, Vision & Values — St. Paul's Mission Hospital">
+
+  <!-- HERO — background image -->
+  <header class="relative min-h-[58vh] flex items-end overflow-hidden" data-aos="fade-in">
+    <div class="absolute inset-0 z-0">
+      <img
+        src="/img/17.jpg"
+        alt="St. Paul's Mission Hospital"
+        class="absolute inset-0 w-full h-full object-cover object-top brightness-[0.38]"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-secondary-dark via-secondary/40 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-secondary/40 via-transparent to-transparent"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-16 pb-14 pt-32 w-full">
+      <div class="max-w-3xl">
+        <p class="text-primary-light text-xs tracking-[0.22em] uppercase font-semibold mb-5 flex items-center gap-3">
+          <span class="w-8 h-px bg-primary-light inline-block"></span>
+          About Us
+        </p>
+        <h1 class="font-display text-white leading-[1.0] mb-6">
+          <span class="block text-4xl sm:text-5xl lg:text-6xl font-normal">Mission, Vision</span>
+          <span class="block text-4xl sm:text-5xl lg:text-6xl font-semibold italic text-primary-light">&amp; Values.</span>
+        </h1>
+        <p class="text-white/55 text-sm sm:text-base leading-relaxed max-w-lg">
+          The convictions that have guided St. Paul's Mission Hospital — and shape every decision we make today.
+        </p>
+      </div>
+    </div>
+  </header>
+
+
+  <!--  MISSION & VISION — split image + text-->
+  <section class="flex flex-col lg:flex-row min-h-[80vh] items-stretch">
+
+    <!-- Left — image -->
+    <div class="lg:w-1/2 relative min-h-[320px] overflow-hidden" data-aos="fade-down">
+      <img
+        src="/img/6.jpg"
+        alt="Clinical care at St. Paul's Mission Hospital"
+        class="absolute inset-0 w-full h-full object-cover
+               transition-transform duration-[2000ms] hover:scale-[1.04]"
+        loading="lazy"
+      />
+    </div>
+
+    <!-- Right — text -->
+    <div class="lg:w-1/2 flex items-center justify-center bg-white
+                py-16 px-8 sm:px-12 lg:px-20 border-l border-border/40" data-aos="fade-right">
+      <div class="max-w-lg w-full">
+
+        <!-- Mission -->
+        <div class="group mb-14">
+          <p class="text-primary text-[0.6rem] font-bold tracking-[0.3em] uppercase mb-3">
+            Our Purpose
+          </p>
+          <h2 class="font-display text-secondary text-3xl sm:text-4xl font-normal leading-snug mb-5">
+            The <span class="font-semibold italic text-primary">Mission.</span>
+          </h2>
+          <p class="text-secondary text-lg leading-relaxed italic font-medium">
+            "To facilitate the provision of quality, cost-effective, promotive, preventive, and curative services to all, particularly the underprivileged — all in accordance with the mission of Christ."
+          </p>
+          <div class="mt-7 w-10 h-px bg-border/50 group-hover:w-24 group-hover:bg-primary
+                      transition-all duration-500"></div>
+        </div>
+
+        <!-- Rule -->
+        <div class="h-px w-full bg-border/40 mb-14"></div>
+
+        <!-- Vision -->
+        <div class="group" data-aos="fade-left">
+          <p class="text-primary text-[0.6rem] font-bold tracking-[0.3em] uppercase mb-3">
+            Our Goal
+          </p>
+          <h2 class="font-display text-secondary text-3xl sm:text-4xl font-normal leading-snug mb-5">
+            The <span class="font-semibold italic text-primary">Vision.</span>
+          </h2>
+          <p class="text-muted text-lg leading-relaxed">
+            "To be a centre of excellence in the provision of personalised healthcare in the community and beyond."
+          </p>
+          <div class="mt-7 w-10 h-px bg-border/50 group-hover:w-24 group-hover:bg-primary
+                      transition-all duration-500"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+
+  <!--  TAGLINE — Safe Hands · Caring Hearts -->
+  <section class="bg-surface border-y border-border/60">
+    <div class="max-w-7xl mx-auto px-2 md:px-4 lg:px-16 py-14">
+      <div class="grid sm:grid-cols-2 gap-px bg-border/40">
+
+        <div class="bg-gray-300 px-8 lg:px-12 py-10 flex items-start gap-6" data-aos="fade-left">
+          <div class="size-10 bg-primary/8 border border-primary/15
+                      flex items-center justify-center shrink-0 mt-0.5">
+            <svg class="size-5 text-primary" fill="none" stroke="currentColor"
+                 stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M10.05 4.575a1.575 1.575 0 10-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 013.15 0v1.5m-3.15 0l.07 5.695m3.07.035l.01-5.73m0 0a1.575 1.575 0 013.15 0v6.075a6 6 0 01-12 0V8.575a1.575 1.575 0 013.15 0v3m0 0l-.07-5.695"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-primary text-[0.6rem] font-bold tracking-[0.2em] uppercase mb-1.5">Clinical Promise</p>
+            <h3 class="font-display text-secondary text-2xl font-semibold mb-3">Safe Hands</h3>
+            <p class="text-muted text-sm leading-relaxed">
+              Clinical competence, patient safety, and evidence-based practice. Every procedure and clinical decision at St. Paul's meets the highest standard of medical integrity.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-secondary px-8 lg:px-12 py-10 flex items-start gap-6 relative overflow-hidden" data-aos="fade-right">
+          <div class="absolute right-5 bottom-5 size-14 opacity-[0.08] pointer-events-none">
+            <div class="absolute left-1/2 top-0 -translate-x-1/2 w-3 h-full bg-white"></div>
+            <div class="absolute top-1/2 left-0 -translate-y-1/2 h-3 w-full bg-white"></div>
+          </div>
+          <div class="size-10 bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
+            <svg class="size-5 text-primary-light" fill="none" stroke="currentColor"
+                 stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-primary-light text-[0.6rem] font-bold tracking-[0.2em] uppercase mb-1.5">Faith Promise</p>
+            <h3 class="font-display text-white text-2xl font-semibold mb-3">Caring Hearts</h3>
+            <p class="text-white/60 text-sm leading-relaxed">
+              The spirit of Christ's healing ministry expressed through every interaction. Treating patients as whole persons — not diagnoses — with compassion, dignity, and faith in action.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- VALUES — accordion -->
+  <section class="bg-white py-16 lg:py-24">
+    <div class="max-w-7xl mx-auto px-2 md:px-4 lg:px-16">
+
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+
+        <div class="lg:col-span-4 lg:sticky lg:top-24" data-aos="fade-down">
+          <p class="text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-3 flex items-center gap-3">
+            What we stand for
+          </p>
+          <h2 class="font-display text-secondary text-3xl sm:text-4xl font-normal leading-snug mb-5">
+            <span class="font-semibold text-primary">Core values.</span>
+          </h2>
+          <p class="text-muted text-sm leading-relaxed">
+            Each value is grounded in scripture and lived out daily — from the ward to the reception desk to the boardroom.
+          </p>
+        </div>
+
+        <div class="lg:col-span-8" x-data="{ open: 0 }" data-aos="fade-up">
+          <div class="divide-y divide-border/50 border-y border-border/50">
+            {values.map((v, i) => (
+              <div>
+                <button
+                  @click={`open = open === ${i} ? null : ${i}`}
+                  :aria-expanded={`open === ${i}`}
+                  class="w-full flex items-center justify-between gap-6 py-5
+                         text-left group focus:outline-none"
+                >
+                  <div class="flex items-center gap-5">
+                    <span
+                      :class={`open === ${i} ? 'text-white bg-primary' : 'text-muted/40 bg-surface-2'`}
+                      class="text-[0.58rem] font-bold w-7 h-7 flex items-center
+                             justify-center shrink-0 transition-all duration-200"
+                    >
+                      {v.id}
+                    </span>
+                    <span
+                      :class={`open === ${i} ? 'text-primary' : 'text-secondary group-hover:text-primary'`}
+                      class="font-display text-xl sm:text-2xl font-semibold
+                             transition-colors duration-200"
+                    >
+                      {v.title}
+                    </span>
+                  </div>
+                  <span
+                    :class={`open === ${i} ? 'rotate-45 bg-primary border-primary' : 'border-border/60 group-hover:border-primary/40'`}
+                    class="size-6 rounded-full border flex items-center justify-center
+                           shrink-0 transition-all duration-300"
+                  >
+                    <svg
+                      :class={`open === ${i} ? 'text-white' : 'text-muted group-hover:text-primary'`}
+                      class="size-3 transition-colors duration-200"
+                      fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                    </svg>
+                  </span>
+                </button>
+
+                <div
+                  x-show={`open === ${i}`}
+                  x-transition:enter="transition duration-200 ease-out"
+                  x-transition:enter-start="opacity-0 -translate-y-1"
+                  x-transition:enter-end="opacity-100 translate-y-0"
+                  x-transition:leave="transition duration-100 ease-in"
+                  x-transition:leave-start="opacity-100"
+                  x-transition:leave-end="opacity-0"
+                  x-cloak
+                >
+                  <div class="pb-6 pl-12 pr-8 bg-surface/50 border-t border-border/40 pt-5">
+                    <p class="text-muted text-sm leading-relaxed mb-4">{v.desc}</p>
+                    <div class="border-l-2 border-primary/25 pl-4">
+                      <p class="text-primary/60 text-xs leading-relaxed italic">{v.verse}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p class="text-muted/35 text-[0.58rem] tracking-[0.25em] uppercase mt-8 text-right">
+            Safe Hands · Caring Hearts
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CLOSING QUOTE -->
+  <section class="bg-gray-400 relative overflow-hidden" data-aos="fade-down">
+    <div class="relative max-w-3xl mx-auto px-4 lg:px-10md:py-16 py-8 lg:py-16 text-center">
+      <blockquote class="font-display text-slate-700 text-2xl sm:text-3xl font-normal
+                          leading-relaxed italic mb-10">
+        Compassionate care for every member of our community — because every life, no matter how small or forgotten, is made in the image of God.
+      </blockquote>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  [x-cloak] { display: none !important; }
+</style>

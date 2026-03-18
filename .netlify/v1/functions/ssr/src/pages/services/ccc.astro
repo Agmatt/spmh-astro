@@ -1,0 +1,798 @@
+---
+import Layout from '../../Layout/Layout.astro';
+
+/**
+ * Comprehensive Care Centre (CCC) — St. Paul's Mission Hospital
+ * File placement: src/pages/services/ccc/index.astro
+ */
+
+const CCC_PHONE = '+254 794662713'; // ← replace with direct CCC line if different
+
+const cccServices = [
+  {
+    title: 'Clinical Care & ARV Initiation',
+    desc: 'Antiretroviral drug initiation, treatment of opportunistic infections, and ongoing patient monitoring.',
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+  },
+  {
+    title: 'Laboratory Services',
+    desc: 'Baseline and monitoring tests including CD4 count, Viral Load, serum CrAg, and Early Infant Diagnosis (EID) testing.',
+    icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+  },
+  {
+    title: 'Free ARVs & Pharmacy',
+    desc: 'Free antiretroviral medicines and treatment for opportunistic infections dispensed on-site through our integrated pharmacy.',
+    icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z',
+  },
+  {
+    title: 'PMTCT & Family Planning',
+    desc: 'Prevention of Mother-to-Child Transmission and family planning services in our ANC and reproductive health clinics.',
+    icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
+    fill: true,
+  },
+  {
+    title: 'TB Screening & Treatment',
+    desc: 'Integrated TB screening, isoniazid preventive therapy, and full tuberculosis treatment for HIV-positive patients.',
+    icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
+  },
+  {
+    title: 'Post-Exposure Prophylaxis (PEP)',
+    desc: 'PEP for rape survivors, occupational needle-stick injuries, and accidental exposure to contaminated blood or body fluids.',
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+  },
+  {
+    title: 'Nutritional Counselling',
+    desc: 'Dietary guidance and nutritional supplementation to strengthen immunity and improve treatment outcomes.',
+    icon: 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z',
+  },
+  {
+    title: 'Adherence & Counselling',
+    desc: 'Individual adherence counselling, mentorship, and ongoing support to help every patient stay successfully on treatment.',
+    icon: 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z',
+  },
+  {
+    title: 'Violence Screening',
+    desc: 'Confidential screening and referral support for patients experiencing gender-based or domestic violence.',
+    icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+  },
+  {
+    title: 'Social Work & Linkages',
+    desc: 'Coordination with external HIV/AIDS service providers, community follow-up, and linkage to social support networks.',
+    icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1',
+  },
+  {
+    title: 'Expert Patients & Post-Test Clubs',
+    desc: 'Peer-led Post-Test Clubs and expert patient mentorship — people who have walked this journey helping others do the same.',
+    icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z',
+  },
+  {
+    title: 'Strategic Information',
+    desc: 'Data systems for tracking patient outcomes, monitoring treatment success, and informing HIV programme decisions at facility and county level.',
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+  },
+];
+
+const coupleServices = [
+  {
+    title: 'Couple HIV Counselling & Testing',
+    desc: 'Confidential HIV testing and counselling for couples — promoting shared responsibility and mutual support.',
+  },
+  {
+    title: 'Support for HIV Discordant Couples',
+    desc: 'Specialist guidance for couples where one partner is HIV-positive, keeping both partners healthy and informed.',
+  },
+  {
+    title: 'Safer Conception Options',
+    desc: 'Pre-conception counselling and services for HIV discordant couples who wish to start or grow their family safely.',
+  },
+  {
+    title: 'Cervical Cancer Screening',
+    desc: 'Routine cervical cancer screening for women living with HIV, integrated into ongoing care visits.',
+  },
+  {
+    title: 'PrEP Services',
+    desc: 'Pre-Exposure Prophylaxis (PrEP) for HIV-negative partners in discordant relationships and the general population.',
+  },
+];
+
+const supportGroups = [
+  {
+    code: 'OTZ',
+    name: 'Operation Triple Zero',
+    ages: 'Ages 10 – 19',
+    color: 'bg-primary',
+    text: 'text-primary',
+    border: 'border-primary/25',
+    bg: 'bg-primary/5',
+    desc: 'A youth-led movement empowering adolescents living with HIV to achieve zero missed appointments, zero viral load, and zero new infections. OTZ meetings create a safe peer space for teens to share, grow, and support one another.',
+    goal: 'Zero missed appointments · Zero viral load · Zero new infections',
+  },
+  {
+    code: 'PAMA Care',
+    name: 'Papa-Mama Care',
+    ages: 'Ages 0 – 9',
+    color: 'bg-secondary',
+    text: 'text-secondary',
+    border: 'border-secondary/25',
+    bg: 'bg-secondary/5',
+    desc: 'A caregiver-inclusive support group for children aged 0–9 living with HIV. PAMA Care brings together parents and caregivers to share experiences, receive guidance, and ensure the youngest patients receive consistent, loving care.',
+    goal: 'Family-centred care · Caregiver empowerment · Early adherence',
+  },
+  {
+    code: 'PMTCT Mothers',
+    name: 'PMTCT Mothers Support Group',
+    ages: 'Mothers & Caregivers',
+    color: 'bg-accent',
+    text: 'text-accent',
+    border: 'border-accent/25',
+    bg: 'bg-accent/5',
+    desc: 'A dedicated support space for mothers enrolled in our PMTCT programme. Members receive peer encouragement, infant feeding guidance, and support to stay engaged in care for both themselves and their babies.',
+    goal: 'Maternal retention in care · Safe infant feeding · MTCT prevention',
+  },
+  {
+    code: 'NIC',
+    name: 'Newly Initiated on Care',
+    ages: 'First 6 months on ART',
+    color: 'bg-primary',
+    text: 'text-primary',
+    border: 'border-primary/25',
+    bg: 'bg-primary/5',
+    desc: 'For patients who have been on antiretroviral therapy for less than six months, this group provides peer mentorship, early adherence support, and a welcoming space to build confidence in their new treatment journey.',
+    goal: 'Early adherence · Retention in care · Treatment confidence',
+  },
+  {
+    code: 'VSG',
+    name: 'Viremic Support Group',
+    ages: 'High Viral Load Patients',
+    color: 'bg-secondary',
+    text: 'text-secondary',
+    border: 'border-secondary/25',
+    bg: 'bg-secondary/5',
+    desc: 'An intensive peer support group for patients with unsuppressed viral load. Working closely with our clinical and adherence counselling teams, the group identifies barriers to treatment success and finds practical solutions together.',
+    goal: 'Viral load suppression · Barrier identification · Clinical support',
+  },
+];
+---
+
+<Layout title="Comprehensive Care Centre — St. Paul's Mission Hospital">
+  <!-- HERO — split panel -->
+  <header class='bg-secondary overflow-hidden'>
+    <div class='max-w-7xl mx-auto px-2 md:px-4 lg:px-16'>
+      <div class='grid lg:grid-cols-2 min-h-[62vh] items-stretch'>
+        <!-- Left — text -->
+        <div class='flex flex-col justify-center py-14 sm:py-20 pr-0 lg:pr-16'>
+          <p
+            class='text-primary-light text-xs tracking-[0.22em] uppercase font-semibold mb-6 flex items-center gap-3'>
+            <span class='w-8 h-px bg-primary-light inline-block'></span>
+            Clinical Services · HIV Care
+          </p>
+          <h1
+            class='font-display text-white text-4xl sm:text-5xl lg:text-6xl font-normal leading-[1.0] mb-6'>
+            Comprehensive<br />
+            <span class='font-semibold italic text-primary-light'
+              >Care Centre.</span
+            >
+          </h1>
+          <p
+            class='text-white/55 text-sm sm:text-base leading-relaxed max-w-md mb-8'>
+            Holistic, dignified care for patients infected and affected by
+            HIV — delivered with compassion and complete confidentiality at
+            St. Paul's Mission Hospital, Homa Bay.
+          </p>
+          <div class='flex flex-col sm:flex-row flex-wrap gap-3'>
+            <div
+              class='flex items-center gap-3 border border-white/10 bg-white/5 px-5 py-3.5 w-fit'>
+              <span class='relative flex size-2 shrink-0'>
+                <span
+                  class='absolute inline-flex size-full rounded-full bg-primary/70 animate-ping'
+                ></span>
+                <span
+                  class='relative inline-flex size-2 rounded-full bg-primary'
+                ></span>
+              </span>
+              <div>
+                <p
+                  class='text-white text-xs font-bold tracking-[0.12em] uppercase'>
+                  Monday – Friday · 8:00 AM – 4:00 PM
+                </p>
+                <p class='text-white/40 text-[0.62rem] mt-0.5'>
+                  Closed weekends and public holidays
+                </p>
+              </div>
+            </div>
+            <div
+              class='flex items-center gap-3 border border-white/10 bg-white/5 px-5 py-3.5 w-fit'>
+              <svg
+                class='size-4 text-primary-light shrink-0'
+                fill='none'
+                stroke='currentColor'
+                stroke-width='2'
+                viewBox='0 0 24 24'>
+                <path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  d='M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z'
+                ></path>
+              </svg>
+              <div>
+                <p class='text-white text-xs font-bold'>{CCC_PHONE}</p>
+                <p class='text-white/40 text-[0.62rem] mt-0.5'>
+                  Call during working hours
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right — image (desktop only) -->
+        <div class='relative hidden lg:block'>
+          <img
+            src='/gallery/4.jpg'
+            alt="CCC at St. Paul's Mission Hospital"
+            class='absolute inset-0 w-full h-full object-cover brightness-[0.5]'
+            loading='eager'
+          />
+          <div
+            class='absolute inset-0 bg-gradient-to-r from-secondary via-secondary/20 to-transparent'>
+          </div>
+          <div class='absolute top-8 right-8 bg-primary px-4 py-2.5'>
+            <p
+              class='text-white text-[0.6rem] font-bold tracking-[0.2em] uppercase'>
+              No Appointment Needed
+            </p>
+            <p class='text-white/70 text-[0.58rem] mt-0.5'>
+              Walk in during working hours
+            </p>
+          </div>
+          <div
+            class='absolute bottom-8 right-8 max-w-[200px] bg-white/10 backdrop-blur-sm border border-white/20 px-5 py-4'>
+            <svg
+              class='size-5 text-primary-light mb-2'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                d='M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'
+              ></path>
+            </svg>
+            <p class='text-white font-semibold text-sm mb-1'>
+              Strictly Confidential
+            </p>
+            <p class='text-white/50 text-xs leading-relaxed'>
+              Every visit, every conversation — handled with complete privacy
+              and dignity.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <!--  WALK-IN STRIP -->
+  <div class='bg-primary'>
+    <div class='max-w-7xl mx-auto px-2 md:px-4 lg:px-16 py-4'>
+      <div
+        class='flex flex-col sm:flex-row sm:items-center justify-between gap-3'>
+        <div class='flex items-center gap-3'>
+          <svg
+            class='size-4 text-white/70 shrink-0'
+            fill='none'
+            stroke='currentColor'
+            stroke-width='2'
+            viewBox='0 0 24 24'>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+            ></path>
+          </svg>
+          <p class='text-white text-xs font-semibold'>
+            No appointment needed — walk in any weekday 8:00 AM – 4:00 PM, or
+            call us to speak with our team.
+          </p>
+        </div>
+        <a
+          href={`tel:${CCC_PHONE}`}
+          class='shrink-0 inline-flex items-center gap-2 border border-white/30
+                  hover:bg-white hover:text-primary text-white
+                  font-bold text-xs tracking-[0.12em] uppercase px-5 py-2.5
+                  transition-all duration-200'>
+          Call the CCC
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+<!-- KCCB-ACTS ACKNOWLEDGEMENT BAND -->
+<div class="bg-surface border-y border-border/60">
+  <div class="max-w-7xl mx-auto px-2 md:px-4 lg:px-16 py-8">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10">
+
+      <!-- Label -->
+      <div class="shrink-0 border-l-2 border-primary pl-4">
+        <p class="text-[0.6rem] font-bold tracking-[0.2em] uppercase text-muted/50 mb-1">
+          Supported by
+        </p>
+        <p class="text-secondary font-bold text-sm mb-0.5">KCCB-ACTS</p>
+        <p class="text-muted text-[0.62rem] leading-snug">
+          Acceleration & Transition Towards<br/>
+          Sustainable HIV Care Services
+        </p>
+      </div>
+
+      <!-- Divider -->
+      <div class="hidden sm:block w-px h-12 bg-border/60 shrink-0"></div>
+      <div class="sm:hidden h-px w-12 bg-border/60"></div>
+
+      <!-- Text -->
+      <p class="text-muted text-xs leading-relaxed max-w-2xl">
+        St. Paul's Mission Hospital CCC is supported by
+        <span class="text-secondary font-semibold">KCCB-ACTS</span> —
+        the Kenya Conference of Catholic Bishops body responsible for
+        accelerating and transitioning Catholic health facilities towards
+        sustainable, facility-owned HIV care services. This partnership
+        ensures our programme meets national standards and is built to last.
+      </p>
+
+    </div>
+  </div>
+</div>
+
+  <div class='max-w-7xl mx-auto px-2 md:px-4 lg:px-16 py-16 lg:py-20 space-y-24 bg-gray-300'>
+    <!--  SECTION 1 — ABOUT -->
+    <section class='grid lg:grid-cols-12 gap-10 lg:gap-16 items-center' data-aos='fade-up'>
+      <div class='lg:col-span-5'>
+        <div class='relative overflow-hidden aspect-[4/3]'>
+          <img
+            src='/img/58.jpg'
+            alt="CCC consultation at St. Paul's"
+            class='absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]'
+            loading='lazy'
+          />
+          <div
+            class='absolute bottom-0 left-0 right-0 bg-secondary/90 px-5 py-4'>
+            <p
+              class='text-white/50 text-[0.58rem] tracking-[0.18em] uppercase font-semibold mb-1'>
+              Our referral partners
+            </p>
+            <p class='text-white text-xs leading-snug'>
+              For cases requiring specialist management, we refer to <span
+                class='font-semibold'>MSF Homa Bay</span
+              >, <span class='font-semibold'
+                >Homa Bay County Teaching & Referral Hospital</span
+              >, or a hospital of the patient's choice.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class='lg:col-span-7'>
+        <p
+          class='text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-3 flex items-center gap-3'>
+          About the CCC
+        </p>
+        <h2
+          class='font-display text-secondary text-3xl sm:text-4xl font-normal leading-snug mb-5'>
+          Holistic care for every<br />
+          <span class='font-semibold italic text-primary'
+            >person living with HIV.</span
+          >
+        </h2>
+        <p class='text-muted text-sm leading-relaxed mb-4'>
+          St. Paul's Mission Hospital Comprehensive Care Centre was established
+          to offer holistic care and support to patients infected and affected
+          by HIV/AIDS. Our multidisciplinary team provides clinical, laboratory,
+          pharmacy, psychosocial, and community support services — all under one
+          roof.
+        </p>
+        <p class='text-muted text-sm leading-relaxed mb-8'>
+          When a patient requires care beyond what we offer — such as advanced
+          HIV management or second-line therapy — we coordinate referrals to MSF
+          Homa Bay, Homa Bay County Teaching & Referral Hospital, or another
+          facility of the patient's choice. We remain involved and follow up
+          throughout.
+        </p>
+        <div class='grid grid-cols-3 gap-px bg-border/40'>
+          {
+            [
+              { value: 'Free', label: 'ARV medicines' },
+              { value: 'Mon–Fri', label: 'Working days' },
+              { value: 'Walk-in', label: 'As per your appointment date' },
+            ].map((f) => (
+              <div class='bg-surface px-4 py-5 text-center'>
+                <p class='font-display text-secondary text-xl font-bold leading-none mb-1'>
+                  {f.value}
+                </p>
+                <p class='text-muted text-[0.62rem] tracking-wide uppercase'>
+                  {f.label}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2 — SERVICES ACCORDION-->
+     <section data-aos='fade-left'>
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+    <div>
+      <p class="text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-3 flex items-center gap-3">
+        What we offer
+      </p>
+      <h2 class="font-display text-secondary text-3xl sm:text-4xl font-normal leading-snug">
+        Integrated<br/>
+        <span class="font-semibold text-primary">CCC services.</span>
+      </h2>
+    </div>
+    <p class="text-muted text-sm leading-relaxed max-w-xs">
+      Clinical, social, and community care — delivered by a dedicated team that knows every patient by name.
+    </p>
+  </div>
+
+  <div
+    x-data="{ open: null }"
+    class="grid sm:grid-cols-2 gap-px bg-border/40"
+  >
+    {cccServices.map((service, i) => (
+      <div class="bg-white">
+        <button
+          @click={`open = open === ${i} ? null : ${i}`}
+          :aria-expanded={`open === ${i}`}
+          class="w-full flex items-center justify-between gap-4 px-6 py-5
+                 text-left group focus:outline-none
+                 hover:bg-surface transition-colors duration-150"
+        >
+          <div class="flex items-center gap-4">
+            <div
+              :class={`open === ${i} ? 'bg-primary' : 'bg-surface-2 group-hover:bg-primary/10'`}
+              class="size-9 flex items-center justify-center shrink-0 transition-all duration-200"
+            >
+              <svg
+                :class={`open === ${i} ? 'text-white' : 'text-primary'`}
+                class="size-4 transition-colors duration-200"
+                fill={service.fill ? "currentColor" : "none"}
+                stroke={service.fill ? "none" : "currentColor"}
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d={service.icon}/>
+              </svg>
+            </div>
+            <span
+              :class={`open === ${i} ? 'text-primary' : 'text-secondary group-hover:text-primary'`}
+              class="font-semibold text-sm leading-snug transition-colors duration-200"
+            >
+              {service.title}
+            </span>
+          </div>
+          <span
+            :class={`open === ${i} ? 'bg-primary border-primary rotate-45' : 'border-border/60 group-hover:border-primary/40'`}
+            class="size-6 rounded-full border flex items-center justify-center
+                   shrink-0 transition-all duration-300"
+          >
+            <svg
+              :class={`open === ${i} ? 'text-white' : 'text-muted group-hover:text-primary'`}
+              class="size-3 transition-colors duration-200"
+              fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+          </span>
+        </button>
+
+        <div
+          x-show={`open === ${i}`}
+          x-transition:enter="transition duration-200 ease-out"
+          x-transition:enter-start="opacity-0 -translate-y-1"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          x-transition:leave="transition duration-100 ease-in"
+          x-transition:leave-start="opacity-100"
+          x-transition:leave-end="opacity-0"
+          x-cloak
+        >
+          <div class="px-6 pb-5 pt-1 border-t border-border/40 bg-surface">
+            <p class="text-muted text-sm leading-relaxed pl-13">
+              {service.desc}
+            </p>
+          </div>
+        </div>
+      </div>
+    ))}
+     </div>
+     </section>
+
+    <!--  SECTION 3 — SUPPORT GROUPS -->
+    <section data-aos="fade-right">
+      <div class='grid lg:grid-cols-12 gap-10 lg:gap-16 items-start'>
+        <div class='lg:col-span-4 lg:sticky lg:top-24 space-y-6'>
+          <div>
+            <p
+              class='text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-3 flex items-center gap-3'>
+              Peer Support
+            </p>
+            <h2
+              class='font-display text-secondary text-3xl font-normal leading-snug mb-4'>
+              Our support<br />
+              <span class='font-semibold italic text-primary'>groups.</span>
+            </h2>
+            <p class='text-muted text-sm leading-relaxed'>
+              You don't have to navigate this journey alone. Our CCC runs five
+              dedicated peer support groups — each tailored to the specific
+              needs and life stage of our patients.
+            </p>
+          </div>
+          <div class='relative overflow-hidden aspect-[4/3]'>
+            <img
+              src='/img/4.jpg'
+              alt="Support group at St. Paul's CCC"
+              class='absolute inset-0 w-full h-full object-cover brightness-90'
+              loading='lazy'
+            />
+            <div
+              class='absolute inset-0 bg-gradient-to-t from-secondary/70 to-transparent'>
+            </div>
+          </div>
+        </div>
+
+        <div class='lg:col-span-8 space-y-4'>
+          {
+            supportGroups.map((group) => (
+              <div class={`border ${group.border} ${group.bg} overflow-hidden`}>
+                <div class='flex items-stretch'>
+                  <div class={`${group.color} w-1.5 shrink-0`} />
+                  <div class='flex-1 p-6'>
+                    <div class='flex items-center gap-3 mb-1'>
+                      <span
+                        class={`text-[0.58rem] font-bold tracking-[0.2em] uppercase ${group.text} border ${group.border} px-2 py-0.5`}>
+                        {group.code}
+                      </span>
+                      <span class='text-muted/50 text-[0.58rem] tracking-widest uppercase'>
+                        {group.ages}
+                      </span>
+                    </div>
+                    <h3 class='text-secondary font-semibold text-base leading-snug mb-3'>
+                      {group.name}
+                    </h3>
+                    <p class='text-muted text-sm leading-relaxed mb-4'>
+                      {group.desc}
+                    </p>
+                    <div class='flex items-center gap-2'>
+                      <svg
+                        class={`size-3.5 shrink-0 ${group.text}`}
+                        fill='none'
+                        stroke='currentColor'
+                        stroke-width='2.5'
+                        viewBox='0 0 24 24'>
+                        <path
+                          stroke-linecap='round'
+                          stroke-linejoin='round'
+                          d='M13 7h8m0 0v8m0-8l-8 8-4-4-6 6'
+                        />
+                      </svg>
+                      <p class={`text-xs font-semibold ${group.text}`}>
+                        {group.goal}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+
+          <div class='bg-secondary p-6 flex items-start gap-4'>
+            <svg
+              class='size-5 text-primary-light shrink-0 mt-0.5'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='1.5'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                d='M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z'
+              ></path>
+            </svg>
+            <div>
+              <p class='text-white font-semibold text-sm mb-1'>
+                Want to join a support group?
+              </p>
+              <p class='text-white/55 text-xs leading-relaxed'>
+                Speak to any member of our CCC team during your next visit or
+                call us during working hours. Joining is voluntary and
+                completely confidential.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4 — COUPLE COUNSELLING -->
+    <section data-aos='fade-down'>
+      <div class='grid lg:grid-cols-12 gap-10 lg:gap-16 items-start'>
+        <div class='lg:col-span-5 lg:order-2 space-y-4'>
+          <div class='relative overflow-hidden aspect-[4/3]'>
+            <img
+              src='/img/32.png'
+              alt="Couple counselling at St. Paul's CCC"
+              class='absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]'
+              loading='lazy'
+            />
+            <div class='absolute top-4 left-4'>
+              <span
+                class='bg-primary/90 text-white text-[0.58rem] font-bold tracking-[0.16em] uppercase px-3 py-1.5'>
+                Couple Counselling Centre
+              </span>
+            </div>
+          </div>
+          <div class='bg-primary p-6'>
+            <p
+              class='text-white/50 text-[0.58rem] tracking-[0.22em] uppercase font-semibold mb-2'>
+              Available at the CCC
+            </p>
+            <p
+              class='text-white font-display text-lg font-semibold italic leading-snug mb-2'>
+              PrEP is available free of charge.
+            </p>
+            <p class='text-white/60 text-xs leading-relaxed'>
+              Pre-Exposure Prophylaxis (PrEP) is a highly effective HIV
+              prevention medicine for HIV-negative individuals at risk. Ask our
+              team whether PrEP is right for you.
+            </p>
+          </div>
+        </div>
+
+        <div class='lg:col-span-7 lg:order-1'>
+          <p
+            class='text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-3 flex items-center gap-3'>
+            Within the CCC
+          </p>
+          <h2
+            class='font-display text-secondary text-3xl sm:text-4xl font-normal leading-snug mb-4'>
+            Couple Counselling<br />
+            <span class='font-semibold italic text-primary'>Centre.</span>
+          </h2>
+          <p class='text-muted text-sm leading-relaxed mb-8 max-w-lg'>
+            Our Couple Counselling Centre operates within the CCC — a safe,
+            private space for couples to receive HIV counselling, testing, and
+            prevention services together.
+          </p>
+          <div class='space-y-3'>
+            {
+              coupleServices.map((svc, i) => (
+                <div
+                  class='flex items-start gap-4 p-5 bg-surface border border-border/60
+                          hover:border-primary/30 hover:shadow-sm transition-all duration-200'>
+                  <div class='size-7 bg-primary/10 flex items-center justify-center shrink-0 mt-0.5'>
+                    <span class='text-primary text-[0.6rem] font-bold'>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <div>
+                    <p class='text-secondary font-semibold text-sm mb-0.5'>
+                      {svc.title}
+                    </p>
+                    <p class='text-muted text-xs leading-relaxed'>{svc.desc}</p>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--  CLOSING CTA -->
+    <section data-aos='fade-up'>
+      <div class='bg-secondary relative overflow-hidden'>
+        <div class='absolute inset-0 z-0'>
+          <img
+            src='/img/27.jpg'
+            alt=''
+            aria-hidden='true'
+            class='absolute inset-0 w-full h-full object-cover brightness-[0.15]'
+            loading='lazy'
+          />
+        </div>
+        <div
+          class='absolute right-16 top-1/2 -translate-y-1/2 size-44 opacity-[0.07]
+                    pointer-events-none hidden lg:block z-10'>
+          <div
+            class='absolute left-1/2 top-0 -translate-x-1/2 w-6 h-full bg-white'>
+          </div>
+          <div
+            class='absolute top-1/2 left-0 -translate-y-1/2 h-6 w-full bg-white'>
+          </div>
+        </div>
+
+        <div
+          class='relative z-10 px-8 lg:px-16 py-14 grid lg:grid-cols-2 gap-10 items-center'>
+          <div>
+            <p
+              class='text-primary-light text-xs tracking-[0.22em] uppercase font-semibold mb-4'>
+              You are welcome here
+            </p>
+            <h3
+              class='font-display text-white text-3xl sm:text-4xl font-normal leading-snug mb-4'>
+              Taking the first step<br />
+              <span class='font-semibold italic text-primary-light'
+                >takes courage. We are ready.</span
+              >
+            </h3>
+            <p class='text-white/50 text-sm leading-relaxed max-w-sm mb-6'>
+              Whether you need testing, starting treatment, want to join a
+              support group, or just need someone to talk to — our team is here.
+              No appointment, no referral needed.
+            </p>
+            <div class='flex items-center gap-2'>
+              <span class='relative flex size-2'>
+                <span
+                  class='absolute inline-flex size-full rounded-full bg-primary/70 animate-ping'
+                ></span>
+                <span
+                  class='relative inline-flex size-2 rounded-full bg-primary'
+                ></span>
+              </span>
+              <span
+                class='text-white/40 text-xs tracking-[0.16em] uppercase font-semibold'>
+                Mon – Fri · 8:00 AM – 4:00 PM
+              </span>
+            </div>
+          </div>
+
+          <div class='flex flex-col gap-4'>
+            <a
+              href={`tel:${CCC_PHONE}`}
+              class='group inline-flex items-center justify-center gap-3
+                      bg-primary hover:bg-primary-dark text-white
+                      font-bold text-xs tracking-[0.14em] uppercase
+                      px-8 py-4 transition-all duration-200
+                      hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30'>
+              <svg
+                class='size-4'
+                fill='none'
+                stroke='currentColor'
+                stroke-width='2'
+                viewBox='0 0 24 24'>
+                <path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  d='M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z'
+                ></path>
+              </svg>
+              Call the CCC
+              <svg
+                class='size-3.5 group-hover:translate-x-1 transition-transform duration-200'
+                fill='none'
+                stroke='currentColor'
+                stroke-width='2.5'
+                viewBox='0 0 24 24'>
+                <path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  d='M17 8l4 4m0 0l-4 4m4-4H3'></path>
+              </svg>
+            </a>
+            <a
+              href='/about-us/contact'
+              class='inline-flex items-center justify-center gap-3
+                      border border-white/25 hover:border-white/50 text-white
+                      font-bold text-xs tracking-[0.14em] uppercase
+                      px-8 py-4 transition-all duration-200 hover:bg-white/5'>
+              Contact Us
+            </a>
+            <p class='text-white/25 text-[0.6rem] tracking-wide text-center'>
+              All enquiries are handled with complete confidentiality.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

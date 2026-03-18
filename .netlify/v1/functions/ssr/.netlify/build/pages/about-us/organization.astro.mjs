@@ -1,0 +1,64 @@
+import { c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead, d as addAttribute } from '../../chunks/astro/server_FwoxJmSS.mjs';
+import 'piccolore';
+import { $ as $$Layout } from '../../chunks/Layout_DbIzBR6F.mjs';
+export { renderers } from '../../renderers.mjs';
+
+const $$Organization = createComponent(($$result, $$props, $$slots) => {
+  const directors = [
+    { name: "Fr. Romanus", role: "Hospital Chaplain", img: "/board/3.jpg" },
+    { name: "Mr. Charles Saka", role: "Chair, B.O.M", img: "/board/5.jpg" },
+    { name: "Mary Achieng", role: "Board Member", img: "/board/2.jpg" },
+    { name: "J Okoth", role: "Board Member", img: "/board/1.jpg" }
+  ];
+  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": "Leadership" }, { "default": ($$result2) => renderTemplate`  ${maybeRenderHead()}<section id="about" class="relative w-full h-[40vh] sm:h-[60vh] overflow-hidden bg-slate-900"> <div class="absolute inset-0"> <img src="/img/24.jpg" alt="Hospital Exterior" loading="lazy" class="w-full h-full object-cover object-top opacity-70 scale-105"> </div> <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent"></div> <div class="relative z-10 h-full container mx-auto px-6 max-w-7xl flex flex-col justify-end pb-12 sm:pb-20"> <div class="mb-4 flex items-center gap-3" data-aos="fade-up"></div> <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tighter leading-none" data-aos="fade-up" data-aos-delay="100">
+The <br> <span class="font-serif font-light opacity-90">Organization.</span> </h1> </div> </section>  <section class="bg-white py-16"> <div class="container mx-auto px-4 md:px-6 max-w-6xl"> <div class="grid grid-cols-1 lg:grid-cols-12 border-b border-slate-900 pb-16 gap-8"> <div class="lg:col-span-4"> <h1 class="text-xs font-black uppercase tracking-[0.6em] text-primary mb-4">
+Foundation 1983
+</h1> <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-secondary">
+The Organization
+</h2> </div> <div class="lg:col-span-8"> <p class="text-3xl font-light text-slate-600 leading-tight">
+St. Paul's Mission Hospital is a <span class="text-slate-900 font-bold">Faith Based Organization</span> dedicated to clinical excellence and spiritual compassion since our
+            inception.
+</p> </div> </div> <div class="grid grid-cols-1 lg:grid-cols-12 gap-px bg-slate-200 border-b border-slate-200"> <div class="lg:col-span-6 bg-white py-16 pr-12"> <span class="inline-block px-3 py-1 bg-slate-100 rounded text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-6">Strategic Oversight</span> <h3 class="text-2xl font-bold text-secondary mb-4">
+Board of Management
+</h3> <p class="leading-relaxed font-light text-lg">
+A multidisciplinary body providing the strategic vision and
+            long-term governance necessary for institutional sustainability.
+</p> </div> <div class="lg:col-span-6 bg-white py-16 pl-12 border-l border-slate-100"> <span class="inline-block px-3 py-1 bg-slate-100 rounded text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-6">Daily Coordination</span> <h3 class="text-2xl font-bold text-secondary mb-4">
+Health Management Team
+</h3> <p class="leading-relaxed font-light text-lg">
+Responsible for the day-to-day operational excellence, ensuring
+            clinical standards are met across every ward and department.
+</p> </div> </div> </div> </section>  <section class="py-12 md:py-16 bg-white overflow-hidden"> <div class="container mx-auto px-2 md:px-4 max-w-6xl"> <div class="flex flex-col lg:flex-row gap-12 items-center"> <div class="w-full lg:w-1/2 relative group" data-aos="fade-right"> <div class="bg-slate-100 overflow-hidden shadow-xl relative"> <img src="/board/4.png" alt="Sr. Beatrice Osanga" class="w-full h-full object-cover group-hover:grayscale-0 transition-all duration-1000 ease-in-out"> <div class="absolute inset-0 bg-gradient-to-t from-slate-900/50 via-transparent to-transparent"></div> <div class="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-4 md:p-6 rounded-2xl shadow-xl border border-slate-100" data-aos="fade-up"> <h3 class="text-xl font-bold text-slate-900 tracking-tighter">
+Sr. Beatrice Osanga
+</h3> <p class="text-[9px] font-black text-primary uppercase tracking-[0.2em] mt-1 flex items-center gap-2"> <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+Hospital Administrator
+</p> </div> </div> </div> <div class="w-full lg:w-1/2 space-y-6" data-aos="fade-left"> <div class="space-y-2"> <span class="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 block">Leadership Statement</span> <h2 class="text-3xl md:text-5xl font-bold tracking-tighter text-slate-900 leading-tight">
+A Message <span class="italic font-serif font-light text-secondary">from our CEO.</span> </h2> </div> <div class="space-y-4 text-base md:text-lg text-slate-600 font-light leading-relaxed"> <p>
+St. Paul's Mission Hospital is more than just a healthcare
+              facility; we are a <span class="text-slate-900 font-medium">mission-driven family</span>.
+</p> <p class="border-l-2 border-primary pl-6 italic leading-relaxed font-light text-lg">
+We are focused on continuous growth, a collaborative leadership
+              style, and leveraging technology to enhance our services. Our
+              aspirational goal is to become a center of excellence and the best
+              in the county and beyond.
+</p> <p class="border-l-2 border-primary pl-6 italic leading-relaxed font-light text-lg">
+We put our customers first and promise to deliver an outstanding
+              experience.
+</p> <div class="pt-2"> <div class="inline-block bg-secondary text-white px-6 py-3 rounded-xl shadow-lg"> <span class="text-[10px] font-mono uppercase tracking-widest opacity-60 block mb-0.5">Our Promise</span> <span class="text-base font-bold tracking-tight uppercase">"You are safe in our hands."</span> </div> </div> </div> </div> </div> </div> </section>  <section id="executive-team" class="py-12 bg-white"> <div class="container mx-auto px-2 md:px-4 max-w-6xl"> <div class="flex flex-col md:flex-row items-baseline justify-between mb-12 border-b border-slate-100 pb-6"> <div> <span class="text-[9px] font-black uppercase tracking-[0.5em] text-primary mb-2 block">Leadership</span> <h2 class="text-3xl md:text-4xl font-bold tracking-tighter text-slate-900">
+Executive Directors
+</h2> </div> </div> <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"> ${directors.map((member) => renderTemplate`<div class="group cursor-pointer"> <div class="relative aspect-square overflow-hidden rounded-xl bg-slate-50 mb-4 shadow-sm group-hover:shadow-md transition-all duration-500"> <img${addAttribute(member.img, "src")}${addAttribute(member.name, "alt")} class="w-full h-full object-cover object-top transition-all duration-700 ease-in-out group-hover:scale-105" loading="lazy"> <div class="absolute inset-0 bg-gradient-to-t from-slate-900/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div> </div> <div class="space-y-0.5"> <h3 class="text-base md:text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-tight"> ${member.name} </h3> <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400"> ${member.role} </p> </div> </div>`)} </div> </div> </section> ` })}`;
+}, "E:/PROJECT/SPMH/src/pages/about-us/organization.astro", void 0);
+
+const $$file = "E:/PROJECT/SPMH/src/pages/about-us/organization.astro";
+const $$url = "/about-us/organization";
+
+const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: $$Organization,
+  file: $$file,
+  url: $$url
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const page = () => _page;
+
+export { page };

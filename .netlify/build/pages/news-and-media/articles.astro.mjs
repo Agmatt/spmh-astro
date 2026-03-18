@@ -1,0 +1,62 @@
+import { c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead, d as addAttribute } from '../../chunks/astro/server_FwoxJmSS.mjs';
+import 'piccolore';
+import { $ as $$Layout } from '../../chunks/Layout_DbIzBR6F.mjs';
+import { g as getCollection } from '../../chunks/_astro_content_CB-0rDMv.mjs';
+export { renderers } from '../../renderers.mjs';
+
+const $$Index = createComponent(async ($$result, $$props, $$slots) => {
+  const allArticles = (await getCollection("articles", ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  const categories = ["All", ...new Set(allArticles.map((a) => a.data.category))];
+  const featured = allArticles.find((a) => a.data.featured) ?? allArticles[0];
+  const rest = allArticles.filter((a) => a.slug !== featured.slug);
+  function formatDate(date) {
+    return date.toLocaleDateString("en-KE", { day: "numeric", month: "long", year: "numeric" });
+  }
+  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": "Articles \u2014 News & Media | St. Paul's Mission Hospital" }, { "default": async ($$result2) => renderTemplate`  ${maybeRenderHead()}<header class="bg-secondary"> <div class="max-w-7xl mx-auto px-4 lg:px-16 py-10 pt-16"> <p class="text-primary-light text-xs tracking-[0.22em] uppercase font-semibold mb-4 flex items-center gap-3"> <span class="w-8 h-px bg-primary-light inline-block"></span> <a href="/news-and-media" class="hover:text-white transition-colors duration-200">News & Media</a> <span class="text-white/20">›</span> <span class="text-white/60">Articles</span> </p> <h1 class="font-display text-white text-4xl sm:text-5xl font-normal leading-tight">
+All Articles<br> <span class="font-semibold italic text-primary-light">&amp; News.</span> </h1> </div> </header>  ${featured && renderTemplate`<section class="bg-surface border-b border-border/60"> <div class="max-w-7xl mx-auto px-4 lg:px-16 py-10"> <a${addAttribute(`/news-and-media/articles/${featured.slug}`, "href")} class="group grid lg:grid-cols-2 gap-8 items-center"> ${featured.data.image && renderTemplate`<div class="relative overflow-hidden aspect-[16/9] lg:aspect-[4/3]"> <img${addAttribute(featured.data.image, "src")}${addAttribute(featured.data.title, "alt")} class="absolute inset-0 w-full h-full object-cover
+                       transition-transform duration-700 group-hover:scale-[1.03]" loading="eager"> <div class="absolute top-4 left-4"> <span class="bg-primary text-white text-[0.58rem] font-bold
+                             tracking-[0.16em] uppercase px-3 py-1.5">
+Featured
+</span> </div> </div>`} <div class="py-4"> <span class="text-primary text-[0.6rem] font-bold tracking-[0.2em] uppercase"> ${featured.data.category} </span> <h2 class="font-display text-secondary text-2xl sm:text-3xl font-semibold
+                       leading-snug mt-2 mb-4 group-hover:text-primary transition-colors duration-200"> ${featured.data.title} </h2> <p class="text-muted text-sm leading-relaxed mb-5">${featured.data.excerpt}</p> <div class="flex items-center justify-between"> <div> <p class="text-muted/50 text-[0.6rem] tracking-widest uppercase">By</p> <p class="text-secondary text-xs font-semibold">${featured.data.author}</p> </div> <div class="text-right"> <p class="text-muted/50 text-[0.6rem] tracking-widest uppercase">Published</p> <p class="text-secondary text-xs font-semibold">${formatDate(featured.data.date)}</p> </div> </div> <div class="flex items-center gap-2 text-primary text-xs font-bold
+                        tracking-[0.1em] uppercase mt-6 group-hover:gap-3 transition-all duration-200">
+Read article
+<svg class="size-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"></path> </svg> </div> </div> </a> </div> </section>`} <section class="max-w-7xl mx-auto px-4 lg:px-16 py-12 lg:py-16"${addAttribute(`{
+      active: 'All',
+      articles: ${JSON.stringify(rest.map((a) => ({
+    slug: a.slug,
+    title: a.data.title,
+    category: a.data.category,
+    author: a.data.author,
+    date: formatDate(a.data.date),
+    excerpt: a.data.excerpt,
+    image: a.data.image ?? null
+  })))},
+      get filtered() {
+        return this.active === 'All'
+          ? this.articles
+          : this.articles.filter(a => a.category === this.active)
+      }
+    }`, "x-data")}> <!-- Category filter --> <div class="flex flex-wrap gap-2 mb-10"> ${categories.map((cat) => renderTemplate`<button${addAttribute(`active = '${cat}'`, "@click")}${addAttribute(`active === '${cat}'
+            ? 'bg-primary text-white border-primary'
+            : 'bg-white text-muted border-border/60 hover:border-primary/40 hover:text-primary'`, ":class")} class="px-4 py-2 border text-xs font-bold tracking-[0.1em] uppercase
+                 transition-all duration-200"> ${cat} </button>`)} </div> <!-- Article grid --> <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" x-show="filtered.length > 0"> <template x-for="article in filtered" :key="article.slug"> <a :href="\`/news-and-media/articles/\${article.slug}\`" class="group flex flex-col bg-white border border-border/60
+                 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5
+                 transition-all duration-300 hover:-translate-y-0.5"> <!-- Image --> <div class="relative overflow-hidden aspect-[16/10] bg-surface-2"> <img x-show="article.image" :src="article.image" :alt="article.title" class="absolute inset-0 w-full h-full object-cover
+                     transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy"> <div x-show="!article.image" class="absolute inset-0 flex items-center justify-center bg-surface-2"> <svg class="size-8 text-border/60" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path> </svg> </div> </div> <!-- Content --> <div class="flex-1 p-6 flex flex-col"> <span class="text-primary text-[0.58rem] font-bold tracking-[0.18em] uppercase mb-2" x-text="article.category"></span> <h3 class="font-display text-secondary font-semibold text-base leading-snug mb-2
+                       group-hover:text-primary transition-colors duration-200" x-text="article.title"></h3> <p class="text-muted text-xs leading-relaxed mb-4 flex-1 line-clamp-2" x-text="article.excerpt"></p> <div class="flex items-center justify-between pt-4 border-t border-border/50"> <p class="text-muted/60 text-[0.6rem]" x-text="article.author"></p> <p class="text-muted/60 text-[0.6rem]" x-text="article.date"></p> </div> </div> </a> </template> </div> <!-- Empty state --> <div x-show="filtered.length === 0" class="py-20 text-center"> <p class="text-secondary font-semibold text-sm mb-1">No articles in this category yet.</p> <p class="text-muted text-xs">Check back soon or browse all categories.</p> </div> </section> ` })}`;
+}, "E:/PROJECT/SPMH/src/pages/news-and-media/articles/index.astro", void 0);
+
+const $$file = "E:/PROJECT/SPMH/src/pages/news-and-media/articles/index.astro";
+const $$url = "/news-and-media/articles";
+
+const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: $$Index,
+  file: $$file,
+  url: $$url
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const page = () => _page;
+
+export { page };
