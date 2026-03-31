@@ -1,0 +1,248 @@
+---
+export const prerender = true
+
+import Layout from '../../../Layout/Layout.astro'
+import { getCollection } from 'astro:content'
+
+/**
+ * All Events — St. Paul's Mission Hospital
+ * File placement: src/pages/news-and-media/events/index.astro
+ */
+
+const allEvents = (await getCollection('events', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf())
+
+const today = new Date()
+today.setHours(0, 0, 0, 0)
+
+const upcoming = allEvents.filter(e => new Date(e.data.date) >= today)
+const past     = allEvents.filter(e => new Date(e.data.date) <  today).reverse()
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-KE', { day: 'numeric', month: 'long', year: 'numeric' })
+}
+function formatDay(date: Date) {
+  return date.toLocaleDateString('en-KE', { day: 'numeric' })
+}
+function formatMonth(date: Date) {
+  return date.toLocaleDateString('en-KE', { month: 'short' })
+}
+function formatYear(date: Date) {
+  return date.toLocaleDateString('en-KE', { year: 'numeric' })
+}
+---
+
+<Layout title="Events — News & Media | St. Paul's Mission Hospital">
+
+  <!-- Header -->
+  <header class="bg-secondary">
+    <div class="max-w-7xl mx-auto px-6 lg:px-16 py-10 pt-16">
+      <p class="text-primary-light text-xs tracking-[0.22em] uppercase font-semibold mb-4 flex items-center gap-3">
+        <span class="w-8 h-px bg-primary-light inline-block"></span>
+        <a href="/news-and-media" class="hover:text-white transition-colors duration-200">News & Media</a>
+        <span class="text-white/20">›</span>
+        <span class="text-white/60">Events</span>
+      </p>
+      <h1 class="font-display text-white text-4xl sm:text-5xl font-normal leading-tight">
+        Events &amp;<br/>
+        <span class="font-semibold italic text-primary-light">Activities.</span>
+      </h1>
+    </div>
+  </header>
+
+
+  <!-- Tabs + content -->
+  <section
+    class="max-w-7xl mx-auto px-6 lg:px-16 py-12 lg:py-16"
+    x-data="{ tab: 'upcoming' }"
+  >
+
+    <!-- Tab strip -->
+    <div class="flex border-b border-border/60 mb-10">
+      <button
+        @click="tab = 'upcoming'"
+        :class="tab === 'upcoming'
+          ? 'text-secondary border-b-2 border-primary'
+          : 'text-muted hover:text-secondary border-b-2 border-transparent'"
+        class="px-6 py-4 text-sm font-semibold tracking-wide transition-colors duration-200 -mb-px"
+      >
+        Upcoming
+        {upcoming.length > 0 && (
+          <span class="ml-2 bg-primary text-white text-[0.58rem] font-bold px-2 py-0.5">
+            {upcoming.length}
+          </span>
+        )}
+      </button>
+      <button
+        @click="tab = 'past'"
+        :class="tab === 'past'
+          ? 'text-secondary border-b-2 border-primary'
+          : 'text-muted hover:text-secondary border-b-2 border-transparent'"
+        class="px-6 py-4 text-sm font-semibold tracking-wide transition-colors duration-200 -mb-px"
+      >
+        Past Events
+        {past.length > 0 && (
+          <span class="ml-2 bg-surface-2 text-muted text-[0.58rem] font-bold px-2 py-0.5">
+            {past.length}
+          </span>
+        )}
+      </button>
+    </div>
+
+
+    <!-- UPCOMING -->
+    <div x-show="tab === 'upcoming'" x-cloak>
+      {upcoming.length === 0 ? (
+        <div class="py-20 text-center">
+          <div class="size-14 bg-surface-2 flex items-center justify-center mx-auto mb-4">
+            <svg class="size-6 text-muted/40" fill="none" stroke="currentColor"
+                 stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 9v7.5"/>
+            </svg>
+          </div>
+          <p class="text-secondary font-semibold text-sm mb-1">No upcoming events at the moment.</p>
+          <p class="text-muted text-xs">Check back soon — we regularly host health camps and community outreach.</p>
+        </div>
+      ) : (
+        <div class="space-y-5">
+          {upcoming.map(event => (
+            <a
+              href={`/news-and-media/events/${event.slug}`}
+              class="group grid sm:grid-cols-12 bg-white border border-border/60
+                     hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5
+                     transition-all duration-300 overflow-hidden"
+            >
+              <!-- Date block -->
+              <div class="sm:col-span-2 bg-primary flex flex-col items-center justify-center
+                          py-6 px-4 text-white text-center">
+                <p class="text-3xl font-bold font-display leading-none">
+                  {formatDay(event.data.date)}
+                </p>
+                <p class="text-white/70 text-xs font-bold tracking-[0.15em] uppercase mt-1">
+                  {formatMonth(event.data.date)}
+                </p>
+                <p class="text-white/50 text-[0.6rem] tracking-widest mt-0.5">
+                  {formatYear(event.data.date)}
+                </p>
+              </div>
+
+              <!-- Image -->
+              {event.data.image && (
+                <div class="sm:col-span-3 relative overflow-hidden min-h-[160px]">
+                  <img
+                    src={event.data.image}
+                    alt={event.data.title}
+                    class="absolute inset-0 w-full h-full object-cover
+                           transition-transform duration-700 group-hover:scale-[1.04]"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+
+              <!-- Content -->
+              <div class={`${event.data.image ? 'sm:col-span-7' : 'sm:col-span-10'} p-6 flex flex-col justify-between`}>
+                <div>
+                  <span class="text-primary text-[0.58rem] font-bold tracking-[0.18em] uppercase">
+                    {event.data.category}
+                  </span>
+                  <h3 class="font-display text-secondary font-semibold text-lg leading-snug mt-1.5 mb-2
+                             group-hover:text-primary transition-colors duration-200">
+                    {event.data.title}
+                  </h3>
+                  <p class="text-muted text-sm leading-relaxed line-clamp-2">
+                    {event.data.excerpt}
+                  </p>
+                </div>
+                <div class="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-border/50">
+                  <div class="flex items-center gap-2 text-muted text-xs">
+                    <svg class="size-3.5 text-primary shrink-0" fill="none" stroke="currentColor"
+                         stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    {event.data.time}
+                  </div>
+                  <div class="flex items-center gap-2 text-muted text-xs">
+                    <svg class="size-3.5 text-primary shrink-0" fill="none" stroke="currentColor"
+                         stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0zM19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
+                    </svg>
+                    {event.data.location}
+                  </div>
+                  <div class="ml-auto flex items-center gap-1.5 text-primary text-xs font-bold
+                              tracking-[0.1em] uppercase group-hover:gap-2.5 transition-all duration-200">
+                    View details
+                    <svg class="size-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+
+
+    <!-- PAST EVENTS -->
+    <div x-show="tab === 'past'" x-cloak>
+      {past.length === 0 ? (
+        <div class="py-20 text-center">
+          <p class="text-secondary font-semibold text-sm mb-1">No past events recorded yet.</p>
+          <p class="text-muted text-xs">Past events will appear here after they have taken place.</p>
+        </div>
+      ) : (
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {past.map(event => (
+            <a
+              href={`/news-and-media/events/${event.slug}`}
+              class="group flex flex-col bg-white border border-border/60
+                     hover:border-primary/30 hover:shadow-md
+                     transition-all duration-300 opacity-80 hover:opacity-100"
+            >
+              {event.data.image && (
+                <div class="relative overflow-hidden aspect-[16/10]">
+                  <img
+                    src={event.data.image}
+                    alt={event.data.title}
+                    class="absolute inset-0 w-full h-full object-cover grayscale
+                           transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.03]"
+                    loading="lazy"
+                  />
+                  <div class="absolute top-3 left-3">
+                    <span class="bg-secondary/80 text-white text-[0.55rem] font-bold
+                                 tracking-[0.15em] uppercase px-2.5 py-1">
+                      Past Event
+                    </span>
+                  </div>
+                </div>
+              )}
+              <div class="p-5 flex flex-col flex-1">
+                <span class="text-primary text-[0.58rem] font-bold tracking-[0.18em] uppercase mb-1.5">
+                  {event.data.category}
+                </span>
+                <h3 class="font-display text-secondary font-semibold text-sm leading-snug mb-2
+                           group-hover:text-primary transition-colors duration-200 flex-1">
+                  {event.data.title}
+                </h3>
+                <div class="flex items-center justify-between pt-3 border-t border-border/50 mt-3">
+                  <p class="text-muted/60 text-[0.6rem]">{formatDate(event.data.date)}</p>
+                  <p class="text-muted/60 text-[0.6rem] truncate max-w-[130px]">{event.data.location}</p>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+
+  </section>
+
+</Layout>
+
+<style>
+  [x-cloak] { display: none !important; }
+</style>

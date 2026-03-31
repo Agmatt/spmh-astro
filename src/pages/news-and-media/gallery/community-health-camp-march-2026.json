@@ -1,0 +1,13 @@
+{
+  "title": "Community Health Camp — March 2026",
+  "date": "2026-03-15",
+  "category": "Community Outreach",
+  "coverImage": "/img/3.jpg",
+  "photos": [
+    { "src": "/img/3.jpg", "caption": "Registration desk at the community health camp" },
+    { "src": "/img/5.jpg", "caption": "Blood pressure screening in progress" },
+    { "src": "/img/22.jpg", "caption": "Maternal health consultations" },
+    { "src": "/img/43.jpg", "caption": "Free medicines dispensed at the pharmacy point" }
+  ],
+  "draft": false
+}

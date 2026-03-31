@@ -84,12 +84,12 @@ const events = [
 ]
 
 const gallery = [
-  { src: "/gallery/1.jpg",  caption: "Maternity Ward" },
-  { src: "/gallery/2.jpg",  caption: "Community outreach" },
-  { src: "/gallery/3.jpg",  caption: "Clinical team" },
-  { src: "/gallery/4.jpg",  caption: "Groundbreaking ceremony" },
-  { src: "/gallery/5.jpg",  caption: "Newborn Unit" },
-  { src: "/gallery/6.jpg",  caption: "Patient care" },
+  { src: "/gallery/1.jpg", },
+  { src: "/gallery/2.jpg", },
+  { src: "/gallery/3.jpg", },
+  { src: "/gallery/4.jpg", },
+  { src: "/gallery/5.jpg", },
+  { src: "/gallery/6.jpg", },
 ]
 
 const featuredArticle  = articles.find(a => a.featured)
@@ -381,7 +381,7 @@ const remainingArticles = articles.filter(a => !a.featured)
         <div class="relative aspect-[16/10] overflow-hidden bg-white/5">
           <img src="/gallery/1.jpg" alt=""
                class="absolute inset-0 w-full h-full object-cover"
-               loading="eager" decoding="async"/>
+               loading="eager" fetchpriority="high" decoding="async"/>
         </div>
       </div>
 

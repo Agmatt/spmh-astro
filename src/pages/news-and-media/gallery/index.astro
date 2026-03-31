@@ -1,0 +1,154 @@
+---
+import Layout from '../../../Layout/Layout.astro'
+import { getCollection } from 'astro:content'
+
+/**
+ * Gallery Albums Listing — St. Paul's Mission Hospital
+ * File placement: src/pages/news-and-media/gallery/index.astro
+ */
+
+const allAlbums = (await getCollection('gallery', ({ data }) => !data.draft))
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
+
+const categories = ['All', ...new Set(allAlbums.map(a => a.data.category))]
+
+function formatDate(date: Date) {
+  return new Date(date).toLocaleDateString('en-KE', {
+    day: 'numeric', month: 'long', year: 'numeric'
+  })
+}
+---
+
+<Layout title="Photo Gallery — News & Media | St. Paul's Mission Hospital">
+
+  <!-- Header -->
+  <header class="bg-secondary">
+    <div class="max-w-7xl mx-auto px-6 lg:px-16 py-10 pt-16">
+      <p class="text-primary-light text-xs tracking-[0.22em] uppercase font-semibold mb-4 flex items-center gap-3">
+        <span class="w-8 h-px bg-primary-light inline-block"></span>
+        <a href="/news-and-media" class="hover:text-white transition-colors duration-200">News & Media</a>
+        <span class="text-white/20">›</span>
+        <span class="text-white/60">Gallery</span>
+      </p>
+      <h1 class="font-display text-white text-4xl sm:text-5xl font-normal leading-tight">
+        Photo<br/>
+        <span class="font-semibold italic text-primary-light">Gallery.</span>
+      </h1>
+    </div>
+  </header>
+
+
+  <!-- Filter + Albums grid -->
+  <section
+    class="max-w-7xl mx-auto px-6 lg:px-16 py-12 lg:py-16"
+    x-data={`{
+      active: 'All',
+      albums: ${JSON.stringify(allAlbums.map(a => ({
+        slug:      a.id,
+        title:     a.data.title,
+        category:  a.data.category,
+        date:      formatDate(new Date(a.data.date)),
+        cover:     a.data.coverImage,
+        count:     a.data.photos.length,
+      })))},
+      get filtered() {
+        return this.active === 'All'
+          ? this.albums
+          : this.albums.filter(a => a.category === this.active)
+      }
+    }`}
+  >
+
+    <!-- Category filter -->
+    <div class="flex flex-wrap gap-2 mb-10">
+      {categories.map(cat => (
+        <button
+          @click={`active = '${cat}'`}
+          :class={`active === '${cat}'
+            ? 'bg-primary text-white border-primary'
+            : 'bg-white text-muted border-border/60 hover:border-primary/40 hover:text-primary'`}
+          class="px-4 py-2 border text-xs font-bold tracking-[0.1em] uppercase
+                 transition-all duration-200"
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
+
+    <!-- Albums grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" x-show="filtered.length > 0">
+      <template x-for="album in filtered" :key="album.slug">
+        <a
+          :href="`/news-and-media/gallery/${album.slug}`"
+          class="group flex flex-col bg-white border border-border/60
+                 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5
+                 transition-all duration-300 hover:-translate-y-0.5"
+        >
+          <!-- Cover image -->
+          <div class="relative overflow-hidden aspect-[4/3] bg-surface-2">
+            <img
+              :src="album.cover"
+              :alt="album.title"
+              class="absolute inset-0 w-full h-full object-cover
+                     transition-transform duration-700 group-hover:scale-[1.04]"
+              loading="lazy"
+            />
+            <!-- Photo count badge -->
+            <div class="absolute bottom-3 right-3">
+              <span class="bg-secondary/80 backdrop-blur-sm text-white
+                           text-[0.58rem] font-bold tracking-[0.12em] uppercase
+                           px-2.5 py-1.5 flex items-center gap-1.5">
+                <svg class="size-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span x-text="`${album.count} photo${album.count !== 1 ? 's' : ''}`"></span>
+              </span>
+            </div>
+            <!-- Category badge -->
+            <div class="absolute top-3 left-3">
+              <span class="bg-primary/90 text-white text-[0.55rem] font-bold
+                           tracking-[0.14em] uppercase px-2.5 py-1"
+                    x-text="album.category">
+              </span>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <div class="p-5">
+            <h3 class="font-display text-secondary font-semibold text-base leading-snug mb-1.5
+                       group-hover:text-primary transition-colors duration-200"
+                x-text="album.title">
+            </h3>
+            <div class="flex items-center justify-between">
+              <p class="text-muted/60 text-[0.6rem]" x-text="album.date"></p>
+              <div class="flex items-center gap-1.5 text-primary text-[0.6rem] font-bold
+                          tracking-[0.1em] uppercase opacity-0 group-hover:opacity-100
+                          transition-all duration-200">
+                View album
+                <svg class="size-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+      </template>
+    </div>
+
+    <!-- Empty state -->
+    <div x-show="filtered.length === 0" class="py-20 text-center">
+      <div class="size-14 bg-surface-2 flex items-center justify-center mx-auto mb-4">
+        <svg class="size-6 text-muted/40" fill="none" stroke="currentColor"
+             stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+        </svg>
+      </div>
+      <p class="text-secondary font-semibold text-sm mb-1">No albums in this category yet.</p>
+      <p class="text-muted text-xs">Check back soon or browse all categories.</p>
+    </div>
+
+  </section>
+
+</Layout>
