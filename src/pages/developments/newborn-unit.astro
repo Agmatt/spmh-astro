@@ -1,0 +1,668 @@
+---
+// newborn-unit.astro
+import Layout from '../../Layout/Layout.astro';
+import GalleryCarousel from '../../components/GalleryCarousel.astro';
+
+const pageTitle = 'Newborn Unit';
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developments', href: '/#developments' },
+  { label: 'Newborn Unit', href: '/newborn-unit' },
+];
+---
+
+<Layout title={`${pageTitle} | St. Paul's Mission Hospital`}>
+  <style>
+    /* Keyframe animations — cannot be expressed as Tailwind utilities */
+    @keyframes pulse-green {
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+      }
+    }
+    .animate-pulse-green {
+      animation: pulse-green 1.8s ease-in-out infinite;
+    }
+
+    /* Big decorative quote pseudo-element on spotlight */
+    .spotlight-quote::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      right: 20px;
+      font-size: 140px;
+      color: rgba(255, 255, 255, 0.06);
+      line-height: 1;
+      font-family: var(--font-display, Georgia, serif);
+    }
+  </style>
+
+  <!-- Page accent wrapper (scoped CSS vars kept as data attrs; Tailwind handles colours) -->
+  <div>
+    <!-- ═══════════════════════════════════════════════
+         HERO
+    ═══════════════════════════════════════════════ -->
+    <section
+      class='relative min-h-[520px] flex items-end overflow-hidden'
+      style='background: linear-gradient(135deg, #0a2e1a 0%, #125276 50%, #0f3d28 100%);'>
+      <!-- Background icon placeholder -->
+      <div
+        class='absolute inset-0 flex items-center justify-center opacity-[.12]'
+        aria-hidden='true'>
+      </div>
+
+      <!-- Gradient overlay -->
+      <div
+        class='absolute inset-0'
+        style='background: linear-gradient(to top, rgba(8,28,16,.95) 0%, rgba(8,28,16,.3) 60%, transparent 100%);'>
+      </div>
+
+      <!-- Content -->
+      <div class='relative z-10 px-8 pb-14 pt-12 max-w-[860px]'>
+        <!-- Eyebrow -->
+        <span
+          class='inline-flex items-center gap-2 bg-green-700 text-white
+                     text-[.72rem] font-semibold tracking-[.12em] uppercase
+                     px-[.85rem] py-[.35rem] rounded-sm mb-[1.1rem]'>
+          <svg width='10' height='10' viewBox='0 0 24 24' fill='currentColor'
+            ><circle cx='12' cy='12' r='10'></circle></svg
+          >
+          Fully Operational
+        </span>
+
+        <h1
+          class='font-bold text-white leading-[1.18] mb-4'
+          style='font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem);'>
+          Newborn Unit
+        </h1>
+
+        <p
+          class='text-[1.05rem] text-white/[.78] max-w-[580px] leading-[1.65] mb-[1.6rem]'
+          style='font-family: var(--font-body);'>
+          Specialised care for the smallest and most vulnerable patients —
+          premature and low birth weight newborns who need more than the general
+          ward can offer.
+        </p>
+
+        <div class='flex flex-wrap gap-[1.2rem]'>
+          <span
+            class='flex items-center gap-[.4rem] text-[.82rem] text-white/[.65]'
+            style='font-family: var(--font-body);'>
+            <svg
+              width='14'
+              height='14'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2'><path d='M22 12h-4l-3 9L9 3l-3 9H2'></path></svg
+            >
+            <strong class='text-white'>Status:</strong>&nbsp;Fully Operational
+          </span>
+          <span
+            class='flex items-center gap-[.4rem] text-[.82rem] text-white/[.65]'
+            style='font-family: var(--font-body);'>
+            <svg
+              width='14'
+              height='14'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2'
+              ><path
+                d='M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z'
+              ></path></svg
+            >
+            <strong class='text-white'>First Success Story:</strong>&nbsp;Adrian
+            Blessings, March 2026
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         BREADCRUMB
+    ═══════════════════════════════════════════════ -->
+    <nav
+      class='bg-[var(--color-surface-2)] border-b border-[var(--color-border)] px-8 py-3'
+      aria-label='Breadcrumb'>
+      <ol
+        class='max-w-[1100px] mx-auto flex items-center gap-2 flex-wrap
+                 text-[.8rem] text-[var(--color-muted)]'
+        style='font-family: var(--font-body);'>
+        {
+          breadcrumbs.map((crumb, i) => (
+            <li class='flex items-center gap-2'>
+              {i < breadcrumbs.length - 1 ? (
+                <>
+                  <a
+                    href={crumb.href}
+                    class='text-[var(--color-primary)] no-underline hover:underline'>
+                    {crumb.label}
+                  </a>
+                  <span class='text-[var(--color-border)]'>›</span>
+                </>
+              ) : (
+                <span class='text-[var(--color-muted)]'>{crumb.label}</span>
+              )}
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════
+         PAGE BODY — two-column grid
+    ═══════════════════════════════════════════════ -->
+    <div
+      class='max-w-[1100px] mx-auto px-2 md:px-8 pt-12 pb-20
+                grid grid-cols-[1fr_340px] gap-12 items-start
+                max-[860px]:grid-cols-1'>
+      <!-- ─────────────────────────────────────────
+           MAIN COLUMN
+      ───────────────────────────────────────── -->
+      <main>
+        <!-- Status strip -->
+        <div
+          class='flex items-center gap-3
+                    bg-green-50 border border-green-300 border-l-4 border-l-green-500
+                    rounded-md px-[1.2rem] py-[.9rem] mb-10'
+          style='font-family: var(--font-body);'>
+          <div
+            class='w-[10px] h-[10px] rounded-full bg-green-500 flex-shrink-0 animate-pulse-green'>
+          </div>
+          <p class='text-[.88rem] text-green-900 m-0'>
+            <strong class='font-bold'>Unit is Fully Operational</strong> — The SPMH
+            Newborn Unit is open and actively providing care for premature and low
+            birth weight newborns. The unit has recorded its first successful case
+            since launch.
+          </p>
+        </div>
+
+        <!-- Overview -->
+        <div
+          class='text-[.7rem] font-bold tracking-[.14em] uppercase text-green-700 mb-2'
+          style='font-family: var(--font-body);'>
+          Overview
+        </div>
+        <h2
+          class='text-[1.65rem] font-bold leading-[1.25] mb-[1.1rem] text-[var(--color-secondary)]'
+          style='font-family: var(--font-display);'>
+          Where Every Gram Counts
+        </h2>
+
+        <p
+          class='text-[.97rem] text-[#374151] leading-[1.78] mb-4'
+          style='font-family: var(--font-body);'>
+          A premature or low birth weight baby arrives into the world facing
+          challenges that most newborns do not. Their lungs may not be fully
+          developed. Their reflexes may be too weak to feed. Their bodies may
+          struggle to maintain temperature. They need more than routine
+          postnatal care — they need a specialised environment, a trained team,
+          and time.
+        </p>
+        <p
+          class='text-[.97rem] text-[#374151] leading-[1.78] mb-4'
+          style='font-family: var(--font-body);'>
+          The SPMH Newborn Unit provides exactly that. Established as part of
+          the hospital's journey toward Level 4 accreditation, the unit offers
+          dedicated care for premature and low birth weight newborns, keeping
+          them close to their mothers and to the community of Homa Bay rather
+          than requiring long and costly transfers to distant facilities.
+        </p>
+        <p
+          class='text-[.97rem] text-[#374151] leading-[1.78] mb-4'
+          style='font-family: var(--font-body);'>
+          The unit is staffed by a dedicated clinical team trained in neonatal
+          care protocols, including Kangaroo Mother Care, gavage feeding, and
+          supplemental feeding management — and it is already making a
+          measurable difference in outcomes.
+        </p>
+
+        <!-- Spotlight -->
+        <div
+          class='spotlight-quote relative rounded-2xl px-3 py-8 my-8 text-white overflow-hidden'
+          style='background: linear-gradient(135deg, #0a2e1a, #125276);'>
+          <div
+            class='text-[.7rem] font-bold tracking-[.14em] uppercase text-green-300 mb-3'
+            style='font-family: var(--font-body);'>
+            First Success Story
+          </div>
+          <h3
+            class='text-[1.3rem] text-white mb-3 leading-[1.3]'
+            style='font-family: var(--font-display);'>
+            Adrian Blessings — Born 1.3 kg, Discharged 1.8 kg
+          </h3>
+          <p
+            class='text-[.9rem] text-white/[.8] leading-[1.7] mb-[1.2rem]'
+            style='font-family: var(--font-body);'>
+            In March 2026, Ruth Awino delivered baby Adrian Blessings at 32
+            weeks gestation, weighing just 1.3 kg. Clinically weak and unable to
+            breastfeed, Adrian was admitted to the Newborn Unit. Through
+            Kangaroo Mother Care, supplemental feeding, and dedicated nursing
+            over several weeks, he was discharged at 1.8 kg — and returned for
+            follow-up at 2.2 kg. He is the first successful case from this unit,
+            and a testament to what the team here is capable of.
+          </p>
+          <a
+            href='/news-and-media/articles/adrian-blessings-our-first-newborn-unit-success-story'
+            class='inline-flex items-center gap-[.4rem] text-[.85rem] font-semibold
+                    text-green-300 no-underline transition-all duration-200 hover:gap-[.7rem]'
+            style='font-family: var(--font-body);'>
+            Read his full story →
+          </a>
+        </div>
+
+        <!-- Features -->
+        <div
+          class='text-[.7rem] font-bold tracking-[.14em] uppercase text-green-700 mb-2 mt-10'
+          style='font-family: var(--font-body);'>
+          What We Offer
+        </div>
+        <h2
+          class='text-[1.65rem] font-bold leading-[1.25] mb-[1.1rem] text-[var(--color-secondary)]'
+          style='font-family: var(--font-display);'>
+          Key Features of the Newborn Unit
+        </h2>
+
+        <div class='grid grid-cols-2 gap-4 mt-6 mb-10 max-[600px]:grid-cols-1'>
+          <!-- Feature card helper — repeated 6× -->
+          {
+            [
+              {
+                icon: `<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>`,
+                title: 'Kangaroo Mother Care (KMC)',
+                body: 'Skin-to-skin care between mother and baby that regulates temperature, supports breathing, and strengthens the bond critical to recovery in premature infants.',
+              },
+              {
+                icon: `<path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 0v10m0 0l4 4m-4-4l-4 4"/>`,
+                title: 'Gavage & Supplemental Feeding',
+                body: 'Intermittent gavage feeding ensures newborns receive consistent nutrition when direct breastfeeding is not yet possible, alongside supplemental formula as required.',
+              },
+              {
+                icon: `<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`,
+                title: 'Continuous Clinical Monitoring',
+                body: 'Dedicated nursing care with close observation of vital signs, weight progression, feeding tolerance, and reflex development throughout the admission period.',
+              },
+              {
+                icon: `<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>`,
+                title: 'Mother-Centred Care',
+                body: "Mothers are kept actively involved in their baby's care throughout the admission — encouraging breastfeeding, participation in KMC, and preparation for safe discharge.",
+              },
+              {
+                icon: `<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>`,
+                title: 'Weight & Growth Tracking',
+                body: "Systematic daily weight monitoring to track each baby's progress toward the safe discharge threshold and inform feeding and care adjustments.",
+              },
+              {
+                icon: `<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>`,
+                title: 'Follow-Up at MCH/Nutrition Clinic',
+                body: 'Discharge is not the end. Babies from the Newborn Unit are followed up at the SPMH MCH/Nutrition Clinic to monitor continued growth and nutritional wellbeing.',
+              },
+            ].map((card) => (
+              <div
+                class='bg-green-50 border border-green-200 rounded-xl p-[1.2rem_1.3rem]
+                        transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_8px_24px_rgba(0,0,0,.07)]'>
+                <div
+                  class='w-[38px] h-[38px] rounded-lg bg-green-700
+                          flex items-center justify-center mb-3'>
+                  <svg
+                    class='w-5 h-5 text-white'
+                    viewBox='0 0 24 24'
+                    fill='none'
+                    stroke='currentColor'
+                    stroke-width='2'
+                    set:html={card.icon}
+                  />
+                </div>
+                <h3
+                  class='text-[.92rem] font-bold text-[var(--color-secondary)] mb-[.4rem]'
+                  style='font-family: var(--font-body);'>
+                  {card.title}
+                </h3>
+                <p
+                  class='text-[.83rem] text-[#4b5563] leading-[1.6] m-0'
+                  style='font-family: var(--font-body);'>
+                  {card.body}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+
+        <!-- KMC callout -->
+        <div
+          class='bg-green-50 border border-green-200 border-l-[5px] border-l-green-700
+                    rounded-xl px-3 py-[1.4rem] my-8'>
+          <h3
+            class='text-[1.05rem] font-bold text-[var(--color-secondary)] mb-[.6rem]'
+            style='font-family: var(--font-display);'>
+            About Kangaroo Mother Care
+          </h3>
+          <p
+            class='text-[.9rem] text-[#374151] leading-[1.7] m-0'
+            style='font-family: var(--font-body);'>
+            Kangaroo Mother Care (KMC) is a clinically proven method of newborn
+            care that involves prolonged skin-to-skin contact between a mother
+            and her premature or low birth weight infant. Recognised by the
+            World Health Organisation as a standard of care for premature
+            babies, KMC helps regulate the baby's temperature, stabilise
+            breathing and heart rate, promote breast milk production, and
+            strengthen the mother-child bond — all of which contribute directly
+            to better survival and growth outcomes. At SPMH, KMC is a core
+            component of Newborn Unit care.
+          </p>
+        </div>
+
+        <!-- Gallery -->
+<GalleryCarousel
+        id='newborn-gallery'
+        accentColor='#15803d'
+        accentLight='#f0fdf4'
+        sectionLabel='Gallery'
+        sectionTitle='The Newborn Unit in Action'
+        slides={[
+          {
+            src: '/gallery/20.png',
+            alt: 'Kangaroo Mother Care in practice',
+            caption: 'Kangaroo Mother Care in practice',
+          },
+          {
+            src: '/gallery/21.png',
+            alt: 'Nursing team at the unit',
+            caption: 'Nursing team at the unit',
+          },
+        //   {
+        //     src: '/images/newborn/care-area.jpg',
+        //     alt: 'Newborn Unit care area',
+        //     caption: 'Newborn Unit care area',
+        //   },
+        ]}
+      />
+       
+
+        <!-- Progress / Timeline -->
+        <section class='my-10'>
+          <div
+            class='text-[.7rem] font-bold tracking-[.14em] uppercase text-green-700 mb-2'
+            style='font-family: var(--font-body);'>
+            Unit Status
+          </div>
+          <h2
+            class='text-[1.65rem] font-bold leading-[1.25] mb-[1.1rem] text-[var(--color-secondary)]'
+            style='font-family: var(--font-display);'>
+            Where We Are
+          </h2>
+
+          <div
+            class="relative pl-8
+                      before:content-[''] before:absolute before:left-[7px] before:top-2 before:bottom-2
+                      before:w-[2px] before:bg-[var(--color-border)]">
+            <!-- Done: established -->
+            <div class='relative mb-[1.6rem]'>
+              <div
+                class='absolute left-[-2rem] top-1 w-[14px] h-[14px] rounded-full border-2 border-white
+                          bg-green-500 shadow-[0_0_0_2px_#22c55e]'>
+              </div>
+              <div
+                class='text-[.72rem] font-semibold uppercase tracking-[.08em] text-green-700 mb-[.2rem]'
+                style='font-family: var(--font-body);'>
+                2025 — 2026
+              </div>
+              <h4
+                class='text-[.9rem] font-bold text-[var(--color-secondary)] mb-1'
+                style='font-family: var(--font-body);'>
+                Newborn Unit Established
+              </h4>
+              <p
+                class='text-[.82rem] text-[var(--color-muted)] m-0 leading-[1.55]'
+                style='font-family: var(--font-body);'>
+                The unit was established as a Level 4 accreditation requirement
+                and is now fully operational, equipped, and staffed.
+              </p>
+            </div>
+
+            <!-- Done: first case -->
+            <div class='relative mb-[1.6rem]'>
+              <div
+                class='absolute left-[-2rem] top-1 w-[14px] h-[14px] rounded-full border-2 border-white
+                          bg-green-500 shadow-[0_0_0_2px_#22c55e]'>
+              </div>
+              <div
+                class='text-[.72rem] font-semibold uppercase tracking-[.08em] text-green-700 mb-[.2rem]'
+                style='font-family: var(--font-body);'>
+                March 2026
+              </div>
+              <h4
+                class='text-[.9rem] font-bold text-[var(--color-secondary)] mb-1'
+                style='font-family: var(--font-body);'>
+                First Successful Case
+              </h4>
+              <p
+                class='text-[.82rem] text-[var(--color-muted)] m-0 leading-[1.55]'
+                style='font-family: var(--font-body);'>
+                Baby Adrian Blessings — admitted at 1.3 kg, discharged at 1.8
+                kg, followed up at 2.2 kg. The first case successfully managed
+                through the unit from admission to discharge.
+              </p>
+            </div>
+
+            <!-- Active -->
+            <div class='relative mb-[1.6rem]'>
+              <div
+                class='absolute left-[-2rem] top-1 w-[14px] h-[14px] rounded-full border-2 border-white
+                          bg-green-700 shadow-[0_0_0_2px_#15803d] animate-pulse-green'>
+              </div>
+              <div
+                class='text-[.72rem] font-semibold uppercase tracking-[.08em] text-green-700 mb-[.2rem]'
+                style='font-family: var(--font-body);'>
+                Ongoing
+              </div>
+              <h4
+                class='text-[.9rem] font-bold text-[var(--color-secondary)] mb-1'
+                style='font-family: var(--font-body);'>
+                Active Clinical Operations
+              </h4>
+              <p
+                class='text-[.82rem] text-[var(--color-muted)] m-0 leading-[1.55]'
+                style='font-family: var(--font-body);'>
+                The unit is receiving patients and the team continues to build
+                experience and refine protocols with every case managed.
+              </p>
+            </div>
+
+            <!-- Pending -->
+            <div class='relative mb-[1.6rem]'>
+              <div
+                class='absolute left-[-2rem] top-1 w-[14px] h-[14px] rounded-full border-2 border-white
+                          bg-white shadow-[0_0_0_2px_var(--color-border)]'>
+              </div>
+              <div
+                class='text-[.72rem] font-semibold uppercase tracking-[.08em] text-green-700 mb-[.2rem]'
+                style='font-family: var(--font-body);'>
+                Upcoming
+              </div>
+              <h4
+                class='text-[.9rem] font-bold text-[var(--color-secondary)] mb-1'
+                style='font-family: var(--font-body);'>
+                Capacity Expansion
+              </h4>
+              <p
+                class='text-[.82rem] text-[var(--color-muted)] m-0 leading-[1.55]'
+                style='font-family: var(--font-body);'>
+                Plans to expand unit capacity and equipment as patient volumes
+                grow and additional resources are secured.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- ─────────────────────────────────────────
+           SIDEBAR
+      ───────────────────────────────────────── -->
+      <aside class='flex flex-col gap-6'>
+        <!-- Quick facts -->
+        <div
+          class='bg-white border border-[var(--color-border)] rounded-xl p-4
+                    shadow-[0_2px_12px_rgba(0,0,0,.04)]'>
+          <h3
+            class='text-[1.05rem] font-bold text-[var(--color-secondary)] mb-4
+                     pb-[.6rem] border-b border-[var(--color-border)]'
+            style='font-family: var(--font-display);'>
+            Quick Facts
+          </h3>
+          <ul>
+            {
+              [
+                { label: 'Unit', value: 'Newborn Unit', green: false },
+                { label: 'Status', value: 'Fully Operational', green: true },
+                { label: 'First Case', value: 'March 2026', green: false },
+                {
+                  label: 'Key Practice',
+                  value: 'Kangaroo Mother Care',
+                  green: false,
+                },
+                {
+                  label: 'Follow-Up',
+                  value: 'MCH/Nutrition Clinic',
+                  green: false,
+                },
+                {
+                  label: 'Facility Level',
+                  value: 'Level 4 Requirement',
+                  green: false,
+                },
+              ].map((row, i, arr) => (
+                <li
+                  class={`flex justify-between items-center gap-2 py-2 text-[.85rem] text-[#374151]
+                          ${i < arr.length - 1 ? 'border-b border-[var(--color-surface-2)]' : ''}`}
+                  style='font-family: var(--font-body);'>
+                  <span class='text-[.8rem] text-[var(--color-muted)]'>
+                    {row.label}
+                  </span>
+                  <span
+                    class={`font-semibold text-right ${row.green ? 'text-green-500' : 'text-[var(--color-secondary)]'}`}>
+                    {row.value}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <!-- Related articles -->
+        <div
+          class='bg-green-50 border border-green-200 rounded-xl p-6
+                    shadow-[0_2px_12px_rgba(0,0,0,.04)]'>
+          <h3
+            class='text-[1.05rem] font-bold text-[var(--color-secondary)] mb-4
+                     pb-[.6rem] border-b border-green-200'
+            style='font-family: var(--font-display);'>
+            Related Articles
+          </h3>
+
+          <a
+            href='/news-and-media/articles/adrian-blessings-our-first-newborn-unit-success-story'
+            class='flex items-start gap-3 no-underline p-3 rounded-lg bg-white
+                    border border-green-200 mb-3
+                    transition-shadow duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,.08)]'>
+            <div
+              class='w-9 h-9 rounded-md bg-green-700 flex items-center justify-center flex-shrink-0'>
+              <svg
+                class='w-[18px] h-[18px] text-white'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                stroke-width='2'>
+                <path d='M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z'
+                ></path>
+                <polyline points='14 2 14 8 20 8'></polyline>
+              </svg>
+            </div>
+            <div>
+              <strong
+                class='block text-[.85rem] font-bold text-[var(--color-secondary)] mb-[.2rem]'
+                style='font-family: var(--font-body);'
+                >Adrian Blessings: Our First Newborn Unit Success</strong
+              >
+              <span
+                class='text-[.78rem] text-[var(--color-muted)]'
+                style='font-family: var(--font-body);'
+                >Read the full success story →</span
+              >
+            </div>
+          </a>
+
+          <a
+            href='/news-and-media/articles/sha-accreditation-renewed'
+            class='flex items-start gap-3 no-underline p-3 rounded-lg bg-white
+                    border border-green-200
+                    transition-shadow duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,.08)]'>
+            <div
+              class='w-9 h-9 rounded-md bg-green-700 flex items-center justify-center flex-shrink-0'>
+              <svg
+                class='w-[18px] h-[18px] text-white'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                stroke-width='2'>
+                <path d='M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z'
+                ></path>
+                <polyline points='14 2 14 8 20 8'></polyline>
+              </svg>
+            </div>
+            <div>
+              <strong
+                class='block text-[.85rem] font-bold text-[var(--color-secondary)] mb-[.2rem]'
+                style='font-family: var(--font-body);'
+                >SPMH Achieves Level 4 Accreditation</strong
+              >
+              <span
+                class='text-[.78rem] text-[var(--color-muted)]'
+                style='font-family: var(--font-body);'
+                >Read about our SHA accreditation →</span
+              >
+            </div>
+          </a>
+        </div>
+
+        <!-- CTA -->
+        <div
+          class='rounded-xl p-6 shadow-[0_2px_12px_rgba(0,0,0,.04)]'
+          style='background: linear-gradient(135deg, #0a2e1a, #125276);'>
+          <h3
+            class='text-[1.05rem] font-bold text-white mb-4
+                     pb-[.6rem] border-b border-white/20'
+            style='font-family: var(--font-display);'>
+            Newborn Care Enquiries
+          </h3>
+          <p
+            class='text-[.87rem] text-white/[.8] leading-[1.6] mb-[1.2rem]'
+            style='font-family: var(--font-body);'>
+            For questions about our Newborn Unit, admission process, or
+            follow-up care, our team is available to help.
+          </p>
+          <a
+            href='/about-us/contact'
+            class='block w-full py-3 px-5 rounded-lg text-[.88rem] font-semibold text-center
+                    no-underline bg-white text-[var(--color-secondary)] mb-[.6rem]
+                    transition-all duration-200 hover:opacity-[.88] hover:-translate-y-px'
+            style='font-family: var(--font-body);'>
+            Contact Us
+          </a>
+          <a
+            href='/services/appointment'
+            class='block w-full py-3 px-5 rounded-lg text-[.88rem] font-semibold text-center
+                    no-underline bg-transparent text-white border border-white/50
+                    transition-all duration-200 hover:opacity-[.88] hover:-translate-y-px'
+            style='font-family: var(--font-body);'>
+            Book Appointment
+          </a>
+        </div>
+      </aside>
+    </div><!-- /page-body -->
+  </div>
+</Layout>

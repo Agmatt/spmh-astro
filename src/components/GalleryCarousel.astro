@@ -1,0 +1,255 @@
+---
+// GalleryCarousel.astro
+interface Slide {
+  src: string;
+  alt: string;
+  caption: string;
+}
+
+interface Props {
+  slides: Slide[];
+  accentColor?: string;      // e.g. '#0e7490'  (teal for HDU)
+  accentLight?: string;      // e.g. '#ecfeff'
+  sectionLabel?: string;
+  sectionTitle?: string;
+  id?: string;               // unique id when multiple carousels on one page
+}
+
+const {
+  slides,
+  accentColor = '#0e7490',
+  accentLight = '#ecfeff',
+  sectionLabel = 'Gallery',
+  sectionTitle = 'A Look Inside',
+  id = 'carousel',
+} = Astro.props;
+---
+
+<section class='my-10'>
+  <!-- Label -->
+  <div
+    class='text-[.7rem] font-bold tracking-[.14em] uppercase mb-2'
+    style={`font-family: var(--font-body); color: ${accentColor};`}>
+    {sectionLabel}
+  </div>
+
+  <!-- Title -->
+  <h2
+    class='text-[1.65rem] font-bold leading-[1.25] mb-6 text-[var(--color-secondary)]'
+    style='font-family: var(--font-display);'>
+    {sectionTitle}
+  </h2>
+
+  <!-- Carousel shell -->
+  <div class='relative group' data-carousel={id}>
+
+    <!-- Track -->
+    <div
+      class='overflow-hidden rounded-2xl'
+      data-track>
+      <div
+        class='flex transition-transform duration-500 ease-in-out'
+        data-slides
+        style='will-change: transform;'>
+
+        {slides.map((slide) => (
+          <div class='relative flex-shrink-0 w-full' style='aspect-ratio: 16/9;'>
+            {slide.src
+              ? (
+                <img
+                  src={slide.src}
+                  alt={slide.alt}
+                  class='w-full h-full object-cover'
+                  loading='lazy'
+                />
+              ) : (
+                <!-- Placeholder shown when no image path is provided -->
+                <div
+                  class='w-full h-full flex flex-col items-center justify-center gap-3'
+                  style={`background: ${accentLight}; border: 2px dashed ${accentColor}33; border-radius: inherit;`}>
+                  <svg
+                    class='w-10 h-10 opacity-30'
+                    style={`color: ${accentColor};`}
+                    viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5'>
+                    <rect x='3' y='3' width='18' height='18' rx='2'/>
+                    <circle cx='8.5' cy='8.5' r='1.5'/>
+                    <polyline points='21 15 16 10 5 21'/>
+                  </svg>
+                  <span
+                    class='text-[.8rem] opacity-50'
+                    style={`font-family: var(--font-body); color: ${accentColor};`}>
+                    {slide.caption}
+                  </span>
+                </div>
+              )
+            }
+
+            <!-- Caption bar -->
+            {slide.src && (
+              <div
+                class='absolute bottom-0 inset-x-0 px-5 py-3'
+                style='background: linear-gradient(to top, rgba(0,0,0,.62) 0%, transparent 100%);'>
+                <p
+                  class='text-white text-[.82rem] m-0 leading-snug'
+                  style='font-family: var(--font-body);'>
+                  {slide.caption}
+                </p>
+              </div>
+            )}
+          </div>
+        ))}
+
+      </div>
+    </div>
+
+    <!-- Prev button -->
+    <button
+      data-prev
+      aria-label='Previous image'
+      class='absolute left-3 top-1/2 -translate-y-1/2 z-10
+             w-9 h-9 rounded-full flex items-center justify-center
+             bg-white/80 backdrop-blur-sm shadow-md border border-white/60
+             opacity-0 group-hover:opacity-100
+             transition-all duration-200 hover:scale-105 hover:bg-white
+             focus:outline-none focus-visible:ring-2'
+      style={`focus-visible: ring-color: ${accentColor};`}>
+      <svg class='w-4 h-4 text-[var(--color-secondary)]' viewBox='0 0 24 24'
+           fill='none' stroke='currentColor' stroke-width='2.5'>
+        <polyline points='15 18 9 12 15 6'/>
+      </svg>
+    </button>
+
+    <!-- Next button -->
+    <button
+      data-next
+      aria-label='Next image'
+      class='absolute right-3 top-1/2 -translate-y-1/2 z-10
+             w-9 h-9 rounded-full flex items-center justify-center
+             bg-white/80 backdrop-blur-sm shadow-md border border-white/60
+             opacity-0 group-hover:opacity-100
+             transition-all duration-200 hover:scale-105 hover:bg-white
+             focus:outline-none focus-visible:ring-2'>
+      <svg class='w-4 h-4 text-[var(--color-secondary)]' viewBox='0 0 24 24'
+           fill='none' stroke='currentColor' stroke-width='2.5'>
+        <polyline points='9 18 15 12 9 6'/>
+      </svg>
+    </button>
+
+    <!-- Dot indicators -->
+    <div class='flex items-center justify-center gap-2 mt-4' data-dots>
+      {slides.map((_, i) => (
+        <button
+          data-dot={i}
+          aria-label={`Go to image ${i + 1}`}
+          class='w-2 h-2 rounded-full transition-all duration-300 focus:outline-none'
+          style={`background: ${i === 0 ? accentColor : accentColor + '33'};
+                  transform: ${i === 0 ? 'scale(1.25)' : 'scale(1)'};`}>
+        </button>
+      ))}
+    </div>
+
+    <!-- Counter -->
+    <!-- <p
+      class='text-center text-[.75rem] mt-2 text-[var(--color-muted)]'
+      style='font-family: var(--font-body);'
+      data-counter>
+      1 / {slides.length}
+    </p> -->
+
+  </div>
+</section>
+
+<script define:vars={{ id }}>
+  const root    = document.querySelector(`[data-carousel="${id}"]`);
+  if (!root) throw new Error(`Carousel #${id} not found`);
+
+  const track   = root.querySelector('[data-slides]');
+  const dots    = [...root.querySelectorAll('[data-dot]')];
+  const counter = root.querySelector('[data-counter]');
+  const total   = root.querySelectorAll('[data-slides] > div').length;
+
+  let current  = 0;
+  let timer    = null;                    // holds the autoplay interval
+  const DELAY  = 4000;                   // ms between slides — change to taste
+
+  function goTo(n) {
+    current = (n + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+
+    dots.forEach((d, i) => {
+      const active = i === current;
+      d.style.background = active ? accentFromDot : inactiveDot;
+      d.style.transform  = active ? 'scale(1.25)' : 'scale(1)';
+    });
+
+    if (counter) counter.textContent = `${current + 1} / ${total}`;
+  }
+
+  // ── Dot colours ─────────────────────────────────────────────
+  const accentFromDot = dots[0]?.style.background ?? '#0e7490';
+  const inactiveDot   = accentFromDot
+    .replace(')', ', 0.2)')
+    .replace('rgb', 'rgba');
+
+  dots.forEach((d, i) => {
+    d.style.background = i === 0 ? accentFromDot : inactiveDot;
+  });
+
+  // ── Autoplay ─────────────────────────────────────────────────
+  function startAutoplay() {
+    stopAutoplay();                        // never double-stack intervals
+    timer = setInterval(() => goTo(current + 1), DELAY);
+  }
+
+  function stopAutoplay() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+
+  startAutoplay();
+
+  // ── Pause on hover ───────────────────────────────────────────
+  root.addEventListener('mouseenter', stopAutoplay);
+  root.addEventListener('mouseleave', startAutoplay);
+
+  // ── Pause on focus (keyboard users) ─────────────────────────
+  root.addEventListener('focusin',  stopAutoplay);
+  root.addEventListener('focusout', startAutoplay);
+
+  // ── Manual controls (restart timer on each interaction) ──────
+  root.querySelector('[data-prev]').addEventListener('click', () => {
+    goTo(current - 1);
+    startAutoplay();
+  });
+  root.querySelector('[data-next]').addEventListener('click', () => {
+    goTo(current + 1);
+    startAutoplay();
+  });
+  dots.forEach((d, i) => d.addEventListener('click', () => {
+    goTo(i);
+    startAutoplay();
+  }));
+
+  // ── Keyboard support ─────────────────────────────────────────
+  root.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  { goTo(current - 1); startAutoplay(); }
+    if (e.key === 'ArrowRight') { goTo(current + 1); startAutoplay(); }
+  });
+
+  // ── Touch / swipe (pause while finger is on screen) ──────────
+  let startX = 0;
+  track.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    stopAutoplay();
+  }, { passive: true });
+
+  track.addEventListener('touchend', (e) => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+    startAutoplay();                       // resume after swipe
+  });
+
+  // ── Stop autoplay if page is hidden (tab switch, etc.) ───────
+  document.addEventListener('visibilitychange', () => {
+    document.hidden ? stopAutoplay() : startAutoplay();
+  });
+</script>

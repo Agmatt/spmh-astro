@@ -1,0 +1,598 @@
+---
+// hdu.astro
+import Layout from '../../Layout/Layout.astro';
+import GalleryCarousel from '../../components/GalleryCarousel.astro';
+
+const pageTitle = 'High Dependency Unit (HDU)';
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developments', href: '/#developments' },
+  { label: 'High Dependency Unit', href: '/hdu' },
+];
+---
+
+<Layout title={`${pageTitle} | St. Paul's Mission Hospital`}>
+  <style>
+    /* Keyframe animations — cannot be expressed as Tailwind utilities */
+    @keyframes pulse-green {
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+      }
+    }
+    @keyframes pulse-teal {
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(14, 116, 144, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 0 6px rgba(14, 116, 144, 0);
+      }
+    }
+    .animate-pulse-green {
+      animation: pulse-green 1.8s ease-in-out infinite;
+    }
+    .animate-pulse-teal {
+      animation: pulse-teal 1.8s infinite;
+    }
+  </style>
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section
+    class='relative min-h-[520px] flex items-end overflow-hidden'
+    style='background: linear-gradient(135deg, #0c3547 0%, #125276 55%, #0e3d4f 100%);'>
+    <!-- Background icon placeholder -->
+    <div
+      class='absolute inset-0 flex items-center justify-center opacity-[.12]'
+      aria-hidden='true'>
+      <svg
+        class='w-[200px] h-[200px] text-white'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        stroke-width='1'>
+        <path d='M22 12h-4l-3 9L9 3l-3 9H2'></path>
+      </svg>
+    </div>
+
+    <!-- Gradient overlay -->
+    <div
+      class='absolute inset-0'
+      style='background: linear-gradient(to top, rgba(8,28,40,.95) 0%, rgba(8,28,40,.3) 60%, transparent 100%);'>
+    </div>
+
+    <!-- Content -->
+    <div class='relative z-10 px-8 pb-14 pt-12 max-w-[860px]'>
+      <!-- Eyebrow -->
+      <span
+        class='inline-flex items-center gap-2 bg-[#0e7490] text-white
+               text-[.72rem] font-semibold tracking-[.12em] uppercase
+               px-[.85rem] py-[.35rem] rounded-sm mb-[1.1rem]'
+        style='font-family: var(--font-body);'>
+        <svg width='10' height='10' viewBox='0 0 24 24' fill='currentColor'
+          ><circle cx='12' cy='12' r='10'></circle></svg
+        >
+        Now Operational
+      </span>
+
+      <h1
+        class='font-bold text-white leading-[1.18] mb-4'
+        style='font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem);'>
+        High Dependency<br />Unit (HDU)
+      </h1>
+
+      <p
+        class='text-[1.05rem] text-white/[.78] max-w-[580px] leading-[1.65] mb-[1.6rem]'
+        style='font-family: var(--font-body);'>
+        A dedicated care environment for patients who need more than a general
+        ward can provide — available now, and continuing to grow.
+      </p>
+
+      <div class='flex flex-wrap gap-[1.2rem]'>
+        <span
+          class='flex items-center gap-[.4rem] text-[.82rem] text-white/[.65]'
+          style='font-family: var(--font-body);'>
+          <svg
+            width='14'
+            height='14'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            stroke-width='2'>
+            <path d='M22 12h-4l-3 9L9 3l-3 9H2'></path>
+          </svg>
+          <strong class='text-white'>Status:</strong>&nbsp;Operational
+          (Development Ongoing)
+        </span>
+        <span
+          class='flex items-center gap-[.4rem] text-[.82rem] text-white/[.65]'
+          style='font-family: var(--font-body);'>
+          <svg
+            width='14'
+            height='14'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            stroke-width='2'>
+            <path
+              d='M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z'
+            ></path>
+          </svg>
+          <strong class='text-white'>Serves:</strong>&nbsp;Mild Near-Miss &amp;
+          High-Dependency Cases
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       BREADCRUMB
+  ═══════════════════════════════════════════════ -->
+  <nav
+    class='bg-[var(--color-surface-2)] border-b border-[var(--color-border)] px-8 py-3'
+    aria-label='Breadcrumb'>
+    <ol
+      class='max-w-[1100px] mx-auto flex items-center gap-2 flex-wrap
+             text-[.8rem] text-[var(--color-muted)]'
+      style='font-family: var(--font-body);'>
+      {
+        breadcrumbs.map((crumb, i) => (
+          <li class='flex items-center gap-2'>
+            {i < breadcrumbs.length - 1 ? (
+              <>
+                <a
+                  href={crumb.href}
+                  class='text-[var(--color-primary)] no-underline hover:underline'>
+                  {crumb.label}
+                </a>
+                <span class='text-[var(--color-border)]'>›</span>
+              </>
+            ) : (
+              <span class='text-[var(--color-muted)]'>{crumb.label}</span>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       PAGE BODY — two-column grid
+  ═══════════════════════════════════════════════ -->
+  <div
+    class='max-w-[1100px] mx-auto px-8 pt-12 pb-20
+           grid grid-cols-[1fr_340px] gap-12 items-start
+           max-[860px]:grid-cols-1'>
+    <!-- ─────────────────────────────────────────
+         MAIN COLUMN
+    ───────────────────────────────────────── -->
+    <main>
+      <!-- Status strip -->
+      <div
+        class='flex items-center gap-3
+               bg-green-50 border border-green-300 border-l-4 border-l-green-500
+               rounded-md px-[1.2rem] py-[.9rem] mb-10'
+        style='font-family: var(--font-body);'>
+        <div
+          class='w-[10px] h-[10px] rounded-full bg-green-500 flex-shrink-0 animate-pulse-green'>
+        </div>
+        <p class='text-[.88rem] text-green-900 m-0'>
+          <strong class='font-bold'>Unit is Operational</strong> — The HDU is currently
+          receiving patients requiring high-dependency monitoring and care. Full development
+          of the unit continues alongside its active clinical use.
+        </p>
+      </div>
+
+      <!-- Overview -->
+      <div
+        class='text-[.7rem] font-bold tracking-[.14em] uppercase text-[#0e7490] mb-2'
+        style='font-family: var(--font-body);'>
+        Overview
+      </div>
+      <h2
+        class='text-[1.65rem] font-bold leading-[1.25] mb-[1.1rem] text-[var(--color-secondary)]'
+        style='font-family: var(--font-display);'>
+        Between the Ward and Intensive Care
+      </h2>
+
+      <p
+        class='text-[.97rem] text-[#374151] leading-[1.78] mb-4'
+        style='font-family: var(--font-body);'>
+        Not every critically unwell patient needs a full Intensive Care Unit.
+        But there is a significant category of patients — those with
+        deteriorating vital signs, post-operative cases requiring close watch,
+        or patients managing serious acute conditions — who need far more than a
+        general ward can safely offer. The HDU exists precisely for them.
+      </p>
+      <p
+        class='text-[.97rem] text-[#374151] leading-[1.78] mb-4'
+        style='font-family: var(--font-body);'>
+        St. Paul's Mission Hospital's High Dependency Unit provides a dedicated
+        clinical space with enhanced monitoring, closer nurse-to-patient ratios,
+        and the equipment necessary to detect and respond to changes in a
+        patient's condition before they escalate. The unit is currently
+        functional and receiving patients, while its full development continues
+        in parallel.
+      </p>
+      <p
+        class='text-[.97rem] text-[#374151] leading-[1.78] mb-4'
+        style='font-family: var(--font-body);'>
+        This unit emerged as one of the key must-requirements on SPMH's journey
+        toward Level 4 accreditation — and its establishment reflects the
+        hospital's commitment to ensuring that the most vulnerable patients
+        receive the level of attention their condition demands.
+      </p>
+
+      <!-- Who it serves — callout -->
+      <div
+        class='border border-[#a5f3fc] border-l-[5px] border-l-[#0e7490]
+               rounded-xl px-[1.7rem] py-6 my-8'
+        style='background: linear-gradient(135deg, #ecfeff, #fff);'>
+        <h3
+          class='text-[1.1rem] font-bold text-[var(--color-secondary)] mb-3'
+          style='font-family: var(--font-display);'>
+          Who the HDU Is Designed to Serve
+        </h3>
+        <ul class='m-0 pl-5'>
+          {
+            [
+              'Mothers with serious obstetric complications requiring close post-delivery monitoring',
+              'Post-operative patients in the critical recovery period following surgery',
+              'Patients with deteriorating vital signs who are at risk of further decline',
+              'Patients recovering from acute medical events such as severe infections, respiratory distress, or haemorrhage',
+              'Mild near-miss cases where continuous observation is essential to a safe outcome',
+            ].map((item) => (
+              <li
+                class='text-[.9rem] text-[#374151] leading-[1.7] mb-[.3rem]'
+                style='font-family: var(--font-body);'>
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Impact on Patients -->
+      <div
+        class='text-[.7rem] font-bold tracking-[.14em] uppercase text-[#0e7490] mb-2 mt-10'
+        style='font-family: var(--font-body);'>
+        Impact on Patients
+      </div>
+      <h2
+        class='text-[1.65rem] font-bold leading-[1.25] mb-[1.1rem] text-[var(--color-secondary)]'
+        style='font-family: var(--font-display);'>
+        What the HDU Means for Those We Care For
+      </h2>
+
+      <div class='grid grid-cols-2 gap-4 mt-6 mb-10 max-[600px]:grid-cols-1'>
+        {
+          [
+            {
+              icon: `<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`,
+              title: 'Fewer Emergency Transfers',
+              body: 'Patients who previously needed urgent referral to higher-level facilities can now be safely managed right here, saving families the cost, time, and distress of long-distance transfers.',
+            },
+            {
+              icon: `<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>`,
+              title: 'Earlier Detection, Faster Response',
+              body: "Continuous monitoring means that changes in a patient's condition are caught sooner, allowing the clinical team to intervene before a situation becomes a crisis.",
+            },
+            {
+              icon: `<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>`,
+              title: 'A Safer Recovery Environment',
+              body: 'Post-operative and post-procedure patients receive structured, closely monitored recovery in a space designed for their level of need — improving outcomes in the critical hours after intervention.',
+            },
+            {
+              icon: `<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>`,
+              title: 'Care Close to Home',
+              body: 'For families in Homa Bay and surrounding areas, having an HDU locally means loved ones can be cared for without the burden of travelling far from their support network.',
+            },
+            {
+              icon: `<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>`,
+              title: 'Confidence for Families',
+              body: 'Knowing a loved one is in a dedicated, monitored unit — not a general ward — brings a measure of reassurance that is itself part of the healing environment.',
+            },
+            {
+              icon: `<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>`,
+              title: 'Stronger Clinical Outcomes',
+              body: 'The structured environment of an HDU directly correlates with better patient outcomes — fewer complications, shorter recovery times, and safer discharges.',
+            },
+          ].map((card) => (
+            <div
+              class='bg-[#ecfeff] border border-[#a5f3fc] rounded-xl p-[1.3rem]
+                   transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_8px_24px_rgba(0,0,0,.07)]'>
+              <div class='w-10 h-10 rounded-lg bg-[#0e7490] flex items-center justify-center mb-[.85rem]'>
+                <svg
+                  class='w-5 h-5 text-white'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  stroke='currentColor'
+                  stroke-width='2'
+                  set:html={card.icon}
+                />
+              </div>
+              <h3
+                class='text-[.93rem] font-bold text-[var(--color-secondary)] mb-[.45rem]'
+                style='font-family: var(--font-body);'>
+                {card.title}
+              </h3>
+              <p
+                class='text-[.84rem] text-[#374151] leading-[1.62] m-0'
+                style='font-family: var(--font-body);'>
+                {card.body}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      <GalleryCarousel
+        id='hdu-gallery'
+        accentColor='#0e7490'
+        accentLight='#ecfeff'
+        sectionLabel='Gallery'
+        sectionTitle='HDU — A Look Inside'
+        slides={[
+          {
+            src: '/gallery/22.png',
+            alt: 'HDU patient care area',
+            caption: 'HDU patient care area',
+          },
+          {
+            src: '/gallery/23.png',
+            alt: 'Monitoring equipment',
+            caption: 'Monitoring equipment',
+          },
+        //   {
+        //     src: '/img/15.jpg',
+        //     alt: 'Nursing station',
+        //     caption: 'Nursing station',
+        //   },
+        //   {
+        //     src: '/img/16.jpg',
+        //     alt: 'Oxygen infrastructure',
+        //     caption: 'Oxygen infrastructure',
+        //   },
+        //   {
+        //     src: '/img/17.jpg',
+        //     alt: 'HDU team on duty',
+        //     caption: 'HDU team on duty',
+        //   },
+        ]}
+      />
+
+      <!-- Progress Timeline -->
+      <section class='my-10'>
+        <div
+          class='text-[.7rem] font-bold tracking-[.14em] uppercase text-[#0e7490] mb-2'
+          style='font-family: var(--font-body);'>
+          Development Status
+        </div>
+        <h2
+          class='text-[1.65rem] font-bold leading-[1.25] mb-[1.1rem] text-[var(--color-secondary)]'
+          style='font-family: var(--font-display);'>
+          Where We Are
+        </h2>
+
+        <div
+          class="relative pl-8
+                 before:content-[''] before:absolute before:left-[7px] before:top-2 before:bottom-2
+                 before:w-[2px] before:bg-[var(--color-border)]">
+          <!-- Done -->
+          <div class='relative mb-[1.6rem]'>
+            <div
+              class='absolute left-[-2rem] top-1 w-[14px] h-[14px] rounded-full border-2 border-white
+                        bg-green-500 shadow-[0_0_0_2px_#22c55e]'>
+            </div>
+            <div
+              class='text-[.72rem] font-semibold uppercase tracking-[.08em] text-[#0e7490] mb-[.2rem]'
+              style='font-family: var(--font-body);'>
+              2025 — 2026
+            </div>
+            <h4
+              class='text-[.9rem] font-bold text-[var(--color-secondary)] mb-1'
+              style='font-family: var(--font-body);'>
+              HDU Established &amp; Operational
+            </h4>
+            <p
+              class='text-[.82rem] text-[var(--color-muted)] m-0 leading-[1.55]'
+              style='font-family: var(--font-body);'>
+              The unit was set up as part of SPMH's Level 4 accreditation
+              requirements and is currently active, receiving mild near-miss and
+              high-dependency patients.
+            </p>
+          </div>
+
+          <!-- Active -->
+          <div class='relative mb-[1.6rem]'>
+            <div
+              class='absolute left-[-2rem] top-1 w-[14px] h-[14px] rounded-full border-2 border-white
+                        bg-[#0e7490] shadow-[0_0_0_2px_#0e7490] animate-pulse-teal'>
+            </div>
+            <div
+              class='text-[.72rem] font-semibold uppercase tracking-[.08em] text-[#0e7490] mb-[.2rem]'
+              style='font-family: var(--font-body);'>
+              Ongoing
+            </div>
+            <h4
+              class='text-[.9rem] font-bold text-[var(--color-secondary)] mb-1'
+              style='font-family: var(--font-body);'>
+              Full Development in Progress
+            </h4>
+            <p
+              class='text-[.82rem] text-[var(--color-muted)] m-0 leading-[1.55]'
+              style='font-family: var(--font-body);'>
+              Works to bring the HDU to its full intended capacity continue.
+              This includes additional equipment, expanded bed capacity, and
+              further infrastructure refinements.
+            </p>
+          </div>
+
+          <!-- Pending -->
+          <div class='relative mb-[1.6rem]'>
+            <div
+              class='absolute left-[-2rem] top-1 w-[14px] h-[14px] rounded-full border-2 border-white
+                        bg-white shadow-[0_0_0_2px_var(--color-border)]'>
+            </div>
+            <div
+              class='text-[.72rem] font-semibold uppercase tracking-[.08em] text-[#0e7490] mb-[.2rem]'
+              style='font-family: var(--font-body);'>
+              Upcoming
+            </div>
+            <h4
+              class='text-[.9rem] font-bold text-[var(--color-secondary)] mb-1'
+              style='font-family: var(--font-body);'>
+              Full HDU Commissioning
+            </h4>
+            <p
+              class='text-[.82rem] text-[var(--color-muted)] m-0 leading-[1.55]'
+              style='font-family: var(--font-body);'>
+              Once development is complete, the unit will be formally
+              commissioned to its full operational scope, with capacity to
+              manage a wider range of high-dependency cases.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ─────────────────────────────────────────
+         SIDEBAR
+    ───────────────────────────────────────── -->
+    <aside class='flex flex-col gap-6'>
+      <!-- Quick facts -->
+      <div
+        class='bg-white border border-[var(--color-border)] rounded-xl p-6
+               shadow-[0_2px_12px_rgba(0,0,0,.04)]'>
+        <h3
+          class='text-[1.05rem] font-bold text-[var(--color-secondary)] mb-4
+                 pb-[.6rem] border-b border-[var(--color-border)]'
+          style='font-family: var(--font-display);'>
+          Quick Facts
+        </h3>
+        <ul>
+          {
+            [
+              { label: 'Unit', value: 'High Dependency Unit', color: null },
+              { label: 'Status', value: 'Operational', color: '#22c55e' },
+              { label: 'Development', value: 'Ongoing', color: '#0e7490' },
+              {
+                label: 'Current Scope',
+                value: 'Mild Near-Miss Cases',
+                color: null,
+              },
+              {
+                label: 'Facility Level',
+                value: 'Level 4 Requirement',
+                color: null,
+              },
+              { label: 'Location', value: 'SPMH Main Campus', color: null },
+            ].map((row, i, arr) => (
+              <li
+                class={`flex justify-between items-center gap-2 py-2 text-[.85rem] text-[#374151]
+                      ${i < arr.length - 1 ? 'border-b border-[var(--color-surface-2)]' : ''}`}
+                style='font-family: var(--font-body);'>
+                <span class='text-[.8rem] text-[var(--color-muted)]'>
+                  {row.label}
+                </span>
+                <span
+                  class='font-semibold text-right'
+                  style={
+                    row.color
+                      ? `color:${row.color}`
+                      : 'color:var(--color-secondary)'
+                  }>
+                  {row.value}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Related article -->
+      <div
+        class='bg-[#ecfeff] border border-[#a5f3fc] rounded-xl p-6
+               shadow-[0_2px_12px_rgba(0,0,0,.04)]'>
+        <h3
+          class='text-[1.05rem] font-bold text-[var(--color-secondary)] mb-4
+                 pb-[.6rem] border-b border-[#a5f3fc]'
+          style='font-family: var(--font-display);'>
+          Related Article
+        </h3>
+        <a
+          href='/news/hdu-development'
+          class='flex items-start gap-3 no-underline p-3 rounded-lg bg-white
+                 border border-[#a5f3fc]
+                 transition-shadow duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,.08)]'>
+          <div
+            class='w-9 h-9 rounded-md bg-[#0e7490] flex items-center justify-center flex-shrink-0'>
+            <svg
+              class='w-[18px] h-[18px] text-white'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2'>
+              <path d='M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z'
+              ></path>
+              <polyline points='14 2 14 8 20 8'></polyline>
+              <line x1='16' y1='13' x2='8' y2='13'></line>
+              <line x1='16' y1='17' x2='8' y2='17'></line>
+            </svg>
+          </div>
+          <div>
+            <strong
+              class='block text-[.85rem] font-bold text-[var(--color-secondary)] mb-[.2rem]'
+              style='font-family: var(--font-body);'>
+              HDU: A Critical Step Forward in Patient Care
+            </strong>
+            <span
+              class='text-[.78rem] text-[var(--color-muted)]'
+              style='font-family: var(--font-body);'>
+              Read the full article →
+            </span>
+          </div>
+        </a>
+      </div>
+
+      <!-- CTA -->
+      <div
+        class='rounded-xl p-6 shadow-[0_2px_12px_rgba(0,0,0,.04)]'
+        style='background: linear-gradient(135deg, #0c3547, #125276);'>
+        <h3
+          class='text-[1.05rem] font-bold text-white mb-4
+                 pb-[.6rem] border-b border-white/20'
+          style='font-family: var(--font-display);'>
+          Need Assistance?
+        </h3>
+        <p
+          class='text-[.87rem] text-white/[.8] leading-[1.6] mb-[1.2rem]'
+          style='font-family: var(--font-body);'>
+          For medical enquiries or to understand whether the HDU is right for
+          your situation, please reach out to our team.
+        </p>
+        <a
+          href='/contact'
+          class='block w-full py-3 px-5 rounded-lg text-[.88rem] font-semibold text-center
+                 no-underline bg-white text-[var(--color-secondary)] mb-[.6rem]
+                 transition-all duration-200 hover:opacity-[.88] hover:-translate-y-px'
+          style='font-family: var(--font-body);'>
+          Contact Us
+        </a>
+        <a
+          href='/appointments'
+          class='block w-full py-3 px-5 rounded-lg text-[.88rem] font-semibold text-center
+                 no-underline bg-transparent text-white border border-white/50
+                 transition-all duration-200 hover:opacity-[.88] hover:-translate-y-px'
+          style='font-family: var(--font-body);'>
+          Book Appointment
+        </a>
+      </div>
+    </aside>
+  </div><!-- /page-body -->
+</Layout>
