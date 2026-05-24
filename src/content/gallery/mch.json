@@ -1,0 +1,12 @@
+{
+  "title": "MCH",
+  "date": "2026-02-04",
+  "category": "Patients & Care",
+  "coverImage": "/img/gallery/mch/coverImage.jpg",
+  "photos": [
+    {
+      "src": "/img/gallery/mch/photos/0/src.jpg"
+    }
+  ],
+  "draft": false
+}

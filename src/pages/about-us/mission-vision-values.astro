@@ -1,47 +1,31 @@
 ---
 import Layout from '../../Layout/Layout.astro';
 
-/**
- * Mission, Vision & Values — St. Paul's Mission Hospital
- * File placement: src/pages/about-us/mission-vision-values/index.astro
- */
 
 const values = [
   {
-    id:    "01",
     title: "Christ Centred",
     desc:  "Our healing ministry is a direct extension of Christ's love and compassion. Every patient is received with dignity, gentleness, and unconditional care.",
-    verse: "Whatever you did for one of the least of these, you did for me. — Matthew 25:40",
   },
   {
-    id:    "02",
     title: "Commitment",
     desc:  "An unwavering dedication to every life that enters our doors — regardless of the complexity of the case or the patient's ability to pay.",
-    verse: "Commit to the Lord whatever you do, and he will establish your plans. — Proverbs 16:3",
   },
   {
-    id:    "03",
     title: "Teamwork",
     desc:  "The seamless collaboration of clinical, administrative, and support staff — each playing their part to produce outcomes none could achieve alone.",
-    verse: "Two are better than one, because they have a good return for their labour. — Ecclesiastes 4:9",
   },
   {
-    id:    "04",
     title: "Accountability",
     desc:  "Transparent stewardship of our patients' trust, our donors' resources, and the community's confidence. We answer for what we do.",
-    verse: "From everyone who has been given much, much will be demanded. — Luke 12:48",
   },
   {
-    id:    "05",
     title: "Human Rights",
     desc:  "Every person is treated with equal dignity — regardless of HIV status, tribe, economic standing, or background. Privacy and respect are foundational.",
-    verse: "There is neither Jew nor Gentile, neither slave nor free — you are all one in Christ Jesus. — Galatians 3:28",
   },
   {
-    id:    "06",
     title: "Competence",
     desc:  "Caring hearts without skilled hands are not enough. We pursue continuous learning and evidence-based practice because our patients deserve both.",
-    verse: "Do you see someone skilled in their work? They will serve before kings. — Proverbs 22:29",
   },
 ]
 ---
@@ -221,7 +205,6 @@ const values = [
                       class="text-[0.58rem] font-bold w-7 h-7 flex items-center
                              justify-center shrink-0 transition-all duration-200"
                     >
-                      {v.id}
                     </span>
                     <span
                       :class={`open === ${i} ? 'text-primary' : 'text-secondary group-hover:text-primary'`}
@@ -258,9 +241,6 @@ const values = [
                 >
                   <div class="pb-6 pl-12 pr-8 bg-surface/50 border-t border-border/40 pt-5">
                     <p class="text-muted text-sm leading-relaxed mb-4">{v.desc}</p>
-                    <div class="border-l-2 border-primary/25 pl-4">
-                      <p class="text-primary/60 text-xs leading-relaxed italic">{v.verse}</p>
-                    </div>
                   </div>
                 </div>
               </div>

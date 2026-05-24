@@ -2,13 +2,10 @@
 import Layout from '../../../Layout/Layout.astro'
 import { getCollection } from 'astro:content'
 
-/**
- * Gallery Albums Listing — St. Paul's Mission Hospital
- * File placement: src/pages/news-and-media/gallery/index.astro
- */
-
 const allAlbums = (await getCollection('gallery', ({ data }) => !data.draft))
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
+
+console.log('Albums found:', allAlbums.length, allAlbums.map(a => a.id))
 
 const categories = ['All', ...new Set(allAlbums.map(a => a.data.category))]
 
