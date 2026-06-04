@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-const BACKEND_URL = 'https://spmh-career-backend.vercel.app';
+const BACKEND_URL = 'https://spmh-careers-backend.vercel.app';
 
 export default function ApplyModal({ job, onClose }) {
   const [form, setForm] = useState({
