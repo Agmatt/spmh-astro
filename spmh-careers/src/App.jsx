@@ -97,7 +97,7 @@ export default function App() {
               <ul className='space-y-2.5 text-sm'>
                 <li>
                   <a
-                    href='spmh.netlify.app'
+                    href='https://spmh.netlify.app'
                     className='hover:text-white transition-colors duration-200 flex items-center gap-1.5'>
                     Main Website
                     <svg
