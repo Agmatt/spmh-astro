@@ -1,17 +1,64 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+} */
+
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-gray-900 antialiased selection:bg-red-200/50 selection:text-[#7B1A2E];
+  }
+
+  /* Modern Smooth Custom Scrollbars */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-200 rounded-full hover:bg-gray-300 transition-colors;
+  }
+
+  /* Form & Input Global Modernization */
+  input[type="text"] {
+    @apply focus:ring-4 focus:ring-[#7B1A2E]/5 focus:border-[#7B1A2E] transition-all duration-200;
+  }
+
+  /* Structural Glassmorphism Overrides */
+  header {
+    @apply shadow-[0_2px_20px_rgba(123,26,46,0.08)] backdrop-blur-md bg-[#7B1A2E]/95;
+  }
+}
+
+/* Fluid Hover and Selection Mechanics for Lists */
+aside button {
+  @apply relative overflow-hidden transition-all duration-300 !important;
+}
+
+aside button::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #7B1A2E;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+aside button[class*="bg-[#7B1A2E]"]::before,
+aside button:hover::before {
+  opacity: 1;
+}
