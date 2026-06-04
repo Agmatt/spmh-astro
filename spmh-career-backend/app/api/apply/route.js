@@ -154,33 +154,6 @@ export async function OPTIONS() {
   });
 }
 
-// Add this near the top of route.js
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-};
-
-// Update your OPTIONS function to this:
-export async function OPTIONS() {
-  return new Response(null, {
-    status: 204,
-    headers: corsHeaders,
-  });
-}
-
-// Ensure your final successful POST response at the bottom passes the headers:
-return Response.json(
-  {
-    success: true,
-    message: 'Application submitted successfully.',
-    id: application.id,
-  },
-  {
-    status: 200,
-    headers: corsHeaders,
-  },
-);
 // ── POST /api/apply ───────────────────────────────────────────────────────────
 export async function POST(request) {
   try {
