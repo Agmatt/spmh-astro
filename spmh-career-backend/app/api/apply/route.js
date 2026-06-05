@@ -1,13 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
 
-// ── CORS Headers Configuration ───────────────────────────────────────────────
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*', // Allows your frontend to communicate safely
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-};
-
 // ── Clients (initialised per request — safe in serverless) ───────────────────
 function getSupabase() {
   if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
@@ -15,7 +8,7 @@ function getSupabase() {
   }
   return createClient(
     process.env.SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
   );
 }
 
@@ -29,10 +22,7 @@ function getResend() {
 // ── Email templates ───────────────────────────────────────────────────────────
 function hrEmailHtml({ fullName, email, phone, position, coverLetter, cvUrl }) {
   const dateStr = new Date().toLocaleDateString('en-KE', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
   });
   return `<!DOCTYPE html>
 <html>
@@ -60,31 +50,23 @@ function hrEmailHtml({ fullName, email, phone, position, coverLetter, cvUrl }) {
           <td style="padding:10px 0;font-weight:bold;color:#666;">Phone</td>
           <td style="padding:10px 0;color:#111;">${phone || '—'}</td>
         </tr>
-        ${
-          cvUrl
-            ? `
+        ${cvUrl ? `
         <tr style="border-bottom:1px solid #eee;">
           <td style="padding:10px 0;font-weight:bold;color:#666;">CV / Resume</td>
           <td style="padding:10px 0;">
             <a href="${cvUrl}" style="background:#7B1A2E;color:white;padding:6px 14px;text-decoration:none;border-radius:5px;font-size:13px;">Download CV</a>
           </td>
-        </tr>`
-            : ''
-        }
+        </tr>` : ''}
         <tr>
           <td style="padding:10px 0;font-weight:bold;color:#666;">Applied On</td>
           <td style="padding:10px 0;color:#111;">${dateStr}</td>
         </tr>
       </table>
-      ${
-        coverLetter
-          ? `
+      ${coverLetter ? `
       <div style="margin-top:20px;padding:16px;background:#fdf6f7;border-left:4px solid #7B1A2E;border-radius:4px;">
         <p style="margin:0 0 8px;font-weight:bold;color:#555;font-size:13px;">Cover Letter</p>
         <p style="margin:0;color:#333;font-size:14px;line-height:1.7;">${coverLetter.replace(/\n/g, '<br>')}</p>
-      </div>`
-          : ''
-      }
+      </div>` : ''}
     </div>
     <div style="background:#7B1A2E;padding:14px;text-align:center;">
       <p style="color:#f2c0c0;margin:0;font-size:11px;">Safe Hands, Caring Hearts · St. Paul's Mission Hospital, Homa Bay, Kenya</p>
@@ -96,10 +78,7 @@ function hrEmailHtml({ fullName, email, phone, position, coverLetter, cvUrl }) {
 
 function applicantEmailHtml({ fullName, position }) {
   const dateStr = new Date().toLocaleDateString('en-KE', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
   });
   return `<!DOCTYPE html>
 <html>
@@ -146,12 +125,9 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-// ── OPTIONS — preflight handling ───────────────────────────────────────────────
+// ── OPTIONS — preflight ───────────────────────────────────────────────────────
 export async function OPTIONS() {
-  return new Response(null, {
-    status: 204,
-    headers: corsHeaders,
-  });
+  return new Response(null, { status: 204 });
 }
 
 // ── POST /api/apply ───────────────────────────────────────────────────────────
@@ -165,36 +141,33 @@ export async function POST(request) {
     try {
       formData = await request.formData();
     } catch {
-      return Response.json(
-        { error: 'Invalid form data.' },
-        { status: 400, headers: corsHeaders },
-      );
+      return Response.json({ error: 'Invalid form data.' }, { status: 400 });
     }
 
-    const fullName = formData.get('fullName')?.toString().trim();
-    const email = formData.get('email')?.toString().trim().toLowerCase();
-    const phone = formData.get('phone')?.toString().trim() || null;
-    const position = formData.get('position')?.toString().trim();
+    const fullName    = formData.get('fullName')?.toString().trim();
+    const email       = formData.get('email')?.toString().trim().toLowerCase();
+    const phone       = formData.get('phone')?.toString().trim() || null;
+    const position    = formData.get('position')?.toString().trim();
     const coverLetter = formData.get('coverLetter')?.toString().trim() || null;
-    const cvFile = formData.get('cv'); // File | null
+    const cvFile      = formData.get('cv'); // File | null
 
     // ── Validation ───────────────────────────────────────────────────────────
     if (!fullName || !email || !position) {
       return Response.json(
         { error: 'Full name, email, and position are required.' },
-        { status: 400, headers: corsHeaders },
+        { status: 400 }
       );
     }
     if (!isValidEmail(email)) {
       return Response.json(
         { error: 'Please provide a valid email address.' },
-        { status: 400, headers: corsHeaders },
+        { status: 400 }
       );
     }
     if (cvFile && cvFile.size > 5 * 1024 * 1024) {
       return Response.json(
         { error: 'CV file too large. Maximum size is 5MB.' },
-        { status: 400, headers: corsHeaders },
+        { status: 400 }
       );
     }
 
@@ -209,11 +182,8 @@ export async function POST(request) {
       ];
       if (!allowedTypes.includes(cvFile.type)) {
         return Response.json(
-          {
-            error:
-              'Only PDF and Word documents are accepted (.pdf, .doc, .docx).',
-          },
-          { status: 400, headers: corsHeaders },
+          { error: 'Only PDF and Word documents are accepted (.pdf, .doc, .docx).' },
+          { status: 400 }
         );
       }
 
@@ -232,31 +202,27 @@ export async function POST(request) {
         console.error('Supabase storage error:', storageError);
         return Response.json(
           { error: 'Failed to upload CV. Please try again.' },
-          { status: 500, headers: corsHeaders },
+          { status: 500 }
         );
       }
 
-      const { data: urlData } = supabase.storage
-        .from('cvs')
-        .getPublicUrl(fileName);
+      const { data: urlData } = supabase.storage.from('cvs').getPublicUrl(fileName);
       cvUrl = urlData.publicUrl;
     }
 
     // ── 2. Save application to database ──────────────────────────────────────
     const { data: application, error: dbError } = await supabase
       .from('applications')
-      .insert([
-        {
-          full_name: fullName,
-          email,
-          phone,
-          position,
-          cover_letter: coverLetter,
-          cv_url: cvUrl,
-          status: 'pending',
-          applied_at: new Date().toISOString(),
-        },
-      ])
+      .insert([{
+        full_name:    fullName,
+        email,
+        phone,
+        position,
+        cover_letter: coverLetter,
+        cv_url:       cvUrl,
+        status:       'pending',
+        applied_at:   new Date().toISOString(),
+      }])
       .select()
       .single();
 
@@ -264,67 +230,52 @@ export async function POST(request) {
       console.error('Supabase DB error:', dbError);
       return Response.json(
         { error: 'Failed to save application. Please try again.' },
-        { status: 500, headers: corsHeaders },
+        { status: 500 }
       );
     }
 
-    console.log(
-      `✓ Application saved: ${application.id} — ${position} / ${fullName}`,
-    );
+    console.log(`✓ Application saved: ${application.id} — ${position} / ${fullName}`);
 
     // ── 3. Send emails (non-blocking — never fail the request over email) ────
-    const emailPayload = {
-      fullName,
-      email,
-      phone,
-      position,
-      coverLetter,
-      cvUrl,
-    };
+    const emailPayload = { fullName, email, phone, position, coverLetter, cvUrl };
 
     const [hrResult, applicantResult] = await Promise.allSettled([
       resend.emails.send({
-        from: 'SPMH Careers <onboarding@resend.dev>',
-        to: process.env.HR_EMAIL,
+        from:    'SPMH Careers <onboarding@resend.dev>',
+        to:      process.env.HR_EMAIL,
         subject: `New Application: ${position} — ${fullName}`,
-        html: hrEmailHtml(emailPayload),
+        html:    hrEmailHtml(emailPayload),
       }),
       resend.emails.send({
-        from: 'SPMH Careers <onboarding@resend.dev>',
-        to: email,
+        from:    'SPMH Careers <onboarding@resend.dev>',
+        to:      email,
         subject: `Application Received — ${position} at St. Paul's Mission Hospital`,
-        html: applicantEmailHtml(emailPayload),
+        html:    applicantEmailHtml(emailPayload),
       }),
     ]);
 
     if (hrResult.status === 'rejected')
       console.error('HR email failed:', hrResult.reason);
-    else console.log(`✓ HR email sent: ${hrResult.value?.data?.id}`);
+    else
+      console.log(`✓ HR email sent: ${hrResult.value?.data?.id}`);
 
     if (applicantResult.status === 'rejected')
       console.error('Applicant email failed:', applicantResult.reason);
     else
-      console.log(
-        `✓ Applicant confirmation sent: ${applicantResult.value?.data?.id}`,
-      );
+      console.log(`✓ Applicant confirmation sent: ${applicantResult.value?.data?.id}`);
 
-    // ── 4. Respond with CORS headers ───────────────────────────────────────────
-    return Response.json(
-      {
-        success: true,
-        message: 'Application submitted successfully.',
-        id: application.id,
-      },
-      {
-        status: 200,
-        headers: corsHeaders,
-      },
-    );
+    // ── 4. Respond ────────────────────────────────────────────────────────────
+    return Response.json({
+      success: true,
+      message: 'Application submitted successfully.',
+      id:      application.id,
+    });
+
   } catch (err) {
     console.error('Unhandled error in POST /api/apply:', err);
     return Response.json(
       { error: 'Something went wrong. Please try again.' },
-      { status: 500, headers: corsHeaders },
+      { status: 500 }
     );
   }
 }

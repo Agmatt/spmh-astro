@@ -1,4 +1,4 @@
-// App.jsx — Main Application Frame
+// App.jsx — root layout and state management
 
 import { useState } from 'react';
 import jobs from './jobs';
@@ -7,17 +7,23 @@ import JobDetail from './components/JobDetail';
 import ApplyModal from './components/ApplyModal';
 
 export default function App() {
+  // Which job is selected in the detail panel
   const [selectedJob, setSelectedJob] = useState(null);
-  const [mobileView, setMobileView] = useState('list');
+
+  // Mobile-only: controls whether we show the list or the detail panel
+  const [mobileView, setMobileView] = useState('list'); // 'list' | 'detail'
+
+  // Whether the apply modal is open
   const [applyOpen, setApplyOpen] = useState(false);
 
+  // ── Handlers ────────────────────────────────────────────────────────────────
   const handleSelectJob = (job) => {
     setSelectedJob(job);
-    setMobileView('detail');
+    setMobileView('detail'); // on mobile: switch to detail view
   };
 
   const handleBack = () => {
-    setMobileView('list');
+    setMobileView('list'); // on mobile: back to list
   };
 
   const handleOpenApply = () => {
@@ -28,176 +34,64 @@ export default function App() {
     setApplyOpen(false);
   };
 
+  // ── Render ───────────────────────────────────────────────────────────────────
   return (
-    <div className='min-h-screen flex flex-col bg-[#f4f8ff] antialiased'>
-      {/* ── Centered Institutional Intro ───────────────────────────────── */}
-      <section className='w-full pt-12 pb-6 px-4 text-center'>
-        <div className='max-w-2xl mx-auto space-y-2'>
-          <p className='text-xs font-bold uppercase tracking-wider text-[#5a6f8c]'>
-            Catholic Diocese of Homa Bay
-          </p>
-          <h1 className='text-3xl font-extrabold text-[#0d47a1]'>
-            Join Our Mission
-          </h1>
-          <p className='text-base font-medium text-[#125276]'>
-            Safe Hands, Caring Hearts—Help us deliver quality healthcare to Homa
-            Bay and beyond
-          </p>
-          <p className='text-sm text-[#5a6f8c]'>
-            We're hiring across clinical, administrative, and community roles
-          </p>
-        </div>
-      </section>
+    // h-screen + overflow-hidden = viewport-locked, each panel scrolls independently
+    <div className="h-screen flex flex-col overflow-hidden bg-gray-50">
 
-      {/* ── Main Workspace Application Canvas ───────────────────────────── */}
-      <div className='flex-1 w-full max-w-7xl mx-auto p-0 md:p-6 lg:p-8'>
-        <main className='h-[calc(100vh-4rem)] md:h-[650px] lg:h-[750px] flex overflow-hidden bg-white border border-[#c5d8f7] rounded-none md:rounded-2xl shadow-sm'>
-          <JobSidebar
-            jobs={jobs}
-            selectedJob={selectedJob}
-            onSelect={handleSelectJob}
-            mobileView={mobileView}
-          />
-          <div className='flex-1 flex flex-col min-w-0 bg-[#f4f8ff]/30'>
-            <JobDetail
-              job={selectedJob}
-              onBack={handleBack}
-              onApply={handleOpenApply}
-              mobileView={mobileView}
-            />
-          </div>
-        </main>
-      </div>
-
-      {/* ── Restored Original Footer ────────────────────────────────────── */}
-      <footer className='bg-slate-900 text-slate-300 border-t border-slate-800 mt-auto'>
-        <div className='max-w-7xl mx-auto px-6 py-12 md:py-16'>
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12'>
-            {/* Branding Column */}
-            <div className='space-y-4'>
-              <div className='flex items-center gap-2 text-white'>
-                <span className='font-bold text-base tracking-tight'>
-                  St. Paul's Mission Hospital
-                </span>
-              </div>
-              <p className='text-xs text-slate-400 font-semibold uppercase tracking-wider text-red-400'>
-                Safe Hands, Caring Hearts
-              </p>
-              <p className='text-sm text-slate-400 leading-relaxed max-w-sm'>
-                Serving Homa Bay and beyond with quality healthcare and
-                compassion. Join our dedicated clinical and support teams.
-              </p>
+      {/* ── Header ──────────────────────────────────────────────────────── */}
+      <header className="shrink-0 bg-[#7B1A2E] border-b border-[#5a1220] z-30">
+        <div className="h-14 px-5 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            {/* Cross icon */}
+            <div className="w-8 h-8 bg-white/15 rounded-lg flex items-center justify-center">
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
             </div>
-
-            {/* Quick Links Column */}
-            <div className='space-y-4'>
-              <h4 className='text-xs font-bold text-white uppercase tracking-widest border-b border-slate-800 pb-2'>
-                Quick Links
-              </h4>
-              <ul className='space-y-2.5 text-sm'>
-                <li>
-                  <a
-                    href='https://spmh.netlify.app'
-                    className='hover:text-white transition-colors duration-200 flex items-center gap-1.5'>
-                    Main Website
-                    <svg
-                      className='w-3 h-3 text-slate-500'
-                      fill='none'
-                      stroke='currentColor'
-                      viewBox='0 0 24 24'>
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        strokeWidth={2}
-                        d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
-                      />
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='https://spmh.netlify.app/about-us/history'
-                    className='hover:text-white transition-colors duration-200'>
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href='https://spmh.netlify.app/services/clinical'
-                    className='hover:text-white transition-colors duration-200'>
-                    Services
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Contact Information Column */}
-            <div className='space-y-4'>
-              <h4 className='text-xs font-bold text-white uppercase tracking-widest border-b border-slate-800 pb-2'>
-                Contact
-              </h4>
-              <ul className='space-y-3 text-sm'>
-                <li className='flex items-center gap-2.5'>
-                  <svg
-                    className='w-4 h-4 text-slate-500 shrink-0'
-                    fill='none'
-                    stroke='currentColor'
-                    viewBox='0 0 24 24'>
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth={2}
-                      d='M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'
-                    />
-                  </svg>
-                  <span className='text-slate-400'>hr@spmh.co.ke</span>
-                </li>
-                <li className='flex items-center gap-2.5'>
-                  <svg
-                    className='w-4 h-4 text-slate-500 shrink-0'
-                    fill='none'
-                    stroke='currentColor'
-                    viewBox='0 0 24 24'>
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth={2}
-                      d='M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z'
-                    />
-                  </svg>
-                  <span className='text-slate-400'>+254111817447 </span>
-                </li>
-                <li className='flex items-center gap-2.5'>
-                  <svg
-                    className='w-4 h-4 text-slate-500 shrink-0'
-                    fill='none'
-                    stroke='currentColor'
-                    viewBox='0 0 24 24'>
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth={2}
-                      d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'
-                    />
-                  </svg>
-                  <span className='text-slate-400'>Homa Bay, Kenya</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Subfooter Copyright Area */}
-          <div className='border-t border-slate-800 mt-12 pt-6 text-center items-center  text-xs text-slate-500'>
             <div>
-              &copy; 2026 St. Paul's Mission Hospital. All rights reserved.
+              <p className="text-white font-bold text-sm leading-tight">
+                St. Paul's Mission Hospital
+              </p>
+              <p className="text-red-200 text-[10px] leading-tight">Careers Portal</p>
             </div>
           </div>
+          <div className="flex items-center gap-3">
+            <span className="hidden sm:inline-block text-red-200 text-xs">
+              Safe Hands, Caring Hearts
+            </span>
+            <span className="hidden sm:inline-block text-red-400 text-xs">·</span>
+            <span className="hidden sm:inline-block text-red-200 text-xs">
+              Homa Bay, Kenya
+            </span>
+          </div>
         </div>
-      </footer>
+      </header>
 
-      {/* ── Modal Portal Frame ──────────────────────────────────────────── */}
+      {/* ── Main two-panel layout ────────────────────────────────────────── */}
+      <main className="flex-1 flex overflow-hidden">
+        <JobSidebar
+          jobs={jobs}
+          selectedJob={selectedJob}
+          onSelect={handleSelectJob}
+          mobileView={mobileView}
+        />
+        <JobDetail
+          job={selectedJob}
+          onBack={handleBack}
+          onApply={handleOpenApply}
+          mobileView={mobileView}
+        />
+      </main>
+
+      {/* ── Apply modal (portal-style, rendered at root) ─────────────────── */}
       {applyOpen && selectedJob && (
-        <ApplyModal job={selectedJob} onClose={handleCloseApply} />
+        <ApplyModal
+          job={selectedJob}
+          onClose={handleCloseApply}
+        />
       )}
     </div>
   );
