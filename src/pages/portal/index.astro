@@ -1,0 +1,268 @@
+---
+import Layout from '../../Layout/Layout.astro';
+---
+
+<!-- Replace this div with your standard <Layout title="Secure Appointment Booking"> if you have one -->
+<Layout title='Secure Appointment Booking'>
+  <div
+    class="min-h-screen bg-[var(--color-surface)] text-[var(--color-secondary)] antialiased font-['Outfit',_system-ui,_sans-serif]">
+    <!-- Main Container: Spaced for clarity -->
+    <main class='max-w-7xl mx-auto pt-12 pb-24 px-4 sm:px-6 lg:px-8'>
+      <!-- Portal Header -->
+      <header class='pb-8 mb-12 border-b border-[var(--color-border)]'>
+        <h1
+          class="text-4xl font-extrabold text-[var(--color-primary-dark)] tracking-tighter font-['Playfair_Display',_Georgia,_serif]">
+          St. Paul's Mission Hospital
+        </h1>
+        <p class='text-lg text-[var(--color-muted)] mt-1'>
+          Official Online Appointment Portal
+        </p>
+      </header>
+
+      <!-- Two-Column Grid: Image on Left, Form on Right -->
+      <div class='grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch'>
+        <!-- LEFT COLUMN: Reassuring Clinical Imagery & Trust Cards -->
+        <div class='flex flex-col gap-6 justify-between h-full'>
+          <!-- Main Institutional Image Cover -->
+          <div
+            class='relative rounded-3xl overflow-hidden shadow-md flex-grow min-h-[300px] lg:min-h-[400px]'>
+            <img
+              src='/img/13.jpg'
+              alt="St. Paul's Mission Hospital Clinical Care"
+              class='absolute inset-0 w-full h-full object-cover'
+            />
+            <div
+              class='absolute inset-0 bg-gradient-to-t from-[var(--color-secondary)]/90 via-[var(--color-secondary)]/40 to-transparent flex flex-col justify-end p-8 text-white'>
+              <h3
+                class="text-2xl font-bold font-['Playfair_Display',_Georgia,_serif] mb-2 text-white">
+                Compassionate, Quality Medical Care
+              </h3>
+              <p class='text-sm text-[var(--color-surface)] max-w-md'>
+                Our specialized clinical teams are dedicated to ensuring your
+                visit to St. Paul's is efficient, safe, and professional.
+              </p>
+            </div>
+          </div>
+
+          <!-- Emergency Flag using your accent (Emergency/alert red) color -->
+          <div
+            class='bg-white rounded-2xl shadow-sm border-l-4 border-2 border-[var(--color-accent)] p-5'>
+            <div
+              class='flex items-center gap-3 mb-2 text-[var(--color-accent)]'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                class='w-5 h-5'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke='currentColor'>
+                <path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  stroke-width='2'
+                  d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
+                ></path>
+              </svg>
+              <h4 class='font-bold uppercase tracking-wider text-xs'>
+                Medical Emergency Advisory
+              </h4>
+            </div>
+            <p class='text-xs text-[var(--color-muted)] leading-relaxed'>
+              If you or a loved one are experiencing a clinical crisis, please
+              bypass this scheduling portal and proceed directly to our 24/7
+              Casualty department.
+            </p>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Appointment Booking Form -->
+        <div
+          class='bg-white rounded-3xl shadow-lg border border-[var(--color-border)] p-8 sm:p-10'>
+          <form
+            action='http://localhost:3000/api/appointments'
+            method='POST'
+            class='space-y-8'>
+            <!-- Section 1: Patient Information -->
+            <fieldset class='space-y-4'>
+              <legend
+                class="text-2xl font-semibold text-[var(--color-primary-dark)] tracking-tight font-['Playfair_Display',_Georgia,_serif] mb-2">
+                Personal Details
+              </legend>
+
+              <!-- Patient Name -->
+              <div>
+                <label
+                  for='fullname'
+                  class='block text-sm font-medium text-[var(--color-secondary)] mb-1.5'
+                  >Full Name</label
+                >
+                <input
+                  type='text'
+                  id='fullname'
+                  name='fullname'
+                  required
+                  placeholder='John Doe'
+                  class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition bg-[var(--color-surface)]'
+                />
+              </div>
+
+              <!-- Contact Row: Phone & Email -->
+              <div class='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                <div>
+                  <label
+                    for='phone'
+                    class='block text-sm font-medium text-[var(--color-secondary)] mb-1.5'
+                    >Phone Number</label
+                  >
+                  <input
+                    type='tel'
+                    id='phone'
+                    name='phone'
+                    required
+                    placeholder='0712 345 678'
+                    class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition bg-[var(--color-surface)]'
+                  />
+                </div>
+                <div>
+                  <label
+                    for='email'
+                    class='block text-sm font-medium text-[var(--color-secondary)] mb-1.5'
+                    >Email Address <span
+                      class='text-[var(--color-muted)] font-normal text-xs'
+                      >(Optional)</span
+                    ></label
+                  >
+                  <input
+                    type='email'
+                    id='email'
+                    name='email'
+                    placeholder='johndoe@example.com'
+                    class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition bg-[var(--color-surface)]'
+                  />
+                </div>
+              </div>
+            </fieldset>
+
+            <hr class='border-[var(--color-surface-2)]' />
+
+            <!-- Section 2: Appointment Details -->
+            <fieldset class='space-y-4'>
+              <legend
+                class="text-2xl font-semibold text-[var(--color-primary-dark)] tracking-tight font-['Playfair_Display',_Georgia,_serif] mb-2">
+                Appointment Preferences
+              </legend>
+
+              <!-- Specialty/Clinic Selection -->
+              <div>
+                <label
+                  for='department'
+                  class='block text-sm font-medium text-[var(--color-secondary)] mb-1.5'
+                  >Clinic or Medical Specialty</label
+                >
+                <div class='relative'>
+                  <select
+                    id='department'
+                    name='department'
+                    required
+                    class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition appearance-none text-[var(--color-secondary)]'>
+                    <option value=''>Choose a clinic...</option>
+                    <option value='general'>General Outpatient (GP)</option>
+                    <option value='pediatrics'>Pediatrics & Child Health</option
+                    >
+                    <option value='antenatal'
+                      >Antenatal & Maternity Care (ANC)</option
+                    >
+                    <option value='comprehensive'
+                      >Comprehensive Care Center (CCC)</option
+                    >
+                    <option value='laboratory'>Laboratory / Diagnostics</option>
+                  </select>
+                  <div
+                    class='absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-[var(--color-muted)]'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      class='w-5 h-5'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      stroke='currentColor'>
+                      <path
+                        stroke-linecap='round'
+                        stroke-linejoin='round'
+                        stroke-width='1.5'
+                        d='M19 9l-7 7-7-7'></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Scheduling Row: Date & Time -->
+              <div class='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                <div>
+                  <label
+                    for='appointment_date'
+                    class='block text-sm font-medium text-[var(--color-secondary)] mb-1.5'
+                    >Preferred Date</label
+                  >
+                  <input
+                    type='date'
+                    id='appointment_date'
+                    name='appointment_date'
+                    required
+                    class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition bg-[var(--color-surface)]'
+                  />
+                </div>
+                <div>
+                  <label
+                    for='appointment_time'
+                    class='block text-sm font-medium text-[var(--color-secondary)] mb-1.5'
+                    >Preferred Time</label
+                  >
+                  <input
+                    type='time'
+                    id='appointment_time'
+                    name='appointment_time'
+                    required
+                    class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition bg-[var(--color-surface)]'
+                  />
+                </div>
+              </div>
+
+              <!-- Additional Notes / Reason for Visit -->
+              <div class='pt-2'>
+                <label
+                  for='notes'
+                  class='block text-sm font-medium text-[var(--color-secondary)] mb-1.5'
+                  >Additional Information / Symptoms <span
+                    class='text-[var(--color-muted)] font-normal text-xs'
+                    >(Optional)</span
+                  ></label
+                >
+                <textarea
+                  id='notes'
+                  name='notes'
+                  rows='3'
+                  placeholder='e.g., Routine clinic checkup, ongoing prescription refill request, or specific symptoms...'
+                  class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition resize-none bg-[var(--color-surface)]'
+                ></textarea>
+              </div>
+            </fieldset>
+
+            <!-- Submit Action Area -->
+            <div
+              class='pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
+              <a
+                href='/'
+                class='text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-primary-dark)] hover:underline order-2 sm:order-1'>
+                ← Cancel and Return
+              </a>
+              <button
+                type='submit'
+                class='w-full sm:w-auto bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white font-semibold py-3.5 px-8 rounded-xl transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-[var(--color-primary-light)] shadow-md text-center order-1 sm:order-2 cursor-pointer'>
+                Book Appointment
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</Layout>

@@ -9,9 +9,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/alpinejs": "^0.4.9",
-    "@astrojs/markdoc": "^0.15.10",
-    "@astrojs/react": "^5.0.0",
+    "@astrojs/alpinejs": "^0.5.0",
+    "@astrojs/markdoc": "^1.0.6",
+    "@astrojs/react": "^5.0.7",
     "@keystatic/astro": "^5.0.6",
     "@keystatic/core": "^0.5.48",
     "@supabase/supabase-js": "^2.90.1",
@@ -22,7 +22,7 @@
     "@types/react-dom": "^19.2.3",
     "alpinejs": "^3.15.8",
     "aos": "^2.3.4",
-    "astro": "^5.18.0",
+    "astro": "^6.4.4",
     "framer-motion": "^12.23.12",
     "lucide": "^0.542.0",
     "lucide-astro": "^0.542.0",
