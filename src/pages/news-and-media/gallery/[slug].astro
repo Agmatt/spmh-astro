@@ -12,12 +12,12 @@ import type { GetStaticPaths } from 'astro'
 
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const albums = await getCollection('gallery', ({ data }) => !data.draft)
-  return albums.map(album => ({
-    params: { slug: album.id },
-    props:  { album },
-  }))
-}
+  const albums = await getCollection('gallery', ({ data }) => !data.draft);
+  return albums.map((album) => ({
+params: { slug: album.slug },    
+props: { album },
+  }));
+};
 
 const { album } = Astro.props
 
