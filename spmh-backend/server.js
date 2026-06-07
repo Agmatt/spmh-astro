@@ -61,8 +61,13 @@ fastify.post('/api/appointments', async (request, reply) => {
 // Start up the backend engine
 const start = async () => {
   try {
-    await fastify.listen({ port: 3000 });
-    console.log('Backend server is firing on http://localhost:3000');
+    // Railway assigns a dynamic port via process.env.PORT, default to 3000 locally
+    // Setting host to '0.0.0.0' is REQUIRED for cloud deployments
+    await fastify.listen({ 
+      port: process.env.PORT || 3000, 
+      host: '0.0.0.0' 
+    });
+    console.log(`Backend server is running`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
