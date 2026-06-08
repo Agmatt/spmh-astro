@@ -7,7 +7,7 @@ import keystatic from '@keystatic/astro';
 import netlify from '@astrojs/netlify';
 
 export default defineConfig({
-  output: 'static',
+  output: 'server',
   adapter: netlify(),
   vite: {
     plugins: [tailwindcss()],

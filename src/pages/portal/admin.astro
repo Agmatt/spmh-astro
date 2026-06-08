@@ -116,16 +116,24 @@ const formatClinicName = (slug) => {
 <body class="bg-surface min-h-screen text-slate-800 antialiased font-body">
 
   { !isAuthenticated ? (
-    <div class="flex min-h-screen items-center justify-center p-4 bg-gradient-to-br from-[#0d47a1] via-secondary to-slate-950">
-      <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-border p-8 relative overflow-hidden">
+    <div 
+      class="flex min-h-screen items-center justify-center p-4 bg-cover bg-center bg-no-repeat relative"
+      style="background-image: url(/img/47.jpg);"
+    >
+      <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-[2px] z-0"></div>
+
+      <div class="w-full max-w-md bg-white backdrop-blur-md rounded-2xl shadow-2xl border border-border/60 p-8 relative overflow-hidden z-10">
         
         <div class="absolute top-0 left-0 right-0 h-1.5 bg-primary"></div>
 
-        <div class="text-center mb-8">
-          <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-surface text-primary mb-4 shadow-sm border border-border">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
+        <div class="text-center mb-7">
+          <div class="inline-flex items-center justify-center mb-4 p-2 overflow-hidden">
+            <img 
+              src="/gallery/bg.png" 
+              alt="St. Paul's Mission Hospital Logo" 
+              class="w-full h-full object-contain"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=120&q=80'; this.className='w-full h-full object-cover';"
+            />
           </div>
           <h1 class="text-2xl font-extrabold tracking-tight">Clinical Administration</h1>
           <p class="text-sm text-muted mt-1">St. Paul's Mission Hospital Gateway</p>
@@ -133,7 +141,7 @@ const formatClinicName = (slug) => {
 
         <form method="POST" class="space-y-5">
           <div>
-            <label for="access_code" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Institutional Access PIN</label>
+            <label for="access_code" class="block text-xs text-center font-bold text-slate-700 uppercase tracking-wider mb-2">Institutional Access PIN</label>
             <input 
               type="password" 
               id="access_code" 
@@ -153,7 +161,7 @@ const formatClinicName = (slug) => {
             </div>
           )}
 
-          <button type="submit" class="w-full btn-primary text-center font-semibold py-3.5 tracking-wide text-sm cursor-pointer">
+          <button type="submit" class="w-full btn-primary text-center font-semibold py-3.5 tracking-wide text-sm cursor-pointer shadow-md">
             Authenticate & Access Registry
           </button>
         </form>
