@@ -100,6 +100,7 @@ import Layout from '../../Layout/Layout.astro';
                   id='fullname'
                   name='fullname'
                   required
+                  minlength='3'
                   placeholder='John Doe'
                   class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition bg-[var(--color-surface)]'
                 />
@@ -118,7 +119,9 @@ import Layout from '../../Layout/Layout.astro';
                     id='phone'
                     name='phone'
                     required
+                    pattern='^(?:\+254|254|0)?(7|1)\d{8}$'
                     placeholder='0712 345 678'
+                    title='Please enter a valid Kenyan phone number starting with 07, 01, or +254 followed by 8 digits.'
                     class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition bg-[var(--color-surface)]'
                   />
                 </div>
