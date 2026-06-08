@@ -6,9 +6,14 @@ import '../../styles/global.css';
 import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase configuration
-const supabaseUrl = import.meta.env.SUPABASE_URL || process.env.SUPABASE_URL;
-const supabaseKey = import.meta.env.SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Fallback layout checking production environment variables dynamically
+const supabaseUrl = typeof process !== 'undefined' && process.env.SUPABASE_URL 
+  ? process.env.SUPABASE_URL 
+  : import.meta.env.SUPABASE_URL;
+
+const supabaseKey = typeof process !== 'undefined' && process.env.SUPABASE_ANON_KEY 
+  ? process.env.SUPABASE_ANON_KEY 
+  : import.meta.env.SUPABASE_ANON_KEY;
 
 const CORRECT_ACCESS_CODE = import.meta.env.ADMIN_ACCESS_CODE || process.env.ADMIN_ACCESS_CODE || "SPMH2026";
 
@@ -45,17 +50,22 @@ if (Astro.request.method === 'POST') {
   }
 }
 
-// Fetch live database appointments if authenticated
 if (isAuthenticated) {
+  // Temporary Production Diagnostics
+  console.log("=== ENVIROMENT STATUS ===");
+  console.log("Configured Target URL:", supabaseUrl ? "FOUND" : "MISSING/UNDEFINED");
+  
   const { data, error } = await supabase
     .from('appointments')
     .select('*')
     .order('created_at', { ascending: false });
 
-  if (!error) {
-    appointments = data;
+  if (error) {
+    console.error("Supabase Database Return Error:", error.message);
+    errorMessage = `Database Sync Error: ${error.message}`;
   } else {
-    errorMessage = "Failed to sync with active database records.";
+    console.log(`Successfully synced. Record count found: ${data ? data.length : 0}`);
+    appointments = data;
   }
 }
 
