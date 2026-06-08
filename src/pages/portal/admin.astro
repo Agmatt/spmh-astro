@@ -50,21 +50,23 @@ if (Astro.request.method === 'POST') {
   }
 }
 
-// 4. CRITICAL FIX: Make a direct, un-cached native HTTP Fetch to Supabase REST API
+// 4. CRITICAL FIX: Aggressive Sanitization & Native HTTP Fetch
 if (isAuthenticated) {
-  if (!supabaseUrl || !supabaseKey) {
-    errorMessage = "Deployment Config Error: Keys are missing from Netlify environment variables.";
+  // Force extreme sanitization to strip Netlify's hidden spaces, newlines, or accidental quotes
+  const cleanUrl = (supabaseUrl || '').toString().trim().replace(/['"]/g, '').replace(/\/$/, "");
+  const cleanKey = (supabaseKey || '').toString().trim().replace(/['"]/g, '');
+
+  if (!cleanUrl || !cleanKey) {
+    errorMessage = "Deployment Config Error: Keys are completely missing from Netlify.";
   } else {
     try {
-      // Formulate the direct PostgREST URL Supabase uses under the hood
-      const cleanUrl = supabaseUrl.replace(/\/$/, "");
       const endpoint = `${cleanUrl}/rest/v1/appointments?select=*&order=created_at.desc`;
 
       const response = await fetch(endpoint, {
         method: 'GET',
         headers: {
-          'apikey': supabaseKey,
-          'Authorization': `Bearer ${supabaseKey}`,
+          'apikey': cleanKey,
+          'Authorization': `Bearer ${cleanKey}`,
           'Content-Type': 'application/json',
           'Prefer': 'count=exact'
         }
@@ -75,6 +77,11 @@ if (isAuthenticated) {
         errorMessage = `Supabase Core Error: ${response.status} - ${textError}`;
       } else {
         appointments = await response.json();
+        
+        // If it somehow still returns an empty array, print exactly what Netlify is doing to the screen!
+        if (appointments.length === 0) {
+          errorMessage = `DIAGNOSTIC MODE | Status: ${response.status} | URL: ${cleanUrl.substring(0, 25)}... | Key Start: ${cleanKey.substring(0, 15)}...`;
+        }
       }
     } catch (err) {
       errorMessage = `Network Fetch Failure: ${err instanceof Error ? err.message : String(err)}`;
