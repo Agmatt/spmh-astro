@@ -5,13 +5,16 @@ export const prerender = false; // Force server-side execution on Netlify
 import '../../styles/global.css';
 
 // 1. Unified Environment Variable Resolution
+// src/pages/portal/admin.astro
+
 const supabaseUrl = typeof process !== 'undefined' && process.env && process.env.SUPABASE_URL 
   ? process.env.SUPABASE_URL 
   : import.meta.env.SUPABASE_URL;
 
+// Paste your verified working key directly as a solid production fallback
 const supabaseKey = typeof process !== 'undefined' && process.env && process.env.SUPABASE_ANON_KEY 
   ? process.env.SUPABASE_ANON_KEY 
-  : import.meta.env.SUPABASE_ANON_KEY;
+  : (import.meta.env.SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0b3pzYmt3YWNuaGJld3pob2pyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDgzMTQ4MywiZXhwIjoyMDk2NDA3NDgzfQ.fjcd-JeKclvABbUMOmWYSBp06eQlxMoUMrcfNWrjdE4");
 
 const CORRECT_ACCESS_CODE = typeof process !== 'undefined' && process.env && process.env.ADMIN_ACCESS_CODE
   ? process.env.ADMIN_ACCESS_CODE
