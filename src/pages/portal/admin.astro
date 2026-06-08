@@ -1,5 +1,5 @@
 ---
-// src/pages/portal/admin.astro
+export const prerender = false; // Forces this page to be Server-Side Rendered (SSR)
 import '../../styles/global.css'; // Pure side-effect import for global Tailwind CSS
 import { createClient } from '@supabase/supabase-js';
 
@@ -15,8 +15,16 @@ let errorMessage = "";
 let appointments = [];
 
 // --- ACTION 1: HANDLE LOGOUT MECHANISM ---
-if (Astro.request.method === 'GET' && Astro.url.searchParams.get('action') === 'logout') {
-  Astro.cookies.delete('spmh_admin_session', { path: '/' });
+if (Astro.url.searchParams.get('action') === 'logout') {
+  // Clear the cookie completely across all subdomains and paths
+  Astro.cookies.delete('spmh_admin_session', { 
+    path: '/',
+    secure: true,
+    httpOnly: true,
+    sameSite: 'strict'
+  });
+  
+  // Redirect back to the clean admin page without any query parameters
   return Astro.redirect('/portal/admin');
 }
 
