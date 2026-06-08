@@ -5,8 +5,7 @@ export const prerender = false; // Force server-side execution on Netlify
 import '../../styles/global.css';
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase configuration
-// Fallback layout checking production environment variables dynamically
+// 1. Correctly parse environment variables across Node/Vite runtimes
 const supabaseUrl = typeof process !== 'undefined' && process.env.SUPABASE_URL 
   ? process.env.SUPABASE_URL 
   : import.meta.env.SUPABASE_URL;
@@ -17,17 +16,23 @@ const supabaseKey = typeof process !== 'undefined' && process.env.SUPABASE_ANON_
 
 const CORRECT_ACCESS_CODE = import.meta.env.ADMIN_ACCESS_CODE || process.env.ADMIN_ACCESS_CODE || "SPMH2026";
 
+// 2. CRITICAL FIX: Initialize the missing Supabase client instance!
+let supabase = null;
+if (supabaseUrl && supabaseKey) {
+  supabase = createClient(supabaseUrl, supabaseKey);
+}
+
 let isAuthenticated = false;
 let errorMessage = "";
 let appointments = [];
 
-// Check session on the server side
+// 3. Extract and check session cookie on incoming request
 const sessionCookie = Astro.cookies.get('spmh_admin_session')?.value;
 if (sessionCookie === CORRECT_ACCESS_CODE) {
   isAuthenticated = true;
 }
 
-// Handle Form Login Submissions
+// 4. Handle Form Login Submissions safely
 if (Astro.request.method === 'POST') {
   try {
     const data = await Astro.request.formData();
@@ -37,11 +42,13 @@ if (Astro.request.method === 'POST') {
       Astro.cookies.set('spmh_admin_session', CORRECT_ACCESS_CODE, {
         path: '/',
         maxAge: 60 * 60 * 8, // 8-hour hospital shift window
-        httpOnly: false,     // MUST BE FALSE so our client-side logout script can clear it as a backup
+        httpOnly: false,     // Kept false for client-side logout script fallback
         secure: true,
         sameSite: 'strict'
       });
-      return Astro.redirect('/portal/admin');
+      
+      // Force instant authentication state local flag to prevent redirect drops
+      isAuthenticated = true;
     } else {
       errorMessage = "Invalid institutional access credential.";
     }
@@ -50,22 +57,28 @@ if (Astro.request.method === 'POST') {
   }
 }
 
+// 5. Fetch records dynamically if authentication state is verified
 if (isAuthenticated) {
-  // Temporary Production Diagnostics
-  console.log("=== ENVIROMENT STATUS ===");
-  console.log("Configured Target URL:", supabaseUrl ? "FOUND" : "MISSING/UNDEFINED");
-  
-  const { data, error } = await supabase
-    .from('appointments')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    console.error("Supabase Database Return Error:", error.message);
-    errorMessage = `Database Sync Error: ${error.message}`;
+  if (!supabase) {
+    console.error("Supabase config fault: client was not initialized.");
+    errorMessage = "Database configuration error. Please check backend setup variables.";
   } else {
-    console.log(`Successfully synced. Record count found: ${data ? data.length : 0}`);
-    appointments = data;
+    try {
+      const { data, error } = await supabase
+        .from('appointments')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error("Supabase Database Return Error:", error.message);
+        errorMessage = `Database Sync Error: ${error.message}`;
+      } else {
+        appointments = data || [];
+      }
+    } catch (err) {
+      console.error("Unexpected pipeline execution error during fetch:", err);
+      errorMessage = "Internal server communication failure.";
+    }
   }
 }
 
