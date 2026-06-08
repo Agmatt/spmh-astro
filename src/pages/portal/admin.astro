@@ -5,38 +5,41 @@ export const prerender = false; // Force server-side execution on Netlify
 import '../../styles/global.css';
 import { createClient } from '@supabase/supabase-js';
 
-// src/pages/portal/admin.astro
+// FIXED: Netlify Functions - environment variables are only available at runtime via process.env
+// DO NOT use import.meta.env for runtime values in SSR
+const supabaseUrl = process.env.SUPABASE_URL || "";
+const supabaseKey = process.env.SUPABASE_ANON_KEY || "";
+const CORRECT_ACCESS_CODE = process.env.ADMIN_ACCESS_CODE || "SPMH2026";
 
-// 1. Force strict production runtime evaluation for Netlify Functions
-const supabaseUrl = (typeof process !== 'undefined' && process.env && process.env.SUPABASE_URL) 
-  ? process.env.SUPABASE_URL 
-  : (import.meta.env.SUPABASE_URL || "");
-
-const supabaseKey = (typeof process !== 'undefined' && process.env && process.env.SUPABASE_ANON_KEY) 
-  ? process.env.SUPABASE_ANON_KEY 
-  : (import.meta.env.SUPABASE_ANON_KEY || "");
-
-const CORRECT_ACCESS_CODE = (typeof process !== 'undefined' && process.env && process.env.ADMIN_ACCESS_CODE)
-  ? process.env.ADMIN_ACCESS_CODE
-  : (import.meta.env.ADMIN_ACCESS_CODE || "SPMH2026");
-
-// 2. CRITICAL FIX: Initialize the missing Supabase client instance!
+// Initialize Supabase client with explicit validation
 let supabase = null;
-if (supabaseUrl && supabaseKey) {
-  supabase = createClient(supabaseUrl, supabaseKey);
+let initError = "";
+
+if (!supabaseUrl || !supabaseKey) {
+  initError = `Missing Supabase config: URL=${!!supabaseUrl}, Key=${!!supabaseKey}`;
+  console.error("🔴 SUPABASE CONFIG ERROR:", initError);
+} else {
+  try {
+    supabase = createClient(supabaseUrl, supabaseKey);
+    console.log("✅ Supabase client initialized successfully");
+  } catch (err) {
+    initError = `Failed to create Supabase client: ${err instanceof Error ? err.message : String(err)}`;
+    console.error("🔴 CLIENT CREATION ERROR:", initError);
+  }
 }
 
 let isAuthenticated = false;
 let errorMessage = "";
 let appointments = [];
 
-// 3. Extract and check session cookie on incoming request
+// Extract and check session cookie on incoming request
 const sessionCookie = Astro.cookies.get('spmh_admin_session')?.value;
 if (sessionCookie === CORRECT_ACCESS_CODE) {
   isAuthenticated = true;
+  console.log("✅ Session authenticated from cookie");
 }
 
-// 4. Handle Form Login Submissions safely
+// Handle Form Login Submissions
 if (Astro.request.method === 'POST') {
   try {
     const data = await Astro.request.formData();
@@ -46,42 +49,56 @@ if (Astro.request.method === 'POST') {
       Astro.cookies.set('spmh_admin_session', CORRECT_ACCESS_CODE, {
         path: '/',
         maxAge: 60 * 60 * 8, // 8-hour hospital shift window
-        httpOnly: false,     // Kept false for client-side logout script fallback
+        httpOnly: false,
         secure: true,
         sameSite: 'strict'
       });
       
-      // Force instant authentication state local flag to prevent redirect drops
       isAuthenticated = true;
+      console.log("✅ User authenticated via access code");
     } else {
       errorMessage = "Invalid institutional access credential.";
+      console.warn("⚠️ Invalid access code attempted");
     }
   } catch (error) {
     errorMessage = "Authentication subsystem failure.";
+    console.error("🔴 AUTH ERROR:", error);
   }
 }
 
-// 5. Fetch records dynamically if authentication state is verified
+// Fetch records dynamically if authentication state is verified
 if (isAuthenticated) {
-  if (!supabaseUrl || !supabaseKey) {
-    errorMessage = "Deployment Config Error: Keys are missing from Netlify environment variables.";
+  // Report initialization errors if they exist
+  if (initError) {
+    errorMessage = initError;
   } else if (!supabase) {
-    errorMessage = "Initialization Error: Supabase client failed to initialize.";
+    errorMessage = "Supabase client initialization failed - no client instance available.";
   } else {
     try {
+      console.log("📡 Fetching appointments from Supabase...");
       const { data, error } = await supabase
         .from('appointments')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) {
-        // This will print the exact issue (like RLS violation or invalid API keys) right onto the dashboard
         errorMessage = `Supabase Error: ${error.message} (Code: ${error.code})`;
+        console.error("🔴 QUERY ERROR:", {
+          message: error.message,
+          code: error.code,
+          details: error.details
+        });
+      } else if (!data) {
+        errorMessage = "Query returned null data";
+        console.warn("⚠️ No data returned from query");
       } else {
-        appointments = data || [];
+        appointments = data;
+        console.log(`✅ Successfully fetched ${appointments.length} appointments`);
       }
     } catch (err) {
-      errorMessage = `Unexpected Server Crash: ${err instanceof Error ? err.message : String(err)}`;
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      errorMessage = `Unexpected server error: ${errorMsg}`;
+      console.error("🔴 UNEXPECTED ERROR:", err);
     }
   }
 }
@@ -175,7 +192,7 @@ const formatClinicName = (slug) => {
 
           { errorMessage && (
             <div class="flex items-center gap-2 text-sm text-accent bg-red-50 p-3.5 rounded-xl border border-red-100 font-medium">
-              <svg xmlns="http://www.w3.org/2000/xl" class="w-5 h-5 flex-shrink-0 text-accent" viewBox="0 0 20 20" fill="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0 text-accent" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
               </svg>
               <span>⚠️ {errorMessage}</span>
@@ -216,7 +233,6 @@ const formatClinicName = (slug) => {
                 Live Sync Active
               </div>
 
-              <!-- BUTTON TRIGGERING THE BACKUP INTERCEPT SCRIPT -->
               <button 
                 onclick="triggerHardLogout()" 
                 class="btn-tertiary !text-xs !py-2 !px-3.5 flex items-center gap-1.5 cursor-pointer"
@@ -272,7 +288,11 @@ const formatClinicName = (slug) => {
                       <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mx-auto text-slate-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0a2 2 0 01-2 2H6a2 2 0 01-2-2m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                       </svg>
-                      No active entries logged inside the database queue.
+                      { errorMessage ? (
+                        <p class="text-sm text-red-600 font-bold mt-2">Error: {errorMessage}</p>
+                      ) : (
+                        <p>No active entries logged inside the database queue.</p>
+                      )}
                     </td>
                   </tr>
                 ) : (
