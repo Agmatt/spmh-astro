@@ -1,0 +1,295 @@
+---
+// src/pages/portal/admin.astro
+import '../../styles/global.css'; // Pure side-effect import for global Tailwind CSS
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase
+const supabaseUrl = import.meta.env.SUPABASE_URL || process.env.SUPABASE_URL;
+const supabaseKey = import.meta.env.SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+const CORRECT_ACCESS_CODE = import.meta.env.ADMIN_ACCESS_CODE || process.env.ADMIN_ACCESS_CODE || "SPMH2026";
+
+let isAuthenticated = false;
+let errorMessage = "";
+let appointments = [];
+
+// --- ACTION 1: HANDLE LOGOUT MECHANISM ---
+if (Astro.request.method === 'GET' && Astro.url.searchParams.get('action') === 'logout') {
+  Astro.cookies.delete('spmh_admin_session', { path: '/' });
+  return Astro.redirect('/portal/admin');
+}
+
+// Check for active server-side sessions via cookies
+const sessionCookie = Astro.cookies.get('spmh_admin_session')?.value;
+if (sessionCookie === CORRECT_ACCESS_CODE) {
+  isAuthenticated = true;
+}
+
+// --- ACTION 2: HANDLE LOGIN SUBMISSION ---
+if (Astro.request.method === 'POST') {
+  try {
+    const data = await Astro.request.formData();
+    const accessCode = data.get('access_code')?.toString().trim();
+
+    if (accessCode === CORRECT_ACCESS_CODE) {
+      Astro.cookies.set('spmh_admin_session', CORRECT_ACCESS_CODE, {
+        path: '/',
+        maxAge: 60 * 60 * 8, // Authorized for an 8-hour shift
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict'
+      });
+      return Astro.redirect('/portal/admin');
+    } else {
+      errorMessage = "Invalid institutional access credential.";
+    }
+  } catch (error) {
+    errorMessage = "Authentication subsystem failure.";
+  }
+}
+
+// --- ACTION 3: FETCH LIVE TRIAGE QUEUE ---
+if (isAuthenticated) {
+  const { data, error } = await supabase
+    .from('appointments')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (!error) {
+    appointments = data;
+  } else {
+    errorMessage = "Failed to sync with active database records.";
+  }
+}
+
+// Helper to format raw clinic values into professional labels
+const formatClinicName = (slug) => {
+  const mapping = {
+    general: 'General Outpatient (GP)',
+    pediatrics: 'Pediatrics & Child Health',
+    antenatal: 'Antenatal & Maternity Care (ANC)',
+    comprehensive: 'Comprehensive Care Center (CCC)',
+    laboratory: 'Laboratory / Diagnostics'
+  };
+  return mapping[slug] || slug;
+};
+---
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>St. Paul's Mission Hospital — Admin Terminal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {isAuthenticated && (
+    <script is:inline>
+      let idleTime = 0;
+      
+      // Increment the idle counter every single minute
+      const timerIncrement = () => {
+        idleTime++;
+        if (idleTime >= 10) { // 10 Minutes of absolute idleness reached
+          alert("Session expired due to 10 minutes of idleness. Redirecting to security login.");
+          window.location.href = "?action=logout";
+        }
+      };
+
+      // Reset the idle timer on any physical user interaction
+      const resetTimer = () => {
+        idleTime = 0;
+      };
+
+      // Initialize trackers on window mount
+      window.onload = () => {
+        // Check activity status every minute (60,000 milliseconds)
+        setInterval(timerIncrement, 60000);
+
+        // DOM Event listeners tracking system activity
+        const activities = ['mousemove', 'keypress', 'mousedown', 'touchstart', 'scroll'];
+        activities.forEach(event => {
+          document.addEventListener(event, resetTimer, true);
+        });
+      };
+    </script>
+  )}
+</head>
+<body class="bg-surface min-h-screen text-slate-800 antialiased font-body">
+
+  { !isAuthenticated ? (
+    <div class="flex min-h-screen items-center justify-center p-4 bg-gradient-to-br from-[#0d47a1] via-secondary to-slate-950">
+      <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-border p-8 relative overflow-hidden">
+        
+        <div class="absolute top-0 left-0 right-0 h-1.5 bg-primary"></div>
+
+        <div class="text-center mb-8">
+          <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-surface text-primary mb-4 shadow-sm border border-border">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h1 class="text-2xl font-extrabold tracking-tight">Clinical Administration</h1>
+          <p class="text-sm text-muted mt-1">St. Paul's Mission Hospital Gateway</p>
+        </div>
+
+        <form method="POST" class="space-y-5">
+          <div>
+            <label for="access_code" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Institutional Access PIN</label>
+            <input 
+              type="password" 
+              id="access_code" 
+              name="access_code" 
+              required 
+              placeholder="••••••••" 
+              class="w-full px-4 py-3 rounded-xl border border-border focus:ring-4 focus:ring-surface-2 focus:border-primary outline-none transition bg-surface text-center tracking-widest text-xl font-mono shadow-sm"
+            />
+          </div>
+
+          { errorMessage && (
+            <div class="flex items-center gap-2 text-sm text-accent bg-red-50 p-3.5 rounded-xl border border-red-100 font-medium">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0 text-accent" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+              </svg>
+              <span>{errorMessage}</span>
+            </div>
+          )}
+
+          <button type="submit" class="w-full btn-primary text-center font-semibold py-3.5 tracking-wide text-sm cursor-pointer">
+            Authenticate & Access Registry
+          </button>
+        </form>
+
+        <div class="mt-6 text-center border-t border-slate-100 pt-4">
+          <a href="/" class="inline-flex items-center gap-2 text-xs font-bold text-muted hover:text-primary transition">
+            ← Return to Main Website
+          </a>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div class="min-h-screen flex flex-col">
+      
+      <nav class="bg-white border-b border-border sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between h-16 items-center">
+            
+            <div class="flex items-center gap-6">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-sm shadow-md">
+                  SP
+                </div>
+                <div>
+                  <h2 class="text-base font-bold tracking-tight m-0 leading-tight">St. Paul's Hospital</h2>
+                  <span class="text-[10px] bg-surface-2 border border-border text-primary px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Triage Hub</span>
+                </div>
+              </div>
+
+              <a 
+                href="/" 
+                class="hidden md:inline-flex items-center gap-2 text-xs font-bold text-muted hover:text-primary bg-surface hover:bg-surface-2 px-3 py-2 rounded-lg border border-border transition"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Main Website
+              </a>
+            </div>
+            
+            <div class="flex items-center gap-4">
+              <div class="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Live Sync Active
+              </div>
+
+              <a href="?action=logout" class="btn-tertiary !text-xs !py-2 !px-3.5 flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Log Out
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
+          <div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Outpatient Booking Dashboard</h1>
+            <p class="text-sm text-muted mt-1">Real-time scheduling overview and patient flow monitoring management.</p>
+          </div>
+          <a href="/" class="md:hidden text-xs font-bold text-primary self-start">← Back to Main Site</a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+          <div class="bg-white p-5 rounded-2xl shadow-sm border border-border flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-surface text-primary flex items-center justify-center border border-border flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-muted uppercase tracking-wider">Total Records</p>
+              <p class="text-2xl font-bold text-slate-900 mt-0.5">{appointments.length}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white shadow-sm rounded-2xl border border-border overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-slate-100 text-left text-sm">
+              <thead class="bg-surface text-xs font-bold uppercase tracking-wider text-muted border-b border-border">
+                <tr>
+                  <th class="px-6 py-4">Patient Profile</th>
+                  <th class="px-6 py-4">Clinic Specialty Target</th>
+                  <th class="px-6 py-4">Scheduled Window</th>
+                  <th class="px-6 py-4">Clinical Annotations</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 bg-white">
+                { appointments.length === 0 ? (
+                  <tr>
+                    <td colspan="4" class="px-6 py-16 text-center text-muted font-medium">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mx-auto text-slate-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0a2 2 0 01-2 2H6a2 2 0 01-2-2m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                      </svg>
+                      No active entries logged inside the database queue.
+                    </td>
+                  </tr>
+                ) : (
+                  appointments.map((patient) => (
+                    <tr class="hover:bg-surface/50 transition duration-100">
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="font-bold text-slate-900 tracking-tight">{patient.fullname}</div>
+                        <div class="text-xs text-muted mt-1 flex flex-col gap-0.5 font-mono">
+                          <span>📞 {patient.phone}</span>
+                          {patient.email && <span>✉️ {patient.email}</span>}
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-surface-2 text-primary border border-border">
+                          {formatClinicName(patient.department)}
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-slate-600">
+                        <div class="font-bold text-slate-800">{patient.appointment_date}</div>
+                        <div class="text-xs text-muted font-medium mt-0.5">{patient.appointment_time}</div>
+                      </td>
+                      <td class="px-6 py-4 max-w-sm">
+                        <p class="text-xs text-slate-600 bg-surface border border-border p-2.5 rounded-xl line-clamp-2 italic">
+                          {patient.notes || 'No annotations provided by applicant.'}
+                        </p>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  )}
+
+</body>
+</html>
