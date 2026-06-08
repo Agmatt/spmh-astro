@@ -78,17 +78,17 @@ import Layout from '../../Layout/Layout.astro';
         <div
           class='bg-white rounded-3xl shadow-lg border border-[var(--color-border)] p-8 sm:p-10'>
           <form
+            id='appointmentForm'
             action='https://spmh-backend-production.up.railway.app/api/appointments'
             method='POST'
+            novalidate
             class='space-y-8'>
-            <!-- Section 1: Patient Information -->
             <fieldset class='space-y-4'>
               <legend
                 class="text-2xl font-semibold text-[var(--color-primary-dark)] tracking-tight font-['Playfair_Display',_Georgia,_serif] mb-2">
                 Personal Details
               </legend>
 
-              <!-- Patient Name -->
               <div>
                 <label
                   for='fullname'
@@ -99,14 +99,15 @@ import Layout from '../../Layout/Layout.astro';
                   type='text'
                   id='fullname'
                   name='fullname'
-                  required
-                  minlength='3'
                   placeholder='John Doe'
                   class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition bg-[var(--color-surface)]'
                 />
+                <p
+                  id='fullnameError'
+                  class='text-xs text-red-600 mt-1.5 font-medium hidden'>
+                </p>
               </div>
 
-              <!-- Contact Row: Phone & Email -->
               <div class='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                 <div>
                   <label
@@ -118,12 +119,13 @@ import Layout from '../../Layout/Layout.astro';
                     type='tel'
                     id='phone'
                     name='phone'
-                    required
-                    pattern='^(?:\+254|254|0)?(7|1)\d{8}$'
                     placeholder='0712 345 678'
-                    title='Please enter a valid Kenyan phone number starting with 07, 01, or +254 followed by 8 digits.'
                     class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition bg-[var(--color-surface)]'
                   />
+                  <p
+                    id='phoneError'
+                    class='text-xs text-red-600 mt-1.5 font-medium hidden'>
+                  </p>
                 </div>
                 <div>
                   <label
@@ -141,20 +143,22 @@ import Layout from '../../Layout/Layout.astro';
                     placeholder='johndoe@example.com'
                     class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition bg-[var(--color-surface)]'
                   />
+                  <p
+                    id='emailError'
+                    class='text-xs text-red-600 mt-1.5 font-medium hidden'>
+                  </p>
                 </div>
               </div>
             </fieldset>
 
             <hr class='border-[var(--color-surface-2)]' />
 
-            <!-- Section 2: Appointment Details -->
             <fieldset class='space-y-4'>
               <legend
                 class="text-2xl font-semibold text-[var(--color-primary-dark)] tracking-tight font-['Playfair_Display',_Georgia,_serif] mb-2">
                 Appointment Preferences
               </legend>
 
-              <!-- Specialty/Clinic Selection -->
               <div>
                 <label
                   for='department'
@@ -165,7 +169,6 @@ import Layout from '../../Layout/Layout.astro';
                   <select
                     id='department'
                     name='department'
-                    required
                     class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition appearance-none text-[var(--color-secondary)]'>
                     <option value=''>Choose a clinic...</option>
                     <option value='general'>General Outpatient (GP)</option>
@@ -195,9 +198,12 @@ import Layout from '../../Layout/Layout.astro';
                     </svg>
                   </div>
                 </div>
+                <p
+                  id='departmentError'
+                  class='text-xs text-red-600 mt-1.5 font-medium hidden'>
+                </p>
               </div>
 
-              <!-- Scheduling Row: Date & Time -->
               <div class='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                 <div>
                   <label
@@ -209,9 +215,12 @@ import Layout from '../../Layout/Layout.astro';
                     type='date'
                     id='appointment_date'
                     name='appointment_date'
-                    required
                     class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition bg-[var(--color-surface)]'
                   />
+                  <p
+                    id='dateError'
+                    class='text-xs text-red-600 mt-1.5 font-medium hidden'>
+                  </p>
                 </div>
                 <div>
                   <label
@@ -223,13 +232,15 @@ import Layout from '../../Layout/Layout.astro';
                     type='time'
                     id='appointment_time'
                     name='appointment_time'
-                    required
                     class='w-full px-4 py-3 rounded-xl border border-[var(--color-border)] focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-[var(--color-primary)] outline-none transition bg-[var(--color-surface)]'
                   />
+                  <p
+                    id='timeError'
+                    class='text-xs text-red-600 mt-1.5 font-medium hidden'>
+                  </p>
                 </div>
               </div>
 
-              <!-- Additional Notes / Reason for Visit -->
               <div class='pt-2'>
                 <label
                   for='notes'
@@ -249,7 +260,6 @@ import Layout from '../../Layout/Layout.astro';
               </div>
             </fieldset>
 
-            <!-- Submit Action Area -->
             <div
               class='pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
               <a
@@ -268,4 +278,126 @@ import Layout from '../../Layout/Layout.astro';
       </div>
     </main>
   </div>
+
+  <script>
+    // Wait until the DOM is loaded safely
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('appointmentForm');
+
+      form.addEventListener('submit', function (event) {
+        let isFormValid = true;
+
+        // 1. Inputs Elements
+        const fullname = document.getElementById('fullname');
+        const phone = document.getElementById('phone');
+        const email = document.getElementById('email');
+        const department = document.getElementById('department');
+        const date = document.getElementById('appointment_date');
+        const time = document.getElementById('appointment_time');
+
+        // 2. Error Display Containers
+        const fullnameError = document.getElementById('fullnameError');
+        const phoneError = document.getElementById('phoneError');
+        const emailError = document.getElementById('emailError');
+        const departmentError = document.getElementById('departmentError');
+        const dateError = document.getElementById('dateError');
+        const timeError = document.getElementById('timeError');
+
+        // 3. Clear existing states dynamically
+        const fields = [
+          { el: fullnameError, input: fullname },
+          { el: phoneError, input: phone },
+          { el: emailError, input: email },
+          { el: departmentError, input: department },
+          { el: dateError, input: date },
+          { el: timeError, input: time },
+        ];
+
+        fields.forEach((field) => {
+          if (field.el) {
+            field.el.textContent = '';
+            field.el.classList.add('hidden');
+          }
+          if (field.input) {
+            field.input.classList.remove(
+              'border-red-500',
+              'focus:ring-red-200',
+            );
+          }
+        });
+
+        // --- FULL NAME VALIDATION ---
+        if (!fullname.value.trim()) {
+          fullnameError.textContent =
+            'Full name is required to schedule an record.';
+          fullnameError.classList.remove('hidden');
+          fullname.classList.add('border-red-500');
+          isFormValid = false;
+        } else if (fullname.value.trim().length < 3) {
+          fullnameError.textContent =
+            'Full name must be at least 3 characters long.';
+          fullnameError.classList.remove('hidden');
+          fullname.classList.add('border-red-500');
+          isFormValid = false;
+        }
+
+        // --- KENYAN PHONE NUMBER VALIDATION ---
+        const phoneRegex = /^(?:\+254|254|0)?(7|1)\d{8}$/;
+        if (!phone.value.trim()) {
+          phoneError.textContent =
+            'Phone number is required for notification text messaging.';
+          phoneError.classList.remove('hidden');
+          phone.classList.add('border-red-500');
+          isFormValid = false;
+        } else if (!phoneRegex.test(phone.value.trim())) {
+          phoneError.textContent =
+            'Please enter a valid Kenyan phone number (e.g., 0712345678).';
+          phoneError.classList.remove('hidden');
+          phone.classList.add('border-red-500');
+          isFormValid = false;
+        }
+
+        // --- OPTIONAL EMAIL VALIDATION ---
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email.value.trim() && !emailRegex.test(email.value.trim())) {
+          emailError.textContent =
+            'Please provide a standard valid email structure.';
+          emailError.classList.remove('hidden');
+          email.classList.add('border-red-500');
+          isFormValid = false;
+        }
+
+        // --- DEPARTMENT CLINIC SELECTION ---
+        if (!department.value) {
+          departmentError.textContent =
+            'Please choose a dedicated specialty clinic.';
+          departmentError.classList.remove('hidden');
+          department.classList.add('border-red-500');
+          isFormValid = false;
+        }
+
+        // --- APPOINTMENT DATE VALIDATION ---
+        if (!date.value) {
+          dateError.textContent =
+            'Please select your preferred clinic visit date.';
+          dateError.classList.remove('hidden');
+          date.classList.add('border-red-500');
+          isFormValid = false;
+        }
+
+        // --- APPOINTMENT TIME VALIDATION ---
+        if (!time.value) {
+          timeError.textContent = 'Please specify a valid timing window.';
+          timeError.classList.remove('hidden');
+          time.classList.add('border-red-500');
+          isFormValid = false;
+        }
+
+        // STOP SUBMISSION IF ANY RULES BROKE
+        if (!isFormValid) {
+          event.preventDefault();
+        }
+      });
+    });
+  </script>
 </Layout>
