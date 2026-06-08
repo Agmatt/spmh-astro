@@ -4,7 +4,7 @@ export const prerender = false; // Force server-side execution on Netlify
 
 import '../../styles/global.css';
 
-// 1. Force strict production runtime evaluation for Netlify Functions
+// 1. Unified Environment Variable Resolution
 const supabaseUrl = typeof process !== 'undefined' && process.env && process.env.SUPABASE_URL 
   ? process.env.SUPABASE_URL 
   : import.meta.env.SUPABASE_URL;
@@ -50,14 +50,13 @@ if (Astro.request.method === 'POST') {
   }
 }
 
-// 4. CRITICAL FIX: Aggressive Sanitization & Native HTTP Fetch
+// 4. Clean, Sanitize, and Fetch from Database
 if (isAuthenticated) {
-  // Force extreme sanitization to strip Netlify's hidden spaces, newlines, or accidental quotes
   const cleanUrl = (supabaseUrl || '').toString().trim().replace(/['"]/g, '').replace(/\/$/, "");
   const cleanKey = (supabaseKey || '').toString().trim().replace(/['"]/g, '');
 
   if (!cleanUrl || !cleanKey) {
-    errorMessage = "Deployment Config Error: Keys are completely missing from Netlify.";
+    errorMessage = "Deployment Config Error: Keys are completely missing from Netlify environment variables.";
   } else {
     try {
       const endpoint = `${cleanUrl}/rest/v1/appointments?select=*&order=created_at.desc`;
@@ -78,9 +77,10 @@ if (isAuthenticated) {
       } else {
         appointments = await response.json();
         
-        // If it somehow still returns an empty array, print exactly what Netlify is doing to the screen!
-        if (appointments.length === 0) {
-          errorMessage = `DIAGNOSTIC MODE | Status: ${response.status} | URL: ${cleanUrl.substring(0, 25)}... | Key Start: ${cleanKey.substring(0, 15)}...`;
+        // Expose a diagnostic readout if the server successfully yields nothing
+        if (!appointments || appointments.length === 0) {
+          appointments = [];
+          errorMessage = `DIAGNOSTIC DATA: Connection successful (Status 200), but table returned 0 rows. Verify Netlify is pointing to your active project database. Target URL: ${cleanUrl}`;
         }
       }
     } catch (err) {
@@ -110,7 +110,6 @@ const formatClinicName = (slug) => {
   {isAuthenticated && (
     <script is:inline>
       let idleTime = 0;
-      
       const timerIncrement = () => {
         idleTime++;
         if (idleTime >= 10) { 
@@ -118,10 +117,8 @@ const formatClinicName = (slug) => {
           triggerHardLogout();
         }
       };
-
       const resetTimer = () => { idleTime = 0; };
 
-      // Hard client-side logout strategy
       window.triggerHardLogout = () => {
         document.cookie = "spmh_admin_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict; Secure";
         window.location.href = "/portal/admin";
@@ -181,7 +178,7 @@ const formatClinicName = (slug) => {
               <svg xmlns="http://www.w3.org/2000/xl" class="w-5 h-5 flex-shrink-0 text-accent" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
               </svg>
-              <span>⚠️ {errorMessage}</span>
+              <span>{errorMessage}</span>
             </div>
           )}
 
@@ -219,9 +216,6 @@ const formatClinicName = (slug) => {
                 Live Sync Active
               </div>
 
-
-  
-              <!-- BUTTON TRIGGERING THE BACKUP INTERCEPT SCRIPT -->
               <button 
                 onclick="triggerHardLogout()" 
                 class="btn-tertiary !text-xs !py-2 !px-3.5 flex items-center gap-1.5 cursor-pointer"
@@ -232,11 +226,24 @@ const formatClinicName = (slug) => {
                 Log Out
               </button>
             </div>
+
           </div>
         </div>
       </nav>
 
       <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        {/* CRITICAL VISIBILITY UPDATE: Render errors and diagnostic data inside the Dashboard layout view */}
+        { errorMessage && (
+          <div class="mb-6 p-4.5 bg-red-50 border border-red-200 text-red-800 text-sm font-semibold rounded-xl shadow-sm flex items-start gap-2.5">
+            <span class="text-base">⚠️</span>
+            <div class="flex-1">
+              <p class="font-bold text-red-900 mb-0.5">System Alert Node</p>
+              <p class="font-mono text-xs leading-relaxed opacity-90">{errorMessage}</p>
+            </div>
+          </div>
+        )}
+
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
           <div>
             <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Outpatient Booking Dashboard</h1>
