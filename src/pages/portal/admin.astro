@@ -3,40 +3,31 @@
 export const prerender = false; // Force server-side execution on Netlify
 
 import '../../styles/global.css';
-import { createClient } from '@supabase/supabase-js';
-
-// src/pages/portal/admin.astro
 
 // 1. Force strict production runtime evaluation for Netlify Functions
-const supabaseUrl = (typeof process !== 'undefined' && process.env && process.env.SUPABASE_URL) 
+const supabaseUrl = typeof process !== 'undefined' && process.env && process.env.SUPABASE_URL 
   ? process.env.SUPABASE_URL 
-  : (import.meta.env.SUPABASE_URL || "");
+  : import.meta.env.SUPABASE_URL;
 
-const supabaseKey = (typeof process !== 'undefined' && process.env && process.env.SUPABASE_ANON_KEY) 
+const supabaseKey = typeof process !== 'undefined' && process.env && process.env.SUPABASE_ANON_KEY 
   ? process.env.SUPABASE_ANON_KEY 
-  : (import.meta.env.SUPABASE_ANON_KEY || "");
+  : import.meta.env.SUPABASE_ANON_KEY;
 
-const CORRECT_ACCESS_CODE = (typeof process !== 'undefined' && process.env && process.env.ADMIN_ACCESS_CODE)
+const CORRECT_ACCESS_CODE = typeof process !== 'undefined' && process.env && process.env.ADMIN_ACCESS_CODE
   ? process.env.ADMIN_ACCESS_CODE
-  : (import.meta.env.ADMIN_ACCESS_CODE || "SPMH2026");
-
-// 2. CRITICAL FIX: Initialize the missing Supabase client instance!
-let supabase = null;
-if (supabaseUrl && supabaseKey) {
-  supabase = createClient(supabaseUrl, supabaseKey);
-}
+  : import.meta.env.ADMIN_ACCESS_CODE || "SPMH2026";
 
 let isAuthenticated = false;
 let errorMessage = "";
 let appointments = [];
 
-// 3. Extract and check session cookie on incoming request
+// 2. Extract and check session cookie on incoming request
 const sessionCookie = Astro.cookies.get('spmh_admin_session')?.value;
 if (sessionCookie === CORRECT_ACCESS_CODE) {
   isAuthenticated = true;
 }
 
-// 4. Handle Form Login Submissions safely
+// 3. Handle Form Login Submissions safely
 if (Astro.request.method === 'POST') {
   try {
     const data = await Astro.request.formData();
@@ -46,12 +37,10 @@ if (Astro.request.method === 'POST') {
       Astro.cookies.set('spmh_admin_session', CORRECT_ACCESS_CODE, {
         path: '/',
         maxAge: 60 * 60 * 8, // 8-hour hospital shift window
-        httpOnly: false,     // Kept false for client-side logout script fallback
+        httpOnly: false,
         secure: true,
         sameSite: 'strict'
       });
-      
-      // Force instant authentication state local flag to prevent redirect drops
       isAuthenticated = true;
     } else {
       errorMessage = "Invalid institutional access credential.";
@@ -61,27 +50,34 @@ if (Astro.request.method === 'POST') {
   }
 }
 
-// 5. Fetch records dynamically if authentication state is verified
+// 4. CRITICAL FIX: Make a direct, un-cached native HTTP Fetch to Supabase REST API
 if (isAuthenticated) {
   if (!supabaseUrl || !supabaseKey) {
     errorMessage = "Deployment Config Error: Keys are missing from Netlify environment variables.";
-  } else if (!supabase) {
-    errorMessage = "Initialization Error: Supabase client failed to initialize.";
   } else {
     try {
-      const { data, error } = await supabase
-        .from('appointments')
-        .select('*')
-        .order('created_at', { ascending: false });
+      // Formulate the direct PostgREST URL Supabase uses under the hood
+      const cleanUrl = supabaseUrl.replace(/\/$/, "");
+      const endpoint = `${cleanUrl}/rest/v1/appointments?select=*&order=created_at.desc`;
 
-      if (error) {
-        // This will print the exact issue (like RLS violation or invalid API keys) right onto the dashboard
-        errorMessage = `Supabase Error: ${error.message} (Code: ${error.code})`;
+      const response = await fetch(endpoint, {
+        method: 'GET',
+        headers: {
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'count=exact'
+        }
+      });
+
+      if (!response.ok) {
+        const textError = await response.text();
+        errorMessage = `Supabase Core Error: ${response.status} - ${textError}`;
       } else {
-        appointments = data || [];
+        appointments = await response.json();
       }
     } catch (err) {
-      errorMessage = `Unexpected Server Crash: ${err instanceof Error ? err.message : String(err)}`;
+      errorMessage = `Network Fetch Failure: ${err instanceof Error ? err.message : String(err)}`;
     }
   }
 }
