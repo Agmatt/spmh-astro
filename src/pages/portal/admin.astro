@@ -1,9 +1,11 @@
 ---
-export const prerender = false; // Forces this page to be Server-Side Rendered (SSR)
-import '../../styles/global.css'; // Pure side-effect import for global Tailwind CSS
+// src/pages/portal/admin.astro
+export const prerender = false; // Force server-side execution on Netlify
+
+import '../../styles/global.css';
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase
+// Initialize Supabase configuration
 const supabaseUrl = import.meta.env.SUPABASE_URL || process.env.SUPABASE_URL;
 const supabaseKey = import.meta.env.SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -14,27 +16,13 @@ let isAuthenticated = false;
 let errorMessage = "";
 let appointments = [];
 
-// --- ACTION 1: HANDLE LOGOUT MECHANISM ---
-if (Astro.url.searchParams.get('action') === 'logout') {
-  // Clear the cookie completely across all subdomains and paths
-  Astro.cookies.delete('spmh_admin_session', { 
-    path: '/',
-    secure: true,
-    httpOnly: true,
-    sameSite: 'strict'
-  });
-  
-  // Redirect back to the clean admin page without any query parameters
-  return Astro.redirect('/portal/admin');
-}
-
-// Check for active server-side sessions via cookies
+// Check session on the server side
 const sessionCookie = Astro.cookies.get('spmh_admin_session')?.value;
 if (sessionCookie === CORRECT_ACCESS_CODE) {
   isAuthenticated = true;
 }
 
-// --- ACTION 2: HANDLE LOGIN SUBMISSION ---
+// Handle Form Login Submissions
 if (Astro.request.method === 'POST') {
   try {
     const data = await Astro.request.formData();
@@ -43,8 +31,8 @@ if (Astro.request.method === 'POST') {
     if (accessCode === CORRECT_ACCESS_CODE) {
       Astro.cookies.set('spmh_admin_session', CORRECT_ACCESS_CODE, {
         path: '/',
-        maxAge: 60 * 60 * 8, // Authorized for an 8-hour shift
-        httpOnly: true,
+        maxAge: 60 * 60 * 8, // 8-hour hospital shift window
+        httpOnly: false,     // MUST BE FALSE so our client-side logout script can clear it as a backup
         secure: true,
         sameSite: 'strict'
       });
@@ -57,7 +45,7 @@ if (Astro.request.method === 'POST') {
   }
 }
 
-// --- ACTION 3: FETCH LIVE TRIAGE QUEUE ---
+// Fetch live database appointments if authenticated
 if (isAuthenticated) {
   const { data, error } = await supabase
     .from('appointments')
@@ -71,7 +59,6 @@ if (isAuthenticated) {
   }
 }
 
-// Helper to format raw clinic values into professional labels
 const formatClinicName = (slug) => {
   const mapping = {
     general: 'General Outpatient (GP)',
@@ -89,30 +76,29 @@ const formatClinicName = (slug) => {
   <meta charset="utf-8" />
   <title>St. Paul's Mission Hospital — Admin Terminal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
   {isAuthenticated && (
     <script is:inline>
       let idleTime = 0;
       
-      // Increment the idle counter every single minute
       const timerIncrement = () => {
         idleTime++;
-        if (idleTime >= 10) { // 10 Minutes of absolute idleness reached
-          alert("Session expired due to 10 minutes of idleness. Redirecting to security login.");
-          window.location.href = "?action=logout";
+        if (idleTime >= 10) { 
+          alert("Session expired due to 10 minutes of idleness.");
+          triggerHardLogout();
         }
       };
 
-      // Reset the idle timer on any physical user interaction
-      const resetTimer = () => {
-        idleTime = 0;
+      const resetTimer = () => { idleTime = 0; };
+
+      // Hard client-side logout strategy
+      window.triggerHardLogout = () => {
+        document.cookie = "spmh_admin_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict; Secure";
+        window.location.href = "/portal/admin";
       };
 
-      // Initialize trackers on window mount
       window.onload = () => {
-        // Check activity status every minute (60,000 milliseconds)
         setInterval(timerIncrement, 60000);
-
-        // DOM Event listeners tracking system activity
         const activities = ['mousemove', 'keypress', 'mousedown', 'touchstart', 'scroll'];
         activities.forEach(event => {
           document.addEventListener(event, resetTimer, true);
@@ -126,21 +112,20 @@ const formatClinicName = (slug) => {
   { !isAuthenticated ? (
     <div 
       class="flex min-h-screen items-center justify-center p-4 bg-cover bg-center bg-no-repeat relative"
-      style="background-image: url(/img/47.jpg);"
+      style="background-image: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=80');"
     >
-      <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-[2px] z-0"></div>
+      <div class="absolute inset-0 bg-slate-950/65 backdrop-blur-[2px] z-0"></div>
 
-      <div class="w-full max-w-md bg-white backdrop-blur-md rounded-2xl shadow-2xl border border-border/60 p-8 relative overflow-hidden z-10">
-        
+      <div class="w-full max-w-md bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-border/60 p-8 relative overflow-hidden z-10">
         <div class="absolute top-0 left-0 right-0 h-1.5 bg-primary"></div>
 
         <div class="text-center mb-7">
-          <div class="inline-flex items-center justify-center mb-4 p-2 overflow-hidden">
+          <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-surface mb-4 shadow-inner border border-border p-2 overflow-hidden">
             <img 
-              src="/gallery/bg.png" 
-              alt="St. Paul's Mission Hospital Logo" 
+              src="/images/logo.png" 
+              alt="Logo" 
               class="w-full h-full object-contain"
-              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=120&q=80'; this.className='w-full h-full object-cover';"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=120&q=80';"
             />
           </div>
           <h1 class="text-2xl font-extrabold tracking-tight">Clinical Administration</h1>
@@ -149,7 +134,7 @@ const formatClinicName = (slug) => {
 
         <form method="POST" class="space-y-5">
           <div>
-            <label for="access_code" class="block text-xs text-center font-bold text-slate-700 uppercase tracking-wider mb-2">Institutional Access PIN</label>
+            <label for="access_code" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Institutional Access PIN</label>
             <input 
               type="password" 
               id="access_code" 
@@ -162,7 +147,7 @@ const formatClinicName = (slug) => {
 
           { errorMessage && (
             <div class="flex items-center gap-2 text-sm text-accent bg-red-50 p-3.5 rounded-xl border border-red-100 font-medium">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0 text-accent" viewBox="0 0 20 20" fill="currentColor">
+              <svg xmlns="http://www.w3.org/2000/xl" class="w-5 h-5 flex-shrink-0 text-accent" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
               </svg>
               <span>{errorMessage}</span>
@@ -183,31 +168,18 @@ const formatClinicName = (slug) => {
     </div>
   ) : (
     <div class="min-h-screen flex flex-col">
-      
       <nav class="bg-white border-b border-border sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex justify-between h-16 items-center">
             
             <div class="flex items-center gap-6">
               <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-sm shadow-md">
-                  SP
-                </div>
+                <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-sm shadow-md">SP</div>
                 <div>
                   <h2 class="text-base font-bold tracking-tight m-0 leading-tight">St. Paul's Hospital</h2>
                   <span class="text-[10px] bg-surface-2 border border-border text-primary px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Triage Hub</span>
                 </div>
               </div>
-
-              <a 
-                href="/" 
-                class="hidden md:inline-flex items-center gap-2 text-xs font-bold text-muted hover:text-primary bg-surface hover:bg-surface-2 px-3 py-2 rounded-lg border border-border transition"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                Main Website
-              </a>
             </div>
             
             <div class="flex items-center gap-4">
@@ -216,25 +188,28 @@ const formatClinicName = (slug) => {
                 Live Sync Active
               </div>
 
-              <a href="?action=logout" class="btn-tertiary !text-xs !py-2 !px-3.5 flex items-center gap-1.5">
+              <!-- BUTTON TRIGGERING THE BACKUP INTERCEPT SCRIPT -->
+              <button 
+                onclick="triggerHardLogout()" 
+                class="btn-tertiary !text-xs !py-2 !px-3.5 flex items-center gap-1.5 cursor-pointer"
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
                 Log Out
-              </a>
+              </button>
             </div>
+
           </div>
         </div>
       </nav>
 
       <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
           <div>
             <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Outpatient Booking Dashboard</h1>
             <p class="text-sm text-muted mt-1">Real-time scheduling overview and patient flow monitoring management.</p>
           </div>
-          <a href="/" class="md:hidden text-xs font-bold text-primary self-start">← Back to Main Site</a>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
