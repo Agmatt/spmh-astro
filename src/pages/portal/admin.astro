@@ -5,16 +5,20 @@ export const prerender = false; // Force server-side execution on Netlify
 import '../../styles/global.css';
 import { createClient } from '@supabase/supabase-js';
 
-// 1. Correctly parse environment variables across Node/Vite runtimes
-const supabaseUrl = typeof process !== 'undefined' && process.env.SUPABASE_URL 
+// src/pages/portal/admin.astro
+
+// 1. Force strict production runtime evaluation for Netlify Functions
+const supabaseUrl = (typeof process !== 'undefined' && process.env && process.env.SUPABASE_URL) 
   ? process.env.SUPABASE_URL 
-  : import.meta.env.SUPABASE_URL;
+  : (import.meta.env.SUPABASE_URL || "");
 
-const supabaseKey = typeof process !== 'undefined' && process.env.SUPABASE_ANON_KEY 
+const supabaseKey = (typeof process !== 'undefined' && process.env && process.env.SUPABASE_ANON_KEY) 
   ? process.env.SUPABASE_ANON_KEY 
-  : import.meta.env.SUPABASE_ANON_KEY;
+  : (import.meta.env.SUPABASE_ANON_KEY || "");
 
-const CORRECT_ACCESS_CODE = import.meta.env.ADMIN_ACCESS_CODE || process.env.ADMIN_ACCESS_CODE || "SPMH2026";
+const CORRECT_ACCESS_CODE = (typeof process !== 'undefined' && process.env && process.env.ADMIN_ACCESS_CODE)
+  ? process.env.ADMIN_ACCESS_CODE
+  : (import.meta.env.ADMIN_ACCESS_CODE || "SPMH2026");
 
 // 2. CRITICAL FIX: Initialize the missing Supabase client instance!
 let supabase = null;
@@ -59,9 +63,10 @@ if (Astro.request.method === 'POST') {
 
 // 5. Fetch records dynamically if authentication state is verified
 if (isAuthenticated) {
-  if (!supabase) {
-    console.error("Supabase config fault: client was not initialized.");
-    errorMessage = "Database configuration error. Please check backend setup variables.";
+  if (!supabaseUrl || !supabaseKey) {
+    errorMessage = "Deployment Config Error: Keys are missing from Netlify environment variables.";
+  } else if (!supabase) {
+    errorMessage = "Initialization Error: Supabase client failed to initialize.";
   } else {
     try {
       const { data, error } = await supabase
@@ -70,14 +75,13 @@ if (isAuthenticated) {
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error("Supabase Database Return Error:", error.message);
-        errorMessage = `Database Sync Error: ${error.message}`;
+        // This will print the exact issue (like RLS violation or invalid API keys) right onto the dashboard
+        errorMessage = `Supabase Error: ${error.message} (Code: ${error.code})`;
       } else {
         appointments = data || [];
       }
     } catch (err) {
-      console.error("Unexpected pipeline execution error during fetch:", err);
-      errorMessage = "Internal server communication failure.";
+      errorMessage = `Unexpected Server Crash: ${err instanceof Error ? err.message : String(err)}`;
     }
   }
 }
@@ -174,7 +178,7 @@ const formatClinicName = (slug) => {
               <svg xmlns="http://www.w3.org/2000/xl" class="w-5 h-5 flex-shrink-0 text-accent" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
               </svg>
-              <span>{errorMessage}</span>
+              <span>⚠️ {errorMessage}</span>
             </div>
           )}
 
