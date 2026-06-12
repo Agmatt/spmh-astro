@@ -18,7 +18,7 @@ const supabaseKey = typeof process !== 'undefined' && process.env && process.env
 
 const CORRECT_ACCESS_CODE = typeof process !== 'undefined' && process.env && process.env.ADMIN_ACCESS_CODE
   ? process.env.ADMIN_ACCESS_CODE
-  : import.meta.env.ADMIN_ACCESS_CODE || "SPMH2026";
+  : import.meta.env.ADMIN_ACCESS_CODE || "BookingDesk2026";
 
 let isAuthenticated = false;
 let errorMessage = "";
