@@ -4,21 +4,10 @@ export const prerender = false; // Force server-side execution on Netlify
 
 import '../../styles/global.css';
 
-// 1. Unified Environment Variable Resolution
-// src/pages/portal/admin.astro
-
-const supabaseUrl = typeof process !== 'undefined' && process.env && process.env.SUPABASE_URL 
-  ? process.env.SUPABASE_URL 
-  : import.meta.env.SUPABASE_URL;
-
-// Paste your verified working key directly as a solid production fallback
-const supabaseKey = typeof process !== 'undefined' && process.env && process.env.SUPABASE_ANON_KEY 
-  ? process.env.SUPABASE_ANON_KEY 
-  : (import.meta.env.SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0b3pzYmt3YWNuaGJld3pob2pyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDgzMTQ4MywiZXhwIjoyMDk2NDA3NDgzfQ.fjcd-JeKclvABbUMOmWYSBp06eQlxMoUMrcfNWrjdE4");
-
-const CORRECT_ACCESS_CODE = typeof process !== 'undefined' && process.env && process.env.ADMIN_ACCESS_CODE
-  ? process.env.ADMIN_ACCESS_CODE
-  : import.meta.env.ADMIN_ACCESS_CODE || "BookingDesk2026";
+// FIXED: Read directly from process.env on Netlify (no fallbacks, no hardcoded keys)
+const supabaseUrl = (import.meta.env.SUPABASE_URL || '').trim();
+const supabaseKey = (process.env.SUPABASE_ANON_KEY || '').trim();
+const CORRECT_ACCESS_CODE = process.env.ADMIN_ACCESS_CODE || "SPMH2026";
 
 let isAuthenticated = false;
 let errorMessage = "";
@@ -55,20 +44,18 @@ if (Astro.request.method === 'POST') {
 
 // 4. Clean, Sanitize, and Fetch from Database
 if (isAuthenticated) {
-  const cleanUrl = (supabaseUrl || '').toString().trim().replace(/['"]/g, '').replace(/\/$/, "");
-  const cleanKey = (supabaseKey || '').toString().trim().replace(/['"]/g, '');
-
-  if (!cleanUrl || !cleanKey) {
-    errorMessage = "Deployment Config Error: Keys are completely missing from Netlify environment variables.";
+  // CRITICAL: Validate that keys actually exist before attempting API call
+  if (!supabaseUrl || !supabaseKey) {
+    errorMessage = `Deployment Config Error: Missing environment variables on Netlify. URL exists: ${!!supabaseUrl}, Key exists: ${!!supabaseKey}`;
   } else {
     try {
-      const endpoint = `${cleanUrl}/rest/v1/appointments?select=*&order=created_at.desc`;
+      const endpoint = `${supabaseUrl}/rest/v1/appointments?select=*&order=created_at.desc`;
 
       const response = await fetch(endpoint, {
         method: 'GET',
         headers: {
-          'apikey': cleanKey,
-          'Authorization': `Bearer ${cleanKey}`,
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`,
           'Content-Type': 'application/json',
           'Prefer': 'count=exact'
         }
@@ -83,7 +70,7 @@ if (isAuthenticated) {
         // Expose a diagnostic readout if the server successfully yields nothing
         if (!appointments || appointments.length === 0) {
           appointments = [];
-          errorMessage = `DIAGNOSTIC DATA: Connection successful (Status 200), but table returned 0 rows. Verify Netlify is pointing to your active project database. Target URL: ${cleanUrl}`;
+          errorMessage = `DIAGNOSTIC DATA: Connection successful (Status 200), but table returned 0 rows. Verify Netlify is pointing to your active project database. Target URL: ${supabaseUrl}`;
         }
       }
     } catch (err) {
