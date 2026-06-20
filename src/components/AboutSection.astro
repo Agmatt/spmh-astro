@@ -5,10 +5,10 @@ const images = {
     '/img/15.jpg',
   // Top right: medical staff / team
   staff1:
-    '/img/11.jpg',
+    '/img/27.jpg',
   // Bottom right: ward / corridor / care setting
   staff2:
-    '/img/17.jpg',
+    '/img/27.jpg',
 };
 ---
 
@@ -56,15 +56,6 @@ const images = {
           <div
             class='absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent'>
           </div>
-          <!-- Staff label badge -->
-          <div
-            class='absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 flex items-center gap-2'>
-            <div class='size-2 rounded-full bg-primary'></div>
-            <span
-              class='text-secondary text-[0.65rem] tracking-[0.14em] uppercase font-semibold'>
-              Our Team
-            </span>
-          </div>
         </div>
 
         <!-- Text panel — the emotional core -->
@@ -89,24 +80,6 @@ const images = {
               carry that same conviction into every consultation, every ward
               round, and every family they walk alongside.
             </p>
-          </div>
-
-          <!-- Bottom row: values pills -->
-          <div class='flex flex-wrap gap-2 mt-6 pt-6 border-t border-border/60' data-aos="fade-up">
-            {
-              [
-                'Compassionate',
-                'Dedicated',
-                'Community-first',
-                'Mission-driven',
-              ].map((v) => (
-                <span
-                  class='text-[0.65rem] tracking-[0.12em] uppercase font-semibold text-primary
-                           bg-primary/8 border border-primary/15 px-3 py-1.5'>
-                  {v}
-                </span>
-              ))
-            }
           </div>
         </div>
       </div>

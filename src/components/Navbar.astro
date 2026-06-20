@@ -1,4 +1,38 @@
-<nav class='sticky top-0 z-[100] bg-white border-b border-slate-100 shadow-sm'>
+---
+const navGroups = [
+  {
+    key: 'about',
+    label: 'About Us',
+    items: [
+      { label: 'History', href: '/about-us/history' },
+      { label: 'Organization', href: '/about-us/organization' },
+      { label: 'Our Mission', href: '/about-us/mission-vision-values' },
+      { label: 'Strategic Plan 2030', href: '/about-us/strategic-plan' },
+      { label: 'Contact', href: '/about-us/contact' },
+      { label: 'Tenders', href: '/about-us/tenders' },
+    ],
+  },
+  {
+    key: 'services',
+    label: 'Our Services',
+    items: [
+      { label: 'Clinical Services', href: '/services/clinical' },
+      { label: 'Patient Support', href: '/services/patient-support' },
+      { label: 'Appointment', href: '/portal' },
+    ],
+  },
+];
+---
+
+<!--
+  NOTE: Requires Alpine.js to be loaded once globally (e.g. in your base Layout):
+  <script is:inline src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  If you already load Alpine for the admin dashboard / Keystatic bits, you don't need to add this again.
+-->
+<nav
+  x-data='{ mobileOpen: false, openDropdown: null, mobOpenDropdown: null }'
+  @keydown.escape.window='mobileOpen = false; openDropdown = null'
+  class='sticky top-0 z-[100] bg-white border-b border-slate-100 shadow-sm'>
   <div class='container mx-auto px-6 py-3 flex items-center justify-between'>
     <a href='/' class='flex items-center space-x-3 group' title='Home'>
       <img
@@ -17,123 +51,69 @@
         >
       </div>
     </a>
-    <!-- Dropdown menu -->
-    <div class='hidden lg:flex items-center space-x-4 lg:space-x-8'>
-      <div class='relative group py-4' data-dropdown='desktop'>
-        <button
-          class='flex items-center text-slate-600 font-bold text-sm hover:text-[#125276] transition-colors focus:outline-none'>
-          About Us
-          <svg
-            class='w-4 h-4 ml-1 transform transition-transform duration-300 group-hover:rotate-180'
-            fill='none'
-            stroke='currentColor'
-            viewBox='0 0 24 24'>
-            <path
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              stroke-width='2'
-              d='M19 9l-7 7-7-7'></path>
-          </svg>
-        </button>
-        <ul
-          class='absolute top-full left-0 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-3 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-200 z-[110]'>
-          <li>
-            <a
-              href='/about-us/history'
-              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
-              >History</a
-            >
-          </li>
-          <li>
-            <a
-              href='/about-us/organization'
-              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
-              >Organization</a
-            >
-          </li>
-          <li>
-            <a
-              href='/about-us/mission-vision-values'
-              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
-              >Our Mission</a
-            >
-          </li>
-          <li>
-            <a
-              href='/about-us/strategic-plan'
-              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50'
-              >Strategic Plan 2030</a
-            >
-          </li>
-          <li>
-            <a
-              href='/about-us/contact'
-              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
-              >Contact</a
-            >
-          </li>
-          <li>
-            <a
-              href='/about-us/tenders'
-              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
-              >Tenders</a
-            >
-          </li>
-        </ul>
-      </div>
 
-      <div class='relative group py-4' data-dropdown='desktop'>
-        <button
-          class='flex items-center text-slate-600 font-bold text-sm hover:text-[#125276] transition-colors focus:outline-none'>
-          Our Services
-          <svg
-            class='w-4 h-4 ml-1 transform transition-transform duration-300 group-hover:rotate-180'
-            fill='none'
-            stroke='currentColor'
-            viewBox='0 0 24 24'>
-            <path
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              stroke-width='2'
-              d='M19 9l-7 7-7-7'></path>
-          </svg>
-        </button>
-        <ul
-          class='absolute top-full left-0 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-3 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-200 z-[110]'>
-          <li>
-            <a
-              href='/services/clinical'
-              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
-              >Clinical Services</a
-            >
-          </li>
-          <li>
-            <a
-              href='/services/patient-support'
-              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
-              >Patient Support</a
-            >
-          </li>
-          <li>
-            <a
-              href='/portal'
-              class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'
-              >Appointment</a
-            >
-          </li>
-        </ul>
-      </div>
+    <!-- Desktop nav -->
+    <div class='hidden lg:flex items-center space-x-4 lg:space-x-8'>
+      {
+        navGroups.map((group) => (
+          <div
+            class='relative py-4'
+            @mouseenter={`openDropdown = '${group.key}'`}
+            @mouseleave='openDropdown = null'>
+            <button
+              @click={`openDropdown = openDropdown === '${group.key}' ? null : '${group.key}'`}
+              class='flex items-center text-slate-600 font-bold text-sm hover:text-[#125276] transition-colors focus:outline-none'
+              aria-haspopup='true'
+              x-bind:aria-expanded={`openDropdown === '${group.key}'`}>
+              {group.label}
+              <svg
+                class='w-4 h-4 ml-1 transition-transform duration-300'
+                x-bind:class={`{ 'rotate-180': openDropdown === '${group.key}' }`}
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'>
+                <path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  stroke-width='2'
+                  d='M19 9l-7 7-7-7'
+                />
+              </svg>
+            </button>
+            <ul
+              x-show={`openDropdown === '${group.key}'`}
+              x-transition:enter='transition ease-out duration-150'
+              x-transition:enter-start='opacity-0 scale-95'
+              x-transition:enter-end='opacity-100 scale-100'
+              x-transition:leave='transition ease-in duration-100'
+              x-transition:leave-start='opacity-100 scale-100'
+              x-transition:leave-end='opacity-0 scale-95'
+              style='display:none'
+              class='absolute top-full left-0 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-3 z-[110]'>
+              {group.items.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#125276]'>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
 
       <a
         href='/get-involved'
-        class='text-slate-600 font-bold text-sm hover:text-[#125276] py-4 transition-colors'
-        >Get Involved</a
-      >
+        class='text-slate-600 font-bold text-sm hover:text-[#125276] py-4 transition-colors'>
+        Get Involved
+      </a>
       <a
         href='/news-and-media'
-        class='text-slate-600 font-bold text-sm hover:text-[#125276] py-4 transition-colors'
-        >News & Media</a
-      >
+        class='text-slate-600 font-bold text-sm hover:text-[#125276] py-4 transition-colors'>
+        News & Media
+      </a>
 
       <a
         href='tel:+254111817447'
@@ -151,137 +131,87 @@
       </a>
     </div>
 
+    <!-- Mobile toggle button: hamburger <-> X, animated -->
     <div class='lg:hidden flex items-center'>
       <button
-        id='mobile-menu-btn'
-        class='text-[#125276] p-2 hover:bg-slate-50 rounded-lg focus:outline-none'>
-        <svg
-          class='w-8 h-8'
-          fill='none'
-          stroke='currentColor'
-          viewBox='0 0 24 24'>
-          <path
-            stroke-linecap='round'
-            stroke-linejoin='round'
-            stroke-width='2'
-            d='M4 6h16M4 12h16m-7 6h7'></path>
-        </svg>
+        @click='mobileOpen = !mobileOpen'
+        class='relative w-10 h-10 flex items-center justify-center text-[#125276] hover:bg-slate-50 rounded-lg focus:outline-none'
+        aria-label='Toggle navigation menu'
+        x-bind:aria-expanded='mobileOpen'>
+        <span class='sr-only'>Toggle menu</span>
+        <span
+          class='absolute w-6 h-0.5 bg-current rounded-full transition-all duration-300'
+          x-bind:class="mobileOpen ? 'rotate-45 translate-y-0' : '-translate-y-2'"
+        ></span>
+        <span
+          class='absolute w-6 h-0.5 bg-current rounded-full transition-all duration-200'
+          x-bind:class="mobileOpen ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'"
+        ></span>
+        <span
+          class='absolute w-6 h-0.5 bg-current rounded-full transition-all duration-300'
+          x-bind:class="mobileOpen ? '-rotate-45 translate-y-0' : 'translate-y-2'"
+        ></span>
       </button>
     </div>
   </div>
-  <!-- Humbuger menu -->
-  <div
-    id='mobile-menu'
-    class='hidden lg:hidden bg-[#FDFCF8] border-t border-slate-100 shadow-inner max-h-screen overflow-y-auto'>
-    <div class='px-6 py-8 space-y-4'>
-      <div class='space-y-2'>
-        <button
-          class='mobile-dropdown-btn w-full flex justify-between items-center p-4 rounded-xl bg-white border border-slate-100 text-[#125276] font-black uppercase tracking-tighter text-sm'
-          data-target='mob-about'>
-          About Us
-          <svg
-            class='w-5 h-5 transition-transform duration-300'
-            fill='none'
-            stroke='currentColor'
-            viewBox='0 0 24 24'
-            ><path stroke-width='2' d='M19 9l-7 7-7-7'></path></svg
-          >
-        </button>
-        <ul
-          id='mob-about'
-          class='hidden px-4 py-2 space-y-3 bg-white/50 rounded-b-xl border-x border-b border-slate-50'>
-          <li>
-            <a
-              href='/about-us/history'
-              class='block py-2 text-slate-600 text-sm font-medium'>History</a
-            >
-          </li>
-          <li>
-            <a
-              href='/about-us/organization'
-              class='block py-2 text-slate-600 text-sm font-medium'
-              >Organization</a
-            >
-          </li>
-          <li>
-            <a
-              href='/about-us/mission-vision-values'
-              class='block py-2 text-slate-600 text-sm font-medium'
-              >Our Mission</a
-            >
-          </li>
-          <li>
-            <a
-              href='/about-us/strategic-plan'
-              class='block py-2 text-slate-600 text-sm font-medium'
-              >Strategic Plan</a
-            >
-          </li>
-          <li>
-            <a
-              href='/about-us/contact'
-              class='block py-2 text-slate-600 text-sm font-medium'>Contact</a
-            >
-          </li>
-          <li>
-            <a
-              href='/about-us/tenders'
-              class='block py-2 text-slate-600 text-sm font-medium'>Tenders</a
-            >
-          </li>
-        </ul>
-      </div>
 
-      <div class='space-y-2'>
-        <button
-          class='mobile-dropdown-btn w-full flex justify-between items-center p-4 rounded-xl bg-white border border-slate-100 text-[#125276] font-black uppercase tracking-tighter text-sm'
-          data-target='mob-services'>
-          Our Services
-          <svg
-            class='w-5 h-5 transition-transform duration-300'
-            fill='none'
-            stroke='currentColor'
-            viewBox='0 0 24 24'
-            ><path stroke-width='2' d='M19 9l-7 7-7-7'></path></svg
-          >
-        </button>
-        <ul
-          id='mob-services'
-          class='hidden px-4 py-2 space-y-3 bg-white/50 rounded-b-xl border-x border-b border-slate-50'>
-          <li>
-            <a
-              href='/services/clinical'
-              class='block py-2 text-slate-600 text-sm font-medium'
-              >Clinical Services</a
-            >
-          </li>
-          <li>
-            <a
-              href='/services/patient-support'
-              class='block py-2 text-slate-600 text-sm font-medium'
-              >Patient Support</a
-            >
-          </li>
-          <li>
-            <a
-              href='/services/appointment'
-              class='block py-2 text-slate-600 text-sm font-medium'
-              >Appointment</a
-            >
-          </li>
-        </ul>
-      </div>
+  <!-- Mobile menu panel -->
+  <div
+    x-show='mobileOpen'
+    x-transition:enter='transition ease-out duration-200'
+    x-transition:enter-start='opacity-0 -translate-y-2'
+    x-transition:enter-end='opacity-100 translate-y-0'
+    x-transition:leave='transition ease-in duration-150'
+    x-transition:leave-start='opacity-100 translate-y-0'
+    x-transition:leave-end='opacity-0 -translate-y-2'
+    style='display:none'
+    class='lg:hidden bg-[#FDFCF8] border-t border-slate-100 shadow-inner max-h-[calc(100vh-4rem)] overflow-y-auto'>
+    <div class='px-6 py-8 space-y-4'>
+      {
+        navGroups.map((group) => (
+          <div class='space-y-2'>
+            <button
+              @click={`mobOpenDropdown = mobOpenDropdown === '${group.key}' ? null : '${group.key}'`}
+              class='w-full flex justify-between items-center p-4 rounded-xl bg-white border border-slate-100 text-[#125276] font-black uppercase tracking-tighter text-sm'>
+              {group.label}
+              <svg
+                class='w-5 h-5 transition-transform duration-300'
+                x-bind:class={`{ 'rotate-180': mobOpenDropdown === '${group.key}' }`}
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'>
+                <path stroke-width='2' d='M19 9l-7 7-7-7' />
+              </svg>
+            </button>
+            <ul
+              x-show={`mobOpenDropdown === '${group.key}'`}
+              x-transition
+              style='display:none'
+              class='px-4 py-2 space-y-3 bg-white/50 rounded-b-xl border-x border-b border-slate-50'>
+              {group.items.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class='block py-2 text-slate-600 text-sm font-medium'>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
 
       <a
         href='/get-involved'
-        class='block p-4 text-[#125276] font-black uppercase tracking-tighter text-sm'
-        >Get Involved</a
-      >
+        class='block p-4 text-[#125276] font-black uppercase tracking-tighter text-sm'>
+        Get Involved
+      </a>
       <a
         href='/news-and-media'
-        class='block p-4 text-[#125276] font-black uppercase tracking-tighter text-sm'
-        >News & Media</a
-      >
+        class='block p-4 text-[#125276] font-black uppercase tracking-tighter text-sm'>
+        News & Media
+      </a>
 
       <a
         href='tel:+254111817447'
@@ -291,74 +221,3 @@
     </div>
   </div>
 </nav>
-
-<!-- CORRECTED SCRIPT — replace your existing <script> block with this -->
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    // ── Mobile hamburger toggle ───────────────────────────────────────────
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-        mobileMenu.classList.add('hidden');
-      }
-    });
-
-    // ── Mobile accordion dropdowns ────────────────────────────────────────
-    document.querySelectorAll('.mobile-dropdown-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const targetMenu = document.getElementById(
-          btn.getAttribute('data-target'),
-        );
-        const icon = btn.querySelector('svg');
-        targetMenu.classList.toggle('hidden');
-        icon.classList.toggle('rotate-180');
-      });
-    });
-
-    const desktopGroups = document.querySelectorAll(
-      '[data-dropdown="desktop"]',
-    );
-
-    function closeAll() {
-      desktopGroups.forEach((g) => {
-        g.classList.remove('is-open');
-        const ul = g.querySelector('ul');
-        if (!ul) return;
-        ul.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-        ul.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
-      });
-    }
-
-    desktopGroups.forEach((group) => {
-      const btn = group.querySelector('button');
-      const ul = group.querySelector('ul');
-      if (!btn || !ul) return;
-
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = group.classList.contains('is-open');
-        closeAll();
-        if (!isOpen) {
-          group.classList.add('is-open');
-          ul.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
-          ul.classList.add('opacity-100', 'scale-100', 'pointer-events-auto');
-        }
-      });
-    });
-
-    // Close on outside click
-    document.addEventListener('click', closeAll);
-
-    // Close on Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeAll();
-    });
-  });
-</script>
