@@ -6,7 +6,7 @@ import AboutSection from '../components/AboutSection.astro';
 import ServicesGrid from '../components/ServicesGrid.astro';
 import StatsBar from '../components/StatsBar.astro';
 import AppointmentCTA from '../components/AppointmentCTA.astro';
-import FeaturedServices from '../react-islands/FeaturedServices.tsx'; // .tsx — no extension needed
+import Featuredservices from '../components/Featuredservices.astro'; // .tsx — no extension needed
 import LatestDevelopments from '../components/LatestDevelopments.astro';
 ---
 
@@ -15,7 +15,7 @@ import LatestDevelopments from '../components/LatestDevelopments.astro';
   <IntroBand />
   <AboutSection />
   <ServicesGrid />
-  <FeaturedServices client:visible />
+  <Featuredservices />
   <StatsBar />
   <LatestDevelopments />
   <AppointmentCTA />

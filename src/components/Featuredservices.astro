@@ -1,0 +1,217 @@
+---
+/**
+ * FeaturedServices.astro — Premium Institutional Card Carousel
+ * 
+ * 4 featured services displayed as sleek, compact architectural cards.
+ * Features mobile-friendly circular accent indicators and global button components.
+ */
+
+const services = [
+  {
+    id: "emergency",
+    icon: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z",
+    title: "Emergency & Trauma",
+    badge: "24 / 7",
+    desc: "Immediate care around the clock. Walk in at any time — no referral needed. Our team is ready before you arrive.",
+    points: [
+      "Immediate triage on arrival",
+      "Trauma resuscitation bay",
+      "24-hour specialist cover",
+      "Direct admission pathway",
+    ],
+    cta: "Get Emergency Care",
+    ctaHref: "/services/clinical#emergency",
+    btnClass: "btn-tertiary", // Emergency-specific red styling
+    isAccent: true,
+  },
+  {
+    id: "maternity",
+    icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
+    title: "Maternity & Newborn",
+    badge: "Full Pathway",
+    desc: "Complete maternal care from antenatal visits through delivery and postnatal recovery. Dedicated newborn unit for special care.",
+    points: [
+      "Antenatal clinics & birth planning",
+      "Skilled birth attendants",
+      "Postnatal mother & baby support",
+      "Newborn special care unit",
+    ],
+    cta: "Book Antenatal Visit",
+    ctaHref: "/services/clinical#maternal",
+    btnClass: "btn-primary",
+    isAccent: false,
+  },
+  {
+    id: "surgical",
+    icon: "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z",
+    title: "Surgical Services",
+    badge: "Expert Care",
+    desc: "Elective and emergency surgical procedures with full pre- and post-operative support. Our surgical team handles routine to complex cases.",
+    points: [
+      "General and specialist procedures",
+      "Emergency surgical response 24/7",
+      "Pre- and post-operative care",
+      "Modern operating theatre facilities",
+    ],
+    cta: "Learn About Surgery",
+    ctaHref: "/services/clinical#surgical",
+    btnClass: "btn-secondary",
+    isAccent: false,
+  },
+  {
+    id: "ccc",
+    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+    title: "Comprehensive Care Centre",
+    badge: "Confidential",
+    desc: "Integrated HIV/AIDS services with complete confidentiality. Testing, counselling, antiretroviral therapy, and long-term management.",
+    points: [
+      "Voluntary Counselling & Testing",
+      "Antiretroviral therapy management",
+      "Nutritional support & counselling",
+      "Community linkage & follow-up",
+    ],
+    cta: "Visit the CCC",
+    ctaHref: "/services/clinical#ccc",
+    btnClass: "btn-primary",
+    isAccent: false,
+  },
+]
+---
+
+<section class="py-16 lg:py-24 bg-[var(--color-surface)] antialiased overflow-hidden" style="font-family: var(--font-body);">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+    <!-- ── Institutional Header ── -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-[var(--color-border)] pb-6 mb-12">
+      <div class="max-w-xl">
+        <h2 class="text-3xl lg:text-4xl font-light tracking-tight text-[var(--color-secondary)]" style="font-family: var(--font-display);">
+           <span class="font-bold text-[var(--color-primary)]">Featured Services</span>
+        </h2>
+      </div>
+    </div>
+
+    <!-- ── Pure Architectural Card Track ── -->
+    <div class="relative" x-data="servicesCarousel()">
+      <div class="overflow-hidden">
+        <div
+          class="flex gap-6 transition-transform duration-700 cubic-bezier(0.16, 1, 0.3, 1)"
+          :style="`transform: translateX(-${currentIndex * calcTransform}%)`"
+        >
+          {services.map((service, idx) => (
+            /* Card Component Container: Heights optimized downward */
+            <div 
+              key={service.id} 
+              class="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] flex-shrink-0 bg-white border border-[var(--color-border)] p-6 lg:p-7 flex flex-col justify-between min-h-[440px] rounded-lg shadow-sm relative transition-all duration-300 hover:border-[var(--color-primary)]"
+            >
+              <div>
+                <!-- Top Structural Metadata Row -->
+                <div class="flex items-center justify-between border-b border-[var(--color-surface)] pb-4 mb-4">
+                  <div class="text-[var(--color-muted)]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style={{ color: service.isAccent ? 'var(--color-accent)' : 'var(--color-secondary)' }}>
+                      <path stroke-linecap="round" stroke-linejoin="round" d={service.icon}/>
+                    </svg>
+                  </div>
+                  <span 
+                    class="text-[9px] font-mono uppercase tracking-widest border px-2.5 py-0.5 rounded-none"
+                    style={{ 
+                      borderColor: service.isAccent ? 'var(--color-accent)' : 'var(--color-border)', 
+                      color: service.isAccent ? 'var(--color-accent)' : 'var(--color-secondary)',
+                      backgroundColor: service.isAccent ? 'rgba(134, 15, 15, 0.05)' : 'var(--color-surface)'
+                    }}
+                  >
+                    {service.badge}
+                  </span>
+                </div>
+
+                <!-- Number Prefix and Title Block -->
+                
+                <h3 class="text-xl font-bold tracking-tight text-[var(--color-secondary)] mb-2" style="font-family: var(--font-display);">
+                  {service.title}
+                </h3>
+                <p class="text-[var(--color-muted)] text-xs leading-relaxed mb-4 font-normal">
+                  {service.desc}
+                </p>
+
+                <!-- Technical Specification Points -->
+                <ul class="space-y-1.5 pt-3 border-t border-[var(--color-surface-2)]">
+                  {service.points.map(point => (
+                    <li class="flex items-start gap-2">
+                      <span class="font-mono text-[9px] text-[var(--color-primary-light)] mt-0.5">■</span>
+                      <span class="text-xs text-[var(--color-secondary)] tracking-wide font-normal">{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- Functional CTA Footer using Global Utility Classes -->
+              <div class="mt-6 pt-4 border-t border-[var(--color-surface)] text-center sm:text-left">
+                <a
+                  href={service.ctaHref}
+                  class={`btn ${service.btnClass} w-full sm:w-auto text-center text-xs tracking-wide font-semibold`}
+                >
+                  {service.cta}
+                </a>
+              </div>
+
+              <!-- Top Accent Border Bar -->
+              <div 
+                class="absolute top-0 left-0 right-0 h-[3px] rounded-t-lg" 
+                style={{ backgroundColor: service.isAccent ? 'var(--color-accent)' : 'var(--color-primary)' }}
+              ></div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- ── Refined Circular Navigation Control Elements ── -->
+      <div class="flex items-center justify-center md:justify-between mt-8 px-1">
+        
+        {/* Dynamic circular button points mapping system */}
+        <div class="flex items-center gap-3">
+          {services.map((_, idx) => (
+            <button
+              key={idx}
+              @click={`currentIndex = ${idx}`}
+              class="group flex items-center justify-center p-1 focus:outline-none"
+              aria-label={`Switch to operational grid ${idx + 1}`}
+            >
+              <div 
+                class="rounded-full transition-all duration-500 ease-out"
+                :class={`currentIndex === ${idx} ? 'w-3.5 h-3.5 bg-[var(--color-accent)]' : 'w-2 h-2 bg-[var(--color-border)] group-hover:bg-[var(--color-muted)]'`}
+              ></div>
+            </button>
+          ))}
+        </div>        
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    function servicesCarousel() {
+      return {
+        currentIndex: 0,
+        calcTransform: 100,
+        init() {
+          const handleResize = () => {
+            if (window.innerWidth >= 1024) {
+              this.calcTransform = 33.333; // Monitors display 3 elements
+            } else if (window.innerWidth >= 768) {
+              this.calcTransform = 50;     // Tablets display 2 elements
+            } else {
+              this.calcTransform = 100;    // Mobile display 1 element
+            }
+          };
+          
+          handleResize();
+          window.addEventListener('resize', handleResize);
+
+          // Paced rotation lifecycle handler
+          setInterval(() => {
+            const boundaryLimit = window.innerWidth >= 1024 ? 1 : window.innerWidth >= 768 ? 2 : 3;
+            this.currentIndex = this.currentIndex >= boundaryLimit ? 0 : this.currentIndex + 1;
+          }, 6000);
+        }
+      }
+    }
+  </script>
+</section>

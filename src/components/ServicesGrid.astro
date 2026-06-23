@@ -86,79 +86,78 @@ const services = [
 ]
 ---
 
-<section id="services" class="py-20 lg:py-28 bg-surface" data-aos="fade-up">
-  <div class="max-w-7xl mx-auto px-2 md:px-4 lg:px-16">
+<section id="services" class="py-16 lg:py-24 bg-white">
+  <div class="max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
 
     <!-- ── Header ── -->
-    <div class="mx-auto text-center gap-6 mb-12">
-      <div>
-        <h2 class="font-display text-secondary mb-4 text-4xl lg:text-5xl font-normal leading-tight">
-          <span class="font-semibold  text-primary">Our Services.</span>
-        </h2>
+    <div class="mb-14 text-center">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="w-8 h-px bg-[#1565c0]"></div>
+        <span class="text-sm font-bold text-[#5a6f8c] uppercase tracking-wide">Our Care</span>
+        <div class="w-8 h-px bg-[#1565c0]"></div>
       </div>
-      <p class="text-muted text-lg leading-relaxed text-center">
+      <h2 class="text-4xl lg:text-5xl font-black text-[#125276] tracking-tight mb-4">
+        Comprehensive Services
+      </h2>
+      <p class="text-[#5a6f8c] text-lg max-w-2xl leading-relaxed mx-auto">
         From your first consultation to long-term recovery — we are here for every step of your health journey.
       </p>
     </div>
 
     <!-- ── Grid ── -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border/40">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
 
       {services.map(service => (
         <a
           href={service.href}
-          class:list={[
-            "group relative bg-white p-7 flex flex-col gap-4",
-            "hover:bg-surface transition-colors duration-200",
-            "focus:outline-none focus:bg-surface",
-          ]}
+          class="group relative block p-6 border border-[#c5d8f7] bg-surface
+                 hover:border-[#1565c0] hover:shadow-md hover:shadow-[#1565c0]/10
+                 transition-all duration-200"
         >
           <!-- Urgent badge — Emergency only -->
           {service.urgent && (
-            <div class="absolute top-5 right-5 flex items-center gap-1.5">
+            <div class="absolute top-4 right-4 flex items-center gap-1.5">
               <span class="relative flex size-2">
-                <span class="absolute inline-flex size-full rounded-full bg-accent animate-ping opacity-75"></span>
-                <span class="relative inline-flex size-2 rounded-full bg-accent"></span>
+                <span class="absolute inline-flex size-full rounded-full bg-[#860f0f] animate-pulse opacity-75"></span>
+                <span class="relative inline-flex size-2 rounded-full bg-[#860f0f]"></span>
               </span>
-              <span class="text-accent text-[0.55rem] font-bold tracking-[0.18em] uppercase">
+              <span class="text-[#860f0f] text-xs font-bold tracking-wide uppercase">
                 24 / 7
               </span>
             </div>
           )}
 
           <!-- Icon -->
-          <div class="size-10 bg-surface-2 flex items-center justify-center
-                      group-hover:bg-primary transition-all duration-300 shrink-0">
-            <svg
-              class="size-5 text-primary group-hover:text-white transition-colors duration-300"
-              fill={service.fill ? "currentColor" : "none"}
-              stroke={service.fill ? "none" : "currentColor"}
-              stroke-width="1.5"
-              viewBox="0 0 24 24"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d={service.icon}/>
-            </svg>
+          <div class="mb-4">
+            <div class="w-12 h-12 bg-[#e8f0fc] flex items-center justify-center
+                        group-hover:bg-[#1565c0] transition-colors duration-200">
+              <svg
+                class="w-6 h-6 text-[#1565c0] group-hover:text-white transition-colors duration-200"
+                fill={service.fill ? "currentColor" : "none"}
+                stroke={service.fill ? "none" : "currentColor"}
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d={service.icon}/>
+              </svg>
+            </div>
           </div>
 
           <!-- Text -->
-          <div class="flex-1">
-            <div class="flex items-start justify-between gap-2 mb-1.5">
-              <h3 class="text-secondary font-semibold text-sm leading-snug
-                         group-hover:text-primary transition-colors duration-200">
-                {service.title}
-              </h3>
-            </div>
-            <p class="text-muted text-xs leading-relaxed">
+          <div class="flex-1 mb-4">
+            <h3 class="text-[#125276] font-bold text-base mb-2 leading-snug">
+              {service.title}
+            </h3>
+            <p class="text-[#5a6f8c] text-sm leading-relaxed">
               {service.desc}
             </p>
           </div>
 
-          <!-- Arrow -->
-          <div class="flex items-center gap-1.5 text-primary/0 group-hover:text-primary
-                      text-[0.62rem] font-bold tracking-[0.1em] uppercase
-                      transition-all duration-200 -mb-1">
+          <!-- Arrow link -->
+          <div class="flex items-center gap-2 text-[#1565c0] text-xs font-semibold uppercase tracking-wider
+                      group-hover:gap-3 transition-all duration-200">
             Learn more
-            <svg class="size-3 translate-x-0 group-hover:translate-x-1 transition-transform duration-200"
+            <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200"
                  fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
@@ -169,25 +168,21 @@ const services = [
 
     </div>
 
-    <!-- ── Footer link ── -->
-    <div class="mt-10 pt-8 border-t border-border/60 flex flex-col sm:flex-row
-                sm:items-center justify-between gap-5">
+    <!-- ── CTA Footer ── -->
+    <div class="pt-8 border-t border-[#c5d8f7] flex flex-col sm:flex-row sm:items-center justify-between gap-6">
 
-      <p class="text-muted text-sm leading-relaxed max-w-md">
+      <p class="text-[#5a6f8c] text-base max-w-xl">
         Each department has dedicated staff, clear hours, and a direct path to booking. Find full details, what to expect, and how to get there.
       </p>
 
       <a
         href="/services/clinical"
-        class="group shrink-0 inline-flex items-center gap-3
-               bg-secondary hover:bg-primary text-white
-               font-bold text-xs tracking-[0.14em] uppercase
-               px-8 py-4 transition-all duration-200
-               hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/25"
+        class="inline-flex items-center gap-3 px-6 py-3 bg-[#1565c0] hover:bg-[#0d47a1]
+               text-white font-bold text-sm uppercase tracking-wide
+               transition-colors duration-200"
       >
-        Explore all our services
-        <svg class="size-4 group-hover:translate-x-1 transition-transform duration-200"
-             fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        Explore all services
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
         </svg>
       </a>

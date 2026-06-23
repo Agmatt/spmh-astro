@@ -1,14 +1,16 @@
 ---
-const tabs = [
+/**
+ * LatestDevelopments.astro — Premium Institutional Showcase
+ * * Compact card layouts displaying strategic institutional milestones.
+ * Clean tracking architecture utilizing custom design system tokens.
+ */
+
+const developments = [
   {
-    id:        "groundbreaking",
-    label:     "New Maternity & Surgical Wing",
-    badge:     "Breaking Ground · 2026",
-    badgeCls:  "bg-accent/10 text-accent border border-accent/20",
-    status:    "Upcoming",
-    statusCls: "bg-accent text-white",
-    headline:  "A landmark investment in maternal and surgical care.",
-    body:      "St. Paul's Mission Hospital is breaking ground on a new Maternity and Surgical Wing — a cornerstone of our Strategic Plan 2026–2030. This development directly addresses our commitment to expanded inpatient capacity, improved maternal and newborn care, and enhanced surgical services, bringing us closer to Level 5 facility status by 2030.",
+    id: "groundbreaking",
+    title: "New Maternity & Surgical Wing",
+    headline: "A landmark investment in maternal and surgical care.",
+    desc: "Breaking ground on a new wing—a cornerstone of our Strategic Plan 2026–2030. This expansion builds inpatient capacity and advances our progression toward Level 5 facility standards.",
     points: [
       "Dedicated maternity beds",
       "Modern surgical theatre",
@@ -17,247 +19,161 @@ const tabs = [
       "Enhanced privacy & dignity",
       "Closer to Level 5 by 2030",
     ],
-    stat:      "2030",
-    statLabel: "Level 5 target year",
-    href:      "/developments/maternity-surgical-wing",
-    linkLabel: "View Project Details",
-    img:       "/gallery/16.jpg",
-    imgAlt:    "Groundbreaking — New Maternity and Surgical Wing",
-    accentCol: "#860f0f",
-    panelCls:  "bg-[#860f0f]",
+    cta: "View Project Details",
+    ctaHref: "/developments/maternity-surgical-wing",
+    btnClass: "btn-tertiary", // Highlighted upcoming focus
+    isAccent: true,
   },
   {
-    id:        "newborn",
-    label:     "Newborn Unit",
-    badge:     "Now Operational",
-    badgeCls:  "bg-primary/10 text-primary border border-primary/20",
-    status:    "Launched",
-    statusCls: "bg-primary text-white",
-    headline:  "Our Newborn Unit is open — and changing lives from day one.",
-    body:      "St. Paul's Mission Hospital is proud to announce that our dedicated Newborn Unit is now fully operational. Designed to provide safe, specialised care for newborns who need additional support, the unit brings a critical new capability to Homa Bay County — ensuring that the smallest and most vulnerable patients receive expert attention from their very first hours.",
+    id: "newborn",
+    title: "Newborn Unit",
+    headline: "Providing specialized neonatology from day one.",
+    desc: "Our dedicated Newborn Unit is operational, delivering safe, expert clinical intervention for our smallest and most vulnerable patients across Homa Bay County.",
     points: [
-      "Dedicated newborn care environment",
-      "Skilled nursing staff on every shift",
-      "Thermoregulation & monitoring",
-      "Close integration with maternity ward",
-      "Kangaroo mother care support",
-      "Open to all — regardless of ability to pay",
+      "Dedicated newborn environment",
+      "Skilled shift nursing staff",
+      "Thermoregulation units",
+      "Maternity ward integration",
+      "Kangaroo mother care",
+      "Accessible care access framework",
     ],
-    stat:      "Day 1",
-    statLabel: "Care starts from birth",
-    href:      "/developments/newborn-unit",
-    linkLabel: "Learn About the Newborn Unit",
-    img:       "/gallery/21.png",
-    imgAlt:    "Newborn Unit — St. Paul's Mission Hospital",
-    accentCol: "#1565c0",
-    panelCls:  "bg-primary",
+    cta: "Learn About the Unit",
+    ctaHref: "/developments/newborn-unit",
+    btnClass: "btn-primary",
+    isAccent: false,
   },
   {
-    id:        "hdu",
-    label:     "High Dependency Unit",
-    badge:     "Being Set Up",
-    badgeCls:  "bg-secondary/10 text-secondary border border-secondary/20",
-    status:    "In Progress",
-    statusCls: "bg-secondary text-white",
-    headline:  "Bridging the gap between ward care and intensive care.",
-    body:      "Our High Dependency Unit (HDU) is currently being established — a critical step in our journey toward Level 5 facility status. The HDU will provide closer monitoring and more intensive nursing care for patients who are too unwell for a general ward but do not yet require full ICU intervention, significantly improving outcomes for high-risk patients.",
+    id: "hdu",
+    title: "High Dependency Unit",
+    headline: "Bridging complex ward and intensive therapy care.",
+    desc: "Establishing our High Dependency Unit (HDU) to deliver continuous tracking and higher nurse-to-patient ratios for complex, high-risk clinical recovery.",
     points: [
-      "Continuous vital signs monitoring",
-      "Higher nurse-to-patient ratio",
-      "Post-operative recovery support",
-      "Bridge between ward and ICU-level care",
-      "Aligned with Level 5 readiness plan",
-      "Serving Homa Bay County & environs",
+      "Continuous vitals monitoring",
+      "Higher nurse ratios",
+      "Post-op recovery support",
+      "Ward to ICU bridge care",
+      "Level 5 readiness alignment",
+      "Serving regional environs",
     ],
-    stat:      "2026",
-    statLabel: "Target operational year",
-    href:      "/developments/hdu",
-    linkLabel: "About the HDU Project",
-    img:       "/gallery/22.png",
-    imgAlt:    "High Dependency Unit setup — St. Paul's Mission Hospital",
-    accentCol: "#125276",
-    panelCls:  "bg-secondary",
+    cta: "About the HDU Project",
+    ctaHref: "/developments/hdu",
+    btnClass: "btn-secondary",
+    isAccent: false,
   },
 ]
 ---
 
-<section id='developments' class='py-24 bg-surface overflow-hidden'>
-  <div class='max-w-7xl mx-auto px-2 md:px-4 lg:px-10'>
+<section class="py-16 lg:py-20 bg-[var(--color-surface)] antialiased overflow-hidden" style="font-family: var(--font-body);">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
 
-    <!-- ── Header ── -->
-    <div class='flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12 reveal'>
-      <div>
-        <p class='text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-3 flex items-center gap-3'>
-          <span class='w-8 h-px bg-primary inline-block'></span>
-          Latest Developments
-        </p>
-        <h2 class='font-display text-4xl lg:text-5xl text-secondary font-normal leading-tight'>
-          Growing for<br/>
-          <span class='font-semibold italic text-primary'>Homa Bay.</span>
+    <div class="flex flex-col md:flex-row items-center justify-center text-center border-b border-[var(--color-border)] pb-6 mb-10">
+      <div class="max-w-xl">
+        <span class="text-xs font-bold uppercase mb-4 tracking-[0.25em] text-[var(--color-muted)] block">Latest Developments</span>
+        <h2 class="text-3xl lg:text-4xl font-light tracking-tight text-[var(--color-secondary)]" style="font-family: var(--font-display);">
+          Strategic <span class="font-bold text-[var(--color-primary)]">Progressions</span>
         </h2>
       </div>
-      <p class='text-muted text-sm leading-relaxed max-w-xs'>
-        Three major developments that reflect our Strategic Plan 2026–2030 — and our commitment to better care for every patient.
-      </p>
+      
     </div>
 
-    <!-- ── Alpine.js tabbed component ── -->
-    <div x-data="{ active: 'groundbreaking' }">
-
-      <!-- Tab strip — same pattern as FeaturedServices -->
-      <div class='flex border-b border-border overflow-x-auto'>
-        {tabs.map(tab => (
-          <button
-            @click={`active = '${tab.id}'`}
-            :class={`active === '${tab.id}' ? 'text-secondary border-b-2 border-[${tab.accentCol}]' : 'text-muted hover:text-secondary border-b-2 border-transparent'`}
-            class='relative px-2 md:px-4 lg:px-7 py-4 text-sm font-semibold tracking-wide whitespace-nowrap transition-colors duration-200 -mb-px'
-          >
-            {tab.label}
-
-            <!-- Active status dot -->
-            <span
-              x-show={`active === '${tab.id}'`}
-              class='ml-2 inline-flex items-center gap-1'
-              x-cloak
+    <div class="relative" x-data="devCarousel()">
+      <div class="overflow-hidden">
+        <div
+          class="flex gap-6 transition-transform duration-700 cubic-bezier(0.16, 1, 0.3, 1)"
+          :style="`transform: translateX(-${currentIndex * calcTransform}%)`"
+        >
+          {developments.map((dev, idx) => (
+            /* Card Component Container: Optimized Heights */
+            <div 
+              key={dev.id} 
+              class="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] flex-shrink-0 bg-white border border-[var(--color-border)] p-4 md:p-6 lg:p-7 flex flex-col justify-between min-h-[400px] rounded-lg shadow-sm relative transition-all duration-300 hover:border-[var(--color-primary)]"
             >
-              <span
-                class={`inline-block text-[0.55rem] font-bold tracking-[0.12em] uppercase px-2 py-0.5 ${tab.statusCls}`}
-              >
-                {tab.status}
-              </span>
-            </span>
+              <div>
+                <h3 class="text-xl font-bold tracking-tight text-[var(--color-secondary)] mb-1.5" style="font-family: var(--font-display);">
+                  {dev.title}
+                </h3>
+                <p class="text-[var(--color-primary)] text-xs font-semibold leading-tight mb-3">
+                  {dev.headline}
+                </p>
+                <p class="text-[var(--color-muted)] text-xs leading-relaxed mb-4">
+                  {dev.desc}
+                </p>
+
+                <div class="grid grid-cols-12 gap-3 pt-3 border-t border-[var(--color-surface-2)] items-start">
+                  <ul class="col-span-7 space-y-1">
+                    {dev.points.slice(0, 4).map(point => ( // Sliced slightly to tightly manage height limits
+                      <li class="flex items-start gap-1.5">
+                        <span class="text-[var(--color-primary-light)] text-[9px] mt-0.5">▪</span>
+                        <span class="text-[11px] text-[var(--color-secondary)] tracking-wide truncate max-w-full">{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div class="mt-5 pt-4 border-t border-[var(--color-surface)]">
+                <a
+                  href={dev.ctaHref}
+                  class={`btn ${dev.btnClass} w-full text-center text-xs tracking-wide font-semibold shadow-sm`}
+                >
+                  {dev.cta}
+                </a>
+              </div>
+
+              <div 
+                class="absolute top-0 left-0 right-0 h-[3px] rounded-t-lg" 
+                style={{ backgroundColor: dev.isAccent ? 'var(--color-accent)' : 'var(--color-primary)' }}
+              ></div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center mt-8 gap-3">
+        {developments.map((_, idx) => (
+          <button
+            key={idx}
+            @click={`currentIndex = ${idx}`}
+            class="group flex items-center justify-center p-1.5 focus:outline-none"
+            aria-label={`Maps to portfolio asset segment 0${idx + 1}`}
+          >
+            <div 
+              class="w-2.5 h-2.5 rounded-full transition-all duration-500 ease-out"
+              :class={`currentIndex === ${idx} ? 'bg-[var(--color-accent)] scale-125 shadow-sm' : 'bg-[var(--color-border)] group-hover:bg-[var(--color-muted)]'`}
+            ></div>
           </button>
         ))}
       </div>
 
-      <!-- ── Tab panels ── -->
-      {tabs.map(tab => (
-        <div
-          x-show={`active === '${tab.id}'`}
-          x-transition:enter='transition duration-300 ease-out'
-          x-transition:enter-start='opacity-0 translate-y-2'
-          x-transition:enter-end='opacity-100 translate-y-0'
-          class='grid lg:grid-cols-5 border border-border/60 border-t-0 items-stretch'
-          x-cloak
-        >
-
-          <!-- LEFT content — 3 cols -->
-          <div class='lg:col-span-3 p-4 md:p-8 lg:p-10 bg-white flex flex-col justify-between'>
-            <div>
-
-              <!-- Badge -->
-              <span class={`inline-block text-[0.62rem] font-bold tracking-[0.15em] uppercase px-2.5 py-1 mb-5 ${tab.badgeCls}`}>
-                {tab.badge}
-              </span>
-
-              <h3 class='font-display text-2xl lg:text-[1.85rem] text-secondary font-normal leading-snug mb-4'>
-                {tab.headline}
-              </h3>
-
-              <p class='text-muted text-sm leading-relaxed mb-7 max-w-lg'>
-                {tab.body}
-              </p>
-
-              <!-- Bullet points -->
-              <ul class='grid sm:grid-cols-2 gap-x-6 gap-y-2.5 mb-8'>
-                {tab.points.map(pt => (
-                  <li class='flex items-start gap-2.5'>
-                    <svg
-                      class='size-4 shrink-0 mt-0.5'
-                      style={`color: ${tab.accentCol}`}
-                      fill='none'
-                      stroke='currentColor'
-                      stroke-width='2.5'
-                      viewBox='0 0 24 24'
-                    >
-                      <path stroke-linecap='round' stroke-linejoin='round' d='M5 13l4 4L19 7'/>
-                    </svg>
-                    <span class='text-slate-700 text-xs leading-relaxed'>{pt}</span>
-                  </li>
-                ))}
-              </ul>
-
-            </div>
-
-            <!-- CTA link -->
-            <a
-              href={tab.href}
-              class='group inline-flex items-center gap-3 text-sm font-semibold
-                     tracking-wide text-white px-7 py-4 self-start
-                     transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5
-                     hover:shadow-lg'
-              style={`background: ${tab.accentCol}`}
-            >
-              {tab.linkLabel}
-              <svg
-                class='size-4 transition-transform group-hover:translate-x-1'
-                fill='none'
-                stroke='currentColor'
-                stroke-width='2'
-                viewBox='0 0 24 24'
-              >
-                <path stroke-linecap='round' stroke-linejoin='round'
-                  d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'/>
-              </svg>
-            </a>
-          </div>
-
-          <!-- RIGHT accent panel — 2 cols -->
-          <div class={`lg:col-span-2 flex flex-col ${tab.panelCls}`}>
-
-            <!-- Image — aspect-[4/5] on mobile, fills panel height on desktop -->
-            <div class='relative overflow-hidden aspect-[4/5] lg:aspect-auto lg:flex-1 group'>
-              <img
-                src={tab.img}
-                alt={tab.imgAlt}
-                class='absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105'
-                loading='lazy'
-              />
-              <!-- Subtle colour overlay so image sits within brand palette -->
-              <div class='absolute inset-0 opacity-30' style={`background: ${tab.accentCol}`}></div>
-
-              <!-- "Breaking Ground" stamp — only on groundbreaking tab -->
-              {tab.id === 'groundbreaking' && (
-                <div class='absolute top-6 -right-2 rotate-[7deg] z-10'>
-                  <div class='bg-accent px-4 py-2 shadow-lg shadow-accent/30'>
-                    <p class='text-white text-[0.6rem] tracking-[0.22em] uppercase font-bold'>
-                      Breaking Ground
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <!-- Stat callout -->
-            <div class='p-8 flex flex-col gap-1'>
-              <p class='text-white/50 text-[0.62rem] tracking-[0.2em] uppercase font-semibold'>
-                At a glance
-              </p>
-              <div class='font-display text-white text-5xl font-bold leading-none mt-1'>
-                {tab.stat}
-              </div>
-              <div class='text-white/65 text-sm mt-1'>
-                {tab.statLabel}
-              </div>
-
-              <!-- Tab dots — same as FeaturedServices -->
-              <div class='flex gap-2 mt-5'>
-                {tabs.map(t => (
-                  <button
-                    @click={`active = '${t.id}'`}
-                    :class={`active === '${t.id}' ? 'w-8 bg-white' : 'w-3 bg-white/30 hover:bg-white/60'`}
-                    class='h-1.5 rounded-full transition-all duration-300'
-                  ></button>
-                ))}
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      ))}
-
     </div>
-
   </div>
+
+  <script is:inline>
+    function devCarousel() {
+      return {
+        currentIndex: 0,
+        calcTransform: 100,
+        init() {
+          const checkLayoutGrid = () => {
+            if (window.innerWidth >= 1024) {
+              this.calcTransform = 33.333; // 3 Columns Desktop
+            } else if (window.innerWidth >= 768) {
+              this.calcTransform = 50;     // 2 Columns Tablet
+            } else {
+              this.calcTransform = 100;    // Full view Mobile standard
+            }
+          };
+          
+          checkLayoutGrid();
+          window.addEventListener('resize', checkLayoutGrid);
+
+          // Paced lifecycle frame integration
+          setInterval(() => {
+            const indexThreshold = window.innerWidth >= 1024 ? 0 : window.innerWidth >= 768 ? 1 : 2;
+            this.currentIndex = this.currentIndex >= indexThreshold ? 0 : this.currentIndex + 1;
+          }, 6500);
+        }
+      }
+    }
+  </script>
 </section>

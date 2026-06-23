@@ -27,7 +27,7 @@
     @apply inline-block px-5 py-2 rounded-lg border-2 border-[#125276] text-[#125276] hover:bg-secondary hover:text-white transition duration-700 ease-in-out shadow;
   }
   .btn-tertiary {
-    @apply inline-block px-5 py-2 rounded-lg bg-[#d70a0a] text-white  hover:bg-[#b60f0f] font-medium hover:text-shadow-white transition duration-700 ease-in-out shadow;
+    @apply inline-block px-5 py-2 rounded-lg bg-[#860f0f] text-white  hover:bg-[#860f0f] font-medium hover:text-shadow-white transition duration-700 ease-in-out shadow;
   }
 }
 
