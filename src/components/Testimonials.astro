@@ -1,0 +1,116 @@
+---
+/**
+ * Testimonials.astro
+ * Premium 3-column editorial grid showcasing real patient journeys.
+ * Structured to highlight clinical capability, long-term trust, and specialized care.
+ */
+
+const testimonials = [
+  {
+    journey: 'Surgical & Critical Care',
+    quote:
+      'The seamless coordination between the emergency triage and the theater team saved my life when every second counted.',
+    context:
+      'Following an acute abdominal obstruction requiring emergency surgery, the prompt intervention and compassionate post-operative care restored my health completely.',
+    author: 'Emmanuel O.',
+    meta: 'Emergency Theater Case',
+    icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01',
+  },
+  {
+    journey: 'ANC to Maternity Journey',
+    quote:
+      'From my first prenatal clinic visit to the safe delivery of my daughter, I felt completely protected, informed, and cared for.',
+    context:
+      'Attending the structured Antenatal Care classes gave me confidence, and the dedicated midwifery staff made the delivery experience dignified and incredibly smooth.',
+    author: 'Faith A.',
+    meta: 'Mother of One',
+    icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.313-1.313a4.5 4.5 0 00-6.364 0z',
+  },
+  {
+    journey: 'Pediatric Specialized Care',
+    quote:
+      'Finding a clinical team that genuinely listens and treats children with such gentle patience is a blessing for our entire family.',
+    context:
+      'When my son developed a severe respiratory infection, the pediatric unit diagnosed him immediately and kept us reassured through every stage of his recovery.',
+    author: 'David K.',
+    meta: 'Parent of Pediatric Patient',
+    icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+  },
+];
+---
+
+<section class='bg-white py-20 border-b border-[var(--color-border)]'>
+  <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+    <div class='text-center max-w-2xl mx-auto mb-16'>
+      <span
+        class='text-[16px]  text-[var(--color-primary)] uppercase tracking-[0.3em] font-bold block mb-2'>
+        Patient Stories
+      </span>
+      <h2
+        class='font-stretch-extra-expanded text-[var(--color-secondary)] my-6 text-2xl sm:text-3xl font-extrabold tracking-wider uppercase'>
+        testimonials
+      </h2>
+      <div class='w-12 h-0.5 bg-[var(--color-primary)] mx-auto mt-4 mb-3'></div>
+      <!-- <p class='text-slate-500 text-xs sm:text-sm leading-relaxed'>
+        Real accounts from individuals and families who have experienced our
+        40-year legacy of clinical excellence and compassionate, mission-driven
+        care.
+      </p> -->
+    </div>
+
+    <div class='grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch'>
+      {
+        testimonials.map((t) => (
+          <div class='flex flex-col bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-6 sm:p-8 transition-all hover:shadow-md relative group'>
+            <div class='flex items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-200/60'>
+              <span class='text-[13px] uppercase tracking-wider text-[var(--color-primary)] font-bold'>
+                {t.journey}
+              </span>
+              <div class='text-slate-300 group-hover:text-[var(--color-primary)] transition-colors duration-300'>
+                <svg
+                  class='w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  stroke-width='1.5'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    d={t.icon}
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <blockquote class='flex-1 flex flex-col justify-between'>
+              <div>
+                <p class='font-display text-[var(--color-secondary)] text-sm sm:text-base font-bold leading-snug tracking-tight mb-3'>
+                  “{t.quote}”
+                </p>
+
+                <p class='text-slate-600 text-sm sm:text-base leading-relaxed font-normal mb-6'>
+                  {t.context}
+                </p>
+              </div>
+
+              <footer class='pt-4 border-t border-slate-200/40 flex items-center justify-between'>
+                <div>
+                  <cite class='not-italic text-xs font-bold text-[var(--color-secondary)] block'>
+                    {t.author}
+                  </cite>
+                  <span class='text-[12px] text-[var(--color-muted)] font-medium block mt-0.5'>
+                    {t.meta}
+                  </span>
+                </div>
+
+                <span class='text-[9px] tracking-wider text-emerald-600 bg-emerald-50 px-2 py-0.5 border border-emerald-200/60 rounded font-semibold uppercase'>
+                  Verified Care
+                </span>
+              </footer>
+            </blockquote>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

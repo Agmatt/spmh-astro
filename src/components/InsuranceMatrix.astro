@@ -1,0 +1,62 @@
+---
+/**
+ * InsuranceMatrix.astro — Premium Full-Width Logo Sheet
+ * 
+ * Accurately maps pre-rendered corporate and national health care logo assets
+ * into a high-scannable responsive grid framework. 
+ */
+
+const corporateLogos = [
+  { name: "Social Health Authority (SHA)", src: "/logos/sha.png", alt: "SHA Kenya Logo" },
+  { name: "Madison", src: "/logos/madison.png", alt: "Madison Logo" },
+  { name: "Jubilee Insurance", src: "/logos/jubilee.png", alt: "Jubilee Insurance Underwriters" },
+  { name: "CIC Group", src: "/logos/cic.png", alt: "CIC General Medical Cover" },
+  { name: "Britam Health", src: "/logos/britam.png", alt: "Britam Corporate Panel" },
+  { name: "M-tiba", src: "/logos/mtiba.png", alt: "M-tiba Health Network Cover" },
+  { name: "GA", src: "/logos/GA.jpg", alt: "GA" },
+  { name: "ka Insurance", src: "/logos/KA.png", alt: "KA Insurance" },
+  { name: "APA Insurance", src: "/logos/apa.png", alt: "APA Insurance" },
+];
+---
+
+<section class="py-16 bg-muted/30 border-y border-slate-200/60 antialiased" style="font-family: var(--font-body);">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    
+    <!-- ── Asymmetric Layout Matrix ── -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      
+      <!-- Left Column Anchor: Editorial Messaging -->
+      <div class="lg:col-span-3 xl:col-span-4 shrink-0">
+        <div class="flex items-center gap-2 mb-2">
+        </div>
+        <h3 class="text-xl sm:text-2xl font-black tracking-tight text-secondary font-display uppercase leading-tight">
+          Accepted Insurance <br class="hidden sm:block" />& Medical Schemes
+        </h3>
+        <p class="text-sm sm:text-base mt-3 leading-relaxed">
+          We offer direct billing across major private insurers, national frameworks, and corporate corporate cards.
+        </p>
+      </div>
+
+      <!-- Right Column: Wide Responsive Logo Sheet Grid -->
+      <div class="lg:col-span-9 xl:col-span-8 w-full">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 lg:gap-6">
+          {corporateLogos.map((logo) => (
+            <div class="bg-white rounded h-24 p-4 flex items-center justify-center ">
+              
+              <!-- Responsive Logo Frame Layer -->
+              <img 
+                src={logo.src} 
+                alt={logo.alt}
+                title={logo.name}
+                class="max-h-12 max-w-full object-contain"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
