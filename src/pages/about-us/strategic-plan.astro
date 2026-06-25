@@ -1,235 +1,473 @@
 ---
 import Layout from '../../Layout/Layout.astro';
+
+// Core Identity Data
+const vision =
+  'A Center of Excellence in Integrated and Compassionate Healthcare.';
+const mission =
+  'To deliver high-quality, affordable, and compassionate healthcare that upholds human dignity and equity, while faithfully advancing the healing mission of Christ.';
+
+const values = [
+  {
+    name: 'Christ-Centered Care',
+    desc: 'Reflecting the healing ministry of Christ through spiritual, emotional, and physical care.',
+  },
+  {
+    name: 'Professionalism',
+    desc: 'Upholding the highest clinical, ethical, and operational standards in all interventions.',
+  },
+  {
+    name: 'Integrity & Stewardship',
+    desc: 'Ensuring transparency, resource accountability, and ethical management.',
+  },
+  {
+    name: 'Teamwork & Servant Leadership',
+    desc: 'Collaborating across disciplines with humility and a dedication to service.',
+  },
+  {
+    name: 'Adaptability & Innovation',
+    desc: 'Embracing digital health solutions and evolving to meet community health needs.',
+  },
+];
+
+// Strategic Pillars Data - Recalled with a cohesive, professional palette (Teal, Indigo, Emerald, Cyan)
+const pillars = [
+  {
+    id: 'pillar-1',
+    number: '01',
+    title: 'Clinical Service Excellence',
+    subtitle: 'Elevating Patient Care & Capabilities',
+    bgGradient: 'from-teal-600 to-cyan-700',
+    interventions: [
+      'Expand Maternal, Newborn, Child, and Adolescent Health (MNCAH) services.',
+      'Establish fully functional Intensive Care (ICU) and High Dependency Unit (HDU) capacities.',
+      'Upgrade and streamline surgical suites and emergency stabilization workflows.',
+      'Strengthen diagnostic accuracy across laboratory and imaging departments.',
+    ],
+  },
+  {
+    id: 'pillar-2',
+    number: '02',
+    title: 'Health Workforce Development',
+    subtitle: 'Empowering & Growing Our Team',
+    bgGradient: 'from-indigo-600 to-blue-700',
+    interventions: [
+      'Aggressively recruit specialized medical cadres and key clinical personnel.',
+      'Institutionalize Continuous Professional Development (CPD) and training pipelines.',
+      'Implement institutional workplace wellness and burnout mitigation programs.',
+      'Establish performance-driven retention frameworks aligned with MoH standards.',
+    ],
+  },
+  {
+    id: 'pillar-3',
+    number: '03',
+    title: 'Infrastructure & Digital Health',
+    subtitle: 'Modernizing the Care Environment',
+    bgGradient: 'from-cyan-600 to-indigo-600',
+    interventions: [
+      'Construct physical spaces designated for specialized inpatient clinical units.',
+      'Procure advanced biomedical infrastructure (including modern CT/imaging suites).',
+      'Achieve comprehensive Electronic Medical Records (EMR) system integration.',
+      'Deploy data-driven internal dashboards to eliminate operational data fragmentation.',
+    ],
+  },
+  {
+    id: 'pillar-4',
+    number: '04',
+    title: 'Financial Sustainability',
+    subtitle: 'Securing Our Long-Term Mission',
+    bgGradient: 'from-emerald-600 to-teal-700',
+    interventions: [
+      'Diversify institutional revenue streams and maximize local partnerships.',
+      'Optimize claims workflows to accelerate Social Health Authority (SHA) reimbursements.',
+      'Implement robust cost-containment measures and accurate service-line costing.',
+      'Build strategic capital reserves to insulate against external liquidity strains.',
+    ],
+  },
+  {
+    id: 'pillar-5',
+    number: '05',
+    title: 'Community Health Integration',
+    subtitle: 'Extending Care Beyond Our Walls',
+    bgGradient: 'from-teal-600 to-indigo-600',
+    interventions: [
+      'Deepen structural networks with designated Community Health Promoters (CHPs).',
+      'Scale preventative care, localized health education, and immunization campaigns.',
+      'Launch integrated field outreach systems for chronic NCD monitoring and follow-ups.',
+      'Strengthen external primary-to-secondary referral pathways within Homa Bay County.',
+    ],
+  },
+  {
+    id: 'pillar-6',
+    number: '06',
+    title: 'Governance & Ethical Leadership',
+    subtitle: 'Upholding Integrity & Trust',
+    bgGradient: 'from-slate-700 to-indigo-950',
+    interventions: [
+      'Enforce rigorous compliance with regulatory frameworks and national standards.',
+      'Embed principles of Catholic Social Teaching into daily hospital governance.',
+      'Expand risk-management oversight, including institutional risk registries.',
+      'Refine board-level and executive accountability structures across all departments.',
+    ],
+  },
+];
+
+// Implementation Timeline Data
+const timeline = [
+  {
+    phase: 'Phase 1: Stabilization',
+    years: '2026 – 2027',
+    description:
+      'Fortifying core internal systems, resolving immediate workforce shortages, and protecting financial health lines to ensure uninterrupted medical care.',
+    status: 'Upcoming',
+  },
+  {
+    phase: 'Phase 2: Expansion',
+    years: '2028 – 2029',
+    description:
+      'Scaling specialized clinical departments, advancing digital health integrations, and breaking ground on vital physical infrastructure upgrades.',
+    status: 'Planned',
+  },
+  {
+    phase: 'Phase 3: Excellence',
+    years: '2030',
+    description:
+      'Institutionalizing high-performance operational metrics and completing major readiness milestones to deliver the highest level of regional hospital care.',
+    status: 'Target',
+  },
+];
 ---
 
-<Layout title='Our Strategic Plan'>
-  <!-- Header -->
-  <section class='py-10'>
-    <div class='container mx-auto px-2 md:px-4 max-w-6xl'>
-      <div class='grid lg:grid-cols-12 gap-16 items-start'>
-        <div class='lg:col-span-8'>
-          <h1
-            class='text-5xl md:text-8xl font-bold text-slate-900 tracking-tighter leading-[0.9] mb-12'>
-            Healing with <br />
-            <span class='text-[#125276]'>Grace & Purpose.</span>
-          </h1>
-          <p
-            class='text-2xl text-slate-600 leading-relaxed max-w-2xl border-l-4 border-slate-400 pl-8 italic'>
-            "A Christ-centered roadmap for healing, hope, and holistic impact.
-            Rooted in 1983, looking toward 2030."
-          </p>
-        </div>
-        <div class='lg:col-span-4 lg:pt-24'>
-          <div class='bg-[#125276] p-10 text-white rounded-2xl shadow-2xl'>
-            <p
-              class='text-[10px] font-black uppercase tracking-widest opacity-60 mb-6'>
-              Our Promise
-            </p>
-            <p class='text-3xl font-serif italic leading-tight mb-8'>
-              "Safe Hands, Caring Hearts"
-            </p>
-          </div>
-        </div>
-      </div>
+<Layout title='Our Institutional Blueprint'>
+  <!-- Premium Hero Section -->
+  <header
+    class='relative bg-gradient-to-br from-slate-900 via-slate-950 to-indigo-950 text-white overflow-hidden py-28 sm:py-36 border-b border-slate-800'>
+    <div
+      class='absolute inset-0 opacity-20 bg-[radial-gradient(#22d3ee_1px,transparent_1px)] [background-size:20px_20px]'>
     </div>
-  </section>
+    <div
+      class='absolute -top-40 -right-40 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl'>
+    </div>
+    <div
+      class='absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl'>
+    </div>
 
-  <!-- motto -->
-  <section class='py-8 md:py-8 bg-slate-200 text-center'>
-    <div class='container mx-auto px-2 md:px-4 max-w-4xl'>
-      <h2
-        class='text-sm font-black uppercase tracking-[0.8em] text-slate-500 mb-12'>
-        Strategic Promise
-      </h2>
+    <div
+      class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center'>
+      <span
+        class='inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-teal-400 bg-teal-500/10 px-4 py-1.5 rounded-full font-bold mb-6 border border-teal-500/20 shadow-inner'>
+        Institutional Blueprint
+      </span>
+      <h1
+        class='text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white max-w-4xl mx-auto leading-tight'>
+        A Shared Vision <br class='hidden sm:block' />
+        <span
+          class='text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-cyan-400 to-indigo-400'>
+          For Healing & Community Growth
+        </span>
+      </h1>
       <p
-        class='text-3xl md:text-4xl font-serif italic text-[#125276] mb-12 leading-tight'>
-        "To heal, to serve, and to uphold human dignity—placing Christ at the
-        center of all we do."
+        class='mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-medium'>
+        Driving sustainable healthcare transformation, clinical care depth, and
+        comprehensive medical support across Homa Bay County.
       </p>
+      <div
+        class='mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center'>
+        <a
+          href='#pillars'
+          class='w-full sm:w-auto text-center bg-teal-600 hover:bg-teal-500 text-white font-bold px-8 py-4 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0'>
+          Explore Our Framework
+        </a>
+        <a
+          href='#'
+          class='w-full sm:w-auto text-center border border-slate-700 bg-slate-900/40 hover:bg-slate-800 text-slate-200 font-semibold px-8 py-4 rounded-xl transition-colors backdrop-blur-sm'>
+          Download Full Document (PDF)
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Vision, Mission & Values Section -->
+  <section class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24'>
+    <div class='grid grid-cols-1 lg:grid-cols-3 gap-8'>
+      <div class='lg:col-span-1 flex flex-col gap-8'>
+        <!-- Vision -->
+        <div
+          class='bg-gradient-to-b from-slate-50 to-white p-8 rounded-3xl shadow-sm border border-slate-200/60 flex-1 hover:shadow-md transition-shadow relative overflow-hidden group'>
+          <div class='absolute top-0 left-0 w-1.5 h-full bg-teal-600'></div>
+          <div
+            class='h-12 w-12 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center mb-6 border border-teal-100 shadow-sm'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              class='h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'></path>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'
+              ></path>
+            </svg>
+          </div>
+          <h2 class='text-2xl font-bold text-slate-900 mb-4'>Our Vision</h2>
+          <p class='text-slate-600 leading-relaxed font-medium'>{vision}</p>
+        </div>
+
+        <!-- Mission -->
+        <div
+          class='bg-gradient-to-b from-slate-50 to-white p-8 rounded-3xl shadow-sm border border-slate-200/60 flex-1 hover:shadow-md transition-shadow relative overflow-hidden group'>
+          <div class='absolute top-0 left-0 w-1.5 h-full bg-indigo-600'></div>
+          <div
+            class='h-12 w-12 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center mb-6 border border-indigo-100 shadow-sm'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              class='h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M13 10V3L4 14h7v7l9-11h-7z'></path>
+            </svg>
+          </div>
+          <h2 class='text-2xl font-bold text-slate-900 mb-4'>Our Mission</h2>
+          <p class='text-slate-600 leading-relaxed font-medium'>{mission}</p>
+        </div>
+      </div>
+
+      <!-- Core Values Box -->
+      <div
+        class='lg:col-span-2 bg-white p-8 sm:p-10 rounded-3xl shadow-sm border border-slate-200/60 relative'>
+        <h2 class='text-3xl font-bold text-slate-900 mb-3 tracking-tight'>
+          Foundational Commitments
+        </h2>
+        <p class='text-slate-500 mb-8 text-lg font-medium leading-relaxed'>
+          The core principles that shape our clinical culture and frame our
+          interactions with every family we serve.
+        </p>
+
+        <div class='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+          {
+            values.map((val) => (
+              <div class='p-6 rounded-2xl bg-slate-50/50 border border-slate-100 hover:bg-slate-50 hover:border-slate-300 transition-all'>
+                <h3 class='text-lg font-bold text-slate-900 mb-2 flex items-center gap-3'>
+                  <span class='h-2.5 w-2.5 rounded-full bg-teal-600 shadow-sm shrink-0' />
+                  {val.name}
+                </h3>
+                <p class='text-slate-600 leading-relaxed text-sm font-medium'>
+                  {val.desc}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- cards -->
-  <section class='py-32'>
-    <div class='container mx-auto px-4 md:px-6 max-w-6xl'>
-      <div class='flex flex-col md:flex-row gap-20'>
-        <div class='md:w-1/3'>
+  <!-- Narrative & Local Impact Section -->
+  <section
+    class='bg-gradient-to-b from-slate-900 to-slate-950 text-white py-24 relative overflow-hidden'>
+    <div
+      class='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-3xl pointer-events-none'>
+    </div>
+    <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
+      <div class='grid grid-cols-1 lg:grid-cols-12 gap-16 items-center'>
+        <div class='lg:col-span-7'>
+          <span
+            class='text-xs font-bold text-teal-400 tracking-widest uppercase bg-teal-500/10 border border-teal-500/20 px-3 py-1.5 rounded-md'
+            >The Human Story</span
+          >
           <h2
-            class='text-xs font-black uppercase tracking-[0.5em] text-[#860f0f] mb-6'>
-            Roadmap
+            class='text-3xl sm:text-4xl font-extrabold mt-4 mb-6 leading-tight tracking-tight'>
+            Meeting Critical Healthcare Demands Head-On
           </h2>
-          <h3
-            class='text-4xl font-bold text-slate-900 tracking-tighter mb-8 leading-none'>
-            Level 5 <br /> Upgrade Readiness
-          </h3>
-          <p class='text-slate-500 leading-relaxed'>
-            The path to Level 5 is not just about growth; it is about
-            compliance, competence, and Catholic identity alignment.
+          <p class='text-lg text-slate-300 leading-relaxed mb-6 font-medium'>
+            Behind every programmatic choice is a patient, a newborn, or a
+            family seeking security in times of crisis. Today, St. Paul's
+            Mission Hospital directly anchors vital healthcare services for
+            hundreds of thousands of people across Homa Bay County. Operating in
+            an environment of high community demand requires a focused, deeply
+            compassionate design for care delivery.
+          </p>
+          <p class='text-lg text-slate-300 leading-relaxed font-medium'>
+            This approach details our path from an essential regional resource
+            toward robust, high-tier healthcare delivery pipelines. It
+            guarantees that our medical staff are supported, our spaces are
+            clean and modern, and our clinical reach remains entirely accessible
+            to those who need it most.
           </p>
         </div>
 
-        <div class='md:w-2/3 grid sm:grid-cols-2 gap-12'>
-          <div class='space-y-6'>
-            <h4
-              class='text-sm font-black uppercase tracking-widest text-[#125276] pb-4 border-b border-slate-100'>
-              Infrastructure & Equipment
-            </h4>
-            <ul class='space-y-4 text-sm text-slate-600'>
-              <li class='flex justify-between'>
-                <span>Expansion Land</span>
-                <span class='font-bold'>≥5 Acres</span>
-              </li>
-              <li class='flex justify-between'>
-                <span>Inpatient Beds</span>
-                <span class='font-bold'>+45 Units</span>
-              </li>
-              <li class='flex justify-between'>
-                <span>Critical Care</span>
-                <span class='font-bold text-[#860f0f]'>ICU/HDU Setup</span>
-              </li>
-              <li class='flex justify-between'>
-                <span>Advanced Imaging</span>
-                <span class='font-bold text-[#860f0f]'>CT & MRI</span>
-              </li>
-            </ul>
-          </div>
-          <div class='space-y-6'>
-            <h4
-              class='text-sm font-black uppercase tracking-widest text-[#125276] pb-4 border-b border-slate-100'>
-              Human Capital
-            </h4>
-            <ul class='space-y-4 text-sm text-slate-600'>
-              <li class='flex justify-between'>
-                <span>Medical Officers</span>
-                <span class='font-bold'>+5 Required</span>
-              </li>
-              <li class='flex justify-between'>
-                <span>Specialists</span>
-                <span class='font-bold'>NICU Teams</span>
-              </li>
-              <li class='flex justify-between'>
-                <span>Diagnostics</span>
-                <span class='font-bold italic text-blue-500'>Radiographers</span
-                >
-              </li>
-            </ul>
+        <div
+          class='lg:col-span-5 bg-slate-900/60 border border-slate-800 rounded-3xl p-8 shadow-2xl backdrop-blur-sm'>
+          <h3
+            class='text-xl font-bold mb-6 text-white tracking-wide flex items-center gap-2'>
+            <span class='h-2 w-2 rounded-full bg-teal-400 shadow'></span>
+            Key Outpatient Target Focuses
+          </h3>
+          <div class='space-y-4'>
+            {
+              [
+                'Upper Respiratory Tract Infections (URTI)',
+                'Malaria Mitigation & Treatment',
+                'Pneumonia Care Delivery',
+                'Hypertension & Cardiovascular Support',
+                'Urinary Tract Infections (UTI)',
+              ].map((disease, i) => (
+                <div class='flex items-center gap-4 p-4 bg-slate-950/50 rounded-2xl border border-slate-800/80 hover:bg-slate-800/50 transition-colors'>
+                  <span class='text-sm font-black text-teal-400 bg-teal-950/80 border border-teal-900 px-3 py-1.5 rounded-xl shadow-inner'>
+                    0{i + 1}
+                  </span>
+                  <span class='text-base text-slate-200 font-semibold'>
+                    {disease}
+                  </span>
+                </div>
+              ))
+            }
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- change -->
-  <section class='py-32 bg-gray-200 relative overflow-hidden'>
-    <div class='container mx-auto px-2 md:px-4 max-w-6xl relative z-10'>
-      <div class='max-w-4xl mx-auto text-center mb-20'>
-        <div class='inline-flex items-center gap-4 mb-6'>
-          <div class='h-[1px] w-12 bg-[#860f0f]'></div>
-          <h2
-            class='text-[11px] font-black uppercase tracking-[0.5em] text-[#860f0f]'>
-            Strategic Theory of Change
-          </h2>
-          <div class='h-[1px] w-12 bg-[#860f0f]'></div>
-        </div>
-
-        <p
-          class='text-4xl md:text-6xl font-bold leading-[1.1] text-slate-900 uppercase'>
-          Embedding Ethics into <br />
-          <span class='text-[#125276] tracking-normal lowercase'
-            >clinical innovation.</span
-          >
+  <!-- Core Pillars of Action Section -->
+  <section
+    id='pillars'
+    class='bg-slate-50 border-b border-slate-200/60 px-4 sm:px-6 lg:px-8 py-24'>
+    <div class='max-w-7xl mx-auto'>
+      <div class='text-center max-w-3xl mx-auto mb-16'>
+        <h2
+          class='text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight'>
+          Six Functional Framework Pillars
+        </h2>
+        <p class='mt-4 text-slate-600 text-lg font-medium leading-relaxed'>
+          Our organizational milestones are driven by six core, interlinked
+          structural areas crafted to generate measurable community outcomes.
         </p>
       </div>
 
-      <div class='grid md:grid-cols-3 gap-8'>
-        <div
-          class='bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1'>
-          <div
-            class='w-14 h-14 rounded-xl bg-[#860f0f]/5 flex items-center justify-center mb-8 border border-[#860f0f]/10'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              class='w-6 h-6 text-[#860f0f]'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'>
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                stroke-width='1.5'
-                d='M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
-              ></path>
-            </svg>
-          </div>
-          <h4
-            class='text-md font-black mb-4 uppercase tracking-widest text-slate-900'>
-            Mission Fidelity
-          </h4>
-          <p class='text-sm text-slate-500 leading-relaxed'>
-            Closing capacity gaps while embedding <span
-              class='text-slate-900 font-bold'>Catholic Social Teaching</span
-            > into every administrative decision and clinical encounter.
-          </p>
-        </div>
+      <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+        {
+          pillars.map((pillar) => (
+            <div class='bg-white rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300'>
+              <div class='p-8'>
+                <h3 class='text-xl font-bold text-slate-900 mb-1 tracking-tight group-hover:text-teal-700 transition-colors'>
+                  {pillar.title}
+                </h3>
+                <p class='text-xs text-slate-400 font-bold mb-8 uppercase tracking-widest'>
+                  {pillar.subtitle}
+                </p>
 
-        <div
-          class='bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1'>
-          <div
-            class='w-14 h-14 rounded-xl bg-[#125276]/5 flex items-center justify-center mb-8 border border-[#125276]/10'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              class='w-6 h-6 text-[#125276]'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'>
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                stroke-width='1.5'
-                d='M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'
-              ></path>
-            </svg>
-          </div>
-          <h4
-            class='text-md font-black mb-4 uppercase tracking-widest text-slate-900'>
-            Strategic Alliances
-          </h4>
-          <p class='text-sm text-slate-500 leading-relaxed'>
-            Harnessing <span class='text-slate-900 font-bold'
-              >Diocesan influence</span
-            > and global academic collaborations to multiply institutional impact
-            and resources.
-          </p>
-        </div>
+                <ul class='space-y-4'>
+                  {pillar.interventions.map((item) => (
+                    <li class='flex items-start gap-3 text-slate-600 text-sm font-medium leading-relaxed'>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        class='h-5 w-5 text-teal-600 mt-0.5 shrink-0 animate-pulse'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        stroke='currentColor'>
+                        <path
+                          stroke-linecap='round'
+                          stroke-linejoin='round'
+                          stroke-width='2.5'
+                          d='M5 13l4 4L19 7'
+                        />
+                      </svg>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
 
-        <div
-          class='bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1'>
-          <div
-            class='w-14 h-14 rounded-xl bg-emerald-500/5 flex items-center justify-center mb-8 border border-emerald-500/10'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              class='w-6 h-6 text-emerald-600'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'>
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                stroke-width='1.5'
-                d='M9.75 17L9 21h6l-.75-4M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'
-              ></path>
-            </svg>
-          </div>
-          <h4
-            class='text-md font-black mb-4 uppercase tracking-widest text-slate-900'>
-            Digital Evolution
-          </h4>
-          <p class='text-sm text-slate-500 leading-relaxed'>
-            Leveraging <span class='text-slate-900 font-bold'
-              >SHA digitization</span
-            > and EMR systems to increase institutional accountability and data-driven
-            patient care.
-          </p>
-        </div>
+  <!-- Phased Implementation Section -->
+  <section class='bg-white py-24'>
+    <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+      <div class='text-center max-w-3xl mx-auto mb-16'>
+        <h2
+          class='text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight'>
+          Operational Timeline Phases
+        </h2>
+        <p class='mt-4 text-slate-600 text-lg font-medium leading-relaxed'>
+          Our long-term delivery model isolates execution into clear windows to
+          maximize clinical scaling and care continuity.
+        </p>
+      </div>
+
+      <div class='grid grid-cols-1 lg:grid-cols-3 gap-8 relative'>
+        {
+          timeline.map((step) => (
+            <div class='bg-slate-50/70 p-8 rounded-3xl border border-slate-200/60 relative shadow-inner hover:border-indigo-200 hover:bg-slate-50 transition-all group'>
+              <div class='flex items-center justify-between mb-6'>
+                <span class='text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-xl shadow-sm'>
+                  {step.years}
+                </span>
+                <span class='text-xs text-slate-400 font-bold uppercase tracking-widest'>
+                  {step.status}
+                </span>
+              </div>
+              <h3 class='text-xl font-bold text-slate-900 mb-3 tracking-tight group-hover:text-indigo-900 transition-colors'>
+                {step.phase}
+              </h3>
+              <p class='text-slate-600 font-medium text-sm leading-relaxed'>
+                {step.description}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- High-Impact Partner & Donor CTA Section -->
+  <section
+    class='relative bg-slate-950/70 py-28 overflow-hidden border-t border-slate-800'>
+    <div
+      class='absolute inset-0 opacity-15 bg-[radial-gradient(#22d3ee_1px,transparent_1px)] [background-size:24px_24px]'>
+    </div>
+    <div
+      class='absolute -bottom-24 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-3xl pointer-events-none'>
+    </div>
+
+    <div
+      class='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center'>
+      <h2
+        class='text-3xl sm:text-5xl font-black text-white mb-6 tracking-tight leading-tight'>
+        Collaborate With St. Paul's
+      </h2>
+      <p
+        class='text-lg sm:text-xl text-slate-300 mb-12 leading-relaxed max-w-2xl mx-auto font-medium'>
+        Every institutional resource, donor alliance, and partnership
+        strengthens our local framework, bringing high-tier medical support
+        directly to the communities that rely on us.
+      </p>
+      <div class='flex flex-col sm:flex-row gap-5 justify-center items-center'>
+        <a
+          href='/about'
+          class='w-full sm:w-auto text-center bg-white text-slate-950 hover:bg-slate-100 font-bold px-10 py-4 rounded-xl shadow-xl transition-all transform hover:-translate-y-0.5 active:translate-y-0'>
+          More About Us
+        </a>
+        <a
+          href='/contact'
+          class='w-full sm:w-auto text-center border-2 border-slate-700 bg-slate-900/30 hover:bg-slate-900 hover:border-slate-500 text-white font-bold px-10 py-4 rounded-xl backdrop-blur-sm transition-all transform hover:-translate-y-0.5 active:translate-y-0'>
+          Contact Us
+        </a>
       </div>
     </div>
   </section>
