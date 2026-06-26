@@ -1,0 +1,657 @@
+---
+// outreach.astro — SPMH Outreach Landing Page
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>SPMH Outreach — Transforming Communities Together</title>
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:wght@700;900&display=swap'
+      rel='stylesheet'
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --navy: #1b3a6b;
+        --orange: #e8681a;
+        --cream: #fdf6ee;
+        --sand: #f5e9d6;
+        --white: #ffffff;
+        --text: #1a1a2e;
+        --muted: #5a5a72;
+        --card-shadow: 0 2px 16px rgba(27, 58, 107, 0.1);
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background: var(--white);
+        color: var(--text);
+        overflow-x: hidden;
+      }
+
+      /* ── HERO ── */
+      .hero {
+        position: relative;
+        min-height: 480px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background:
+          linear-gradient(rgba(10, 25, 55, 0.58), rgba(10, 25, 55, 0.62)),
+          url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=1400&q=80')
+            center/cover no-repeat;
+        padding: 80px 24px 120px;
+      }
+
+      .hero-inner {
+        max-width: 680px;
+      }
+
+      .hero h1 {
+        font-family: 'Merriweather', serif;
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 900;
+        color: var(--white);
+        line-height: 1.2;
+        margin-bottom: 16px;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.88);
+        margin-bottom: 32px;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn-primary {
+        background: var(--orange);
+        color: var(--white);
+        border: none;
+        padding: 13px 28px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: background 0.2s;
+        text-decoration: none;
+      }
+      .btn-primary:hover {
+        background: #cf5a12;
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--white);
+        border: 2px solid var(--white);
+        padding: 11px 28px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          color 0.2s;
+        text-decoration: none;
+      }
+      .btn-outline:hover {
+        background: var(--white);
+        color: var(--navy);
+      }
+
+      /* Wave after hero */
+      .wave-top {
+        display: block;
+        width: 100%;
+        height: 60px;
+        background: var(--cream);
+        clip-path: ellipse(55% 100% at 50% 100%);
+        margin-top: -1px;
+      }
+
+      /* ── ABOUT ── */
+      .about {
+        background: var(--cream);
+        padding: 60px 24px 0;
+      }
+
+      .about-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        align-items: center;
+      }
+
+      .about h2 {
+        font-family: 'Merriweather', serif;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 12px;
+      }
+
+      .about-divider {
+        width: 48px;
+        height: 3px;
+        background: var(--orange);
+        margin-bottom: 16px;
+        border-radius: 2px;
+      }
+
+      .about p {
+        color: var(--muted);
+        line-height: 1.8;
+        font-size: 0.97rem;
+      }
+
+      .about-img {
+        width: 100%;
+        border-radius: 16px;
+        object-fit: cover;
+        height: 280px;
+      }
+
+      /* Wave between about and programs */
+      .wave-sand {
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
+        background: var(--cream);
+      }
+      .wave-sand svg {
+        display: block;
+      }
+
+      /* ── PROGRAMS ── */
+      .programs {
+        background: var(--white);
+        padding: 64px 24px;
+      }
+
+      .section-title {
+        text-align: center;
+        font-family: 'Merriweather', serif;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 40px;
+        position: relative;
+      }
+
+      .section-title::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: var(--orange);
+        margin: 10px auto 0;
+        border-radius: 2px;
+      }
+
+      .cards-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 24px;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .card {
+        background: var(--cream);
+        border-radius: 14px;
+        padding: 36px 28px;
+        text-align: center;
+        box-shadow: var(--card-shadow);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 24px rgba(27, 58, 107, 0.16);
+      }
+
+      .card-icon {
+        font-size: 2.8rem;
+        margin-bottom: 16px;
+        display: block;
+      }
+
+      .card h3 {
+        font-weight: 700;
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+        color: var(--text);
+      }
+
+      .card p {
+        font-size: 0.88rem;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      /* ── IMPACT ── */
+      .impact {
+        background: var(--navy);
+        padding: 64px 24px;
+        position: relative;
+      }
+
+      .impact::before {
+        content: '';
+        position: absolute;
+        top: -30px;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: var(--navy);
+        clip-path: ellipse(55% 100% at 50% 0%);
+      }
+
+      .impact .section-title {
+        color: var(--white);
+      }
+      .impact .section-title::after {
+        background: var(--orange);
+      }
+
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 32px;
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .stat-num {
+        font-family: 'Merriweather', serif;
+        font-size: 2.6rem;
+        font-weight: 900;
+        color: var(--white);
+        line-height: 1;
+      }
+
+      .stat-label {
+        font-size: 0.88rem;
+        color: rgba(255, 255, 255, 0.72);
+        margin-top: 6px;
+      }
+
+      /* ── GET INVOLVED ── */
+      .get-involved {
+        background: var(--cream);
+        padding: 72px 24px;
+      }
+
+      .get-involved .section-title {
+        color: var(--orange);
+      }
+      .get-involved .section-title::after {
+        background: var(--navy);
+      }
+
+      .involve-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        max-width: 920px;
+        margin: 0 auto;
+      }
+
+      .involve-card {
+        background: var(--white);
+        border-radius: 14px;
+        padding: 32px 22px 28px;
+        text-align: center;
+        box-shadow: var(--card-shadow);
+      }
+
+      .involve-card.highlight {
+        background: var(--orange);
+      }
+
+      .involve-icon {
+        font-size: 2.2rem;
+        margin-bottom: 12px;
+        display: block;
+      }
+
+      .involve-card h3 {
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 8px;
+      }
+
+      .involve-card.highlight h3,
+      .involve-card.highlight p {
+        color: var(--white);
+      }
+
+      .involve-card p {
+        font-size: 0.83rem;
+        color: var(--muted);
+        line-height: 1.5;
+        margin-bottom: 18px;
+      }
+
+      .involve-card .involve-title-vol {
+        color: var(--orange);
+      }
+      .involve-card .involve-title-don {
+        color: var(--navy);
+      }
+      .involve-card .involve-title-par {
+        color: var(--orange);
+      }
+
+      .btn-sm {
+        display: inline-block;
+        padding: 9px 22px;
+        border-radius: 6px;
+        font-size: 0.83rem;
+        font-weight: 700;
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+        transition: opacity 0.2s;
+      }
+      .btn-sm:hover {
+        opacity: 0.85;
+      }
+
+      .btn-sm-outline {
+        border: 2px solid var(--orange);
+        color: var(--orange);
+        background: transparent;
+      }
+
+      .btn-sm-navy {
+        background: var(--navy);
+        color: var(--white);
+      }
+
+      .btn-sm-orange {
+        background: var(--orange);
+        color: var(--white);
+      }
+
+      /* ── TESTIMONIAL ── */
+      .testimonial {
+        background:
+          linear-gradient(rgba(27, 40, 70, 0.72), rgba(27, 40, 70, 0.78)),
+          url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&q=80')
+            center/cover no-repeat;
+        padding: 72px 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .testimonial-inner {
+        max-width: 900px;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 40px;
+        align-items: center;
+        text-align: left;
+      }
+
+      .testimonial-photo {
+        width: 160px;
+        height: 200px;
+        border-radius: 12px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .testimonial-content h2 {
+        font-family: 'Merriweather', serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--white);
+        margin-bottom: 20px;
+      }
+
+      .quote-mark {
+        font-size: 2.5rem;
+        color: var(--orange);
+        line-height: 0.5;
+        vertical-align: middle;
+      }
+
+      .quote-text {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.8;
+        font-style: italic;
+        margin-bottom: 8px;
+      }
+
+      .quote-author {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .testimonial-cta {
+        margin-top: 36px;
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 680px) {
+        .about-inner {
+          grid-template-columns: 1fr;
+        }
+        .about-img {
+          height: 220px;
+        }
+        .testimonial-inner {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        .testimonial-photo {
+          width: 120px;
+          height: 150px;
+          margin: 0 auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HERO -->
+    <section class='hero'>
+      <div class='hero-inner'>
+        <h1>Transforming Communities Together</h1>
+        <p>Building relationships through outreach and care</p>
+        <div class='btn-group'>
+          <a href='#volunteer' class='btn-primary'>Volunteer Now</a>
+          <a href='#about' class='btn-outline'>Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <div style='background: var(--cream); margin-top: -2px;'>
+      <div
+        style='background: white; height: 50px; border-radius: 0 0 50% 50% / 0 0 40px 40px; margin-bottom: -1px;'>
+      </div>
+    </div>
+
+    <section class='about' id='about'>
+      <div class='about-inner'>
+        <div>
+          <h2>About SPMH Outreach</h2>
+          <div class='about-divider'></div>
+          <p>
+            Our mission is to provide compassionate care and support to
+            underserved communities. We aim to foster trust, health, and hope in
+            every life we touch — bringing essential services directly to those
+            who need them most.
+          </p>
+        </div>
+        <img
+          class='about-img'
+          src='https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=700&q=80'
+          alt='SPMH outreach team with community members'
+        />
+      </div>
+    </section>
+
+    <!-- Wave divider -->
+    <div class='wave-sand'>
+      <svg
+        viewBox='0 0 1440 60'
+        xmlns='http://www.w3.org/2000/svg'
+        preserveAspectRatio='none'
+        height='60'>
+        <path d='M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z' fill='#ffffff'
+        ></path>
+        <rect width='1440' height='30' fill='#FDF6EE'></rect>
+      </svg>
+    </div>
+
+    <!-- PROGRAMS -->
+    <section class='programs' id='programs'>
+      <h2 class='section-title'>Our Programs</h2>
+      <div class='cards-row'>
+        <div class='card'>
+          <span class='card-icon'>🏥</span>
+          <h3>Health Clinics</h3>
+          <p>
+            Medical services for those in need, delivered with dignity and
+            compassion at community sites.
+          </p>
+        </div>
+        <div class='card'>
+          <span class='card-icon'>🛒</span>
+          <h3>Food Assistance</h3>
+          <p>
+            Providing nutritious meals to hungry families and individuals across
+            our catchment area.
+          </p>
+        </div>
+        <div class='card'>
+          <span class='card-icon'>🤝</span>
+          <h3>Outreach Support</h3>
+          <p>
+            Community outreach and resources connecting people with social and
+            health services.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMPACT -->
+    <section class='impact' id='impact'>
+      <h2 class='section-title'>Our Impact</h2>
+      <div class='stats-row'>
+        <div>
+          <div class='stat-num'>3,000+</div>
+          <div class='stat-label'>Lives Reached</div>
+        </div>
+        <div>
+          <div class='stat-num'>1,200+</div>
+          <div class='stat-label'>Meals Served</div>
+        </div>
+        <div>
+          <div class='stat-num'>850+</div>
+          <div class='stat-label'>Volunteers Engaged</div>
+        </div>
+        <div>
+          <div class='stat-num'>100+</div>
+          <div class='stat-label'>Events Hosted</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GET INVOLVED -->
+    <section class='get-involved' id='volunteer'>
+      <h2 class='section-title'>Get Involved</h2>
+      <div class='involve-grid'>
+        <div class='involve-card'>
+          <span class='involve-icon'>❤️</span>
+          <h3 class='involve-title-vol'>Volunteer</h3>
+          <p>
+            Join our team and make a real difference in the lives of those
+            around you.
+          </p>
+          <a href='#' class='btn-sm btn-sm-outline'>Sign Up</a>
+        </div>
+        <div class='involve-card'>
+          <span class='involve-icon'>💵</span>
+          <h3 class='involve-title-don'>Donate</h3>
+          <p>
+            Support our mission and expand our reach with a donation of any
+            size.
+          </p>
+          <a href='#' class='btn-sm btn-sm-navy'>Donate Now</a>
+        </div>
+        <div class='involve-card'>
+          <span class='involve-icon'>🤲</span>
+          <h3 class='involve-title-par'>Become a Partner</h3>
+          <p>Partner with us for greater impact across communities in need.</p>
+          <a href='#' class='btn-sm btn-sm-orange'>Join Now</a>
+        </div>
+        <div class='involve-card highlight'>
+          <span class='involve-icon'>🫱🏽‍🫲🏾</span>
+          <h3>Join Us</h3>
+          <p>
+            Be part of a movement that puts people at the heart of everything we
+            do.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIAL + CTA -->
+    <section class='testimonial'>
+      <div class='testimonial-inner'>
+        <img
+          class='testimonial-photo'
+          src='https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=300&q=80'
+          alt='Volunteer testimonial'
+        />
+        <div class='testimonial-content'>
+          <h2>What Our Volunteers Say</h2>
+          <p class='quote-text'>
+            <span class='quote-mark'>❝</span>
+            SPMH Outreach has changed my life. Being close to help others and see
+            their smiles is incredibly rewarding — it is a difference worth making.
+            <span class='quote-mark'>❞</span>
+          </p>
+          <p class='quote-author'>
+            — Community Volunteer, SPMH Outreach Programme
+          </p>
+        </div>
+      </div>
+      <div class='testimonial-cta'>
+        <a href='#volunteer' class='btn-primary'>Volunteer Now</a>
+        <a href='#' class='btn-outline'>Contact Us</a>
+      </div>
+    </section>
+  </body>
+</html>
