@@ -1,0 +1,883 @@
+---
+import '../styles/global.css';
+// 1. Move dynamic data array setups to the Frontmatter
+const whyPartnerReasons = [
+  'Established institutional governance under the Catholic Diocese of Homa Bay',
+  'Verified community reach across multiple sub-counties',
+  'Experienced clinical and outreach teams on the ground',
+  'Full reporting and accountability on partnership outcomes',
+];
+
+const partnershipFeatures = [
+  'Joint programme design and co-implementation',
+  'Shared reporting and M&E frameworks',
+  'Co-branding on outreach events and materials',
+  "Access to SPMH's community networks",
+  'MOU-based formal agreements',
+];
+
+const collaborationAreas = [
+  'Community Health Outreach',
+  'Food & Nutrition',
+  'Infrastructure / Equipment',
+  'Capacity Building & Training',
+  'Research & Documentation',
+  'Other',
+];
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Become a Partner — SPMH Outreach</title>
+  </head>
+  <body class='font-sans antialiased text-gray-900 overflow-x-hidden'>
+    <section
+      class='relative min-h-[400px] flex items-center justify-center text-center px-4 md:px-6 py-24'
+      style="background: linear-gradient(rgba(10,25,55,0.65), rgba(10,25,55,0.70)), url('https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?w=1400&q=80') center/cover no-repeat;">
+      <div class='max-w-2xl mx-auto'>
+        <div
+          class='inline-flex items-center gap-2 bg-orange-500/20 border border-orange-400/40 text-orange-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-5'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 24 24'
+            fill='currentColor'
+            class='w-4 h-4'>
+            <path
+              fill-rule='evenodd'
+              d='M3 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5H15v-18a.75.75 0 0 0 0-1.5H3ZM6.75 19.5v-2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 0 1.5h-.75A.75.75 0 0 1 6 6.75ZM6.75 9a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM6 12.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 6a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Zm-.75 3.75A.75.75 0 0 1 10.5 9h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 12a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM16.5 6.75v15h3.75a.75.75 0 0 0 0-1.5H19.5v-13.5h.75a.75.75 0 0 0 0-1.5H16.5Z'
+              clip-rule='evenodd'></path>
+          </svg>
+          Strategic Partnerships
+        </div>
+        <h1
+          class='text-4xl md:text-5xl font-extrabold text-white leading-tight mb-4'>
+          Partner With Us for Greater Impact
+        </h1>
+        <p class='text-lg text-white/80 mb-8'>
+          SPMH Outreach is seeking mission-aligned partners to extend
+          compassionate healthcare and community support across Homa Bay County
+          and beyond.
+        </p>
+        <a
+          href='#partner-form'
+          class='inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold px-7 py-3 rounded-lg transition-colors duration-200'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 24 24'
+            fill='currentColor'
+            class='w-5 h-5'>
+            <path
+              fill-rule='evenodd'
+              d='M12 2.25a.75.75 0 0 1 .75.75v16.19l6.22-6.22a.75.75 0 1 1 1.06 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 1 1 1.06-1.06l6.22 6.22V3a.75.75 0 0 1 .75-.75Z'
+              clip-rule='evenodd'></path>
+          </svg>
+          Express Interest
+        </a>
+      </div>
+
+      <div
+        class='absolute bottom-0 left-0 right-0 overflow-hidden leading-none'>
+        <svg
+          viewBox='0 0 1440 50'
+          xmlns='http://www.w3.org/2000/svg'
+          preserveAspectRatio='none'
+          class='w-full h-10 block'>
+          <path d='M0,25 C480,50 960,0 1440,25 L1440,50 L0,50 Z' fill='#fdf6ee'
+          ></path>
+        </svg>
+      </div>
+    </section>
+
+    <section class='bg-[#fdf6ee] px-4 md:px-6 py-16'>
+      <div class='max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center'>
+        <div>
+          <h2 class='text-2xl font-bold text-blue-900 mb-3'>
+            Why Partner With SPMH?
+          </h2>
+          <div class='w-12 h-1 bg-orange-500 rounded mb-6'></div>
+          <p class='text-gray-500 leading-relaxed mb-5 text-sm'>
+            St. Paul's Mission Hospital is a trusted Level 4 facility under the
+            Catholic Diocese of Homa Bay — one of the most established
+            healthcare institutions in the region. Our outreach arm extends that
+            mission beyond the hospital walls, into the communities where need
+            is greatest.
+          </p>
+          <p class='text-gray-500 leading-relaxed text-sm'>
+            Partnering with SPMH means your resources are channelled through an
+            accountable, experienced, and deeply rooted institution with decades
+            of community trust.
+          </p>
+
+          <div class='mt-8 space-y-4'>
+            {
+              whyPartnerReasons.map((text) => (
+                <div class='flex items-start gap-3'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='currentColor'
+                    class='w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5'>
+                    <path
+                      fill-rule='evenodd'
+                      d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z'
+                      clip-rule='evenodd'
+                    />
+                  </svg>
+                  <p class='text-sm text-gray-600'>{text}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <img
+          src='https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=700&q=80'
+          alt='Partnership and collaboration'
+          class='w-full h-72 object-cover rounded-2xl shadow-lg'
+        />
+      </div>
+    </section>
+
+    <section class='bg-white px-4 md:px-6 py-16'>
+      <div class='max-w-5xl mx-auto'>
+        <h2 class='text-center text-2xl font-bold text-blue-900 mb-2'>
+          Who We Partner With
+        </h2>
+        <div class='flex justify-center mb-10'>
+          <div class='w-14 h-1 bg-orange-500 rounded'></div>
+        </div>
+
+        <div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+          <div
+            class='bg-[#fdf6ee] rounded-2xl p-7 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-200'>
+            <div
+              class='inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mb-4'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='currentColor'
+                class='w-6 h-6 text-blue-800'>
+                <path
+                  fill-rule='evenodd'
+                  d='M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM8.547 4.505a8.25 8.25 0 1 0 11.672 8.214l-.46-.46a2.252 2.252 0 0 1-.422-.586l-1.08-2.16a.414.414 0 0 0-.663-.107.827.827 0 0 1-.812.21l-1.273-.363a.89.89 0 0 0-.738 1.595l.587.39c.59.395.674 1.23.172 1.732l-.2.2c-.211.212-.33.498-.33.796v.41c0 .409-.11.809-.32 1.158l-1.315 2.191a2.11 2.11 0 0 1-1.81 1.025 1.055 1.055 0 0 1-1.055-1.055v-1.172c0-.92-.56-1.747-1.414-2.089l-.655-.261a2.25 2.25 0 0 1-1.383-2.46l.007-.042a2.25 2.25 0 0 1 .29-.787l.09-.15a2.25 2.25 0 0 1 2.37-1.048l1.178.236a1.125 1.125 0 0 0 1.302-.795l.208-.73a1.125 1.125 0 0 0-.578-1.315l-.665-.332-.091.091a2.25 2.25 0 0 1-1.591.659h-.18c-.249 0-.487.1-.662.274a.931.931 0 0 1-1.458-1.137l1.411-2.353a2.25 2.25 0 0 0 .286-.76m11.928 9.869A9 9 0 0 0 8.965 3.525m11.928 9.868A9 9 0 1 1 8.965 3.525'
+                  clip-rule='evenodd'></path>
+              </svg>
+            </div>
+            <h3 class='font-bold text-gray-900 mb-2'>
+              International Donors & Foundations
+            </h3>
+            <p class='text-sm text-gray-500 leading-relaxed'>
+              Faith-based foundations, global health funders, and bilateral
+              donors seeking verifiable ground-level impact in sub-Saharan
+              Africa.
+            </p>
+          </div>
+
+          <div
+            class='bg-[#fdf6ee] rounded-2xl p-7 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-200'>
+            <div
+              class='inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 mb-4'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='currentColor'
+                class='w-6 h-6 text-orange-500'>
+                <path
+                  fill-rule='evenodd'
+                  d='M7.5 5.25a3 3 0 0 1 3-3h3a3 3 0 0 1 3 3v.205c.933.085 1.857.197 2.774.334 1.454.218 2.476 1.483 2.476 2.917v3.033c0 1.211-.734 2.352-1.936 2.752A24.726 24.726 0 0 1 12 15.75c-2.73 0-5.357-.442-7.814-1.259-1.202-.4-1.936-1.541-1.936-2.752V8.706c0-1.434 1.022-2.7 2.476-2.917A48.814 48.814 0 0 1 7.5 5.46V5.25Zm7.5 0v.09a49.488 49.488 0 0 0-6 0v-.09a1.5 1.5 0 0 1 1.5-1.5h3a1.5 1.5 0 0 1 1.5 1.5Zm-3 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z'
+                  clip-rule='evenodd'></path>
+                <path
+                  d='M3 18.4v-2.796a4.3 4.3 0 0 0 .713.31A26.226 26.226 0 0 0 12 17.25c2.892 0 5.68-.468 8.287-1.335.252-.084.49-.189.713-.311V18.4c0 1.452-1.047 2.728-2.523 2.923-2.12.282-4.282.427-6.477.427a49.19 49.19 0 0 1-6.477-.427C4.047 21.128 3 19.852 3 18.4Z'
+                ></path>
+              </svg>
+            </div>
+            <h3 class='font-bold text-gray-900 mb-2'>
+              Corporate / CSR Sponsors
+            </h3>
+            <p class='text-sm text-gray-500 leading-relaxed'>
+              Companies looking to fulfil social responsibility mandates through
+              structured, reportable community health and welfare programmes.
+            </p>
+          </div>
+
+          <div
+            class='bg-[#fdf6ee] rounded-2xl p-7 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-200'>
+            <div
+              class='inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mb-4'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='currentColor'
+                class='w-6 h-6 text-blue-800'>
+                <path
+                  d='m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z'
+                ></path>
+              </svg>
+            </div>
+            <h3 class='font-bold text-gray-900 mb-2'>
+              Faith-Based Organisations
+            </h3>
+            <p class='text-sm text-gray-500 leading-relaxed'>
+              Churches, missions, and faith networks sharing our values of
+              service, dignity, and compassionate care for the vulnerable.
+            </p>
+          </div>
+
+          <div
+            class='bg-[#fdf6ee] rounded-2xl p-7 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-200'>
+            <div
+              class='inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 mb-4'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='currentColor'
+                class='w-6 h-6 text-orange-500'>
+                <path
+                  d='M11.584 2.376a.75.75 0 0 1 .832 0l9 6a.75.75 0 1 1-.832 1.248L12 3.901 3.416 9.624a.75.75 0 0 1-.832-1.248l9-6Z'
+                ></path>
+                <path
+                  fill-rule='evenodd'
+                  d='M20.25 10.332v9.918H21a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5h.75v-9.918a.75.75 0 0 1 .634-.74A49.109 49.109 0 0 1 12 9c2.59 0 5.134.202 7.616.592a.75.75 0 0 1 .634.74Zm-7.5 2.418a.75.75 0 0 0-1.5 0v6.75a.75.75 0 0 0 1.5 0v-6.75Zm3-.75a.75.75 0 0 1 .75.75v6.75a.75.75 0 0 1-1.5 0v-6.75a.75.75 0 0 1 .75-.75ZM9 12.75a.75.75 0 0 0-1.5 0v6.75a.75.75 0 0 0 1.5 0v-6.75Z'
+                  clip-rule='evenodd'></path>
+              </svg>
+            </div>
+            <h3 class='font-bold text-gray-900 mb-2'>
+              County & National Government
+            </h3>
+            <p class='text-sm text-gray-500 leading-relaxed'>
+              County health departments and national health agencies looking to
+              co-implement community health programmes with established
+              partners.
+            </p>
+          </div>
+
+          <div
+            class='bg-[#fdf6ee] rounded-2xl p-7 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-200'>
+            <div
+              class='inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mb-4'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='currentColor'
+                class='w-6 h-6 text-blue-800'>
+                <path
+                  fill-rule='evenodd'
+                  d='M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z'
+                  clip-rule='evenodd'></path>
+                <path
+                  d='M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01-.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z'
+                ></path>
+              </svg>
+            </div>
+            <h3 class='font-bold text-gray-900 mb-2'>
+              NGOs & Development Organisations
+            </h3>
+            <p class='text-sm text-gray-500 leading-relaxed'>
+              Local and international NGOs seeking a credible implementation
+              partner for community health, nutrition, and social welfare
+              projects.
+            </p>
+          </div>
+
+          <div class='bg-blue-900 rounded-2xl p-7 shadow-sm'>
+            <h3 class='font-bold text-white mb-4'>
+              What Partnership Looks Like
+            </h3>
+            <ul class='space-y-3 text-white'>
+              {
+                partnershipFeatures.map((item) => (
+                  <li class='flex items-start gap-2.5'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      fill='currentColor'
+                      class='w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5'>
+                      <path
+                        fill-rule='evenodd'
+                        d='M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z'
+                        clip-rule='evenodd'
+                      />
+                    </svg>
+                    <span class='text-sm text-blue-100'>{item}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id='partner-form' class='bg-[#fdf6ee] px-4 md:px-6 py-16'>
+      <div class='max-w-3xl mx-auto'>
+        <h2 class='text-2xl font-bold text-blue-900 mb-2'>Express Interest</h2>
+        <div class='w-12 h-1 bg-orange-500 rounded mb-3'></div>
+        <p class='text-sm text-gray-500 mb-8'>
+          Fill in the form below and our partnerships team will follow up within <span
+            class='font-semibold text-gray-700'>3 working days</span
+          > to explore how we can work together.
+        </p>
+
+        <!-- Global Top Warning Message (Hidden by default) -->
+        <div
+          id='form-error-banner'
+          class='hidden mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg'>
+          <div class='flex'>
+            <div class='flex-shrink-0'>
+              <svg
+                class='h-5 w-5 text-red-500'
+                viewBox='0 0 20 20'
+                fill='currentColor'>
+                <path
+                  fill-rule='evenodd'
+                  d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                  clip-rule='evenodd'></path>
+              </svg>
+            </div>
+            <div class='ml-3'>
+              <p class='text-sm font-medium text-red-800'>
+                Please fill in all required fields and select at least one area
+                of collaboration.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <form id='eoi-form' class='space-y-6' novalidate>
+          <div class='grid sm:grid-cols-2 gap-5'>
+            <div>
+              <label
+                class='block text-sm font-semibold text-gray-700 mb-1.5'
+                for='org-name'>
+                Organisation Name <span class='text-orange-500'>*</span>
+              </label>
+              <input
+                id='org-name'
+                type='text'
+                placeholder='e.g. Homa Bay Community Foundation'
+                class='w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent transition'
+              />
+              <span class='hidden text-xs font-medium text-red-600 mt-1 block'
+                >This field is required.</span
+              >
+            </div>
+            <div>
+              <label
+                class='block text-sm font-semibold text-gray-700 mb-1.5'
+                for='org-type'>
+                Organisation Type <span class='text-orange-500'>*</span>
+              </label>
+              <select
+                id='org-type'
+                class='w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent transition bg-white'>
+                <option value='' disabled selected>Select type...</option>
+                <option>International Donor / Foundation</option>
+                <option>Corporate / CSR Sponsor</option>
+                <option>Faith-Based Organisation</option>
+                <option>County / National Government</option>
+                <option>NGO / Development Organisation</option>
+                <option>Other</option>
+              </select>
+              <span class='hidden text-xs font-medium text-red-600 mt-1 block'
+                >Please select an organization type.</span
+              >
+            </div>
+          </div>
+
+          <div class='grid sm:grid-cols-2 gap-5'>
+            <div>
+              <label
+                class='block text-sm font-semibold text-gray-700 mb-1.5'
+                for='country'>
+                Country of Operation <span class='text-orange-500'>*</span>
+              </label>
+              <div class='relative input-container'>
+                <span
+                  class='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='currentColor'
+                    class='w-4 h-4 text-gray-400 icon-target'>
+                    <path
+                      fill-rule='evenodd'
+                      d='m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-2.079 3.943-5.42 3.943-9.827a8.25 8.25 0 0 0-16.5 0c0 4.407 1.999 7.748 3.942 9.827a19.58 19.58 0 0 0 2.683 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z'
+                      clip-rule='evenodd'></path>
+                  </svg>
+                </span>
+                <input
+                  id='country'
+                  type='text'
+                  placeholder='e.g. Kenya'
+                  class='w-full border border-gray-300 rounded-lg pl-9 pr-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent transition'
+                />
+              </div>
+              <span class='hidden text-xs font-medium text-red-600 mt-1 block'
+                >This field is required.</span
+              >
+            </div>
+            <div>
+              <label
+                class='block text-sm font-semibold text-gray-700 mb-1.5'
+                for='website'>
+                Website <span class='text-gray-400 font-normal'>(optional)</span
+                >
+              </label>
+              <div class='relative'>
+                <span
+                  class='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='currentColor'
+                    class='w-4 h-4 text-gray-400'>
+                    <path
+                      fill-rule='evenodd'
+                      d='M19.902 4.098a3.75 3.75 0 0 0-5.304 0l-4.5 4.5a3.75 3.75 0 0 0 1.035 6.037.75.75 0 0 1-.646 1.353 5.25 5.25 0 0 1-1.449-8.45l4.5-4.5a5.25 5.25 0 1 1 7.424 7.424l-1.757 1.757a.75.75 0 1 1-1.06-1.06l1.757-1.757a3.75 3.75 0 0 0 0-5.304Zm-7.389 4.267a.75.75 0 0 1 1-.353 5.25 5.25 0 0 1 1.449 8.45l-4.5 4.5a5.25 5.25 0 1 1-7.424-7.424l1.757-1.757a.75.75 0 1 1 1.06 1.06l-1.757 1.757a3.75 3.75 0 1 0 5.304 5.304l4.5-4.5a3.75 3.75 0 0 0-.703-5.952.75.75 0 0 1-.354-1Z'
+                      clip-rule='evenodd'></path>
+                  </svg>
+                </span>
+                <input
+                  id='website'
+                  type='url'
+                  placeholder='https://www.yourorg.org'
+                  class='w-full border border-gray-300 rounded-lg pl-9 pr-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent transition'
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class='grid sm:grid-cols-2 gap-5'>
+            <div>
+              <label
+                class='block text-sm font-semibold text-gray-700 mb-1.5'
+                for='contact-name'>
+                Contact Person <span class='text-orange-500'>*</span>
+              </label>
+              <input
+                id='contact-name'
+                type='text'
+                placeholder='Full name'
+                class='w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent transition'
+              />
+              <span class='hidden text-xs font-medium text-red-600 mt-1 block'
+                >This field is required.</span
+              >
+            </div>
+            <div>
+              <label
+                class='block text-sm font-semibold text-gray-700 mb-1.5'
+                for='contact-role'>
+                Role / Title <span class='text-orange-500'>*</span>
+              </label>
+              <input
+                id='contact-role'
+                type='text'
+                placeholder='e.g. Programme Officer'
+                class='w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent transition'
+              />
+              <span class='hidden text-xs font-medium text-red-600 mt-1 block'
+                >This field is required.</span
+              >
+            </div>
+          </div>
+
+          <div class='grid sm:grid-cols-2 gap-5'>
+            <div>
+              <label
+                class='block text-sm font-semibold text-gray-700 mb-1.5'
+                for='contact-email'>
+                Email Address <span class='text-orange-500'>*</span>
+              </label>
+              <div class='relative input-container'>
+                <span
+                  class='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='currentColor'
+                    class='w-4 h-4 text-gray-400 icon-target'>
+                    <path
+                      d='M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z'
+                    ></path>
+                    <path
+                      d='M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z'
+                    ></path>
+                  </svg>
+                </span>
+                <input
+                  id='contact-email'
+                  type='email'
+                  placeholder='contact@yourorg.org'
+                  class='w-full border border-gray-300 rounded-lg pl-9 pr-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent transition'
+                />
+              </div>
+              <span class='hidden text-xs font-medium text-red-600 mt-1 block'
+                >Please enter a valid email address.</span
+              >
+            </div>
+            <div>
+              <label
+                class='block text-sm font-semibold text-gray-700 mb-1.5'
+                for='contact-phone'>
+                Phone Number
+              </label>
+              <div class='relative'>
+                <span
+                  class='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='currentColor'
+                    class='w-4 h-4 text-gray-400'>
+                    <path
+                      fill-rule='evenodd'
+                      d='M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z'
+                      clip-rule='evenodd'></path>
+                  </svg>
+                </span>
+                <input
+                  id='contact-phone'
+                  type='tel'
+                  placeholder='+254 7XX XXX XXX'
+                  class='w-full border border-gray-300 rounded-lg pl-9 pr-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent transition'
+                />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class='block text-sm font-semibold text-gray-700 mb-2'>
+              Proposed Area(s) of Collaboration <span class='text-orange-500'
+                >*</span
+              >
+            </label>
+            <div class='grid sm:grid-cols-3 gap-3' id='checkbox-group'>
+              {
+                collaborationAreas.map((area) => (
+                  <label class='checkbox-card flex items-center gap-2.5 bg-white border border-gray-200 rounded-lg px-4 py-2.5 cursor-pointer hover:border-orange-400 transition-colors'>
+                    <input
+                      type='checkbox'
+                      class='accent-orange-500 w-4 h-4'
+                      value={area}
+                    />
+                    <span class='text-sm text-gray-700'>{area}</span>
+                  </label>
+                ))
+              }
+            </div>
+            <span
+              id='checkbox-error-msg'
+              class='hidden text-xs font-medium text-red-600 mt-1 block'
+              >Please select at least one area of collaboration.</span
+            >
+          </div>
+
+          <div>
+            <label
+              class='block text-sm font-semibold text-gray-700 mb-1.5'
+              for='proposal'>
+              Brief Description of Proposed Collaboration <span
+                class='text-orange-500'>*</span
+              >
+            </label>
+            <textarea
+              id='proposal'
+              rows='5'
+              placeholder='Describe how you envision working with SPMH — the scope, intended communities, resources you bring, and expected outcomes...'
+              class='w-full border border-gray-300 rounded-lg px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent transition resize-none'
+            ></textarea>
+            <span class='hidden text-xs font-medium text-red-600 mt-1 block'
+              >This field is required.</span
+            >
+          </div>
+
+          <div
+            class='flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-2'>
+            <button
+              type='button'
+              id='submit-btn'
+              class='inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-3 rounded-lg transition-colors duration-200'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='currentColor'
+                class='w-5 h-5'>
+                <path
+                  d='M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z'
+                ></path>
+              </svg>
+              Send Expression of Interest
+            </button>
+            <p class='text-xs text-gray-400 leading-relaxed max-w-xs'>
+              This will open your email client with your details pre-filled. Our
+              team will respond within 3 working days.
+            </p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class='bg-blue-900 px-4 md:px-6 py-12 text-center'>
+      <h2 class='text-2xl font-bold text-white mb-3'>
+        Prefer to Reach Out Directly?
+      </h2>
+      <p class='text-blue-200 text-sm mb-6 max-w-lg mx-auto'>
+        Our partnerships team is available to discuss collaboration ideas before
+        you submit a formal expression of interest.
+      </p>
+      <div class='flex flex-wrap gap-4 justify-center'>
+        <a
+          href='mailto:outreach@spmh.co.ke'
+          class='inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold px-7 py-3 rounded-lg transition-colors duration-200'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 24 24'
+            fill='currentColor'
+            class='w-5 h-5'>
+            <path
+              d='M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z'
+            ></path>
+            <path
+              d='M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z'
+            ></path>
+          </svg>
+          Email Partnerships Team
+        </a>
+        <a
+          href='tel:+25411817447'
+          class='inline-flex items-center gap-2 border-2 border-white text-white hover:bg-white hover:text-blue-900 font-bold px-7 py-3 rounded-lg transition-colors duration-200'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 24 24'
+            fill='currentColor'
+            class='w-5 h-5'>
+            <path
+              fill-rule='evenodd'
+              d='M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z'
+              clip-rule='evenodd'></path>
+          </svg>
+          Call Us
+        </a>
+      </div>
+    </section>
+
+    <script>
+      document.getElementById('submit-btn')?.addEventListener('click', () => {
+        const banner = document.getElementById('form-error-banner');
+
+        // Select targets
+        const orgNameInput = document.getElementById(
+          'org-name',
+        ) as HTMLInputElement;
+        const orgTypeInput = document.getElementById(
+          'org-type',
+        ) as HTMLSelectElement;
+        const countryInput = document.getElementById(
+          'country',
+        ) as HTMLInputElement;
+        const website = (
+          document.getElementById('website') as HTMLInputElement
+        ).value.trim();
+        const contactNameInput = document.getElementById(
+          'contact-name',
+        ) as HTMLInputElement;
+        const contactRoleInput = document.getElementById(
+          'contact-role',
+        ) as HTMLInputElement;
+        const emailInput = document.getElementById(
+          'contact-email',
+        ) as HTMLInputElement;
+        const phone = (
+          document.getElementById('contact-phone') as HTMLInputElement
+        ).value.trim();
+        const proposalInput = document.getElementById(
+          'proposal',
+        ) as HTMLTextAreaElement;
+
+        // Values setup
+        const orgName = orgNameInput.value.trim();
+        const orgType = orgTypeInput.value;
+        const country = countryInput.value.trim();
+        const contactName = contactNameInput.value.trim();
+        const contactRole = contactRoleInput.value.trim();
+        const email = emailInput.value.trim();
+        const proposal = proposalInput.value.trim();
+
+        const checkedElements = document.querySelectorAll(
+          'input[type="checkbox"]:checked',
+        );
+        const checked = Array.from(checkedElements)
+          .map((cb) => (cb as HTMLInputElement).value)
+          .join(', ');
+
+        // Verification Logic Flag
+        let formIsValid = true;
+
+        // Helper functions to handle standard styles vs error states
+        function setFieldError(
+          inputEl: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
+          isValidField: boolean,
+        ) {
+          // If element is wrapped in absolute positioning layout (like email/country icons), apply styling to parent container edge
+          const relativeParent = inputEl.closest('.input-container');
+          const borderTarget = relativeParent ? relativeParent : inputEl;
+          const errorMsg = (
+            relativeParent
+              ? relativeParent.nextElementSibling
+              : inputEl.nextElementSibling
+          ) as HTMLElement;
+          const icon = relativeParent?.querySelector('.icon-target');
+
+          if (!isValidField) {
+            formIsValid = false;
+            borderTarget.classList.add(
+              'border-red-500',
+              'ring-2',
+              'ring-red-500',
+            );
+            borderTarget.classList.remove('border-gray-300');
+            errorMsg?.classList.remove('hidden');
+            icon?.classList.add('text-red-400');
+            icon?.classList.remove('text-gray-400');
+          } else {
+            borderTarget.classList.remove(
+              'border-red-500',
+              'ring-2',
+              'ring-red-500',
+            );
+            borderTarget.classList.add('border-gray-300');
+            errorMsg?.classList.add('hidden');
+            icon?.classList.remove('text-red-400');
+            icon?.classList.add('text-gray-400');
+          }
+        }
+
+        // 1. Text/Select validations
+        setFieldError(orgNameInput, orgName !== '');
+        setFieldError(orgTypeInput, orgType !== '');
+        setFieldError(countryInput, country !== '');
+        setFieldError(contactNameInput, contactName !== '');
+        setFieldError(contactRoleInput, contactRole !== '');
+        setFieldError(proposalInput, proposal !== '');
+
+        // 2. Email Pattern Validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        setFieldError(emailInput, email !== '' && emailPattern.test(email));
+
+        // 3. Checkbox Cards validation
+        const checkboxGroup = document.getElementById('checkbox-group');
+        const checkboxError = document.getElementById('checkbox-error-msg');
+        if (!checked) {
+          formIsValid = false;
+          checkboxGroup?.querySelectorAll('.checkbox-card').forEach((card) => {
+            card.classList.add('border-red-500');
+            card.classList.remove('border-gray-200');
+          });
+          checkboxError?.classList.remove('hidden');
+        } else {
+          checkboxGroup?.querySelectorAll('.checkbox-card').forEach((card) => {
+            card.classList.remove('border-red-500');
+            card.classList.add('border-gray-200');
+          });
+          checkboxError?.classList.add('hidden');
+        }
+
+        // Process submission status
+        if (!formIsValid) {
+          banner?.classList.remove('hidden');
+          banner?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+          // Setup dynamic event listeners to wipe the red error outline as soon as they type to correct it
+          const cleanOnInput = (el: any, validationFn: () => boolean) => {
+            el.addEventListener('input', function handler() {
+              if (validationFn()) {
+                setFieldError(el, true);
+                // Hide banner dynamically if everything else is clean
+                if (!document.querySelector('.border-red-500'))
+                  banner?.classList.add('hidden');
+                el.removeEventListener('input', handler);
+              }
+            });
+          };
+
+          cleanOnInput(orgNameInput, () => orgNameInput.value.trim() !== '');
+          cleanOnInput(orgTypeInput, () => orgTypeInput.value !== '');
+          cleanOnInput(countryInput, () => countryInput.value.trim() !== '');
+          cleanOnInput(
+            contactNameInput,
+            () => contactNameInput.value.trim() !== '',
+          );
+          cleanOnInput(
+            contactRoleInput,
+            () => contactRoleInput.value.trim() !== '',
+          );
+          cleanOnInput(proposalInput, () => proposalInput.value.trim() !== '');
+          cleanOnInput(emailInput, () =>
+            emailPattern.test(emailInput.value.trim()),
+          );
+
+          // Realtime listener for checking standard cards
+          document.querySelectorAll('input[type="checkbox"]').forEach((box) => {
+            box.addEventListener('change', function handler() {
+              if (
+                document.querySelectorAll('input[type="checkbox"]:checked')
+                  .length > 0
+              ) {
+                checkboxGroup
+                  ?.querySelectorAll('.checkbox-card')
+                  .forEach((card) => {
+                    card.classList.remove('border-red-500');
+                    card.classList.add('border-gray-200');
+                  });
+                checkboxError?.classList.add('hidden');
+                if (!document.querySelector('.border-red-500'))
+                  banner?.classList.add('hidden');
+              }
+            });
+          });
+
+          return;
+        }
+
+        // Hide error banner on perfect valid condition
+        banner?.classList.add('hidden');
+
+        // Mailto formatting logic remains untouched
+        const subject = encodeURIComponent(
+          `Partnership Expression of Interest — ${orgName}`,
+        );
+        const body = encodeURIComponent(
+          `PARTNERSHIP EXPRESSION OF INTEREST
+====================================
+
+ORGANISATION DETAILS
+Organisation Name : ${orgName}
+Organisation Type : ${orgType}
+Country           : ${country}
+Website           : ${website || 'N/A'}
+
+CONTACT PERSON
+Name  : ${contactName}
+Role  : ${contactRole}
+Email : ${email}
+Phone : ${phone || 'N/A'}
+
+PROPOSED COLLABORATION
+Areas : ${checked}
+
+Description:
+${proposal}
+
+====================================
+Submitted via SPMH Outreach Website`,
+        );
+
+        window.location.href = `mailto:outreach@spmh.co.ke?subject=${subject}&body=${body}`;
+      });
+    </script>
+  </body>
+</html>
