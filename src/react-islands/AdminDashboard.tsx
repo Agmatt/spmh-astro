@@ -190,7 +190,8 @@ const AdminDashboard = () => {
                 {/* ── SLOT 1: Replace this src with your background image path ── */}
                 <img
                     src="/img/9.jpg"
-                    alt=""
+                    alt="bg image"
+                    loading='lazy'
                     className="absolute inset-0 w-full h-full object-cover"
                     style={{ filter: 'blur(6px)', transform: 'scale(1.05)' }}
                 />
@@ -201,6 +202,7 @@ const AdminDashboard = () => {
                     <div className="flex justify-center mb-6">
                         <img
                             src="/gallery/bg.png"
+                            loading='lazy'
                             alt="SPMH"
                             className="h-30 w-auto object-contain"
                         />

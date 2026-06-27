@@ -1,9 +1,15 @@
 ---
-import Layout from '../../Layout/Layout.astro';
+import '../../styles/global.css';
 import AppointmentBooking from '../../react-islands/AppointmentBooking';
 ---
 
-<Layout title='Book an Appointment | SPMH'>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Book an Appointment | SPMH</title>
+  </head>
+  <body> 
   <!-- ── HERO ──────────────────────────────────────────────────────────────── -->
   <section class='relative overflow-hidden bg-[#0d3b6e] min-h-[520px]'>
     <!-- BG image slot — replace src -->
@@ -388,4 +394,7 @@ import AppointmentBooking from '../../react-islands/AppointmentBooking';
       </div>
     </div>
   </section>
-</Layout>
+  </body>
+</html>
+
+

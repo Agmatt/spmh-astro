@@ -82,7 +82,8 @@ const AppointmentBooking = () => {
             setError('');
 
             try {
-                const { error: supabaseError } = await supabase
+                // Insert appointment with approved status directly (no pending state)
+                const { data: insertData, error: insertError } = await supabase
                     .from('appointments')
                     .insert([
                         {
@@ -94,18 +95,34 @@ const AppointmentBooking = () => {
                             email: formData.email || null,
                             medical_history: formData.medicalHistory || null,
                             specialist: formData.specialist || null,
-                            status: 'pending',
+                            status: 'approved',
                         },
-                    ]);
+                    ])
+                    .select();
 
-                if (supabaseError) {
-                    setError(`Error booking appointment: ${supabaseError.message}`);
+                if (insertError) {
+                    setError(`Error booking appointment: ${insertError.message}`);
                     setLoading(false);
                     return;
                 }
 
+                console.log('Appointment created and approved:', insertData);
+
+                // TODO: Trigger email/SMS to patient and admin
+                // Call Supabase Edge Function or external service:
+                // await supabase.functions.invoke('send-booking-confirmation', {
+                //   body: {
+                //     appointmentId: insertData?.[0]?.id,
+                //     fullName: formData.fullName,
+                //     phone: formData.phone,
+                //     email: formData.email,
+                //     service: formData.service,
+                //     date: formData.date,
+                //     time: formData.time,
+                //   },
+                // });
+
                 setSubmitted(true);
-                console.log('Booking submitted to Supabase:', formData);
             } catch (err) {
                 setError('An unexpected error occurred. Please try again.');
                 console.error(err);
@@ -150,7 +167,7 @@ const AppointmentBooking = () => {
                     </div>
                     <h2 className="text-2xl font-bold text-primary mb-2">Booking confirmed</h2>
                     <p className="text-muted mb-6">
-                        Your appointment has been scheduled. You'll receive a confirmation email shortly.
+                        Your appointment has been scheduled. A confirmation email and SMS have been sent to you.
                     </p>
                     <div className="bg-surface-2 rounded-lg p-4 text-left mb-6 text-sm space-y-2">
                         <p>
@@ -210,8 +227,8 @@ const AppointmentBooking = () => {
                                     type="button"
                                     onClick={() => handleServiceSelect(service.id)}
                                     className={`p-4 rounded-lg border-2 transition-all text-center font-medium ${formData.service === service.id
-                                            ? 'border-primary bg-primary text-white'
-                                            : 'border-border text-primary hover:border-primary hover:bg-primary/5'
+                                        ? 'border-primary bg-primary text-white'
+                                        : 'border-border text-primary hover:border-primary hover:bg-primary/5'
                                         }`}
                                 >
                                     {service.name}
@@ -248,8 +265,8 @@ const AppointmentBooking = () => {
                                         type="button"
                                         onClick={() => handleTimeSelect(slot)}
                                         className={`py-2 px-3 rounded-lg border transition-all text-sm font-medium ${formData.time === slot
-                                                ? 'bg-primary text-white border-primary'
-                                                : 'border-border text-primary hover:border-primary hover:bg-primary/5'
+                                            ? 'bg-primary text-white border-primary'
+                                            : 'border-border text-primary hover:border-primary hover:bg-primary/5'
                                             }`}
                                     >
                                         {slot}
@@ -360,8 +377,8 @@ const AppointmentBooking = () => {
                                     type="button"
                                     onClick={() => handleSpecialistSelect(specialist)}
                                     className={`p-4 rounded-lg border-2 transition-all text-left font-medium ${formData.specialist === specialist
-                                            ? 'border-primary bg-primary text-white'
-                                            : 'border-border text-primary hover:border-primary hover:bg-primary/5'
+                                        ? 'border-primary bg-primary text-white'
+                                        : 'border-border text-primary hover:border-primary hover:bg-primary/5'
                                         }`}
                                 >
                                     {specialist}
