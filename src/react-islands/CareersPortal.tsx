@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = 'https://kqvmcuhanypjfzujahst.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtxdm1jdWhhbnlwamZ6dWphaHN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1ODMxNzMsImV4cCI6MjA5ODE1OTE3M30.tsmzyuup7fgFQLKGVjHeB0C_Vc9dMWXWSiucOj8N2sM';
+const SUPABASE_URL = 'https://zzlngxryoalajdpsbpnn.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6bG5neHJ5b2FsYWpkcHNicG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MDk3NjYsImV4cCI6MjA5ODE4NTc2Nn0.NN2MqqqOITkizXpMw1qrAwbb4GYIySa7jsIcWnmP-Ag';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -25,7 +25,6 @@ const CareersPortal = () => {
             title: 'General Practitioner',
             department: 'Clinical',
             experience: '2+ years',
-            salary: 'Competitive',
             description: `Join SPMH as a General Practitioner and make a direct impact on community health. You'll provide comprehensive medical care to diverse patients, from routine check-ups to complex diagnoses.
 
 Key Responsibilities:
@@ -45,7 +44,6 @@ What We're Looking For:
 • Commitment to continuous learning
 
 Why Join Us:
-• Competitive salary package
 • Health insurance for you and family
 • Professional development opportunities
 • Flexible working arrangements
@@ -56,7 +54,6 @@ Why Join Us:
             title: 'Registered Nurse',
             department: 'Clinical',
             experience: '1+ years',
-            salary: 'Competitive',
             description: `As a Registered Nurse at SPMH, you'll be the backbone of our patient care delivery. You'll work alongside doctors and specialists to ensure every patient receives excellent nursing care.
 
 Key Responsibilities:
@@ -76,7 +73,6 @@ What We're Looking For:
 • Ability to handle high-pressure situations
 
 Why Join Us:
-• Competitive salary with benefits
 • Career advancement opportunities
 • Continuing education support
 • Flexible shift patterns
@@ -87,7 +83,6 @@ Why Join Us:
             title: 'Midwife',
             department: 'Maternity',
             experience: '2+ years',
-            salary: 'Competitive',
             description: `Join our Maternity Department as a Midwife and be part of one of life's most special moments. We're looking for experienced, compassionate midwives to provide exceptional care to mothers and newborns.
 
 Key Responsibilities:
@@ -107,7 +102,6 @@ What We're Looking For:
 • Empathy and patient advocacy commitment
 
 Why Join Us:
-• Competitive salary and benefits
 • Modern maternity facilities
 • Ongoing professional development
 • Supportive, caring team environment
@@ -118,7 +112,6 @@ Why Join Us:
             title: 'Surgeon',
             department: 'Surgical',
             experience: '3+ years',
-            salary: 'Competitive',
             description: `SPMH is seeking a skilled Surgeon to lead our surgical services and provide expert surgical care to our patients. You'll work with state-of-the-art facilities and a dedicated surgical team.
 
 Key Responsibilities:
@@ -138,7 +131,6 @@ What We're Looking For:
 • Leadership and team management abilities
 
 Why Join Us:
-• Excellent salary package
 • Health insurance and benefits
 • Access to modern surgical equipment
 • Professional development opportunities
@@ -149,7 +141,6 @@ Why Join Us:
             title: 'Laboratory Technician',
             department: 'Laboratory',
             experience: '1+ years',
-            salary: 'Competitive',
             description: `Our Laboratory Department is looking for a meticulous Laboratory Technician to perform critical diagnostic tests and support clinical decision-making.
 
 Key Responsibilities:
@@ -170,7 +161,6 @@ What We're Looking For:
 • Excellent record-keeping skills
 
 Why Join Us:
-• Competitive salary
 • Health insurance coverage
 • Training on new equipment
 • Career growth opportunities
@@ -181,7 +171,6 @@ Why Join Us:
             title: 'Dentist',
             department: 'Dental',
             experience: '1+ years',
-            salary: 'Competitive',
             description: `Join our Dental Department and provide quality dental care to our community. We're looking for passionate dentists to deliver comprehensive oral health services.
 
 Key Responsibilities:
@@ -356,10 +345,6 @@ Why Join Us:
                                     <div>
                                         <p className="text-xs text-muted font-medium mb-1">Experience</p>
                                         <p className="text-lg font-bold text-primary">{currentPosition?.experience}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-xs text-muted font-medium mb-1">Salary</p>
-                                        <p className="text-lg font-bold text-primary">{currentPosition?.salary}</p>
                                     </div>
                                 </div>
                             </div>
