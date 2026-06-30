@@ -2,9 +2,7 @@
 const services = [
   {
     id: 'emergency',
-    icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
     title: 'Emergency & Trauma Response',
-    badge: '24/7 Priority',
     desc: 'Immediate clinical intervention around the clock. Completely self-referral structured — our emergency medicine unit functions at peak operational readiness before you arrive.',
     points: [
       'Immediate expert triage on arrival',
@@ -17,9 +15,7 @@ const services = [
   },
   {
     id: 'maternity',
-    icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
     title: 'Maternity & Full ANC Journey',
-    badge: 'Full Continuum',
     desc: 'Complete comprehensive maternal care loop. Guiding mothers safely from custom antenatal clinic blocks through dignified delivery and postpartum specialized newborn care.',
     points: [
       'Antenatal clinics & birth scheduling',
@@ -32,9 +28,7 @@ const services = [
   },
   {
     id: 'surgical',
-    icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z',
     title: 'Surgical Services & Theater',
-    badge: 'Advanced Care',
     desc: 'Elective and emergency specialist procedures driven by rigorous surgical safety checklists. Full pre-operative optimization and structured recovery frameworks.',
     points: [
       'General and specialized procedures',
@@ -65,38 +59,8 @@ const services = [
         services.map((service) => (
           <div
             key={service.id}
-            class='bg-slate-50 border border-slate-200/60 p-8 lg:p-10 flex flex-col justify-between min-h-[520px] rounded-2xl relative transition-all duration-500 ease-out hover:bg-white hover:shadow-xl hover:border-slate-300 group'>
+            class='bg-slate-50 border border-slate-200/60 p-6 lg:p-10 flex flex-col justify-between min-h-[520px] rounded-2xl relative transition-all duration-500 ease-out hover:bg-white hover:shadow-xl hover:border-slate-300 group'>
             <div>
-              <div class='flex items-center justify-between pb-6 border-b border-slate-200/50 mb-8'>
-                <div class='text-slate-400 group-hover:text-[var(--color-primary)] transition-colors duration-300'>
-                  <svg
-                    class='w-6 h-6'
-                    fill='none'
-                    stroke='currentColor'
-                    stroke-width='1.5'
-                    viewBox='0 0 24 24'
-                    style={{
-                      color: service.isEmergency
-                        ? '#be123c'
-                        : 'var(--color-secondary)',
-                    }}>
-                    <path
-                      stroke-linecap='round'
-                      stroke-linejoin='round'
-                      d={service.icon}
-                    />
-                  </svg>
-                </div>
-                <span
-                  class={`text-[9px] font-mono uppercase tracking-[0.2em] font-bold px-3 py-1 rounded ${
-                    service.isEmergency
-                      ? 'bg-rose-50 text-accent border border-rose-100'
-                      : 'bg-slate-200/50 text-slate-700'
-                  }`}>
-                  {service.badge}
-                </span>
-              </div>
-
               <h3 class='text-xl sm:text-2xl font-black tracking-tight text-slate-900 mb-4 font-display group-hover:text-[var(--color-primary)] transition-colors duration-300'>
                 {service.title}
               </h3>
