@@ -159,7 +159,7 @@ const AdminDashboard = () => {
                 style={{ background: C.dark }}>
 
                 {/* ── SLOT 1: background image — replace src ── */}
-                <img src="/your-background-image.jpg" alt=""
+                <img src="/img/47.jpg" alt=""
                     className="absolute inset-0 w-full h-full object-cover"
                     style={{ filter: 'blur(6px)', transform: 'scale(1.05)', opacity: 0.18 }} />
 
@@ -176,7 +176,7 @@ const AdminDashboard = () => {
 
                     {/* ── SLOT 2: form logo — replace src ── */}
                     <div className="flex justify-center mb-6">
-                        <img src="/your-form-image.png" alt="SPMH" className="h-14 w-auto object-contain" />
+                        <img src="/gallery/bg.png" alt="SPMH" className="h-14 w-auto object-contain" />
                     </div>
 
                     {/* Brand row */}
