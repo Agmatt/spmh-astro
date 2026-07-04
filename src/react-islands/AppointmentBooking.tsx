@@ -25,6 +25,10 @@ const AppointmentBooking = () => {
     const [availableDates, setAvailableDates] = useState([]);
     const [dateCapacity, setDateCapacity] = useState({});
 
+    // Validation state
+    const [errors, setErrors] = useState({});
+    const [touched, setTouched] = useState({});
+
     const clinics = [
         { id: 'sopc', name: 'Surgical Outpatient Clinic (SOPC)', day: 'Monday' },
         { id: 'mopc', name: 'Medical Outpatient Clinic (MOPC)', day: 'Tuesday' },
@@ -43,7 +47,7 @@ const AppointmentBooking = () => {
         const dates = [];
         const today = new Date();
 
-        for (let i = 0; i < 56; i++) { // 8 weeks
+        for (let i = 0; i < 56; i++) {
             const date = new Date(today);
             date.setDate(date.getDate() + i);
             if (date.getDay() === targetDay) {
@@ -53,7 +57,6 @@ const AppointmentBooking = () => {
         return dates;
     };
 
-    // Check capacity for all available dates
     const checkCapacityForDates = async (clinicId, dates) => {
         try {
             const { data, error } = await supabase
@@ -80,17 +83,105 @@ const AppointmentBooking = () => {
         }
     };
 
+    // Validation functions
+    const validateFullName = (name) => {
+        if (!name || !name.trim()) {
+            return 'Name is required';
+        }
+        if (name.trim().length < 3) {
+            return 'Enter full name (minimum 3 characters)';
+        }
+        return '';
+    };
+
+    const validatePhone = (phone) => {
+        if (!phone || !phone.trim()) {
+            return 'Phone number is required';
+        }
+
+        // Remove spaces, dashes, and parentheses for validation
+        const cleanPhone = phone.replace(/[\s\-().]/g, '');
+
+        // Must start with + or 0
+        if (!cleanPhone.startsWith('+') && !cleanPhone.startsWith('0')) {
+            return 'Phone must start with + (international) or 0 (local)';
+        }
+
+        // Must have at least 10 digits (excluding + symbol)
+        const digitsOnly = cleanPhone.replace(/[^0-9]/g, '');
+        if (digitsOnly.length < 10) {
+            return `Phone must have at least 10 digits (you have ${digitsOnly.length})`;
+        }
+
+        // International format: +1-15 digits total
+        if (cleanPhone.startsWith('+')) {
+            if (digitsOnly.length < 10 || digitsOnly.length > 15) {
+                return 'International format: +country code + 9-13 digits';
+            }
+        }
+
+        // Local format: 0 + 9 digits (10 total)
+        if (cleanPhone.startsWith('0')) {
+            if (digitsOnly.length !== 10) {
+                return 'Local format: 0 followed by 9 digits (10 total)';
+            }
+        }
+
+        return '';
+    };
+
+    const validateEmail = (email) => {
+        if (!email) return ''; // Optional
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return 'Enter valid email address';
+        }
+        return '';
+    };
+
+    const validateStep = (stepNum) => {
+        const newErrors = {};
+
+        if (stepNum === 1) {
+            if (!formData.clinic) {
+                newErrors.clinic = 'Select a clinic';
+            }
+        }
+
+        if (stepNum === 2) {
+            if (!formData.date) {
+                newErrors.date = 'Select a date';
+            }
+            if (!formData.time) {
+                newErrors.time = 'Select a time';
+            }
+        }
+
+        if (stepNum === 3) {
+            const nameError = validateFullName(formData.fullName);
+            if (nameError) newErrors.fullName = nameError;
+
+            const phoneError = validatePhone(formData.phone);
+            if (phoneError) newErrors.phone = phoneError;
+
+            const emailError = validateEmail(formData.email);
+            if (emailError) newErrors.email = emailError;
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleClinicSelect = async (clinicId) => {
         setFormData({ ...formData, clinic: clinicId, date: '', time: '' });
         setError('');
+        setErrors({});
+        setTouched({});
         setStep(2);
 
-        // Get available dates for this clinic
         const clinic = clinics.find(c => c.id === clinicId);
         const dates = getAvailableDatesForClinic(clinic.day);
         setAvailableDates(dates);
-
-        // Check capacity for all dates
         await checkCapacityForDates(clinicId, dates);
     };
 
@@ -106,35 +197,51 @@ const AppointmentBooking = () => {
 
         setError('');
         setFormData({ ...formData, date: selectedDate, time: '' });
+        setTouched({ ...touched, date: true });
     };
 
     const handleTimeSelect = (time) => {
         setFormData({ ...formData, time });
+        setTouched({ ...touched, time: true });
         setStep(3);
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        setTouched({ ...touched, [name]: true });
+
+        // Real-time validation
+        if (name === 'fullName') {
+            const nameError = validateFullName(value);
+            setErrors({ ...errors, fullName: nameError });
+        }
+        if (name === 'phone') {
+            const phoneError = validatePhone(value);
+            setErrors({ ...errors, phone: phoneError });
+        }
+        if (name === 'email') {
+            const emailError = validateEmail(value);
+            setErrors({ ...errors, email: emailError });
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Double-check capacity before submitting
+        // Validate step 3
+        if (!validateStep(3)) {
+            return;
+        }
+
+        // Double-check capacity
         const selectedDateCapacity = dateCapacity[formData.date];
         if (selectedDateCapacity && selectedDateCapacity.isFull) {
             setError('This date just became full. Please select another date.');
             return;
         }
 
-        if (
-            formData.clinic &&
-            formData.fullName &&
-            formData.phone &&
-            formData.date &&
-            formData.time
-        ) {
+        if (formData.clinic && formData.fullName && formData.phone && formData.date && formData.time) {
             setLoading(true);
             setError('');
 
@@ -146,7 +253,7 @@ const AppointmentBooking = () => {
                     .insert([
                         {
                             clinic_name: formData.clinic,
-                            clinic_day: selectedClinic?.day,  // <-- REMOVE THIS LINE
+                            clinic_day: selectedClinic?.day,
                             appointment_date: formData.date,
                             appointment_time: formData.time,
                             full_name: formData.fullName,
@@ -183,6 +290,8 @@ const AppointmentBooking = () => {
         setSubmitted(false);
         setStep(1);
         setError('');
+        setErrors({});
+        setTouched({});
         setFormData({
             clinic: '',
             date: '',
@@ -197,6 +306,9 @@ const AppointmentBooking = () => {
     const selectedClinic = clinics.find(c => c.id === formData.clinic);
     const selectedDateCapacity = dateCapacity[formData.date];
     const progressPercentage = (step / 3) * 100;
+
+    // Check if Step 3 form is valid
+    const isStep3Valid = !errors.fullName && !errors.phone && !errors.email && formData.fullName && formData.phone;
 
     if (submitted) {
         return (
@@ -363,9 +475,10 @@ const AppointmentBooking = () => {
                 {step === 3 && (
                     <div>
                         <h3 className="text-2xl font-bold text-primary mb-2">Your information</h3>
-                        <p className="text-muted mb-6">Please provide your details</p>
+                        <p className="text-muted mb-6">Please provide your details (* = required)</p>
 
                         <div className="space-y-4">
+                            {/* Full Name */}
                             <div>
                                 <label className="block text-sm font-medium text-primary mb-2">Full name *</label>
                                 <input
@@ -373,12 +486,28 @@ const AppointmentBooking = () => {
                                     name="fullName"
                                     value={formData.fullName}
                                     onChange={handleInputChange}
+                                    onBlur={() => setTouched({ ...touched, fullName: true })}
                                     placeholder="John Doe"
-                                    className="w-full px-4 py-3 rounded-lg border border-border focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-                                    required
+                                    className={`w-full px-4 py-3 rounded-lg border transition-all focus:outline-none focus:ring-2 ${touched.fullName && errors.fullName
+                                            ? 'border-red-400 bg-red-50 focus:ring-red-200'
+                                            : touched.fullName && formData.fullName
+                                                ? 'border-green-400 focus:ring-green-200'
+                                                : 'border-border focus:border-primary focus:ring-primary/20'
+                                        }`}
                                 />
+                                {touched.fullName && errors.fullName && (
+                                    <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
+                                        ✗ {errors.fullName}
+                                    </p>
+                                )}
+                                {touched.fullName && !errors.fullName && formData.fullName && (
+                                    <p className="text-xs text-green-600 mt-1.5 flex items-center gap-1">
+                                        ✓ Looks good
+                                    </p>
+                                )}
                             </div>
 
+                            {/* Phone */}
                             <div>
                                 <label className="block text-sm font-medium text-primary mb-2">Phone number *</label>
                                 <input
@@ -386,27 +515,60 @@ const AppointmentBooking = () => {
                                     name="phone"
                                     value={formData.phone}
                                     onChange={handleInputChange}
+                                    onBlur={() => setTouched({ ...touched, phone: true })}
                                     placeholder="+254 712 345 678"
-                                    className="w-full px-4 py-3 rounded-lg border border-border focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-                                    required
+                                    className={`w-full px-4 py-3 rounded-lg border transition-all focus:outline-none focus:ring-2 ${touched.phone && errors.phone
+                                            ? 'border-red-400 bg-red-50 focus:ring-red-200'
+                                            : touched.phone && formData.phone
+                                                ? 'border-green-400 focus:ring-green-200'
+                                                : 'border-border focus:border-primary focus:ring-primary/20'
+                                        }`}
                                 />
+                                {touched.phone && errors.phone && (
+                                    <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
+                                        ✗ {errors.phone}
+                                    </p>
+                                )}
+                                {touched.phone && !errors.phone && formData.phone && (
+                                    <p className="text-xs text-green-600 mt-1.5 flex items-center gap-1">
+                                        ✓ Valid phone number
+                                    </p>
+                                )}
                             </div>
 
+                            {/* Email (Optional) */}
                             <div>
-                                <label className="block text-sm font-medium text-primary mb-2">Email</label>
+                                <label className="block text-sm font-medium text-primary mb-2">Email <span className="text-muted text-xs font-normal">(optional)</span></label>
                                 <input
                                     type="email"
                                     name="email"
                                     value={formData.email}
                                     onChange={handleInputChange}
+                                    onBlur={() => setTouched({ ...touched, email: true })}
                                     placeholder="john@example.com"
-                                    className="w-full px-4 py-3 rounded-lg border border-border focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                                    className={`w-full px-4 py-3 rounded-lg border transition-all focus:outline-none focus:ring-2 ${touched.email && errors.email
+                                            ? 'border-red-400 bg-red-50 focus:ring-red-200'
+                                            : touched.email && formData.email
+                                                ? 'border-green-400 focus:ring-green-200'
+                                                : 'border-border focus:border-primary focus:ring-primary/20'
+                                        }`}
                                 />
+                                {touched.email && errors.email && (
+                                    <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
+                                        ✗ {errors.email}
+                                    </p>
+                                )}
+                                {touched.email && !errors.email && formData.email && (
+                                    <p className="text-xs text-green-600 mt-1.5 flex items-center gap-1">
+                                        ✓ Valid email
+                                    </p>
+                                )}
                             </div>
 
+                            {/* Medical History */}
                             <div>
                                 <label className="block text-sm font-medium text-primary mb-2">
-                                    Medical history / complaints (optional)
+                                    Medical history / complaints <span className="text-muted text-xs font-normal">(optional)</span>
                                 </label>
                                 <textarea
                                     name="medicalHistory"
@@ -422,8 +584,8 @@ const AppointmentBooking = () => {
                         <div className="space-y-3 mt-6">
                             <button
                                 type="submit"
-                                disabled={loading}
-                                className="w-full btn-primary rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={loading || !isStep3Valid}
+                                className="w-full btn-primary rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                             >
                                 {loading ? 'Booking...' : 'Confirm appointment'}
                             </button>

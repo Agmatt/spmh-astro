@@ -6,7 +6,6 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ── Color tokens ─────────────────────────────────────────────────────────────
 const C = {
     dark: '#1c1c1e',
     red: '#860f0f',
@@ -42,21 +41,19 @@ const AdminDashboard = () => {
     const [filteredBookings, setFilteredBookings] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    // Filters
     const [clinicFilter, setClinicFilter] = useState('all');
     const [dayFilter, setDayFilter] = useState('all');
-    const [dateFilter, setDateFilter] = useState('');
+    const [dateFromFilter, setDateFromFilter] = useState('');
+    const [dateToFilter, setDateToFilter] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
+    const [patientNameFilter, setPatientNameFilter] = useState('');
+    const [emailSearchFilter, setEmailSearchFilter] = useState('');
+    const [emailPresenceFilter, setEmailPresenceFilter] = useState('all');
 
     const idleTimerRef = useRef(null);
     const idleTimeoutRef = useRef(null);
     const IDLE_TIME = 15 * 60 * 1000;
-
-    const clinics = [
-        { id: 'sopc', name: 'SOPC (Surgical)' },
-        { id: 'mopc', name: 'MOPC (Medical)' },
-        { id: 'obgyn', name: 'OB/GYN' },
-        { id: 'popc', name: 'POPC (Pediatric)' },
-    ];
 
     const statuses = ['approved', 'completed', 'cancelled'];
 
@@ -65,6 +62,13 @@ const AdminDashboard = () => {
         mopc: 'Tuesday',
         obgyn: 'Wednesday',
         popc: 'Thursday',
+    };
+
+    const clinicNames = {
+        sopc: 'SOPC (Surgical)',
+        mopc: 'MOPC (Medical)',
+        obgyn: 'OB/GYN',
+        popc: 'POPC (Pediatric)',
     };
 
     useEffect(() => { checkAuth(); }, []);
@@ -124,14 +128,71 @@ const AdminDashboard = () => {
 
     const applyFilters = (data) => {
         let filtered = data;
-        if (clinicFilter !== 'all') filtered = filtered.filter(b => b.clinic_name === clinicFilter);
-        if (dayFilter !== 'all') filtered = filtered.filter(b => b.clinic_day === dayFilter);
-        if (dateFilter) filtered = filtered.filter(b => b.appointment_date === dateFilter);
-        if (statusFilter !== 'all') filtered = filtered.filter(b => b.status === statusFilter);
+
+        // CLINIC FILTER
+        if (clinicFilter !== 'all') {
+            filtered = filtered.filter(b => b.clinic_name === clinicFilter);
+        }
+
+        // DAY FILTER
+        if (dayFilter !== 'all') {
+            filtered = filtered.filter(b => b.clinic_day === dayFilter);
+        }
+
+        // DATE RANGE FILTER
+        if (dateFromFilter) {
+            filtered = filtered.filter(b => b.appointment_date >= dateFromFilter);
+        }
+        if (dateToFilter) {
+            filtered = filtered.filter(b => b.appointment_date <= dateToFilter);
+        }
+
+        // PATIENT NAME FILTER
+        if (patientNameFilter.trim()) {
+            const searchTerm = patientNameFilter.toLowerCase().trim();
+            filtered = filtered.filter(b =>
+                b.full_name && b.full_name.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        // EMAIL SEARCH FILTER
+        if (emailSearchFilter.trim()) {
+            const searchTerm = emailSearchFilter.toLowerCase().trim();
+            filtered = filtered.filter(b =>
+                b.email && b.email.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        // EMAIL PRESENCE FILTER
+        if (emailPresenceFilter !== 'all') {
+            if (emailPresenceFilter === 'has') {
+                filtered = filtered.filter(b => b.email && b.email.trim());
+            } else if (emailPresenceFilter === 'missing') {
+                filtered = filtered.filter(b => !b.email || !b.email.trim());
+            }
+        }
+
+        // STATUS FILTER
+        if (statusFilter !== 'all') {
+            filtered = filtered.filter(b => b.status === statusFilter);
+        }
+
         setFilteredBookings(filtered);
     };
 
     const handleFilterChange = () => {
+        applyFilters(bookings);
+    };
+
+    const clearFilters = () => {
+        setClinicFilter('all');
+        setDayFilter('all');
+        setDateFromFilter('');
+        setDateToFilter('');
+        setStatusFilter('all');
+        setPatientNameFilter('');
+        setEmailSearchFilter('');
+        setEmailPresenceFilter('all');
         applyFilters(bookings);
     };
 
@@ -157,29 +218,17 @@ const AdminDashboard = () => {
         return (
             <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
                 style={{ background: C.dark }}>
-
-                {/* ── SLOT 1: background image — replace src ── */}
-                <img src="/img/47.jpg" alt=""
+                <img src="/your-background-image.jpg" alt=""
                     className="absolute inset-0 w-full h-full object-cover"
                     style={{ filter: 'blur(6px)', transform: 'scale(1.05)', opacity: 0.18 }} />
-
-                {/* Diagonal crimson overlay */}
                 <div className="absolute inset-0 pointer-events-none"
                     style={{ background: 'linear-gradient(120deg, rgba(28,28,30,0.95) 48%, rgba(134,15,15,0.5) 100%)' }} />
-
-                {/* Dot texture */}
                 <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
                     style={{ backgroundImage: 'radial-gradient(circle,#fff 1px,transparent 1px)', backgroundSize: '28px 28px' }} />
-
-                {/* Card */}
                 <div className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
-
-                    {/* ── SLOT 2: form logo — replace src ── */}
                     <div className="flex justify-center mb-6">
-                        <img src="/gallery/bg.png" alt="SPMH" className="h-14 w-auto object-contain" />
+                        <img src="/your-form-image.png" alt="SPMH" className="h-14 w-auto object-contain" />
                     </div>
-
-                    {/* Brand row */}
                     <div className="flex items-center gap-3 mb-6">
                         <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
                             style={{ background: C.red }}>
@@ -193,10 +242,8 @@ const AdminDashboard = () => {
                             <p className="text-xs" style={{ color: C.muted }}>SPMH Appointment Management</p>
                         </div>
                     </div>
-
                     <h2 className="text-2xl font-bold mb-1" style={{ color: C.dark }}>Sign in</h2>
                     <p className="text-sm mb-6" style={{ color: C.muted }}>Access the appointments dashboard</p>
-
                     <form onSubmit={handleLogin} className="space-y-4">
                         <div>
                             <label className="block text-xs font-semibold mb-1.5" style={{ color: C.dark }}>Email</label>
@@ -251,15 +298,15 @@ const AdminDashboard = () => {
     // ── DASHBOARD ────────────────────────────────────────────────────────────
     const statCards = [
         { label: 'Total Bookings', value: bookings.length },
+        { label: 'With Email', value: bookings.filter(b => b.email && b.email.trim()).length },
+        { label: 'No Email', value: bookings.filter(b => !b.email || !b.email.trim()).length },
         { label: 'Approved', value: bookings.filter(b => b.status === 'approved').length },
-        { label: 'Completed', value: bookings.filter(b => b.status === 'completed').length },
-        { label: 'Cancelled', value: bookings.filter(b => b.status === 'cancelled').length },
     ];
+
+    const isFiltered = clinicFilter !== 'all' || dayFilter !== 'all' || dateFromFilter || dateToFilter || statusFilter !== 'all' || patientNameFilter.trim() || emailSearchFilter.trim() || emailPresenceFilter !== 'all';
 
     return (
         <div className="min-h-screen" style={{ background: C.warm }}>
-
-            {/* ── Header ── */}
             <header className="sticky top-0 z-40 bg-white border-b"
                 style={{ borderColor: C.border, boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                 <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
@@ -296,8 +343,6 @@ const AdminDashboard = () => {
             </header>
 
             <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
-
-                {/* Stat Cards — 2×2 mobile, 4-col sm+ */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {statCards.map((card, i) => (
                         <div key={card.label} className="rounded-xl p-4 sm:p-5"
@@ -308,10 +353,59 @@ const AdminDashboard = () => {
                     ))}
                 </div>
 
-                {/* Filters */}
+                {/* FILTERS */}
                 <div className="bg-white rounded-xl border p-4 sm:p-6" style={{ borderColor: C.border }}>
-                    <h2 className="text-sm font-semibold mb-4" style={{ color: C.dark }}>Filters</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-sm font-semibold" style={{ color: C.dark }}>Filters</h2>
+                        {isFiltered && (
+                            <button
+                                onClick={clearFilters}
+                                className="text-xs font-medium px-3 py-1 rounded-lg transition-colors"
+                                style={{ background: C.redBg, color: C.red }}>
+                                Clear all
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Row 1: Patient Name, Email Search & Clinic */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-3">
+                        <div>
+                            <label className="block text-xs font-medium mb-1.5" style={{ color: C.dark }}>Patient Name</label>
+                            <input
+                                type="text"
+                                value={patientNameFilter}
+                                onChange={e => { setPatientNameFilter(e.target.value); handleFilterChange(); }}
+                                placeholder="Search by name..."
+                                className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+                                style={{ borderColor: C.border, color: C.dark }}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-medium mb-1.5" style={{ color: C.dark }}>Email Search</label>
+                            <input
+                                type="text"
+                                value={emailSearchFilter}
+                                onChange={e => { setEmailSearchFilter(e.target.value); handleFilterChange(); }}
+                                placeholder="Search by email..."
+                                className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+                                style={{ borderColor: C.border, color: C.dark }}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-medium mb-1.5" style={{ color: C.dark }}>Email Status</label>
+                            <select value={emailPresenceFilter}
+                                onChange={e => { setEmailPresenceFilter(e.target.value); handleFilterChange(); }}
+                                className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+                                style={{ borderColor: C.border, color: C.dark }}>
+                                <option value="all">All</option>
+                                <option value="has">Has Email</option>
+                                <option value="missing">No Email</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* Row 2: Clinic, Day & Status */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-3">
                         <div>
                             <label className="block text-xs font-medium mb-1.5" style={{ color: C.dark }}>Clinic</label>
                             <select value={clinicFilter}
@@ -319,7 +413,10 @@ const AdminDashboard = () => {
                                 className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
                                 style={{ borderColor: C.border, color: C.dark }}>
                                 <option value="all">All Clinics</option>
-                                {clinics.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                                <option value="sopc">SOPC (Surgical)</option>
+                                <option value="mopc">MOPC (Medical)</option>
+                                <option value="obgyn">OB/GYN</option>
+                                <option value="popc">POPC (Pediatric)</option>
                             </select>
                         </div>
                         <div>
@@ -336,21 +433,34 @@ const AdminDashboard = () => {
                             </select>
                         </div>
                         <div>
-                            <label className="block text-xs font-medium mb-1.5" style={{ color: C.dark }}>Date</label>
-                            <input type="date" value={dateFilter}
-                                onChange={e => { setDateFilter(e.target.value); handleFilterChange(); }}
-                                className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
-                                style={{ borderColor: C.border, color: C.dark }} />
-                        </div>
-                        <div>
                             <label className="block text-xs font-medium mb-1.5" style={{ color: C.dark }}>Status</label>
                             <select value={statusFilter}
                                 onChange={e => { setStatusFilter(e.target.value); handleFilterChange(); }}
                                 className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
                                 style={{ borderColor: C.border, color: C.dark }}>
                                 <option value="all">All Statuses</option>
-                                {statuses.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
+                                <option value="approved">Approved</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
                             </select>
+                        </div>
+                    </div>
+
+                    {/* Row 3: Date Range */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+                        <div>
+                            <label className="block text-xs font-medium mb-1.5" style={{ color: C.dark }}>Date From</label>
+                            <input type="date" value={dateFromFilter}
+                                onChange={e => { setDateFromFilter(e.target.value); handleFilterChange(); }}
+                                className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+                                style={{ borderColor: C.border, color: C.dark }} />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-medium mb-1.5" style={{ color: C.dark }}>Date To</label>
+                            <input type="date" value={dateToFilter}
+                                onChange={e => { setDateToFilter(e.target.value); handleFilterChange(); }}
+                                className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+                                style={{ borderColor: C.border, color: C.dark }} />
                         </div>
                     </div>
                 </div>
@@ -361,7 +471,7 @@ const AdminDashboard = () => {
                         <table className="w-full">
                             <thead style={{ background: C.warm, borderBottom: `1px solid ${C.border}` }}>
                                 <tr>
-                                    {['Name', 'Phone', 'Clinic', 'Day', 'Date', 'Time', 'Status', 'Actions'].map(h => (
+                                    {['Name', 'Phone', 'Email', 'Clinic', 'Day', 'Date', 'Time', 'Status', 'Actions'].map(h => (
                                         <th key={h} className="px-5 py-3.5 text-left text-xs font-semibold uppercase tracking-wide"
                                             style={{ color: C.red }}>
                                             {h}
@@ -372,7 +482,7 @@ const AdminDashboard = () => {
                             <tbody>
                                 {filteredBookings.length === 0 ? (
                                     <tr>
-                                        <td colSpan={8} className="px-6 py-10 text-center text-sm" style={{ color: C.mutedL }}>
+                                        <td colSpan={9} className="px-6 py-10 text-center text-sm" style={{ color: C.mutedL }}>
                                             No bookings found
                                         </td>
                                     </tr>
@@ -384,8 +494,19 @@ const AdminDashboard = () => {
                                         onMouseLeave={e => e.currentTarget.style.background = idx % 2 === 0 ? '#fff' : C.warm}>
                                         <td className="px-5 py-3.5 text-sm font-semibold" style={{ color: C.dark }}>{booking.full_name}</td>
                                         <td className="px-5 py-3.5 text-sm" style={{ color: C.muted }}>{booking.phone}</td>
+                                        <td className="px-5 py-3.5 text-sm">
+                                            {booking.email ? (
+                                                <a href={`mailto:${booking.email}`}
+                                                    className="text-blue-600 hover:underline break-all"
+                                                    title={booking.email}>
+                                                    {booking.email.length > 25 ? booking.email.substring(0, 25) + '...' : booking.email}
+                                                </a>
+                                            ) : (
+                                                <span style={{ color: C.mutedL, fontStyle: 'italic' }}>—</span>
+                                            )}
+                                        </td>
                                         <td className="px-5 py-3.5 text-sm" style={{ color: C.muted }}>
-                                            {clinics.find(c => c.id === booking.clinic_name)?.name}
+                                            {clinicNames[booking.clinic_name] || booking.clinic_name}
                                         </td>
                                         <td className="px-5 py-3.5 text-sm" style={{ color: C.muted }}>
                                             {booking.clinic_day || clinicDays[booking.clinic_name]}
@@ -425,6 +546,13 @@ const AdminDashboard = () => {
                                     <div>
                                         <p className="text-sm font-bold" style={{ color: C.dark }}>{booking.full_name}</p>
                                         <p className="text-xs" style={{ color: C.muted }}>{booking.phone}</p>
+                                        {booking.email && (
+                                            <a href={`mailto:${booking.email}`}
+                                                className="text-xs text-blue-600 hover:underline block"
+                                                title={booking.email}>
+                                                {booking.email.length > 30 ? booking.email.substring(0, 30) + '...' : booking.email}
+                                            </a>
+                                        )}
                                     </div>
                                     <select value={booking.status}
                                         onChange={e => updateBookingStatus(booking.id, e.target.value)}
@@ -436,7 +564,7 @@ const AdminDashboard = () => {
                                     </select>
                                 </div>
                                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs" style={{ color: C.muted }}>
-                                    <span>🏥 {clinics.find(c => c.id === booking.clinic_name)?.name}</span>
+                                    <span>🏥 {clinicNames[booking.clinic_name] || booking.clinic_name}</span>
                                     <span>📅 {booking.appointment_date}</span>
                                     <span>⏰ {booking.appointment_time}</span>
                                     <span>📆 {booking.clinic_day || clinicDays[booking.clinic_name]}</span>
