@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = 'https://zzlngxryoalajdpsbpnn.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6bG5neHJ5b2FsYWpkcHNicG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MDk3NjYsImV4cCI6MjA5ODE4NTc2Nn0.NN2MqqqOITkizXpMw1qrAwbb4GYIySa7jsIcWnmP-Ag';
+const SUPABASE_URL = 'https://tzliykelldkbweogledq.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6bGl5a2VsbGRrYndlb2dsZWRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzI1ODUsImV4cCI6MjA5ODE0ODU4NX0.JKWYiiH2lXrg0snuOzxaRwFQgrhzAQ_LU9_7N-e8_VQ';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -145,83 +145,7 @@ const ApplicationsAdminDashboard = () => {
         document.body.appendChild(link); link.click(); document.body.removeChild(link);
     };
 
-    // ── LOGIN ────────────────────────────────────────────────────────────────
-    if (authState === 'login') {
-        return (
-            <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
-                style={{ background: C.dark }}>
-                {/* Diagonal crimson splash */}
-                <div className="absolute inset-0 pointer-events-none"
-                    style={{ background: 'linear-gradient(125deg, rgba(28,28,30,0.97) 50%, rgba(134,15,15,0.5) 100%)' }} />
-                <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
-                    style={{ backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
-
-                {/* ── SLOT 1: background image — replace src ── */}
-                <img src="/img/58.jpg" alt=""
-                    className="absolute inset-0 w-full h-full object-cover"
-                    style={{ filter: 'blur(10px)', transform: 'scale(1.05)', }} />
-
-                <div className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
-
-                    {/* ── SLOT 2: form logo — replace src ── */}
-                    <div className="flex justify-center mb-6">
-                        <img src="/gallery/bg.png" alt="SPMH" className="h-24 w-auto object-contain" />
-                    </div>
-
-
-
-                    <h2 className="text-2xl font-bold mb-1" style={{ color: C.dark }}>Sign in</h2>
-                    <p className="text-sm mb-6" style={{ color: C.muted }}>Access the applications dashboard</p>
-
-                    <form onSubmit={handleLogin} className="space-y-4">
-                        <div>
-                            <label className="block text-xs font-semibold mb-1.5" style={{ color: C.dark }}>Email</label>
-                            <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-                                placeholder="admin@spmh.co.ke"
-                                className="w-full px-4 py-3 rounded-lg border text-sm outline-none transition-all"
-                                style={{ borderColor: C.border, color: C.dark }}
-                                onFocus={e => e.target.style.borderColor = C.red}
-                                onBlur={e => e.target.style.borderColor = C.border}
-                                required />
-                        </div>
-                        <div>
-                            <label className="block text-xs font-semibold mb-1.5" style={{ color: C.dark }}>Password</label>
-                            <input type="password" value={password} onChange={e => setPassword(e.target.value)}
-                                placeholder="••••••••"
-                                className="w-full px-4 py-3 rounded-lg border text-sm outline-none transition-all"
-                                style={{ borderColor: C.border, color: C.dark }}
-                                onFocus={e => e.target.style.borderColor = C.red}
-                                onBlur={e => e.target.style.borderColor = C.border}
-                                required />
-                        </div>
-                        {loginError && (
-                            <div className="p-3 rounded-lg text-sm" style={{ background: C.redBg, border: `1px solid #fecaca`, color: '#b91c1c' }}>
-                                {loginError}
-                            </div>
-                        )}
-                        <button type="submit"
-                            className="w-full py-3 rounded-lg text-white font-bold text-sm transition-opacity hover:opacity-90"
-                            style={{ background: C.red }}>
-                            Sign in
-                        </button>
-                    </form>
-                </div>
-            </div>
-        );
-    }
-
-    // ── LOADING ──────────────────────────────────────────────────────────────
-    if (authState === 'loading') {
-        return (
-            <div className="min-h-screen flex items-center justify-center" style={{ background: C.warm }}>
-                <div className="text-center">
-                    <div className="w-12 h-12 rounded-full mx-auto mb-4 animate-spin"
-                        style={{ border: '3px solid #ece8e1', borderTopColor: C.red }}></div>
-                    <p className="text-sm" style={{ color: C.muted }}>Loading...</p>
-                </div>
-            </div>
-        );
-    }
+ 
 
     // ── DASHBOARD ────────────────────────────────────────────────────────────
     const statCardGradients = [
@@ -233,36 +157,6 @@ const ApplicationsAdminDashboard = () => {
 
     return (
         <div className="min-h-screen" style={{ background: C.warm }}>
-
-            {/* ── Header ── */}
-            <header className="sticky top-0 z-40 border-b bg-white"
-                style={{ borderColor: C.border, boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-md flex items-center justify-center" style={{ background: C.red }}>
-                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h1 className="text-base sm:text-lg font-bold leading-tight" style={{ color: C.dark }}>Applications</h1>
-                            <p className="text-xs hidden sm:block" style={{ color: C.mutedLt }}>Welcome, {user?.email}</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <a href="/" className="px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors"
-                            style={{ borderColor: C.border, color: C.dark }}>
-                            ← Website
-                        </a>
-                        <button onClick={handleLogout}
-                            className="px-3 py-1.5 rounded-lg text-sm font-medium text-white transition-opacity hover:opacity-90"
-                            style={{ background: C.red }}>
-                            Logout
-                        </button>
-                    </div>
-                </div>
-            </header>
-
             {/* ── Main ── */}
             <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
 

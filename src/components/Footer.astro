@@ -6,9 +6,9 @@ const quickLinks = [
   { label: "History",           href: "/about-us/history"               },
   { label: "Clinical Services", href: "/services/clinical"              },
   { label: "News & Media",      href: "/news-and-media"                 },
-  { label: "Careers",           href: "/career-portal"           },
-  { label: "Volunteer",         href: "/volunteer"           },
-  { label: "Partner With Us",   href: "/partner"               },
+  { label: "Careers",           href: "/careers",         external: true        },
+  { label: "Volunteer",         href: "/volunteer",          external: true      },
+  { label: "Partner With Us",   href: "/partner",              external: true     },
   { label: "FAQ",           href: "/faq"               },
 ]
 
@@ -34,6 +34,13 @@ const contact = [
     href: "mailto:info@spmh.co.ke",
     external: false,
   },
+]
+
+const hours = [
+  { label: "Morning", time: "05:00 AM – 06:30 AM" },
+  { label: "Afternoon", time: "1:00 PM – 2:00 PM" },
+  { label: "Evening", time: "5:00 PM – 7:00 PM" },
+  { label: "Maternity Ward", time: "24/7 (Special hours by arrangement)" },
 ]
 
 // TODO: swap these placeholder hrefs for the hospital's actual social profiles
@@ -70,7 +77,7 @@ const socials = [
 
   <!-- ── Main grid ── -->
   <div class="relative max-w-7xl mx-auto px-6 lg:px-16 pt-14 pb-10">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
 
       <!-- Brand column — 4 cols -->
       <div class="sm:col-span-2 lg:col-span-4 flex flex-col gap-5">
@@ -126,14 +133,13 @@ const socials = [
         <!-- Social links -->
         <div class="flex items-center gap-3 mt-1">
           {socials.map(s => (
-            <a
-              href={s.href}
+            
+            <a  
+            href={s.href}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.label}
-              class="size-9 flex items-center justify-center rounded-full bg-white/8 text-white/60
-                     hover:bg-primary hover:text-white transition-colors duration-200"
-            >
+              class="size-9 flex items-center justify-center rounded-full bg-white/8 text-white  hover:bg-primary hover:text-white transition-colors duration-200">            
               <svg class="size-4" viewBox="0 0 24 24" fill="currentColor">
                 <path d={s.path}/>
               </svg>
@@ -143,16 +149,18 @@ const socials = [
 
       </div>
 
-      <!-- Quick Links — 3 cols -->
-      <div class="lg:col-span-3 lg:col-start-6">
+      <!-- Quick Links — 2 cols -->
+      <div class="lg:col-span-2">
         <h3 class="text-white/70 text-[0.62rem] tracking-[0.22em] uppercase font-bold mb-5">
           Quick Links
         </h3>
-        <ul class="grid grid-cols-2 sm:grid-cols-1 gap-y-3">
+        <ul class="flex flex-col gap-y-3">
           {quickLinks.map(link => (
             <li>
               <a
                 href={link.href}
+                target={link.external ? "_blank" : "_self"}
+                rel={link.external ? "noopener noreferrer" : ""}
                 class="group flex items-center gap-2.5 text-white/60 hover:text-white
                        text-sm transition-colors duration-200"
               >
@@ -166,9 +174,9 @@ const socials = [
         </ul>
       </div>
 
-      <!-- Contact — 4 cols -->
-      <div class="lg:col-span-4 lg:col-start-9">
-        <h3 class="text-white/40 text-[0.62rem] tracking-[0.22em] uppercase font-bold mb-5">
+      <!-- Contact — 3 cols -->
+      <div class="lg:col-span-3">
+        <h3 class="text-white/70 text-[0.62rem] tracking-[0.22em] uppercase font-bold mb-5">
           Contact Us
         </h3>
         <ul class="space-y-5">
@@ -198,6 +206,25 @@ const socials = [
                   </p>
                 </div>
               </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Visiting Hours — 3 cols -->
+      <div class="lg:col-span-3">
+        <h3 class="text-white/70 text-[0.62rem] tracking-[0.22em] uppercase font-bold mb-5">
+          Visiting Hours
+        </h3>
+        <ul class="space-y-4">
+          {hours.map(h => (
+            <li>
+              <p class="text-white/30 text-[0.58rem] tracking-widest uppercase mb-1">
+                {h.label}
+              </p>
+              <p class="text-white/70 text-sm leading-relaxed">
+                {h.time}
+              </p>
             </li>
           ))}
         </ul>

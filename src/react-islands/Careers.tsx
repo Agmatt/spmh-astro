@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = 'https://zzlngxryoalajdpsbpnn.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6bG5neHJ5b2FsYWpkcHNicG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MDk3NjYsImV4cCI6MjA5ODE4NTc2Nn0.NN2MqqqOITkizXpMw1qrAwbb4GYIySa7jsIcWnmP-Ag';
+const SUPABASE_URL = 'https://tzliykelldkbweogledq.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6bGl5a2VsbGRrYndlb2dsZWRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzI1ODUsImV4cCI6MjA5ODE0ODU4NX0.JKWYiiH2lXrg0snuOzxaRwFQgrhzAQ_LU9_7N-e8_VQ';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const CareersPortal = () => {
-    const [selectedPosition, setSelectedPosition] = useState('gp');
+    // ==========================================
+    // 1. ALL STATE MANAGEMENT (Unified)
+    // ==========================================
+    const [positions, setPositions] = useState<any[]>([]);
+    const [selectedPosition, setSelectedPosition] = useState<string>('');
+    const [loadingJobs, setLoadingJobs] = useState<boolean>(true);
+
     const [showApplicationForm, setShowApplicationForm] = useState(false);
     const [formData, setFormData] = useState({
         fullName: '',
@@ -19,187 +25,59 @@ const CareersPortal = () => {
     const [error, setError] = useState('');
     const [submitted, setSubmitted] = useState(false);
 
-    const positions = [
-        {
-            id: 'gp',
-            title: 'General Practitioner',
-            department: 'Clinical',
-            experience: '2+ years',
-            description: `Join SPMH as a General Practitioner and make a direct impact on community health. You'll provide comprehensive medical care to diverse patients, from routine check-ups to complex diagnoses.
+    // ==========================================
+    // 2. FETCH ACTIVE JOBS FROM SUPABASE
+    // ==========================================
+    useEffect(() => {
+        const fetchJobs = async () => {
+            try {
+                setLoadingJobs(true);
+                const { data, error } = await supabase
+                    .from('jobs')
+                    .select('*')
+                    .eq('is_active', true); // Only grab active openings
 
-Key Responsibilities:
-• Conduct patient consultations and examinations
-• Diagnose and treat common illnesses and injuries
-• Develop treatment plans and prescribe medications
-• Refer patients to specialists when necessary
-• Maintain accurate medical records
-• Participate in outreach programs
-• Mentor junior medical staff
+                if (error) throw error;
+                setPositions(data || []);
+            } catch (err) {
+                console.error('Error fetching jobs from database:', err);
+            } finally {
+                setLoadingJobs(false);
+            }
+        };
 
-What We're Looking For:
-• Valid medical license and registration
-• 2+ years of clinical experience
-• Strong communication and patient care skills
-• Ability to work in a team environment
-• Commitment to continuous learning
+        fetchJobs();
+    }, []);
 
-Why Join Us:
-• Health insurance for you and family
-• Professional development opportunities
-• Flexible working arrangements
-• Supportive, collaborative team`,
-        },
-        {
-            id: 'nurse',
-            title: 'Registered Nurse',
-            department: 'Clinical',
-            experience: '1+ years',
-            description: `As a Registered Nurse at SPMH, you'll be the backbone of our patient care delivery. You'll work alongside doctors and specialists to ensure every patient receives excellent nursing care.
+    // ==========================================
+    // 3. AUTO-SELECT FIRST JOB OR FALLBACK
+    // ==========================================
+    useEffect(() => {
+        if (positions.length > 0 && !selectedPosition) {
+            // Automatically highlight the first available database job
+            setSelectedPosition(positions[0].id);
+        } else if (positions.length === 0) {
+            // Force fallback if the table returns completely empty
+            setSelectedPosition('general');
+        }
+    }, [positions, selectedPosition]);
 
-Key Responsibilities:
-• Assess and monitor patient health conditions
-• Administer medications and treatments
-• Assist with medical procedures
-• Provide patient education and support
-• Collaborate with healthcare team members
-• Maintain patient confidentiality
-• Document all patient interactions
+    // ==========================================
+    // 4. DERIVE CURRENT SELECTION / DEFAULT OBJECT
+    // ==========================================
+    const currentPosition = positions.find(p => p.id === selectedPosition) || {
+        id: 'general',
+        title: 'Join Our Talent Pool',
+        department: 'General Application',
+        experience: 'Any experience level',
+        description: `We do not have any active openings matching this selection right now, but we are always on the lookout for dedicated professionals to join our community. 
 
-What We're Looking For:
-• Valid nursing license
-• 1+ year of clinical experience
-• Compassion and strong interpersonal skills
-• Attention to detail and organizational abilities
-• Ability to handle high-pressure situations
+Submit your details and CV here. Our human resources team will keep your profile on file and reach out to you directly as soon as a suitable vacancy arises.`
+    };
 
-Why Join Us:
-• Career advancement opportunities
-• Continuing education support
-• Flexible shift patterns
-• Dedicated mentorship program`,
-        },
-        {
-            id: 'midwife',
-            title: 'Midwife',
-            department: 'Maternity',
-            experience: '2+ years',
-            description: `Join our Maternity Department as a Midwife and be part of one of life's most special moments. We're looking for experienced, compassionate midwives to provide exceptional care to mothers and newborns.
-
-Key Responsibilities:
-• Provide prenatal, labor, and postnatal care
-• Conduct routine deliveries and assist with complications
-• Support mothers during labor and delivery
-• Provide newborn care and assessment
-• Educate mothers on nutrition and childcare
-• Maintain detailed pregnancy and delivery records
-• Support family-centered care practices
-
-What We're Looking For:
-• Valid midwifery certification/license
-• 2+ years of midwifery experience
-• Strong clinical knowledge and skills
-• Excellent communication abilities
-• Empathy and patient advocacy commitment
-
-Why Join Us:
-• Modern maternity facilities
-• Ongoing professional development
-• Supportive, caring team environment
-• Opportunities to specialize further`,
-        },
-        {
-            id: 'surgeon',
-            title: 'Surgeon',
-            department: 'Surgical',
-            experience: '3+ years',
-            description: `SPMH is seeking a skilled Surgeon to lead our surgical services and provide expert surgical care to our patients. You'll work with state-of-the-art facilities and a dedicated surgical team.
-
-Key Responsibilities:
-• Perform surgical procedures and operations
-• Evaluate patients and develop surgical plans
-• Lead surgical teams during procedures
-• Manage pre- and post-operative patient care
-• Stay updated with latest surgical techniques
-• Teach and mentor junior surgeons
-• Ensure surgical best practices and safety
-
-What We're Looking For:
-• Valid surgical license and qualifications
-• 3+ years of surgical experience
-• Expertise in general surgery (or specialty)
-• Strong decision-making and problem-solving skills
-• Leadership and team management abilities
-
-Why Join Us:
-• Health insurance and benefits
-• Access to modern surgical equipment
-• Professional development opportunities
-• Collaborative surgical environment`,
-        },
-        {
-            id: 'lab',
-            title: 'Laboratory Technician',
-            department: 'Laboratory',
-            experience: '1+ years',
-            description: `Our Laboratory Department is looking for a meticulous Laboratory Technician to perform critical diagnostic tests and support clinical decision-making.
-
-Key Responsibilities:
-• Perform laboratory tests and analysis
-• Operate and maintain lab equipment
-• Prepare samples and specimens
-• Document test results accurately
-• Follow quality assurance protocols
-• Ensure lab safety and cleanliness
-• Report findings to medical staff
-
-What We're Looking For:
-• Laboratory technician certification
-• 1+ year of laboratory experience
-• Strong attention to detail
-• Knowledge of lab safety protocols
-• Proficiency with lab equipment
-• Excellent record-keeping skills
-
-Why Join Us:
-• Health insurance coverage
-• Training on new equipment
-• Career growth opportunities
-• Professional certification support`,
-        },
-        {
-            id: 'dentist',
-            title: 'Dentist',
-            department: 'Dental',
-            experience: '1+ years',
-            description: `Join our Dental Department and provide quality dental care to our community. We're looking for passionate dentists to deliver comprehensive oral health services.
-
-Key Responsibilities:
-• Conduct dental examinations and diagnoses
-• Perform dental procedures and treatments
-• Educate patients on oral hygiene
-• Maintain dental equipment and office
-• Manage patient records and documentation
-• Collaborate with dental hygienists
-• Stay current with dental developments
-
-What We're Looking For:
-• Valid dental license
-• 1+ year of dental practice experience
-• Strong clinical and communication skills
-• Patient-focused approach
-• Commitment to quality care
-
-Why Join Us:
-• Competitive compensation
-• Health insurance benefits
-• Modern dental facilities
-• Professional development support
-• Supportive team environment`,
-        },
-    ];
-
-    const currentPosition = positions.find(p => p.id === selectedPosition);
-
+    // ==========================================
+    // 5. INTERACTION HANDLERS
+    // ==========================================
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -272,6 +150,23 @@ Why Join Us:
         setError('');
     };
 
+    // ==========================================
+    // 6. CONDITIONAL RENDER: INITIAL DATABASE LOADING
+    // ==========================================
+    if (loadingJobs) {
+        return (
+            <div className="w-full min-h-screen flex items-center justify-center bg-gray-50/50">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mx-auto mb-4"></div>
+                    <p className="text-sm text-muted font-medium">Loading career opportunities...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // ==========================================
+    // 7. CONDITIONAL RENDER: SUCCESS MODAL
+    // ==========================================
     if (submitted) {
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-black/40 p-4 z-50">
@@ -283,7 +178,7 @@ Why Join Us:
                     </div>
                     <h2 className="text-2xl font-bold text-primary mb-2">Application submitted</h2>
                     <p className="text-muted mb-6">
-                        Thank you for applying! We've received your application for the {currentPosition?.title} position. Our team will review it and contact you soon.
+                        Thank you for reaching out! We've received your data for the {currentPosition.title}. Our team will review your profile for future opportunities.
                     </p>
                     <button
                         onClick={() => {
@@ -292,40 +187,63 @@ Why Join Us:
                         }}
                         className="w-full btn-primary rounded-lg"
                     >
-                        View other positions
+                        Return to overview
                     </button>
                 </div>
             </div>
         );
     }
 
+    // ==========================================
+    // 8. MAIN UI LAYOUT RENDER
+    // ==========================================
     return (
         <div className="w-full max-w-7xl mx-auto py-24">
             <div className="grid lg:grid-cols-3 gap-6 min-h-screen">
+
                 {/* SIDEBAR - Left */}
                 <aside className="lg:col-span-1">
                     <div className="bg-white rounded-lg border border-border p-4 md:p-6 sticky top-6 max-h-[calc(100vh-48px)] overflow-y-auto">
                         <h2 className="text-2xl font-bold text-primary mb-6">Open positions</h2>
                         <div className="space-y-3">
-                            {positions.map((position) => (
-                                <button
-                                    key={position.id}
-                                    onClick={() => {
-                                        setSelectedPosition(position.id);
-                                        setShowApplicationForm(false);
-                                        resetForm();
-                                    }}
-                                    className={`w-full text-left px-4 py-4 rounded-lg border-2 transition-all ${selectedPosition === position.id
-                                        ? 'border-primary bg-primary text-white shadow-md'
-                                        : 'border-border text-primary hover:border-primary hover:bg-primary/5'
-                                        }`}
-                                >
-                                    <p className="font-bold text-sm">{position.title}</p>
-                                    <p className={`text-xs mt-1 ${selectedPosition === position.id ? 'text-white/80' : 'text-muted'}`}>
-                                        {position.department}
-                                    </p>
-                                </button>
-                            ))}
+                            {positions.length === 0 ? (
+                                <div className="p-4 border-2 border-dashed border-border rounded-lg text-center">
+                                    <p className="text-sm font-bold text-primary mb-1">No active listings</p>
+                                    <p className="text-xs text-muted mb-3">We aren't actively hiring for specific roles right now.</p>
+                                    <button
+                                        onClick={() => {
+                                            setSelectedPosition('general');
+                                            setShowApplicationForm(false);
+                                        }}
+                                        className={`w-full text-xs font-bold py-2 rounded border transition-all ${selectedPosition === 'general'
+                                            ? 'bg-primary text-white border-primary'
+                                            : 'bg-transparent text-primary border-primary/30 hover:bg-primary/5'
+                                            }`}
+                                    >
+                                        General Application
+                                    </button>
+                                </div>
+                            ) : (
+                                positions.map((position) => (
+                                    <button
+                                        key={position.id}
+                                        onClick={() => {
+                                            setSelectedPosition(position.id);
+                                            setShowApplicationForm(false);
+                                            resetForm();
+                                        }}
+                                        className={`w-full text-left px-4 py-4 rounded-lg border-2 transition-all ${selectedPosition === position.id
+                                            ? 'border-primary bg-primary text-white shadow-md'
+                                            : 'border-border text-primary hover:border-primary hover:bg-primary/5'
+                                            }`}
+                                    >
+                                        <p className="font-bold text-sm">{position.title}</p>
+                                        <p className={`text-xs mt-1 ${selectedPosition === position.id ? 'text-white/80' : 'text-muted'}`}>
+                                            {position.department}
+                                        </p>
+                                    </button>
+                                ))
+                            )}
                         </div>
                     </div>
                 </aside>
@@ -336,15 +254,15 @@ Why Join Us:
                         <div className="bg-white rounded-lg border border-border p-4 md:p-8 sticky top-6">
                             {/* Job Header */}
                             <div className="mb-8 pb-8 border-b border-border">
-                                <h1 className="text-4xl font-bold text-primary mb-4">{currentPosition?.title}</h1>
+                                <h1 className="text-4xl font-bold text-primary mb-4">{currentPosition.title}</h1>
                                 <div className="grid grid-cols-3 gap-6 mb-6">
                                     <div>
                                         <p className="text-xs text-muted font-medium mb-1">Department</p>
-                                        <p className="text-lg font-bold text-primary">{currentPosition?.department}</p>
+                                        <p className="text-lg font-bold text-primary">{currentPosition.department}</p>
                                     </div>
                                     <div>
                                         <p className="text-xs text-muted font-medium mb-1">Experience</p>
-                                        <p className="text-lg font-bold text-primary">{currentPosition?.experience}</p>
+                                        <p className="text-lg font-bold text-primary">{currentPosition.experience}</p>
                                     </div>
                                 </div>
                             </div>
@@ -352,7 +270,7 @@ Why Join Us:
                             {/* Job Description */}
                             <div className="mb-12">
                                 <div className="text-muted whitespace-pre-line leading-relaxed text-sm">
-                                    {currentPosition?.description}
+                                    {currentPosition.description}
                                 </div>
                             </div>
 
@@ -362,7 +280,7 @@ Why Join Us:
                                     onClick={() => setShowApplicationForm(true)}
                                     className="flex-1 btn-primary rounded-lg"
                                 >
-                                    Apply now
+                                    {selectedPosition === 'general' ? 'Submit Profile' : 'Apply now'}
                                 </button>
                             </div>
                         </div>
@@ -374,11 +292,13 @@ Why Join Us:
                                     onClick={() => setShowApplicationForm(false)}
                                     className="text-primary font-medium hover:underline mb-4 text-sm"
                                 >
-                                    ← Back to job details
+                                    {`← Back to description`}
                                 </button>
-                                <h2 className="text-3xl font-bold text-primary mb-2">Apply for this position</h2>
+                                <h2 className="text-3xl font-bold text-primary mb-2">
+                                    {selectedPosition === 'general' ? 'Join Talent Pool' : 'Apply for this position'}
+                                </h2>
                                 <p className="text-muted">
-                                    Position: <span className="font-bold text-primary">{currentPosition?.title}</span>
+                                    Targeting: <span className="font-bold text-primary">{currentPosition.title}</span>
                                 </p>
                             </div>
 
@@ -405,7 +325,7 @@ Why Join Us:
                                 <div>
                                     <label className="block text-sm font-medium text-primary mb-2">Email *</label>
                                     <input
-                                        type="email"
+                                        type="type"
                                         name="email"
                                         value={formData.email}
                                         onChange={handleInputChange}
@@ -459,7 +379,7 @@ Why Join Us:
                                         disabled={loading}
                                         className="w-full btn-secondary rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
-                                        Back to job
+                                        Back
                                     </button>
                                 </div>
                             </form>

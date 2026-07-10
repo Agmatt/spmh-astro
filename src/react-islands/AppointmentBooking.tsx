@@ -357,7 +357,7 @@ const AppointmentBooking = () => {
                     </div>
                     <h2 className="text-2xl font-bold text-primary mb-2">Booking confirmed</h2>
                     <p className="text-muted mb-6">
-                        Your appointment has been scheduled. A confirmation email and SMS have been sent to you.
+                        Your appointment has been scheduled.
                     </p>
                     <div className="bg-surface-2 rounded-lg p-4 text-left mb-6 text-sm space-y-2">
                         <p>

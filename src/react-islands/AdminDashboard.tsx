@@ -204,31 +204,19 @@ const AdminDashboard = () => {
     if (authState === 'login') {
         return (
             <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
-                style={{ background: C.dark }}>
-                <img src="/your-background-image.jpg" alt=""
+                >
+                <img src="/img/6.jpg" alt="background image" loading='eager'
                     className="absolute inset-0 w-full h-full object-cover"
-                    style={{ filter: 'blur(6px)', transform: 'scale(1.05)', opacity: 0.18 }} />
+                    style={{transform: 'scale(1.05)', opacity: 0.8 }} />
                 <div className="absolute inset-0 pointer-events-none"
-                    style={{ background: 'linear-gradient(120deg, rgba(28,28,30,0.95) 48%, rgba(134,15,15,0.5) 100%)' }} />
+                    style={{ background: 'linear-gradient(20deg, rgba(20,08,30,0.95), rgba(104,15,15,0.5) 70%)' }} />
                 <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
                     style={{ backgroundImage: 'radial-gradient(circle,#fff 1px,transparent 1px)', backgroundSize: '28px 28px' }} />
-                <div className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
+                <div className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-md p-4 md:p-8">
                     <div className="flex justify-center mb-6">
-                        <img src="/your-form-image.png" alt="SPMH" className="h-14 w-auto object-contain" />
+                        <img src="/gallery/bg.png" alt="SPMH" className="h-26 w-auto object-contain" loading='eager' />
                     </div>
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                            style={{ background: C.red }}>
-                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <p className="text-sm font-bold leading-tight" style={{ color: C.dark }}>OPC Admin Portal</p>
-                            <p className="text-xs" style={{ color: C.muted }}>SPMH Appointment Management</p>
-                        </div>
-                    </div>
+                    
                     <h2 className="text-2xl font-bold mb-1" style={{ color: C.dark }}>Sign in</h2>
                     <p className="text-sm mb-6" style={{ color: C.muted }}>Access the appointments dashboard</p>
                     <form onSubmit={handleLogin} className="space-y-4">
