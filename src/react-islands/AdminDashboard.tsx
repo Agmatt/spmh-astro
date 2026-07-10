@@ -129,41 +129,30 @@ const AdminDashboard = () => {
     const applyFilters = (data) => {
         let filtered = data;
 
-        // CLINIC FILTER
         if (clinicFilter !== 'all') {
             filtered = filtered.filter(b => b.clinic_name === clinicFilter);
         }
-
-        // DAY FILTER
         if (dayFilter !== 'all') {
             filtered = filtered.filter(b => b.clinic_day === dayFilter);
         }
-
-        // DATE RANGE FILTER
         if (dateFromFilter) {
             filtered = filtered.filter(b => b.appointment_date >= dateFromFilter);
         }
         if (dateToFilter) {
             filtered = filtered.filter(b => b.appointment_date <= dateToFilter);
         }
-
-        // PATIENT NAME FILTER
         if (patientNameFilter.trim()) {
             const searchTerm = patientNameFilter.toLowerCase().trim();
             filtered = filtered.filter(b =>
                 b.full_name && b.full_name.toLowerCase().includes(searchTerm)
             );
         }
-
-        // EMAIL SEARCH FILTER
         if (emailSearchFilter.trim()) {
             const searchTerm = emailSearchFilter.toLowerCase().trim();
             filtered = filtered.filter(b =>
                 b.email && b.email.toLowerCase().includes(searchTerm)
             );
         }
-
-        // EMAIL PRESENCE FILTER
         if (emailPresenceFilter !== 'all') {
             if (emailPresenceFilter === 'has') {
                 filtered = filtered.filter(b => b.email && b.email.trim());
@@ -171,8 +160,6 @@ const AdminDashboard = () => {
                 filtered = filtered.filter(b => !b.email || !b.email.trim());
             }
         }
-
-        // STATUS FILTER
         if (statusFilter !== 'all') {
             filtered = filtered.filter(b => b.status === statusFilter);
         }
@@ -282,7 +269,6 @@ const AdminDashboard = () => {
         );
     }
 
-    // ── LOADING ──────────────────────────────────────────────────────────────
     if (authState === 'loading') {
         return (
             <div className="min-h-screen flex items-center justify-center" style={{ background: C.warm }}>
@@ -298,9 +284,9 @@ const AdminDashboard = () => {
     // ── DASHBOARD ────────────────────────────────────────────────────────────
     const statCards = [
         { label: 'Total Bookings', value: bookings.length },
-        { label: 'With Email', value: bookings.filter(b => b.email && b.email.trim()).length },
-        { label: 'No Email', value: bookings.filter(b => !b.email || !b.email.trim()).length },
         { label: 'Approved', value: bookings.filter(b => b.status === 'approved').length },
+        { label: 'Completed', value: bookings.filter(b => b.status === 'completed').length },
+        { label: 'Cancelled', value: bookings.filter(b => b.status === 'cancelled').length },
     ];
 
     const isFiltered = clinicFilter !== 'all' || dayFilter !== 'all' || dateFromFilter || dateToFilter || statusFilter !== 'all' || patientNameFilter.trim() || emailSearchFilter.trim() || emailPresenceFilter !== 'all';

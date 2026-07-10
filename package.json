@@ -14,7 +14,7 @@
     "@astrojs/react": "^5.0.7",
     "@astrojs/vercel": "^10.0.8",
     "@keystatic/astro": "^5.1.0",
-    "@keystatic/core": "^0.5.48",
+    "@keystatic/core": "^0.5.50",
     "@supabase/supabase-js": "^2.90.1",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.12",

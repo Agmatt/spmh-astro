@@ -159,7 +159,7 @@ const ApplicationsAdminDashboard = () => {
                 {/* ── SLOT 1: background image — replace src ── */}
                 <img src="/img/58.jpg" alt=""
                     className="absolute inset-0 w-full h-full object-cover"
-                    style={{ filter: 'blur(10px)', transform: 'scale(1.05)',}} />
+                    style={{ filter: 'blur(10px)', transform: 'scale(1.05)', }} />
 
                 <div className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
 
@@ -168,7 +168,7 @@ const ApplicationsAdminDashboard = () => {
                         <img src="/gallery/bg.png" alt="SPMH" className="h-24 w-auto object-contain" />
                     </div>
 
-                    
+
 
                     <h2 className="text-2xl font-bold mb-1" style={{ color: C.dark }}>Sign in</h2>
                     <p className="text-sm mb-6" style={{ color: C.muted }}>Access the applications dashboard</p>

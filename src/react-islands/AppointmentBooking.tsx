@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = 'https://zzlngxryoalajdpsbpnn.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6bG5neHJ5b2FsYWpkcHNicG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MDk3NjYsImV4cCI6MjA5ODE4NTc2Nn0.NN2MqqqOITkizXpMw1qrAwbb4GYIySa7jsIcWnmP-Ag';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6bG5neHJ5b2FsYWpkcHNicG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MDk3NjYsImV4cCI6MjA5ODE4NTc2Nn0.NN2MqqqOITkizXpMw1qrAwbb4GYIySa7jsIcWnmP-Ag0';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -24,6 +24,7 @@ const AppointmentBooking = () => {
     const [error, setError] = useState('');
     const [availableDates, setAvailableDates] = useState([]);
     const [dateCapacity, setDateCapacity] = useState({});
+    const [notificationStatus, setNotificationStatus] = useState('');
 
     // Validation state
     const [errors, setErrors] = useState({});
@@ -99,28 +100,23 @@ const AppointmentBooking = () => {
             return 'Phone number is required';
         }
 
-        // Remove spaces, dashes, and parentheses for validation
         const cleanPhone = phone.replace(/[\s\-().]/g, '');
 
-        // Must start with + or 0
         if (!cleanPhone.startsWith('+') && !cleanPhone.startsWith('0')) {
             return 'Phone must start with + (international) or 0 (local)';
         }
 
-        // Must have at least 10 digits (excluding + symbol)
         const digitsOnly = cleanPhone.replace(/[^0-9]/g, '');
         if (digitsOnly.length < 10) {
             return `Phone must have at least 10 digits (you have ${digitsOnly.length})`;
         }
 
-        // International format: +1-15 digits total
         if (cleanPhone.startsWith('+')) {
             if (digitsOnly.length < 10 || digitsOnly.length > 15) {
                 return 'International format: +country code + 9-13 digits';
             }
         }
 
-        // Local format: 0 + 9 digits (10 total)
         if (cleanPhone.startsWith('0')) {
             if (digitsOnly.length !== 10) {
                 return 'Local format: 0 followed by 9 digits (10 total)';
@@ -131,7 +127,7 @@ const AppointmentBooking = () => {
     };
 
     const validateEmail = (email) => {
-        if (!email) return ''; // Optional
+        if (!email) return '';
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             return 'Enter valid email address';
@@ -211,7 +207,6 @@ const AppointmentBooking = () => {
         setFormData({ ...formData, [name]: value });
         setTouched({ ...touched, [name]: true });
 
-        // Real-time validation
         if (name === 'fullName') {
             const nameError = validateFullName(value);
             setErrors({ ...errors, fullName: nameError });
@@ -226,15 +221,47 @@ const AppointmentBooking = () => {
         }
     };
 
+    // Send notifications via API
+    const sendNotifications = async (bookingData) => {
+        try {
+            setNotificationStatus('sending');
+
+            // Call your backend API to send email + SMS
+            const response = await fetch('/api/send-booking-confirmation', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    fullName: bookingData.fullName,
+                    phone: bookingData.phone,
+                    email: bookingData.email,
+                    clinic: bookingData.clinicName,
+                    date: bookingData.date,
+                    time: bookingData.time,
+                }),
+            });
+
+            if (!response.ok) {
+                console.warn('Notification send failed, but booking was saved');
+                setNotificationStatus('');
+                return true; // Booking still succeeded
+            }
+
+            setNotificationStatus('sent');
+            return true;
+        } catch (err) {
+            console.warn('Error sending notifications:', err);
+            setNotificationStatus('');
+            return true; // Don't fail booking if notifications fail
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validate step 3
         if (!validateStep(3)) {
             return;
         }
 
-        // Double-check capacity
         const selectedDateCapacity = dateCapacity[formData.date];
         if (selectedDateCapacity && selectedDateCapacity.isFull) {
             setError('This date just became full. Please select another date.');
@@ -271,6 +298,16 @@ const AppointmentBooking = () => {
                     return;
                 }
 
+                // Send email + SMS notifications
+                await sendNotifications({
+                    fullName: formData.fullName,
+                    phone: formData.phone,
+                    email: formData.email,
+                    clinicName: selectedClinic?.name,
+                    date: formData.date,
+                    time: formData.time,
+                });
+
                 console.log('Appointment created:', insertData);
                 setSubmitted(true);
             } catch (err) {
@@ -292,6 +329,7 @@ const AppointmentBooking = () => {
         setError('');
         setErrors({});
         setTouched({});
+        setNotificationStatus('');
         setFormData({
             clinic: '',
             date: '',
@@ -306,8 +344,6 @@ const AppointmentBooking = () => {
     const selectedClinic = clinics.find(c => c.id === formData.clinic);
     const selectedDateCapacity = dateCapacity[formData.date];
     const progressPercentage = (step / 3) * 100;
-
-    // Check if Step 3 form is valid
     const isStep3Valid = !errors.fullName && !errors.phone && !errors.email && formData.fullName && formData.phone;
 
     if (submitted) {
@@ -350,7 +386,6 @@ const AppointmentBooking = () => {
 
     return (
         <div className="w-full max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-sm border border-border">
-            {/* Progress bar */}
             <div className="mb-8">
                 <div className="flex justify-between mb-2">
                     <span className="text-sm font-medium text-primary">Step {step} of 3</span>
@@ -364,7 +399,6 @@ const AppointmentBooking = () => {
                 </div>
             </div>
 
-            {/* Error message */}
             {error && (
                 <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
                     {error}
@@ -372,7 +406,6 @@ const AppointmentBooking = () => {
             )}
 
             <form onSubmit={handleSubmit}>
-                {/* Step 1: Clinic Selection */}
                 {step === 1 && (
                     <div>
                         <h3 className="text-2xl font-bold text-primary mb-2">Select a clinic</h3>
@@ -398,7 +431,6 @@ const AppointmentBooking = () => {
                     </div>
                 )}
 
-                {/* Step 2: Date & Time Selection */}
                 {step === 2 && (
                     <div>
                         <h3 className="text-2xl font-bold text-primary mb-2">Pick a date and time</h3>
@@ -471,14 +503,12 @@ const AppointmentBooking = () => {
                     </div>
                 )}
 
-                {/* Step 3: Patient Info */}
                 {step === 3 && (
                     <div>
                         <h3 className="text-2xl font-bold text-primary mb-2">Your information</h3>
                         <p className="text-muted mb-6">Please provide your details (* = required)</p>
 
                         <div className="space-y-4">
-                            {/* Full Name */}
                             <div>
                                 <label className="block text-sm font-medium text-primary mb-2">Full name *</label>
                                 <input
@@ -489,10 +519,10 @@ const AppointmentBooking = () => {
                                     onBlur={() => setTouched({ ...touched, fullName: true })}
                                     placeholder="John Doe"
                                     className={`w-full px-4 py-3 rounded-lg border transition-all focus:outline-none focus:ring-2 ${touched.fullName && errors.fullName
-                                            ? 'border-red-400 bg-red-50 focus:ring-red-200'
-                                            : touched.fullName && formData.fullName
-                                                ? 'border-green-400 focus:ring-green-200'
-                                                : 'border-border focus:border-primary focus:ring-primary/20'
+                                        ? 'border-red-400 bg-red-50 focus:ring-red-200'
+                                        : touched.fullName && formData.fullName
+                                            ? 'border-green-400 focus:ring-green-200'
+                                            : 'border-border focus:border-primary focus:ring-primary/20'
                                         }`}
                                 />
                                 {touched.fullName && errors.fullName && (
@@ -507,7 +537,6 @@ const AppointmentBooking = () => {
                                 )}
                             </div>
 
-                            {/* Phone */}
                             <div>
                                 <label className="block text-sm font-medium text-primary mb-2">Phone number *</label>
                                 <input
@@ -518,10 +547,10 @@ const AppointmentBooking = () => {
                                     onBlur={() => setTouched({ ...touched, phone: true })}
                                     placeholder="+254 712 345 678"
                                     className={`w-full px-4 py-3 rounded-lg border transition-all focus:outline-none focus:ring-2 ${touched.phone && errors.phone
-                                            ? 'border-red-400 bg-red-50 focus:ring-red-200'
-                                            : touched.phone && formData.phone
-                                                ? 'border-green-400 focus:ring-green-200'
-                                                : 'border-border focus:border-primary focus:ring-primary/20'
+                                        ? 'border-red-400 bg-red-50 focus:ring-red-200'
+                                        : touched.phone && formData.phone
+                                            ? 'border-green-400 focus:ring-green-200'
+                                            : 'border-border focus:border-primary focus:ring-primary/20'
                                         }`}
                                 />
                                 {touched.phone && errors.phone && (
@@ -536,7 +565,6 @@ const AppointmentBooking = () => {
                                 )}
                             </div>
 
-                            {/* Email (Optional) */}
                             <div>
                                 <label className="block text-sm font-medium text-primary mb-2">Email <span className="text-muted text-xs font-normal">(optional)</span></label>
                                 <input
@@ -547,10 +575,10 @@ const AppointmentBooking = () => {
                                     onBlur={() => setTouched({ ...touched, email: true })}
                                     placeholder="john@example.com"
                                     className={`w-full px-4 py-3 rounded-lg border transition-all focus:outline-none focus:ring-2 ${touched.email && errors.email
-                                            ? 'border-red-400 bg-red-50 focus:ring-red-200'
-                                            : touched.email && formData.email
-                                                ? 'border-green-400 focus:ring-green-200'
-                                                : 'border-border focus:border-primary focus:ring-primary/20'
+                                        ? 'border-red-400 bg-red-50 focus:ring-red-200'
+                                        : touched.email && formData.email
+                                            ? 'border-green-400 focus:ring-green-200'
+                                            : 'border-border focus:border-primary focus:ring-primary/20'
                                         }`}
                                 />
                                 {touched.email && errors.email && (
@@ -565,7 +593,6 @@ const AppointmentBooking = () => {
                                 )}
                             </div>
 
-                            {/* Medical History */}
                             <div>
                                 <label className="block text-sm font-medium text-primary mb-2">
                                     Medical history / complaints <span className="text-muted text-xs font-normal">(optional)</span>
