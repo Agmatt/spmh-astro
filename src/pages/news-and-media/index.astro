@@ -1,51 +1,256 @@
 ---
-import '../../styles/global.css';
-import { getCollection } from 'astro:content';
-const allPosts = await getCollection('media');
-const category = Astro.url.searchParams.get('category');
+// src/pages/news-and-media.astro
+// Adjust this import path to match your actual layout location
+import Layout from '../../Layout/Layout.astro';
 
-const filteredPosts = category
-  ? allPosts.filter((p) => p.data.category === category)
-  : allPosts;
+// ── PLACEHOLDER DATA ─────────────────────────────────────────────
+// Shaped to match the planned Supabase schema so this is a drop-in
+// swap later: replace each array below with a Supabase query result
+// of the same shape. Suggested tables:
+//   content (content_type: 'article' | 'press_release', title, slug,
+//            excerpt, body, cover_image, category, published_at)
+//   events (title, description, event_date, location, cover_image, status)
+//   gallery_images (image_url, caption, event_id, uploaded_at)
+
+const articles = [
+  {
+    slug: 'baby-adrian-blessings-kmc',
+    title: "Baby Adrian's First Days: A Newborn Unit Success Story",
+    excerpt:
+      "How Kangaroo Mother Care helped a premature newborn thrive in SPMH's Newborn Unit.",
+    cover_image: '/gallery/20.png',
+    category: 'Patient Stories',
+    published_at: '2026-05-12',
+  },
+  {
+    slug: 'staff-family-day-2026',
+    title: 'Staff Family Day 2026: Building Community Beyond the Wards',
+    excerpt:
+      'Staff and their families gathered for a day of connection, games, and gratitude.',
+    cover_image: '/gallery/14.png',
+    category: 'Community',
+    published_at: '2026-04-02',
+  },
+  {
+    slug: 'hdu-impact-one-year',
+    title: 'One Year of the HDU: Lives Stabilized, Referrals Reduced',
+    excerpt:
+      "A look back at the High Dependency Unit's first year of operation.",
+    cover_image: '/gallery/22.png',
+    category: 'Facility Updates',
+    published_at: '2026-02-20',
+  },
+];
+
+const pressReleases = [
+  {
+    slug: 'sha-level-4-accreditation',
+    title: 'St. Paul’s Mission Hospital Attains SHA Level 4 Accreditation',
+    excerpt:
+      'Official statement on the hospital’s accreditation upgrade and what it means for patients.',
+    pdf_url: '/documents/press/sha-level-4-accreditation.pdf',
+    published_at: '2026-06-01',
+  },
+  {
+    slug: 'maternity-surgical-wing-groundbreaking',
+    title: 'Groundbreaking Ceremony Held for New Maternity and Surgical Wing',
+    excerpt:
+      'The Diocese of Homa Bay and hospital leadership mark the start of construction.',
+    pdf_url: '/documents/press/maternity-surgical-wing-groundbreaking.pdf',
+    published_at: '2026-03-18',
+  },
+];
+
+const events = [
+  {
+    slug: 'cme-cqi-principles',
+    title: 'CME Session: Continuous Quality Improvement Principles',
+    description:
+      'A continuing medical education session for clinical staff on CQI methodology.',
+    event_date: '2026-08-14',
+    location: 'SPMH Conference Hall',
+    status: 'upcoming',
+  },
+  {
+    slug: 'community-health-camp',
+    title: 'Free Community Health Camp',
+    description:
+      'Free screening, consultation, and referral services for the surrounding community.',
+    event_date: '2026-09-05',
+    location: 'SPMH Grounds',
+    status: 'upcoming',
+  },
+  {
+    slug: 'maternity-surgical-wing-groundbreaking-event',
+    title: 'Maternity and Surgical Wing Groundbreaking',
+    description: 'Official groundbreaking ceremony for the new wing.',
+    event_date: '2026-03-18',
+    location: 'SPMH Main Grounds',
+    status: 'past',
+  },
+];
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('en-KE', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
 ---
 
-<!-- src/pages/media/index.astro -->
-<nav class='flex gap-6 mb-10 border-b pb-4'>
-  <a href='/media' class='font-semibold text-gray-800 hover:text-blue-600'
-    >All</a
-  >
-  <a href='/media?category=blog' class='text-gray-600 hover:text-blue-600'
-    >Blogs</a
-  >
-  <a
-    href='/media?category=press-release'
-    class='text-gray-600 hover:text-blue-600'>Press Releases</a
-  >
-</nav>
+<Layout title="News & Media | St. Paul's Mission Hospital">
+  <!-- HERO -->
+  <header class="relative bg-slate-900 py-24 px-6 text-center overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-[#125276] to-[#0a3a55] opacity-90"></div>
+    <div class="relative max-w-3xl mx-auto">
+      <h1 class="text-5xl md:text-6xl font-serif text-white mb-6">Our Stories</h1>
+      <p class="text-lg text-blue-100 font-light italic">Reflecting the heart, mission, and milestones of St. Paul's Mission Hospital.</p>
+    </div>
+  </header>
 
+  <!-- TABS -->
+  <section
+    class='max-w-5xl mx-auto px-4 md:px-6 py-10 md:py-16 font-sans'
+    x-data="{ activeTab: 'articles' }">
+    <div class='flex gap-1 border-b border-slate-200 mb-8 overflow-x-auto'>
+      <button
+        role='tab'
+        :aria-selected="activeTab === 'articles'"
+        @click="activeTab = 'articles'"
+        class='px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors'
+        :class="activeTab === 'articles' ? 'text-[#125276] border-[#1565c0]' : 'text-slate-500 border-transparent hover:text-slate-700'">
+        Articles
+      </button>
+      <button
+        role='tab'
+        :aria-selected="activeTab === 'press'"
+        @click="activeTab = 'press'"
+        class='px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors'
+        :class="activeTab === 'press' ? 'text-[#125276] border-[#1565c0]' : 'text-slate-500 border-transparent hover:text-slate-700'">
+        Press Releases
+      </button>
+      <button
+        role='tab'
+        :aria-selected="activeTab === 'events'"
+        @click="activeTab = 'events'"
+        class='px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors'
+        :class="activeTab === 'events' ? 'text-[#125276] border-[#1565c0]' : 'text-slate-500 border-transparent hover:text-slate-700'">
+        Events
+      </button>
+    </div>
 
-
-<div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-  {
-    filteredPosts.map((post) => (
-      <div class='bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100'>
-        <div class='p-6'>
-          <span class='text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-1 rounded'>
-            {post.data.category}
-          </span>
-          <h2 class='mt-4 text-xl font-bold text-gray-900'>
-            {post.data.title}
-          </h2>
-          <p class='mt-2 text-gray-600 text-sm'>
-            {post.data.date.toLocaleDateString()}
-          </p>
-          <a
-            href={`/media/${post.id}`}
-            class='mt-4 inline-block text-blue-600 font-medium hover:underline'>
-            Read more &rarr;
-          </a>
-        </div>
+    <!-- ARTICLES -->
+    <div x-show="activeTab === 'articles'" x-cloak>
+      <div class='grid gap-7 sm:grid-cols-2 lg:grid-cols-3'>
+        {
+          articles.map((article) => (
+            <a
+              href={`/news/${article.slug}`}
+              class='block border border-slate-200 rounded-lg overflow-hidden mr-4 bg-white hover:shadow-md transition-shadow'>
+              <img
+                src={article.cover_image}
+                alt={article.title}
+                loading='lazy'
+                class='w-full h-44 object-cover'
+              />
+              <div class='p-5'>
+                <span class='inline-block text-xs font-semibold uppercase tracking-wide text-[#125276] bg-blue-50 px-2 py-1 rounded mb-3'>
+                  {article.category}
+                </span>
+                <h3 class='font-serif text-lg text-slate-900 mb-2'>
+                  {article.title}
+                </h3>
+                <p class='text-sm text-slate-600 mb-3'>{article.excerpt}</p>
+                <time
+                  datetime={article.published_at}
+                  class='text-xs text-slate-400'>
+                  {formatDate(article.published_at)}
+                </time>
+              </div>
+            </a>
+          ))
+        }
       </div>
-    ))
-  }
-</div>
+    </div>
+
+    <!-- PRESS RELEASES -->
+    <div x-show="activeTab === 'press'" x-cloak>
+      <ul class='divide-y divide-slate-200'>
+        {
+          pressReleases.map((release) => (
+            <li class='grid grid-cols-1 sm:grid-cols-[140px_1fr] mb-4 gap-4 py-10'>
+              <time
+                datetime={release.published_at}
+                class='text-sm text-slate-500'>
+                {formatDate(release.published_at)}
+              </time>
+              <div>
+                <h3 class='font-serif text-lg text-slate-900 mb-2'>
+                  {release.title}
+                </h3>
+                <p class='text-sm text-slate-600 mb-3'>{release.excerpt}</p>
+                <div class='flex gap-5'>
+                  <a
+                    href={`/news/${release.slug}`}
+                    class='text-sm font-semibold text-[#125276] hover:underline'>
+                    Read statement
+                  </a>
+                  {release.pdf_url && (
+                    <a
+                      href={release.pdf_url}
+                      target='_blank'
+                      rel='noopener'
+                      class='text-sm font-medium text-slate-500 hover:underline'>
+                      Download PDF
+                    </a>
+                  )}
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- EVENTS -->
+    <div x-show="activeTab === 'events'" x-cloak>
+      <div class='flex flex-col gap-5'>
+        {
+          events.map((event) => (
+            <div
+              class:list={[
+                'grid grid-cols-[56px_1fr] sm:grid-cols-[72px_1fr] gap-5 p-5 border border-slate-200 rounded-lg bg-white',
+                event.status === 'past' ? 'opacity-70' : '',
+              ]}>
+              <div class='flex flex-col items-center justify-center bg-[#125276] text-white rounded-md py-2'>
+                <span class='text-xl font-bold leading-none'>
+                  {new Date(event.event_date).getDate()}
+                </span>
+                <span class='text-xs uppercase tracking-wide'>
+                  {new Date(event.event_date).toLocaleDateString('en-KE', {
+                    month: 'short',
+                  })}
+                </span>
+              </div>
+              <div>
+                <span class='inline-block text-xs font-semibold uppercase tracking-wide text-slate-600 bg-slate-100 px-2 py-1 rounded mb-2'>
+                  {event.status === 'upcoming' ? 'Upcoming' : 'Past'}
+                </span>
+                <h3 class='font-serif text-lg text-slate-900 mb-1'>
+                  {event.title}
+                </h3>
+                <p class='text-sm text-slate-600 mb-1'>{event.description}</p>
+                <p class='text-sm font-semibold text-slate-700'>
+                  {event.location}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    
+  </section>
+</Layout>

@@ -7,6 +7,7 @@ const navGroups = [
       { label: 'History', href: '/about-us/history' },
       { label: 'Organization', href: '/about-us/organization' },
       { label: 'Our Mission', href: '/about-us/mission-vision-values' },
+      { label: 'Chaplaincy', href: '/about-us/chaplaincy' },
       { label: 'Strategic Plan', href: '/about-us/strategic-plan' },
       { label: 'Contact', href: '/about-us/contact' },
       { label: 'Tenders', href: '/about-us/tenders' },
@@ -19,6 +20,7 @@ const navGroups = [
       { label: 'Clinical Services', href: '/services/clinical' },
       { label: 'Patient Support', href: '/services/patient-support' },
       { label: 'Appointment', href: '/appointments' },
+      { label: 'Telemedicine', href: '/telemedicine' },
     ],
   },
 ];
@@ -38,6 +40,7 @@ const navGroups = [
       <img
         src='/logos/logo.png'
         alt='SPMH Logo'
+        loading="eager"
         class='h-12 w-auto transition-transform duration-300 group-hover:scale-105'
       />
       <div class='flex flex-col'>
@@ -110,6 +113,11 @@ const navGroups = [
         Get Involved
       </a>
       <a
+        href='/academics-and-internships'
+        class='text-slate-600 font-bold text-sm hover:text-[#125276] py-4 transition-colors'>
+        Academics & Internships
+      </a>
+      <a
         href='/news-and-media'
         class='text-slate-600 font-bold text-sm hover:text-[#125276] py-4 transition-colors'>
         News & Media
@@ -172,7 +180,7 @@ const navGroups = [
           <div class='space-y-2'>
             <button
               @click={`mobOpenDropdown = mobOpenDropdown === '${group.key}' ? null : '${group.key}'`}
-              class='w-full flex justify-between items-center p-4 rounded-xl bg-white border border-slate-100 text-[#125276] font-black uppercase tracking-tighter text-sm'>
+              class='w-full flex justify-between items-center p-4 rounded-xl bg-white border border-slate-100 text-[#125276] font-black uppercase text-sm'>
               {group.label}
               <svg
                 class='w-5 h-5 transition-transform duration-300'
@@ -206,6 +214,11 @@ const navGroups = [
         href='/get-involved'
         class='block p-4 text-[#125276] font-black uppercase tracking-tighter text-sm'>
         Get Involved
+      </a>
+      <a
+        href='/academic-and-partnerships'
+        class='block p-4 text-[#125276] font-black uppercase tracking-tighter text-sm'>
+        Academics & Partnerships
       </a>
       <a
         href='/news-and-media'
