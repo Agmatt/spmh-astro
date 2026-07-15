@@ -6,11 +6,13 @@ import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro';
 import netlify from '@astrojs/netlify';
 
+import sitemap from '@astrojs/sitemap';
+
 export default defineConfig({
   output: 'server',
   adapter: netlify(),
   vite: {
     plugins: [tailwindcss()],
   },
-  integrations: [react(), alpinejs(), markdoc(), keystatic()],
+  integrations: [react(), alpinejs(), markdoc(), keystatic(), sitemap()],
 });
