@@ -1,0 +1,407 @@
+---
+// src/pages/news/[slug].astro
+// Dynamic route for article and press release detail pages
+// Fetches content from Supabase by slug
+
+import Layout from '../../Layout/Layout.astro';
+import { createClient } from '@supabase/supabase-js';
+
+// Get slug from URL params
+const { slug } = Astro.params;
+
+// Initialize Supabase client
+const supabase = createClient(
+  import.meta.env.PUBLIC_SUPABASE_URL,
+  import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
+);
+
+// Fetch content by slug
+const { data: content, error } = await supabase
+  .from('content')
+  .select('*')
+  .eq('slug', slug)
+  .eq('is_published', true)
+  .single();
+
+// If not found, handle 404
+if (error || !content) {
+  return Astro.redirect('/news-and-media');
+}
+
+// Fetch related content (other articles/press releases, same type, recent)
+const { data: related } = await supabase
+  .from('content')
+  .select(
+    'id, title, slug, excerpt, cover_image, category, published_at, content_type',
+  )
+  .eq('content_type', content.content_type)
+  .eq('is_published', true)
+  .neq('id', content.id)
+  .order('published_at', { ascending: false })
+  .limit(3);
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('en-KE', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
+const isArticle = content.content_type === 'article';
+const isPressRelease = content.content_type === 'press_release';
+const accentColor = isArticle ? '#125276' : '#860f0f';
+---
+
+<Layout title={`${content.title} | St. Paul's Mission Hospital`}>
+  <!-- BREADCRUMB -->
+  <nav class='max-w-4xl mx-auto px-6 py-6 text-sm'>
+    <a href='/news-and-media' class='text-slate-600 hover:text-[#125276]'
+      >News & Media</a
+    >
+    <span class='text-slate-400 mx-2'>/</span>
+    <span class='text-slate-900 font-medium'
+      >{isArticle ? 'Article' : 'Press Release'}</span
+    >
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class='bg-white border-b border-slate-200'>
+    <div class='max-w-4xl mx-auto px-6 py-12 md:py-16'>
+      <!-- META & CATEGORY -->
+      <div class='flex items-center gap-4 mb-6'>
+        {
+          isArticle && content.category && (
+            <span
+              class='text-xs font-semibold uppercase tracking-widest text-white px-4 py-1 rounded-full'
+              style={{ backgroundColor: accentColor }}>
+              {content.category}
+            </span>
+          )
+        }
+        {
+          isPressRelease && (
+            <span class='text-xs font-semibold uppercase tracking-widest text-white bg-[#860f0f] px-4 py-1 rounded-full'>
+              Press Release
+            </span>
+          )
+        }
+      </div>
+
+      <!-- TITLE -->
+      <h1
+        class='font-serif text-4xl md:text-5xl text-slate-900 mb-6 leading-tight'>
+        {content.title}
+      </h1>
+
+      <!-- METADATA -->
+      <div
+        class='flex flex-col md:flex-row md:items-center gap-4 md:gap-8 text-slate-600 text-sm'>
+        <time datetime={content.published_at} class='font-sans'>
+          {formatDate(content.published_at)}
+        </time>
+        {
+          content.published_at && (
+            <span class='text-slate-400'>
+              {new Date(content.published_at).toLocaleTimeString('en-KE', {
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
+            </span>
+          )
+        }
+        {
+          isPressRelease && content.pdf_url && (
+            <a
+              href={content.pdf_url}
+              target='_blank'
+              rel='noopener'
+              class='font-semibold text-[#860f0f] hover:text-[#6b0a0a] flex items-center gap-2'>
+              📄 Download PDF
+            </a>
+          )
+        }
+      </div>
+    </div>
+
+    <!-- FEATURED IMAGE -->
+    {
+      content.cover_image && (
+        <div class='w-full max-w-5xl mx-auto px-6 mb-12'>
+          <img
+            src={content.cover_image}
+            alt={content.title}
+            class='w-full h-96 object-cover rounded-lg shadow-lg'
+          />
+        </div>
+      )
+    }
+  </section>
+
+  <!-- CONTENT SECTION -->
+  <section class='bg-white py-12 md:py-16'>
+    <article class='max-w-3xl mx-auto px-6'>
+      <!-- EXCERPT (if available) -->
+      {
+        content.excerpt && (
+          <p
+            class='font-sans text-xl text-slate-600 mb-8 leading-relaxed italic border-l-4 pl-6'
+            style={{ borderColor: accentColor }}>
+            {content.excerpt}
+          </p>
+        )
+      }
+
+      <!-- BODY TEXT -->
+      <div
+        class='font-sans text-lg text-slate-700 leading-relaxed space-y-6 mb-12 prose-sm max-w-none'>
+        {
+          /* 
+          NOTE: If body is stored as markdown or HTML, render it accordingly.
+          For now, assuming plain text. If using markdown:
+          import { marked } from 'marked';
+          <Fragment set:html={marked(content.body)} />
+          
+          If using HTML:
+          <Fragment set:html={content.body} />
+        */
+        }
+        {content.body.split('\n\n').map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+
+      <!-- SHARE & METADATA FOOTER -->
+      <div
+        class='py-8 border-t border-b border-slate-200 flex flex-col md:flex-row md:items-center md:justify-between gap-6'>
+        <div>
+          <p class='text-sm text-slate-600 mb-2'>
+            Share this {isArticle ? 'article' : 'press release'}
+          </p>
+          <div class='flex gap-4'>
+            <a
+              href={`https://www.facebook.com/sharer/sharer.php?u=${Astro.url.href}`}
+              target='_blank'
+              rel='noopener'
+              class='text-slate-600 hover:text-blue-600 font-semibold'>
+              Facebook
+            </a>
+            <a
+              href={`https://twitter.com/intent/tweet?url=${Astro.url.href}&text=${content.title}`}
+              target='_blank'
+              rel='noopener'
+              class='text-slate-600 hover:text-blue-400 font-semibold'>
+              Twitter
+            </a>
+            <a
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${Astro.url.href}`}
+              target='_blank'
+              rel='noopener'
+              class='text-slate-600 hover:text-blue-700 font-semibold'>
+              LinkedIn
+            </a>
+          </div>
+        </div>
+        <div class='text-right'>
+          <p class='text-xs text-slate-500 mb-2'>Last updated</p>
+          <time datetime={content.published_at} class='text-sm text-slate-600'>
+            {formatDate(content.published_at)}
+          </time>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- COMMENTS SECTION -->
+  <section class='bg-slate-50 py-12 md:py-16'>
+    <div class='max-w-3xl mx-auto px-6'>
+      <h2 class='font-serif text-3xl text-slate-900 mb-8'>Comments</h2>
+
+      <!-- COMMENT FORM -->
+      <div
+        class='bg-white rounded-lg border border-slate-200 p-8 mb-8'
+        x-data='commentForm()'
+        @submit.prevent='submitComment'>
+        <h3 class='font-serif text-xl text-slate-900 mb-6'>Leave a comment</h3>
+        <form class='space-y-5'>
+          <!-- NAME -->
+          <div>
+            <label class='block text-sm font-medium text-slate-700 mb-2'
+              >Name</label
+            >
+            <input
+              x-model='form.name'
+              type='text'
+              placeholder='Your name'
+              required
+              class='w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#125276]'
+            />
+          </div>
+
+          <!-- EMAIL -->
+          <div>
+            <label class='block text-sm font-medium text-slate-700 mb-2'
+              >Email</label
+            >
+            <input
+              x-model='form.email'
+              type='email'
+              placeholder='your@email.com'
+              required
+              class='w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#125276]'
+            />
+          </div>
+
+          <!-- COMMENT TEXT -->
+          <div>
+            <label class='block text-sm font-medium text-slate-700 mb-2'
+              >Comment</label
+            >
+            <textarea
+              x-model='form.comment'
+              placeholder='Share your thoughts...'
+              rows='5'
+              required
+              class='w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#125276] resize-none'
+            ></textarea>
+          </div>
+
+          <!-- ERROR & SUCCESS STATES -->
+          <div
+            x-show='error'
+            x-cloak
+            class='p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700'>
+            <span x-text='error'></span>
+          </div>
+
+          <div
+            x-show='success'
+            x-cloak
+            class='p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700'>
+            Thank you! Your comment has been submitted for moderation.
+          </div>
+
+          <!-- SUBMIT BUTTON -->
+          <button
+            type='submit'
+            :disabled='loading'
+            class='w-full py-2 bg-[#125276] text-white font-semibold rounded-lg hover:bg-[#0d3a5c] transition-colors disabled:opacity-50 disabled:cursor-not-allowed'>
+            <span x-show='!loading'>Post comment</span>
+            <span x-show='loading' x-cloak>Posting...</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- COMMENTS LIST -->
+      <div class='space-y-6'>
+        <p class='text-sm text-slate-600 mb-6'>
+          Comments are moderated and will appear shortly.
+        </p>
+        <!-- Placeholder: comments will be fetched and displayed here -->
+        <div class='text-center py-12 text-slate-500'>
+          No comments yet. Be the first to share your thoughts!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RELATED CONTENT SECTION -->
+  {
+    related && related.length > 0 && (
+      <section class='bg-white py-12 md:py-16'>
+        <div class='max-w-5xl mx-auto px-6'>
+          <h2 class='font-serif text-3xl text-slate-900 mb-8'>
+            Read {isArticle ? 'more articles' : 'more press releases'}
+          </h2>
+
+          <div class='grid grid-cols-1 md:grid-cols-3 gap-6'>
+            {related.map((item) => (
+              <a
+                href={`/news/${item.slug}`}
+                class='group flex flex-col bg-slate-50 rounded-lg overflow-hidden border border-slate-200 hover:border-[#125276] hover:shadow-lg transition-all duration-300'>
+                {item.cover_image && (
+                  <div class='overflow-hidden h-40 bg-slate-200'>
+                    <img
+                      src={item.cover_image}
+                      alt={item.title}
+                      loading='lazy'
+                      class='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
+                    />
+                  </div>
+                )}
+                <div class='p-4 flex flex-col flex-1'>
+                  {isArticle && item.category && (
+                    <span class='text-xs font-semibold uppercase tracking-widest text-[#125276] bg-blue-50 px-2 py-1 rounded w-fit mb-2'>
+                      {item.category}
+                    </span>
+                  )}
+                  <h3 class='font-serif text-base text-slate-900 mb-2 group-hover:text-[#125276] transition-colors line-clamp-2'>
+                    {item.title}
+                  </h3>
+                  <p class='text-sm text-slate-600 mb-3 flex-1 line-clamp-2'>
+                    {item.excerpt}
+                  </p>
+                  <time
+                    datetime={item.published_at}
+                    class='text-xs text-slate-500'>
+                    {formatDate(item.published_at)}
+                  </time>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Layout>
+
+<script>
+  function commentForm() {
+    return {
+      form: {
+        name: '',
+        email: '',
+        comment: '',
+      },
+      loading: false,
+      error: '',
+      success: false,
+
+      async submitComment() {
+        this.error = '';
+        this.success = false;
+        this.loading = true;
+
+        try {
+          const response = await fetch('/api/comments', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: this.form.name,
+              email: this.form.email,
+              comment: this.form.comment,
+              contentId: document
+                .querySelector('[data-content-id]')
+                ?.getAttribute('data-content-id'),
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to submit comment');
+          }
+
+          this.success = true;
+          this.form = { name: '', email: '', comment: '' };
+
+          // Hide success message after 3 seconds
+          setTimeout(() => {
+            this.success = false;
+          }, 3000);
+        } catch (err) {
+          this.error = err.message || 'An error occurred. Please try again.';
+        } finally {
+          this.loading = false;
+        }
+      },
+    };
+  }
+</script>

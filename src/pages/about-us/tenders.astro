@@ -1,118 +1,100 @@
 ---
-import Layout from '../../Layout/Layout.astro';
+import '../../styles/global.css';
+import { supabase } from '../../lib/supabase';
 
-// DATA LAYER: Simply add or remove objects here. 
-// Leave this array completely empty [] to view or test the "No Active Tenders" layout state.
-const tenders = [
-  {
-    id: 'SPMH-TND-2026-001',
-    title: 'Supply of Medical Oxygen & Maintenance of Pressure Swing Adsorption (PSA) Plant',
-    category: 'Critical Infrastructure & Gas Supply',
-    status: 'Open',
-    closingDate: 'Jul 15, 2026',
-    fileSize: '2.4 MB',
-    summary: 'Seeking comprehensive tenders for bulk supply of medical gas cylinders and regular quarterly preventive servicing of the facility’s onsite PSA oxygen generation plant to ensure 100% operational uptime.',
-    requirements: [
-      'Valid Pharmacy and Poisons Board (PPB) distribution license.',
-      'Proven track record of maintaining PSA plants in Level 4+ medical facilities.',
-      'Manufacturer Authorization Form from the equipment developer.'
-    ],
-    downloadLink: '/docs/tenders/SPMH-TND-2026-001-OxygenSpecs.pdf',
-    applyLink: '/about-us/supplier-registration?tender=SPMH-TND-2026-001'
-  },
-  {
-    id: 'SPMH-TND-2026-002',
-    title: 'Annual Supply of Non-Pharmaceutical Consumables (Clinical Gloves, Syringes, Sutures)',
-    category: 'Medical Consumables Matrix',
-    status: 'Open',
-    closingDate: 'Aug 20, 2026',
-    fileSize: '1.8 MB',
-    summary: 'Framework agreement for high-volume supply and delivery of standard medical and theater consumables, split across lots covering surgical gloves, sterile syringes, and assorted sutures.',
-    requirements: [
-      'Compliance with international quality certifications (CE / ISO).',
-      'Tax Compliance Certificate from the Kenya Revenue Authority (KRA).',
-      'Provision of operational physical batch samples upon formal request.'
-    ],
-    downloadLink: '/docs/tenders/SPMH-TND-2026-002-Consumables.pdf',
-    applyLink: '/about-us/supplier-registration?tender=SPMH-TND-2026-002'
-  },
-  {
-    id: 'SPMH-TND-2026-003',
-    title: 'Provision of Hospital Catering & Specialized Inpatient Nutrition Services',
-    category: 'Hospitality & Therapeutic Support',
-    status: 'Open',
-    closingDate: 'Sep 12, 2026',
-    fileSize: '3.1 MB',
-    summary: 'Management of the facility clinical kitchens to provide premium daily catering services for patients and staff, incorporating specialized medical diets adjusted for therapeutic nutrition protocols.',
-    requirements: [
-      'Public Health certificates for all proposed culinary technicians.',
-      'Detailed Hazard Analysis Critical Control Point (HACCP) safety plan.',
-      'Minimum 3 years catering experience with institutional facilities.'
-    ],
-    downloadLink: '/docs/tenders/SPMH-TND-2026-003-Catering.pdf',
-    applyLink: '/about-us/supplier-registration?tender=SPMH-TND-2026-003'
-  },
-  {
-    id: 'SPMH-TND-2026-004',
-    title: 'Provision of Hospital Catering & Specialized Inpatient Nutrition Services',
-    category: 'Hospitality & Therapeutic Support',
-    status: 'Open',
-    closingDate: 'Sep 12, 2026',
-    fileSize: '3.1 MB',
-    summary: 'Management of the facility clinical kitchens to provide premium daily catering services for patients and staff, incorporating specialized medical diets adjusted for therapeutic nutrition protocols.',
-    requirements: [
-      'Public Health certificates for all proposed culinary technicians.',
-      'Detailed Hazard Analysis Critical Control Point (HACCP) safety plan.',
-      'Minimum 3 years catering experience with institutional facilities.'
-    ],
-    downloadLink: '/docs/tenders/SPMH-TND-2026-003-Catering.pdf',
-    applyLink: '/about-us/supplier-registration?tender=SPMH-TND-2026-003'
-  },
-  {
-    id: 'SPMH-TND-2026-005',
-    title: 'Provision of Hospital Catering & Specialized Inpatient Nutrition Services',
-    category: 'Hospitality & Therapeutic Support',
-    status: 'Open',
-    closingDate: 'Sep 12, 2026',
-    fileSize: '3.1 MB',
-    summary: 'Management of the facility clinical kitchens to provide premium daily catering services for patients and staff, incorporating specialized medical diets adjusted for therapeutic nutrition protocols.',
-    requirements: [
-      'Public Health certificates for all proposed culinary technicians.',
-      'Detailed Hazard Analysis Critical Control Point (HACCP) safety plan.',
-      'Minimum 3 years catering experience with institutional facilities.'
-    ],
-    downloadLink: '/docs/tenders/SPMH-TND-2026-003-Catering.pdf',
-    applyLink: '/about-us/supplier-registration?tender=SPMH-TND-2026-003'
-  }
-];
+// Pulls only OPEN tenders — enforced both by the query and by RLS on the
+// tenders table, so this stays safe even if the filter is ever dropped.
+const { data: rawTenders, error } = await supabase
+  .from('tenders')
+  .select('*')
+  .eq('status', 'open')
+  .order('closing_date', { ascending: true });
+
+if (error) {
+  console.error('Failed to load tenders:', error.message);
+}
+
+function formatDate(dateStr) {
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+const tenders = (rawTenders || []).map((t) => ({
+  id: t.tender_code,
+  title: t.title,
+  category: t.category,
+  status: t.status,
+  closingDate: formatDate(t.closing_date),
+  fileSize: t.document_size || '',
+  summary: t.summary,
+  requirements: t.requirements || [],
+  downloadLink: t.document_url,
+  applyLink: `/admin/tenders/apply?tender=${t.tender_code}`,
+}));
 
 const hasTenders = tenders.length > 0;
 ---
 
-<Layout title='Procurement Ledger'>
-  <main class='bg-[var(--color-surface)] min-h-screen pb-24 antialiased' style="font-family: var(--font-body);">
-    
-    <div class='bg-[var(--color-secondary)] text-white py-12 px-6 border-b border-[var(--color-border)]'>
-      <div class='max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6'>
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tenders| SPMH</title>
+</head>
+<body>
+  <main
+    class='bg-[var(--color-surface)] min-h-screen pb-24 antialiased'
+    style='font-family: var(--font-body);'>
+    <div
+      class='bg-[var(--color-secondary)] text-white py-12 px-6 border-b border-[var(--color-border)]'>
+      <div
+        class='max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6'>
         <div>
-          <span class='text-[10px] font-mono uppercase tracking-[0.3em] text-[var(--color-primary-light)] block mb-1.5'>Supply Chain Framework</span>
-          <h1 class='text-2xl lg:text-3xl font-light tracking-tight text-white' style="font-family: var(--font-display);">
-            Procurement Portal & <span class="font-bold text-[var(--color-primary-light)]">Tender Panel</span>
+          <span
+            class='text-[10px] font-mono uppercase tracking-[0.3em] text-[var(--color-primary-light)] block mb-1.5'
+            >Supply Chain Framework</span
+          >
+          <h1
+            class='text-2xl lg:text-3xl font-light tracking-tight text-white'
+            style='font-family: var(--font-display);'>
+            Procurement Portal & <span
+              class='font-bold text-[var(--color-primary-light)]'
+              >Tender Panel</span
+            >
           </h1>
           <p class='text-slate-300 max-w-xl text-xs mt-2 leading-relaxed'>
-            Review active institutional requirements for the current fiscal cycle. Select any notice in the index to display the full technical specifications, requirements, and application forms.
+            Review active institutional requirements for the current fiscal
+            cycle. Select any notice in the index to display the full technical
+            specifications, requirements, and application forms.
           </p>
         </div>
-        
-        <div class='flex gap-4 bg-slate-900/40 p-3.5 rounded border border-slate-700/60 font-mono text-left max-w-xs shrink-0 self-start md:self-center'>
+
+        <div
+          class='flex gap-4 bg-slate-900/40 p-3.5 rounded border border-slate-700/60 font-mono text-left max-w-xs shrink-0 self-start md:self-center'>
           <div>
-            <span class='text-[9px] text-slate-400 block uppercase tracking-wider'>Active Tenders</span>
-            <span class='text-xl font-bold text-white'>{tenders.length} Active</span>
+            <span
+              class='text-[9px] text-slate-400 block uppercase tracking-wider'
+              >Active Tenders</span
+            >
+            <span class='text-xl font-bold text-white'
+              >{tenders.length} Active</span
+            >
           </div>
           <div class='border-l border-slate-700/60 pl-4'>
-            <span class='text-[9px] text-slate-400 block uppercase tracking-wider'>Portal Integrity</span>
-            <span class='text-xs font-semibold text-emerald-400 block mt-1 flex items-center gap-1'>
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> SECURE
+            <span
+              class='text-[9px] text-slate-400 block uppercase tracking-wider'
+              >Portal Integrity</span
+            >
+            <span
+              class='text-xs font-semibold text-emerald-400 block mt-1 flex items-center gap-1'>
+              <span
+                class='w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse'
+              ></span> SECURE
             </span>
           </div>
         </div>
@@ -120,153 +102,180 @@ const hasTenders = tenders.length > 0;
     </div>
 
     <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10'>
-      
-      {hasTenders ? (
-        /* ── LAYOUT STATE A: ACTIVE OPEN TENDERS REGISTERED ── */
-        <div class='grid grid-cols-1 lg:grid-cols-12 gap-8 items-start'>
-          
-          <nav class='lg:col-span-4 flex flex-col lg:sticky lg:top-6 lg:max-h-[calc(100vh-4rem)]'>
-            <div class='p-4 border border-[var(--color-border)] bg-white rounded-t-lg flex justify-between items-center shrink-0 z-10'>
-              <h2 class='text-[10px] font-mono uppercase tracking-widest text-[var(--color-secondary)] font-bold'>Active Notices</h2>
-              <span class='text-[9px] bg-[var(--color-surface)] px-2 py-0.5 border border-slate-200 text-[var(--color-muted)] rounded'>{tenders.length} Listed</span>
-            </div>
-            
-            <div class='overflow-y-auto custom-scrollbar flex-1 max-h-[400px] lg:max-h-none flex flex-col gap-2.5 p-3 bg-white/50 border-x border-b border-[var(--color-border)] rounded-b-lg'>
-              {tenders.map((tender, index) => (
-                <button 
-                  type="button"
-                  data-tender-id={tender.id}
-                  class={`w-full text-left p-4 hover:bg-slate-50 transition-all text-xs flex flex-col gap-1.5 focus:outline-none cursor-pointer tender-nav-item text-slate-700 font-medium rounded-md border shadow-sm ${
-                    index === 0 
-                      ? 'bg-white border-[var(--color-primary)] ring-1 ring-[var(--color-primary)] font-semibold text-[var(--color-primary)]' 
-                      : 'bg-white border-[var(--color-border)] hover:border-slate-300'
-                  }`}
-                >
-                  <span class="text-[9px] font-bold text-[var(--color-muted)] block tracking-tight">
-                    {tender.id}
-                  </span>
-                  <span class="leading-snug text-[var(--color-secondary)] text-xs line-clamp-2 font-bold tracking-tight item-title">
-                    {tender.title}
-                  </span>
-                  <div class="flex items-center gap-3 font-bold text-[10px] text-[var(--color-muted)] mt-0.5">
-                    <span>Due: {tender.closingDate}</span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </nav>
+      {
+        hasTenders ? (
+          /* ── LAYOUT STATE A: ACTIVE OPEN TENDERS REGISTERED ── */
+          <div class='grid grid-cols-1 lg:grid-cols-12 gap-8 items-start'>
+            <nav class='lg:col-span-4 flex flex-col lg:sticky lg:top-6 lg:max-h-[calc(100vh-4rem)]'>
+              <div class='p-4 border border-[var(--color-border)] bg-white rounded-t-lg flex justify-between items-center shrink-0 z-10'>
+                <h2 class='text-[10px] font-mono uppercase tracking-widest text-[var(--color-secondary)] font-bold'>
+                  Active Notices
+                </h2>
+                <span class='text-[9px] bg-[var(--color-surface)] px-2 py-0.5 border border-slate-200 text-[var(--color-muted)] rounded'>
+                  {tenders.length} Listed
+                </span>
+              </div>
 
-          <section class='lg:col-span-8 bg-white border border-[var(--color-border)] rounded-lg shadow-sm p-6 sm:p-8 relative min-h-[500px]'>
-            <div class="absolute top-0 left-0 right-0 h-1 bg-[var(--color-primary)]"></div>
-
-            {tenders.map((tender, index) => (
-              <div 
-                id={`pane-${tender.id}`} 
-                class={`space-y-6 tender-detail-block animate-fade-in ${
-                  index === 0 ? 'block' : 'hidden'
-                }`}
-              >
-                <div>
-                  <div class="flex flex-wrap items-center gap-2 mb-2">
-                    <span class="text-[10px] text-primary bg-[var(--color-surface)] px-2 py-0.5 border border-[var(--color-border)] rounded font-semibold">
+              <div class='overflow-y-auto custom-scrollbar flex-1 max-h-[400px] lg:max-h-none flex flex-col gap-2.5 p-3 bg-white/50 border-x border-b border-[var(--color-border)] rounded-b-lg'>
+                {tenders.map((tender, index) => (
+                  <button
+                    type='button'
+                    data-tender-id={tender.id}
+                    class={`w-full text-left p-4 hover:bg-slate-50 transition-all text-xs flex flex-col gap-1.5 focus:outline-none cursor-pointer tender-nav-item text-slate-700 font-medium rounded-md border shadow-sm ${
+                      index === 0
+                        ? 'bg-white border-[var(--color-primary)] ring-1 ring-[var(--color-primary)] font-semibold text-[var(--color-primary)]'
+                        : 'bg-white border-[var(--color-border)] hover:border-slate-300'
+                    }`}>
+                    <span class='text-[9px] font-bold text-[var(--color-muted)] block tracking-tight'>
                       {tender.id}
                     </span>
-                    <span class="text-[10px] uppercase font-bold tracking-wider text-[var(--color-primary)]">
-                      {tender.category}
+                    <span class='leading-snug text-[var(--color-secondary)] text-xs line-clamp-2 font-bold tracking-tight item-title'>
+                      {tender.title}
                     </span>
-                  </div>
-                  <h2 class="text-base sm:text-xl font-bold text-[var(--color-secondary)] leading-snug tracking-tight">
-                    {tender.title}
-                  </h2>
-                </div>
-
-                <hr class="border-[var(--color-surface)]" />
-
-                <div>
-                  <h4 class="text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] mb-1.5">Scope Summary</h4>
-                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                    {tender.summary}
-                  </p>
-                </div>
-
-                <div>
-                  <h4 class="text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] mb-2.5">Primary Mandatory Credentials</h4>
-                  <ul class="space-y-2 text-xs sm:text-sm text-slate-600">
-                    {tender.requirements.map(req => (
-                      <li class="flex items-start gap-2.5">
-                        <span class="text-[var(--color-primary)] mt-0.5 select-none font-bold">✓</span>
-                        <span class="leading-relaxed">{req}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div class="bg-[var(--color-surface)] border border-[var(--color-border)] p-4 rounded-lg grid grid-cols-2 gap-4">
-                  <div>
-                    <span class="text-[11px] uppercase font-bold tracking-wider text-slate-400 block mb-0.5">Closing Timeline</span>
-                    <strong class="text-xs sm:text-sm text-[var(--color-secondary)] font-bold">{tender.closingDate} at 5:00 PM EAT</strong>
-                  </div>
-                </div>
-
-                <div class="pt-4 flex flex-col sm:flex-row items-center gap-3">
-                  <a 
-                    href={tender.applyLink} 
-                    class="btn btn-primary w-full sm:w-auto text-center text-xs px-6 py-3 font-bold tracking-wide shadow-sm flex items-center justify-center gap-2"
-                  >
-                    Apply for this Tender Notice
-                  </a>
-                  <a 
-                    href={tender.downloadLink} 
-                    download
-                    class="w-full sm:w-auto text-center text-xs px-5 py-3 font-bold border border-[var(--color-border)] rounded-md hover:bg-slate-50 transition-colors text-[var(--color-secondary)] flex items-center justify-center gap-1.5"
-                  >
-                    <span>Download Full Description Document</span>
-                    <span class="text-[10px] text-[var(--color-muted)] font-normal font-mono">({tender.fileSize})</span>
-                  </a>
-                </div>
+                    <div class='flex items-center gap-3 font-bold text-[10px] text-[var(--color-muted)] mt-0.5'>
+                      <span>Due: {tender.closingDate}</span>
+                    </div>
+                  </button>
+                ))}
               </div>
-            ))}
-          </section>
+            </nav>
 
-        </div>
-      ) : (
-        /* ── LAYOUT STATE B: EMPTY STATE AUTOMATION (NO OPEN TENDERS) ── */
-        <div class='max-w-xl mx-auto bg-white border border-[var(--color-border)] rounded-lg shadow-sm p-8 text-center my-12 relative overflow-hidden'>
-          <div class="absolute top-0 left-0 right-0 h-1 bg-slate-300"></div>
-          
-          <div class="w-12 h-12 rounded-full bg-yellow-200 border border-slate-200 flex items-center justify-center mx-auto mb-4 text-slate-800 text-lg font-mono font-bold select-none">
-            !
+            <section class='lg:col-span-8 bg-white border border-[var(--color-border)] rounded-lg shadow-sm p-6 sm:p-8 relative min-h-[500px]'>
+              <div class='absolute top-0 left-0 right-0 h-1 bg-[var(--color-primary)]' />
+
+              {tenders.map((tender, index) => (
+                <div
+                  id={`pane-${tender.id}`}
+                  class={`space-y-6 tender-detail-block animate-fade-in ${
+                    index === 0 ? 'block' : 'hidden'
+                  }`}>
+                  <div>
+                    <div class='flex flex-wrap items-center gap-2 mb-2'>
+                      <span class='text-[10px] text-primary bg-[var(--color-surface)] px-2 py-0.5 border border-[var(--color-border)] rounded font-semibold'>
+                        {tender.id}
+                      </span>
+                      <span class='text-[10px] uppercase font-bold tracking-wider text-[var(--color-primary)]'>
+                        {tender.category}
+                      </span>
+                    </div>
+                    <h2 class='text-base sm:text-xl font-bold text-[var(--color-secondary)] leading-snug tracking-tight'>
+                      {tender.title}
+                    </h2>
+                  </div>
+
+                  <hr class='border-[var(--color-surface)]' />
+
+                  <div>
+                    <h4 class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] mb-1.5'>
+                      Scope Summary
+                    </h4>
+                    <p class='text-xs sm:text-sm text-slate-600 leading-relaxed font-normal'>
+                      {tender.summary}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] mb-2.5'>
+                      Primary Mandatory Credentials
+                    </h4>
+                    <ul class='space-y-2 text-xs sm:text-sm text-slate-600'>
+                      {tender.requirements.map((req) => (
+                        <li class='flex items-start gap-2.5'>
+                          <span class='text-[var(--color-primary)] mt-0.5 select-none font-bold'>
+                            ✓
+                          </span>
+                          <span class='leading-relaxed'>{req}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div class='bg-[var(--color-surface)] border border-[var(--color-border)] p-4 rounded-lg grid grid-cols-2 gap-4'>
+                    <div>
+                      <span class='text-[11px] uppercase font-bold tracking-wider text-slate-400 block mb-0.5'>
+                        Closing Timeline
+                      </span>
+                      <strong class='text-xs sm:text-sm text-[var(--color-secondary)] font-bold'>
+                        {tender.closingDate} at 5:00 PM EAT
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='pt-4 flex flex-col sm:flex-row items-center gap-3'>
+                    <a
+                      href={tender.applyLink}
+                      class='btn btn-primary w-full sm:w-auto text-center text-xs px-6 py-3 font-bold tracking-wide shadow-sm flex items-center justify-center gap-2'>
+                      Apply for this Tender Notice
+                    </a>
+                    {tender.downloadLink && (
+                      <a
+                        href={tender.downloadLink}
+                        download
+                        class='w-full sm:w-auto text-center text-xs px-5 py-3 font-bold border border-[var(--color-border)] rounded-md hover:bg-slate-50 transition-colors text-[var(--color-secondary)] flex items-center justify-center gap-1.5'>
+                        <span>Download Full Description Document</span>
+                        {tender.fileSize && (
+                          <span class='text-[10px] text-[var(--color-muted)] font-normal font-mono'>
+                            ({tender.fileSize})
+                          </span>
+                        )}
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </section>
           </div>
+        ) : (
+          /* ── LAYOUT STATE B: EMPTY STATE (NO OPEN TENDERS) ── */
+          <div class='max-w-xl mx-auto bg-white border border-[var(--color-border)] rounded-lg shadow-sm p-8 text-center my-12 relative overflow-hidden'>
+            <div class='absolute top-0 left-0 right-0 h-1 bg-slate-300' />
 
-          <h2 class='text-sm font-bold text-[var(--color-secondary)] uppercase tracking-wider mb-2'>
-            No Active Procurement Opportunities
-          </h2>
-          <p class='text-xs text-[var(--color-muted)] leading-relaxed max-w-md mx-auto mb-6'>
-            There are currently no open request-for-proposals or active expressions of interest published for this cycle. All previous windows have closed for internal evaluation.
-          </p>
-          
-          <div class="bg-[var(--color-surface)] text-center border border-[var(--color-border)] p-4 rounded space-y-2">
-            <span class="text-[14px] uppercase tracking-widest text-primary font-bold block">Vendor Continuous Onboarding</span>
-            <p class="text-[14px] text-slate-600 leading-relaxed">
-              To expedite inclusion in upcoming specialized or flash procurement requests, suppliers are strongly encouraged to register ahead of schedule into our vendor framework registry.
+            <div class='w-12 h-12 rounded-full bg-yellow-200 border border-slate-200 flex items-center justify-center mx-auto mb-4 text-slate-800 text-lg font-mono font-bold select-none'>
+              !
+            </div>
+
+            <h2 class='text-sm font-bold text-[var(--color-secondary)] uppercase tracking-wider mb-2'>
+              No Active Procurement Opportunities
+            </h2>
+            <p class='text-xs text-[var(--color-muted)] leading-relaxed max-w-md mx-auto mb-6'>
+              There are currently no open request-for-proposals or active
+              expressions of interest published for this cycle. All previous
+              windows have closed for internal evaluation.
             </p>
-            <a href="/about-us/supplier-registration" class="text-[12px] text-[var(--color-primary)] font-bold hover:underline block pt-1">
-              Access General Supplier Registration Portal →
-            </a>
+
+            <div class='bg-[var(--color-surface)] text-center border border-[var(--color-border)] p-4 rounded space-y-2'>
+              <span class='text-[14px] uppercase tracking-widest text-primary font-bold block'>
+                Vendor Continuous Onboarding
+              </span>
+              <p class='text-[14px] text-slate-600 leading-relaxed'>
+                To expedite inclusion in upcoming specialized or flash
+                procurement requests, suppliers are strongly encouraged to
+                register ahead of schedule into our vendor framework registry.
+              </p>
+              <a
+                href='/about-us/supplier-registration'
+                class='text-[12px] text-[var(--color-primary)] font-bold hover:underline block pt-1'>
+                Access General Supplier Registration Portal →
+              </a>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
-      <p class='mt-12 text-center text-[14px] max-w-2xl mx-auto leading-relaxed'>
-        Legal Caveat: Submissions must hit the institutional server registry strictly by 5:00 PM EAT on closing thresholds. Late packets auto-terminate. Direct pipeline questions to <a href='mailto:procurement@spmh.co.ke' class='text-[var(--color-primary)] underline font-medium hover:text-[var(--color-accent)]'>procurement@spmh.co.ke</a>
+      <p
+        class='mt-12 text-center text-[14px] max-w-2xl mx-auto leading-relaxed'>
+        Legal Caveat: Submissions must hit the institutional server registry
+        strictly by 5:00 PM EAT on closing thresholds. Late packets
+        auto-terminate. Direct pipeline questions to <a
+          href='mailto:procurement@spmh.co.ke'
+          class='text-[var(--color-primary)] underline font-medium hover:text-[var(--color-accent)]'
+          >procurement@spmh.co.ke</a
+        >
       </p>
-
     </div>
   </main>
-</Layout>
 
 <style>
-  /* Custom inner scrollbar wrapper for sidebar listing */
   .custom-scrollbar::-webkit-scrollbar {
     width: 5px;
   }
@@ -281,10 +290,15 @@ const hasTenders = tenders.length > 0;
     background: #94a3b8;
   }
 
-  /* Subtle animation to smoothen the presentation of changing items */
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(2px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   .animate-fade-in {
     animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -303,17 +317,28 @@ const hasTenders = tenders.length > 0;
         const currentTarget = e.currentTarget as HTMLButtonElement;
         const selectedId = currentTarget.getAttribute('data-tender-id');
 
-        // 1. Reset selection states across navigation sidebar list items
         navItems.forEach((nav) => {
-          nav.classList.remove('bg-[var(--color-surface)]', 'border-[var(--color-primary)]', 'font-semibold', 'text-[var(--color-primary)]', 'ring-1', 'ring-[var(--color-primary)]');
+          nav.classList.remove(
+            'bg-[var(--color-surface)]',
+            'border-[var(--color-primary)]',
+            'font-semibold',
+            'text-[var(--color-primary)]',
+            'ring-1',
+            'ring-[var(--color-primary)]',
+          );
           nav.classList.add('border-[var(--color-border)]');
         });
 
-        // 2. Activate targeted sidebar button states
         currentTarget.classList.remove('border-[var(--color-border)]');
-        currentTarget.classList.add('bg-white', 'border-[var(--color-primary)]', 'font-semibold', 'text-[var(--color-primary)]', 'ring-1', 'ring-[var(--color-primary)]');
+        currentTarget.classList.add(
+          'bg-white',
+          'border-[var(--color-primary)]',
+          'font-semibold',
+          'text-[var(--color-primary)]',
+          'ring-1',
+          'ring-[var(--color-primary)]',
+        );
 
-        // 3. Hide all right workspace viewports, swap in matching reference layout
         detailPanes.forEach((pane) => {
           pane.classList.add('hidden');
           pane.classList.remove('block');
@@ -328,6 +353,8 @@ const hasTenders = tenders.length > 0;
     });
   }
 
-  // Bind smoothly onto Astro client-side page state transitions
   document.addEventListener('DOMContentLoaded', initProcurementDashboard);
 </script>
+
+</body>
+</html>

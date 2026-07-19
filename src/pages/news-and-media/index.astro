@@ -14,7 +14,7 @@ const articles = [
     slug: 'baby-adrian-blessings-kmc',
     title: "Baby Adrian's First Days: A Newborn Unit Success Story",
     excerpt: "How Kangaroo Mother Care helped a premature newborn thrive in SPMH's Newborn Unit.",
-    cover_image: '/images/news/newborn-unit-kmc.jpg',
+    cover_image: '/gallery/20.png',
     category: 'Patient Stories',
     published_at: '2026-05-12',
   },
@@ -22,7 +22,7 @@ const articles = [
     slug: 'staff-family-day-2026',
     title: 'Staff Family Day 2026: Building Community Beyond the Wards',
     excerpt: 'Staff and their families gathered for a day of connection, games, and gratitude.',
-    cover_image: '/images/news/family-day-2026.jpg',
+    cover_image: '/img/57.jpg',
     category: 'Community',
     published_at: '2026-04-02',
   },
@@ -30,7 +30,7 @@ const articles = [
     slug: 'hdu-impact-one-year',
     title: 'One Year of the HDU: Lives Stabilized, Referrals Reduced',
     excerpt: "A look back at the High Dependency Unit's first year of operation.",
-    cover_image: '/images/news/hdu-impact.jpg',
+    cover_image: '/gallery/22.png',
     category: 'Facility Updates',
     published_at: '2026-02-20',
   },
@@ -96,7 +96,7 @@ const restArticles = articles.slice(1);
 
 <Layout title="News & Media | St. Paul's Mission Hospital">
   <!-- PAGE INTRO -->
-  <section class="bg-gradient-to-b from-slate-50 to-white px-6 py-16 md:py-20">
+  <section class="bg-gradient-to-b from-slate-50 to-slate-600/50 px-4 md:px-6 py-16 md:py-20">
     <div class="max-w-3xl mx-auto text-center">
       <p class="text-sm font-sans uppercase tracking-widest text-[#125276] font-semibold mb-3">
         News &amp; Media
@@ -112,7 +112,7 @@ const restArticles = articles.slice(1);
 
   <!-- HERO: LATEST ARTICLE -->
   {latestArticle && (
-    <section class="px-6 py-12 md:py-16 bg-white">
+    <section class="px-4 md:px-6 py-12 md:py-16 bg-white">
       <div class="max-w-5xl mx-auto">
         <a href={`/news/${latestArticle.slug}`} class="group block">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
@@ -346,16 +346,99 @@ const restArticles = articles.slice(1);
     </div>
   </section>
 
-  <!-- CALL TO ACTION / FOOTER -->
-  <section class="px-6 py-16 md:py-20 bg-[#125276] text-white">
-    <div class="max-w-3xl mx-auto text-center">
-      <h2 class="font-serif text-3xl md:text-4xl mb-4">Stay updated with SPMH</h2>
-      <p class="font-sans text-lg text-blue-100 mb-8">
-        Get the latest news and announcements from St. Paul's Mission Hospital.
-      </p>
-      <button class="px-6 py-3 bg-white text-[#125276] font-sans font-semibold rounded-lg hover:bg-blue-50 transition-colors">
-        Subscribe to our newsletter
-      </button>
+ <!--  EDITORIAL CTA — closing section -->
+<section class="bg-surface border-t border-border/60 py-16">
+  <div class="max-w-7xl mx-auto px-2 md:px-4 lg:px-16">
+    <div class="grid lg:grid-cols-2 gap-10 items-center">
+
+      <!-- LEFT: copy -->
+      <div>
+        <p class="text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-4 flex items-center gap-3">
+          <span class="w-8 h-px bg-primary inline-block"></span>
+          Editorial Team
+        </p>
+        <h2 class="font-display text-secondary text-3xl sm:text-4xl font-normal leading-snug mb-4">
+          Have a story or<br/>
+          <span class="font-bold text-primary">tip for us?</span>
+        </h2>
+        <p class="text-muted text-sm leading-relaxed max-w-md">
+          Our editorial team is always looking for stories from within the St. Paul's community — patient journeys, staff milestones, health education topics, and community events. If you have something worth sharing, we'd love to hear from you.
+        </p>
+      </div>
+
+      <!-- RIGHT: contact card -->
+      <div class="bg-white border border-border/60 p-8 flex flex-col gap-6">
+
+        <div class="flex items-start gap-4">
+          <div class="size-11 bg-surface-2 border border-border/60 flex items-center justify-center shrink-0">
+            <svg class="size-5 text-primary" fill="none" stroke="currentColor"
+                 stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-secondary font-semibold text-sm mb-1">Pitch a story</p>
+            <p class="text-muted text-xs leading-relaxed">
+              Send us a brief summary of your story idea, event, or topic. We'll get back to you within 3 working days.
+            </p>
+          </div>
+        </div>
+
+        <div class="h-px bg-border/60"></div>
+
+        <!-- What to include -->
+        <div>
+          <p class="text-secondary text-[0.62rem] font-bold tracking-[0.16em] uppercase mb-3">
+            Include in your message:
+          </p>
+          <div class="space-y-2">
+            {[
+              "Your name and role or connection to St. Paul's",
+              "A brief description of the story or topic",
+              "Any photos or supporting materials you can share",
+            ].map(item => (
+              <div class="flex items-start gap-2.5">
+                <svg class="size-3.5 text-primary shrink-0 mt-0.5"
+                     fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="text-muted text-xs leading-relaxed">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="h-px bg-border/60"></div>
+
+        <!-- CTA -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <p class="text-muted/50 text-[0.58rem] tracking-widest uppercase mb-1">Contact</p>
+            <p class="text-secondary font-semibold text-sm">Editorial Team</p>
+          </div>
+          <a
+            href={`mailto:editorial@spmh.co.ke?subject=${encodeURIComponent("Story Pitch — St. Paul's News & Media")}`}
+            class="group inline-flex items-center gap-2.5 bg-primary hover:bg-primary-dark
+                   text-white font-bold text-xs tracking-[0.12em] uppercase
+                   px-6 py-3.5 transition-all duration-200
+                   hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30"
+          >
+            <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            Email the team
+            <svg class="size-3.5 group-hover:translate-x-1 transition-transform duration-200"
+                 fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
     </div>
-  </section>
+  </div>
+</section>
+
 </Layout>

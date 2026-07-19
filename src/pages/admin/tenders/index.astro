@@ -1,0 +1,14 @@
+---
+// src/pages/dashboard/tenders/index.astro
+import Layout from '../../../Layout/Layout.astro'; 
+import TenderManager from '../../../components/TenderManager.jsx';
+
+// If your other dashboard pages check auth in frontmatter (e.g. reading a
+// Supabase session cookie and redirecting to /login if absent), apply the
+// exact same guard here for consistency. Left out here since it depends on
+// the pattern you're already using elsewhere.
+---
+
+<Layout title='Tender Manager'>
+  <TenderManager client:load />
+</Layout>
