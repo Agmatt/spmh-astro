@@ -1,0 +1,114 @@
+---
+import '../../styles/global.css';
+import ProcurementHero from '../../components/ProcurementHero.astro';
+import ProcurementFooter from '../../components/ProcurementFooter.astro';
+
+const clauses = [
+  {
+    n: '1',
+    title: 'Scope of this Portal',
+    body: "This portal is the exclusive channel through which St. Paul's Mission Hospital (SPMH), Catholic Diocese of Homa Bay, issues tenders, requests for proposals, and expressions of interest. Notices communicated through any other channel should be verified with the Procurement Office before a vendor relies on them.",
+  },
+  {
+    n: '2',
+    title: 'Eligibility',
+    body: 'A vendor must hold a valid business registration and be current on statutory tax obligations to be considered for any notice. Specific notices may carry additional mandatory credentials, listed on the notice itself.',
+  },
+  {
+    n: '3',
+    title: 'Submission Deadlines',
+    body: 'All submissions must reach the institutional server registry by 5:00 PM East Africa Time on the closing date stated in the notice. Submissions received after this time are not evaluated, regardless of the cause of delay.',
+  },
+  {
+    n: '4',
+    title: 'Accuracy of Information',
+    body: 'A vendor is responsible for the accuracy of all information and documents submitted, whether through the vendor registry or a specific tender application. Misrepresentation is grounds for disqualification at any stage of evaluation.',
+  },
+  {
+    n: '5',
+    title: 'Evaluation & Award',
+    body: 'Submissions are evaluated against the mandatory credentials and scope stated in the relevant notice. SPMH reserves the right to reject any or all submissions, or to cancel a notice, without obligation to disclose its reasoning to unsuccessful vendors.',
+  },
+  {
+    n: '6',
+    title: 'Confidentiality',
+    body: 'Documents and pricing submitted through this portal are treated as confidential and are used solely for the purpose of evaluating the relevant notice, unless disclosure is required by law.',
+  },
+  {
+    n: '7',
+    title: 'Vendor Registry',
+    body: 'Registering as a vendor does not guarantee inclusion in any specific tender and does not constitute a contractual relationship with SPMH. It exists solely to notify a vendor of notices in their stated category.',
+  },
+  {
+    n: '8',
+    title: 'Amendments',
+    body: 'SPMH may update these terms, the standard forms, or the procurement process at any time. The version in effect at the time a notice closes is the version that applies to that submission.',
+  },
+];
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Terms & Conditions | SPMH Procurement</title>
+  </head>
+  <body>
+    <main
+      class='bg-[var(--color-surface)] min-h-screen pb-24 antialiased'
+      style='font-family: var(--font-body);'>
+      <ProcurementHero
+        eyebrow='Supply Chain Framework'
+        title='Terms &'
+        titleAccent='Conditions'
+        description='Governing terms for participation in the SPMH procurement portal. Applicable to all vendors submitting a notice or registering in the vendor framework.'
+      />
+
+      <div class='max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-10'>
+        <div
+          class='bg-white border border-[var(--color-border)] rounded-lg shadow-sm p-6 sm:p-8 relative'>
+          <div
+            class='absolute top-0 left-0 right-0 h-1 bg-[var(--color-primary)]'>
+          </div>
+
+          <p
+            class='text-[10px] font-mono uppercase tracking-widest text-[var(--color-muted)] mb-8'>
+            Effective for the current fiscal cycle
+          </p>
+
+          <div class='divide-y divide-[var(--color-surface)]'>
+            {
+              clauses.map((clause) => (
+                <div class='py-6 first:pt-0 last:pb-0 flex gap-5'>
+                  <span class='text-sm font-mono font-bold text-[var(--color-primary)] shrink-0 w-6 text-right'>
+                    {clause.n}
+                  </span>
+                  <div>
+                    <h3 class='text-xs sm:text-sm font-bold text-[var(--color-secondary)] uppercase tracking-wide mb-1.5'>
+                      {clause.title}
+                    </h3>
+                    <p class='text-xs sm:text-sm text-slate-600 leading-relaxed'>
+                      {clause.body}
+                    </p>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <p
+          class='text-center text-xs text-[var(--color-muted)] mt-8 leading-relaxed'>
+          Questions on these terms should be directed to
+          <a
+            href='mailto:procurement@spmh.co.ke'
+            class='text-[var(--color-primary)] underline font-medium'>
+            procurement@spmh.co.ke
+          </a>
+        </p>
+      </div>
+    </main>
+
+    <ProcurementFooter />
+  </body>
+</html>

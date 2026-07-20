@@ -1,0 +1,91 @@
+---
+import '../../styles/global.css';
+import ProcurementHero from '../../components/ProcurementHero.astro';
+import ProcurementFooter from '../../components/ProcurementFooter.astro';
+
+// A genuine ordered process — numbering is meaningful here, not decorative.
+const steps = [
+  {
+    n: '01',
+    title: 'Notice is published',
+    body: 'A tender or expression of interest is listed under Active Notices with its scope, category, and closing date.',
+  },
+  {
+    n: '02',
+    title: 'Review the requirements',
+    body: 'Open the notice to read the scope summary and mandatory credentials before preparing a submission.',
+  },
+  {
+    n: '03',
+    title: 'Prepare your documents',
+    body: 'Use the standard forms and compliance references under Supplier Resources so your submission matches the required format.',
+  },
+  {
+    n: '04',
+    title: 'Submit before closing',
+    body: 'Apply directly from the notice page. Submissions received after 5:00 PM EAT on the closing date are not evaluated.',
+  },
+  {
+    n: '05',
+    title: 'Evaluation & award',
+    body: 'Submissions are reviewed against the stated mandatory credentials. Successful vendors are contacted directly using the details provided.',
+  },
+];
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>How It Works | SPMH Procurement</title>
+  </head>
+  <body>
+    <main
+      class='bg-[var(--color-surface)] min-h-screen pb-24 antialiased'
+      style='font-family: var(--font-body);'>
+      <ProcurementHero
+        eyebrow='Supply Chain Framework'
+        title='How the'
+        titleAccent='Portal Works'
+        description='From a published notice to an awarded contract — the same five-step process applies to every tender listed here.'
+      />
+
+      <div class='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-10'>
+        <ol class='relative border-l border-[var(--color-border)] ml-3'>
+          {
+            steps.map((step) => (
+              <li class='mb-10 ml-8 last:mb-0'>
+                <span class='absolute -left-[19px] flex items-center justify-center w-9 h-9 bg-white border border-[var(--color-border)] rounded-full font-mono text-[11px] font-bold text-[var(--color-primary)]'>
+                  {step.n}
+                </span>
+                <div class='bg-white border border-[var(--color-border)] rounded-lg shadow-sm p-5 sm:p-6'>
+                  <h3 class='text-sm sm:text-base font-bold text-[var(--color-secondary)] mb-1.5'>
+                    {step.title}
+                  </h3>
+                  <p class='text-xs sm:text-sm text-slate-600 leading-relaxed'>
+                    {step.body}
+                  </p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div
+          class='bg-white border border-[var(--color-border)] rounded-lg shadow-sm p-6 sm:p-8 text-center mt-4'>
+          <h3
+            class='text-sm font-bold text-[var(--color-secondary)] uppercase tracking-wider mb-2'>
+            Ready to view current opportunities?
+          </h3>
+          <a
+            href='/procurement/tenders'
+            class='btn btn-primary inline-block text-center text-xs px-6 py-3 font-bold tracking-wide shadow-sm mt-2'>
+            View Active Notices
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <ProcurementFooter />
+  </body>
+</html>

@@ -1,0 +1,38 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  titleAccent?: string;
+  description?: string;
+}
+const { eyebrow, title, titleAccent, description } = Astro.props;
+---
+
+<div
+  class='bg-[var(--color-secondary)] text-white py-12 px-6 border-b border-[var(--color-border)]'>
+  <div class='max-w-7xl mx-auto'>
+    <span
+      class='text-[10px] font-mono uppercase tracking-[0.3em] text-[var(--color-primary-light)] block mb-1.5'>
+      {eyebrow}
+    </span>
+    <h1
+      class='text-2xl lg:text-3xl font-light tracking-tight text-white'
+      style='font-family: var(--font-display);'>
+      {title}{' '}
+      {
+        titleAccent && (
+          <span class='font-bold text-[var(--color-primary-light)]'>
+            {titleAccent}
+          </span>
+        )
+      }
+    </h1>
+    {
+      description && (
+        <p class='text-slate-300 max-w-xl text-xs mt-2 leading-relaxed'>
+          {description}
+        </p>
+      )
+    }
+  </div>
+</div>

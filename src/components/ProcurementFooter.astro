@@ -1,0 +1,125 @@
+---
+// Shared footer for all procurement/tenders pages.
+// Drop into any page in src/pages/procurement/ with:
+//   import ProcurementFooter from '../../components/ProcurementFooter.astro';
+//   <ProcurementFooter />
+const year = new Date().getFullYear();
+
+const resourceLinks = [
+  { label: 'Supplier Resources', href: '/procurement/resources' },
+  { label: 'How It Works', href: '/procurement/how-it-works' },
+  { label: 'Register as Vendor', href: '/procurement/register' },
+  { label: 'FAQ', href: '/procurement/faq' },
+];
+---
+
+<footer
+  class='bg-[var(--color-secondary)] text-slate-300 border-t border-slate-700/60'>
+  <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14'>
+    <div class='grid grid-cols-1 md:grid-cols-12 gap-10'>
+      <!-- Column 1: Office identity -->
+      <div class='md:col-span-4'>
+        <span
+          class='text-[10px] font-mono uppercase tracking-[0.3em] text-[var(--color-primary-light)] block mb-2'>
+          Procurement Office
+        </span>
+        <h3
+          class='text-lg font-bold text-white leading-snug mb-3'
+          style='font-family: var(--font-display);'>
+          St. Paul's Mission Hospital
+        </h3>
+        <p class='text-xs text-slate-400 leading-relaxed max-w-xs mb-4'>
+          Catholic Diocese of Homa Bay. All institutional supply, works, and
+          consultancy requirements are issued exclusively through this portal
+          for the current fiscal cycle.
+        </p>
+        <div class='flex items-center gap-1.5'>
+          <span class='w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse'
+          ></span>
+          <span
+            class='text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-semibold'>
+            Portal Active
+          </span>
+        </div>
+      </div>
+
+      <!-- Column 2: Supplier resources -->
+      <div class='md:col-span-3'>
+        <h4
+          class='text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold mb-4'>
+          Supplier Resources
+        </h4>
+        <ul class='space-y-2.5 text-xs'>
+          {
+            resourceLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class='text-slate-300 hover:text-white transition-colors'>
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Column 3: Governance -->
+      <div class='md:col-span-2'>
+        <h4
+          class='text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold mb-4'>
+          Governance
+        </h4>
+        <ul class='space-y-2.5 text-xs'>
+          <li>
+            <a
+              href='/procurement/terms'
+              class='text-slate-300 hover:text-white transition-colors'>
+              Terms &amp; Conditions
+            </a>
+          </li>
+          <li>
+            <a
+              href='/procurement/tenders'
+              class='text-slate-300 hover:text-white transition-colors'>
+              Active Notices
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Contact -->
+      <div class='md:col-span-3'>
+        <h4
+          class='text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold mb-4'>
+          Contact
+        </h4>
+        <ul class='space-y-2.5 text-xs text-slate-300'>
+          <li>
+            <a
+              href='mailto:procurement@spmh.co.ke'
+              class='hover:text-white transition-colors'>
+              procurement@spmh.co.ke
+            </a>
+          </li>
+          <li class='text-slate-400'>Homa Bay, Kenya</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom compliance strip -->
+  <div class='border-t border-slate-700/60'>
+    <div
+      class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3'>
+      <p
+        class='text-[10.5px] text-slate-500 leading-relaxed text-center sm:text-left max-w-2xl'>
+        Submissions must reach the institutional server registry strictly by
+        5:00&nbsp;PM EAT on closing thresholds. Late packets auto-terminate.
+      </p>
+      <p class='text-[10.5px] text-slate-500 font-mono shrink-0'>
+        &copy; {year} SPMH &mdash; Catholic Diocese of Homa Bay
+      </p>
+    </div>
+  </div>
+</footer>

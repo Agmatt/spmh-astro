@@ -1,0 +1,92 @@
+---
+import '../../styles/global.css';
+import ProcurementHero from '../../components/ProcurementHero.astro';
+import ProcurementFooter from '../../components/ProcurementFooter.astro';
+
+const faqs = [
+  {
+    q: 'Who can submit a tender on this portal?',
+    a: 'Any registered business or consultancy that meets the mandatory credentials listed on a specific notice. Registering as a vendor is not required to apply, but it does notify you when a relevant category opens.',
+  },
+  {
+    q: 'How do I know which notices apply to my business?',
+    a: 'Each notice lists a category (Medical Supplies, Works, ICT, etc.) under its title. If you have registered as a vendor under that category, you will also be notified directly.',
+  },
+  {
+    q: 'What happens if I submit after the closing time?',
+    a: 'Submissions received after 5:00 PM EAT on the stated closing date are not evaluated. There are no exceptions, so plan to submit ahead of the deadline.',
+  },
+  {
+    q: 'Can I submit a joint bid with another company?',
+    a: 'Yes, provided both parties are disclosed in the submission and each meets the mandatory credentials relevant to their portion of the scope.',
+  },
+  {
+    q: 'How will I know if my submission was successful?',
+    a: 'Successful vendors are contacted directly using the contact details provided at submission. Outcomes are not published on this portal.',
+  },
+  {
+    q: 'Where do I get the standard forms required for a submission?',
+    a: 'All standard forms, prequalification documents, and compliance references are listed under Supplier Resources.',
+  },
+];
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ | SPMH Procurement</title>
+</head>
+<body>
+  <main class='bg-[var(--color-surface)] min-h-screen pb-24 antialiased' style='font-family: var(--font-body);'>
+    <ProcurementHero
+      eyebrow="Supply Chain Framework"
+      title="Frequently Asked"
+      titleAccent="Questions"
+      description="Common questions about submitting, evaluation, and vendor registration on this portal."
+    />
+
+    <div class='max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-10'>
+      <div class='bg-white border border-[var(--color-border)] rounded-lg shadow-sm divide-y divide-[var(--color-border)] relative overflow-hidden'>
+        <div class='absolute top-0 left-0 right-0 h-1 bg-[var(--color-primary)]' />
+        {faqs.map((item, index) => (
+          <div x-data={`{ open: ${index === 0} }`}>
+            <button
+              type="button"
+              @click="open = !open"
+              class='w-full text-left px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between gap-4 hover:bg-slate-50 transition-colors'>
+              <span class='text-xs sm:text-sm font-bold text-[var(--color-secondary)] leading-snug'>
+                {item.q}
+              </span>
+              <span
+                class='shrink-0 text-[var(--color-primary)] font-bold text-sm transition-transform'
+                :class="open ? 'rotate-45' : ''">
+                +
+              </span>
+            </button>
+            <div
+              x-show="open"
+              x-transition:enter="transition ease-out duration-150"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              class='px-5 sm:px-6 pb-5 sm:pb-6 -mt-1'>
+              <p class='text-xs sm:text-sm text-slate-600 leading-relaxed'>
+                {item.a}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p class='text-center text-xs text-[var(--color-muted)] mt-8 leading-relaxed'>
+        Still have a question? Reach the procurement office directly at
+        <a href="mailto:procurement@spmh.co.ke" class='text-[var(--color-primary)] underline font-medium'>
+          procurement@spmh.co.ke
+        </a>
+      </p>
+    </div>
+  </main>
+
+  <ProcurementFooter />
+</body>
+</html>

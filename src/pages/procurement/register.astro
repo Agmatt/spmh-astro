@@ -1,0 +1,222 @@
+---
+import '../../styles/global.css';
+import ProcurementHero from '../../components/ProcurementHero.astro';
+import ProcurementFooter from '../../components/ProcurementFooter.astro';
+
+const categories = [
+  'Medical Supplies & Equipment',
+  'Pharmaceuticals',
+  'Construction & Works',
+  'ICT & Software Services',
+  'Food & Catering Supplies',
+  'General Services & Consultancy',
+];
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Register as Vendor | SPMH Procurement</title>
+  </head>
+  <body>
+    <main
+      class='bg-[var(--color-surface)] min-h-screen pb-24 antialiased'
+      style='font-family: var(--font-body);'>
+      <ProcurementHero
+        eyebrow='Vendor Framework Registry'
+        title='Register as a'
+        titleAccent='Vendor'
+        description='Join the framework registry to be notified when a notice in your category opens, ahead of the next procurement cycle.'
+      />
+
+      <div class='max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-10'>
+        <div
+          x-data='vendorRegisterForm()'
+          class='bg-white border border-[var(--color-border)] rounded-lg shadow-sm p-6 sm:p-8 relative'>
+          <div
+            class='absolute top-0 left-0 right-0 h-1 bg-[var(--color-primary)]'>
+          </div>
+
+          <template x-if='!submitted'>
+            <form @submit.prevent='submit' class='space-y-5'>
+              <div class='grid grid-cols-1 sm:grid-cols-2 gap-5'>
+                <div>
+                  <label
+                    class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] block mb-1.5'>
+                    Company Name
+                  </label>
+                  <input
+                    type='text'
+                    required
+                    x-model='form.companyName'
+                    class='w-full text-sm border border-[var(--color-border)] rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]'
+                  />
+                </div>
+                <div>
+                  <label
+                    class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] block mb-1.5'>
+                    KRA PIN
+                  </label>
+                  <input
+                    type='text'
+                    required
+                    x-model='form.kraPin'
+                    class='w-full text-sm border border-[var(--color-border)] rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]'
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label
+                  class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] block mb-1.5'>
+                  Business Registration Number
+                </label>
+                <input
+                  type='text'
+                  required
+                  x-model='form.regNumber'
+                  class='w-full text-sm border border-[var(--color-border)] rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]'
+                />
+              </div>
+
+              <div>
+                <label
+                  class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] block mb-1.5'>
+                  Primary Supply Category
+                </label>
+                <select
+                  required
+                  x-model='form.category'
+                  class='w-full text-sm border border-[var(--color-border)] rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white'>
+                  <option value='' disabled selected>Select a category</option>
+                  {categories.map((cat) => <option value={cat}>{cat}</option>)}
+                </select>
+              </div>
+
+              <div class='grid grid-cols-1 sm:grid-cols-2 gap-5'>
+                <div>
+                  <label
+                    class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] block mb-1.5'>
+                    Contact Email
+                  </label>
+                  <input
+                    type='email'
+                    required
+                    x-model='form.email'
+                    class='w-full text-sm border border-[var(--color-border)] rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]'
+                  />
+                </div>
+                <div>
+                  <label
+                    class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] block mb-1.5'>
+                    Phone Number
+                  </label>
+                  <input
+                    type='tel'
+                    required
+                    x-model='form.phone'
+                    class='w-full text-sm border border-[var(--color-border)] rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]'
+                  />
+                </div>
+              </div>
+
+              <label class='flex items-start gap-2.5 pt-1'>
+                <input
+                  type='checkbox'
+                  required
+                  x-model='form.agree'
+                  class='mt-0.5'
+                />
+                <span class='text-xs text-slate-600 leading-relaxed'>
+                  I confirm the details above are accurate and I have read the
+                  <a
+                    href='/procurement/terms'
+                    class='text-[var(--color-primary)] underline'
+                    >Terms &amp; Conditions</a
+                  >.
+                </span>
+              </label>
+
+              <button
+                type='submit'
+                :disabled='loading'
+                class='btn btn-primary w-full sm:w-auto text-center text-xs px-6 py-3 font-bold tracking-wide shadow-sm disabled:opacity-60'>
+                <span x-show='!loading'>Submit Registration</span>
+                <span x-show='loading'>Submitting&hellip;</span>
+              </button>
+
+              <p
+                x-show='errorMsg'
+                x-text='errorMsg'
+                class='text-xs text-[var(--color-accent)] font-medium'>
+              </p>
+            </form>
+          </template>
+
+          <template x-if='submitted'>
+            <div class='text-center py-8'>
+              <div
+                class='w-12 h-12 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center mx-auto mb-4 text-emerald-600 text-lg font-bold select-none'>
+                ✓
+              </div>
+              <h2
+                class='text-sm font-bold text-[var(--color-secondary)] uppercase tracking-wider mb-2'>
+                Registration Received
+              </h2>
+              <p
+                class='text-xs text-[var(--color-muted)] leading-relaxed max-w-sm mx-auto'>
+                You will be notified by email when a notice in your category is
+                published on this portal.
+              </p>
+            </div>
+          </template>
+        </div>
+      </div>
+    </main>
+
+    <ProcurementFooter />
+
+    <script>
+      // NOTE: wire this up to a Supabase `vendors` table + Astro API route,
+      // the same pattern used by src/pages/api for the clinic booking system
+      // (insert on POST, Resend confirmation email on success). Left as a
+      // client-side stub here since the vendors schema doesn't exist yet.
+      function vendorRegisterForm() {
+        return {
+          loading: false,
+          submitted: false,
+          errorMsg: '',
+          form: {
+            companyName: '',
+            kraPin: '',
+            regNumber: '',
+            category: '',
+            email: '',
+            phone: '',
+            agree: false,
+          },
+          async submit() {
+            this.loading = true;
+            this.errorMsg = '';
+            try {
+              // const res = await fetch('/api/vendor-register', {
+              //   method: 'POST',
+              //   headers: { 'Content-Type': 'application/json' },
+              //   body: JSON.stringify(this.form),
+              // });
+              // if (!res.ok) throw new Error('Submission failed');
+              this.submitted = true;
+            } catch (err) {
+              this.errorMsg =
+                'Something went wrong. Please try again or email procurement@spmh.co.ke directly.';
+            } finally {
+              this.loading = false;
+            }
+          },
+        };
+      }
+      window.vendorRegisterForm = vendorRegisterForm;
+    </script>
+  </body>
+</html>
