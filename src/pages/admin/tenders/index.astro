@@ -1,7 +1,8 @@
 ---
 // src/pages/dashboard/tenders/index.astro
-import Layout from '../../../Layout/Layout.astro'; 
+import '../../../styles/global.css';
 import TenderManager from '../../../components/TenderManager.jsx';
+import TenderAuthGate from '../../../components/TenderAuthGate.tsx';
 
 // If your other dashboard pages check auth in frontmatter (e.g. reading a
 // Supabase session cookie and redirecting to /login if absent), apply the
@@ -9,6 +10,13 @@ import TenderManager from '../../../components/TenderManager.jsx';
 // the pattern you're already using elsewhere.
 ---
 
-<Layout title='Tender Manager'>
-  <TenderManager client:load />
-</Layout>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Tender Manager</title>
+  </head>
+  <body>
+    <TenderAuthGate client:load />
+  </body>
+</html>

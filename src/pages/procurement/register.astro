@@ -34,12 +34,8 @@ const categories = [
         <div
           x-data='vendorRegisterForm()'
           class='bg-white border border-[var(--color-border)] rounded-lg shadow-sm p-6 sm:p-8 relative'>
-          <div
-            class='absolute top-0 left-0 right-0 h-1 bg-[var(--color-primary)]'>
-          </div>
-
           <template x-if='!submitted'>
-            <form @submit.prevent='submit' class='space-y-5'>
+            <form @submit.prevent='submit' class='space-y-5' novalidate>
               <div class='grid grid-cols-1 sm:grid-cols-2 gap-5'>
                 <div>
                   <label
@@ -62,8 +58,23 @@ const categories = [
                     type='text'
                     required
                     x-model='form.kraPin'
-                    class='w-full text-sm border border-[var(--color-border)] rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]'
+                    @input='validateKraPin()'
+                    @blur='validateKraPin()'
+                    maxlength='11'
+                    placeholder='A000000000Z'
+                    autocomplete='off'
+                    :aria-invalid='!!fieldErrors.kraPin'
+                    :class='fieldErrors.kraPin
+                      ? "border-[var(--color-accent)] focus:ring-[var(--color-accent)] focus:border-[var(--color-accent)] bg-red-50/40"
+                      : "border-[var(--color-border)] focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"'
+                    class='w-full text-sm rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 uppercase'
                   />
+                  <p
+                    x-show='fieldErrors.kraPin'
+                    x-text='fieldErrors.kraPin'
+                    x-cloak
+                    class='text-xs text-[var(--color-accent)] font-medium mt-1.5'>
+                  </p>
                 </div>
               </div>
 
@@ -116,8 +127,22 @@ const categories = [
                     type='tel'
                     required
                     x-model='form.phone'
-                    class='w-full text-sm border border-[var(--color-border)] rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]'
+                    @input='validatePhone()'
+                    @blur='validatePhone()'
+                    placeholder='+2547XXXXXXXX or 07XXXXXXXX'
+                    autocomplete='off'
+                    :aria-invalid='!!fieldErrors.phone'
+                    :class='fieldErrors.phone
+                      ? "border-[var(--color-accent)] focus:ring-[var(--color-accent)] focus:border-[var(--color-accent)] bg-red-50/40"
+                      : "border-[var(--color-border)] focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"'
+                    class='w-full text-sm rounded-md px-3 py-2.5 focus:outline-none focus:ring-1'
                   />
+                  <p
+                    x-show='fieldErrors.phone'
+                    x-text='fieldErrors.phone'
+                    x-cloak
+                    class='text-xs text-[var(--color-accent)] font-medium mt-1.5'>
+                  </p>
                 </div>
               </div>
 
@@ -151,6 +176,11 @@ const categories = [
                 x-text='errorMsg'
                 class='text-xs text-[var(--color-accent)] font-medium'>
               </p>
+              <div class='mt-4 mx-auto max-w-xs text-center'>
+                <a href='/' class='btn-tertiary text-white font-bold text-sm'>
+                  Back to Main Website
+                </a>
+              </div>
             </form>
           </template>
 
@@ -169,6 +199,11 @@ const categories = [
                 You will be notified by email when a notice in your category is
                 published on this portal.
               </p>
+              <a
+                href='/about-us/tenders'
+                class='text-[var(--color-primary)] hover:text-accent'>
+                View Active Notices
+              </a>
             </div>
           </template>
         </div>
@@ -187,6 +222,10 @@ const categories = [
           loading: false,
           submitted: false,
           errorMsg: '',
+          fieldErrors: {
+            kraPin: '',
+            phone: '',
+          },
           form: {
             companyName: '',
             kraPin: '',
@@ -196,16 +235,68 @@ const categories = [
             phone: '',
             agree: false,
           },
+          // KRA PIN: one letter, 9 digits, one letter — e.g. A000000000Z
+          validateKraPin() {
+            const value = this.form.kraPin.trim().toUpperCase();
+            this.form.kraPin = value;
+            if (!value) {
+              this.fieldErrors.kraPin = '';
+              return true;
+            }
+            const pattern = /^[A-Z]\d{9}[A-Z]$/;
+            if (!pattern.test(value)) {
+              this.fieldErrors.kraPin =
+                'Enter a valid KRA PIN — one letter, 9 digits, one letter (e.g. A000000000Z)';
+              return false;
+            }
+            this.fieldErrors.kraPin = '';
+            return true;
+          },
+          // Phone: must start with + or 0, e.g. +2547XXXXXXXX or 07XXXXXXXX
+          validatePhone() {
+            const value = this.form.phone.trim();
+            if (!value) {
+              this.fieldErrors.phone = '';
+              return true;
+            }
+            const pattern = /^(\+\d{9,14}|0\d{9})$/;
+            if (!pattern.test(value)) {
+              this.fieldErrors.phone =
+                'Enter a valid phone number starting with + or 0 (e.g. +2547XXXXXXXX or 07XXXXXXXX)';
+              return false;
+            }
+            this.fieldErrors.phone = '';
+            return true;
+          },
           async submit() {
+            const kraOk = this.validateKraPin();
+            const phoneOk = this.validatePhone();
+            if (!this.form.kraPin.trim()) {
+              this.fieldErrors.kraPin = 'KRA PIN is required';
+            }
+            if (!this.form.phone.trim()) {
+              this.fieldErrors.phone = 'Phone number is required';
+            }
+            if (
+              this.fieldErrors.kraPin ||
+              this.fieldErrors.phone ||
+              !kraOk ||
+              !phoneOk
+            ) {
+              this.errorMsg =
+                'Please fix the highlighted fields before submitting.';
+              return;
+            }
+
             this.loading = true;
             this.errorMsg = '';
             try {
-              // const res = await fetch('/api/vendor-register', {
-              //   method: 'POST',
-              //   headers: { 'Content-Type': 'application/json' },
-              //   body: JSON.stringify(this.form),
-              // });
-              // if (!res.ok) throw new Error('Submission failed');
+              const res = await fetch('/api/vendor-register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.form),
+              });
+              if (!res.ok) throw new Error('Submission failed');
               this.submitted = true;
             } catch (err) {
               this.errorMsg =

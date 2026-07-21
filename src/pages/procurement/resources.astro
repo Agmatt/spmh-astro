@@ -3,50 +3,39 @@ import '../../styles/global.css';
 import ProcurementHero from '../../components/ProcurementHero.astro';
 import ProcurementFooter from '../../components/ProcurementFooter.astro';
 
-// Static reference set for now. Once these documents live in Supabase
-// storage, swap this array for a query against a `procurement_resources`
-// table the same way `tenders.astro` queries the `tenders` table.
-const resourceGroups = [
+// Static set for now, backed by real files in /public/procurement-resources/.
+// Once these move to Supabase storage, swap this array for a query against
+// a `procurement_resources` table — same pattern `tenders.astro` uses for
+// the `tenders` table — and drop `docxUrl` / `pdfUrl` in as columns.
+const resources = [
   {
-    label: 'Prequalification',
-    items: [
-      {
-        title: 'Standard Prequalification Form',
-        format: 'DOCX',
-        size: '48 KB',
-      },
-      {
-        title: 'Vendor Category Reference Sheet',
-        format: 'PDF',
-        size: '112 KB',
-      },
-    ],
+    title: 'Standard Prequalification Form',
+    category: 'Prequalification',
+    description:
+      'Company details, supply category, required attachments, and referees.',
+    docxUrl: '/procurement-resources/Standard-Prequalification-Form.docx',
+    pdfUrl: '/procurement-resources/Standard-Prequalification-Form.pdf',
+    size: '12 KB',
   },
   {
-    label: 'Compliance Certificates',
-    items: [
-      {
-        title: 'Tax Compliance Requirements Note',
-        format: 'PDF',
-        size: '86 KB',
-      },
-      {
-        title: 'Business Registration Checklist',
-        format: 'PDF',
-        size: '64 KB',
-      },
-    ],
+    title: 'Bid Submission Cover Sheet',
+    category: 'Standard Forms',
+    description:
+      'Attach as the first page of every bid. Includes submission checklist.',
+    docxUrl: '/procurement-resources/Bid-Submission-Cover-Sheet.docx',
+    pdfUrl: '/procurement-resources/Bid-Submission-Cover-Sheet.pdf',
+    size: '12 KB',
   },
   {
-    label: 'Standard Forms',
-    items: [
-      { title: 'Bid Submission Cover Sheet', format: 'DOCX', size: '39 KB' },
-      {
-        title: 'Confidentiality & Conflict-of-Interest Declaration',
-        format: 'DOCX',
-        size: '41 KB',
-      },
-    ],
+    title: 'Confidentiality & Conflict-of-Interest Declaration',
+    category: 'Standard Forms',
+    description:
+      'Required disclosure and confidentiality undertaking for every bidder.',
+    docxUrl:
+      '/procurement-resources/Confidentiality-Conflict-of-Interest-Declaration.docx',
+    pdfUrl:
+      '/procurement-resources/Confidentiality-Conflict-of-Interest-Declaration.pdf',
+    size: '12 KB',
   },
 ];
 ---
@@ -65,44 +54,99 @@ const resourceGroups = [
         eyebrow='Supply Chain Framework'
         title='Supplier'
         titleAccent='Resources'
-        description='Standard forms, compliance references, and prequalification documents used across every notice on this portal. Download once and reuse for each submission.'
+        description='Standard forms and prequalification documents used across every notice on this portal. View before you commit, download when you are ready to complete one.'
       />
 
-      <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 space-y-10'>
-        {
-          resourceGroups.map((group) => (
-            <section class='bg-white border border-[var(--color-border)] rounded-lg shadow-sm relative overflow-hidden'>
-              <div class='absolute top-0 left-0 right-0 h-1 bg-[var(--color-primary)]' />
-              <div class='p-5 sm:p-6 border-b border-[var(--color-border)]'>
-                <h2 class='text-[10px] font-mono uppercase tracking-widest text-[var(--color-secondary)] font-bold'>
-                  {group.label}
-                </h2>
-              </div>
-              <ul class='divide-y divide-[var(--color-border)]'>
-                {group.items.map((item) => (
-                  <li class='flex items-center justify-between gap-4 px-5 sm:px-6 py-4'>
-                    <div class='flex items-start gap-3'>
-                      <span class='text-[var(--color-primary)] mt-0.5 select-none font-bold text-sm'>
-                        ↓
-                      </span>
-                      <span class='text-xs sm:text-sm text-slate-700 font-medium leading-snug'>
-                        {item.title}
-                      </span>
-                    </div>
-                    <span class='text-[10px] text-[var(--color-muted)] font-mono shrink-0'>
-                      {item.format} &middot; {item.size}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))
-        }
+      <div class='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-10'>
+        <div
+          class='bg-white border border-[var(--color-border)] rounded-lg shadow-sm relative overflow-hidden'>
+          <div
+            class='p-5 sm:p-6 border-b border-[var(--color-border)] flex items-center justify-between gap-4'>
+            <h2
+              class='text-[10px] font-mono uppercase tracking-widest text-[var(--color-secondary)] font-bold'>
+              Document Register
+            </h2>
+            <span
+              class='text-[9px] bg-[var(--color-surface)] px-2 py-0.5 border border-slate-200 text-[var(--color-muted)] rounded font-mono'>
+              {resources.length} Listed
+            </span>
+          </div>
+
+          <div class='overflow-x-auto'>
+            <table class='w-full text-left border-collapse min-w-[720px]'>
+              <thead>
+                <tr
+                  class='bg-[var(--color-surface)] border-b border-[var(--color-border)]'>
+                  <th
+                    class='px-5 sm:px-6 py-3 text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] font-bold'>
+                    Document
+                  </th>
+                  <th
+                    class='px-4 py-3 text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] font-bold'>
+                    Category
+                  </th>
+                  <th
+                    class='px-4 py-3 text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] font-bold'>
+                    Format
+                  </th>
+                  <th
+                    class='px-4 py-3 text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] font-bold text-right'>
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody class='divide-y divide-[var(--color-border)]'>
+                {
+                  resources.map((item) => (
+                    <tr class='hover:bg-[var(--color-surface)]/60 transition-colors'>
+                      <td class='px-5 sm:px-6 py-4 align-top'>
+                        <span class='text-xs sm:text-sm font-bold text-[var(--color-secondary)] block leading-snug'>
+                          {item.title}
+                        </span>
+                        <span class='text-[11px] text-slate-500 leading-relaxed block mt-0.5 max-w-md'>
+                          {item.description}
+                        </span>
+                      </td>
+                      <td class='px-4 py-4 align-top whitespace-nowrap'>
+                        <span class='text-[10px] uppercase font-bold tracking-wider text-[var(--color-primary)]'>
+                          {item.category}
+                        </span>
+                      </td>
+                      <td class='px-4 py-4 align-top whitespace-nowrap'>
+                        <span class='text-[10px] text-[var(--color-muted)] font-mono'>
+                          DOCX &middot; {item.size}
+                        </span>
+                      </td>
+                      <td class='px-4 py-4 align-top'>
+                        <div class='flex items-center justify-end gap-2'>
+                          <a
+                            href={item.pdfUrl}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            class='text-[11px] font-bold px-3 py-2 rounded-md border border-[var(--color-border)] text-[var(--color-secondary)] hover:bg-white hover:border-slate-300 transition-colors whitespace-nowrap'>
+                            View
+                          </a>
+                          <a
+                            href={item.docxUrl}
+                            download
+                            class='text-[11px] font-bold px-3 py-2 rounded-md bg-[var(--color-primary)] text-white hover:opacity-90 transition-opacity flex items-center gap-1.5 whitespace-nowrap'>
+                            <span>Download</span>
+                            <span aria-hidden='true'>↓</span>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
 
         <div
-          class='bg-[var(--color-secondary)] text-white rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5'>
+          class='bg-muted text-white rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 mt-10'>
           <div>
-            <h3 class='text-sm font-bold tracking-wide mb-1'>
+            <h3 class='text-sm text-white font-bold tracking-wide mb-1'>
               Not registered yet?
             </h3>
             <p class='text-xs text-slate-300 max-w-md leading-relaxed'>

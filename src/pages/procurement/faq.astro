@@ -36,6 +36,7 @@ const faqs = [
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FAQ | SPMH Procurement</title>
+  <link rel='icon' type='image' href='/logos/logo.png' />
 </head>
 <body>
   <main class='bg-[var(--color-surface)] min-h-screen pb-24 antialiased' style='font-family: var(--font-body);'>
@@ -47,8 +48,7 @@ const faqs = [
     />
 
     <div class='max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-10'>
-      <div class='bg-white border border-[var(--color-border)] rounded-lg shadow-sm divide-y divide-[var(--color-border)] relative overflow-hidden'>
-        <div class='absolute top-0 left-0 right-0 h-1 bg-[var(--color-primary)]' />
+      <div class='bg-white divide-y divide-[var(--color-border)] relative overflow-hidden'>
         {faqs.map((item, index) => (
           <div x-data={`{ open: ${index === 0} }`}>
             <button

@@ -32,6 +32,25 @@ const APPLICATION_STATUS_OPTIONS = [
   'awarded',
 ];
 
+const VENDOR_STATUS_OPTIONS = ['pending', 'verified', 'rejected'];
+
+const VENDOR_STATUS_STYLES = {
+  pending: 'bg-amber-50 text-amber-700 border-amber-300',
+  verified: 'bg-emerald-50 text-emerald-700 border-emerald-300',
+  rejected: 'bg-red-50 text-red-700 border-red-300',
+};
+
+// Same list used on the public /procurement/register form — kept here too so
+// the filter dropdown doesn't depend on vendors already existing in a category.
+const VENDOR_CATEGORIES = [
+  'Medical Supplies & Equipment',
+  'Pharmaceuticals',
+  'Construction & Works',
+  'ICT & Software Services',
+  'Food & Catering Supplies',
+  'General Services & Consultancy',
+];
+
 export default function TenderManager() {
   const [tab, setTab] = useState('tenders'); // 'tenders' | 'applications'
   const [tenders, setTenders] = useState([]);
@@ -40,11 +59,16 @@ export default function TenderManager() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [docFile, setDocFile] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
   const [error, setError] = useState('');
 
   const [applications, setApplications] = useState([]);
   const [appTenderFilter, setAppTenderFilter] = useState('all');
   const [appsLoading, setAppsLoading] = useState(false);
+
+  const [vendors, setVendors] = useState([]);
+  const [vendorCategoryFilter, setVendorCategoryFilter] = useState('all');
+  const [vendorsLoading, setVendorsLoading] = useState(false);
 
   useEffect(() => {
     loadTenders();
@@ -54,11 +78,15 @@ export default function TenderManager() {
     if (tab === 'applications') loadApplications();
   }, [tab, appTenderFilter]);
 
+  useEffect(() => {
+    if (tab === 'vendors') loadVendors();
+  }, [tab, vendorCategoryFilter]);
+
   async function loadTenders() {
     setLoading(true);
     const { data, error } = await supabase
       .from('tenders')
-      .select('*')
+      .select('id, tender_code, title, status, closing_date')
       .order('created_at', { ascending: false });
     if (error) setError(error.message);
     else setTenders(data);
@@ -69,14 +97,34 @@ export default function TenderManager() {
     setAppsLoading(true);
     let query = supabase
       .from('tender_applications')
-      .select('*, tenders(tender_code, title)')
-      .order('submitted_at', { ascending: false });
+      .select(
+        'id, company_name, contact_name, email, document_url, submitted_at, status, tender_id, tenders(tender_code, title)',
+      )
+      .order('submitted_at', { ascending: false })
+      .limit(200);
     if (appTenderFilter !== 'all')
       query = query.eq('tender_id', appTenderFilter);
     const { data, error } = await query;
     if (error) setError(error.message);
     else setApplications(data);
     setAppsLoading(false);
+  }
+
+  async function loadVendors() {
+    setVendorsLoading(true);
+    let query = supabase
+      .from('vendors')
+      .select(
+        'id, company_name, category, kra_pin, reg_number, email, phone, status, created_at',
+      )
+      .order('created_at', { ascending: false })
+      .limit(200);
+    if (vendorCategoryFilter !== 'all')
+      query = query.eq('category', vendorCategoryFilter);
+    const { data, error } = await query;
+    if (error) setError(error.message);
+    else setVendors(data);
+    setVendorsLoading(false);
   }
 
   function openNewForm() {
@@ -86,22 +134,46 @@ export default function TenderManager() {
     setShowForm(true);
   }
 
-  function openEditForm(t) {
+  async function openEditForm(t) {
+    // List rows are trimmed to id/code/title/status/closing_date for a
+    // faster initial load — pull the full record now that we actually need
+    // the summary, requirements, and document fields for editing.
     setForm({
+      ...EMPTY_FORM,
       id: t.id,
       tender_code: t.tender_code,
       title: t.title,
-      category: t.category,
       status: t.status,
-      summary: t.summary,
-      requirements: t.requirements?.length ? t.requirements : [''],
       closing_date: t.closing_date,
-      document_url: t.document_url || '',
-      document_size: t.document_size || '',
     });
     setDocFile(null);
     setError('');
+    setEditLoading(true);
     setShowForm(true);
+
+    const { data: full, error } = await supabase
+      .from('tenders')
+      .select('*')
+      .eq('id', t.id)
+      .single();
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setForm({
+        id: full.id,
+        tender_code: full.tender_code,
+        title: full.title,
+        category: full.category,
+        status: full.status,
+        summary: full.summary,
+        requirements: full.requirements?.length ? full.requirements : [''],
+        closing_date: full.closing_date,
+        document_url: full.document_url || '',
+        document_size: full.document_size || '',
+      });
+    }
+    setEditLoading(false);
   }
 
   function updateRequirement(i, value) {
@@ -205,6 +277,15 @@ export default function TenderManager() {
     else loadApplications();
   }
 
+  async function handleVendorStatus(vendor, newStatus) {
+    const { error } = await supabase
+      .from('vendors')
+      .update({ status: newStatus })
+      .eq('id', vendor.id);
+    if (error) setError(error.message);
+    else loadVendors();
+  }
+
   return (
     <div className='max-w-6xl mx-auto p-4 sm:p-6'>
       <div className='flex items-center justify-between mb-6'>
@@ -226,7 +307,7 @@ export default function TenderManager() {
       </div>
 
       <div className='flex gap-2 border-b border-[var(--color-border)] mb-6'>
-        {['tenders', 'applications'].map((t) => (
+        {['tenders', 'applications', 'vendors'].map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -235,7 +316,11 @@ export default function TenderManager() {
                 ? 'border-[var(--color-primary)] text-[var(--color-primary)]'
                 : 'border-transparent text-[var(--color-muted)] hover:text-slate-600'
             }`}>
-            {t === 'tenders' ? 'Manage Tenders' : 'Applications'}
+            {t === 'tenders'
+              ? 'Manage Tenders'
+              : t === 'applications'
+                ? 'Applications'
+                : 'Vendors'}
           </button>
         ))}
       </div>
@@ -267,6 +352,16 @@ export default function TenderManager() {
         />
       )}
 
+      {tab === 'vendors' && (
+        <VendorsPanel
+          vendors={vendors}
+          loading={vendorsLoading}
+          filter={vendorCategoryFilter}
+          onFilterChange={setVendorCategoryFilter}
+          onStatusChange={handleVendorStatus}
+        />
+      )}
+
       {showForm && (
         <TenderFormModal
           form={form}
@@ -274,6 +369,7 @@ export default function TenderManager() {
           docFile={docFile}
           setDocFile={setDocFile}
           saving={saving}
+          editLoading={editLoading}
           onClose={() => setShowForm(false)}
           onSave={handleSave}
           updateRequirement={updateRequirement}
@@ -362,14 +458,14 @@ function ApplicationsPanel({
 }) {
   return (
     <div>
-      <div className='mb-4 flex items-center gap-2'>
-        <label className='text-[10px] font-bold uppercase text-[var(--color-muted)]'>
+      <div className='mb-4 flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2'>
+        <label className='text-[10px] font-bold uppercase text-[var(--color-muted)] shrink-0'>
           Filter by tender
         </label>
         <select
           value={filter}
           onChange={(e) => onFilterChange(e.target.value)}
-          className='text-xs border border-[var(--color-border)] rounded px-2 py-1'>
+          className='w-full sm:w-auto sm:max-w-xs text-xs border border-[var(--color-border)] rounded px-2 py-1'>
           <option value='all'>All tenders</option>
           {tenders.map((t) => (
             <option key={t.id} value={t.id}>
@@ -456,12 +552,106 @@ function ApplicationsPanel({
   );
 }
 
+function VendorsPanel({
+  vendors,
+  loading,
+  filter,
+  onFilterChange,
+  onStatusChange,
+}) {
+  return (
+    <div>
+      <div className='mb-4 flex items-center gap-2'>
+        <label className='text-[10px] font-bold uppercase text-[var(--color-muted)]'>
+          Filter by category
+        </label>
+        <select
+          value={filter}
+          onChange={(e) => onFilterChange(e.target.value)}
+          className='text-xs border border-[var(--color-border)] rounded px-2 py-1'>
+          <option value='all'>All categories</option>
+          {VENDOR_CATEGORIES.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {loading ? (
+        <p className='text-xs text-[var(--color-muted)]'>Loading vendors…</p>
+      ) : !vendors.length ? (
+        <div className='text-center py-16 border border-dashed border-[var(--color-border)] rounded-lg'>
+          <p className='text-xs text-[var(--color-muted)]'>
+            No vendor registrations for this selection yet.
+          </p>
+        </div>
+      ) : (
+        <div className='overflow-x-auto border border-[var(--color-border)] rounded-lg'>
+          <table className='w-full text-xs'>
+            <thead className='bg-[var(--color-surface)] text-[var(--color-muted)] uppercase tracking-wide text-[10px]'>
+              <tr>
+                <th className='text-left p-3'>Company</th>
+                <th className='text-left p-3'>Category</th>
+                <th className='text-left p-3'>KRA PIN</th>
+                <th className='text-left p-3'>Reg. No.</th>
+                <th className='text-left p-3'>Contact</th>
+                <th className='text-left p-3'>Registered</th>
+                <th className='text-left p-3'>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {vendors.map((v) => (
+                <tr
+                  key={v.id}
+                  className='border-t border-[var(--color-border)] align-top'>
+                  <td className='p-3 font-semibold text-[var(--color-secondary)]'>
+                    {v.company_name}
+                  </td>
+                  <td className='p-3 text-slate-600'>{v.category}</td>
+                  <td className='p-3 font-mono text-[10px] text-[var(--color-muted)]'>
+                    {v.kra_pin}
+                  </td>
+                  <td className='p-3 font-mono text-[10px] text-[var(--color-muted)]'>
+                    {v.reg_number}
+                  </td>
+                  <td className='p-3 text-slate-600'>
+                    {v.email}
+                    <br />
+                    <span className='text-[10px]'>{v.phone}</span>
+                  </td>
+                  <td className='p-3 text-slate-600'>
+                    {new Date(v.created_at).toLocaleDateString()}
+                  </td>
+                  <td className='p-3'>
+                    <select
+                      value={v.status}
+                      onChange={(e) => onStatusChange(v, e.target.value)}
+                      className={`text-[10px] font-bold uppercase border rounded px-2 py-1 ${VENDOR_STATUS_STYLES[v.status] || ''}`}>
+                      {VENDOR_STATUS_OPTIONS.map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function TenderFormModal({
   form,
   setForm,
   docFile,
   setDocFile,
   saving,
+  editLoading,
   onClose,
   onSave,
   updateRequirement,
@@ -474,158 +664,166 @@ function TenderFormModal({
         <h2 className='text-sm font-bold text-[var(--color-secondary)] mb-4'>
           {form.id ? 'Edit Tender' : 'New Tender'}
         </h2>
-        <form onSubmit={onSave} className='space-y-4 text-xs'>
-          <div>
-            <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
-              Tender code
-            </label>
-            <input
-              required
-              value={form.tender_code}
-              onChange={(e) =>
-                setForm({ ...form, tender_code: e.target.value })
-              }
-              placeholder='SPMH-TND-2026-006'
-              className='w-full border border-[var(--color-border)] rounded px-3 py-2'
-            />
-          </div>
-
-          <div>
-            <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
-              Title
-            </label>
-            <input
-              required
-              value={form.title}
-              onChange={(e) => setForm({ ...form, title: e.target.value })}
-              className='w-full border border-[var(--color-border)] rounded px-3 py-2'
-            />
-          </div>
-
-          <div className='grid grid-cols-2 gap-3'>
+        {editLoading ? (
+          <p className='text-xs text-[var(--color-muted)] py-8 text-center'>
+            Loading tender details…
+          </p>
+        ) : (
+          <form onSubmit={onSave} className='space-y-4 text-xs'>
             <div>
               <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
-                Category
+                Tender code
               </label>
               <input
                 required
-                value={form.category}
-                onChange={(e) => setForm({ ...form, category: e.target.value })}
+                value={form.tender_code}
+                onChange={(e) =>
+                  setForm({ ...form, tender_code: e.target.value })
+                }
+                placeholder='SPMH-TND-2026-006'
                 className='w-full border border-[var(--color-border)] rounded px-3 py-2'
               />
             </div>
+
             <div>
               <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
-                Status
+                Title
               </label>
-              <select
-                value={form.status}
-                onChange={(e) => setForm({ ...form, status: e.target.value })}
-                className='w-full border border-[var(--color-border)] rounded px-3 py-2'>
-                <option value='draft'>Draft</option>
-                <option value='open'>Open</option>
-                <option value='closed'>Closed</option>
-                <option value='awarded'>Awarded</option>
-              </select>
+              <input
+                required
+                value={form.title}
+                onChange={(e) => setForm({ ...form, title: e.target.value })}
+                className='w-full border border-[var(--color-border)] rounded px-3 py-2'
+              />
             </div>
-          </div>
 
-          <div>
-            <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
-              Summary
-            </label>
-            <textarea
-              required
-              rows={3}
-              value={form.summary}
-              onChange={(e) => setForm({ ...form, summary: e.target.value })}
-              className='w-full border border-[var(--color-border)] rounded px-3 py-2'
-            />
-          </div>
-
-          <div>
-            <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
-              Mandatory requirements
-            </label>
-            <div className='space-y-2'>
-              {form.requirements.map((r, i) => (
-                <div key={i} className='flex gap-2'>
-                  <input
-                    value={r}
-                    onChange={(e) => updateRequirement(i, e.target.value)}
-                    className='flex-1 border border-[var(--color-border)] rounded px-3 py-2'
-                  />
-                  <button
-                    type='button'
-                    onClick={() => removeRequirement(i)}
-                    className='text-red-600 font-bold px-2'>
-                    ✕
-                  </button>
-                </div>
-              ))}
+            <div className='grid grid-cols-2 gap-3'>
+              <div>
+                <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
+                  Category
+                </label>
+                <input
+                  required
+                  value={form.category}
+                  onChange={(e) =>
+                    setForm({ ...form, category: e.target.value })
+                  }
+                  className='w-full border border-[var(--color-border)] rounded px-3 py-2'
+                />
+              </div>
+              <div>
+                <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
+                  Status
+                </label>
+                <select
+                  value={form.status}
+                  onChange={(e) => setForm({ ...form, status: e.target.value })}
+                  className='w-full border border-[var(--color-border)] rounded px-3 py-2'>
+                  <option value='draft'>Draft</option>
+                  <option value='open'>Open</option>
+                  <option value='closed'>Closed</option>
+                  <option value='awarded'>Awarded</option>
+                </select>
+              </div>
             </div>
-            <button
-              type='button'
-              onClick={addRequirement}
-              className='mt-2 text-[var(--color-primary)] font-bold'>
-              + Add requirement
-            </button>
-          </div>
 
-          <div>
-            <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
-              Closing date
-            </label>
-            <input
-              required
-              type='date'
-              value={form.closing_date}
-              onChange={(e) =>
-                setForm({ ...form, closing_date: e.target.value })
-              }
-              className='w-full border border-[var(--color-border)] rounded px-3 py-2'
-            />
-          </div>
+            <div>
+              <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
+                Summary
+              </label>
+              <textarea
+                required
+                rows={3}
+                value={form.summary}
+                onChange={(e) => setForm({ ...form, summary: e.target.value })}
+                className='w-full border border-[var(--color-border)] rounded px-3 py-2'
+              />
+            </div>
 
-          <div>
-            <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
-              Specs document (PDF)
-            </label>
-            {form.document_url && !docFile && (
-              <p className='text-[10px] text-[var(--color-muted)] mb-1'>
-                Current:{' '}
-                <a
-                  href={form.document_url}
-                  target='_blank'
-                  rel='noreferrer'
-                  className='underline'>
-                  view file
-                </a>
-              </p>
-            )}
-            <input
-              type='file'
-              accept='application/pdf'
-              onChange={(e) => setDocFile(e.target.files[0])}
-              className='text-xs'
-            />
-          </div>
+            <div>
+              <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
+                Mandatory requirements
+              </label>
+              <div className='space-y-2'>
+                {form.requirements.map((r, i) => (
+                  <div key={i} className='flex gap-2'>
+                    <input
+                      value={r}
+                      onChange={(e) => updateRequirement(i, e.target.value)}
+                      className='flex-1 border border-[var(--color-border)] rounded px-3 py-2'
+                    />
+                    <button
+                      type='button'
+                      onClick={() => removeRequirement(i)}
+                      className='text-red-600 font-bold px-2'>
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <button
+                type='button'
+                onClick={addRequirement}
+                className='mt-2 text-[var(--color-primary)] font-bold'>
+                + Add requirement
+              </button>
+            </div>
 
-          <div className='flex justify-end gap-3 pt-2'>
-            <button
-              type='button'
-              onClick={onClose}
-              className='text-xs font-bold px-4 py-2 text-[var(--color-muted)]'>
-              Cancel
-            </button>
-            <button
-              type='submit'
-              disabled={saving}
-              className='text-xs font-bold px-4 py-2 rounded-md bg-[var(--color-primary)] text-white disabled:opacity-50'>
-              {saving ? 'Saving…' : 'Save Tender'}
-            </button>
-          </div>
-        </form>
+            <div>
+              <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
+                Closing date
+              </label>
+              <input
+                required
+                type='date'
+                value={form.closing_date}
+                onChange={(e) =>
+                  setForm({ ...form, closing_date: e.target.value })
+                }
+                className='w-full border border-[var(--color-border)] rounded px-3 py-2'
+              />
+            </div>
+
+            <div>
+              <label className='block font-bold text-[10px] uppercase text-[var(--color-muted)] mb-1'>
+                Specs document (PDF)
+              </label>
+              {form.document_url && !docFile && (
+                <p className='text-[10px] text-[var(--color-muted)] mb-1'>
+                  Current:{' '}
+                  <a
+                    href={form.document_url}
+                    target='_blank'
+                    rel='noreferrer'
+                    className='underline'>
+                    view file
+                  </a>
+                </p>
+              )}
+              <input
+                type='file'
+                accept='application/pdf'
+                onChange={(e) => setDocFile(e.target.files[0])}
+                className='text-xs'
+              />
+            </div>
+
+            <div className='flex justify-end gap-3 pt-2'>
+              <button
+                type='button'
+                onClick={onClose}
+                className='text-xs font-bold px-4 py-2 text-[var(--color-muted)]'>
+                Cancel
+              </button>
+              <button
+                type='submit'
+                disabled={saving}
+                className='text-xs font-bold px-4 py-2 rounded-md bg-[var(--color-primary)] text-white disabled:opacity-50'>
+                {saving ? 'Saving…' : 'Save Tender'}
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

@@ -9,8 +9,8 @@ const { eyebrow, title, titleAccent, description } = Astro.props;
 ---
 
 <div
-  class='bg-[var(--color-secondary)] text-white py-12 px-6 border-b border-[var(--color-border)]'>
-  <div class='max-w-7xl mx-auto'>
+  class='bg-[var(--color-secondary)] text-white py-12 px-4 md:px-6 border-b border-[var(--color-border)]'>
+  <div class='max-w-7xl text-center mx-auto'>
     <span
       class='text-[10px] font-mono uppercase tracking-[0.3em] text-[var(--color-primary-light)] block mb-1.5'>
       {eyebrow}
@@ -29,7 +29,7 @@ const { eyebrow, title, titleAccent, description } = Astro.props;
     </h1>
     {
       description && (
-        <p class='text-slate-300 max-w-xl text-xs mt-2 leading-relaxed'>
+        <p class='text-slate-300 max-w-xl mx-auto text-center text-xs mt-2 leading-relaxed'>
           {description}
         </p>
       )
