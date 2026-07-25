@@ -1,0 +1,639 @@
+---
+// Import layout
+import Layout from '../../Layout/Layout.astro';
+
+// NOTE: Register/Login/Consultation links below point to placeholder SPMH routes
+// (/portal/register, /portal/login, /telemedicine/start-consult) — NOT to any
+// external hospital's system. Wire these to SPMH's real backend once it exists.
+
+// Virtual specialties data - fees and schedules are PLACEHOLDER examples.
+
+const specialties = [
+  {
+    id: 1,
+    name: 'Ophthalmology',
+    department: 'Eye Care Department',
+    fee: 'KES 800',
+    description:
+      'Secure video consultation with a certified doctor in the EYE department for expert diagnosis and recovery tracking.',
+    schedule: 'Mon - Fri, 8:00 AM - 5:00 PM',
+  },
+  {
+    id: 2,
+    name: 'General Medicine / Outpatient',
+    department: 'Outpatient Department',
+    fee: 'KES 500',
+    description:
+      'Speak with a general practitioner about everyday health concerns, prescriptions, and referrals — no travel required.',
+    schedule: 'Mon - Sat, 8:00 AM - 5:00 PM',
+  },
+  {
+    id: 3,
+    name: 'Obstetrics & Gynaecology',
+    department: 'Maternal & Reproductive Health',
+    fee: 'KES 1,000',
+    description:
+      "Confidential consultations covering prenatal check-ins, women's health concerns, and follow-up care.",
+    schedule: 'Mon - Fri, 9:00 AM - 4:00 PM',
+  },
+  {
+    id: 4,
+    name: 'Paediatrics',
+    department: 'Child Health Department',
+    fee: 'KES 700',
+    description:
+      "Consult a paediatrician about your child's health, growth concerns, or follow-up care from home.",
+    schedule: 'Mon - Fri, 8:00 AM - 5:00 PM',
+  },
+  {
+    id: 5,
+    name: 'Mental Health & Counseling',
+    department: 'Behavioral Health Unit',
+    fee: 'KES 1,200',
+    description:
+      'Confidential, judgement-free sessions with a counselor or mental health professional.',
+    schedule: 'Tue & Thu, 10:00 AM - 4:00 PM',
+  },
+  {
+    id: 6,
+    name: 'Internal Medicine / Chronic Care',
+    department: 'Chronic Disease Management Unit',
+    fee: 'KES 900',
+    description:
+      'Ongoing management for chronic conditions — regular check-ins without the trip to the hospital.',
+    schedule: 'Mon - Fri, 8:00 AM - 5:00 PM',
+  },
+];
+// How it works - 4 steps
+const steps = [
+  {
+    number: '1',
+    title: 'Register Portal',
+    description:
+      'Quickly create your verified patient account to access the telemedicine bookings.',
+  },
+  {
+    number: '2',
+    title: 'Pick Specialty',
+    description:
+      'Choose from our dynamic index of available medical services and consultation fields.',
+  },
+  {
+    number: '3',
+    title: 'Pay & Schedule',
+    description:
+      'Secure your slot with easy M-Pesa options and schedule the perfect virtual call hour.',
+  },
+  {
+    number: '4',
+    title: 'Connect Live',
+    description:
+      'Meet with your doctor through crystal-clear video, and receive virtual prescriptions.',
+  },
+];
+
+// FAQ - draft content, review with clinical/admin team before publishing
+const faqs = [
+  {
+    question: 'Is my information kept private and secure?',
+    answer:
+      'Yes. All consultations and patient data are encrypted and handled under the same confidentiality standards as an in-person visit at SPMH.',
+  },
+  {
+    question: 'What do I need to join a virtual consultation?',
+    answer:
+      'A smartphone, tablet, or computer with a camera and a stable internet or data connection. We recommend testing your connection a few minutes before your scheduled time.',
+  },
+  {
+    question: 'How do I pay for my consultation?',
+    answer:
+      "Payments are made securely via M-Pesa at the time of booking. You'll receive a confirmation once payment is complete.",
+  },
+  {
+    question: 'Can I get a prescription after a virtual consult?',
+    answer:
+      'Yes, where clinically appropriate, your doctor can issue a prescription electronically for you to collect at a pharmacy near you.',
+  },
+  {
+    question: 'What if I have connection issues or miss my appointment?',
+    answer:
+      "Contact our Patient Support Desk and we'll help you reschedule at no extra cost where the issue was on our end.",
+  },
+  {
+    question: 'Is telemedicine a replacement for emergency care?',
+    answer:
+      'No. For emergencies, please call our hospital line directly or go to the nearest emergency facility. Telemedicine is intended for non-emergency consultations and follow-ups.',
+  },
+];
+---
+
+<Layout title="Telemedicine Portal — St. Paul's Mission Hospital">
+  <!-- Hero / Header Band -->
+  <section
+    class='relative flex items-center justify-center text-center px-6 py-20 font-body'
+    style="background: linear-gradient(rgba(13, 71, 161, 0.8), rgba(18, 82, 118, 0.85)), url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1400&q=80') center/cover no-repeat;">
+    <div class='max-w-2xl mx-auto'>
+      <h1
+        class='font-display text-4xl md:text-5xl font-extrabold text-white leading-tight mb-4'>
+        Consult a Doctor from Anywhere
+      </h1>
+      <p class='text-lg text-white/85 mb-8'>
+        Book, pay, and connect with SPMH specialists online — secure, simple,
+        and built for Homa Bay County.
+      </p>
+
+      <!-- Trust badges -->
+      <div
+        class='flex flex-wrap items-center justify-center gap-x-3 gap-y-2 mb-8 text-sm text-white/80'>
+        <span class='inline-flex items-center gap-1.5'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 24 24'
+            fill='currentColor'
+            class='w-4 h-4'>
+            <path
+              fill-rule='evenodd'
+              d='M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z'
+              clip-rule='evenodd'></path>
+          </svg>
+          Fully Encrypted & Secure
+        </span>
+        <span class='text-white/40'>•</span>
+        <span>St Paul's Specialists</span>
+        <span class='text-white/40'>•</span>
+        <span class='inline-flex items-center gap-1.5'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 24 24'
+            fill='currentColor'
+            class='w-4 h-4'>
+            <path
+              fill-rule='evenodd'
+              d='M14.615 1.595a.75.75 0 0 1 .359.852L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262l-10.5 11.25a.75.75 0 0 1-1.272-.71l1.992-7.302H3.75a.75.75 0 0 1-.548-1.262l10.5-11.25a.75.75 0 0 1 .913-.143Z'
+              clip-rule='evenodd'></path>
+          </svg>
+          Instant M-Pesa Payments
+        </span>
+      </div>
+
+      <!-- CTA buttons -->
+      <div class='flex flex-col sm:flex-row gap-4 justify-center'>
+        <a
+          href='/portal/register'
+          class='inline-flex items-center justify-center px-8 py-3 bg-accent hover:opacity-90 text-white font-bold rounded-lg transition-opacity duration-200'>
+          Get Started Today
+        </a>
+        <a
+          href='/portal/login'
+          class='inline-flex items-center justify-center px-8 py-3 bg-white/10 border border-white/40 hover:bg-white/20 text-white font-semibold rounded-lg transition-colors duration-200'>
+          Log In to Portal
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Virtual Specialties: Search + Accordion + Aside (Alpine.js powered) -->
+  <section class='px-6 py-16 md:py-20 font-body bg-gray-300'>
+    <div class='max-w-6xl mx-auto'>
+      <div class='text-center mb-12'>
+        <h2
+          class='font-display text-3xl md:text-4xl font-bold text-slate-900 mb-3'>
+          Virtual Specialties
+        </h2>
+        <p class='text-muted'>
+          Select a dedicated clinical department to see services & book.
+        </p>
+      </div>
+
+      <div
+        x-data={`{
+          search: '',
+          open: null,
+          specialties: ${JSON.stringify(specialties)},
+          get filtered() {
+            return this.specialties.filter(s => s.name.toLowerCase().includes(this.search.toLowerCase()));
+          }
+        }`}
+        x-cloak
+        class='flex flex-col lg:grid lg:grid-cols-12 gap-8 items-start py-8'>
+        <!-- Accordion Column -->
+        <div class='w-full min-w-0 lg:col-span-7'>
+          <!-- Search bar -->
+          <div class='relative mx-auto text-center mb-5 pl-14'>
+            <svg
+              class='absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted'
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
+              stroke-width='2'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                d='M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z'></path>
+            </svg>
+            <input
+              type='text'
+              x-model='search'
+              placeholder='Search medical services...'
+              class='w-full pl-12 pr-4 py-3 border border-border rounded-full bg-white text-slate-900 placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/40 shadow-sm transition-shadow'
+            />
+          </div>
+
+          <!-- Scrollable accordion list -->
+          <div
+            class='specialty-scroll max-h-[560px] overflow-y-auto md:pl-4 pr-3 space-y-4'>
+            <template x-for='s in filtered' :key='s.id'>
+              <div
+                class='bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md  transition-all duration-300'>
+                <button
+                  type='button'
+                  @click='open === s.id ? open = null : open = s.id'
+                  class='w-full flex items-center justify-between gap-4 px-4 md:px-6 py-5 text-left'>
+                  <div class='flex items-center gap-4'>
+                    <div>
+                      <p class='font-bold text-slate-900' x-text='s.name'></p>
+                      <span
+                        class='inline-block bg-surface-2 text-muted font-semibold text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider mt-1'
+                        x-text='s.department'></span>
+                    </div>
+                  </div>
+                  <div class='flex items-center gap-4 flex-shrink-0'>
+                    <div class='text-right hidden sm:block'>
+                      <p
+                        class='text-[10px] text-muted uppercase tracking-wide font-semibold'>
+                        Consultation Fee
+                      </p>
+                      <p
+                        class='text-sm font-bold text-primary mt-0.5'
+                        x-text='s.fee'>
+                      </p>
+                    </div>
+                    <svg
+                      class='w-5 h-5 text-muted transition-transform duration-300'
+                      :class="open === s.id ? 'rotate-180' : ''"
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      stroke='currentColor'
+                      stroke-width='2'>
+                      <path
+                        stroke-linecap='round'
+                        stroke-linejoin='round'
+                        d='M19 9l-7 7-7-7'></path>
+                    </svg>
+                  </div>
+                </button>
+
+                <div
+                  x-show='open === s.id'
+                  x-collapse
+                  class='bg-surface-2/60 border-t border-border'>
+                  <div class='p-6 space-y-4'>
+                    <!-- Mobile price info -->
+                    <div
+                      class='flex justify-between items-center sm:hidden pb-3'>
+                      <span class='text-xs text-muted font-semibold'
+                        >Consultation Fee:</span
+                      >
+                      <span
+                        class='text-sm font-bold text-primary'
+                        x-text='s.fee'></span>
+                    </div>
+
+                    <div class='grid sm:grid-cols-2 gap-4'>
+                      <div class='flex gap-3'>
+                        <svg
+                          class='w-5 h-5 text-primary flex-shrink-0 mt-0.5'
+                          xmlns='http://www.w3.org/2000/svg'
+                          fill='none'
+                          viewBox='0 0 24 24'
+                          stroke='currentColor'
+                          stroke-width='2'>
+                          <path
+                            stroke-linecap='round'
+                            stroke-linejoin='round'
+                            d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+                          ></path>
+                        </svg>
+                        <div>
+                          <p
+                            class='text-xs font-bold text-slate-500 uppercase tracking-wide mb-1'>
+                            Service Description
+                          </p>
+                          <p
+                            class='text-xs text-muted leading-relaxed'
+                            x-text='s.description'>
+                          </p>
+                        </div>
+                      </div>
+                      <div class='flex gap-3'>
+                        <svg
+                          class='w-5 h-5 text-primary flex-shrink-0 mt-0.5'
+                          xmlns='http://www.w3.org/2000/svg'
+                          fill='none'
+                          viewBox='0 0 24 24'
+                          stroke='currentColor'
+                          stroke-width='2'>
+                          <path
+                            stroke-linecap='round'
+                            stroke-linejoin='round'
+                            d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'
+                          ></path>
+                        </svg>
+                        <div>
+                          <p
+                            class='text-xs font-bold text-slate-500 uppercase tracking-wide mb-1'>
+                            Availability & Schedule
+                          </p>
+                          <p
+                            class='text-xs text-muted leading-relaxed'
+                            x-text='s.schedule'>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class='flex justify-end pt-1'>
+                      <a
+                        :href='`/telemedicine/start-consult?service=${s.id}`'
+                        class='inline-flex items-center gap-1.5 bg-primary hover:bg-primary-dark text-white font-semibold px-6 py-2.5 rounded-lg text-xs transition-colors duration-200'>
+                        <span>Proceed to Consultation</span>
+                        <svg
+                          class='w-3.5 h-3.5'
+                          xmlns='http://www.w3.org/2000/svg'
+                          fill='none'
+                          viewBox='0 0 24 24'
+                          stroke='currentColor'
+                          stroke-width='2'>
+                          <path
+                            stroke-linecap='round'
+                            stroke-linejoin='round'
+                            d='M17 8l4 4m0 0l-4 4m4-4H3'></path>
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+            <div
+              x-show='filtered.length === 0'
+              class='text-center py-12 bg-white rounded-xl border border-dashed border-border'>
+              <svg
+                class='w-10 h-10 text-muted mx-auto mb-3'
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke='currentColor'
+                stroke-width='1.5'>
+                <path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  d='M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z'></path>
+              </svg>
+              <p class='font-bold text-slate-700 text-sm'>No Services Found</p>
+              <p class='text-xs text-muted mt-1'>
+                Try searching for other departments or keywords.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aside: Premium dark sidebar -->
+        <aside class='w-full lg:col-span-5 lg:sticky lg:top-6 self-start'>
+          <div
+            class='relative p-4 md:p-6 rounded-2xl overflow-hidden space-y-8'>
+            <!-- Decorative glass blur circle -->
+            
+
+            <div class='relative z-10 space-y-4'>
+              <img
+                src='/gallery/telemed.jpg'
+                alt='Patient using telemedicine portal'
+                class='w-full aspect-video object-cover rounded-xl transition-transform duration-300'
+              />
+              <h3 class='font-display text-2xl font-extrabold tracking-tight'>
+                Access Your Patient Portal
+              </h3>
+              <p class='text-sm leading-relaxed'>
+                Join thousands of patients enjoying smooth digital care. Access
+                electronic prescriptions, checkup reminders, and specialized
+                online doctors instantly.
+              </p>
+            </div>
+
+            <div class='relative z-10 space-y-3'>
+              <a
+                href='/portal/register'
+                class='flex items-center justify-center gap-2 w-full btn-primary'>
+                <svg
+                  class='w-4 h-4'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                  stroke-width='2'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    d='M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z'
+                  ></path>
+                </svg>
+                Create Patient Account
+              </a>
+              <a
+                href='/portal/login'
+                class='flex items-center justify-center gap-2 btn-secondary text-sm'>
+                <svg
+                  class='w-4 h-4'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                  stroke-width='2'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    d='M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1'
+                  ></path>
+                </svg>
+                Sign In to Portal
+              </a>
+            </div>
+
+            <div class='relative z-10 border-t border-white/10 pt-6 space-y-4'>
+              <p
+                class='text-xs font-semibold uppercase tracking-wider'>
+                Patient Support Desk
+              </p>
+              <div class='space-y-3 text-sm'>
+                <a
+                  href='tel:+254111817447'
+                  class='flex items-center'>
+                  <span
+                    class='w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center mr-3 flex-shrink-0'>
+                    <svg
+                      class='w-3.5 h-3.5'
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='currentColor'
+                      viewBox='0 0 24 24'>
+                      <path
+                        fill-rule='evenodd'
+                        d='M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 006.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z'
+                        clip-rule='evenodd'></path>
+                    </svg>
+                  </span>
+                  <span>+254 111 817447</span>
+                </a>
+                <a
+                  href='mailto:telemedicine@spmh.co.ke'
+                  class='flex items-center '>
+                  <span
+                    class='w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center mr-3 flex-shrink-0'>
+                    <svg
+                      class='w-3.5 h-3.5'
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='currentColor'
+                      viewBox='0 0 24 24'>
+                      <path
+                        d='M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z'
+                      ></path>
+                      <path
+                        d='M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z'
+                      ></path>
+                    </svg>
+                  </span>
+                  <span class='truncate'>telemedicine@spmh.co.ke</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+ 
+
+  <!-- How Telemedicine Works -->
+  <section class='bg-white px-6 py-16 md:py-20 font-body'>
+    <div class='max-w-5xl mx-auto'>
+      <div class='text-center mb-16'>
+        <div class='h-1 w-16 bg-accent mx-auto mb-6'></div>
+        <h2
+          class='font-display text-3xl md:text-4xl font-bold text-slate-900 mb-3'>
+          How Telemedicine Works
+        </h2>
+        <p class='text-muted'>
+          Get set up for your digital consult in four simple and quick stages.
+        </p>
+      </div>
+
+      <div class='grid sm:grid-cols-2 md:grid-cols-4 gap-8'>
+        {
+          steps.map((step) => (
+            <div class='text-center'>
+              <div class='w-12 h-12 rounded-full bg-primary text-white font-bold flex items-center justify-center mx-auto mb-4'>
+                {step.number}
+              </div>
+              <h3 class='font-bold text-slate-900 mb-2 text-sm'>
+                {step.title}
+              </h3>
+              <p class='text-xs text-muted leading-relaxed'>
+                {step.description}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class='bg-surface px-6 py-16 md:py-20 font-body'>
+    <div class='max-w-3xl mx-auto'>
+      <div class='text-center mb-12'>
+        <div class='h-1 w-16 bg-accent mx-auto mb-6'></div>
+        <h2 class='font-display text-3xl md:text-4xl font-bold text-slate-900'>
+          Frequently Asked Questions
+        </h2>
+      </div>
+
+      <div class='space-y-3'>
+        {
+          faqs.map((faq) => (
+            <details class='group bg-white border border-border rounded-lg'>
+              <summary class='flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none'>
+                <span class='font-semibold text-slate-900 text-sm'>
+                  {faq.question}
+                </span>
+                <svg
+                  class='w-5 h-5 text-muted flex-shrink-0 transition-transform group-open:rotate-180'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                  stroke-width='2'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    d='M19 9l-7 7-7-7'
+                  />
+                </svg>
+              </summary>
+              <p class='px-6 pb-5 text-sm text-muted leading-relaxed'>
+                {faq.answer}
+              </p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <style>
+    section {
+      @apply transition-all duration-300;
+    }
+    /* Remove default marker on <summary> across browsers */
+    summary::-webkit-details-marker {
+      display: none;
+    }
+    /* Hide Alpine-powered elements until Alpine initializes */
+    [x-cloak] {
+      display: none !important;
+    }
+    /* Custom scrollbar for the specialties accordion */
+    .specialty-scroll {
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-primary) var(--color-surface-2);
+    }
+    .specialty-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+    .specialty-scroll::-webkit-scrollbar-track {
+      background: var(--color-surface-2);
+      border-radius: 9999px;
+    }
+    .specialty-scroll::-webkit-scrollbar-thumb {
+      background: var(--color-primary);
+      border-radius: 9999px;
+    }
+    .specialty-scroll::-webkit-scrollbar-thumb:hover {
+      background: var(--color-primary-dark);
+    }
+  </style>
+
+  <!-- Alpine.js: Collapse plugin must load before Alpine core -->
+  <script
+    is:inline
+    defer
+    src='https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js'
+  ></script>
+  <script
+    is:inline
+    defer
+    src='https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js'></script>
+</Layout>
