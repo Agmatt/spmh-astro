@@ -1,0 +1,284 @@
+---
+import '../../styles/global.css';
+// Data below is PLACEHOLDER for design/demo purposes — replace once Supabase backend exists.
+
+const patient = {
+  name: 'Grace Achieng',
+  phone: '+254 712 345 678',
+  email: 'grace.achieng@example.com',
+};
+
+const appointments = [
+  {
+    id: 1,
+    specialty: 'Ophthalmology',
+    date: 'Wed, 6 Aug 2026',
+    time: '10:30 AM',
+    doctor: 'Dr. Otieno',
+    joinable: true,
+  },
+  {
+    id: 2,
+    specialty: 'General Medicine / Outpatient',
+    date: 'Mon, 11 Aug 2026',
+    time: '2:00 PM',
+    doctor: 'Dr. Wanjiru',
+    joinable: false,
+  },
+];
+
+const prescriptions = [
+  {
+    id: 1,
+    medication: 'Amoxicillin 500mg',
+    prescribedBy: 'Dr. Otieno',
+    date: '30 Jul 2026',
+    status: 'Ready for pickup',
+  },
+  {
+    id: 2,
+    medication: 'Paracetamol 500mg',
+    prescribedBy: 'Dr. Wanjiru',
+    date: '18 Jul 2026',
+    status: 'Collected',
+  },
+];
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>My Portal — St. Paul's Mission Hospital</title>
+  </head>
+  <body class='font-body antialiased text-slate-900 bg-surface min-h-screen'>
+    <!-- Minimal portal nav -->
+    <header class='bg-white border-b border-border px-6 py-4'>
+      <div class='max-w-5xl mx-auto flex items-center justify-between'>
+        <div>
+          <p
+            class='font-display text-base font-bold text-secondary leading-tight'>
+            ST. PAUL'S MISSION HOSPITAL
+          </p>
+          <p class='text-[10px] text-muted uppercase tracking-widest'>
+            Patient Portal
+          </p>
+        </div>
+        <a
+          href='/portal/login'
+          class='text-sm font-semibold text-muted hover:text-accent transition-colors flex items-center gap-1.5'>
+          Sign Out
+          <svg
+            class='w-4 h-4'
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            stroke='currentColor'
+            stroke-width='2'>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              d='M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1'
+            ></path>
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <main class='max-w-5xl mx-auto px-6 py-10'>
+      <!-- Welcome + Book CTA -->
+      <div
+        class='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10'>
+        <div>
+          <h1
+            class='font-display text-2xl md:text-3xl font-bold text-slate-900'>
+            Welcome back, {patient.name.split(' ')[0]}
+          </h1>
+          <p class='text-sm text-muted mt-1'>
+            Here's what's happening with your care.
+          </p>
+        </div>
+        <a
+          href='/telemedicine-portal'
+          class='inline-flex items-center justify-center gap-2 bg-accent hover:opacity-90 text-white font-bold px-6 py-3 rounded-xl transition-opacity duration-200 whitespace-nowrap'>
+          <svg
+            class='w-4 h-4'
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            stroke='currentColor'
+            stroke-width='2'>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              d='M12 4v16m8-8H4'></path>
+          </svg>
+          Book a New Consultation
+        </a>
+      </div>
+
+      <div class='grid lg:grid-cols-3 gap-8'>
+        <!-- Left: Appointments + Prescriptions -->
+        <div class='lg:col-span-2 space-y-8'>
+          <!-- Upcoming Appointments -->
+          <section>
+            <h2 class='font-display text-lg font-bold text-slate-900 mb-4'>
+              Upcoming Appointments
+            </h2>
+            <div class='space-y-4'>
+              {
+                appointments.length > 0 ? (
+                  appointments.map((appt) => (
+                    <div class='bg-white border border-border rounded-2xl p-6 flex items-center justify-between gap-4'>
+                      <div class='flex items-center gap-4'>
+                        <div class='w-11 h-11 rounded-lg bg-primary/10 text-primary flex items-center justify-center flex-shrink-0'>
+                          <svg
+                            class='w-5 h-5'
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            stroke='currentColor'
+                            stroke-width='2'>
+                            <path
+                              stroke-linecap='round'
+                              stroke-linejoin='round'
+                              d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'
+                            />
+                          </svg>
+                        </div>
+                        <div>
+                          <p class='font-bold text-slate-900 text-sm'>
+                            {appt.specialty}
+                          </p>
+                          <p class='text-xs text-muted mt-0.5'>
+                            {appt.date} · {appt.time} · {appt.doctor}
+                          </p>
+                        </div>
+                      </div>
+                      {appt.joinable ? (
+                        <a
+                          href={`/telemedicine/start-consult?appointment=${appt.id}`}
+                          class='flex-shrink-0 bg-primary hover:bg-primary-dark text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-colors duration-200'>
+                          Join Call
+                        </a>
+                      ) : (
+                        <span class='flex-shrink-0 bg-surface-2 text-muted text-xs font-semibold px-4 py-2.5 rounded-lg cursor-not-allowed'>
+                          Not yet time
+                        </span>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div class='bg-white border border-dashed border-border rounded-2xl p-8 text-center'>
+                    <p class='text-sm font-semibold text-slate-700'>
+                      No upcoming appointments
+                    </p>
+                    <p class='text-xs text-muted mt-1'>
+                      Book a consultation to get started.
+                    </p>
+                  </div>
+                )
+              }
+            </div>
+          </section>
+
+          <!-- Prescriptions -->
+          <section>
+            <h2 class='font-display text-lg font-bold text-slate-900 mb-4'>
+              Prescriptions
+            </h2>
+            <div
+              class='bg-white border border-border rounded-2xl overflow-hidden divide-y divide-border'>
+              {
+                prescriptions.length > 0 ? (
+                  prescriptions.map((rx) => (
+                    <div class='flex items-center justify-between gap-4 px-6 py-4'>
+                      <div class='flex items-center gap-4'>
+                        <div class='w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center flex-shrink-0'>
+                          <svg
+                            class='w-5 h-5'
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            stroke='currentColor'
+                            stroke-width='2'>
+                            <path
+                              stroke-linecap='round'
+                              stroke-linejoin='round'
+                              d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+                            />
+                          </svg>
+                        </div>
+                        <div>
+                          <p class='font-semibold text-slate-900 text-sm'>
+                            {rx.medication}
+                          </p>
+                          <p class='text-xs text-muted mt-0.5'>
+                            {rx.prescribedBy} · {rx.date}
+                          </p>
+                        </div>
+                      </div>
+                      <span
+                        class={`flex-shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full ${rx.status === 'Ready for pickup' ? 'bg-accent/10 text-accent' : 'bg-surface-2 text-muted'}`}>
+                        {rx.status}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <div class='p-8 text-center'>
+                    <p class='text-sm font-semibold text-slate-700'>
+                      No prescriptions yet
+                    </p>
+                  </div>
+                )
+              }
+            </div>
+          </section>
+        </div>
+
+        <!-- Right: Profile -->
+        <div class='lg:col-span-1'>
+          <section
+            class='bg-white border border-border rounded-2xl p-6 lg:sticky lg:top-6'>
+            <h2 class='font-display text-lg font-bold text-slate-900 mb-5'>
+              Profile
+            </h2>
+            <div class='space-y-4 mb-6'>
+              <div>
+                <p
+                  class='text-[10px] text-muted uppercase tracking-wide font-semibold mb-0.5'>
+                  Full Name
+                </p>
+                <p class='text-sm font-medium text-slate-900'>{patient.name}</p>
+              </div>
+              <div>
+                <p
+                  class='text-[10px] text-muted uppercase tracking-wide font-semibold mb-0.5'>
+                  Phone Number
+                </p>
+                <p class='text-sm font-medium text-slate-900'>
+                  {patient.phone}
+                </p>
+              </div>
+              <div>
+                <p
+                  class='text-[10px] text-muted uppercase tracking-wide font-semibold mb-0.5'>
+                  Email
+                </p>
+                <p class='text-sm font-medium text-slate-900'>
+                  {patient.email}
+                </p>
+              </div>
+            </div>
+            <a
+              href='/portal/profile/edit'
+              class='block w-full text-center border border-primary text-primary-dark font-semibold py-2.5 rounded-lg text-sm hover:bg-primary/5 transition-colors duration-200'>
+              Edit Profile
+            </a>
+          </section>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
