@@ -1,0 +1,187 @@
+---
+import '../../styles/global.css';
+
+const faqs = [
+  {
+    category: 'Applying',
+    items: [
+      {
+        q: 'Is there a fee to apply for a clinical rotation or attachment?',
+        a: "No. Submitting an attachment application through this site is free. If any department-specific costs apply (for example, materials for a specialized rotation), HR will explain these directly during the review process — never as a condition of applying.",
+      },
+      {
+        q: 'Do I need a letter of introduction from my institution?',
+        a: 'Most institutions require one. You can describe your institutional requirements in the cover letter field of the application form, and HR will follow up if a formal letter is still needed before your attachment is confirmed.',
+      },
+      {
+        q: 'Can I choose which department I am placed in?',
+        a: 'You can request a department or rotation type on the application form. Final placement depends on departmental capacity and the scope of your course requirements, and will be confirmed by HR.',
+      },
+      {
+        q: 'How long does it take to hear back after applying?',
+        a: 'Review times vary by department and season. You can check your application status at any time using your reference code on the Applicant Status Tracker.',
+      },
+    ],
+  },
+  {
+    category: 'During Your Attachment',
+    items: [
+      {
+        q: 'Is the attachment paid, or is a stipend provided?',
+        a: 'Clinical and administrative attachments are primarily for training and academic credit. Any stipend arrangements, where applicable, are confirmed directly with HR before your start date rather than assumed from this page.',
+      },
+      {
+        q: 'Is accommodation provided?',
+        a: "Accommodation is not guaranteed as part of the attachment. If you need help identifying nearby housing options, mention this in your cover letter and HR can advise based on what's typically available for students in the area.",
+      },
+      {
+        q: 'What happens if my proposed dates need to change?',
+        a: 'Contact HR as early as possible. Start and end dates submitted on the form are requests, not confirmed bookings, so changes are easiest to accommodate before a placement is finalized.',
+      },
+      {
+        q: 'Will I receive a certificate or letter of completion?',
+        a: 'Yes — departments issue a completion letter or certificate at the end of a successfully completed attachment, which you can use for your institution\'s records.',
+      },
+    ],
+  },
+  {
+    category: 'Confidentiality & Conduct',
+    items: [
+      {
+        q: 'Is my personal information kept confidential?',
+        a: 'Yes. Application and inquiry data is stored securely and is only accessible to authorized HR and Administration staff. See our Privacy Policy for full details.',
+      },
+      {
+        q: 'What confidentiality standards apply once I start my attachment?',
+        a: 'Attachees are held to the same patient confidentiality standards as SPMH staff. This is a condition of every clinical or administrative placement — see our Terms of Attachment for details.',
+      },
+    ],
+  },
+  {
+    category: 'Institutions & Research Partnerships',
+    items: [
+      {
+        q: 'Can international institutions apply for a partnership?',
+        a: 'Yes. We work with local, regional, and international institutions. Select the appropriate scope on the Institutional Partnership Inquiry form and describe your goals — including any research or exchange interests.',
+      },
+      {
+        q: 'How do we start a formal MOU with SPMH?',
+        a: 'Submit an Institutional Partnership Inquiry and select "Formal MOU / Long-Term Partnership" as the inquiry type. Our administration team will reach out to discuss scope, timelines, and next steps.',
+      },
+      {
+        q: 'Does SPMH support joint research projects, not just clinical placements?',
+        a: 'Yes — research collaboration, particularly in community and rural health, is one of the partnership pathways we are actively growing under our current institutional roadmap. Describe your research interest in the inquiry form and our team will follow up.',
+      },
+      {
+        q: 'Who do we contact for a partnership already underway?',
+        a: 'Reach out directly to the SPMH Human Resources Directorate for any existing or in-progress partnership matters.',
+      },
+    ],
+  },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQs | SPMH Academics, Research & Internships</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased">
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <a href="/academics-and-internships" class="text-slate-500 hover:text-slate-800 text-xs sm:text-sm font-medium flex items-center gap-1 transition-colors">
+          ← Back to Academics Hub
+        </a>
+        <span class="font-bold text-slate-900 tracking-tight text-xs sm:text-sm">
+          FAQs
+        </span>
+      </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <div class="mb-12 text-center space-y-3">
+        <span class="text-primary font-semibold text-xs uppercase tracking-wider">
+          Common Questions
+        </span>
+        <h1 class="font-serif text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Frequently Asked Questions
+        </h1>
+        <p class="text-sm sm:text-base text-slate-600 max-w-xl mx-auto">
+          Answers for students applying for an attachment and institutions
+          exploring a partnership with SPMH. Can&apos;t find what you&apos;re looking
+          for? Email
+          <a href="mailto:hr@spmh.co.ke" class="text-primary font-semibold underline">
+            hr@spmh.co.ke
+          </a>.
+        </p>
+      </div>
+
+      <div class="space-y-10">
+        {faqs.map((section) => (
+          <div>
+            <h2 class="text-xs font-bold text-primary uppercase tracking-wider mb-3">
+              {section.category}
+            </h2>
+            <div class="bg-white rounded-2xl border border-slate-200 divide-y divide-slate-100 overflow-hidden">
+              {section.items.map((item, i) => (
+                <div x-data="{ open: false }" class="px-4 sm:px-6">
+                  <button
+                    type="button"
+                    @click="open = !open"
+                    class="w-full flex items-center justify-between gap-4 py-4 text-left">
+                    <span class="text-sm sm:text-base font-medium text-secondary">
+                      {item.q}
+                    </span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5 shrink-0 text-slate-400 transition-transform"
+                      :class="open ? 'rotate-180' : ''"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </button>
+                  <div
+                    x-show="open"
+                    x-transition:enter="transition ease-out duration-150"
+                    x-transition:enter-start="opacity-0 -translate-y-1"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    class="pb-4 text-sm text-slate-600 leading-relaxed">
+                    {item.a}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-14 text-center  p-8 sm:p-10 text-white">
+        <h3 class="font-serif text-xl font-bold mb-2">Still have questions?</h3>
+        <p class="text-sm text-slate-900 mb-6">
+          Reach our HR & Administration team directly, or head back to the
+          hub to apply or start a partnership inquiry.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-3">
+          <a
+            href="mailto:hr@spmh.co.ke"
+            class="btn-primary px-6 py-2.5 rounded-xl transition-colors text-sm">
+            Email HR
+          </a>
+          <a
+            href="/academics-and-internships"
+            class="btn-secondary px-6 py-2.5 rounded-xl transition-colors text-sm">
+            Back to Academics Hub
+          </a>
+        </div>
+      </div>
+    </main>
+
+  </body>
+</html>

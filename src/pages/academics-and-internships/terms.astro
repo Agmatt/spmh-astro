@@ -1,0 +1,168 @@
+---
+import '../../styles/global.css';
+import AcademicsFooter from '../../components/AcademicsFooter.astro';
+
+const lastUpdated = 'August 2026';
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Terms of Attachment | SPMH Academics & Internships</title>
+  </head>
+  <body class='bg-slate-50 text-slate-900 antialiased'>
+    <header
+      class='sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200'>
+      <div
+        class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between'>
+        <a
+          href='/academics-and-internships'
+          class='text-slate-500 hover:text-slate-800 text-xs sm:text-sm font-medium flex items-center gap-1 transition-colors'>
+          ← Back to Academics Hub
+        </a>
+        <span class='font-bold text-slate-900 tracking-tight text-xs sm:text-sm'
+          >Terms of Attachment</span
+        >
+      </div>
+    </header>
+
+    <main class='max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20'>
+      <div class='mb-10 space-y-2'>
+        <h1
+          class='text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight'>
+          Terms of Attachment
+        </h1>
+        <p class='text-sm text-slate-500'>Last updated: {lastUpdated}</p>
+        <p class='text-sm text-slate-600'>
+          These terms govern clinical rotations, administrative attachments, and
+          internships undertaken at St. Paul's Mission Hospital (SPMH) under the
+          Academics & Internships program.
+        </p>
+      </div>
+
+      <div
+        class='prose prose-slate max-w-none space-y-10 text-sm sm:text-base leading-relaxed text-slate-700'>
+        <section class='space-y-3'>
+          <h2 class='text-lg font-bold text-slate-900'>1. Eligibility</h2>
+          <p>
+            Applicants must be currently enrolled at a recognized academic
+            institution and submit an attachment request through the official
+            application form, sponsored or confirmed by their home institution
+            where required.
+          </p>
+        </section>
+
+        <section class='space-y-3'>
+          <h2 class='text-lg font-bold text-slate-900'>
+            2. Application & Placement
+          </h2>
+          <ul class='list-disc pl-5 space-y-1.5'>
+            <li>
+              Submitting an application does not guarantee placement.
+              Attachments are subject to departmental capacity and HR approval.
+            </li>
+            <li>
+              Proposed start and end dates are requests; SPMH will confirm final
+              dates based on departmental scheduling.
+            </li>
+            <li>
+              Applicants will receive a unique reference code to track their
+              application status.
+            </li>
+          </ul>
+        </section>
+
+        <section class='space-y-3'>
+          <h2 class='text-lg font-bold text-slate-900'>
+            3. Conduct & Professional Standards
+          </h2>
+          <p>
+            Attachees are expected to adhere to SPMH's professional conduct
+            standards, dress code, and departmental protocols at all times.
+            Attachees must follow the direction of their assigned clinical or
+            administrative preceptor and comply with all applicable hospital
+            policies.
+          </p>
+        </section>
+
+        <section class='space-y-3'>
+          <h2 class='text-lg font-bold text-slate-900'>4. Confidentiality</h2>
+          <p>
+            Attachees will have access to sensitive patient and institutional
+            information in the course of their placement. Strict confidentiality
+            must be maintained at all times, in line with applicable patient
+            privacy and data protection obligations. Any breach of
+            confidentiality may result in immediate termination of the
+            attachment.
+          </p>
+        </section>
+
+        <section class='space-y-3'>
+          <h2 class='text-lg font-bold text-slate-900'>
+            5. Scope of Supervision
+          </h2>
+          <p>
+            Clinical rotations are conducted under the direct supervision of
+            certified SPMH clinical preceptors. Attachees may not perform any
+            clinical procedure beyond their training level or without direct
+            supervision.
+          </p>
+        </section>
+
+        <section class='space-y-3'>
+          <h2 class='text-lg font-bold text-slate-900'>6. Liability</h2>
+          <p>
+            Attachees participate in the program at their own risk. SPMH expects
+            sponsoring institutions to maintain appropriate student insurance
+            coverage for the duration of the attachment period.
+          </p>
+        </section>
+
+        <section class='space-y-3'>
+          <h2 class='text-lg font-bold text-slate-900'>
+            7. Termination of Attachment
+          </h2>
+          <p>
+            SPMH reserves the right to end an attachment early in cases of
+            misconduct, breach of confidentiality, or failure to meet
+            professional standards, with notice to the attachee's home
+            institution where applicable.
+          </p>
+        </section>
+
+        <section class='space-y-3'>
+          <h2 class='text-lg font-bold text-slate-900'>
+            8. Institutional Partnerships
+          </h2>
+          <p>
+            Partnership inquiries submitted by academic institutions are
+            reviewed by SPMH Administration and may lead to a formal Memorandum
+            of Understanding (MOU) governing the terms of an ongoing attachment
+            pipeline.
+          </p>
+        </section>
+
+        <section class='space-y-3'>
+          <h2 class='text-lg font-bold text-slate-900'>9. Contact</h2>
+          <p>
+            Questions about these terms should be directed to SPMH Human
+            Resources at
+            <a
+              href='mailto:hr@spmh.co.ke'
+              class='text-blue-600 font-semibold underline'>hr@spmh.co.ke</a
+            >.
+          </p>
+        </section>
+
+        <p class='text-xs text-slate-400 pt-6 border-t border-slate-200'>
+          This is a general institutional template. It should be reviewed by a
+          qualified legal professional before being treated as a binding
+          agreement.
+        </p>
+      </div>
+    </main>
+
+    <AcademicsFooter />
+  </body>
+</html>
