@@ -1,11 +1,36 @@
 ---
 import Layout from '../../Layout/Layout.astro';
 
+// const directors = [
+//   { name: 'Fr. Romanus', role: 'Hospital Chaplain', img: '/board/3.jpg' },
+//   { name: 'Mr. Charles Saka', role: 'Chair, B.O.M', img: '/board/5.jpg' },
+//   { name: 'Mary Achieng', role: 'Board Member', img: '/board/2.jpg' },
+//   { name: 'J Okoth', role: 'Board Member', img: '/board/1.jpg' },
+// ];
+
+
 const directors = [
-  { name: 'Fr. Romanus', role: 'Hospital Chaplain', img: '/board/3.jpg' },
-  { name: 'Mr. Charles Saka', role: 'Chair, B.O.M', img: '/board/5.jpg' },
-  { name: 'Mary Achieng', role: 'Board Member', img: '/board/2.jpg' },
-  { name: 'J Okoth', role: 'Board Member', img: '/board/1.jpg' },
+  {
+    name: "Dr. Jane Doe",
+    role: "Chief Executive Officer",
+    img: "/images/team/jane.jpg",
+  },
+  {
+    name: "John Smith",
+    role: "Head of Finance",
+    img: "/images/team/john.jpg",
+  },
+  // Add as many members as you need following the same pattern:
+  {
+    name: "Dr. Sarah Jenkins",
+    role: "Medical Director",
+    img: "/images/team/sarah.jpg",
+  },
+  {
+    name: "Michael Onyango",
+    role: "Operations Manager",
+    img: "/images/team/michael.jpg",
+  }
 ];
 ---
 
@@ -187,36 +212,32 @@ const directors = [
 
   <!-- team -->
   <section id='executive-team' class='py-12 bg-white'>
-    <div class='container mx-auto px-2 md:px-4 max-w-6xl'>
-      <div
-        class='flex flex-col md:flex-row items-baseline justify-between mb-12 border-b border-slate-100 pb-6'>
-        <div>
-          <span
-            class='text-[9px] font-black uppercase tracking-[0.5em] text-primary mb-2 block'
-            >Leadership</span
-          >
-          <h2
-            class='text-3xl md:text-4xl font-bold tracking-tighter text-slate-900'>
-            Executive Directors
-          </h2>
-        </div>
+    <div class='container mx-auto px-4 max-w-5xl'>
+      <div class='text-center mb-12'>
+        <span
+          class='text-[9px] font-black uppercase tracking-[0.5em] text-primary mb-2 block'>
+          Leadership
+        </span>
+        <h2
+          class='text-3xl md:text-4xl font-bold tracking-tighter text-slate-900'>
+          Executive Directors
+        </h2>
       </div>
 
       <div class='grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8'>
         {
           directors.map((member) => (
-            <div class='group cursor-pointer'>
-              <div class='relative aspect-square overflow-hidden rounded-xl bg-slate-50 mb-4 shadow-sm group-hover:shadow-md transition-all duration-500'>
+            <div class='group cursor-pointer text-center'>
+              <div class='relative w-36 h-36 md:w-44 md:h-44 mx-auto overflow-hidden rounded-full bg-slate-50 mb-4 shadow-sm group-hover:shadow-md transition-all duration-500'>
                 <img
                   src={member.img}
                   alt={member.name}
                   class='w-full h-full object-cover object-top transition-all duration-700 ease-in-out group-hover:scale-105'
                   loading='lazy'
                 />
-                <div class='absolute inset-0 bg-gradient-to-t from-slate-900/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity' />
               </div>
 
-              <div class='space-y-0.5'>
+              <div class='space-y-1'>
                 <h3 class='text-base md:text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-tight'>
                   {member.name}
                 </h3>

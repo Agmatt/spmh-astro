@@ -10,7 +10,7 @@ const navGroups = [
       { label: 'Chaplaincy', href: '/about-us/chaplaincy' },
       { label: 'Strategic Plan', href: '/about-us/strategic-plan' },
       { label: 'Contact', href: '/about-us/contact' },
-      { label: 'Tenders', href: '/about-us/tenders'},
+      { label: 'Tenders', href: '/about-us/tenders' },
     ],
   },
   {
@@ -29,7 +29,6 @@ const navGroups = [
 <!--
   NOTE: Requires Alpine.js to be loaded once globally (e.g. in your base Layout):
   <script is:inline src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  If you already load Alpine for the admin dashboard / Keystatic bits, you don't need to add this again.
 -->
 <nav
   x-data='{ mobileOpen: false, openDropdown: null, mobOpenDropdown: null }'
@@ -40,7 +39,7 @@ const navGroups = [
       <img
         src='/logos/logo.png'
         alt='SPMH Logo'
-        loading="eager"
+        loading='eager'
         class='h-12 w-auto transition-transform duration-300 group-hover:scale-105'
       />
       <div class='flex flex-col'>
@@ -113,9 +112,9 @@ const navGroups = [
         Get Involved
       </a>
       <a
-        href='/academics-and-internships'
+        href='/academics-and-partnerships'
         class='text-slate-600 font-bold text-sm hover:text-[#125276] py-4 transition-colors'>
-        Academics & Internships
+        Academics & Partnerships
       </a>
       <a
         href='/news-and-media'
@@ -143,7 +142,8 @@ const navGroups = [
     <div class='lg:hidden flex items-center'>
       <button
         @click='mobileOpen = !mobileOpen'
-        class='relative w-10 h-10 flex items-center justify-center text-[#125276] hover:bg-slate-50 rounded-lg focus:outline-none'
+        class='relative w-10 h-10 flex items-center justify-center text-[#125276] hover:bg-slate-50 rounded-lg focus:outline-none z-[120]'
+        :class="mobileOpen ? 'text-white' : 'text-[#125276]'"
         aria-label='Toggle navigation menu'
         x-bind:aria-expanded='mobileOpen'>
         <span class='sr-only'>Toggle menu</span>
@@ -163,74 +163,117 @@ const navGroups = [
     </div>
   </div>
 
-  <!-- Mobile menu panel -->
-  <div
-    x-show='mobileOpen'
-    x-transition:enter='transition ease-out duration-200'
-    x-transition:enter-start='opacity-0 -translate-y-2'
-    x-transition:enter-end='opacity-100 translate-y-0'
-    x-transition:leave='transition ease-in duration-150'
-    x-transition:leave-start='opacity-100 translate-y-0'
-    x-transition:leave-end='opacity-0 -translate-y-2'
-    style='display:none'
-    class='lg:hidden bg-[#FDFCF8] border-t border-slate-100 shadow-inner max-h-[calc(100vh-4rem)] overflow-y-auto'>
-    <div class='px-6 py-8 space-y-4'>
-      {
-        navGroups.map((group) => (
-          <div class='space-y-2'>
-            <button
-              @click={`mobOpenDropdown = mobOpenDropdown === '${group.key}' ? null : '${group.key}'`}
-              class='w-full flex justify-between items-center p-4 rounded-xl bg-white border border-slate-100 text-[#125276] font-black uppercase text-sm'>
-              {group.label}
-              <svg
-                class='w-5 h-5 transition-transform duration-300'
-                x-bind:class={`{ 'rotate-180': mobOpenDropdown === '${group.key}' }`}
-                fill='none'
-                stroke='currentColor'
-                viewBox='0 0 24 24'>
-                <path stroke-width='2' d='M19 9l-7 7-7-7' />
-              </svg>
-            </button>
-            <ul
-              x-show={`mobOpenDropdown === '${group.key}'`}
-              x-transition
-              style='display:none'
-              class='px-4 py-2 space-y-3 bg-white/50 rounded-b-xl border-x border-b border-slate-50'>
-              {group.items.map((item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    class='block py-2 text-slate-600 text-sm font-medium'>
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
-      }
+  <!-- Mobile Off-Canvas Drawer Container -->
+  <div class='lg:hidden'>
+    <!-- Backdrop overlay -->
+    <div
+      x-show='mobileOpen'
+      x-transition:enter='transition-opacity ease-linear duration-300'
+      x-transition:enter-start='opacity-0'
+      x-transition:enter-end='opacity-100'
+      x-transition:leave='transition-opacity ease-linear duration-300'
+      x-transition:leave-start='opacity-100'
+      x-transition:leave-end='opacity-0'
+      @click='mobileOpen = false; mobOpenDropdown = null'
+      style='display:none'
+      class='fixed inset-0 bg-slate-700/50 backdrop-blur-sm z-[105]'>
+    </div>
 
-      <a
-        href='/get-involved'
-        class='block p-4 text-[#125276] font-black uppercase tracking-tighter text-sm'>
-        Get Involved
-      </a>
-      <a
-        href='/academics-and-internships'
-        class='block p-4 text-[#125276] font-black uppercase tracking-tighter text-sm'>
-        Academics & Internships
-      </a>
-      <a
-        href='/news-and-media'
-        class='block p-4 text-[#125276] font-black uppercase tracking-tighter text-sm'>
-        News & Media
-      </a>
+    <!-- Full-height right-side slide-in panel (no floating card styling) -->
+    <div
+      x-show='mobileOpen'
+      x-transition:enter='transition ease-in-out duration-300 transform'
+      x-transition:enter-start='translate-x-full'
+      x-transition:enter-end='translate-x-0'
+      x-transition:leave='transition ease-in-out duration-300 transform'
+      x-transition:leave-start='translate-x-0'
+      x-transition:leave-end='translate-x-full'
+      style='display:none'
+      class='fixed inset-y-0 right-0 w-full max-w-xs bg-gray-800/70 text-white z-[110] flex flex-col'>
+      <!-- Drawer Header with Institutional Branding & Title -->
+      <div class='px-6 py-5 flex items-center justify-between'>
+        <div class='flex items-center space-x-2'>
+          <span class='text-xs uppercase tracking-widest'
+            >ST. Paul's Mission Hospital</span
+          >
+        </div>
+      </div>
 
-      <a
-        href='tel:+254111817447'
-        class='block w-full text-center p-5 bg-[#860f0f] text-white rounded-2xl font-black uppercase tracking-[0.2em] text-xs shadow-lg mt-6'>
-        Call Emergency
-      </a>
+      <!-- Drawer Content Scrollable Area -->
+      <div class='flex-1 overflow-y-auto px-6 py-4 space-y-4'>
+        <!-- Home Link First -->
+        <a
+          href='/'
+          class='w-full flex items-center p-3 text-sm border-b border-white/10'>
+          Home
+        </a>
+
+        {
+          navGroups.map((group) => (
+            <div class='space-y-2 border-b border-white/10'>
+              <button
+                @click={`mobOpenDropdown = mobOpenDropdown === '${group.key}' ? null : '${group.key}'`}
+                class='w-full flex justify-between items-center p-1.5 text-sm'>
+                {group.label}
+                <svg
+                  class='w-4 h-4 transition-transform duration-300 text-white'
+                  x-bind:class={`{ 'rotate-180': mobOpenDropdown === '${group.key}' }`}
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M19 9l-7 7-7-7'
+                  />
+                </svg>
+              </button>
+              <ul
+                x-show={`mobOpenDropdown === '${group.key}'`}
+                x-transition
+                style='display:none'
+                class='px-3 py-1 space-y-2  ml-2'>
+                {group.items.map((item) => (
+                  <li>
+                    <a
+                      href={item.href}
+                      class='block py-2 text-white/60 text-sm font-medium border-b border-white/10'>
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+
+        <div class='space-y-2'>
+          <a
+            href='/get-involved'
+            class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/50 transition-colors'>
+            Get Involved
+          </a>
+          <a
+            href='/academics-and-partnerships'
+            class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/50 transition-colors'>
+            Academics & Partnerships
+          </a>
+          <a
+            href='/news-and-media'
+            class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/50 transition-colors'>
+            News & Media
+          </a>
+        </div>
+
+        <div class='pt-2'>
+          <a
+            href='tel:+254111817447'
+            class='block w-full text-center p-4 bg-[#860f0f] text-white rounded-xl font-black uppercase tracking-wider text-xs shadow-md hover:bg-[#6d0c0c] transition-colors'>
+            Call Emergency
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
