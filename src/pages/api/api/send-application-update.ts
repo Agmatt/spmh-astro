@@ -1,42 +1,42 @@
-Request body:
-{
-  studentEmail: "student@email.com",
-  studentName: "Jane Doe",
-  status: "approved" | "declined",
-  feedback: "Your application has been approved..."
-}
+// Request body:
+// {
+//   studentEmail: "student@email.com",
+//   studentName: "Jane Doe",
+//   status: "approved" | "declined",
+//   feedback: "Your application has been approved..."
+// }
 
-Implementation (using Resend):
+// Implementation (using Resend):
 
-import { Resend } from 'resend';
-export async function post({ request }) {
-  const resend = new Resend(import.meta.env.RESEND_API_KEY);
+// import { Resend } from 'resend';
+// export async function post({ request }) {
+//   const resend = new Resend(import.meta.env.RESEND_API_KEY);
   
-  const { studentEmail, studentName, status, feedback } = await request.json();
+//   const { studentEmail, studentName, status, feedback } = await request.json();
   
-  const subject = status === 'approved' 
-    ? '🎉 Your SPMH Attachment Application Approved'
-    : 'Update on Your SPMH Attachment Application';
+//   const subject = status === 'approved' 
+//     ? '🎉 Your SPMH Attachment Application Approved'
+//     : 'Update on Your SPMH Attachment Application';
   
-  const html = `
-    <h2>Hello ${studentName},</h2>
-    <p>Your attachment application has been <strong>${status}</strong>.</p>
-    ${feedback ? `<p><strong>Feedback:</strong></p><p>${feedback}</p>` : ''}
-    <p>Log in to your portal to view full details.</p>
-    <p>Best regards,<br/>SPMH HR Team</p>
-  `;
+//   const html = `
+//     <h2>Hello ${studentName},</h2>
+//     <p>Your attachment application has been <strong>${status}</strong>.</p>
+//     ${feedback ? `<p><strong>Feedback:</strong></p><p>${feedback}</p>` : ''}
+//     <p>Log in to your portal to view full details.</p>
+//     <p>Best regards,<br/>SPMH HR Team</p>
+//   `;
   
-  const { error } = await resend.emails.send({
-    from: 'hr@spmh.co.ke',
-    to: studentEmail,
-    subject,
-    html,
-  });
+//   const { error } = await resend.emails.send({
+//     from: 'hr@spmh.co.ke',
+//     to: studentEmail,
+//     subject,
+//     html,
+//   });
   
-  return new Response(JSON.stringify({ success: !error }), {
-    status: error ? 500 : 200,
-  });
-}
+//   return new Response(JSON.stringify({ success: !error }), {
+//     status: error ? 500 : 200,
+//   });
+// }
 
 
 
