@@ -24,6 +24,14 @@ const navGroups = [
     ],
   },
 ];
+
+const staffPortals = [
+  { label: 'Human Resource', href: '/admin/applications' },
+  { label: 'Procurement', href: '/admin/tenders' },
+  { label: 'Appointments', href: '/admin' },
+  { label: 'Students', href: '/portals/students' },
+  { label: 'Editorial Team', href: '/admin/editorial' },
+];
 ---
 
 <!--
@@ -31,11 +39,33 @@ const navGroups = [
   <script is:inline src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 -->
 <nav
-  x-data='{ mobileOpen: false, openDropdown: null, mobOpenDropdown: null }'
+  x-data='{ mobileOpen: false, openDropdown: null, mobOpenDropdown: null, mobPortalsOpen: false }'
   @keydown.escape.window='mobileOpen = false; openDropdown = null'
   class='sticky top-0 z-[100] bg-white border-b border-slate-100 shadow-sm'>
+  <!-- ========================================== -->
+  <!-- DESKTOP MINIMALIST STAFF UTILITY BAR       -->
+  <!-- ========================================== -->
+  <div
+    class='hidden lg:block bg-blue-950 text-slate-300 border-b border-white/10 text-xs py-1.5'>
+    <div class='container mx-auto px-6 flex justify-between items-center'>
+      <div class='flex items-center space-x-2 font-medium'>
+        <span class='w-1.5 h-1.5 rounded-full bg-[#860f0f]'></span>
+        <span class='text-white font-bold'>Staff Portals:</span>
+      </div>
+      <div class='flex items-center space-x-6'>
+        {
+          staffPortals.map((portal) => (
+            <a href={portal.href} class='hover:text-white transition-colors'>
+              {portal.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
   <div class='container mx-auto px-6 py-3 flex items-center justify-between'>
-    <a href='/' class='flex items-center space-x-3 group' title='Home'>
+    <a href='/' class='flex items-center space-x-4 group' title='Home'>
       <img
         src='/logos/logo.png'
         alt='SPMH Logo'
@@ -55,7 +85,7 @@ const navGroups = [
     </a>
 
     <!-- Desktop nav -->
-    <div class='hidden lg:flex items-center space-x-4 lg:space-x-8'>
+    <div class='hidden lg:flex items-center space-x-2 lg:space-x-4'>
       {
         navGroups.map((group) => (
           <div
@@ -179,7 +209,7 @@ const navGroups = [
       class='fixed inset-0 bg-slate-700/50 backdrop-blur-sm z-[105]'>
     </div>
 
-    <!-- Full-height right-side slide-in panel (no floating card styling) -->
+    <!-- Full-height right-side slide-in panel -->
     <div
       x-show='mobileOpen'
       x-transition:enter='transition ease-in-out duration-300 transform'
@@ -213,7 +243,7 @@ const navGroups = [
             <div class='space-y-2 border-b border-white/10'>
               <button
                 @click={`mobOpenDropdown = mobOpenDropdown === '${group.key}' ? null : '${group.key}'`}
-                class='w-full flex justify-between items-center p-1.5 text-sm'>
+                class='w-full flex justify-between items-center p-1.5 font-bold text-sm'>
                 {group.label}
                 <svg
                   class='w-4 h-4 transition-transform duration-300 text-white'
@@ -233,7 +263,7 @@ const navGroups = [
                 x-show={`mobOpenDropdown === '${group.key}'`}
                 x-transition
                 style='display:none'
-                class='px-3 py-1 space-y-2  ml-2'>
+                class='px-3 py-1 space-y-2 ml-2'>
                 {group.items.map((item) => (
                   <li>
                     <a
@@ -259,11 +289,54 @@ const navGroups = [
             class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/50 transition-colors'>
             Academics & Partnerships
           </a>
-          <a
-            href='/news-and-media'
-            class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/50 transition-colors'>
-            News & Media
-          </a>
+        </div>
+        <a
+          href='/careers'
+          class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/50 transition-colors'>
+          Careers
+        </a>
+        <a
+          href='/news-and-media'
+          class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/50 transition-colors'>
+          News & Media
+        </a>
+
+        <!-- Staff Portals Accordion Group for Mobile -->
+        <div class='space-y-2 border-b border-white/10 pb-2'>
+          <button
+            @click='mobPortalsOpen = !mobPortalsOpen'
+            class='w-full flex justify-between items-center p-1.5 text-sm font-bold text-white'>
+            <span>Staff Portals</span>
+            <svg
+              class='w-4 h-4 transition-transform duration-300 text-white'
+              x-bind:class="{ 'rotate-180': mobPortalsOpen }"
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M19 9l-7 7-7-7'></path>
+            </svg>
+          </button>
+          <ul
+            x-show='mobPortalsOpen'
+            x-transition
+            style='display:none'
+            class='px-3 py-1 space-y-2 ml-2'>
+            {
+              staffPortals.map((portal) => (
+                <li>
+                  <a
+                    href={portal.href}
+                    class='block py-2 text-white/60 text-sm font-medium border-b border-white/10 hover:text-white'>
+                    {portal.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
         </div>
 
         <div class='pt-2'>
