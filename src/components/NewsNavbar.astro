@@ -1,0 +1,254 @@
+---
+// src/components/news/NewsNavbar.astro
+// Standalone header for the News & Media landing page: top bar (logo + socials)
+// and a mega-menu navbar below it. Fully responsive; mega menu collapses to an
+// accordion inside a slide-out panel on mobile. Sticky header with polished interactions.
+
+const NAV = [
+  {
+    label: 'Patients & Visitors',
+    columns: [
+      { heading: 'Before You Arrive', links: [
+        { label: 'Insurance & Billing', href: '/patients/insurance/' },
+        { label: 'Book an Appointment', href: '/appointments/' },
+        { label: 'Visiting Hours', href: '/patients/visiting-hours/' },
+      ]},
+      { heading: 'While You’re Here', links: [
+        { label: 'Patient Rights', href: '/patients/rights/' },
+        { label: 'Wards & Facilities', href: '/patients/facilities/' },
+        { label: 'Pharmacy', href: '/pharmacy/' },
+      ]},
+      { heading: 'Support', links: [
+        { label: 'Telemedicine', href: '/telemedicine/' },
+        { label: 'Patient Advocacy', href: '/patients/advocacy/' },
+        { label: 'FAQs', href: '/patients/faqs/' },
+      ]},
+    ],
+  },
+  {
+    label: 'Services',
+    columns: [
+      { heading: 'Clinical', links: [
+        { label: 'Outpatient Clinics', href: '/services/outpatient/' },
+        { label: 'Maternity & Newborn', href: '/services/maternity/' },
+        { label: 'Surgery', href: '/services/surgery/' },
+      ]},
+      { heading: 'Diagnostics', links: [
+        { label: 'Laboratory', href: '/services/laboratory/' },
+        { label: 'Radiology & Imaging', href: '/services/radiology/' },
+      ]},
+      { heading: 'Specialties', links: [
+        { label: 'Virtual Specialties', href: '/telemedicine/#specialties' },
+        { label: 'All Departments', href: '/services/' },
+      ]},
+    ],
+  },
+  {
+    label: 'Health & Wellness',
+    columns: [
+      { heading: 'Learn', links: [
+        { label: 'Health Library', href: '/wellness/library/' },
+        { label: 'Community Outreach', href: '/wellness/outreach/' },
+      ]},
+      { heading: 'Programs', links: [
+        { label: 'Maternal Health', href: '/wellness/maternal-health/' },
+        { label: 'Chronic Disease Care', href: '/wellness/chronic-care/' },
+      ]},
+    ],
+  },
+];
+---
+
+<header class="sticky top-0 z-50 bg-white border-b border-[#D8E0E7] shadow-xs" x-data="{ menuOpen: null, mobileOpen: false, mobileActiveDropdown: null }">
+  <!-- Top bar -->
+  <div class="border-b border-[#EDF1F4] bg-white">
+    <div class="max-w-6xl mx-auto px-6 h-16 md:h-26 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+          <img src="/logos/logo.png" alt="St. Paul's Mission Hospital" class="h-12 w-auto" />
+          <span
+          class='text-[#125276] font-black hidden sm:inline text-xs md:text-lg uppercase'
+          >St. Paul's</span
+        >
+        <span
+          class='text-[#860f0f] hidden sm:inline text-xs md:text-lg font-bold  uppercase'
+          >Mission Hospital</span
+        >
+        <span class="font-['Roboto'] hidden sm:inline text-2xl font-bold text-[#3E5262] pl-3 border-l border-[#D8E0E7]">
+          Media Center
+        </span>
+      </div>
+      <!-- social icons -->
+      <div class="flex items-center gap-4">
+        <a href="https://facebook.com/spmhhomabay" aria-label="Facebook" class="text-4xl border rounded-full bg-gray-200 hover:text-[#1877F2] text-slate-400 sm:text-slate-600  transition-colors p-1">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06C2 17.08 5.66 21.23 10.44 22v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22C18.34 21.23 22 17.08 22 12.06Z"/></svg>
+        </a>
+        <a href="https://x.com/spmhhomabay" aria-label="X" class="text-4xl border rounded-full bg-gray-200 hover:text-[#1DA1F2] text-slate-400 sm:text-slate-600  transition-colors p-1">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23.3 22H16.7l-5.2-6.8L5.6 22H2.4l8.1-9.3L1.7 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.7L7.4 3.9H5.6L17.7 20Z"/></svg>
+        </a>
+        <a href="https://tiktok.com/@spmhhomabay" aria-label="TikTok" class="text-4xl border rounded-full bg-gray-200 hover:text-[#FE2C55] text-slate-400 sm:text-slate-600  transition-colors p-1">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 2h-3.2v13.9a3 3 0 1 1-2.4-2.94v-3.3a6.3 6.3 0 1 0 5.6 6.26V8.4a7.4 7.4 0 0 0 4.3 1.37V6.6a4.2 4.2 0 0 1-4.3-4.6Z"/></svg>
+        </a>
+        <a href="https://linkedin.com/company/spmhhomabay" aria-label="LinkedIn" class="text-4xl border rounded-full bg-gray-200 hover:text-[#0A66C2] text-slate-400 sm:text-slate-600  transition-colors p-1">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 8.5H3.56V21h3.38V8.5ZM5.25 3a1.96 1.96 0 1 0 0 3.92 1.96 1.96 0 0 0 0-3.92ZM20.44 21h-3.37v-6.4c0-1.53-.03-3.5-2.13-3.5-2.14 0-2.47 1.67-2.47 3.39V21H9.1V8.5h3.24v1.71h.05c.45-.86 1.56-1.77 3.21-1.77 3.44 0 4.84 2.26 4.84 5.19V21Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <div class="w-full mx-auto px-6 bg-primary text-white">
+    <div class="max-w-6xl mx-auto flex items-center justify-between h-14">
+      <nav class="hidden lg:flex items-center gap-8 font-['Roboto'] text-sm">
+        <a href="/" aria-label="Home" class="ml-6">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/></svg>
+        </a>
+
+        {NAV.map((item, i) => (
+          <div class="relative py-2" @mouseenter={`menuOpen = ${i}`} @mouseleave="menuOpen = null">
+            <button
+              @click={`menuOpen = menuOpen === ${i} ? null : ${i}`}
+              class="flex items-center gap-1 py-2 font-medium uppercase transition-colors focus:outline-none"
+              :class={`menuOpen === ${i} ? 'text-white hover:bg-secondary' : ''`}
+            >
+              {item.label}
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="transition-transform duration-200" :class={`menuOpen === ${i} ? 'rotate-180' : ''}`}><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+
+            <div
+              x-show={`menuOpen === ${i}`}
+              x-transition:enter="transition ease-out duration-150"
+              x-transition:enter-start="opacity-0 -translate-y-1"
+              x-transition:enter-end="opacity-100 translate-y-0"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100 translate-y-0"
+              x-transition:leave-end="opacity-0 -translate-y-1"
+              class={`absolute top-full w-[600px] bg-white mt-1 border border-[#D8E0E7] rounded-md grid grid-cols-3 gap-6 p-7 z-50 ${
+                i === 0 ? 'left-0' : i === NAV.length - 1 ? 'right-0 left-1' : 'left-1/2 -translate-x-1/2'
+              }`}
+              style="display:none"
+            >
+              {item.columns.map((col) => (
+                <div>
+                  <p class="text-[11px] tracking-[0.15em] uppercase text-[#860f0f] font-semibold mb-3">{col.heading}</p>
+                  <ul class="space-y-2.5">
+                    {col.links.map((l) => (
+                      <li><a href={l.href} class="block text-secondary text-sm">{l.label}</a></li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <a href="/giving/" class="font-medium py-2 hover:bg-secondary p-2  uppercase">Giving</a>
+      </nav>
+
+      <!-- Search -->
+      <form action="/search/" method="get" class="hidden lg:flex items-center relative">
+        <input
+          type="search" name="q" placeholder="Search the site"
+          class="font-['Roboto'] text-sm bg-[#F7F9FB] border border-[#D8E0E7] rounded-full pl-4 pr-9 py-2 w-52 focus:w-64 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30 transition-all"
+        />
+        <button type="submit" aria-label="Search" class="absolute right-3 text-gray-500 hover:text-[#1565c0] transition-colors">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+      </form>
+
+      <!-- Mobile trigger button with white background color active state -->
+      <div class="lg:hidden flex items-center">
+        <button
+          @click="mobileOpen = !mobileOpen"
+          class="relative w-10 h-10 flex items-center justify-center text-[#14202B] hover:bg-slate-50 rounded-lg focus:outline-none z-[70]"
+          :class="mobileOpen ? 'text-white' : 'text-slate-900'"
+          aria-label="Toggle navigation menu"
+          x-bind:aria-expanded="mobileOpen">
+          <span class="sr-only">Toggle menu</span>
+          <span
+            class="absolute w-6 h-0.5 bg-current rounded-full transition-all duration-300"
+            x-bind:class="mobileOpen ? 'rotate-45 translate-y-0' : '-translate-y-2'"
+          ></span>
+          <span
+            class="absolute w-6 h-0.5 bg-current rounded-full transition-all duration-200"
+            x-bind:class="mobileOpen ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'"
+          ></span>
+          <span
+            class="absolute w-6 h-0.5 bg-current rounded-full transition-all duration-300"
+            x-bind:class="mobileOpen ? '-rotate-45 translate-y-0' : 'translate-y-2'"
+          ></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile panel overlay -->
+  <div
+    x-show="mobileOpen"
+    x-transition:enter="transition-opacity ease-linear duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition-opacity ease-linear duration-300"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    @click="mobileOpen = false"
+    style="display:none"
+    class="fixed inset-0 bg-slate-700/50 backdrop-blur-xs z-[60] lg:hidden">
+  </div>
+
+  <!-- Mobile off-canvas right slide-in panel -->
+  <div
+    x-show="mobileOpen"
+    x-transition:enter="transition ease-in-out duration-300 transform"
+    x-transition:enter-start="translate-x-full"
+    x-transition:enter-end="translate-x-0"
+    x-transition:leave="transition ease-in-out duration-300 transform"
+    x-transition:leave-start="translate-x-0"
+    x-transition:leave-end="translate-x-full"
+    style="display:none"
+    class="fixed inset-y-0 right-0 w-full max-w-xs bg-gray-800/70 text-white shadow-2xl z-[70] flex flex-col lg:hidden"
+  >
+    <div class="flex items-center justify-between px-6 h-16 border-b border-[#D8E0E7] bg-gray-800/70">
+      <span class="font-['Roboto'] text-xs font-bold tracking-widest text-white uppercase">Menu</span>
+      <button @click="mobileOpen = false" aria-label="Close menu" class="text-white hover:text-[#1565c0] transition-colors p-1">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <form action="/search/" method="get" class="px-6 py-4 border-b border-[#D8E0E7]">
+      <div class="relative">
+        <input type="search" name="q" placeholder="Search the site" class="font-['Roboto'] text-sm bg-[#F7F9FB] border border-[#D8E0E7] rounded-full pl-4 pr-10 py-2.5 w-full focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30" />
+        <button type="submit" aria-label="Search" class="absolute right-3 top-3 text-[#7A8A96]">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+      </div>
+    </form>
+
+    <nav class="flex-1 overflow-y-auto px-6 py-4 font-['Roboto'] text-sm divide-y divide-[#EDF1F4]">
+      <a href="/" class="block py-3 font-medium text-white hover:text-[#1565c0] transition-colors">Home</a>
+      {NAV.map((item, i) => (
+        <div class="py-2">
+          <button 
+            @click={`mobileActiveDropdown = mobileActiveDropdown === ${i} ? null : ${i}`} 
+            class="w-full flex items-center justify-between py-2 font-medium text-white"
+          >
+            {item.label}
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" :class={`mobileActiveDropdown === ${i} ? 'rotate-180' : ''`} class="transition-transform duration-200 text-[#00000]"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div x-show={`mobileActiveDropdown === ${i}`} style="display:none" x-transition class="pb-2 pt-1 space-y-4 pl-2">
+            {item.columns.map((col) => (
+              <div class="space-y-1.5">
+                <p class="text-[11px] tracking-[0.15em] uppercase text-white/50 font-semibold">{col.heading}</p>
+                <ul class="space-y-2 pl-2 border-l border-[#EDF1F4]">
+                  {col.links.map((l) => (
+                    <li><a href={l.href} class="text-white hover:text-[#1565c0] block text-xs py-1 transition-colors">{l.label}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+      <a href="/giving/" class="block py-3 font-medium text-white hover:text-[#1565c0] transition-colors">Giving</a>
+    </nav>
+  </div>
+</header>

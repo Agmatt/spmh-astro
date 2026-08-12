@@ -1,0 +1,21 @@
+---
+import AcademicsAuthGate from '../../../components/AcademicsAuthGate';
+import StudentDashboard from '../../../components/StudentDashboard';
+import '../../../styles/global.css';
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Student Portal | SPMH Academics & Internships</title>
+    <meta
+      name='description'
+      content='Track your SPMH attachment application status, view feedback, and manage your profile.'
+    />
+    <!-- <script is:inline src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js" defer></script> -->
+  </head>
+  <body>
+    <AcademicsAuthGate client:load="react" />
+  </body>
+</html>

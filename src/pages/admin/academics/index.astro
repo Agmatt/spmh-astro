@@ -1,0 +1,20 @@
+---
+import HRAdminAuthGate from '../../../components/HRAdminAuthGate';
+import HRAdminDashboard from '../../../components/HRAdminDashboard';
+import '../../../styles/global.css';
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Academics Manager | SPMH Administration</title>
+    <meta
+      name='description'
+      content='Review and manage student attachment applications, partnerships, and research collaborations.'
+    />
+  </head>
+  <body>
+    <HRAdminAuthGate client:load="react" />
+  </body>
+</html>

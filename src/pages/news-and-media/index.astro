@@ -1,444 +1,304 @@
 ---
-// src/pages/news-and-media.astro
-// Redesigned with visual hierarchy, featured hero, better typography
-// Adjust layout import path to match your project
+// src/pages/news-and-media/index.astro
+import NewsNavbar from '../../components/NewsNavbar.astro';
+import NewsFooter from '../../components/NewsFooter.astro';
+import '../../styles/global.css';
+import { supabase } from '../../lib/supabase'; // adjust path to your existing client
 
-import Layout from '../../Layout/Layout.astro';
+const fmtDate = (d) => d ? new Date(d).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
 
-// ── PLACEHOLDER DATA ─────────────────────────────────────────────
-// Shaped to match Supabase schema. Replace with live Supabase queries
-// when editorial dashboard is ready.
-
-const articles = [
-  {
-    slug: 'baby-adrian-blessings-kmc',
-    title: "Baby Adrian's First Days: A Newborn Unit Success Story",
-    excerpt: "How Kangaroo Mother Care helped a premature newborn thrive in SPMH's Newborn Unit.",
-    cover_image: '/gallery/20.png',
-    category: 'Patient Stories',
-    published_at: '2026-05-12',
-  },
-  {
-    slug: 'staff-family-day-2026',
-    title: 'Staff Family Day 2026: Building Community Beyond the Wards',
-    excerpt: 'Staff and their families gathered for a day of connection, games, and gratitude.',
-    cover_image: '/img/57.jpg',
-    category: 'Community',
-    published_at: '2026-04-02',
-  },
-  {
-    slug: 'hdu-impact-one-year',
-    title: 'One Year of the HDU: Lives Stabilized, Referrals Reduced',
-    excerpt: "A look back at the High Dependency Unit's first year of operation.",
-    cover_image: '/gallery/22.png',
-    category: 'Facility Updates',
-    published_at: '2026-02-20',
-  },
-];
-
-const pressReleases = [
-  {
-    slug: 'sha-level-4-accreditation',
-    title: "St. Paul's Mission Hospital Attains SHA Level 4 Accreditation",
-    excerpt: "Official statement on the hospital's accreditation upgrade and what it means for patients.",
-    pdf_url: '/documents/press/sha-level-4-accreditation.pdf',
-    published_at: '2026-06-01',
-  },
-  {
-    slug: 'maternity-surgical-wing-groundbreaking',
-    title: 'Groundbreaking Ceremony Held for New Maternity and Surgical Wing',
-    excerpt: 'The Diocese of Homa Bay and hospital leadership mark the start of construction.',
-    pdf_url: '/documents/press/maternity-surgical-wing-groundbreaking.pdf',
-    published_at: '2026-03-18',
-  },
-];
-
-const events = [
-  {
-    slug: 'cme-cqi-principles',
-    title: 'CME Session: Continuous Quality Improvement Principles',
-    description: 'A continuing medical education session for clinical staff on CQI methodology.',
-    event_date: '2026-08-14',
-    location: 'SPMH Conference Hall',
-  },
-  {
-    slug: 'community-health-camp',
-    title: 'Free Community Health Camp',
-    description: 'Free screening, consultation, and referral services for the surrounding community.',
-    event_date: '2026-09-05',
-    location: 'SPMH Grounds',
-  },
-  {
-    slug: 'maternity-surgical-wing-groundbreaking-event',
-    title: 'Maternity and Surgical Wing Groundbreaking',
-    description: 'Official groundbreaking ceremony for the new wing.',
-    event_date: '2026-03-18',
-    location: 'SPMH Main Grounds',
-  },
-];
-
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('en-KE', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+async function fetchType(type, limit) {
+  try {
+    const { data, error } = await supabase
+      .from('content_items')
+      .select('id, type, title, slug, excerpt, cover_image, author, published_at, event_date, location')
+      .eq('status', 'published')
+      .eq('type', type)
+      .order('published_at', { ascending: false })
+      .limit(limit);
+    if (error) throw error;
+    return data ?? [];
+  } catch (e) {
+    console.error(`Failed to load ${type}:`, e);
+    return [];
+  }
 }
 
-function isEventPast(eventDateStr: string) {
-  return new Date(eventDateStr) < new Date();
-}
+const [articles, blogPosts, pressReleases, events] = await Promise.all([
+  fetchType('article', 4),
+  fetchType('blog', 4),
+  fetchType('press_release', 4),
+  fetchType('event', 6),
+]);
 
-// Get the latest article for hero section
-const latestArticle = articles[0];
-const restArticles = articles.slice(1);
+// Carousel: 1 article, 1 blog, 1 press release
+const carouselSlides = [articles[0], blogPosts[0], pressReleases[0]].filter(Boolean);
+const featured = articles.slice(0, 3);
+const blogList = blogPosts.slice(0, 3);
+const pressList = pressReleases.slice(0, 4);
 ---
 
-<Layout title="News & Media | St. Paul's Mission Hospital">
-  <!-- PAGE INTRO -->
-  <section class="bg-gradient-to-b from-slate-50 to-slate-600/50 px-4 md:px-6 py-16 md:py-20">
-    <div class="max-w-3xl mx-auto text-center">
-      <p class="text-sm font-sans uppercase tracking-widest text-[#125276] font-semibold mb-3">
-        News &amp; Media
-      </p>
-      <h1 class="font-serif text-4xl md:text-5xl text-slate-900 mb-4 leading-tight">
-        Stories from the heart of our mission
-      </h1>
-      <p class="font-sans text-lg text-slate-600">
-        Updates on our patients, our work, and our community. Discover how we're making a difference at SPMH.
-      </p>
-    </div>
-  </section>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News & Media | St. Paul's Mission Hospital</title>
+   <link rel="icon" type="image/png" href="/file.svg" />
+     <!-- Fonts scoped to this page only -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-  <!-- HERO: LATEST ARTICLE -->
-  {latestArticle && (
-    <section class="px-4 md:px-6 py-12 md:py-16 bg-white">
-      <div class="max-w-5xl mx-auto">
-        <a href={`/news/${latestArticle.slug}`} class="group block">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-            <!-- IMAGE -->
-            <div class="overflow-hidden rounded-lg h-64 md:h-96">
-              <img
-                src={latestArticle.cover_image}
-                alt={latestArticle.title}
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js"></script>
+</head>
+<body class="bg-[#F7F9FB] text-[#14202B]">
 
-            <!-- CONTENT -->
-            <div class="flex flex-col justify-center">
-              <span class="inline-block text-xs font-sans font-semibold uppercase tracking-widest text-[#125276] bg-blue-50 px-3 py-1 rounded-full w-fit mb-4">
-                Latest • {latestArticle.category}
-              </span>
-              <h2 class="font-serif text-3xl md:text-4xl text-slate-900 mb-4 leading-tight group-hover:text-[#125276] transition-colors">
-                {latestArticle.title}
-              </h2>
-              <p class="font-sans text-lg text-slate-600 mb-6 leading-relaxed">
-                {latestArticle.excerpt}
-              </p>
-              <div class="flex items-center gap-6">
-                <time datetime={latestArticle.published_at} class="text-sm font-sans text-slate-500">
-                  {formatDate(latestArticle.published_at)}
-                </time>
-                <span class="font-sans font-semibold text-[#125276] group-hover:gap-2 flex items-center gap-1 transition-all">
-                  Read story →
-                </span>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </section>
-  )}
+  <NewsNavbar />
 
-  <!-- CONTENT TABS SECTION -->
-  <section class="px-4 md:px-6 py-16 md:py-20 bg-gradient-to-b from-slate-50 to-white">
-    <div class="max-w-5xl mx-auto" x-data="{ activeTab: 'articles' }">
-      <!-- TAB NAVIGATION -->
-      <div class="flex gap-3 mb-12 overflow-x-auto">
-        <button
-          role="tab"
-          :aria-selected="activeTab === 'articles'"
-          @click="activeTab = 'articles'"
-          class="px-4 py-3 font-sans font-semibold text-sm whitespace-nowrap rounded-lg transition-all duration-200"
-          :class="activeTab === 'articles' ? 'bg-[#125276] text-white shadow-md hover:bg-[#0d3a5c]' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
-        >
-          Articles
-        </button>
-        <button
-          role="tab"
-          :aria-selected="activeTab === 'press'"
-          @click="activeTab = 'press'"
-          class="px-4 py-3 font-sans font-semibold text-sm whitespace-nowrap rounded-lg transition-all duration-200"
-          :class="activeTab === 'press' ? 'bg-[#860f0f] text-white shadow-md hover:bg-[#6b0a0a]' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
-        >
-          Press Releases
-        </button>
-        <button
-          role="tab"
-          :aria-selected="activeTab === 'events'"
-          @click="activeTab = 'events'"
-          class="px-4 py-3 font-sans font-semibold text-sm whitespace-nowrap rounded-lg transition-all duration-200"
-          :class="activeTab === 'events' ? 'bg-green-600 text-white shadow-md hover:bg-green-700' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
-        >
-          Events
-        </button>
-      </div>
+  <main class="max-w-6xl mx-auto px-4 md:px-6 py-10">
+    <div class="lg:grid lg:grid-cols-4 lg:gap-10">
 
-      <!-- ARTICLES TAB -->
-      <div x-show="activeTab === 'articles'" x-cloak class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {restArticles.length === 0 ? (
-          <p class="col-span-full text-center py-12 text-slate-500 font-sans">No more articles at this time.</p>
-        ) : (
-          restArticles.map((article) => (
-            <a
-              href={`/news/${article.slug}`}
-              class="group flex flex-col bg-white rounded-lg overflow-hidden border border-slate-200 hover:border-[#125276] hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-            >
-              <!-- IMAGE -->
-              <div class="relative overflow-hidden h-56 bg-slate-200">
-                <img
-                  src={article.cover_image}
-                  alt={article.title}
-                  loading="lazy"
-                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div class="absolute top-0 right-0 bg-[#125276] text-white px-4 py-2 text-xs font-semibold uppercase tracking-widest rounded-bl-lg">
-                  {article.category}
-                </div>
-              </div>
+      <!-- Carousel + sections: 3/4 width -->
+      <div class="lg:col-span-3 order-1">
 
-              <!-- CONTENT -->
-              <div class="p-6 flex flex-col flex-1">
-                <h3 class="font-serif text-xl text-slate-900 mb-3 group-hover:text-[#125276] transition-colors line-clamp-2">
-                  {article.title}
-                </h3>
-                <p class="font-sans text-sm text-slate-600 mb-4 leading-relaxed flex-1 line-clamp-2">
-                  {article.excerpt}
-                </p>
-                <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-                  <time datetime={article.published_at} class="text-xs font-sans text-slate-500">
-                    {formatDate(article.published_at)}
-                  </time>
-                  <span class="font-sans font-semibold text-[#125276] text-sm group-hover:gap-2 flex items-center gap-1 transition-all">
-                    →
+        <!-- Carousel -->
+        {carouselSlides.length > 0 && (
+          <section
+            x-data={`{ slide: 0, total: ${carouselSlides.length}, next(){ this.slide = (this.slide + 1) % this.total }, prev(){ this.slide = (this.slide - 1 + this.total) % this.total } }`}
+            class="relative overflow-hidden rounded-sm bg-[#0E1B24] aspect-[16/9] sm:aspect-[2/1]"
+          >
+            {carouselSlides.map((slide, i) => (
+              <div
+                x-show={`slide === ${i}`}
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                class="absolute inset-0"
+                style={i === 0 ? '' : 'display:none'}
+              >
+                {slide.cover_image && (
+                  <img src={slide.cover_image} alt={slide.title} class="absolute inset-0 w-full h-full object-cover opacity-60" />
+                )}
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0E1B24] via-[#0E1B24]/40 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-6 sm:p-10 max-w-xl">
+                  <span class="font-['Open Sans'] text-xs font-semibold tracking-[0.15em] uppercase text-[#7FB2E5]">
+                    {slide.type === 'article' ? 'Story' : slide.type === 'blog' ? 'Blog' : 'Press Release'}
                   </span>
+                  <h2 class="font-['Lato'] text-xl sm:text-3xl text-white font-semibold leading-snug mt-2">
+                    {slide.title}
+                  </h2>
+                  <a href={`/news-and-media/${slide.slug}/`} class="font-['Open Sans'] text-sm text-white font-medium inline-flex items-center gap-1.5 mt-4 hover:gap-2.5 transition-all">
+                    Read more <span aria-hidden="true">→</span>
+                  </a>
                 </div>
-              </div>
-            </a>
-          ))
-        )}
-      </div>
-
-      <!-- PRESS RELEASES TAB -->
-      <div x-show="activeTab === 'press'" x-cloak class="space-y-5">
-        {pressReleases.length === 0 ? (
-          <p class="text-center py-12 text-slate-500 font-sans">No press releases at this time.</p>
-        ) : (
-          pressReleases.map((release) => (
-            <a
-              href={`/news/${release.slug}`}
-              class="group block bg-white rounded-lg border border-slate-200 hover:border-[#860f0f] hover:shadow-lg transition-all duration-300 overflow-hidden hover:-translate-y-0.5"
-            >
-              <div class="flex flex-col md:flex-row">
-                <!-- ACCENT BAR -->
-                <div class="w-1 md:w-2 bg-gradient-to-b from-[#860f0f] to-[#6b0a0a]"></div>
-
-                <!-- CONTENT -->
-                <div class="flex-1 p-6 md:p-7">
-                  <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-3">
-                    <div>
-                      <span class="inline-block text-xs font-sans font-semibold uppercase tracking-widest text-[#860f0f] bg-red-50 px-3 py-1 rounded-full mb-3">
-                        Press Release
-                      </span>
-                      <h3 class="font-serif text-2xl text-slate-900 group-hover:text-[#860f0f] transition-colors mb-2 leading-tight">
-                        {release.title}
-                      </h3>
-                    </div>
-                    <time datetime={release.published_at} class="text-sm font-sans text-slate-500 whitespace-nowrap md:text-right">
-                      {formatDate(release.published_at)}
-                    </time>
-                  </div>
-                  <p class="font-sans text-base text-slate-600 mb-4 leading-relaxed line-clamp-2">
-                    {release.excerpt}
-                  </p>
-                  <div class="flex gap-6 flex-wrap">
-                    <span class="font-sans font-semibold text-[#860f0f] text-sm group-hover:gap-2 flex items-center gap-1 transition-all">
-                      Read full statement →
-                    </span>
-                    {release.pdf_url && (
-                      <button
-                        class="font-sans font-semibold text-[#125276] text-sm hover:text-[#0d3a5c] flex items-center gap-2 transition-colors"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          window.open(release.pdf_url, '_blank');
-                        }}
-                      >
-                        📄 PDF
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </a>
-          ))
-        )}
-      </div>
-
-      <!-- EVENTS TAB -->
-      <div x-show="activeTab === 'events'" x-cloak class="space-y-6">
-        {events.length === 0 ? (
-          <p class="text-center py-12 text-slate-500 font-sans">No upcoming events at this time.</p>
-        ) : (
-          events
-            .sort((a, b) => {
-              const aIsPast = isEventPast(a.event_date);
-              const bIsPast = isEventPast(b.event_date);
-              if (aIsPast && !bIsPast) return 1;
-              if (!aIsPast && bIsPast) return -1;
-              if (aIsPast && bIsPast) return new Date(b.event_date).getTime() - new Date(a.event_date).getTime();
-              return new Date(a.event_date).getTime() - new Date(b.event_date).getTime();
-            })
-            .map((event) => {
-              const isPast = isEventPast(event.event_date);
-              const eventDate = new Date(event.event_date);
-              return (
-                <div
-                  class:list={[
-                    'group p-6 md:p-8 bg-white rounded-lg border border-slate-200 hover:border-[#125276] hover:shadow-lg transition-all duration-300',
-                    isPast ? 'opacity-60' : '',
-                  ]}
-                >
-                  <div class="grid grid-cols-1 md:grid-cols-[120px_1fr] gap-6 md:gap-8">
-                    <!-- DATE BOX -->
-                    <div class="flex flex-col items-center justify-center bg-gradient-to-br from-[#125276] to-[#0d3a5c] text-white rounded-lg py-6 md:py-8">
-                      <span class="font-serif text-4xl font-bold leading-none">
-                        {eventDate.getDate()}
-                      </span>
-                      <span class="font-sans text-xs uppercase tracking-widest mt-2">
-                        {eventDate.toLocaleDateString('en-KE', { month: 'short', year: 'numeric' })}
-                      </span>
-                    </div>
-
-                    <!-- EVENT INFO -->
-                    <div>
-                      <div class="flex items-center gap-3 mb-3">
-                        <span class="inline-block text-xs font-sans font-semibold uppercase tracking-widest text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
-                          {isPast ? 'Past Event' : 'Upcoming'}
-                        </span>
-                      </div>
-                      <h3 class="font-serif text-2xl md:text-3xl text-slate-900 mb-2 group-hover:text-[#125276] transition-colors">
-                        {event.title}
-                      </h3>
-                      <p class="font-sans text-base text-slate-600 mb-4 leading-relaxed">
-                        {event.description}
-                      </p>
-                      <p class="font-sans font-semibold text-slate-700 flex items-center gap-2">
-                        📍 {event.location}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })
-        )}
-      </div>
-    </div>
-  </section>
-
- <!--  EDITORIAL CTA — closing section -->
-<section class="bg-surface border-t border-border/60 py-16">
-  <div class="max-w-7xl mx-auto px-2 md:px-4 lg:px-16">
-    <div class="grid lg:grid-cols-2 gap-10 items-center">
-
-      <!-- LEFT: copy -->
-      <div>
-        <p class="text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-4 flex items-center gap-3">
-          <span class="w-8 h-px bg-primary inline-block"></span>
-          Editorial Team
-        </p>
-        <h2 class="font-display text-secondary text-3xl sm:text-4xl font-normal leading-snug mb-4">
-          Have a story or<br/>
-          <span class="font-bold text-primary">tip for us?</span>
-        </h2>
-        <p class="text-muted text-sm leading-relaxed max-w-md">
-          Our editorial team is always looking for stories from within the St. Paul's community — patient journeys, staff milestones, health education topics, and community events. If you have something worth sharing, we'd love to hear from you.
-        </p>
-      </div>
-
-      <!-- RIGHT: contact card -->
-      <div class="bg-white border border-border/60 p-8 flex flex-col gap-6">
-
-        <div class="flex items-start gap-4">
-          <div class="size-11 bg-surface-2 border border-border/60 flex items-center justify-center shrink-0">
-            <svg class="size-5 text-primary" fill="none" stroke="currentColor"
-                 stroke-width="1.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
-            </svg>
-          </div>
-          <div>
-            <p class="text-secondary font-semibold text-sm mb-1">Pitch a story</p>
-            <p class="text-muted text-xs leading-relaxed">
-              Send us a brief summary of your story idea, event, or topic. We'll get back to you within 3 working days.
-            </p>
-          </div>
-        </div>
-
-        <div class="h-px bg-border/60"></div>
-
-        <!-- What to include -->
-        <div>
-          <p class="text-secondary text-[0.62rem] font-bold tracking-[0.16em] uppercase mb-3">
-            Include in your message:
-          </p>
-          <div class="space-y-2">
-            {[
-              "Your name and role or connection to St. Paul's",
-              "A brief description of the story or topic",
-              "Any photos or supporting materials you can share",
-            ].map(item => (
-              <div class="flex items-start gap-2.5">
-                <svg class="size-3.5 text-primary shrink-0 mt-0.5"
-                     fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                </svg>
-                <span class="text-muted text-xs leading-relaxed">{item}</span>
               </div>
             ))}
-          </div>
-        </div>
 
-        <div class="h-px bg-border/60"></div>
+            {carouselSlides.length > 1 && (
+              <>
+                <button @click="prev()" aria-label="Previous" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center backdrop-blur-sm transition-colors">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+                <button @click="next()" aria-label="Next" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center backdrop-blur-sm transition-colors">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+                <div class="absolute bottom-4 right-6 flex gap-2">
+                  {carouselSlides.map((_, i) => (
+                    <button @click={`slide = ${i}`} aria-label={`Go to slide ${i + 1}`} class="w-2 h-2 rounded-full transition-colors" :class={`slide === ${i} ? 'bg-white' : 'bg-white/40'`}></button>
+                  ))}
+                </div>
+              </>
+            )}
+          </section>
+        )}
 
-        <!-- CTA -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <p class="text-muted/50 text-[0.58rem] tracking-widest uppercase mb-1">Contact</p>
-            <p class="text-secondary font-semibold text-sm">Editorial Team</p>
+        <!-- Featured Stories -->
+        <section class="mt-14">
+          <div class="flex items-baseline justify-between border-b border-[#D8E0E7] pb-3 mb-7">
+            <h2 class="font-['Lato'] text-2xl font-semibold text-[#125276]">Featured Stories</h2>
           </div>
-          <a
-            href={`mailto:editorial@spmh.co.ke?subject=${encodeURIComponent("Story Pitch — St. Paul's News & Media")}`}
-            class="group inline-flex items-center gap-2.5 bg-primary hover:bg-primary-dark
-                   text-white font-bold text-xs tracking-[0.12em] uppercase
-                   px-6 py-3.5 transition-all duration-200
-                   hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30"
-          >
-            <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-            Email the team
-            <svg class="size-3.5 group-hover:translate-x-1 transition-transform duration-200"
-                 fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
+          <div class="grid sm:grid-cols-3 gap-7">
+            {featured.map((item) => (
+              <a href={`/news-and-media/${item.slug}/`} class="group block">
+                <div class="overflow-hidden rounded-sm bg-[#E7ECF0] aspect-[3/2] mb-3.5">
+                  {item.cover_image && (
+                    <img src={item.cover_image} alt={item.title} loading="lazy" class="w-full h-full object-cover transition duration-500 group-hover:scale-[1.03]" />
+                  )}
+                </div>
+                <h3 class="font-['Lato'] text-base font-semibold leading-snug group-hover:text-[#1565c0] transition-colors">
+                  {item.title}
+                </h3>
+                {item.excerpt && <p class="font-['Open Sans'] text-sm text-[#5A6B77] mt-1.5 line-clamp-2">{item.excerpt}</p>}
+                <p class="font-['Open Sans'] text-xs text-[#7A8A96] mt-2">{fmtDate(item.published_at)}</p>
+              </a>
+            ))}
+          </div>
+          {featured.length === 0 && <p class="font-['Open Sans'] text-sm text-[#7A8A96]">No stories published yet.</p>}
+          <a href="/news-and-media/?type=article" class="font-['Open Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-7 hover:gap-2.5 transition-all">
+            View all stories <span aria-hidden="true">→</span>
           </a>
-        </div>
+        </section>
 
+        <!-- Blog: compact list, small thumbnail, no big photography -->
+        <section class="mt-14">
+          <div class="flex items-baseline justify-between border-b border-[#D8E0E7] pb-3 mb-2">
+            <h2 class="font-['Lato'] text-2xl font-semibold text-[#125276]">Blog</h2>
+          </div>
+          <div class="divide-y divide-[#EDF1F4]">
+            {blogList.map((item) => (
+              <a href={`/news-and-media/${item.slug}/`} class="group flex items-start gap-4 py-5">
+                <div class="shrink-0 w-16 h-16 rounded-sm overflow-hidden bg-[#E7ECF0]">
+                  {item.cover_image && <img src={item.cover_image} alt="" loading="lazy" class="w-full h-full object-cover" />}
+                </div>
+                <div class="min-w-0">
+                  <h3 class="font-['Lato'] text-base font-semibold leading-snug group-hover:text-[#1565c0] transition-colors">
+                    {item.title}
+                  </h3>
+                  {item.excerpt && <p class="font-['Open Sans'] text-sm text-[#5A6B77] mt-1 line-clamp-1">{item.excerpt}</p>}
+                  <p class="font-['Open Sans'] text-xs text-[#7A8A96] mt-1.5">
+                    {item.author && <span>{item.author} · </span>}{fmtDate(item.published_at)}
+                  </p>
+                </div>
+              </a>
+            ))}
+          </div>
+          {blogList.length === 0 && <p class="font-['Open Sans'] text-sm text-[#7A8A96] py-4">No blog posts published yet.</p>}
+          <a href="/news-and-media/?type=blog" class="font-['Open Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-3 hover:gap-2.5 transition-all">
+            View all blog posts <span aria-hidden="true">→</span>
+          </a>
+        </section>
+
+        <!-- Press Releases: formal block list, no images -->
+        <section class="mt-14 mb-4">
+          <div class="border-b border-[#D8E0E7] pb-3 mb-2">
+            <h2 class="font-['Lato'] text-2xl font-semibold text-[#125276]">Press Releases</h2>
+          </div>
+          <div class="divide-y divide-[#EDF1F4]">
+            {pressList.map((item) => (
+              <a href={`/news-and-media/${item.slug}/`} class="group flex items-center justify-between gap-6 py-5">
+                <div class="min-w-0">
+                  <p class="font-['Open Sans'] text-xs text-[#860f0f] font-semibold tracking-[0.1em] uppercase mb-1">{fmtDate(item.published_at)}</p>
+                  <h3 class="font-['Lato'] text-base font-semibold leading-snug group-hover:text-[#1565c0] transition-colors truncate">
+                    {item.title}
+                  </h3>
+                </div>
+                <span class="shrink-0 text-[#7A8A96] group-hover:text-[#1565c0] group-hover:translate-x-0.5 transition-all" aria-hidden="true">→</span>
+              </a>
+            ))}
+          </div>
+          {pressList.length === 0 && <p class="font-['Open Sans'] text-sm text-[#7A8A96] py-4">No press releases published yet.</p>}
+          <a href="/news-and-media/?type=press_release" class="font-['Open Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-3 hover:gap-2.5 transition-all">
+            View all press releases <span aria-hidden="true">→</span>
+          </a>
+        </section>
+
+        <!-- Events: date-badge cards, distinct from the read-more cards above -->
+        <section id="events" class="mt-14 mb-4">
+          <div class="border-b border-[#D8E0E7] pb-3 mb-7">
+            <h2 class="font-['Lato'] text-2xl font-semibold text-[#125276]">Events</h2>
+          </div>
+          <div class="grid sm:grid-cols-3 gap-7">
+            {events.map((ev) => {
+              const d = ev.event_date ? new Date(ev.event_date) : null;
+              const day = d ? d.toLocaleDateString('en-KE', { day: '2-digit' }) : '';
+              const month = d ? d.toLocaleDateString('en-KE', { month: 'short' }).toUpperCase() : '';
+              return (
+                <a href={`/news-and-media/${ev.slug}/`} class="group flex gap-4 items-start border border-[#D8E0E7] rounded-sm p-5 bg-white hover:border-[#1565c0] transition-colors">
+                  <div class="shrink-0 w-14 rounded-sm overflow-hidden text-center bg-[#1565c0]">
+                    <p class="font-['Open Sans'] text-[10px] tracking-[0.1em] uppercase text-white/80 pt-1.5">{month}</p>
+                    <p class="font-['Lato'] text-xl text-white font-semibold pb-1.5">{day}</p>
+                  </div>
+                  <div class="min-w-0">
+                    <h3 class="font-['Lato'] text-base font-semibold leading-snug group-hover:text-[#1565c0] transition-colors">
+                      {ev.title}
+                    </h3>
+                    {ev.location && (
+                      <p class="font-['Open Sans'] text-xs text-[#7A8A96] mt-1.5 flex items-center gap-1">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        {ev.location}
+                      </p>
+                    )}
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+          {events.length === 0 && <p class="font-['Open Sans'] text-sm text-[#7A8A96]">No upcoming events right now.</p>}
+          <a href="/news-and-media/?type=event" class="font-['Open Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-7 hover:gap-2.5 transition-all">
+            View all events <span aria-hidden="true">→</span>
+          </a>
+        </section>
       </div>
-    </div>
-  </div>
-</section>
 
-</Layout>
+      <!-- Sidebar: 1/4 width, stacked below carousel on mobile -->
+      <aside class="lg:col-span-1 order-2 mt-14 lg:mt-0">
+        <div class="lg:sticky lg:top-6 space-y-8">
+
+          <div class="bg-[#125276] rounded-sm p-6">
+            <h3 class="font-['Lato'] text-lg text-white font-semibold">Stay informed</h3>
+            <p class="font-['Open Sans'] text-sm text-[#C6D6E0] mt-2 leading-relaxed">
+              Get new stories, press releases and event updates from SPMH in your inbox.
+            </p>
+            <form class="mt-4 space-y-2.5" data-newsletter-form>
+              <input
+                type="email" required placeholder="you@example.com" name="email"
+                class="w-full font-['Open Sans'] text-sm rounded-sm px-3.5 py-2.5 bg-white/95 focus:outline-none focus:ring-2 focus:ring-white/40"
+              />
+              <button type="submit" class="w-full font-['Open Sans'] text-sm font-medium bg-white text-[#125276] rounded-sm py-2.5 hover:bg-[#E7ECF0] transition-colors">
+                Subscribe
+              </button>
+            </form>
+          </div>
+
+          {events.length > 0 && (
+            <div>
+              <p class="font-['Open Sans'] text-xs tracking-[0.15em] uppercase text-[#7A8A96] font-semibold mb-4">Upcoming Events</p>
+              <ul class="space-y-4">
+                {events.slice(0, 3).map((ev) => (
+                  <li>
+                    <a href={`/news-and-media/${ev.slug}/`} class="group block">
+                      <p class="font-['Open Sans'] text-xs text-[#1565c0] font-semibold">{fmtDate(ev.event_date)}</p>
+                      <p class="font-['Lato'] text-sm font-semibold leading-snug group-hover:text-[#1565c0] transition-colors mt-0.5">
+                        {ev.title}
+                      </p>
+                      {ev.location && <p class="font-['Open Sans'] text-xs text-[#7A8A96] mt-0.5">{ev.location}</p>}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a href="#events" class="font-['Open Sans'] text-xs font-medium text-[#1565c0] inline-flex items-center gap-1 mt-4 hover:gap-1.5 transition-all">
+                See all upcoming <span aria-hidden="true">↓</span>
+              </a>
+            </div>
+          )}
+
+          <div class="border-t border-[#D8E0E7] pt-6">
+            <p class="font-['Open Sans'] text-xs tracking-[0.15em] uppercase text-[#7A8A96] font-semibold mb-3">Media Inquiries</p>
+            <p class="font-['Open Sans'] text-sm text-[#3E5262] leading-relaxed">
+              For interviews or press materials, reach our communications office.
+            </p>
+            <a href="mailto:communications@spmh.co.ke" class="font-['Open Sans'] text-sm font-medium text-[#1565c0] mt-2 inline-block hover:underline">
+              communications@spmh.co.ke
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <NewsFooter />
+
+  <script>
+    // Wire the newsletter form to a Supabase `newsletter_subscribers` table (email, subscribed_at).
+    document.addEventListener('submit', async (e) => {
+      const form = e.target.closest('[data-newsletter-form]');
+      if (!form) return;
+      e.preventDefault();
+      // TODO: replace with your Supabase client insert, e.g.:
+      // const email = form.email.value;
+      // await supabase.from('newsletter_subscribers').insert({ email });
+      form.reset();
+    });
+  </script>
+</body>
+</html>
