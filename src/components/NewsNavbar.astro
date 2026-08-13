@@ -107,7 +107,7 @@ const NAV = [
           <div class="relative py-2" @mouseenter={`menuOpen = ${i}`} @mouseleave="menuOpen = null">
             <button
               @click={`menuOpen = menuOpen === ${i} ? null : ${i}`}
-              class="flex items-center gap-1 py-2 font-medium uppercase transition-colors focus:outline-none"
+              class="flex items-center gap-1 p-2 font-medium uppercase transition-colors focus:outline-none"
               :class={`menuOpen === ${i} ? 'text-white hover:bg-secondary' : ''`}
             >
               {item.label}

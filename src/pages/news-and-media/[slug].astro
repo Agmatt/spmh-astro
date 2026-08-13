@@ -1,407 +1,317 @@
 ---
-// src/pages/news/[slug].astro
-// Dynamic route for article and press release detail pages
-// Fetches content from Supabase by slug
+// src/pages/news-and-media/[slug].astro
+// SSR detail page for a single content_items row (article, blog, press_release, event).
+import NewsNavbar from '../../components/NewsNavbar.astro';
+import NewsFooter from '../../components/NewsFooter.astro';
+import { supabase } from '../../lib/supabase-news'; // adjust path to your existing client
+import '../../styles/global.css';
 
-import Layout from '../../Layout/Layout.astro';
-import { createClient } from '@supabase/supabase-js';
-
-// Get slug from URL params
 const { slug } = Astro.params;
 
-// Initialize Supabase client
-const supabase = createClient(
-  import.meta.env.PUBLIC_SUPABASE_URL,
-  import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-);
-
-// Fetch content by slug
-const { data: content, error } = await supabase
-  .from('content')
+const { data: item, error } = await supabase
+  .from('content_items')
   .select('*')
   .eq('slug', slug)
-  .eq('is_published', true)
+  .eq('status', 'published')
   .single();
 
-// If not found, handle 404
-if (error || !content) {
-  return Astro.redirect('/news-and-media');
+if (error || !item) {
+  return Astro.redirect('/404');
 }
 
-// Fetch related content (other articles/press releases, same type, recent)
-const { data: related } = await supabase
-  .from('content')
+const TYPE_LABEL = {
+  article: 'Story',
+  blog: 'Blog',
+  press_release: 'Press Release',
+  event: 'Event',
+};
+const TYPE_COLOR = {
+  article: '#1565c0',
+  blog: '#125276',
+  press_release: '#860f0f',
+  event: '#1565c0',
+};
+
+const fmtDate = (d) =>
+  d
+    ? new Date(d).toLocaleDateString('en-KE', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      })
+    : '';
+const fmtDateShort = (d) =>
+  d
+    ? new Date(d).toLocaleDateString('en-KE', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      })
+    : '';
+
+// "More like this" — same type, excluding current item
+const { data: moreRaw } = await supabase
+  .from('content_items')
   .select(
-    'id, title, slug, excerpt, cover_image, category, published_at, content_type',
+    'id, type, title, slug, excerpt, cover_image, published_at, event_date, location',
   )
-  .eq('content_type', content.content_type)
-  .eq('is_published', true)
-  .neq('id', content.id)
+  .eq('status', 'published')
+  .eq('type', item.type)
+  .neq('id', item.id)
   .order('published_at', { ascending: false })
   .limit(3);
+const more = moreRaw ?? [];
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('en-KE', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-}
-
-const isArticle = content.content_type === 'article';
-const isPressRelease = content.content_type === 'press_release';
-const accentColor = isArticle ? '#125276' : '#860f0f';
+const pageUrl = new URL(
+  Astro.url.pathname,
+  Astro.site ?? Astro.url.origin,
+).toString();
 ---
 
-<Layout title={`${content.title} | St. Paul's Mission Hospital`}>
-  <!-- BREADCRUMB -->
-  <nav class='max-w-4xl mx-auto px-6 py-6 text-sm'>
-    <a href='/news-and-media' class='text-slate-600 hover:text-[#125276]'
-      >News & Media</a
-    >
-    <span class='text-slate-400 mx-2'>/</span>
-    <span class='text-slate-900 font-medium'
-      >{isArticle ? 'Article' : 'Press Release'}</span
-    >
-  </nav>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>{item.title} | St. Paul's Mission Hospital</title>
+    <meta name='description' content={item.excerpt ?? ''} />
 
-  <!-- HERO SECTION -->
-  <section class='bg-white border-b border-slate-200'>
-    <div class='max-w-4xl mx-auto px-6 py-12 md:py-16'>
-      <!-- META & CATEGORY -->
-      <div class='flex items-center gap-4 mb-6'>
-        {
-          isArticle && content.category && (
-            <span
-              class='text-xs font-semibold uppercase tracking-widest text-white px-4 py-1 rounded-full'
-              style={{ backgroundColor: accentColor }}>
-              {content.category}
-            </span>
-          )
-        }
-        {
-          isPressRelease && (
-            <span class='text-xs font-semibold uppercase tracking-widest text-white bg-[#860f0f] px-4 py-1 rounded-full'>
-              Press Release
-            </span>
-          )
-        }
-      </div>
-
-      <!-- TITLE -->
-      <h1
-        class='font-serif text-4xl md:text-5xl text-slate-900 mb-6 leading-tight'>
-        {content.title}
-      </h1>
-
-      <!-- METADATA -->
-      <div
-        class='flex flex-col md:flex-row md:items-center gap-4 md:gap-8 text-slate-600 text-sm'>
-        <time datetime={content.published_at} class='font-sans'>
-          {formatDate(content.published_at)}
-        </time>
-        {
-          content.published_at && (
-            <span class='text-slate-400'>
-              {new Date(content.published_at).toLocaleTimeString('en-KE', {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-            </span>
-          )
-        }
-        {
-          isPressRelease && content.pdf_url && (
-            <a
-              href={content.pdf_url}
-              target='_blank'
-              rel='noopener'
-              class='font-semibold text-[#860f0f] hover:text-[#6b0a0a] flex items-center gap-2'>
-              📄 Download PDF
-            </a>
-          )
-        }
-      </div>
-    </div>
-
-    <!-- FEATURED IMAGE -->
+    <!-- Open Graph / social sharing -->
+    <meta property='og:type' content='article' />
+    <meta property='og:title' content={item.title} />
+    <meta property='og:description' content={item.excerpt ?? ''} />
     {
-      content.cover_image && (
-        <div class='w-full max-w-5xl mx-auto px-6 mb-12'>
-          <img
-            src={content.cover_image}
-            alt={content.title}
-            class='w-full h-96 object-cover rounded-lg shadow-lg'
-          />
-        </div>
+      item.cover_image && (
+        <meta property='og:image' content={item.cover_image} />
       )
     }
-  </section>
+    <meta property='og:url' content={pageUrl} />
 
-  <!-- CONTENT SECTION -->
-  <section class='bg-white py-12 md:py-16'>
-    <article class='max-w-3xl mx-auto px-6'>
-      <!-- EXCERPT (if available) -->
+    <link rel='icon' type='image/png' href='/favicon.png' />
+    <link rel='apple-touch-icon' href='/favicon.png' />
+    <script
+      defer
+      src='https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js'
+    ></script>
+  </head>
+  <body class='bg-[#F7F9FB] text-[#14202B]'>
+    <NewsNavbar />
+
+    <main class='max-w-3xl mx-auto px-6 py-12'>
+      <a
+        href='/news-and-media/'
+        class="font-['Open Sans'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
+        <span aria-hidden='true'>←</span> Back to News &amp; Media
+      </a>
+
+      <!-- Header -->
+      <header class='mb-8'>
+        <span
+          class="font-['Open Sans'] text-xs font-semibold tracking-[0.15em] uppercase"
+          style={`color:${TYPE_COLOR[item.type] ?? '#1565c0'}`}>
+          {TYPE_LABEL[item.type] ?? item.type}
+        </span>
+
+        <h1
+          class="font-['Roboto'] text-3xl sm:text-4xl font-semibold leading-tight mt-3">
+          {item.title}
+        </h1>
+
+        {
+          item.excerpt && (
+            <p class="font-['Open Sans'] text-lg text-[#5A6B77] leading-relaxed mt-4">
+              {item.excerpt}
+            </p>
+          )
+        }
+
+        <!-- Type-specific meta row -->
+        {
+          item.type === 'event' ? (
+            <div class="flex flex-wrap items-center gap-x-6 gap-y-2 mt-6 font-['Open Sans'] text-sm text-[#3E5262] border-y border-[#D8E0E7] py-4">
+              <span class='flex items-center gap-2'>
+                <svg
+                  width='15'
+                  height='15'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  stroke='currentColor'
+                  stroke-width='2'>
+                  <rect x='3' y='4' width='18' height='18' rx='2' />
+                  <path d='M16 2v4M8 2v4M3 10h18' />
+                </svg>
+                {fmtDate(item.event_date)}
+              </span>
+              {item.location && (
+                <span class='flex items-center gap-2'>
+                  <svg
+                    width='15'
+                    height='15'
+                    viewBox='0 0 24 24'
+                    fill='none'
+                    stroke='currentColor'
+                    stroke-width='2'>
+                    <path d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z' />
+                    <circle cx='12' cy='10' r='3' />
+                  </svg>
+                  {item.location}
+                </span>
+              )}
+            </div>
+          ) : (
+            <p class="font-['Open Sans'] text-sm text-[#7A8A96] mt-6 border-y border-[#D8E0E7] py-4">
+              {item.author && (
+                <span class='text-[#3E5262] font-medium'>{item.author}</span>
+              )}
+              {item.author && ' · '}
+              {fmtDate(item.published_at)}
+            </p>
+          )
+        }
+      </header>
+
       {
-        content.excerpt && (
-          <p
-            class='font-sans text-xl text-slate-600 mb-8 leading-relaxed italic border-l-4 pl-6'
-            style={{ borderColor: accentColor }}>
-            {content.excerpt}
-          </p>
+        item.cover_image && (
+          <div class='rounded-sm overflow-hidden bg-[#E7ECF0] mb-10'>
+            <img
+              src={item.cover_image}
+              alt={item.title}
+              class='w-full h-auto object-cover'
+            />
+          </div>
         )
       }
 
-      <!-- BODY TEXT -->
+      <!-- Body: handles both old plain-text posts and new HTML (Tiptap) posts -->
       <div
-        class='font-sans text-lg text-slate-700 leading-relaxed space-y-6 mb-12 prose-sm max-w-none'>
-        {
-          /* 
-          NOTE: If body is stored as markdown or HTML, render it accordingly.
-          For now, assuming plain text. If using markdown:
-          import { marked } from 'marked';
-          <Fragment set:html={marked(content.body)} />
-          
-          If using HTML:
-          <Fragment set:html={content.body} />
-        */
-        }
-        {content.body.split('\n\n').map((paragraph) => <p>{paragraph}</p>)}
+        class="font-['Open Sans'] text-[#243440] leading-relaxed prose-content"
+        set:html={item.body.includes('<') ? item.body : `<p>${item.body.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`}
+      />
+
+      <!-- Share -->
+      <div class='flex items-center gap-4 mt-12 pt-6 border-t border-[#D8E0E7]'>
+        <span
+          class="font-['Open Sans'] text-xs tracking-[0.15em] uppercase text-[#7A8A96] font-semibold"
+          >Share</span
+        >
+        <a
+          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`}
+          target='_blank'
+          rel='noopener'
+          aria-label='Share on Facebook'
+          class='text-[#7A8A96] hover:text-[#1565c0] transition-colors'>
+          <svg width='16' height='16' viewBox='0 0 24 24' fill='currentColor'
+            ><path
+              d='M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06C2 17.08 5.66 21.23 10.44 22v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22C18.34 21.23 22 17.08 22 12.06Z'
+            ></path></svg
+          >
+        </a>
+        <a
+          href={`https://x.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(item.title)}`}
+          target='_blank'
+          rel='noopener'
+          aria-label='Share on X'
+          class='text-[#7A8A96] hover:text-[#1565c0] transition-colors'>
+          <svg width='14' height='14' viewBox='0 0 24 24' fill='currentColor'
+            ><path
+              d='M18.9 2H22l-7.6 8.7L23.3 22H16.7l-5.2-6.8L5.6 22H2.4l8.1-9.3L1.7 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.7L7.4 3.9H5.6L17.7 20Z'
+            ></path></svg
+          >
+        </a>
+        <a
+          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`}
+          target='_blank'
+          rel='noopener'
+          aria-label='Share on LinkedIn'
+          class='text-[#7A8A96] hover:text-[#1565c0] transition-colors'>
+          <svg width='15' height='15' viewBox='0 0 24 24' fill='currentColor'
+            ><path
+              d='M6.94 8.5H3.56V21h3.38V8.5ZM5.25 3a1.96 1.96 0 1 0 0 3.92 1.96 1.96 0 0 0 0-3.92ZM20.44 21h-3.37v-6.4c0-1.53-.03-3.5-2.13-3.5-2.14 0-2.47 1.67-2.47 3.39V21H9.1V8.5h3.24v1.71h.05c.45-.86 1.56-1.77 3.21-1.77 3.44 0 4.84 2.26 4.84 5.19V21Z'
+            ></path></svg
+          >
+        </a>
       </div>
+    </main>
 
-      <!-- SHARE & METADATA FOOTER -->
-      <div
-        class='py-8 border-t border-b border-slate-200 flex flex-col md:flex-row md:items-center md:justify-between gap-6'>
-        <div>
-          <p class='text-sm text-slate-600 mb-2'>
-            Share this {isArticle ? 'article' : 'press release'}
-          </p>
-          <div class='flex gap-4'>
-            <a
-              href={`https://www.facebook.com/sharer/sharer.php?u=${Astro.url.href}`}
-              target='_blank'
-              rel='noopener'
-              class='text-slate-600 hover:text-blue-600 font-semibold'>
-              Facebook
-            </a>
-            <a
-              href={`https://twitter.com/intent/tweet?url=${Astro.url.href}&text=${content.title}`}
-              target='_blank'
-              rel='noopener'
-              class='text-slate-600 hover:text-blue-400 font-semibold'>
-              Twitter
-            </a>
-            <a
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${Astro.url.href}`}
-              target='_blank'
-              rel='noopener'
-              class='text-slate-600 hover:text-blue-700 font-semibold'>
-              LinkedIn
-            </a>
-          </div>
-        </div>
-        <div class='text-right'>
-          <p class='text-xs text-slate-500 mb-2'>Last updated</p>
-          <time datetime={content.published_at} class='text-sm text-slate-600'>
-            {formatDate(content.published_at)}
-          </time>
-        </div>
-      </div>
-    </article>
-  </section>
-
-  <!-- COMMENTS SECTION -->
-  <section class='bg-slate-50 py-12 md:py-16'>
-    <div class='max-w-3xl mx-auto px-6'>
-      <h2 class='font-serif text-3xl text-slate-900 mb-8'>Comments</h2>
-
-      <!-- COMMENT FORM -->
-      <div
-        class='bg-white rounded-lg border border-slate-200 p-8 mb-8'
-        x-data='commentForm()'
-        @submit.prevent='submitComment'>
-        <h3 class='font-serif text-xl text-slate-900 mb-6'>Leave a comment</h3>
-        <form class='space-y-5'>
-          <!-- NAME -->
-          <div>
-            <label class='block text-sm font-medium text-slate-700 mb-2'
-              >Name</label
-            >
-            <input
-              x-model='form.name'
-              type='text'
-              placeholder='Your name'
-              required
-              class='w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#125276]'
-            />
-          </div>
-
-          <!-- EMAIL -->
-          <div>
-            <label class='block text-sm font-medium text-slate-700 mb-2'
-              >Email</label
-            >
-            <input
-              x-model='form.email'
-              type='email'
-              placeholder='your@email.com'
-              required
-              class='w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#125276]'
-            />
-          </div>
-
-          <!-- COMMENT TEXT -->
-          <div>
-            <label class='block text-sm font-medium text-slate-700 mb-2'
-              >Comment</label
-            >
-            <textarea
-              x-model='form.comment'
-              placeholder='Share your thoughts...'
-              rows='5'
-              required
-              class='w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#125276] resize-none'
-            ></textarea>
-          </div>
-
-          <!-- ERROR & SUCCESS STATES -->
-          <div
-            x-show='error'
-            x-cloak
-            class='p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700'>
-            <span x-text='error'></span>
-          </div>
-
-          <div
-            x-show='success'
-            x-cloak
-            class='p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700'>
-            Thank you! Your comment has been submitted for moderation.
-          </div>
-
-          <!-- SUBMIT BUTTON -->
-          <button
-            type='submit'
-            :disabled='loading'
-            class='w-full py-2 bg-[#125276] text-white font-semibold rounded-lg hover:bg-[#0d3a5c] transition-colors disabled:opacity-50 disabled:cursor-not-allowed'>
-            <span x-show='!loading'>Post comment</span>
-            <span x-show='loading' x-cloak>Posting...</span>
-          </button>
-        </form>
-      </div>
-
-      <!-- COMMENTS LIST -->
-      <div class='space-y-6'>
-        <p class='text-sm text-slate-600 mb-6'>
-          Comments are moderated and will appear shortly.
-        </p>
-        <!-- Placeholder: comments will be fetched and displayed here -->
-        <div class='text-center py-12 text-slate-500'>
-          No comments yet. Be the first to share your thoughts!
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- RELATED CONTENT SECTION -->
-  {
-    related && related.length > 0 && (
-      <section class='bg-white py-12 md:py-16'>
-        <div class='max-w-5xl mx-auto px-6'>
-          <h2 class='font-serif text-3xl text-slate-900 mb-8'>
-            Read {isArticle ? 'more articles' : 'more press releases'}
+    <!-- More like this -->
+    {
+      more.length > 0 && (
+        <section class='max-w-5xl mx-auto px-6 pb-16'>
+          <h2 class="font-['Roboto'] text-xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-7">
+            More {TYPE_LABEL[item.type] ?? ''}
           </h2>
-
-          <div class='grid grid-cols-1 md:grid-cols-3 gap-6'>
-            {related.map((item) => (
-              <a
-                href={`/news/${item.slug}`}
-                class='group flex flex-col bg-slate-50 rounded-lg overflow-hidden border border-slate-200 hover:border-[#125276] hover:shadow-lg transition-all duration-300'>
-                {item.cover_image && (
-                  <div class='overflow-hidden h-40 bg-slate-200'>
+          <div class='grid sm:grid-cols-3 gap-7'>
+            {more.map((m) => (
+              <a href={`/news-and-media/${m.slug}/`} class='group block'>
+                <div class='overflow-hidden rounded-sm bg-[#E7ECF0] aspect-[3/2] mb-3.5'>
+                  {m.cover_image && (
                     <img
-                      src={item.cover_image}
-                      alt={item.title}
+                      src={m.cover_image}
+                      alt={m.title}
                       loading='lazy'
-                      class='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
+                      class='w-full h-full object-cover transition duration-500 group-hover:scale-[1.03]'
                     />
-                  </div>
-                )}
-                <div class='p-4 flex flex-col flex-1'>
-                  {isArticle && item.category && (
-                    <span class='text-xs font-semibold uppercase tracking-widest text-[#125276] bg-blue-50 px-2 py-1 rounded w-fit mb-2'>
-                      {item.category}
-                    </span>
                   )}
-                  <h3 class='font-serif text-base text-slate-900 mb-2 group-hover:text-[#125276] transition-colors line-clamp-2'>
-                    {item.title}
-                  </h3>
-                  <p class='text-sm text-slate-600 mb-3 flex-1 line-clamp-2'>
-                    {item.excerpt}
-                  </p>
-                  <time
-                    datetime={item.published_at}
-                    class='text-xs text-slate-500'>
-                    {formatDate(item.published_at)}
-                  </time>
                 </div>
+                <h3 class="font-['Roboto'] text-base font-semibold leading-snug group-hover:text-[#1565c0] transition-colors">
+                  {m.title}
+                </h3>
+                <p class="font-['Open Sans'] text-xs text-[#7A8A96] mt-2">
+                  {m.type === 'event'
+                    ? fmtDateShort(m.event_date)
+                    : fmtDateShort(m.published_at)}
+                </p>
               </a>
             ))}
           </div>
-        </div>
-      </section>
-    )
-  }
-</Layout>
+        </section>
+      )
+    }
 
-<script>
-  function commentForm() {
-    return {
-      form: {
-        name: '',
-        email: '',
-        comment: '',
-      },
-      loading: false,
-      error: '',
-      success: false,
+    <NewsFooter />
 
-      async submitComment() {
-        this.error = '';
-        this.success = false;
-        this.loading = true;
-
-        try {
-          const response = await fetch('/api/comments', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              name: this.form.name,
-              email: this.form.email,
-              comment: this.form.comment,
-              contentId: document
-                .querySelector('[data-content-id]')
-                ?.getAttribute('data-content-id'),
-            }),
-          });
-
-          if (!response.ok) {
-            throw new Error('Failed to submit comment');
-          }
-
-          this.success = true;
-          this.form = { name: '', email: '', comment: '' };
-
-          // Hide success message after 3 seconds
-          setTimeout(() => {
-            this.success = false;
-          }, 3000);
-        } catch (err) {
-          this.error = err.message || 'An error occurred. Please try again.';
-        } finally {
-          this.loading = false;
-        }
-      },
-    };
-  }
-</script>
+    <style>
+      /* Body copy styling for rich-text HTML from the editorial dashboard */
+      .prose-content :global(p) {
+        margin-bottom: 1.25em;
+      }
+      .prose-content :global(h2) {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #125276;
+        margin: 1.75em 0 0.6em;
+      }
+      .prose-content :global(h3) {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.15rem;
+        font-weight: 600;
+        margin: 1.5em 0 0.5em;
+      }
+      .prose-content :global(a) {
+        color: #1565c0;
+        text-decoration: underline;
+      }
+      .prose-content :global(ul),
+      .prose-content :global(ol) {
+        margin: 0 0 1.25em 1.25em;
+      }
+      .prose-content :global(ul) {
+        list-style: disc;
+      }
+      .prose-content :global(ol) {
+        list-style: decimal;
+      }
+      .prose-content :global(blockquote) {
+        border-left: 3px solid #1565c0;
+        padding-left: 1em;
+        color: #5a6b77;
+        font-style: italic;
+        margin: 1.5em 0;
+      }
+      .prose-content :global(img) {
+        border-radius: 2px;
+        margin: 1.5em 0;
+      }
+    </style>
+  </body>
+</html>

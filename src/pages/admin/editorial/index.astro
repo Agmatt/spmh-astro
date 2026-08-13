@@ -1,0 +1,35 @@
+---
+// src/pages/admin/news.astro
+// Editorial dashboard for News & Media. Protected route; redirects to login if no session.
+
+import EditorialDashboard from '../../../components/Editorialdashboard';
+import '../../../styles/global.css';
+
+// In SSR/Edge, you can optionally check if a session cookie exists.
+// For now, we'll rely on the client-side check in the React component.
+// If you want server-side enforcement, check Astro.cookies for the editorial session.
+
+const cookies = Astro.cookies;
+const hasSession = cookies.has('editorial_session');
+
+if (!hasSession) {
+  // Optional: enforce at server level. Otherwise, the React component handles redirect.
+  // return Astro.redirect('/editorial/login');
+}
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Editorial Dashboard | St. Paul's Mission Hospital</title>
+    <link rel='icon' type='image/png' href='/file.svg' />
+    <script
+      defer
+      src='https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js'
+    ></script>
+  </head>
+  <body class='bg-[#061e35]'>
+    <EditorialDashboard client:load />
+  </body>
+</html>

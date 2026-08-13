@@ -82,6 +82,7 @@ const departments = [
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>Careers | SPMH</title>
+    <link rel='icon' type='image/png' href='/file.svg' />
   </head>
   <body>
     <!-- ══ HERO ══════════════════════════════════════════════════════════════════ -->
@@ -119,7 +120,7 @@ const departments = [
           <!-- Eyebrow badge -->
           <h1
             class='text-5xl md:text-[4.5rem] font-extrabold text-white leading-[1.04] tracking-tight mb-6'>
-            Build a career that matters. 
+            Build a career that matters.
           </h1>
 
           <p
@@ -161,7 +162,10 @@ const departments = [
     </section>
 
     <!-- ══ WHY JOIN ═══════════════════════════════════════════════════════════════ -->
-    <section id='why-join' class='py-24 px-4 md:px-6' style='background:#f9f6f2;'>
+    <section
+      id='why-join'
+      class='py-24 px-4 md:px-6'
+      style='background:#f9f6f2;'>
       <div class='max-w-6xl mx-auto'>
         <div class='flex flex-col mx-auto text-center gap-4 mb-16'>
           <div>
@@ -181,9 +185,7 @@ const departments = [
         <div class='grid md:grid-cols-2 lg:grid-cols-3 gap-5'>
           {
             reasons.map((r) => (
-              <div
-                class='group bg-white border border-gray-100 rounded-2xl p-4 md:p-8 transition-all duration-300 cursor-default hover:shadow-lg'
-               >
+              <div class='group bg-white border border-gray-100 rounded-2xl p-4 md:p-8 transition-all duration-300 cursor-default hover:shadow-lg'>
                 <div
                   class='w-11 h-11 rounded-xl flex items-center justify-center mb-6 transition-colors'
                   style='background:#fef2f2;'>
@@ -207,9 +209,7 @@ const departments = [
                   style='color:#1c1c1e;'>
                   {r.title}
                 </h3>
-                <p class='text-sm leading-relaxed text-gray-500'>
-                  {r.desc}
-                </p>
+                <p class='text-sm leading-relaxed text-gray-500'>{r.desc}</p>
               </div>
             ))
           }
@@ -340,7 +340,6 @@ const departments = [
         </div>
       </div>
     </section>
-    
 
     <!-- ══ PORTAL ════════════════════════════════════════════════════════════════ -->
     <section id='portal' class='py-10 px-4 bg-surface/80'>
@@ -360,15 +359,13 @@ const departments = [
         </p>
       </div>
       <Careers client:load />
-      
     </section>
 
     <!-- ══ CONTACT ═══════════════════════════════════════════════════════════════ -->
     <section class='relative py-6 md:py-10 px-6 overflow-hidden bg-muted/70'>
       <div class='relative z-10 max-w-2xl mx-auto text-center'>
         <div class='inline-flex items-center gap-2 mb-6'>
-          <span
-            class='text-sm font-bold uppercase tracking-[0.2em] text-white'
+          <span class='text-sm font-bold uppercase tracking-[0.2em] text-white'
             >Need help?</span
           >
           <span class='w-6 h-px bg-white'></span>
@@ -376,9 +373,7 @@ const departments = [
         <h2 class='text-3xl md:text-4xl font-extrabold text-white mb-4'>
           Have a question?
         </h2>
-        <p
-          class='text-md text-white leading-relaxed mb-8 max-w-md mx-auto'
-          >
+        <p class='text-md text-white leading-relaxed mb-8 max-w-md mx-auto'>
           Our HR team is happy to help with any questions about open roles, the
           application process, or working at SPMH.
         </p>
@@ -386,14 +381,12 @@ const departments = [
           href='mailto:recruitment@spmh.co.ke'
           class='inline-flex items-center gap-3 px-7 py-4 mb-4 mr-4 bg-white font-bold text-sm rounded-xl transition-opacity hover:opacity-90 shadow-lg'
           style='color:#860f0f;'>
-          
           Contact us
         </a>
         <a
           href='./'
           class='inline-flex items-center gap-3 px-7 py-4 bg-white font-bold text-sm rounded-xl transition-opacity hover:opacity-90 shadow-lg'
           style='color:#860f0f;'>
-          
           Back to Main Website
         </a>
         <p class='text-md mt-6 text-white'>

@@ -1,9 +1,11 @@
 ---
 // src/pages/news-and-media/index.astro
-import NewsNavbar from '../../components/NewsNavbar.astro';
-import NewsFooter from '../../components/NewsFooter.astro';
+import NewsNavbar from '../../components//NewsNavbar.astro';
+import NewsFooter from '../../components//NewsFooter.astro';
+import { supabase } from '../../lib/supabase-news'; // adjust path to your existing client
 import '../../styles/global.css';
-import { supabase } from '../../lib/supabase'; // adjust path to your existing client
+
+
 
 const fmtDate = (d) => d ? new Date(d).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
 
@@ -43,19 +45,19 @@ const pressList = pressReleases.slice(0, 4);
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>News & Media | St. Paul's Mission Hospital</title>
-   <link rel="icon" type="image/png" href="/file.svg" />
-     <!-- Fonts scoped to this page only -->
+  <link rel="icon" type="image/png" href="/file.svg" />
+
+  <!-- Fonts scoped to this page only -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js"></script>
 </head>
 <body class="bg-[#F7F9FB] text-[#14202B]">
 
   <NewsNavbar />
 
-  <main class="max-w-6xl mx-auto px-4 md:px-6 py-10">
+  <main class="max-w-6xl mx-auto px-6 py-10">
     <div class="lg:grid lg:grid-cols-4 lg:gap-10">
 
       <!-- Carousel + sections: 3/4 width -->
@@ -64,7 +66,20 @@ const pressList = pressReleases.slice(0, 4);
         <!-- Carousel -->
         {carouselSlides.length > 0 && (
           <section
-            x-data={`{ slide: 0, total: ${carouselSlides.length}, next(){ this.slide = (this.slide + 1) % this.total }, prev(){ this.slide = (this.slide - 1 + this.total) % this.total } }`}
+            x-data={`{
+              slide: 0,
+              total: ${carouselSlides.length},
+              autoplayInterval: null,
+              next() { this.slide = (this.slide + 1) % this.total; this.resetAutoplay(); },
+              prev() { this.slide = (this.slide - 1 + this.total) % this.total; this.resetAutoplay(); },
+              goToSlide(n) { this.slide = n; this.resetAutoplay(); },
+              resetAutoplay() {
+                if (this.autoplayInterval) clearInterval(this.autoplayInterval);
+                this.autoplayInterval = setInterval(() => { this.slide = (this.slide + 1) % this.total; }, 5000);
+              },
+              init() { this.resetAutoplay(); },
+            }`}
+            @init="init()"
             class="relative overflow-hidden rounded-sm bg-[#0E1B24] aspect-[16/9] sm:aspect-[2/1]"
           >
             {carouselSlides.map((slide, i) => (
@@ -96,15 +111,15 @@ const pressList = pressReleases.slice(0, 4);
 
             {carouselSlides.length > 1 && (
               <>
-                <button @click="prev()" aria-label="Previous" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center backdrop-blur-sm transition-colors">
+                <button @click="prev()" aria-label="Previous" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center backdrop-blur-sm transition-colors hidden lg:flex">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
                 </button>
-                <button @click="next()" aria-label="Next" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center backdrop-blur-sm transition-colors">
+                <button @click="next()" aria-label="Next" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center backdrop-blur-sm transition-colors hidden lg:flex">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
                 </button>
                 <div class="absolute bottom-4 right-6 flex gap-2">
                   {carouselSlides.map((_, i) => (
-                    <button @click={`slide = ${i}`} aria-label={`Go to slide ${i + 1}`} class="w-2 h-2 rounded-full transition-colors" :class={`slide === ${i} ? 'bg-white' : 'bg-white/40'`}></button>
+                    <button @click={`goToSlide(${i})`} aria-label={`Go to slide ${i + 1}`} class="w-2 h-2 rounded-full transition-colors" :class={`slide === ${i} ? 'bg-white' : 'bg-white/40'`}></button>
                   ))}
                 </div>
               </>
@@ -242,7 +257,7 @@ const pressList = pressReleases.slice(0, 4);
             <form class="mt-4 space-y-2.5" data-newsletter-form>
               <input
                 type="email" required placeholder="you@example.com" name="email"
-                class="w-full font-['Open Sans'] text-sm rounded-sm px-3.5 py-2.5 bg-white/95 focus:outline-none focus:ring-2 focus:ring-white/40"
+                class="w-full font-['Open Sans'] text-sm text-center rounded-sm px-3.5 py-2.5 bg-white/95 focus:outline-none focus:ring-2 focus:ring-white/40"
               />
               <button type="submit" class="w-full font-['Open Sans'] text-sm font-medium bg-white text-[#125276] rounded-sm py-2.5 hover:bg-[#E7ECF0] transition-colors">
                 Subscribe
@@ -277,8 +292,8 @@ const pressList = pressReleases.slice(0, 4);
             <p class="font-['Open Sans'] text-sm text-[#3E5262] leading-relaxed">
               For interviews or press materials, reach our communications office.
             </p>
-            <a href="mailto:communications@spmh.co.ke" class="font-['Open Sans'] text-sm font-medium text-[#1565c0] mt-2 inline-block hover:underline">
-              communications@spmh.co.ke
+            <a href="mailto:editorial@spmh.co.ke" class="font-['Open Sans'] text-sm font-medium text-[#1565c0] mt-2 inline-block hover:underline">
+              editorial@spmh.co.ke
             </a>
           </div>
         </div>

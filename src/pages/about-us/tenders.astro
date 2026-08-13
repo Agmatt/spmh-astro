@@ -43,7 +43,8 @@ const hasTenders = tenders.length > 0;
   <head>
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <title>Tenders| SPMH</title>
+    <title>Tenders | SPMH</title>
+    <link rel='icon' type='image/png' href='/file.svg' />
   </head>
   <body>
     <main
@@ -138,8 +139,6 @@ const hasTenders = tenders.length > 0;
               </nav>
 
               <section class='lg:col-span-8 bg-white border border-[var(--color-border)] rounded-lg shadow-sm p-4 sm:p-8 relative min-h-[500px]'>
-                
-
                 {tenders.map((tender, index) => (
                   <div
                     id={`pane-${tender.id}`}
@@ -256,9 +255,7 @@ const hasTenders = tenders.length > 0;
                 </a>
               </div>
               <div class='mt-4'>
-                <a
-                  href='/'
-                  class='btn-tertiary text-white font-bold text-sm'>
+                <a href='/' class='btn-tertiary text-white font-bold text-sm'>
                   Back to Main Website
                 </a>
               </div>

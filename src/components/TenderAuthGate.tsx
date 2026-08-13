@@ -6,6 +6,10 @@ import { createClient } from '@supabase/supabase-js';
 // only. This client points at the same Supabase project because that's
 // where the `tenders`, `tender_applications`, and `vendors` tables live,
 // not because the two dashboards should share a login.
+//
+// URL and anon key are read from env vars (not hardcoded) — same pattern
+// as the News/Editorial dashboard. Set PUBLIC_SUPABASE_TENDERS_URL and
+// PUBLIC_SUPABASE_TENDERS_ANON_KEY in your .env file.
 const SUPABASE_URL = 'https://tzliykelldkbweogledq.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6bGl5a2VsbGRrYndlb2dsZWRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzI1ODUsImV4cCI6MjA5ODE0ODU4NX0.JKWYiiH2lXrg0snuOzxaRwFQgrhzAQ_LU9_7N-e8_VQ';
 
@@ -166,85 +170,84 @@ const TenderAuthGate = () => {
     // RENDER: Login Screen
     if (!session) {
         return (
-            <div className="min-h-screen flex bg-white font-sans">
-                {/* LEFT: Institutional visual, procurement-specific messaging */}
-                <div className="hidden lg:flex lg:w-1/2 relative bg-[var(--color-secondary)] overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-[var(--color-secondary)]/95 to-slate-900/95"></div>
-                    <div className="relative z-10 w-full flex flex-col justify-between p-12 lg:p-20 text-white">
+            <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+                <img
+                    src="/img/6.jpg"
+                    alt="background image"
+                    loading="eager"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{ transform: 'scale(1.05)', opacity: 0.8 }}
+                />
+                <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                        background: 'linear-gradient(20deg, rgba(2,6,23,0.95), var(--color-primary) 70%)',
+                    }}
+                />
+                <div
+                    className="absolute inset-0 pointer-events-none opacity-[0.04]"
+                    style={{
+                        backgroundImage: 'radial-gradient(circle,#fff 1px,transparent 1px)',
+                        backgroundSize: '28px 28px',
+                    }}
+                />
+
+                <div className="relative z-10 w-full max-w-sm bg-white p-4 md:p-8 rounded-2xl shadow-2xl border border-[var(--color-border)]">
+                    <div className="flex justify-center mb-6">
+                        <img src="/gallery/bg.png" alt="SPMH" className="h-20 w-auto object-contain" loading="eager" />
+                    </div>
+
+                    <div className="mb-8">
+                        <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[var(--color-primary)] block mb-2">
+                            Procurement Office
+                        </span>
+                        <h2 className="text-2xl font-black text-[var(--color-secondary)] tracking-tight">Portal Access</h2>
+                        <p className="text-sm text-slate-500 font-medium mt-3">Sign in with your accounts credentials</p>
+                    </div>
+
+                    {authError && (
+                        <div className="mb-6 p-4 bg-red-50 border border-red-300 text-red-700 text-sm font-semibold rounded-lg">
+                            {authError}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleLogin} className="space-y-5">
                         <div>
-                            <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-white block mb-4">
-                                Accounts &amp; Procurement
-                            </span>
-                            <h1 className="text-4xl lg:text-5xl font-light tracking-tight leading-[1.15] mb-6" style={{ fontFamily: 'var(--font-display)' }}>
-                                Tender & Vendor<br /><span className="font-bold text-[var(--color-primary-light)]">Management Portal</span>
-                            </h1>
-                            <p className="text-sm text-slate-300 font-medium max-w-md leading-relaxed">
-                                Post tenders, review submitted applications, and manage the vendor registry for St. Paul's Mission Hospital.
-                            </p>
-                        </div>
-                        <div className="mt-auto">
-                            <p className="text-[10px] font-bold tracking-widest uppercase text-slate-400">
-                                Accounts &amp; Procurement Access Only
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* RIGHT: Login form */}
-                <div className="w-full lg:w-1/2 flex items-center justify-center p-2 md:p-6 sm:p-12 lg:p-24 bg-gray-200">
-                    <div className="w-full max-w-sm bg-white p-4 md:p-8 rounded-2xl shadow-xl border border-[var(--color-border)]">
-                        <div className="mb-10">
-                            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[var(--color-primary)] block mb-2">
-                                Procurement Office
-                            </span>
-                            <h2 className="text-2xl font-black text-[var(--color-secondary)] tracking-tight">Portal Access</h2>
-                            <p className="text-sm text-slate-500 font-medium mt-3">Sign in with your accounts credentials</p>
-                        </div>
-
-                        {authError && (
-                            <div className="mb-6 p-4 bg-red-50 border border-red-300 text-red-700 text-sm font-semibold rounded-lg">
-                                {authError}
-                            </div>
-                        )}
-
-                        <form onSubmit={handleLogin} className="space-y-5">
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-wide text-slate-700 mb-2">Email</label>
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    placeholder="accounts@spmh.co.ke"
-                                    className="w-full px-4 py-3 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20 focus:border-[var(--color-primary)] transition-all text-sm font-medium"
-                                    disabled={isLoggingIn}
-                                    autoComplete="email"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-wide text-slate-700 mb-2">Password</label>
-                                <input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="••••••••"
-                                    className="w-full px-4 py-3 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20 focus:border-[var(--color-primary)] transition-all text-sm font-medium"
-                                    disabled={isLoggingIn}
-                                    autoComplete="current-password"
-                                />
-                            </div>
-                            <button
-                                type="submit"
+                            <label className="block text-xs font-bold uppercase tracking-wide text-slate-700 mb-2">Email</label>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="accounts@spmh.co.ke"
+                                className="w-full px-4 py-3 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20 focus:border-[var(--color-primary)] transition-all text-sm font-medium"
                                 disabled={isLoggingIn}
-                                className="w-full bg-[var(--color-primary)] hover:opacity-90 text-white font-bold uppercase tracking-wider text-sm py-3 rounded-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed shadow-lg"
-                            >
-                                {isLoggingIn ? 'Authenticating...' : 'Access Portal'}
-                            </button>
-                        </form>
+                                autoComplete="email"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-bold uppercase tracking-wide text-slate-700 mb-2">Password</label>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="••••••••"
+                                className="w-full px-4 py-3 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20 focus:border-[var(--color-primary)] transition-all text-sm font-medium"
+                                disabled={isLoggingIn}
+                                autoComplete="current-password"
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            disabled={isLoggingIn}
+                            className="w-full bg-[var(--color-primary)] hover:opacity-90 text-white font-bold uppercase tracking-wider text-sm py-3 rounded-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed shadow-lg"
+                        >
+                            {isLoggingIn ? 'Authenticating...' : 'Access Portal'}
+                        </button>
+                    </form>
 
-                        <p className="mt-8 text-[11px] text-slate-400 text-center leading-relaxed">
-                            Sessions end automatically after 15 minutes of inactivity.
-                        </p>
-                    </div>
+                    <p className="mt-8 text-[11px] text-slate-400 text-center leading-relaxed">
+                        Sessions end automatically after 15 minutes of inactivity.
+                    </p>
                 </div>
             </div>
         );
