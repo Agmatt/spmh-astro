@@ -1,0 +1,55 @@
+---
+import NewsNavbar from '../../components/NewsNavbar.astro';
+import NewsFooter from '../../components/NewsFooter.astro';
+import '../../styles/global.css'
+---
+
+<html lang='en'>
+  <head
+    ><meta charset='UTF-8' /><meta
+      name='viewport'
+      content='width=device-width, initial-scale=1.0'
+    /><title>Patient Rights | St. Paul's Mission Hospital</title><link
+      rel='icon'
+      type='image/png'
+      href='/file.svg'
+    /></head
+  >
+  <body class='bg-[#F7F9FB] text-[#14202B]'
+    ><NewsNavbar />
+    <main class='max-w-3xl mx-auto px-6 py-12'>
+      <a
+        href='/patients/'
+        class="font-['Lato'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8"
+        >← Back</a
+      ><h1
+        class="text-4xl font-semibold text-[#125276] mb-4">
+        Patient Rights
+      </h1><div class="space-y-6 font-['Lato'] text-[#3E5262]">
+        <section>
+          <h2
+            class="text-2xl font-semibold text-[#125276] mb-3">
+            Your Rights as a Patient
+          </h2><ul class='list-disc list-inside space-y-2'>
+            <li>Right to respectful and dignified care</li><li>
+              Right to confidentiality and privacy
+            </li><li>Right to informed consent</li><li>
+              Right to access your medical records
+            </li><li>Right to file complaints and appeals</li><li>
+              Right to be treated without discrimination
+            </li>
+          </ul>
+        </section>
+          <h2
+            class="text-2xl font-semibold text-[#125276] mb-3">
+            Questions or Concerns?
+          </h2><p>
+            Contact our Patient Rights office at <a
+              href='mailto:info@spmh.co.ke'
+              class='text-[#1565c0]'>info@spmh.co.ke</a>
+          </p>
+        </section>
+      </div>
+    </main><NewsFooter /></body
+  >
+</html>

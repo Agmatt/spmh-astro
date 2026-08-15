@@ -1,0 +1,150 @@
+---
+// src/pages/patients.astro
+import NewsNavbar from '../../components/NewsNavbar.astro';
+import NewsFooter from '../../components/NewsFooter.astro';
+import '../../styles/global.css'
+
+const sections = [
+  {
+    title: 'Before You Arrive',
+    items: [
+      { name: 'Insurance & Billing', slug: 'insurance' },
+      { name: 'Book an Appointment', slug: 'book-appointment' },
+      { name: 'Visiting Hours', slug: 'visiting-hours' },
+    ],
+  },
+  {
+    title: "While You're Here",
+    items: [
+      { name: 'Patient Rights', slug: 'patient-rights' },
+      { name: 'Wards & Facilities', slug: 'wards-facilities' },
+      { name: 'Pharmacy', slug: 'pharmacy' },
+    ],
+  },
+  {
+    title: 'Support',
+    items: [
+      { name: 'Telemedicine', slug: 'telemedicine' },
+      { name: 'Patient Advocacy', slug: 'patient-advocacy' },
+      { name: 'FAQs', slug: 'faqs' },
+    ],
+  },
+];
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Patients & Visitors | St. Paul's Mission Hospital</title>
+    <meta
+      name='description'
+      content="Essential information for patients and visitors at St. Paul's Mission Hospital."
+    />
+    <link rel='icon' type='image/png' href='/file.svg' />
+    <script
+      defer
+      src='https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js'
+    ></script>
+  </head>
+  <body class='bg-[#F7F9FB] text-[#14202B]'>
+    <NewsNavbar />
+
+    <main class='max-w-4xl mx-auto px-6 py-12'>
+      <a
+        href='/'
+        class="text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
+        <span aria-hidden='true'>←</span> Back
+      </a>
+
+      <header class='mb-12'>
+        <h1
+          class="text-4xl sm:text-5xl font-semibold text-[#125276] mb-4">
+          Patients & Visitors
+        </h1>
+        <p
+          class="text-lg text-[#5A6B77] leading-relaxed max-w-2xl">
+          Everything you need to know about visiting St. Paul's Mission Hospital
+          and accessing our services.
+        </p>
+      </header>
+
+      <div class='space-y-10'>
+        {
+          sections.map((section) => (
+            <section key={section.title}>
+              <h2 class="font-['Lato'] text-2xl font-semibold text-[#125276] mb-6">
+                {section.title}
+              </h2>
+              <div class='grid md:grid-cols-3 gap-4'>
+                {section.items.map((item) => (
+                  <a
+                    key={item.slug}
+                    href={`/patients/${item.slug}/`}
+                    class='group p-5 bg-white rounded-sm border border-[#D8E0E7] hover:border-[#1565c0] hover:shadow-md transition-all'>
+                    <h3 class="font-['Lato'] font-semibold text-[#125276] group-hover:text-[#1565c0] transition-colors">
+                      {item.name}
+                    </h3>
+                    <p class="text-xs text-[#7A8A96] mt-3">
+                      Learn more →
+                    </p>
+                  </a>
+                ))}
+              </div>
+            </section>
+          ))
+        }
+      </div>
+
+      <!-- Quick info -->
+      <div class='mt-12 grid md:grid-cols-3 gap-6'>
+        <div class='p-6 bg-white rounded-sm border border-[#D8E0E7]'>
+          <h3
+            class="font-['Lato'] font-semibold text-[#125276] mb-2">
+            Emergency?
+          </h3>
+          <p class="text-sm text-[#5A6B77] mb-3">
+            Available 24/7
+          </p>
+          <a
+            href='tel:+254722XXX123'
+            class='text-[#1565c0] font-semibold hover:underline'>
+            Call +254 722 XXX 123
+          </a>
+        </div>
+
+        <div class='p-6 bg-white rounded-sm border border-[#D8E0E7]'>
+          <h3
+            class="font-['Lato'] font-semibold text-[#125276] mb-2">
+            Book Online
+          </h3>
+          <p class="text-sm text-[#5A6B77] mb-3">
+            Quick and easy
+          </p>
+          <a
+            href='/patients/book-appointment/'
+            class='text-[#1565c0] font-semibold hover:underline'>
+            Schedule Now
+          </a>
+        </div>
+
+        <div class='p-6 bg-white rounded-sm border border-[#D8E0E7]'>
+          <h3
+            class="font-['Lato'] font-semibold text-[#125276] mb-2">
+            Have Questions?
+          </h3>
+          <p class="text-sm text-[#5A6B77] mb-3">
+            We're here to help
+          </p>
+          <a
+            href='/contact/'
+            class='text-[#1565c0] font-semibold hover:underline'>
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <NewsFooter />
+  </body>
+</html>

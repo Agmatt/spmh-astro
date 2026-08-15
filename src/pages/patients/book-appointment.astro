@@ -1,0 +1,59 @@
+---
+// src/pages/patients/book-appointment.astro
+import NewsNavbar from '../../components/NewsNavbar.astro';
+import NewsFooter from '../../components/NewsFooter.astro';
+import '../../styles/global.css';
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Book an Appointment | St. Paul's Mission Hospital</title>
+    <link rel='icon' type='image/png' href='/file.svg' />
+  </head>
+  <body class='bg-[#F7F9FB] text-[#14202B]'>
+    <NewsNavbar />
+    <main class='max-w-3xl mx-auto px-6 py-12'>
+      <a
+        href='/patients/'
+        class="font-['Lato'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8"
+        >← Back</a
+      >
+      <h1 class='text-4xl font-semibold text-[#125276] mb-4'>
+        Book an Appointment
+      </h1>
+      <p class='text-lg text-[#5A6B77] mb-8'>
+        Schedule your visit with our healthcare providers.
+      </p>
+      <div class="space-y-6 font-['Lato'] text-[#3E5262]">
+        <section>
+          <h2 class="text-2xl font-['Lato'] font-semibold text-[#125276] mb-3">
+            Online Booking
+          </h2>
+          <p class="font-['Lato']">
+            Book your appointment online for convenience. Select your preferred
+            clinic, date, and time.
+          </p>
+          <a
+            href='/appointments/' target="_blank"
+            class='inline-block mt-4 bg-[#1565c0] text-white font-["Lato"] font-semibold px-6 py-2 rounded'
+            >Book Now</a
+          >
+        </section>
+        <section>
+          <h2 class="text-2xl font-['Lato'] font-semibold text-[#125276] mb-3">
+            Call Us
+          </h2>
+          <p class="font-['Lato']">
+            Call our appointments office:
+            <a href='tel:+254111817447' class='text-[#1565c0] font-semibold'>
+              +254 111 817 447
+            </a>
+          </p>
+        </section>
+      </div>
+    </main>
+    <NewsFooter />
+  </body>
+</html>

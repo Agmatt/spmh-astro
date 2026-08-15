@@ -1,0 +1,62 @@
+---
+import NewsNavbar from '../../components/NewsNavbar.astro';
+import NewsFooter from '../../components/NewsFooter.astro';
+import '../../styles/global.css';
+
+const hours = [
+  { label: 'Morning', time: '05:00 AM – 06:30 AM' },
+  { label: 'Afternoon', time: '1:00 PM – 2:00 PM' },
+  { label: 'Evening', time: '5:00 PM – 7:00 PM' },
+  { label: 'Maternity Ward', time: '24/7 (Special hours by arrangement)' },
+];
+---
+
+<html lang='en'>
+  <head
+    ><meta charset='UTF-8' /><meta
+      name='viewport'
+      content='width=device-width, initial-scale=1.0'
+    /><title>Visiting Hours | St. Paul's Mission Hospital</title><link
+      rel='icon'
+      type='image/png'
+      href='/favicon.png'
+    /></head
+  >
+  <body class='bg-[#F7F9FB] text-[#14202B]'
+    ><NewsNavbar /><main class='max-w-3xl mx-auto px-6 py-12'>
+      <a
+        href='/patients/'
+        class="font-['Lato'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8"
+        >← Back</a
+      >
+      <h1 class="font-['Lato'] text-4xl font-semibold text-[#125276] mb-4">
+        Visiting Hours
+      </h1><div class='space-y-6 text-[#3E5262]'>
+        <div class="space-y-6 font-['Outfit'] text-[#3E5262]">
+          <section>
+            <h2
+              class="font-['Lato'] text-2xl font-semibold text-[#125276] mb-3">
+              General Ward Hours
+            </h2>
+            <p class="font-['Lato']"><strong>Monday-Friday:</strong> 10:00 AM - 6:00 PM</p>
+            <p class="font-['Lato']">
+              <strong>Saturday-Sunday:</strong> 2:00 PM - 6:00 PM
+            </p>
+          </section>
+
+          <section>
+            <h2
+              class="font-['Lato'] text-2xl font-semibold text-[#125276] mb-3">
+              Visiting Guidelines
+            </h2><ul class='list-disc list-inside space-y-1'>
+              <li>Maximum 2 visitors per patient</li><li>
+                Keep visits brief and quiet
+              </li><li>Respect hospital hygiene protocols</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </main>
+    <NewsFooter />
+  </body>
+</html>

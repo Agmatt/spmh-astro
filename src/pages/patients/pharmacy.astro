@@ -1,0 +1,53 @@
+---
+import NewsNavbar from '../../components/NewsNavbar.astro';
+import NewsFooter from '../../components/NewsFooter.astro';
+import '../../styles/global.css'
+---
+
+<html lang='en'>
+  <head
+    ><meta charset='UTF-8' /><meta
+      name='viewport'
+      content='width=device-width, initial-scale=1.0'
+    /><title>Pharmacy | St. Paul's Mission Hospital</title><link
+      rel='icon'
+      type='image/png'
+      href='/favicon.png'
+    /></head
+  >
+  <body class='bg-[#F7F9FB] text-[#14202B]'
+    ><NewsNavbar /><main class='max-w-3xl mx-auto px-6 py-12'>
+      <a
+        href='/patients/'
+        class="font-['Lato'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8"
+        >← Back</a
+      ><h1
+        class="font-['Lato'] text-4xl font-semibold text-[#125276] mb-4">
+        Pharmacy Services
+      </h1>
+      <div class="space-y-6 font-['Lato'] text-[#3E5262]">
+        <section>
+          <h2
+            class="font-['Lato'] text-2xl font-semibold text-[#125276] mb-3">
+            Medications & Prescriptions
+          </h2><p>
+            Our pharmacy dispenses medications prescribed by our healthcare
+            providers. Generic and brand-name medicines available.
+          </p>
+        </section><section>
+          <h2
+            class="font-['Lato'] text-2xl font-semibold text-[#125276] mb-3">
+            Hours
+          </h2><p><strong>Monday-Friday:</strong> 8:00 AM - 6:00 PM</p><p>
+            <strong>Saturday:</strong> 8:00 AM - 2:00 PM
+          </p><p><strong>Sunday:</strong> 10:00 AM - 2:00 PM</p>
+        </section><section>
+          <h2
+            class="font-['Lato'] text-2xl font-semibold text-[#125276] mb-3">
+            Queries
+          </h2><p>Speak with our pharmacist about your medications.</p>
+        </section>
+      </div>
+    </main><NewsFooter /></body
+  >
+</html>
