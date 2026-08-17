@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
-    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+    import.meta.env.PUBLIC_SUPABASE_ACADEMICS_URL,
+    import.meta.env.PUBLIC_SUPABASE_ACADEMICS_ANON_KEY
 );
 
 export default function PartnershipInquiryForm() {
@@ -86,9 +86,9 @@ export default function PartnershipInquiryForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 space-x-0">
             {error && (
-                <div className="p-4 bg-rose-50 border border-rose-200 rounded-lg text-sm text-rose-700">
+                <div className="p-4 bg-rose-50 border border-blue-100 rounded-lg text-sm text-rose-700">
                     {error}
                 </div>
             )}
@@ -199,7 +199,7 @@ export default function PartnershipInquiryForm() {
             <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-600 text-white font-semibold py-3 rounded-xl transition-colors shadow-md">
+                className="w-full bg-primary hover:bg-blue-500 disabled:bg-slate-600 text-white font-semibold py-3 rounded-xl transition-colors shadow-md">
                 {isLoading ? 'Sending Inquiry...' : 'Send Inquiry to Administration'}
             </button>
         </form>

@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
-    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+    import.meta.env.PUBLIC_SUPABASE_ACADEMICS_URL,
+    import.meta.env.PUBLIC_SUPABASE_ACADEMICS_ANON_KEY
 );
+
+const IDLE_TIME = 15 * 60 * 1000; // 15 minutes
 
 interface AuthState {
     user: any;
     session: any;
     isLoading: boolean;
-    error: string | null;
-    isHRAdmin: boolean;
 }
 
 export default function HRAdminAuthGate({ children }: { children: React.ReactNode }) {
@@ -19,41 +19,37 @@ export default function HRAdminAuthGate({ children }: { children: React.ReactNod
         user: null,
         session: null,
         isLoading: true,
-        error: null,
-        isHRAdmin: false,
     });
+
+    const idleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         const checkAuth = async () => {
-            const { data, error } = await supabase.auth.getSession();
+            try {
+                const {
+                    data: { session },
+                } = await supabase.auth.getSession();
 
-            if (data?.session) {
-                // Check for HR admin custom claims
-                const user = data.session.user;
-                const isHRAdmin = user.user_metadata?.role === 'hr_admin' ||
-                    user.app_metadata?.role === 'hr_admin';
-
-                if (!isHRAdmin) {
-                    // Not an HR admin, redirect or deny access
+                if (session?.user) {
+                    setAuth({
+                        user: session.user,
+                        session,
+                        isLoading: false,
+                    });
+                } else {
                     setAuth({
                         user: null,
                         session: null,
                         isLoading: false,
-                        error: 'Access denied. Only HR administrators can access this portal.',
-                        isHRAdmin: false,
                     });
-                    return;
                 }
-
+            } catch (err) {
+                console.error('Auth check failed:', err);
                 setAuth({
-                    user,
-                    session: data.session,
+                    user: null,
+                    session: null,
                     isLoading: false,
-                    error: null,
-                    isHRAdmin: true,
                 });
-            } else {
-                setAuth((prev) => ({ ...prev, isLoading: false }));
             }
         };
 
@@ -62,37 +58,18 @@ export default function HRAdminAuthGate({ children }: { children: React.ReactNod
         // Listen for auth changes
         const {
             data: { subscription },
-        } = supabase.auth.onAuthStateChange(async (_event, session) => {
-            if (session) {
-                const user = session.user;
-                const isHRAdmin = user.user_metadata?.role === 'hr_admin' ||
-                    user.app_metadata?.role === 'hr_admin';
-
-                if (!isHRAdmin) {
-                    setAuth({
-                        user: null,
-                        session: null,
-                        isLoading: false,
-                        error: 'Access denied. Only HR administrators can access this portal.',
-                        isHRAdmin: false,
-                    });
-                    return;
-                }
-
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+            if (session?.user) {
                 setAuth({
-                    user,
+                    user: session.user,
                     session,
                     isLoading: false,
-                    error: null,
-                    isHRAdmin: true,
                 });
             } else {
                 setAuth({
                     user: null,
                     session: null,
                     isLoading: false,
-                    error: null,
-                    isHRAdmin: false,
                 });
             }
         });
@@ -100,57 +77,110 @@ export default function HRAdminAuthGate({ children }: { children: React.ReactNod
         return () => subscription?.unsubscribe();
     }, []);
 
+    // Idle logout
+    useEffect(() => {
+        if (!auth.user) return;
+
+        const resetIdleTimer = () => {
+            if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current);
+            idleTimeoutRef.current = setTimeout(() => {
+                handleLogout();
+            }, IDLE_TIME);
+        };
+
+        const events = ['mousedown', 'keydown', 'scroll', 'touchstart', 'click'];
+        events.forEach((event) => window.addEventListener(event, resetIdleTimer));
+        resetIdleTimer();
+
+        return () => {
+            events.forEach((event) =>
+                window.removeEventListener(event, resetIdleTimer),
+            );
+            if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current);
+        };
+    }, [auth.user]);
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        setAuth({
+            user: null,
+            session: null,
+            isLoading: false,
+        });
+    };
+
     if (auth.isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-slate-50">
-                <div className="text-center space-y-4">
-                    <div className="h-10 w-10 rounded-full border-4 border-slate-300 border-t-blue-600 animate-spin mx-auto"></div>
-                    <p className="text-slate-600 text-sm font-medium">Loading...</p>
+            <div className='min-h-screen flex items-center justify-center bg-[#F7F9FB]'>
+                <div className='text-center'>
+                    <div
+                        className='w-12 h-12 rounded-full mx-auto mb-4 animate-spin'
+                        style={{
+                            border: '3px solid #D8E0E7',
+                            borderTopColor: '#1565c0',
+                        }}
+                    />
+                    <p className="font-['Outfit'] text-sm text-[#7A8A96]">Loading...</p>
                 </div>
             </div>
         );
-    }
-
-    if (auth.error || !auth.isHRAdmin) {
-        return <LoginPage error={auth.error} />;
     }
 
     if (!auth.user) {
         return <LoginPage />;
     }
 
-    return <>{children}</>;
+    return (
+        <>
+            {/* Auth Context Provider - Logout available to children */}
+            <AuthContext.Provider value={{ user: auth.user, handleLogout }}>
+                {children}
+            </AuthContext.Provider>
+        </>
+    );
 }
 
-interface LoginPageProps {
-    error?: string | null;
-}
+export const AuthContext = React.createContext<{
+    user: any;
+    handleLogout: () => Promise<void>;
+}>({
+    user: null,
+    handleLogout: async () => { },
+});
 
-function LoginPage({ error }: LoginPageProps) {
-    const [isLoading, setIsLoading] = useState(false);
+function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loginError, setLoginError] = useState<string | null>(error || null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [loginError, setLoginError] = useState('');
     const [resetSent, setResetSent] = useState(false);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoginError(null);
+        setLoginError('');
         setIsLoading(true);
 
-        const { data, error: loginError } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
 
-        setIsLoading(false);
+            if (error) {
+                setLoginError(error.message || 'Login failed. Please check your credentials.');
+                setIsLoading(false);
+                return;
+            }
 
-        if (loginError) {
-            setLoginError(loginError.message || 'Login failed. Please check your credentials.');
-        } else if (data.session) {
-            // Auth state will update automatically via onAuthStateChange
-            setEmail('');
-            setPassword('');
+            if (data.user) {
+                setEmail('');
+                setPassword('');
+                // Auth state will update automatically
+            }
+        } catch (err) {
+            setLoginError('Login failed. Please try again.');
+            console.error(err);
+            setIsLoading(false);
         }
     };
 
@@ -162,103 +192,133 @@ function LoginPage({ error }: LoginPageProps) {
         }
 
         setIsLoading(true);
-        setLoginError(null);
+        setLoginError('');
 
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: `${window.location.origin}/admin/academics/reset-password`,
-        });
+        try {
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: `${window.location.origin}/admin/academics/reset-password`,
+            });
 
-        setIsLoading(false);
+            if (error) {
+                setLoginError(error.message || 'Failed to send reset email.');
+                setIsLoading(false);
+                return;
+            }
 
-        if (error) {
-            setLoginError(error.message || 'Failed to send reset email.');
-        } else {
             setResetSent(true);
             setTimeout(() => setResetSent(false), 5000);
+        } catch (err) {
+            setLoginError('Failed to send reset email.');
+            console.error(err);
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-blue-950 flex items-center justify-center px-4 py-12">
-            <div className="w-full max-w-md">
-                <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 p-6 sm:p-8">
-                    {/* Logo */}
-                    <div className="text-center mb-8">
-                        <div className="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-blue-100 text-blue-600 font-bold text-lg mb-4">
-                            S
-                        </div>
-                        <h1 className="text-2xl font-bold text-slate-900">SPMH Academics</h1>
-                        <p className="text-xs text-slate-500 uppercase tracking-wider mt-2">
-                            Manager Portal
-                        </p>
+        <div className='min-h-screen flex items-center justify-center p-4 relative overflow-hidden'>
+            <img
+                src='/gallery/ed.jpg'
+                alt='background image'
+                loading='eager'
+                className='absolute inset-0 w-full h-full object-cover'
+                style={{ transform: 'scale(1.05)', opacity: 0.8 }}
+            />
+            <div
+                className='absolute inset-0 pointer-events-none'
+                style={{
+                    background:
+                        'linear-gradient(20deg, rgba(20,08,30,0.95), rgba(104,15,15,0.5) 70%)',
+                }}
+            />
+            <div
+                className='absolute inset-0 pointer-events-none opacity-[0.04]'
+                style={{
+                    backgroundImage: 'radial-gradient(circle,#fff 1px,transparent 1px)',
+                    backgroundSize: '28px 28px',
+                }}
+            />
+
+            <div className='relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-md p-4 md:p-8'>
+                <div className='flex justify-center mb-6'>
+                    <img
+                        src='/gallery/bg.png'
+                        alt='SPMH'
+                        className='h-26 w-auto object-contain'
+                        loading='eager'
+                    />
+                </div>
+
+                <h2 className="text-2xl font-bold mb-1 font-['Lato'] text-[#1c1c1e]">
+                    Academics Manager
+                </h2>
+                <p className="text-sm mb-6 font-['Open Sans'] text-[#6b7280]">
+                    Sign in to manage student applications & partnerships
+                </p>
+
+                <form onSubmit={handleLogin} className='space-y-4'>
+                    <div>
+                        <label className="block text-xs font-semibold mb-1.5 font-['Open Sans'] text-[#1c1c1e]">
+                            Email
+                        </label>
+                        <input
+                            type='email'
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder='hr@spmh.co.ke'
+                            className="w-full px-4 py-3 rounded-lg border text-sm outline-none transition-all font-['Outfit'] border-[#ece8e1] text-[#1c1c1e] focus:border-[#860f0f]"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-semibold mb-1.5 font-['Open Sans'] text-[#1c1c1e]">
+                            Password
+                        </label>
+                        <input
+                            type='password'
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder='••••••••'
+                            className="w-full px-4 py-3 rounded-lg border text-sm outline-none transition-all font-['Outfit'] border-[#ece8e1] text-[#1c1c1e] focus:border-[#860f0f]"
+                        />
                     </div>
 
-                    {/* Error Messages */}
                     {loginError && (
-                        <div className="mb-6 p-4 bg-rose-50 border border-rose-200 rounded-lg text-sm text-rose-700">
+                        <div className="p-3 rounded-lg text-sm font-['Open Sans'] bg-[#fef2f2] border border-[#fecaca] text-[#b91c1c]">
                             {loginError}
                         </div>
                     )}
 
                     {resetSent && (
-                        <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-sm text-emerald-700">
+                        <div className="p-3 rounded-lg text-sm font-['Open Sans'] bg-[#f0fdf4] border border-[#86efac] text-[#166534]">
                             Password reset email sent. Check your inbox.
                         </div>
                     )}
 
-                    {/* Login Form */}
-                    <form onSubmit={handleLogin} className="space-y-4">
-                        <div>
-                            <label className="block text-xs font-semibold text-slate-700 uppercase mb-2">
-                                Email
-                            </label>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none"
-                                placeholder="your@email.com"
-                            />
-                        </div>
+                    <button
+                        type='submit'
+                        disabled={isLoading}
+                        className="w-full py-3 rounded-lg text-white font-bold text-sm transition-opacity hover:opacity-90 disabled:opacity-50 font-['Open Sans'] bg-[#860f0f]">
+                        {isLoading ? 'Signing in...' : 'Sign In'}
+                    </button>
+                </form>
 
-                        <div>
-                            <label className="block text-xs font-semibold text-slate-700 uppercase mb-2">
-                                Password
-                            </label>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none"
-                                placeholder="••••••••"
-                            />
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-semibold py-2.5 rounded-lg transition-colors">
-                            {isLoading ? 'Logging in...' : 'Login'}
-                        </button>
-
-                        <div className="text-center pt-2">
-                            <button
-                                type="button"
-                                onClick={handleForgotPassword}
-                                disabled={isLoading}
-                                className="text-xs text-blue-600 hover:text-blue-700 font-medium">
-                                Forgot password?
-                            </button>
-                        </div>
-                    </form>
-
-                    {/* Footer Note */}
-                    <p className="text-xs text-slate-500 text-center mt-6 pt-6 border-t border-slate-200">
-                        This portal is for authorized SPMH HR and Academics management staff only.
-                    </p>
+                <div className='mt-4 pt-4 border-t border-[#ece8e1]'>
+                    <button
+                        type='button'
+                        onClick={handleForgotPassword}
+                        disabled={isLoading}
+                        className="w-full text-center text-xs font-['Open Sans'] text-[#860f0f] hover:underline disabled:opacity-50">
+                        Forgot your password?
+                    </button>
                 </div>
+
+                <p className="text-center text-xs mt-6 font-['Open Sans'] text-[#9ca3af]">
+                    <a href='/' className='text-[#860f0f] hover:underline'>
+                        Back to home
+                    </a>
+                </p>
             </div>
         </div>
     );

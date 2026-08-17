@@ -9,12 +9,16 @@ import '../../../styles/global.css';
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>Academics Manager | SPMH Administration</title>
+    <link rel='icon' type='image/png' href='/file.svg' />
+
     <meta
       name='description'
       content='Review and manage student attachment applications, partnerships, and research collaborations.'
     />
   </head>
   <body>
-    <HRAdminAuthGate client:load="react" />
+    <HRAdminAuthGate client:only='react'>
+      <HRAdminDashboard />
+    </HRAdminAuthGate>
   </body>
 </html>

@@ -1,581 +1,833 @@
 ---
-import '../../styles/global.css';
-import AcademicsFooter from '../../components/AcademicsFooter.astro';
+import AcademicNavbar from '../../components/AcademicsNavbar.astro';
+import TestimonialCarousel from '../../components/TestimonialCarousel.jsx';
 import StudentAttachmentForm from '../../components/StudentAttachmentForm.jsx';
 import PartnershipInquiryForm from '../../components/PartnershipInquiryForm.jsx';
+import AcademicsFooter from '../../components/AcademicsFooter.astro';
+import '../../Styles/global.css';
 ---
 
 <html lang='en' class='scroll-smooth'>
   <head>
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <title>Academics, Research & Internships | SPMH</title>
+    <title>Academics, Research & Partnerships | SPMH</title>
     <link rel='icon' type='image/png' href='/file.svg' />
-
+    <link
+      href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Open+Sans:wght@400;500;600;700&display=swap'
+      rel='stylesheet'
+    />
     <meta
       name='description'
-      content="Clinical training, institutional partnerships, and research collaboration at St. Paul's Mission Hospital."
+      content="Clinical training, research partnerships, and institutional collaboration at St. Paul's Mission Hospital."
     />
+    <!-- Add this once inside your <head> -->
+    <link
+      rel='stylesheet'
+      href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
+    />
+    <style>
+      * {
+        font-family: 'Open Sans', system-ui, sans-serif;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: 'Roboto', sans-serif;
+      }
+
+      .pathway-card {
+        transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .pathway-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(21, 101, 192, 0.15);
+      }
+
+      .pathway-icon {
+        transition: all 300ms ease;
+      }
+
+      .pathway-card:hover .pathway-icon {
+        transform: scale(1.1);
+        color: #1565c0;
+      }
+
+      .hero-section {
+        background: linear-gradient(
+          135deg,
+          #0d47a1 0%,
+          #1565c0 50%,
+          #125276 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="1200" height="600" fill="url(%23grid)" /></svg>');
+        opacity: 0.5;
+      }
+
+      .metric-card {
+        animation: slideUp 0.6s ease-out forwards;
+      }
+
+      .metric-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .metric-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .metric-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .metric-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .application-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+      }
+
+      @media (max-width: 768px) {
+        .application-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .step-item {
+        position: relative;
+        padding-left: 60px;
+      }
+
+      .step-number {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #1565c0 0%, #125276 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      .cta-footer {
+        background: linear-gradient(135deg, #0d47a1 0%, #125276 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-footer::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="1200" height="400" fill="url(%23grid)" /></svg>');
+      }
+    </style>
   </head>
-  <body class='bg-slate-50 text-slate-900 antialiased'>
-    <!-- Top Navigation Bar for Academic Hub -->
-    <header
-      class='sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200'
-      x-data='{ mobileMenuOpen: false }'>
+
+  <body class='bg-white text-slate-900'>
+    <!-- Navbar -->
+    <AcademicNavbar />
+
+    <!-- HERO SECTION - Image Left (flush), Text Right -->
+    <section
+      class='relative bg-blue-950 text-white overflow-hidden min-h-[500px] flex flex-col lg:flex-row items-stretch'>
+      
+      <!-- Left Column: Image – stretches full height, no padding -->
+      <div class='w-full lg:w-1/2 order-1 lg:order-1 overflow-hidden'>
+        <img
+          src='/img/40.jpg'
+          alt='Clinical students in training session'
+          class='w-full h-full object-cover'
+          loading='lazy'
+        />
+      </div>
+
+      <!-- Right Column: Content – padded, vertically centered -->
       <div
-        class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between'>
-        <div class='flex items-center space-x-2 sm:space-x-4'>
-          <a
-            href='/'
-            class='text-slate-500 hover:text-slate-800 text-xs sm:text-sm font-medium flex items-center gap-1 transition-colors'>
-            ← <span class='hidden xs:inline'>Back to</span> Main Site
-          </a>
-          <span class='text-slate-300 hidden sm:inline'>|</span>
+        class='w-full lg:w-1/2 order-2 lg:order-2 px-5 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28 flex flex-col justify-center'>
+        <!-- Badge -->
+        <span
+          class='inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold bg-blue-700/50 text-blue-100 border border-blue-500/30 uppercase tracking-wider backdrop-blur-sm self-center lg:self-start'>
+          Clinical Excellence & Learning Hub
+        </span>
+
+        <!-- Heading -->
+        <h1
+          class='text-3xl text-surface-2 xs:text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight mt-4 sm:mt-5 leading-[1.15] sm:leading-tight text-center lg:text-left'>
+          Empowering Next-Generation
           <span
-            class='font-bold text-slate-900 tracking-tight text-xs sm:text-sm truncate max-w-[180px] sm:max-w-none'
-            >Academics, Research & Internships</span
-          >
-        </div>
+            class='text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-200'>
+            Professionals
+          </span>
+        </h1>
 
-        <!-- Desktop Nav Links -->
-        <div class='hidden md:flex items-center space-x-6'>
-          <a
-            href='#pathways'
-            class='text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors'
-            >Partnership Pathways</a
-          >
-          <a
-            href='#internships'
-            class='text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors'
-            >For Students</a
-          >
-          <a
-            href='#partnerships'
-            class='text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors'
-            >For Institutions</a
-          >
-          <a
-            href='/academics-and-internships/faq'
-            class='text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors'
-            >FAQs</a
-          >
-          <a
-            href='/academics-and-internships/portal'
-            class='bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors shadow-sm'>
-            Check Status
-          </a>
-        </div>
+        <!-- Description -->
+        <p
+          class='mt-4 sm:mt-5 text-base sm:text-lg md:text-xl text-blue-100/90 leading-relaxed max-w-2xl mx-auto lg:mx-0 text-center lg:text-left'>
+          Hands-on clinical attachments, internship placements, and structured
+          practical rotations at St. Paul's Mission Hospital. Bridging academic
+          theory with compassionate, direct patient care.
+        </p>
 
-        <!-- Mobile Menu Button -->
-        <div class='flex md:hidden items-center space-x-3'>
+        <!-- Buttons -->
+        <div
+          class='mt-7 sm:mt-9 flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4'>
           <a
-            href='/academics-and-internships/portal'
-            class='bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition-colors shadow-sm'>
-            Check Status
-          </a>
-          <button
-            @click='mobileMenuOpen = !mobileMenuOpen'
-            class='p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none'>
+            href='/portal/student'
+            class='inline-flex items-center justify-center px-5 sm:px-7 py-3 sm:py-3.5 text-sm sm:text-base font-semibold rounded-xl text-blue-900 bg-white hover:bg-blue-50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg shadow-blue-900/30'>
+            Access Student Portal
             <svg
-              class='w-6 h-6'
+              class='ml-2 h-4 w-4 sm:h-5 sm:w-5 text-blue-900'
               fill='none'
               stroke='currentColor'
               viewBox='0 0 24 24'>
               <path
-                x-show='!mobileMenuOpen'
                 stroke-linecap='round'
                 stroke-linejoin='round'
-                stroke-width='2'
-                d='M4 6h16M4 12h16M4 18h16'></path>
-              <path
-                x-show='mobileMenuOpen'
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                stroke-width='2'
-                d='M6 18L18 6M6 6l12 12'></path>
+                stroke-width='2.5'
+                d='M14 5l7 7m0 0l-7 7m7-7H3'></path>
             </svg>
-          </button>
+          </a>
+          <a
+            href='#pathways'
+            class='inline-flex items-center justify-center px-5 sm:px-7 py-3 sm:py-3.5 text-sm sm:text-base font-medium rounded-xl text-white border border-white/30 hover:bg-white/10 hover:border-white/50 transition-all duration-200 backdrop-blur-sm'>
+            Explore Programs
+          </a>
         </div>
       </div>
+    </section>
 
-      <!-- Mobile Dropdown Menu -->
-      <div
-        x-show='mobileMenuOpen'
-        @click.away='mobileMenuOpen = false'
-        x-transition:enter='transition ease-out duration-200'
-        x-transition:enter-start='opacity-0 -translate-y-2'
-        x-transition:enter-end='opacity-100 translate-y-0'
-        class='md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2 shadow-lg'>
-        <a
-          href='#pathways'
-          @click='mobileMenuOpen = false'
-          class='block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600'
-          >Partnership Pathways</a
-        >
-        <a
-          href='#internships'
-          @click='mobileMenuOpen = false'
-          class='block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600'
-          >For Students</a
-        >
-        <a
-          href='#partnerships'
-          @click='mobileMenuOpen = false'
-          class='block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600'
-          >For Institutions</a
-        >
-        <a
-          href='/academics-and-internships/faq'
-          @click='mobileMenuOpen = false'
-          class='block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600'
-          >FAQs</a
-        >
-      </div>
-    </header>
+    <!-- Trust Metrics -->
+    <section
+      class='py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-slate-50'>
+      <div class='max-w-5xl mx-auto'>
+        <div class='grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8'>
+          <div class='metric-card text-center'>
+            <div class='text-4xl sm:text-5xl font-bold text-blue-600 mb-2'>
+              150+
+            </div>
+            <p class='text-sm sm:text-base text-slate-600 font-500'>
+              Students Trained
+            </p>
+            <p class='text-xs text-slate-500'>Across all disciplines</p>
+          </div>
 
-    <main class='bg-slate-50 min-h-screen'>
-      <!-- Hero Section -->
-      <section
-        class='bg-gradient-to-b from-slate-900 via-slate-800 to-blue-950 text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8'>
-        <div class='max-w-5xl mx-auto text-center space-y-6'>
-          <span
-            class='inline-block bg-blue-500/20 text-blue-300 border border-blue-400/30 text-xs font-semibold px-3.5 py-1.5 rounded-full uppercase tracking-wider'>
-            Academic, Research & Institutional Partnerships
-          </span>
-          <h1
-            class='font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight'>
-            Building the Next Generation of Healthcare Talent — Together
-          </h1>
-          <p
-            class='text-base sm:text-lg lg:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed'>
-            St. Paul's Mission Hospital partners with academic institutions on
-            clinical training, faculty exchange, and community health research —
-            from single-student attachments to long-term institutional
-            collaboration.
-          </p>
-          <div class='flex flex-col sm:flex-row justify-center gap-4 pt-4'>
-            <a
-              href='#internships'
-              class='bg-blue-600 hover:bg-blue-500 text-white font-medium px-6 py-3 rounded-xl transition-all shadow-lg text-center'>
-              Apply for Attachment
-            </a>
-            <a
-              href='#partnerships'
-              class='bg-white/10 hover:bg-white/20 text-white border border-white/20 font-medium px-6 py-3 rounded-xl transition-all text-center'>
-              Start an Institutional Partnership
-            </a>
+          <div class='metric-card text-center'>
+            <div class='text-4xl sm:text-5xl font-bold text-blue-600 mb-2'>
+              18
+            </div>
+            <p class='text-sm sm:text-base text-slate-600 font-500'>
+              Partner Institutions
+            </p>
+            <p class='text-xs text-slate-500'>Local & regional</p>
+          </div>
+
+          <div class='metric-card text-center'>
+            <div class='text-4xl sm:text-5xl font-bold text-blue-600 mb-2'>
+              87%
+            </div>
+            <p class='text-sm sm:text-base text-slate-600 font-500'>
+              Employment Rate
+            </p>
+            <p class='text-xs text-slate-500'>Post-attachment</p>
+          </div>
+
+          <div class='metric-card text-center'>
+            <div class='text-4xl sm:text-5xl font-bold text-blue-600 mb-2'>
+              6+
+            </div>
+            <p class='text-sm sm:text-base text-slate-600 font-500'>
+              Programs Offered
+            </p>
+            <p class='text-xs text-slate-500'>Nursing to admin</p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Partnership Pathways (icon-led) -->
-      <section
-        id='pathways'
-        class='py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto'>
-        <div class='text-center max-w-3xl mx-auto mb-12 space-y-4'>
+    <!-- Partnership Pathways -->
+    <section
+      id='pathways'
+      class='py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-surface/20'>
+      <div class='max-w-7xl mx-auto'>
+        <div class='text-center max-w-3xl mx-auto mb-16 space-y-4'>
           <span
-            class='text-blue-600 font-semibold text-xs uppercase tracking-wider'
-            >Ways to Work With SPMH</span
-          >
-          <h2
-            class='font-serif text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight'>
+            class='text-secondary font-bold text-xs uppercase tracking-wider block'>
             Partnership Pathways
+          </span>
+          <h2 class='text-3xl sm:text-4xl lg:text-5xl font-bold'>
+            Ways to Collaborate
           </h2>
-          <p class='text-sm sm:text-base text-slate-600'>
-            As part of SPMH's 2026–2030 institutional roadmap, we are expanding
-            beyond one-off placements into structured, long-term academic and
-            research relationships.
+          <p class='text-base sm:text-lg text-slate-600'>
+            Structured routes designed for students, institutions, and
+            healthcare leaders.
           </p>
         </div>
 
-        <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
           <!-- Clinical Training -->
-          <div
-            class='bg-white p-6 rounded-2xl shadow-sm border border-slate-200'>
-            <div
-              class='h-11 w-11 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-4'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                class='h-6 w-6'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                stroke-width='1.75'
-                stroke-linecap='round'
-                stroke-linejoin='round'>
-                <path d='M22 10 12 5 2 10l10 5 10-5Z'></path>
-                <path d='M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5'></path>
-              </svg>
+          <article
+            class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-blue-200'>
+            <span
+              class='absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-gradient-to-r from-blue-500 to-cyan-500 opacity-0 transition-opacity group-hover:opacity-100'
+            ></span>
+            <div class='flex items-start justify-between'>
+              <div
+                class='h-14 w-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center'>
+                <i class='fa-solid fa-stethoscope text-2xl' aria-hidden='true'
+                ></i>
+              </div>
+              <span
+                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700'>
+                <i class='fa-regular fa-clock' aria-hidden='true'></i>
+                6–12 weeks
+              </span>
             </div>
-            <h3 class='text-base font-semibold text-slate-900 mb-2'>
+            <h3 class='mt-5 text-lg font-bold text-slate-900'>
               Clinical Training
             </h3>
-            <p class='text-sm text-slate-600 leading-relaxed'>
-              Structured rotations across nursing, laboratory, pharmacy, and
-              outpatient departments under certified preceptors.
+            <p class='mt-2 text-sm leading-relaxed text-slate-600'>
+              Structured rotations across nursing, lab, pharmacy, and outpatient
+              departments under certified preceptors.
             </p>
-          </div>
+            <a
+              href='#'
+              class='mt-5 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-800'>
+              Explore pathway
+              <i
+                class='fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1'
+                aria-hidden='true'></i>
+            </a>
+          </article>
 
-          <!-- Research Collaboration -->
-          <div
-            class='bg-white p-6 rounded-2xl shadow-sm border border-slate-200'>
-            <div
-              class='h-11 w-11 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-4'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                class='h-6 w-6'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                stroke-width='1.75'
-                stroke-linecap='round'
-                stroke-linejoin='round'>
-                <path
-                  d='M9 2v6.3a2 2 0 0 1-.3 1L4 18a2 2 0 0 0 1.7 3h12.6a2 2 0 0 0 1.7-3l-4.7-8.7a2 2 0 0 1-.3-1V2'
-                ></path>
-                <path d='M8.5 2h7'></path>
-                <path d='M7 15h10'></path>
-              </svg>
+          <!-- Research & Innovation -->
+          <article
+            class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-emerald-200'>
+            <span
+              class='absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-gradient-to-r from-emerald-500 to-green-500 opacity-0 transition-opacity group-hover:opacity-100'
+            ></span>
+            <div class='flex items-start justify-between'>
+              <div
+                class='h-14 w-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center'>
+                <i class='fa-solid fa-microscope text-2xl' aria-hidden='true'
+                ></i>
+              </div>
+              <span
+                class='inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700'>
+                <i class='fa-regular fa-clock' aria-hidden='true'></i>
+                3–12 months
+              </span>
             </div>
-            <h3 class='text-base font-semibold text-slate-900 mb-2'>
-              Research Collaboration
+            <h3 class='mt-5 text-lg font-bold text-slate-900'>
+              Research & Innovation
             </h3>
-            <p class='text-sm text-slate-600 leading-relaxed'>
-              Joint studies in community and rural health, epidemiology, and
-              quality improvement — a growing priority under our strategic plan.
+            <p class='mt-2 text-sm leading-relaxed text-slate-600'>
+              Joint studies in community health, epidemiology, and quality
+              improvement initiatives.
             </p>
-          </div>
+            <a
+              href='#'
+              class='mt-5 inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-800'>
+              Explore pathway
+              <i
+                class='fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1'
+                aria-hidden='true'></i>
+            </a>
+          </article>
 
-          <!-- Continuing Medical Education -->
-          <div
-            class='bg-white p-6 rounded-2xl shadow-sm border border-slate-200'>
-            <div
-              class='h-11 w-11 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-4'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                class='h-6 w-6'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                stroke-width='1.75'
-                stroke-linecap='round'
-                stroke-linejoin='round'>
-                <path d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'></path>
-                <path
-                  d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z'
-                ></path>
-              </svg>
+          <!-- CME Programs -->
+          <article
+            class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-purple-200'>
+            <span
+              class='absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-gradient-to-r from-purple-500 to-indigo-500 opacity-0 transition-opacity group-hover:opacity-100'
+            ></span>
+            <div class='flex items-start justify-between'>
+              <div
+                class='h-14 w-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center'>
+                <i
+                  class='fa-solid fa-graduation-cap text-2xl'
+                  aria-hidden='true'></i>
+              </div>
+              <span
+                class='inline-flex items-center gap-1.5 rounded-full bg-purple-50 px-3 py-1 text-xs font-semibold text-purple-700'>
+                <i class='fa-solid fa-book-open' aria-hidden='true'></i>
+                Modular
+              </span>
             </div>
-            <h3 class='text-base font-semibold text-slate-900 mb-2'>
-              Continuing Medical Education
-            </h3>
-            <p class='text-sm text-slate-600 leading-relaxed'>
-              Faculty exchange, case-based teaching support, and CME sessions
-              delivered in partnership with visiting institutions.
+            <h3 class='mt-5 text-lg font-bold text-slate-900'>CME Programs</h3>
+            <p class='mt-2 text-sm leading-relaxed text-slate-600'>
+              Faculty exchange, case-based teaching, and continuing medical
+              education sessions.
             </p>
-          </div>
+            <a
+              href='#'
+              class='mt-5 inline-flex items-center gap-2 text-sm font-semibold text-purple-600 hover:text-purple-800'>
+              Explore pathway
+              <i
+                class='fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1'
+                aria-hidden='true'></i>
+            </a>
+          </article>
 
-          <!-- Hospital Administration & Systems -->
-          <div
-            class='bg-white p-6 rounded-2xl shadow-sm border border-slate-200'>
-            <div
-              class='h-11 w-11 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-4'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                class='h-6 w-6'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                stroke-width='1.75'
-                stroke-linecap='round'
-                stroke-linejoin='round'>
-                <path d='M3 21h18'></path>
-                <path d='M6 21V8l6-4 6 4v13'></path>
-                <path d='M10 21v-6h4v6'></path>
-                <path d='M10 12h.01M14 12h.01M10 8h.01M14 8h.01'></path>
-              </svg>
+          <!-- Administration & Systems -->
+          <article
+            class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-amber-200'>
+            <span
+              class='absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-gradient-to-r from-amber-500 to-orange-500 opacity-0 transition-opacity group-hover:opacity-100'
+            ></span>
+            <div class='flex items-start justify-between'>
+              <div
+                class='h-14 w-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center'>
+                <i class='fa-solid fa-building text-2xl' aria-hidden='true'></i>
+              </div>
+              <span
+                class='inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700'>
+                <i class='fa-solid fa-gears' aria-hidden='true'></i>
+                Operations
+              </span>
             </div>
-            <h3 class='text-base font-semibold text-slate-900 mb-2'>
+            <h3 class='mt-5 text-lg font-bold text-slate-900'>
               Administration & Systems
             </h3>
-            <p class='text-sm text-slate-600 leading-relaxed'>
-              Attachments in HR, finance, procurement, and health information
-              systems for administration and management students.
+            <p class='mt-2 text-sm leading-relaxed text-slate-600'>
+              Hands-on experience in HR, finance, procurement, and health
+              information systems.
             </p>
-          </div>
+            <a
+              href='#'
+              class='mt-5 inline-flex items-center gap-2 text-sm font-semibold text-amber-600 hover:text-amber-800'>
+              Explore pathway
+              <i
+                class='fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1'
+                aria-hidden='true'></i>
+            </a>
+          </article>
 
-          <!-- International & Regional MOUs -->
-          <div
-            class='bg-white p-6 rounded-2xl shadow-sm border border-slate-200'>
-            <div
-              class='h-11 w-11 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-4'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                class='h-6 w-6'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                stroke-width='1.75'
-                stroke-linecap='round'
-                stroke-linejoin='round'>
-                <circle cx='12' cy='12' r='9'></circle>
-                <path d='M3 12h18'></path>
-                <path d='M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z'></path>
-              </svg>
+          <!-- International Partnerships -->
+          <article
+            class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-cyan-200'>
+            <span
+              class='absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-gradient-to-r from-cyan-500 to-sky-500 opacity-0 transition-opacity group-hover:opacity-100'
+            ></span>
+            <div class='flex items-start justify-between'>
+              <div
+                class='h-14 w-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center'>
+                <i class='fa-solid fa-globe text-2xl' aria-hidden='true'></i>
+              </div>
+              <span
+                class='inline-flex items-center gap-1.5 rounded-full bg-cyan-50 px-3 py-1 text-xs font-semibold text-cyan-700'>
+                <i class='fa-solid fa-file-contract' aria-hidden='true'></i>
+                Multi-year
+              </span>
             </div>
-            <h3 class='text-base font-semibold text-slate-900 mb-2'>
-              International & Regional MOUs
+            <h3 class='mt-5 text-lg font-bold text-slate-900'>
+              International Partnerships
             </h3>
-            <p class='text-sm text-slate-600 leading-relaxed'>
-              Formal agreements with local, regional, and international
-              institutions to sustain long-term placement pipelines.
+            <p class='mt-2 text-sm leading-relaxed text-slate-600'>
+              Formal MOUs with regional and international institutions for
+              sustainable collaboration.
             </p>
-          </div>
+            <a
+              href='#'
+              class='mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cyan-600 hover:text-cyan-800'>
+              Explore pathway
+              <i
+                class='fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1'
+                aria-hidden='true'></i>
+            </a>
+          </article>
 
-          <!-- Community & Outreach -->
-          <div
-            class='bg-white p-6 rounded-2xl shadow-sm border border-slate-200'>
-            <div
-              class='h-11 w-11 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-4'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                class='h-6 w-6'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                stroke-width='1.75'
-                stroke-linecap='round'
-                stroke-linejoin='round'>
-                <path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'></path>
-                <circle cx='9' cy='7' r='4'></circle>
-                <path d='M23 21v-2a4 4 0 0 0-3-3.87'></path>
-                <path d='M16 3.13a4 4 0 0 1 0 7.75'></path>
-              </svg>
+          <!-- Community Health Programs -->
+          <article
+            class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-rose-200'>
+            <span
+              class='absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-gradient-to-r from-rose-500 to-pink-500 opacity-0 transition-opacity group-hover:opacity-100'
+            ></span>
+            <div class='flex items-start justify-between'>
+              <div
+                class='h-14 w-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center'>
+                <i class='fa-solid fa-people-group text-2xl' aria-hidden='true'
+                ></i>
+              </div>
+              <span
+                class='inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700'>
+                <i class='fa-solid fa-location-dot' aria-hidden='true'></i>
+                Field-based
+              </span>
             </div>
-            <h3 class='text-base font-semibold text-slate-900 mb-2'>
+            <h3 class='mt-5 text-lg font-bold text-slate-900'>
               Community Health Programs
             </h3>
-            <p class='text-sm text-slate-600 leading-relaxed'>
+            <p class='mt-2 text-sm leading-relaxed text-slate-600'>
               Student involvement in outreach and public health initiatives
-              across Homa Bay and the wider Western Kenya region.
+              across Western Kenya.
             </p>
-          </div>
+            <a
+              href='#'
+              class='mt-5 inline-flex items-center gap-2 text-sm font-semibold text-rose-600 hover:text-rose-800'>
+              Explore pathway
+              <i
+                class='fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1'
+                aria-hidden='true'></i>
+            </a>
+          </article>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Section 1: For Students (Internships & Attachments) -->
-      <section
-        id='internships'
-        class='py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto'>
-        <div class='text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-4'>
-          <h2
-            class='font-serif text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight'>
-            Student Attachments & Clinical Rotations
-          </h2>
-          <p class='text-sm sm:text-base text-slate-600'>
-            We host students across multiple disciplines. Attachment windows and
-            requirements are structured according to your primary academic
-            institution's curriculum.
-          </p>
-        </div>
+    <!-- Testimonials Carousel -->
+    <TestimonialCarousel client:only='react' />
 
-        <!-- Application Component / Interactive Form Section -->
-        <div
-          class='bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden p-6 sm:p-10 lg:p-12'
-          x-data='internshipForm()'>
-          <div class='max-w-2xl mx-auto'>
-            <div class='border-b border-slate-100 pb-6 mb-8'>
-              <h3 class='text-xl sm:text-2xl font-bold text-slate-900'>
-                Submit Attachment Request
-              </h3>
-              <p class='text-xs sm:text-sm text-slate-500 mt-1'>
-                Complete this form to initiate your review process with HR. You
-                will receive a tracking code upon submission.
-              </p>
+    <!-- Application Guide (Redesigned) -->
+    <section
+      id='internships'
+      class='py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gray-200'>
+      <div class='max-w-7xl mx-auto'>
+        <div class='application-grid'>
+          <!-- Left: Process Steps -->
+          <div class='space-y-8'>
+            <div>
+              <span
+                class='font-bold text-xs uppercase tracking-wider block mb-2'
+                >How It Works</span
+              >
+              <h2 class='text-3xl sm:text-4xl font-bold'>
+                Your Path to Clinical Training
+              </h2>
             </div>
 
-            <StudentAttachmentForm />
-            
+            <div class='space-y-6'>
+              <div class='step-item'>
+                <div class='step-number'>1</div>
+                <h3 class='font-bold text-slate-900 mb-1'>
+                  Submit Application
+                </h3>
+                <p class='text-sm text-slate-600'>
+                  Complete our online form with your academic details and
+                  preferred rotation dates.
+                </p>
+                <p class='text-xs text-slate-500 mt-2'>⏱ Takes 15 minutes</p>
+              </div>
+
+              <div class='step-item'>
+                <div class='step-number'>2</div>
+                <h3 class='font-bold text-slate-900 mb-1'>HR Verification</h3>
+                <p class='text-sm text-slate-600'>
+                  We confirm your academic status and check placement
+                  availability.
+                </p>
+                <p class='text-xs text-slate-500 mt-2'>⏱ 3-5 working days</p>
+              </div>
+
+              <div class='step-item'>
+                <div class='step-number'>3</div>
+                <h3 class='font-bold text-slate-900 mb-1'>Preceptor Match</h3>
+                <p class='text-sm text-slate-600'>
+                  We assign you a certified clinical mentor in your chosen
+                  department.
+                </p>
+                <p class='text-xs text-slate-500 mt-2'>
+                  ⏱ 1-2 weeks before start
+                </p>
+              </div>
+
+              <div class='step-item'>
+                <div class='step-number'>4</div>
+                <h3 class='font-bold text-slate-900 mb-1'>Clinical Rotation</h3>
+                <p class='text-sm text-slate-600'>
+                  Begin hands-on training with real patients and clinical teams.
+                </p>
+                <p class='text-xs text-slate-500 mt-2'>⏱ 6-12 weeks</p>
+              </div>
+
+              <div class='step-item'>
+                <div class='step-number'>5</div>
+                <h3 class='font-bold text-slate-900 mb-1'>✓ Certification</h3>
+                <p class='text-sm text-slate-600'>
+                  Receive certificate of completion and detailed evaluation
+                  feedback.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Application Form -->
+          <div
+            class='bg-white rounded-3xl border-2 border-blue-100 p-8 shadow-lg'>
+            <h3 class='text-2xl font-bold text-secondary mb-2'>Apply Now</h3>
+            <p class='text-sm text-slate-600 mb-6'>
+              Secure your clinical attachment. You'll get a tracking code upon
+              submission.
+            </p>
+
+            <StudentAttachmentForm client:only='react' />
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Section 2: For Academic Institutions (Partnerships) -->
-      <section
-        id='partnerships'
-        class='py-16 sm:py-20 bg-slate-900 text-white px-4 sm:px-6 lg:px-8'>
-        <div
-          class='max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
-          <div class='space-y-6'>
-            <span
-              class='text-blue-400 font-semibold text-xs uppercase tracking-wider'
-              >Institutional Collaborations</span
-            >
-            <h2
-              class='font-serif text-3xl sm:text-4xl font-extrabold tracking-tight'>
-              Partner with St. Paul's Mission Hospital
-            </h2>
-            <p class='text-slate-300 leading-relaxed text-sm sm:text-base'>
-              We are actively growing our network of academic partners — from
-              single clinical placements to standing MOUs covering teaching,
-              research, and faculty exchange. If your institution is exploring a
-              longer-term relationship rather than a one-off placement, this is
-              the right place to start that conversation.
+    <!-- Institutional Partnership Section -->
+    <section
+      id='partnerships'
+      class='py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-slate-900 text-white'>
+      <div class='max-w-7xl mx-auto'>
+        <div class='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
+          <!-- Left Content -->
+          <div class='space-y-8'>
+            <div>
+              <span
+                class='text-blue-300 font-bold text-xs uppercase tracking-wider block mb-2'
+                >Institutional Collaboration</span
+              >
+              <h2 class='text-4xl sm:text-5xl font-bold leading-tight'>
+                Build Sustainable Partnerships
+              </h2>
+            </div>
+
+            <p class='text-lg text-blue-100 leading-relaxed'>
+              We're actively expanding our network of academic partners—from
+              single placements to standing MOUs covering teaching, research,
+              and faculty exchange. Let's discuss what partnership looks like
+              for your institution.
             </p>
-            <ul class='space-y-4 text-sm text-slate-300'>
-              <li class='flex items-start gap-3'>
-                <span class='h-2 w-2 rounded-full bg-blue-500 mt-2 shrink-0'
+
+            <div class='space-y-4'>
+              <div class='flex items-start gap-3'>
+                <span class='h-2 w-2 rounded-full bg-blue-400 mt-2 shrink-0'
                 ></span>
-                <span
-                  >Structured student attachment pipelines & clinical placements</span
+                <span class='text-blue-100'
+                  >Structured student attachment pipelines aligned with your
+                  curriculum</span
                 >
-              </li>
-              <li class='flex items-start gap-3'>
-                <span class='h-2 w-2 rounded-full bg-blue-500 mt-2 shrink-0'
+              </div>
+              <div class='flex items-start gap-3'>
+                <span class='h-2 w-2 rounded-full bg-blue-400 mt-2 shrink-0'
                 ></span>
-                <span
+                <span class='text-blue-100'
                   >Joint research initiatives in community and rural health</span
                 >
-              </li>
-              <li class='flex items-start gap-3'>
-                <span class='h-2 w-2 rounded-full bg-blue-500 mt-2 shrink-0'
+              </div>
+              <div class='flex items-start gap-3'>
+                <span class='h-2 w-2 rounded-full bg-blue-400 mt-2 shrink-0'
                 ></span>
-                <span
-                  >Openness to international institutional agreements and MOUs</span
+                <span class='text-blue-100'
+                  >Faculty exchange and CME program collaboration</span
                 >
-              </li>
-              <li class='flex items-start gap-3'>
-                <span class='h-2 w-2 rounded-full bg-blue-500 mt-2 shrink-0'
+              </div>
+              <div class='flex items-start gap-3'>
+                <span class='h-2 w-2 rounded-full bg-blue-400 mt-2 shrink-0'
                 ></span>
-                <span
-                  >Direct communication channels with SPMH Human Resources &
-                  Administration</span
+                <span class='text-blue-100'
+                  >Formal international institutional agreements</span
                 >
-              </li>
-            </ul>
+              </div>
+            </div>
+
+            <div class='pt-4 border-t border-slate-700'>
+              <p class='text-xs text-slate-400 uppercase tracking-widest mb-4'>
+                Our Partners Include
+              </p>
+              <div class='flex flex-wrap gap-3'>
+                <div
+                  class='bg-slate-800 px-4 py-2 rounded-lg text-sm font-600 text-slate-300'>
+                  YOFAK
+                </div>
+                <div
+                  class='bg-slate-800 px-4 py-2 rounded-lg text-sm font-600 text-slate-300'>
+                  NEPHAK
+                </div>
+                <div
+                  class='bg-slate-800 px-4 py-2 rounded-lg text-sm font-600 text-slate-300'>
+                  KCCB-ACTS
+                </div>
+                <div
+                  class='bg-slate-800 px-4 py-2 rounded-lg text-sm font-600 text-slate-300'>
+                  + 15 Institutions
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Partnership Inquiry Form -->
+          <!-- Right: Form -->
           <div
-            class='bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-700 shadow-2xl'
-            x-data='partnershipForm()'>
-            <h3 class='text-xl font-bold text-white mb-6'>
-              Institutional Partnership Inquiry
+            class='bg-slate-800 p-10 rounded-3xl border border-slate-700 shadow-2xl'>
+            <h3 class='text-2xl font-bold text-white mb-2'>
+              Partnership Inquiry
             </h3>
+            <p class='text-sm text-slate-400 mb-6'>
+              Tell us about your institution and partnership interests.
+            </p>
 
-            
-            <PartnershipInquiryForm />
+            <PartnershipInquiryForm client:only='react' />
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- FAQ teaser -->
-      <section class='py-14 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-center'>
-        <p class='text-sm text-slate-500'>
-          Have questions about eligibility, timelines, or how partnerships work?
-          <a
-            href='/academics-and-internships/faq'
-            class='text-blue-600 font-semibold underline hover:text-blue-800'
-            >Read our FAQs →</a
-          >
+    <!-- CTA Footer -->
+    <section class='bg-surface/30 py-20 px-4 sm:px-6 lg:px-8'>
+      <div class='max-w-3xl mx-auto text-center'>
+        <h2 class='text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight'>
+          Ready to Start Your Journey?
+        </h2>
+        <p class='mt-4 text-lg max-w-2xl mx-auto'>
+          Whether you're a student seeking clinical experience or an institution
+          building partnerships, SPMH is ready to collaborate with you.
         </p>
-      </section>
-    </main>
 
-    <!-- Custom Sub-Footer -->
-    <AcademicsFooter />
+        <div class='mt-10 flex flex-col sm:flex-row justify-center gap-4'>
+          <a
+            href='#internships'
+            class='inline-flex items-center justify-center bg-primary hover:bg-blue-800 text-white font-semibold px-8 py-4 rounded-lg transition-colors'>
+            Apply as Student
+          </a>
+          <a
+            href='#partnerships'
+            class='inline-flex items-center justify-center btn-secondary font-semibold px-8 py-4 rounded-lg transition-colors'>
+            Start Partnership
+          </a>
+        </div>
 
-    <script>
-      import { createClient } from '@supabase/supabase-js';
-
-      const supabase = createClient(
-        import.meta.env.PUBLIC_SUPABASE_URL,
-        import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-      );
-
-      const alpineWindow = window as Window &
-        typeof globalThis & {
-          Alpine: {
-            data: (
-              name: string,
-              component: () => Record<string, unknown>,
-            ) => void;
-          };
-        };
-
-      document.addEventListener('alpine:init', () => {
-        alpineWindow.Alpine.data('internshipForm', () => ({
-          form: {
-            full_name: '',
-            email: '',
-            phone: '',
-            home_institution: '',
-            rotation_type: '',
-            duration_text: '',
-            start_date: '',
-            end_date: '',
-            cover_letter: '',
-          },
-          loading: false,
-          successReference: null,
-          async submitApplication() {
-            this.loading = true;
-            const refCode =
-              'SPMH-' +
-              Math.random().toString(36).substring(2, 8).toUpperCase();
-
-            const applicationData = {
-              ...(this.form as Record<string, string>),
-              reference_code: refCode,
-              status: 'submitted',
-            };
-
-            const { error } = await supabase
-              .from('internship_applications')
-              .insert([applicationData]);
-
-            this.loading = false;
-            if (!error) {
-              this.successReference = refCode;
-            } else {
-              alert('Error submitting application. Please try again.');
-            }
-          },
-        }));
-
-        alpineWindow.Alpine.data('partnershipForm', () => ({
-          pForm: {
-            institution_name: '',
-            contact_person: '',
-            email: '',
-            location_type: 'local',
-            inquiry_type: 'student_attachment',
-            message: '',
-          },
-          pLoading: false,
-          pSuccess: false,
-          async submitPartnership() {
-            this.pLoading = true;
-            const { error } = await supabase
-              .from('partnership_inquiries')
-              .insert([this.pForm]);
-            this.pLoading = false;
-            if (!error) {
-              this.pSuccess = true;
-              this.pForm = {
-                institution_name: '',
-                contact_person: '',
-                email: '',
-                location_type: 'local',
-                inquiry_type: 'student_attachment',
-                message: '',
-              };
-            } else {
-              alert('Error submitting partnership inquiry.');
-            }
-          },
-        }));
-      });
-    </script>
+        <p class='mt-8 text-sm'>
+          Questions? Check our
+          <a
+            href='/academics-and-partnerships/faq'
+            class='text-primary hover:text-blue-700 underline underline-offset-2'>
+            frequently asked questions
+          </a>
+          or
+          <a
+            href='mailto:academics@spmh.org'
+            class='text-primary hover:text-blue-700 underline underline-offset-2'>
+            contact us directly
+          </a>.
+        </p>
+      </div>
+    </section>
   </body>
+
+  <!-- Footer -->
+  <AcademicsFooter />
+
+  <script>
+    import { createClient } from '@supabase/supabase-js';
+
+    const supabase = createClient(
+      import.meta.env.PUBLIC_SUPABASE_URL,
+      import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
+    );
+
+    const alpineWindow = window as Window &
+      typeof globalThis & {
+        Alpine: {
+          data: (
+            name: string,
+            component: () => Record<string, unknown>,
+          ) => void;
+        };
+      };
+
+    document.addEventListener('alpine:init', () => {
+      alpineWindow.Alpine.data('internshipForm', () => ({
+        form: {
+          full_name: '',
+          email: '',
+          phone: '',
+          home_institution: '',
+          rotation_type: '',
+          duration_text: '',
+          start_date: '',
+          end_date: '',
+          cover_letter: '',
+        },
+        loading: false,
+        successReference: null,
+        async submitApplication() {
+          this.loading = true;
+          const refCode =
+            'SPMH-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+          const applicationData = {
+            ...(this.form as Record<string, string>),
+            reference_code: refCode,
+            status: 'submitted',
+          };
+
+          const { error } = await supabase
+            .from('internship_applications')
+            .insert([applicationData]);
+
+          this.loading = false;
+          if (!error) {
+            this.successReference = refCode;
+          } else {
+            alert('Error submitting application. Please try again.');
+          }
+        },
+      }));
+
+      alpineWindow.Alpine.data('partnershipForm', () => ({
+        pForm: {
+          institution_name: '',
+          contact_person: '',
+          email: '',
+          location_type: 'local',
+          inquiry_type: 'student_attachment',
+          message: '',
+        },
+        pLoading: false,
+        pSuccess: false,
+        async submitPartnership() {
+          this.pLoading = true;
+          const { error } = await supabase
+            .from('partnership_inquiries')
+            .insert([this.pForm]);
+          this.pLoading = false;
+          if (!error) {
+            this.pSuccess = true;
+            this.pForm = {
+              institution_name: '',
+              contact_person: '',
+              email: '',
+              location_type: 'local',
+              inquiry_type: 'student_attachment',
+              message: '',
+            };
+          } else {
+            alert('Error submitting partnership inquiry.');
+          }
+        },
+      }));
+    });
+  </script>
 </html>

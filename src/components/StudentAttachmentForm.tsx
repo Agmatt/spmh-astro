@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
-    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+    import.meta.env.PUBLIC_SUPABASE_ACADEMICS_URL,
+    import.meta.env.PUBLIC_SUPABASE_ACADEMICS_ANON_KEY
 );
 
 interface StudentAttachmentFormProps {
@@ -116,19 +116,25 @@ export default function StudentAttachmentForm({
                 </div>
                 <div className="pt-2">
                     <a
-                        href="/academics-and-internships/portal"
+                        href="/portal/student"
                         className="text-xs font-semibold text-blue-600 underline hover:text-blue-800">
                         Go to Applicant Status Tracker →
                     </a>
+                </div>
+                <div className="pt-2">
+                    <a
+                        href="#academics-and-internships"
+                        className="text-xs font-semibold text-blue-600 underline hover:text-blue-800">
+                        Submit another application                    </a>
                 </div>
             </div>
         );
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 space-x-4">
             {error && (
-                <div className="p-4 bg-rose-50 border border-rose-200 rounded-lg text-sm text-rose-700">
+                <div className="p-4  text-sm text-rose-700">
                     {error}
                 </div>
             )}
@@ -279,7 +285,7 @@ export default function StudentAttachmentForm({
             <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-400 text-white font-semibold py-3 rounded-xl transition-colors shadow-md">
+                className="w-60 bg-primary hover:bg-blue-500 disabled:bg-slate-400 text-white font-semibold py-3 rounded-xl transition-colors shadow-md">
                 {isLoading ? 'Submitting Application...' : 'Submit Application to HR'}
             </button>
         </form>
