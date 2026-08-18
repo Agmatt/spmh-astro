@@ -161,7 +161,6 @@ import '../../styles/global.css';
     <!-- HERO SECTION - Image Left (flush), Text Right -->
     <section
       class='relative bg-blue-950 text-white overflow-hidden min-h-[500px] flex flex-col lg:flex-row items-stretch'>
-      
       <!-- Left Column: Image – stretches full height, no padding -->
       <div class='w-full lg:w-1/2 order-1 lg:order-1 overflow-hidden'>
         <img
@@ -227,54 +226,7 @@ import '../../styles/global.css';
       </div>
     </section>
 
-    <!-- Trust Metrics -->
-    <section
-      class='py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-slate-50'>
-      <div class='max-w-5xl mx-auto'>
-        <div class='grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8'>
-          <div class='metric-card text-center'>
-            <div class='text-4xl sm:text-5xl font-bold text-blue-600 mb-2'>
-              150+
-            </div>
-            <p class='text-sm sm:text-base text-slate-600 font-500'>
-              Students Trained
-            </p>
-            <p class='text-xs text-slate-500'>Across all disciplines</p>
-          </div>
-
-          <div class='metric-card text-center'>
-            <div class='text-4xl sm:text-5xl font-bold text-blue-600 mb-2'>
-              18
-            </div>
-            <p class='text-sm sm:text-base text-slate-600 font-500'>
-              Partner Institutions
-            </p>
-            <p class='text-xs text-slate-500'>Local & regional</p>
-          </div>
-
-          <div class='metric-card text-center'>
-            <div class='text-4xl sm:text-5xl font-bold text-blue-600 mb-2'>
-              87%
-            </div>
-            <p class='text-sm sm:text-base text-slate-600 font-500'>
-              Employment Rate
-            </p>
-            <p class='text-xs text-slate-500'>Post-attachment</p>
-          </div>
-
-          <div class='metric-card text-center'>
-            <div class='text-4xl sm:text-5xl font-bold text-blue-600 mb-2'>
-              6+
-            </div>
-            <p class='text-sm sm:text-base text-slate-600 font-500'>
-              Programs Offered
-            </p>
-            <p class='text-xs text-slate-500'>Nursing to admin</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
+   
     <!-- Partnership Pathways -->
     <section
       id='pathways'
@@ -508,186 +460,318 @@ import '../../styles/global.css';
     <!-- Testimonials Carousel -->
     <TestimonialCarousel client:only='react' />
 
-    <!-- Application Guide (Redesigned) -->
+    <!-- 1. HOW IT WORKS – INLINE TIMELINE (NO CARDS) -->
     <section
-      id='internships'
-      class='py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gray-200'>
-      <div class='max-w-7xl mx-auto'>
-        <div class='application-grid'>
-          <!-- Left: Process Steps -->
-          <div class='space-y-8'>
-            <div>
-              <span
-                class='font-bold text-xs uppercase tracking-wider block mb-2'
-                >How It Works</span
-              >
-              <h2 class='text-3xl sm:text-4xl font-bold'>
-                Your Path to Clinical Training
-              </h2>
-            </div>
+      id='how-it-works'
+      class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-gray-200 overflow-hidden'>
+      <!-- Decorative background -->
+      <div class='absolute inset-0 opacity-10 pointer-events-none'>
+        <div
+          class='absolute -top-24 -left-24 w-96 h-96 bg-blue-300 rounded-full blur-3xl'>
+        </div>
+        <div
+          class='absolute -bottom-24 -right-24 w-96 h-96 bg-indigo-300 rounded-full blur-3xl'>
+        </div>
+      </div>
 
-            <div class='space-y-6'>
-              <div class='step-item'>
-                <div class='step-number'>1</div>
-                <h3 class='font-bold text-slate-900 mb-1'>
+      <div class='relative max-w-7xl mx-auto'>
+        <!-- Heading -->
+        <div class='text-center mb-16'>
+          <span
+            class='inline-block bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4'>
+            How It Works
+          </span>
+          <h2
+            class='text-4xl sm:text-5xl font-extrabold text-slate-900 leading-tight'>
+            Your Path to Clinical Training
+          </h2>
+          <p class='mt-4 text-lg text-slate-600 max-w-2xl mx-auto'>
+            A simple, transparent process designed to get you into the clinic
+            quickly and confidently.
+          </p>
+        </div>
+
+        <!-- Inline Steps (Horizontal) -->
+        <div class='relative'>
+          <!-- Horizontal line (desktop only) -->
+          <div
+            class='hidden lg:block absolute top-8 left-0 right-0 h-0.5 bg-blue-200'>
+          </div>
+
+          <!-- Steps Grid -->
+          <div
+            class='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-4'>
+            <!-- Step 1 -->
+            <div
+              class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
+              <div
+                class='relative z-10 w-16 h-16 shrink-0 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg shadow-blue-200'>
+                1
+              </div>
+              <div class='pt-0 lg:pt-2'>
+                <h3 class='text-lg lg:text-xl font-bold text-slate-900 mb-1'>
                   Submit Application
                 </h3>
-                <p class='text-sm text-slate-600'>
+                <p class='text-sm lg:text-base text-slate-600'>
                   Complete our online form with your academic details and
                   preferred rotation dates.
                 </p>
-                <p class='text-xs text-slate-500 mt-2'>⏱ Takes 15 minutes</p>
+                <p class='text-xs lg:text-sm text-slate-400 mt-2 font-medium'>
+                  ⏱ Takes 15 minutes
+                </p>
               </div>
+            </div>
 
-              <div class='step-item'>
-                <div class='step-number'>2</div>
-                <h3 class='font-bold text-slate-900 mb-1'>HR Verification</h3>
-                <p class='text-sm text-slate-600'>
+            <!-- Step 2 -->
+            <div
+              class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
+              <div
+                class='relative z-10 w-16 h-16 shrink-0 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg shadow-blue-200'>
+                2
+              </div>
+              <div class='pt-0 lg:pt-2'>
+                <h3 class='text-lg lg:text-xl font-bold text-slate-900 mb-1'>
+                  HR Verification
+                </h3>
+                <p class='text-sm lg:text-base text-slate-600'>
                   We confirm your academic status and check placement
                   availability.
                 </p>
-                <p class='text-xs text-slate-500 mt-2'>⏱ 3-5 working days</p>
+                <p class='text-xs lg:text-sm text-slate-400 mt-2 font-medium'>
+                  ⏱ 3-5 working days
+                </p>
               </div>
+            </div>
 
-              <div class='step-item'>
-                <div class='step-number'>3</div>
-                <h3 class='font-bold text-slate-900 mb-1'>Preceptor Match</h3>
-                <p class='text-sm text-slate-600'>
+            <!-- Step 3 -->
+            <div
+              class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
+              <div
+                class='relative z-10 w-16 h-16 shrink-0 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg shadow-blue-200'>
+                3
+              </div>
+              <div class='pt-0 lg:pt-2'>
+                <h3 class='text-lg lg:text-xl font-bold text-slate-900 mb-1'>
+                  Preceptor Match
+                </h3>
+                <p class='text-sm lg:text-base text-slate-600'>
                   We assign you a certified clinical mentor in your chosen
                   department.
                 </p>
-                <p class='text-xs text-slate-500 mt-2'>
+                <p class='text-xs lg:text-sm text-slate-400 mt-2 font-medium'>
                   ⏱ 1-2 weeks before start
                 </p>
               </div>
+            </div>
 
-              <div class='step-item'>
-                <div class='step-number'>4</div>
-                <h3 class='font-bold text-slate-900 mb-1'>Clinical Rotation</h3>
-                <p class='text-sm text-slate-600'>
+            <!-- Step 4 -->
+            <div
+              class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
+              <div
+                class='relative z-10 w-16 h-16 shrink-0 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg shadow-blue-200'>
+                4
+              </div>
+              <div class='pt-0 lg:pt-2'>
+                <h3 class='text-lg lg:text-xl font-bold text-slate-900 mb-1'>
+                  Clinical Rotation
+                </h3>
+                <p class='text-sm lg:text-base text-slate-600'>
                   Begin hands-on training with real patients and clinical teams.
                 </p>
-                <p class='text-xs text-slate-500 mt-2'>⏱ 6-12 weeks</p>
+                <p class='text-xs lg:text-sm text-slate-400 mt-2 font-medium'>
+                  ⏱ 6-12 weeks
+                </p>
               </div>
+            </div>
 
-              <div class='step-item'>
-                <div class='step-number'>5</div>
-                <h3 class='font-bold text-slate-900 mb-1'>✓ Certification</h3>
-                <p class='text-sm text-slate-600'>
+            <!-- Step 5 -->
+            <div
+              class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
+              <div
+                class='relative z-10 w-16 h-16 shrink-0 bg-emerald-500 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg shadow-emerald-200'>
+                ✓
+              </div>
+              <div class='pt-0 lg:pt-2'>
+                <h3 class='text-lg lg:text-xl font-bold text-slate-900 mb-1'>
+                  Certification
+                </h3>
+                <p class='text-sm lg:text-base text-slate-600'>
                   Receive certificate of completion and detailed evaluation
                   feedback.
                 </p>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <!-- Right: Application Form -->
-          <div
-            class='bg-white rounded-3xl border-2 border-blue-100 p-8 shadow-lg'>
-            <h3 class='text-2xl font-bold text-secondary mb-2'>Apply Now</h3>
-            <p class='text-sm text-slate-600 mb-6'>
-              Secure your clinical attachment. You'll get a tracking code upon
-              submission.
+    <!-- 2. STUDENT APPLICATION FORM -->
+    <section
+      id='student-application'
+      class='relative py-20 sm:py-28 px-2 sm:px-4 lg:px-8 bg-white overflow-hidden'>
+      <!-- Subtle grid pattern -->
+      <div
+        class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNlMmU4ZjAiIGZpbGwtb3BhY2l0eT0iMC40Ij48cGF0aCBkPSJNMzYgMzRoLTJ2LTJoMnYyem0wLTZoLTJ2LTJoMnYyem0wLTZoLTJ2LTJoMnYyem0tNiAwaC0ydi0yaDJ2MnptMCA2aC0ydi0yaDJ2MnptMCA2aC0ydi0yaDJ2MnptLTYgMGgtMnYtMmgyem0wIDZoLTJ2LTJoMnYyem0wLTZoLTJ2LTJoMnYyem0wLTZoLTJ2LTJoMnYyem02LTZoLTJ2LTJoMnYyem0wLTZoLTJ2LTJoMnYyem0wLTZoLTJ2LTJoMnYyem0wIDBoLTJ2LTJoMnYyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-20 pointer-events-none">
+      </div>
+
+      <div class='relative max-w-4xl mx-auto'>
+        <div class='text-center mb-12'>
+          <span
+            class='inline-block bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4'>
+            Student Application
+          </span>
+          <h2 class='text-4xl sm:text-5xl font-extrabold text-slate-900'>
+            Apply Now
+          </h2>
+          <p class='mt-4 text-lg text-slate-600 max-w-xl mx-auto'>
+            Secure your clinical attachment. You'll get a tracking code upon
+            submission.
+          </p>
+        </div>
+
+        <div
+          class='bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden'>
+          <div class='bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6'>
+            <h3 class='text-white text-2xl font-bold'>
+              Clinical Attachment Application
+            </h3>
+            <p class='text-blue-100 text-sm mt-1'>
+              Complete the form below to start your journey
             </p>
-
+          </div>
+          <div class='p-8 sm:p-10'>
             <StudentAttachmentForm client:only='react' />
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Institutional Partnership Section -->
+    <!-- 3. INSTITUTIONAL PARTNERSHIP INFO (TEXT LEFT, IMAGE RIGHT) -->
     <section
       id='partnerships'
-      class='py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-slate-900 text-white'>
-      <div class='max-w-7xl mx-auto'>
-        <div class='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
-          <!-- Left Content -->
+      class='relative bg-slate-900 text-white overflow-hidden'>
+      <!-- Decorative gradients -->
+      <div
+        class='absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pointer-events-none'>
+      </div>
+      <div
+        class='absolute -top-40 -right-40 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl pointer-events-none'>
+      </div>
+      <div
+        class='absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none'>
+      </div>
+
+      <div class='relative flex flex-col lg:flex-row items-stretch'>
+        <!-- Left: Text content -->
+        <div
+          class='w-full lg:w-1/2 px-4 sm:px-6 lg:pl-8 lg:pr-12 py-20 sm:py-28 flex flex-col justify-center'>
           <div class='space-y-8'>
             <div>
               <span
-                class='text-blue-300 font-bold text-xs uppercase tracking-wider block mb-2'
-                >Institutional Collaboration</span
-              >
-              <h2 class='text-4xl sm:text-5xl font-bold leading-tight'>
+                class='inline-block bg-blue-500/20 text-surface-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4'>
+                Institutional Collaboration
+              </span>
+              <h2 class='text-4xl text-surface-2 sm:text-5xl font-extrabold leading-tight'>
                 Build Sustainable Partnerships
               </h2>
             </div>
 
-            <p class='text-lg text-blue-100 leading-relaxed'>
+            <p class='text-lg text-blue-100/90 leading-relaxed'>
               We're actively expanding our network of academic partners—from
               single placements to standing MOUs covering teaching, research,
               and faculty exchange. Let's discuss what partnership looks like
               for your institution.
             </p>
 
+            <!-- Benefits -->
             <div class='space-y-4'>
-              <div class='flex items-start gap-3'>
-                <span class='h-2 w-2 rounded-full bg-blue-400 mt-2 shrink-0'
-                ></span>
+              <div class='flex items-center gap-3'>
+                <span class='h-2 w-2 rounded-full bg-blue-400 shrink-0'></span>
                 <span class='text-blue-100'
                   >Structured student attachment pipelines aligned with your
                   curriculum</span
                 >
               </div>
-              <div class='flex items-start gap-3'>
-                <span class='h-2 w-2 rounded-full bg-blue-400 mt-2 shrink-0'
-                ></span>
+              <div class='flex items-center gap-3'>
+                <span class='h-2 w-2 rounded-full bg-blue-400 shrink-0'></span>
                 <span class='text-blue-100'
                   >Joint research initiatives in community and rural health</span
                 >
               </div>
-              <div class='flex items-start gap-3'>
-                <span class='h-2 w-2 rounded-full bg-blue-400 mt-2 shrink-0'
-                ></span>
+              <div class='flex items-center gap-3'>
+                <span class='h-2 w-2 rounded-full bg-blue-400 shrink-0'></span>
                 <span class='text-blue-100'
                   >Faculty exchange and CME program collaboration</span
                 >
               </div>
-              <div class='flex items-start gap-3'>
-                <span class='h-2 w-2 rounded-full bg-blue-400 mt-2 shrink-0'
-                ></span>
+              <div class='flex items-center gap-3'>
+                <span class='h-2 w-2 rounded-full bg-blue-400 shrink-0'></span>
                 <span class='text-blue-100'
                   >Formal international institutional agreements</span
                 >
               </div>
             </div>
 
-            <div class='pt-4 border-t border-slate-700'>
+            <!-- Partner logos -->
+            <div class='border-t border-slate-700 pt-8'>
               <p class='text-xs text-slate-400 uppercase tracking-widest mb-4'>
                 Our Partners Include
               </p>
-              <div class='flex flex-wrap gap-3'>
-                <div
-                  class='bg-slate-800 px-4 py-2 rounded-lg text-sm font-600 text-slate-300'>
-                  YOFAK
-                </div>
-                <div
-                  class='bg-slate-800 px-4 py-2 rounded-lg text-sm font-600 text-slate-300'>
-                  NEPHAK
-                </div>
-                <div
-                  class='bg-slate-800 px-4 py-2 rounded-lg text-sm font-600 text-slate-300'>
-                  KCCB-ACTS
-                </div>
-                <div
-                  class='bg-slate-800 px-4 py-2 rounded-lg text-sm font-600 text-slate-300'>
-                  + 15 Institutions
-                </div>
-              </div>
             </div>
           </div>
+        </div>
 
-          <!-- Right: Form -->
+        <!-- Right: Image (touches right edge) -->
+        <div class='w-full lg:w-1/2 relative min-h-[300px] lg:min-h-full'>
+          <img
+            src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80'
+            alt='Partnership collaboration'
+            class='absolute inset-0 w-full h-full object-cover'
+          />
+          <!-- Optional overlay for better text contrast if needed -->
           <div
-            class='bg-slate-800 p-10 rounded-3xl border border-slate-700 shadow-2xl'>
-            <h3 class='text-2xl font-bold text-white mb-2'>
-              Partnership Inquiry
-            </h3>
-            <p class='text-sm text-slate-400 mb-6'>
-              Tell us about your institution and partnership interests.
-            </p>
+            class='absolute inset-0 bg-gradient-to-r from-slate-900/50 to-transparent lg:from-slate-900/20 lg:to-transparent'>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- 4. PARTNERSHIP INQUIRY FORM -->
+    <section
+      id='partnership-inquiry'
+      class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-gray-300 text-white overflow-hidden'>
+      
+      <div
+        class='absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent'>
+      </div>
+
+      <div class='relative max-w-3xl mx-auto'>
+        <div class='text-center mb-12'>
+          <span
+            class='inline-block bg-blue-500/20 text-secondary text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4'>
+            Partnership Inquiry
+          </span>
+          <h2 class='text-4xl sm:text-5xl font-extrabold'>
+            Let's Talk
+          </h2>
+          <p class='mt-4 text-lg text-slate-800 max-w-xl mx-auto'>
+            Tell us about your institution and partnership interests. We'll get
+            back to you within 48 hours.
+          </p>
+        </div>
+
+        <div
+          class='bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl border border-slate-700/50 shadow-2xl overflow-hidden'>
+          <div class='bg-primary px-8 py-6'>
+            <h3 class='text-white text-2xl font-bold'>
+              Institutional Partnership Form
+            </h3>
+            <p class='text-blue-100 text-sm mt-1'>
+              We look forward to collaborating with you
+            </p>
+          </div>
+          <div class='p-8 sm:p-10'>
             <PartnershipInquiryForm client:only='react' />
           </div>
         </div>

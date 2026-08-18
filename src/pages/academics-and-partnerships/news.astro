@@ -1,0 +1,121 @@
+---
+import AcademicsNavbar from '../../components/AcademicsNavbar.astro';
+import AcademicsFooter from '../../components/AcademicsFooter.astro';
+import '../../styles/global.css'
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>News & Updates | SPMH Academics</title>
+    <link
+      href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Open+Sans:wght@400;500;600;700&display=swap'
+      rel='stylesheet'
+    />
+    <style>
+      * {
+        font-family: 'Open Sans', system-ui, sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: 'Roboto', sans-serif;
+      }
+    </style>
+  </head>
+  <body class='bg-white text-slate-900'>
+    <AcademicsNavbar />
+
+    <main class='min-h-screen'>
+      <!-- Hero -->
+      <section
+        class='bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 px-4 sm:px-6 lg:px-8'>
+        <div class='max-w-5xl mx-auto text-center'>
+          <h1 class='text-4xl sm:text-5xl font-bold mb-4'>News & Updates</h1>
+          <p class='text-xl text-blue-100'>
+            Latest announcements from SPMH Academics & Partnerships
+          </p>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <section class='py-16 px-4 sm:px-6 lg:px-8'>
+        <div class='max-w-4xl mx-auto'>
+          <!-- News Item 1 -->
+          <article class='mb-12 pb-12 border-b border-slate-200'>
+            <div class='mb-4'>
+              <span
+                class='text-blue-600 font-bold text-sm uppercase tracking-wider'
+                >August 2026</span
+              >
+              <h2 class='text-3xl font-bold mt-2 mb-3'>
+                SPMH Launches Expanded Clinical Training Program
+              </h2>
+              <p class='text-slate-600'>Posted on August 15, 2026</p>
+            </div>
+            <p class='text-lg text-slate-700 leading-relaxed mb-4'>
+              St. Paul's Mission Hospital is proud to announce the expansion of
+              its clinical training programs. We've introduced new departments
+              and increased our capacity to host 200+ students annually across
+              all healthcare disciplines.
+            </p>
+            <a href='#' class='text-blue-600 font-bold hover:text-blue-700'
+              >Read Full Story →</a
+            >
+          </article>
+
+          <!-- News Item 2 -->
+          <article class='mb-12 pb-12 border-b border-slate-200'>
+            <div class='mb-4'>
+              <span
+                class='text-blue-600 font-bold text-sm uppercase tracking-wider'
+                >July 2026</span
+              >
+              <h2 class='text-3xl font-bold mt-2 mb-3'>
+                New Partnership with Nairobi University
+              </h2>
+              <p class='text-slate-600'>Posted on July 20, 2026</p>
+            </div>
+            <p class='text-lg text-slate-700 leading-relaxed mb-4'>
+              SPMH has signed a formal MOU with Nairobi University's School of
+              Nursing. This partnership will strengthen clinical training and
+              foster collaborative research in rural healthcare delivery.
+            </p>
+            <a href='#' class='text-blue-600 font-bold hover:text-blue-700'
+              >Read Full Story →</a
+            >
+          </article>
+
+          <!-- News Item 3 -->
+          <article class='mb-12'>
+            <div class='mb-4'>
+              <span
+                class='text-blue-600 font-bold text-sm uppercase tracking-wider'
+                >June 2026</span
+              >
+              <h2 class='text-3xl font-bold mt-2 mb-3'>
+                87% Employment Rate Achieved
+              </h2>
+              <p class='text-slate-600'>Posted on June 10, 2026</p>
+            </div>
+            <p class='text-lg text-slate-700 leading-relaxed mb-4'>
+              SPMH is thrilled to report that 87% of students who completed
+              clinical attachments secured professional positions within 6
+              months. This demonstrates the quality and impact of our training
+              programs.
+            </p>
+            <a href='#' class='text-blue-600 font-bold hover:text-blue-700'
+              >Read Full Story →</a
+            >
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <AcademicsFooter />
+  </body>
+</html>

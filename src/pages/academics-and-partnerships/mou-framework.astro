@@ -1,0 +1,274 @@
+---
+import AcademicsNavbar from '../../components/AcademicsNavbar.astro';
+import AcademicsFooter from '../../components/AcademicsFooter.astro';
+import '../../styles/global.css'
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>MOU Framework | SPMH Academics</title>
+    <link
+      href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Open+Sans:wght@400;500;600;700&display=swap'
+      rel='stylesheet'
+    />
+    <style>
+      * {
+        font-family: 'Open Sans', system-ui, sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: 'Roboto', sans-serif;
+      }
+    </style>
+  </head>
+  <body class='bg-white text-slate-900'>
+    <AcademicsNavbar />
+
+    <main class='min-h-screen'>
+      <!-- Hero -->
+      <section
+        class='bg-gradient-to-r from-purple-600 to-purple-800 text-white py-16 px-4 sm:px-6 lg:px-8'>
+        <div class='max-w-5xl mx-auto text-center'>
+          <h1 class='text-4xl sm:text-5xl font-bold mb-4'>MOU Framework</h1>
+          <p class='text-xl text-purple-100'>
+            Guidelines for institutional partnerships with SPMH
+          </p>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <section class='py-16 px-4 sm:px-6 lg:px-8'>
+        <div class='max-w-4xl mx-auto space-y-12'>
+          <!-- Overview -->
+          <div>
+            <h2 class='text-3xl font-bold mb-6'>
+              Partnership Framework Overview
+            </h2>
+            <p class='text-lg text-slate-700 leading-relaxed mb-6'>
+              SPMH believes in building sustainable, mutually beneficial
+              partnerships with academic institutions. Our Memorandum of
+              Understanding (MOU) framework is designed to clarify expectations,
+              define roles, and create a clear roadmap for successful
+              collaboration.
+            </p>
+            <div
+              class='bg-purple-50 p-8 rounded-lg border-l-4 border-purple-600'>
+              <h3 class='font-bold text-lg mb-4'>Key Principles</h3>
+              <ul class='space-y-3'>
+                <li class='flex items-start gap-3'>
+                  <span class='text-purple-600 font-bold text-xl'>→</span>
+                  <span class='text-slate-700'
+                    ><strong>Mutual Respect:</strong> Recognition of each institution's
+                    values and mission</span
+                  >
+                </li>
+                <li class='flex items-start gap-3'>
+                  <span class='text-purple-600 font-bold text-xl'>→</span>
+                  <span class='text-slate-700'
+                    ><strong>Transparency:</strong> Clear communication of expectations
+                    and timelines</span
+                  >
+                </li>
+                <li class='flex items-start gap-3'>
+                  <span class='text-purple-600 font-bold text-xl'>→</span>
+                  <span class='text-slate-700'
+                    ><strong>Quality Assurance:</strong> Commitment to excellent clinical
+                    training</span
+                  >
+                </li>
+                <li class='flex items-start gap-3'>
+                  <span class='text-purple-600 font-bold text-xl'>→</span>
+                  <span class='text-slate-700'
+                    ><strong>Sustainability:</strong> Long-term growth and shared
+                    success</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Partnership Tiers -->
+          <div>
+            <h2 class='text-3xl font-bold mb-6'>Partnership Tiers</h2>
+            <div class='space-y-6'>
+              <div class='border-2 border-purple-200 rounded-lg p-4 md:p-6'>
+                <h3 class='font-bold text-xl text-purple-600 mb-3'>
+                  Tier 1: Student Placement Agreement
+                </h3>
+                <p class='text-slate-700 mb-4'>
+                  For institutions seeking to place students in clinical
+                  rotations without a formal long-term commitment.
+                </p>
+                <ul class='space-y-2 text-slate-700'>
+                  <li>• Duration: 1-2 years renewable</li>
+                  <li>• Student capacity: 5-15 students per year</li>
+                  <li>• Departments: Up to 3 chosen disciplines</li>
+                  <li>• Formal agreement required</li>
+                </ul>
+              </div>
+
+              <div class='border-2 border-purple-200 rounded-lg p-4 md:p-6'>
+                <h3 class='font-bold text-xl text-purple-600 mb-3'>
+                  Tier 2: Institutional MOU
+                </h3>
+                <p class='text-slate-700 mb-4'>
+                  For institutions committed to deeper collaboration in
+                  teaching, research, and faculty exchange.
+                </p>
+                <ul class='space-y-2 text-slate-700'>
+                  <li>• Duration: 3-5 years with review period</li>
+                  <li>• Student capacity: 20-50 students per year</li>
+                  <li>• All departments available for rotation</li>
+                  <li>• Includes joint research initiatives</li>
+                  <li>• Faculty exchange programs</li>
+                </ul>
+              </div>
+
+              <div class='border-2 border-purple-200 rounded-lg p-4 md:p-6'>
+                <h3 class='font-bold text-xl text-purple-600 mb-3'>
+                  Tier 3: Strategic Partnership
+                </h3>
+                <p class='text-slate-700 mb-4'>
+                  For international or regional leaders in healthcare education
+                  seeking multi-faceted collaboration.
+                </p>
+                <ul class='space-y-2 text-slate-700'>
+                  <li>• Duration: 5-10 years with annual review</li>
+                  <li>• Student capacity: 50+ students per year</li>
+                  <li>• Dedicated coordination office at SPMH</li>
+                  <li>• Major research collaboration</li>
+                  <li>• Curriculum co-development</li>
+                  <li>• Leadership exchange programs</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Key Components -->
+          <div>
+            <h2 class='text-3xl font-bold mb-6'>MOU Key Components</h2>
+            <div class='grid grid-cols-1 md:grid-cols-2 gap-6'>
+              <div class='p-4 md:p-6 bg-slate-50 rounded-lg'>
+                <h3 class='font-bold text-lg mb-3'>1. Partnership Scope</h3>
+                <p class='text-sm text-slate-700'>
+                  Clearly defined areas of collaboration, including number of
+                  students, departments, and program duration.
+                </p>
+              </div>
+              <div class='p-4 md:p-6 bg-slate-50 rounded-lg'>
+                <h3 class='font-bold text-lg mb-3'>
+                  2. Roles & Responsibilities
+                </h3>
+                <p class='text-sm text-slate-700'>
+                  Explicit duties of SPMH and the partner institution in
+                  supporting students and clinical training.
+                </p>
+              </div>
+              <div class='p-4 md:p-6 bg-slate-50 rounded-lg'>
+                <h3 class='font-bold text-lg mb-3'>3. Quality Standards</h3>
+                <p class='text-sm text-slate-700'>
+                  Learning objectives, competency assessments, and evaluation
+                  mechanisms for student performance.
+                </p>
+              </div>
+              <div class='p-4 md:p-6 bg-slate-50 rounded-lg'>
+                <h3 class='font-bold text-lg mb-3'>4. Timeline & Milestones</h3>
+                <p class='text-sm text-slate-700'>
+                  Key dates, application deadlines, and progress review points
+                  throughout the partnership.
+                </p>
+              </div>
+              <div class='p-4 md:p-6 bg-slate-50 rounded-lg'>
+                <h3 class='font-bold text-lg mb-3'>5. Financial Terms</h3>
+                <p class='text-sm text-slate-700'>
+                  Cost-sharing arrangements, fees, and budgeting for
+                  collaborative initiatives.
+                </p>
+              </div>
+              <div class='p-4 md:p-6 bg-slate-50 rounded-lg'>
+                <h3 class='font-bold text-lg mb-3'>6. Dispute Resolution</h3>
+                <p class='text-sm text-slate-700'>
+                  Process for addressing concerns and amicably resolving
+                  disagreements between partners.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Getting Started -->
+          <div>
+            <h2 class='text-3xl font-bold mb-6'>Getting Started</h2>
+            <div class='space-y-4'>
+              <div
+                class='flex gap-4 p-4 md:p-6 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg'>
+                <div class='text-3xl flex-shrink-0 hidden sm:inline'>1️⃣</div>
+                <div>
+                  <h3 class='font-bold text-lg mb-2'>Initial Inquiry</h3>
+                  <p class='text-slate-700'>
+                    Contact us with your institution name, partnership
+                    interests, and expected number of students.
+                  </p>
+                </div>
+              </div>
+              <div
+                class='flex gap-4 p-4 md:p-6 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg'>
+                <div class='text-3xl flex-shrink-0 hidden sm:inline'>2️⃣</div>
+                <div>
+                  <h3 class='font-bold text-lg mb-2'>Scoping Discussion</h3>
+                  <p class='text-slate-700'>
+                    We'll schedule a meeting to understand your needs and
+                    discuss partnership options.
+                  </p>
+                </div>
+              </div>
+              <div
+                class='flex gap-4 p-4 md:p-6 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg'>
+                <div class='text-3xl flex-shrink-0 hidden sm:inline'>3️⃣</div>
+                <div>
+                  <h3 class='font-bold text-lg mb-2'>MOU Development</h3>
+                  <p class='text-slate-700'>
+                    We'll co-develop a tailored MOU that reflects both
+                    institutions' expectations (4-6 weeks).
+                  </p>
+                </div>
+              </div>
+              <div
+                class='flex gap-4 p-4 md:p-6 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg'>
+                <div class='text-3xl flex-shrink-0 hidden sm:inline'>4️⃣</div>
+                <div>
+                  <h3 class='font-bold text-lg mb-2'>Signing & Launch</h3>
+                  <p class='text-slate-700'>
+                    Once signed, we'll establish a coordination office and begin
+                    accepting your students.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div
+            class='bg-gray-300 text-white p-10 rounded-lg text-center'>
+            <h3 class='text-2xl font-bold mb-3'>Ready to Become a Partner?</h3>
+            <p class='mb-6 text-purple-100'>
+              Let's discuss how we can build a sustainable partnership.
+            </p>
+            <a
+              href='/#partnerships'
+              class='bg-white text-purple-600 hover:bg-purple-50 font-bold px-8 py-3 rounded-lg transition-colors inline-block'>
+              Start Partnership Inquiry
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <AcademicsFooter />
+  </body>
+</html>

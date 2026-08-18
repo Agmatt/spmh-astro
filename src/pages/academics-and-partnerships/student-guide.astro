@@ -1,0 +1,271 @@
+---
+import AcademicsNavbar from '../../components/AcademicsNavbar.astro';
+import AcademicsFooter from '../../components/AcademicsFooter.astro';
+import '../../styles/global.css';
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Student Guide | SPMH Academics</title>
+    <link
+      href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Open+Sans:wght@400;500;600;700&display=swap'
+      rel='stylesheet'
+    />
+    <style>
+      * {
+        font-family: 'Open Sans', system-ui, sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: 'Roboto', sans-serif;
+      }
+    </style>
+  </head>
+  <body class='bg-white text-slate-900'>
+    <AcademicsNavbar />
+
+    <main class='min-h-screen'>
+      <!-- Hero -->
+      <section
+        class='bg-gradient-to-r from-cyan-600 to-cyan-800 text-white py-16 px-4 sm:px-6 lg:px-8'>
+        <div class='max-w-5xl mx-auto text-center'>
+          <h1 class='text-4xl sm:text-5xl font-bold mb-4'>Student Guide</h1>
+          <p class='text-xl text-cyan-100'>
+            Everything you need to know about clinical training at SPMH
+          </p>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <section class='py-16 px-4 sm:px-6 lg:px-8'>
+        <div class='max-w-4xl mx-auto space-y-12'>
+          <!-- Eligibility -->
+          <div>
+            <h2 class='text-3xl font-bold mb-6'>Eligibility Requirements</h2>
+            <div class='bg-cyan-50 p-8 rounded-lg border-l-4 border-cyan-600'>
+              <ul class='space-y-3 text-lg text-slate-700'>
+                <li class='flex items-start gap-3'>
+                  <span class='text-cyan-600 font-bold text-xl'>✓</span>
+                  <span
+                    >Currently enrolled student in a recognized healthcare
+                    program</span
+                  >
+                </li>
+                <li class='flex items-start gap-3'>
+                  <span class='text-cyan-600 font-bold text-xl'>✓</span>
+                  <span
+                    >Valid medical fitness certificate from a healthcare
+                    provider</span
+                  >
+                </li>
+                <li class='flex items-start gap-3'>
+                  <span class='text-cyan-600 font-bold text-xl'>✓</span>
+                  <span>Letter of support from your academic institution</span>
+                </li>
+                <li class='flex items-start gap-3'>
+                  <span class='text-cyan-600 font-bold text-xl'>✓</span>
+                  <span
+                    >Committed to professional conduct and patient safety</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Application Process -->
+          <div>
+            <h2 class='text-3xl font-bold mb-6'>Application Process</h2>
+            <div class='space-y-4'>
+              <div class='flex gap-4'>
+                <div class='flex-shrink-0'>
+                  <div
+                    class='w-12 h-12 bg-cyan-600 text-white rounded-full flex items-center justify-center font-bold text-lg'>
+                    1
+                  </div>
+                </div>
+                <div>
+                  <h3 class='font-bold text-lg mb-2'>
+                    Submit Online Application
+                  </h3>
+                  <p class='text-slate-600'>
+                    Fill out our application form with your personal, academic,
+                    and contact information. Takes approximately 15 minutes.
+                  </p>
+                </div>
+              </div>
+              <div class='flex gap-4'>
+                <div class='flex-shrink-0'>
+                  <div
+                    class='w-12 h-12 bg-cyan-600 text-white rounded-full flex items-center justify-center font-bold text-lg'>
+                    2
+                  </div>
+                </div>
+                <div>
+                  <h3 class='font-bold text-lg mb-2'>
+                    HR Verification (3-5 days)
+                  </h3>
+                  <p class='text-slate-600'>
+                    Our HR team will review your application and verify your
+                    academic status with your institution.
+                  </p>
+                </div>
+              </div>
+              <div class='flex gap-4'>
+                <div class='flex-shrink-0'>
+                  <div
+                    class='w-12 h-12 bg-cyan-600 text-white rounded-full flex items-center justify-center font-bold text-lg'>
+                    3
+                  </div>
+                </div>
+                <div>
+                  <h3 class='font-bold text-lg mb-2'>
+                    Preceptor Assignment (1-2 weeks)
+                  </h3>
+                  <p class='text-slate-600'>
+                    You'll be matched with a certified clinical mentor in your
+                    preferred department.
+                  </p>
+                </div>
+              </div>
+              <div class='flex gap-4'>
+                <div class='flex-shrink-0'>
+                  <div
+                    class='w-12 h-12 bg-cyan-600 text-white rounded-full flex items-center justify-center font-bold text-lg'>
+                    4
+                  </div>
+                </div>
+                <div>
+                  <h3 class='font-bold text-lg mb-2'>
+                    Clinical Rotation (6-12 weeks)
+                  </h3>
+                  <p class='text-slate-600'>
+                    Begin your hands-on training with real patients and clinical
+                    teams at SPMH.
+                  </p>
+                </div>
+              </div>
+              <div class='flex gap-4'>
+                <div class='flex-shrink-0'>
+                  <div
+                    class='w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-lg'>
+                    ✓
+                  </div>
+                </div>
+                <div>
+                  <h3 class='font-bold text-lg mb-2'>
+                    Completion & Certification
+                  </h3>
+                  <p class='text-slate-600'>
+                    Receive your certificate of completion and detailed
+                    evaluation from your preceptor.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- What to Expect -->
+          <div>
+            <h2 class='text-3xl font-bold mb-6'>
+              What to Expect During Your Attachment
+            </h2>
+            <div class='grid grid-cols-1 md:grid-cols-2 gap-6'>
+              <div class='p-6 bg-slate-50 rounded-lg'>
+                <h3 class='font-bold text-lg mb-3'>Daily Responsibilities</h3>
+                <ul class='space-y-2 text-sm text-slate-700'>
+                  <li>• Arrive 30 minutes before shift start</li>
+                  <li>• Follow all hospital protocols and safety procedures</li>
+                  <li>• Work closely with your assigned preceptor</li>
+                  <li>• Participate in patient care and procedures</li>
+                  <li>• Maintain detailed clinical notes</li>
+                </ul>
+              </div>
+              <div class='p-6 bg-slate-50 rounded-lg'>
+                <h3 class='font-bold text-lg mb-3'>Support & Resources</h3>
+                <ul class='space-y-2 text-sm text-slate-700'>
+                  <li>• Dedicated preceptor for mentoring</li>
+                  <li>• Access to SPMH library and learning materials</li>
+                  <li>• Weekly supervision and feedback sessions</li>
+                  <li>• Peer support from other students</li>
+                  <li>• Professional development workshops</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Frequently Asked Questions -->
+          <div>
+            <h2 class='text-3xl font-bold mb-6'>Quick FAQs</h2>
+            <div class='space-y-4'>
+              <details class='p-4 bg-slate-50 rounded-lg cursor-pointer group'>
+                <summary
+                  class='font-bold text-lg text-slate-900 group-open:text-cyan-600'
+                  >Can I choose my department rotation?</summary
+                >
+                <p class='mt-3 text-slate-700'>
+                  Yes! During your application, you can indicate your preferred
+                  departments. We'll do our best to accommodate your preferences
+                  based on availability.
+                </p>
+              </details>
+              <details class='p-4 bg-slate-50 rounded-lg cursor-pointer group'>
+                <summary
+                  class='font-bold text-lg text-slate-900 group-open:text-cyan-600'
+                  >Is there accommodation at SPMH?</summary
+                >
+                <p class='mt-3 text-slate-700'>
+                  SPMH doesn't provide student housing, but we can help you find
+                  affordable accommodation in Homa Bay through our network.
+                </p>
+              </details>
+              <details class='p-4 bg-slate-50 rounded-lg cursor-pointer group'>
+                <summary
+                  class='font-bold text-lg text-slate-900 group-open:text-cyan-600'
+                  >What if I have medical concerns during my attachment?</summary
+                >
+                <p class='mt-3 text-slate-700'>
+                  SPMH provides basic medical support. For serious concerns, our
+                  occupational health team will assist you and coordinate care
+                  if needed.
+                </p>
+              </details>
+              <details class='p-4 bg-slate-50 rounded-lg cursor-pointer group'>
+                <summary
+                  class='font-bold text-lg text-slate-900 group-open:text-cyan-600'
+                  >Will I receive a salary during my attachment?</summary
+                >
+                <p class='mt-3 text-slate-700'>
+                  Clinical attachments are typically unpaid educational
+                  experiences. However, some sponsoring institutions may provide
+                  stipends—check with your school.
+                </p>
+              </details>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div
+            class='bg-gradient-to-r from-cyan-600 to-cyan-800 text-white p-10 rounded-lg text-center'>
+            <h3 class='text-2xl font-bold mb-3'>Ready to Apply?</h3>
+            <p class='mb-6 text-cyan-100'>
+              Start your clinical training journey at SPMH today.
+            </p>
+            <a
+              href='/#internships'
+              class='bg-white text-cyan-600 hover:bg-cyan-50 font-bold px-8 py-3 rounded-lg transition-colors inline-block'>
+              Apply Now
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <AcademicsFooter />
+  </body>
+</html>

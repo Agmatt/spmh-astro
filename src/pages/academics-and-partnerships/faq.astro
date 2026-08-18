@@ -1,5 +1,7 @@
 ---
 import '../../styles/global.css';
+import AcademicsNavbar from '../../components/AcademicsNavbar.astro';
+import AcademicsFooter from '../../components/AcademicsFooter.astro';
 
 const faqs = [
   {
@@ -89,16 +91,8 @@ const faqs = [
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased">
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a href="/academics-and-partnerships" class="text-slate-500 hover:text-slate-800 text-xs sm:text-sm font-medium flex items-center gap-1 transition-colors">
-          ← Back to Academics Hub
-        </a>
-        <span class="font-bold text-slate-900 tracking-tight text-xs sm:text-sm">
-          FAQs
-        </span>
-      </div>
-    </header>
+    <AcademicsNavbar />
+    
 
     <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
       <div class="mb-12 text-center space-y-3">
@@ -175,13 +169,13 @@ const faqs = [
             Email HR
           </a>
           <a
-            href="/academics-and-internships"
+            href="/academics-and-partnerships"
             class="btn-secondary px-6 py-2.5 rounded-xl transition-colors text-sm">
             Back to Academics Hub
           </a>
         </div>
       </div>
     </main>
-
+   <AcademicsFooter />
   </body>
 </html>
