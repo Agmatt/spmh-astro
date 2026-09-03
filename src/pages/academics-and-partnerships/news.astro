@@ -1,7 +1,7 @@
 ---
 import AcademicsNavbar from '../../components/AcademicsNavbar.astro';
 import AcademicsFooter from '../../components/AcademicsFooter.astro';
-import '../../styles/global.css'
+import '../../styles/global.css';
 ---
 
 <html lang='en'>
@@ -31,89 +31,226 @@ import '../../styles/global.css'
     <AcademicsNavbar />
 
     <main class='min-h-screen'>
-      <!-- Hero -->
-      <section
-        class='bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 px-4 sm:px-6 lg:px-8'>
-        <div class='max-w-5xl mx-auto text-center'>
-          <h1 class='text-4xl sm:text-5xl font-bold mb-4'>News & Updates</h1>
-          <p class='text-xl text-blue-100'>
-            Latest announcements from SPMH Academics & Partnerships
+      <div class='max-w-4xl mx-auto px-6 py-12'>
+        <h1 class='text-4xl font-bold text-[#125276] mb-4'>News & Updates</h1>
+        <p class='text-lg text-[#3E5262] mb-12'>
+          Stay informed about the latest developments, announcements, and
+          initiatives from SPMH's Academics & Partnerships portfolio.
+        </p>
+
+        <div class='mb-8 p-6 bg-[#E3F2FD] border border-[#90CAF9] rounded-lg'>
+          <p class='text-[#1565c0] font-medium'>📢 Subscribe to updates</p>
+          <p class='text-[#3E5262] text-sm mt-2'>
+            Get partnership and academic announcements delivered to your inbox
+            monthly.
           </p>
         </div>
-      </section>
 
-      <!-- Content -->
-      <section class='py-16 px-4 sm:px-6 lg:px-8'>
-        <div class='max-w-4xl mx-auto'>
-          <!-- News Item 1 -->
-          <article class='mb-12 pb-12 border-b border-slate-200'>
-            <div class='mb-4'>
-              <span
-                class='text-blue-600 font-bold text-sm uppercase tracking-wider'
-                >August 2026</span
-              >
-              <h2 class='text-3xl font-bold mt-2 mb-3'>
-                SPMH Launches Expanded Clinical Training Program
+        <div class='space-y-6'>
+          <!-- News 1 -->
+          <article
+            class='bg-white rounded-lg overflow-hidden border border-[#D8E0E7] hover:shadow-md transition-shadow'>
+            <div class='p-6'>
+              <div class='flex items-center gap-2 mb-3'>
+                <span
+                  class='bg-[#860f0f] text-white text-xs font-bold px-3 py-1 rounded-full'
+                  >Announcement</span
+                >
+                <span class='text-[#7A8A96] text-sm'>August 2026</span>
+              </div>
+              <h2 class='text-xl font-bold text-[#125276] mb-3'>
+                New Academic Partnerships Program Launched
               </h2>
-              <p class='text-slate-600'>Posted on August 15, 2026</p>
+              <p class='text-[#3E5262] mb-4'>
+                SPMH announces the launch of its formal Academic Partnerships
+                Program to streamline collaboration with educational
+                institutions across East Africa. The program includes structured
+                pathways for student placements, research collaborations, and
+                faculty exchange.
+              </p>
+              <div
+                class='bg-[#F7F9FB] p-4 rounded border border-[#D8E0E7] mb-4 text-sm text-[#3E5262]'>
+                <p>
+                  <strong>Key Features:</strong> Standardized MOU framework | Enhanced
+                  mentorship protocols | Accreditation support for partner institutions
+                </p>
+              </div>
+              <a
+                href='#'
+                class='text-[#1565c0] hover:underline font-medium text-sm'
+                >Learn more →</a
+              >
             </div>
-            <p class='text-lg text-slate-700 leading-relaxed mb-4'>
-              St. Paul's Mission Hospital is proud to announce the expansion of
-              its clinical training programs. We've introduced new departments
-              and increased our capacity to host 200+ students annually across
-              all healthcare disciplines.
-            </p>
-            <a href='#' class='text-blue-600 font-bold hover:text-blue-700'
-              >Read Full Story →</a
-            >
           </article>
 
-          <!-- News Item 2 -->
-          <article class='mb-12 pb-12 border-b border-slate-200'>
-            <div class='mb-4'>
-              <span
-                class='text-blue-600 font-bold text-sm uppercase tracking-wider'
-                >July 2026</span
-              >
-              <h2 class='text-3xl font-bold mt-2 mb-3'>
-                New Partnership with Nairobi University
+          <!-- News 2 -->
+          <article
+            class='bg-white rounded-lg overflow-hidden border border-[#D8E0E7] hover:shadow-md transition-shadow'>
+            <div class='p-6'>
+              <div class='flex items-center gap-2 mb-3'>
+                <span
+                  class='bg-[#860f0f] text-white text-xs font-bold px-3 py-1 rounded-full'
+                  >Achievement</span
+                >
+                <span class='text-[#7A8A96] text-sm'>July 2026</span>
+              </div>
+              <h2 class='text-xl font-bold text-[#125276] mb-3'>
+                SPMH Reaches 500+ Student Placements Milestone
               </h2>
-              <p class='text-slate-600'>Posted on July 20, 2026</p>
+              <p class='text-[#3E5262] mb-4'>
+                In recognition of clinical education excellence, SPMH has hosted
+                over 500 nursing, medical, and allied health students in the
+                past three years. The milestone reflects our commitment to
+                developing the healthcare workforce and building professional
+                capacity across the region.
+              </p>
+              <div
+                class='bg-[#F7F9FB] p-4 rounded border border-[#D8E0E7] mb-4 text-sm text-[#3E5262]'>
+                <p>
+                  <strong>Statistics:</strong> 250+ nursing students | 120+ medical
+                  interns | 90+ allied health professionals | 40+ research scholars
+                </p>
+              </div>
+              <a
+                href='#'
+                class='text-[#1565c0] hover:underline font-medium text-sm'
+                >Read full story →</a
+              >
             </div>
-            <p class='text-lg text-slate-700 leading-relaxed mb-4'>
-              SPMH has signed a formal MOU with Nairobi University's School of
-              Nursing. This partnership will strengthen clinical training and
-              foster collaborative research in rural healthcare delivery.
-            </p>
-            <a href='#' class='text-blue-600 font-bold hover:text-blue-700'
-              >Read Full Story →</a
-            >
           </article>
 
-          <!-- News Item 3 -->
-          <article class='mb-12'>
-            <div class='mb-4'>
-              <span
-                class='text-blue-600 font-bold text-sm uppercase tracking-wider'
-                >June 2026</span
-              >
-              <h2 class='text-3xl font-bold mt-2 mb-3'>
-                87% Employment Rate Achieved
+          <!-- News 3 -->
+          <article
+            class='bg-white rounded-lg overflow-hidden border border-[#D8E0E7] hover:shadow-md transition-shadow'>
+            <div class='p-6'>
+              <div class='flex items-center gap-2 mb-3'>
+                <span
+                  class='bg-[#860f0f] text-white text-xs font-bold px-3 py-1 rounded-full'
+                  >Research</span
+                >
+                <span class='text-[#7A8A96] text-sm'>June 2026</span>
+              </div>
+              <h2 class='text-xl font-bold text-[#125276] mb-3'>
+                Joint Research Study on Maternal Health Outcomes Published
               </h2>
-              <p class='text-slate-600'>Posted on June 10, 2026</p>
+              <p class='text-[#3E5262] mb-4'>
+                Findings from a collaborative research project between SPMH and
+                University of Cape Town have been published in the Journal of
+                Global Health. The study examined effectiveness of integrated
+                maternal health interventions in rural settings.
+              </p>
+              <div
+                class='bg-[#F7F9FB] p-4 rounded border border-[#D8E0E7] mb-4 text-sm text-[#3E5262]'>
+                <p>
+                  <strong>Citation:</strong> "Integrated Maternal Health Interventions
+                  in Low-Resource Settings: Evidence from Western Kenya" - Journal
+                  of Global Health, 2026
+                </p>
+              </div>
+              <a
+                href='#'
+                class='text-[#1565c0] hover:underline font-medium text-sm'
+                >View publication →</a
+              >
             </div>
-            <p class='text-lg text-slate-700 leading-relaxed mb-4'>
-              SPMH is thrilled to report that 87% of students who completed
-              clinical attachments secured professional positions within 6
-              months. This demonstrates the quality and impact of our training
-              programs.
-            </p>
-            <a href='#' class='text-blue-600 font-bold hover:text-blue-700'
-              >Read Full Story →</a
-            >
+          </article>
+
+          <!-- News 4 -->
+          <article
+            class='bg-white rounded-lg overflow-hidden border border-[#D8E0E7] hover:shadow-md transition-shadow'>
+            <div class='p-6'>
+              <div class='flex items-center gap-2 mb-3'>
+                <span
+                  class='bg-[#860f0f] text-white text-xs font-bold px-3 py-1 rounded-full'
+                  >Event</span
+                >
+                <span class='text-[#7A8A96] text-sm'
+                  >Upcoming - September 2026</span
+                >
+              </div>
+              <h2 class='text-xl font-bold text-[#125276] mb-3'>
+                Annual Academic Partnerships Symposium 2026
+              </h2>
+              <p class='text-[#3E5262] mb-4'>
+                SPMH will host its annual symposium bringing together academic
+                and institutional partners to share experiences, discuss
+                emerging trends in health professions education, and strengthen
+                collaboration networks. Registration is now open.
+              </p>
+              <div
+                class='bg-[#F7F9FB] p-4 rounded border border-[#D8E0E7] mb-4 text-sm text-[#3E5262]'>
+                <p>
+                  <strong>Event Details:</strong> September 18-19, 2026 | SPMH Conference
+                  Center | Hybrid participation available
+                </p>
+              </div>
+              <a
+                href='#'
+                class='text-[#1565c0] hover:underline font-medium text-sm'
+                >Register now →</a
+              >
+            </div>
+          </article>
+
+          <!-- News 5 -->
+          <article
+            class='bg-white rounded-lg overflow-hidden border border-[#D8E0E7] hover:shadow-md transition-shadow'>
+            <div class='p-6'>
+              <div class='flex items-center gap-2 mb-3'>
+                <span
+                  class='bg-[#860f0f] text-white text-xs font-bold px-3 py-1 rounded-full'
+                  >Update</span
+                >
+                <span class='text-[#7A8A96] text-sm'>May 2026</span>
+              </div>
+              <h2 class='text-xl font-bold text-[#125276] mb-3'>
+                Expanded Clinical Placement Opportunities for 2026-2027
+              </h2>
+              <p class='text-[#3E5262] mb-4'>
+                Due to increased staffing and infrastructure development, SPMH
+                is expanding clinical placement capacity for the 2026-2027
+                academic year. We are now accepting applications for placements
+                across all clinical departments.
+              </p>
+              <div
+                class='bg-[#F7F9FB] p-4 rounded border border-[#D8E0E7] mb-4 text-sm text-[#3E5262]'>
+                <p>
+                  <strong>Available Positions:</strong> Nursing (40 slots) | Medical
+                  (15 slots) | Pharmacy (10 slots) | Laboratory (8 slots) | Radiology
+                  (6 slots)
+                </p>
+              </div>
+              <a
+                href='/academics-and-partnerships/apply-for-attachment'
+                class='text-[#1565c0] hover:underline font-medium text-sm'
+                >Apply now →</a
+              >
+            </div>
           </article>
         </div>
-      </section>
+
+        <div class='bg-[#F7F9FB] border border-[#D8E0E7] rounded-lg p-8 mt-12'>
+          <h2 class='text-xl font-bold text-[#125276] mb-4'>
+            Want regular updates?
+          </h2>
+          <p class='text-[#3E5262] mb-4'>
+            Subscribe to our newsletter to receive monthly updates on
+            partnerships, academic initiatives, and institutional news.
+          </p>
+          <form class='flex gap-2'>
+            <input
+              type='email'
+              placeholder='Enter your email'
+              class='flex-1 px-4 py-2 border border-[#D8E0E7] rounded focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30'
+            />
+            <button
+              type='submit'
+              class='bg-[#860f0f] text-white px-6 py-2 rounded font-medium hover:bg-[#660a0a] transition-colors'>
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
     </main>
 
     <AcademicsFooter />

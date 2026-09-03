@@ -1,7 +1,7 @@
 ---
 import AcademicsNavbar from '../../components/AcademicsNavbar.astro';
 import AcademicsFooter from '../../components/AcademicsFooter.astro';
-import '../../styles/global.css'
+import '../../styles/global.css';
 ---
 
 <html lang='en'>
@@ -31,193 +31,283 @@ import '../../styles/global.css'
     <AcademicsNavbar />
 
     <main class='min-h-screen'>
-      <!-- Hero -->
-      <section
-        class='bg-gradient-to-r from-green-600 to-green-800 text-white py-16 px-4 sm:px-6 lg:px-8'>
-        <div class='max-w-5xl mx-auto text-center'>
-          <h1 class='text-4xl sm:text-5xl font-bold mb-4'>
-            Resources & Guides
-          </h1>
-          <p class='text-xl text-green-100'>
-            Downloadable materials for students and institutional partners
-          </p>
-        </div>
-      </section>
+      <div class='max-w-4xl mx-auto px-6 py-12'>
+        <h1 class='text-4xl font-bold text-[#125276] mb-4'>Resources</h1>
+        <p class='text-lg text-[#3E5262] mb-12'>
+          Access guides, documentation, templates, and reference materials to
+          support partnerships and academic collaborations with SPMH.
+        </p>
 
-      <!-- Content -->
-      <section class='py-16 px-4 sm:px-6 lg:px-8'>
-        <div class='max-w-5xl mx-auto'>
-          <!-- Student Resources -->
-          <div class='mb-16'>
-            <h2 class='text-3xl font-bold mb-8 text-slate-900'>For Students</h2>
-            <div class='grid grid-cols-1 md:grid-cols-2 gap-6'>
-              <div
-                class='p-6 border-2 border-blue-200 rounded-lg hover:shadow-lg transition-shadow'>
-                <div class='flex items-start gap-4'>
-                  <div class='text-3xl'>📄</div>
-                  <div class='flex-1'>
-                    <h3 class='font-bold text-lg mb-2'>Application Guide</h3>
-                    <p class='text-slate-600 text-sm mb-4'>
-                      Step-by-step instructions for applying to SPMH clinical
-                      attachments.
-                    </p>
-                    <a
-                      href='#'
-                      class='text-blue-600 font-bold text-sm hover:text-blue-700'
-                      >Download PDF →</a
-                    >
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class='p-6 border-2 border-blue-200 rounded-lg hover:shadow-lg transition-shadow'>
-                <div class='flex items-start gap-4'>
-                  <div class='text-3xl'>🏥</div>
-                  <div class='flex-1'>
-                    <h3 class='font-bold text-lg mb-2'>
-                      Clinical Rotation Handbook
-                    </h3>
-                    <p class='text-slate-600 text-sm mb-4'>
-                      What to expect during your attachment at SPMH.
-                    </p>
-                    <a
-                      href='#'
-                      class='text-blue-600 font-bold text-sm hover:text-blue-700'
-                      >Download PDF →</a
-                    >
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class='p-6 border-2 border-blue-200 rounded-lg hover:shadow-lg transition-shadow'>
-                <div class='flex items-start gap-4'>
-                  <div class='text-3xl'>📋</div>
-                  <div class='flex-1'>
-                    <h3 class='font-bold text-lg mb-2'>
-                      Documentation Checklist
-                    </h3>
-                    <p class='text-slate-600 text-sm mb-4'>
-                      Required documents for your application.
-                    </p>
-                    <a
-                      href='#'
-                      class='text-blue-600 font-bold text-sm hover:text-blue-700'
-                      >Download PDF →</a
-                    >
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class='p-6 border-2 border-blue-200 rounded-lg hover:shadow-lg transition-shadow'>
-                <div class='flex items-start gap-4'>
-                  <div class='text-3xl'>🎯</div>
-                  <div class='flex-1'>
-                    <h3 class='font-bold text-lg mb-2'>Learning Objectives</h3>
-                    <p class='text-slate-600 text-sm mb-4'>
-                      Competencies you'll develop at SPMH.
-                    </p>
-                    <a
-                      href='#'
-                      class='text-blue-600 font-bold text-sm hover:text-blue-700'
-                      >Download PDF →</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Institutional Resources -->
-          <div>
-            <h2 class='text-3xl font-bold mb-8 text-slate-900'>
-              For Institutions
+        <div class='space-y-8'>
+          <!-- Partnership Resources Section -->
+          <section>
+            <h2 class='text-2xl font-bold text-[#860f0f] mb-6'>
+              Partnership Resources
             </h2>
             <div class='grid grid-cols-1 md:grid-cols-2 gap-6'>
-              <div
-                class='p-6 border-2 border-purple-200 rounded-lg hover:shadow-lg transition-shadow'>
-                <div class='flex items-start gap-4'>
-                  <div class='text-3xl'>📑</div>
-                  <div class='flex-1'>
-                    <h3 class='font-bold text-lg mb-2'>MOU Template</h3>
-                    <p class='text-slate-600 text-sm mb-4'>
-                      Sample Memorandum of Understanding for institutional
-                      partnerships.
-                    </p>
-                    <a
-                      href='#'
-                      class='text-blue-600 font-bold text-sm hover:text-blue-700'
-                      >Download DOCX →</a
-                    >
+              <a
+                href='#'
+                class='bg-[#F7F9FB] p-6 rounded-lg border border-[#D8E0E7] hover:shadow-md hover:border-[#1565c0] transition-all'>
+                <div class='flex items-start gap-3 mb-3'>
+                  <span class='text-2xl'>📄</span>
+                  <div>
+                    <h3 class='font-bold text-[#125276]'>MOU Template</h3>
+                    <p class='text-xs text-[#7A8A96]'>Word Document • 12 KB</p>
                   </div>
                 </div>
-              </div>
+                <p class='text-[#3E5262] text-sm'>
+                  Standard MOU template for formal partnerships with
+                  customizable sections.
+                </p>
+              </a>
 
-              <div
-                class='p-6 border-2 border-purple-200 rounded-lg hover:shadow-lg transition-shadow'>
-                <div class='flex items-start gap-4'>
-                  <div class='text-3xl'>🤝</div>
-                  <div class='flex-1'>
-                    <h3 class='font-bold text-lg mb-2'>
-                      Partnership Program Guide
+              <a
+                href='#'
+                class='bg-[#F7F9FB] p-6 rounded-lg border border-[#D8E0E7] hover:shadow-md hover:border-[#1565c0] transition-all'>
+                <div class='flex items-start gap-3 mb-3'>
+                  <span class='text-2xl'>📋</span>
+                  <div>
+                    <h3 class='font-bold text-[#125276]'>
+                      Partnership Guidelines
                     </h3>
-                    <p class='text-slate-600 text-sm mb-4'>
-                      How to establish and maintain partnerships with SPMH.
-                    </p>
-                    <a
-                      href='#'
-                      class='text-blue-600 font-bold text-sm hover:text-blue-700'
-                      >Download PDF →</a
-                    >
+                    <p class='text-xs text-[#7A8A96]'>PDF • 2.4 MB</p>
                   </div>
                 </div>
-              </div>
+                <p class='text-[#3E5262] text-sm'>
+                  Comprehensive guide to partnership expectations, roles, and
+                  responsibilities.
+                </p>
+              </a>
 
-              <div
-                class='p-6 border-2 border-purple-200 rounded-lg hover:shadow-lg transition-shadow'>
-                <div class='flex items-start gap-4'>
-                  <div class='text-3xl'>📊</div>
-                  <div class='flex-1'>
-                    <h3 class='font-bold text-lg mb-2'>
-                      Program Outcomes Report
+              <a
+                href='#'
+                class='bg-[#F7F9FB] p-6 rounded-lg border border-[#D8E0E7] hover:shadow-md hover:border-[#1565c0] transition-all'>
+                <div class='flex items-start gap-3 mb-3'>
+                  <span class='text-2xl'>✓</span>
+                  <div>
+                    <h3 class='font-bold text-[#125276]'>
+                      Partnership Checklist
                     </h3>
-                    <p class='text-slate-600 text-sm mb-4'>
-                      Data on student placements and institutional impact.
-                    </p>
-                    <a
-                      href='#'
-                      class='text-blue-600 font-bold text-sm hover:text-blue-700'
-                      >Download PDF →</a
-                    >
+                    <p class='text-xs text-[#7A8A96]'>PDF • 840 KB</p>
                   </div>
                 </div>
-              </div>
+                <p class='text-[#3E5262] text-sm'>
+                  Step-by-step checklist for initiating and formalizing
+                  partnerships with SPMH.
+                </p>
+              </a>
 
-              <div
-                class='p-6 border-2 border-purple-200 rounded-lg hover:shadow-lg transition-shadow'>
-                <div class='flex items-start gap-4'>
-                  <div class='text-3xl'>🎓</div>
-                  <div class='flex-1'>
-                    <h3 class='font-bold text-lg mb-2'>
-                      Research Collaboration Framework
+              <a
+                href='#'
+                class='bg-[#F7F9FB] p-6 rounded-lg border border-[#D8E0E7] hover:shadow-md hover:border-[#1565c0] transition-all'>
+                <div class='flex items-start gap-3 mb-3'>
+                  <span class='text-2xl'>🎯</span>
+                  <div>
+                    <h3 class='font-bold text-[#125276]'>
+                      Outcome Measurement Framework
                     </h3>
-                    <p class='text-slate-600 text-sm mb-4'>
-                      Guidelines for joint research initiatives.
-                    </p>
-                    <a
-                      href='#'
-                      class='text-blue-600 font-bold text-sm hover:text-blue-700'
-                      >Download PDF →</a
-                    >
+                    <p class='text-xs text-[#7A8A96]'>Excel • 1.2 MB</p>
                   </div>
                 </div>
+                <p class='text-[#3E5262] text-sm'>
+                  Framework for tracking and evaluating partnership impact and
+                  outcomes.
+                </p>
+              </a>
+            </div>
+          </section>
+
+          <!-- Academic Resources Section -->
+          <section>
+            <h2 class='text-2xl font-bold text-[#860f0f] mb-6'>
+              Academic & Student Resources
+            </h2>
+            <div class='grid grid-cols-1 md:grid-cols-2 gap-6'>
+              <a
+                href='#'
+                class='bg-[#F7F9FB] p-6 rounded-lg border border-[#D8E0E7] hover:shadow-md hover:border-[#1565c0] transition-all'>
+                <div class='flex items-start gap-3 mb-3'>
+                  <span class='text-2xl'>👤</span>
+                  <div>
+                    <h3 class='font-bold text-[#125276]'>Student Handbook</h3>
+                    <p class='text-xs text-[#7A8A96]'>PDF • 3.8 MB</p>
+                  </div>
+                </div>
+                <p class='text-[#3E5262] text-sm'>
+                  Comprehensive orientation for students coming for clinical
+                  attachments at SPMH.
+                </p>
+              </a>
+
+              <a
+                href='#'
+                class='bg-[#F7F9FB] p-6 rounded-lg border border-[#D8E0E7] hover:shadow-md hover:border-[#1565c0] transition-all'>
+                <div class='flex items-start gap-3 mb-3'>
+                  <span class='text-2xl'>⚖️</span>
+                  <div>
+                    <h3 class='font-bold text-[#125276]'>Code of Conduct</h3>
+                    <p class='text-xs text-[#7A8A96]'>PDF • 1.1 MB</p>
+                  </div>
+                </div>
+                <p class='text-[#3E5262] text-sm'>
+                  Professional conduct standards and behavioral expectations for
+                  students and interns.
+                </p>
+              </a>
+
+              <a
+                href='#'
+                class='bg-[#F7F9FB] p-6 rounded-lg border border-[#D8E0E7] hover:shadow-md hover:border-[#1565c0] transition-all'>
+                <div class='flex items-start gap-3 mb-3'>
+                  <span class='text-2xl'>📅</span>
+                  <div>
+                    <h3 class='font-bold text-[#125276]'>
+                      Academic Calendar 2026-2027
+                    </h3>
+                    <p class='text-xs text-[#7A8A96]'>PDF • 580 KB</p>
+                  </div>
+                </div>
+                <p class='text-[#3E5262] text-sm'>
+                  SPMH academic calendar with placement periods, holidays, and
+                  key dates.
+                </p>
+              </a>
+
+              <a
+                href='#'
+                class='bg-[#F7F9FB] p-6 rounded-lg border border-[#D8E0E7] hover:shadow-md hover:border-[#1565c0] transition-all'>
+                <div class='flex items-start gap-3 mb-3'>
+                  <span class='text-2xl'>🏥</span>
+                  <div>
+                    <h3 class='font-bold text-[#125276]'>
+                      Clinical Department Guide
+                    </h3>
+                    <p class='text-xs text-[#7A8A96]'>PDF • 2.2 MB</p>
+                  </div>
+                </div>
+                <p class='text-[#3E5262] text-sm'>
+                  Overview of SPMH clinical departments, services, and specialty
+                  areas.
+                </p>
+              </a>
+            </div>
+          </section>
+
+          <!-- Institutional Resources Section -->
+          <section>
+            <h2 class='text-2xl font-bold text-[#860f0f] mb-6'>
+              Institutional & Partner Resources
+            </h2>
+            <div class='grid grid-cols-1 md:grid-cols-2 gap-6'>
+              <a
+                href='#'
+                class='bg-[#F7F9FB] p-6 rounded-lg border border-[#D8E0E7] hover:shadow-md hover:border-[#1565c0] transition-all'>
+                <div class='flex items-start gap-3 mb-3'>
+                  <span class='text-2xl'>🏢</span>
+                  <div>
+                    <h3 class='font-bold text-[#125276]'>
+                      Institutional Profile
+                    </h3>
+                    <p class='text-xs text-[#7A8A96]'>PDF • 1.5 MB</p>
+                  </div>
+                </div>
+                <p class='text-[#3E5262] text-sm'>
+                  Comprehensive overview of SPMH mission, vision, structure, and
+                  strategic priorities.
+                </p>
+              </a>
+
+              <a
+                href='#'
+                class='bg-[#F7F9FB] p-6 rounded-lg border border-[#D8E0E7] hover:shadow-md hover:border-[#1565c0] transition-all'>
+                <div class='flex items-start gap-3 mb-3'>
+                  <span class='text-2xl'>📊</span>
+                  <div>
+                    <h3 class='font-bold text-[#125276]'>
+                      SPMH Statistics & Performance Data
+                    </h3>
+                    <p class='text-xs text-[#7A8A96]'>PDF • 2.8 MB</p>
+                  </div>
+                </div>
+                <p class='text-[#3E5262] text-sm'>
+                  Key institutional statistics, patient volume, and performance
+                  metrics for 2025-2026.
+                </p>
+              </a>
+
+              <a
+                href='#'
+                class='bg-[#F7F9FB] p-6 rounded-lg border border-[#D8E0E7] hover:shadow-md hover:border-[#1565c0] transition-all'>
+                <div class='flex items-start gap-3 mb-3'>
+                  <span class='text-2xl'>🔬</span>
+                  <div>
+                    <h3 class='font-bold text-[#125276]'>
+                      Research Guidelines & Ethics
+                    </h3>
+                    <p class='text-xs text-[#7A8A96]'>PDF • 1.9 MB</p>
+                  </div>
+                </div>
+                <p class='text-[#3E5262] text-sm'>
+                  Framework for conducting research at SPMH including ethics
+                  clearance process.
+                </p>
+              </a>
+
+              <a
+                href='#'
+                class='bg-[#F7F9FB] p-6 rounded-lg border border-[#D8E0E7] hover:shadow-md hover:border-[#1565c0] transition-all'>
+                <div class='flex items-start gap-3 mb-3'>
+                  <span class='text-2xl'>📖</span>
+                  <div>
+                    <h3 class='font-bold text-[#125276]'>
+                      Quality Policy & Standards
+                    </h3>
+                    <p class='text-xs text-[#7A8A96]'>PDF • 1.6 MB</p>
+                  </div>
+                </div>
+                <p class='text-[#3E5262] text-sm'>
+                  SPMH quality standards aligned with KMHFL Level 4
+                  accreditation requirements.
+                </p>
+              </a>
+            </div>
+          </section>
+
+          <!-- FAQ & Contact Section -->
+          <section>
+            <h2 class='text-2xl font-bold text-[#860f0f] mb-6'>
+              Need More Help?
+            </h2>
+            <div class='grid grid-cols-1 md:grid-cols-2 gap-6'>
+              <a
+                href='/academics-and-partnerships/faq'
+                class='bg-[#125276] text-white p-6 rounded-lg hover:shadow-md transition-shadow'>
+                <h3 class='font-bold mb-2 flex items-center gap-2'>
+                  <span>❓</span> Frequently Asked Questions
+                </h3>
+                <p class='text-sm opacity-90'>
+                  Browse answers to common questions about partnerships,
+                  applications, and academic programs.
+                </p>
+              </a>
+
+              <div class='bg-[#125276] text-white p-6 rounded-lg'>
+                <h3 class='font-bold mb-2 flex items-center gap-2'>
+                  <span>📧</span> Contact Us
+                </h3>
+                <p class='text-sm opacity-90 mb-3'>
+                  For specific inquiries about resources or partnerships:
+                </p>
+                <a
+                  href='mailto:academics@spmh.co.ke'
+                  class='text-[#FFE5E5] hover:underline text-sm'
+                  >academics@spmh.co.ke</a
+                >
               </div>
             </div>
-          </div>
+          </section>
         </div>
-      </section>
+      </div>
     </main>
 
     <AcademicsFooter />
