@@ -13,10 +13,6 @@ import '../../styles/global.css';
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>Academics, Research & Partnerships | SPMH</title>
     <link rel='icon' type='image/png' href='/file.svg' />
-    <link
-      href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Open+Sans:wght@400;500;600;700&display=swap'
-      rel='stylesheet'
-    />
     <meta
       name='description'
       content="Clinical training, research partnerships, and institutional collaboration at St. Paul's Mission Hospital."
@@ -26,20 +22,11 @@ import '../../styles/global.css';
       rel='stylesheet'
       href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
     />
+    <link
+      rel='stylesheet'
+      href='path/to/font-awesome/css/font-awesome.min.css'
+    />
     <style>
-      * {
-        font-family: 'Open Sans', system-ui, sans-serif;
-      }
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-family: 'Roboto', sans-serif;
-      }
-
       .pathway-card {
         transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
       }
@@ -202,7 +189,8 @@ import '../../styles/global.css';
         <div
           class='mt-7 sm:mt-9 flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4'>
           <a
-            href='/portal/students' target="_blank"
+            href='/portal/students'
+            target='_blank'
             class='inline-flex items-center justify-center px-5 sm:px-7 py-3 sm:py-3.5 text-sm sm:text-base font-semibold rounded-xl text-blue-900 bg-white hover:bg-blue-50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg shadow-blue-900/30'>
             Access Student Portal
             <svg
@@ -226,7 +214,6 @@ import '../../styles/global.css';
       </div>
     </section>
 
-   
     <!-- Partnership Pathways -->
     <section
       id='pathways'
@@ -250,17 +237,14 @@ import '../../styles/global.css';
           <!-- Clinical Training -->
           <article
             class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-blue-200'>
-            <span
-              class='absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-gradient-to-r from-blue-500 to-cyan-500 opacity-0 transition-opacity group-hover:opacity-100'
-            ></span>
             <div class='flex items-start justify-between'>
               <div
-                class='h-14 w-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center'>
+                class='h-14 w-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center'>
                 <i class='fa-solid fa-stethoscope text-2xl' aria-hidden='true'
                 ></i>
               </div>
               <span
-                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700'>
+                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-primary'>
                 <i class='fa-regular fa-clock' aria-hidden='true'></i>
                 6–12 weeks
               </span>
@@ -272,30 +256,19 @@ import '../../styles/global.css';
               Structured rotations across nursing, lab, pharmacy, and outpatient
               departments under certified preceptors.
             </p>
-            <a
-              href='#'
-              class='mt-5 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-800'>
-              Explore pathway
-              <i
-                class='fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1'
-                aria-hidden='true'></i>
-            </a>
           </article>
 
           <!-- Research & Innovation -->
           <article
             class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-emerald-200'>
-            <span
-              class='absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-gradient-to-r from-emerald-500 to-green-500 opacity-0 transition-opacity group-hover:opacity-100'
-            ></span>
             <div class='flex items-start justify-between'>
               <div
-                class='h-14 w-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center'>
+                class='h-14 w-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center'>
                 <i class='fa-solid fa-microscope text-2xl' aria-hidden='true'
                 ></i>
               </div>
               <span
-                class='inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700'>
+                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-primary'>
                 <i class='fa-regular fa-clock' aria-hidden='true'></i>
                 3–12 months
               </span>
@@ -307,31 +280,20 @@ import '../../styles/global.css';
               Joint studies in community health, epidemiology, and quality
               improvement initiatives.
             </p>
-            <a
-              href='#'
-              class='mt-5 inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-800'>
-              Explore pathway
-              <i
-                class='fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1'
-                aria-hidden='true'></i>
-            </a>
           </article>
 
           <!-- CME Programs -->
           <article
             class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-purple-200'>
-            <span
-              class='absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-gradient-to-r from-purple-500 to-indigo-500 opacity-0 transition-opacity group-hover:opacity-100'
-            ></span>
             <div class='flex items-start justify-between'>
               <div
-                class='h-14 w-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center'>
+                class='h-14 w-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center'>
                 <i
                   class='fa-solid fa-graduation-cap text-2xl'
                   aria-hidden='true'></i>
               </div>
               <span
-                class='inline-flex items-center gap-1.5 rounded-full bg-purple-50 px-3 py-1 text-xs font-semibold text-purple-700'>
+                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-primary'>
                 <i class='fa-solid fa-book-open' aria-hidden='true'></i>
                 Modular
               </span>
@@ -341,29 +303,18 @@ import '../../styles/global.css';
               Faculty exchange, case-based teaching, and continuing medical
               education sessions.
             </p>
-            <a
-              href='#'
-              class='mt-5 inline-flex items-center gap-2 text-sm font-semibold text-purple-600 hover:text-purple-800'>
-              Explore pathway
-              <i
-                class='fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1'
-                aria-hidden='true'></i>
-            </a>
           </article>
 
           <!-- Administration & Systems -->
           <article
             class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-amber-200'>
-            <span
-              class='absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-gradient-to-r from-amber-500 to-orange-500 opacity-0 transition-opacity group-hover:opacity-100'
-            ></span>
             <div class='flex items-start justify-between'>
               <div
-                class='h-14 w-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center'>
+                class='h-14 w-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center'>
                 <i class='fa-solid fa-building text-2xl' aria-hidden='true'></i>
               </div>
               <span
-                class='inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700'>
+                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-primary'>
                 <i class='fa-solid fa-gears' aria-hidden='true'></i>
                 Operations
               </span>
@@ -375,29 +326,18 @@ import '../../styles/global.css';
               Hands-on experience in HR, finance, procurement, and health
               information systems.
             </p>
-            <a
-              href='#'
-              class='mt-5 inline-flex items-center gap-2 text-sm font-semibold text-amber-600 hover:text-amber-800'>
-              Explore pathway
-              <i
-                class='fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1'
-                aria-hidden='true'></i>
-            </a>
           </article>
 
           <!-- International Partnerships -->
           <article
             class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-cyan-200'>
-            <span
-              class='absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-gradient-to-r from-cyan-500 to-sky-500 opacity-0 transition-opacity group-hover:opacity-100'
-            ></span>
             <div class='flex items-start justify-between'>
               <div
-                class='h-14 w-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center'>
+                class='h-14 w-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center'>
                 <i class='fa-solid fa-globe text-2xl' aria-hidden='true'></i>
               </div>
               <span
-                class='inline-flex items-center gap-1.5 rounded-full bg-cyan-50 px-3 py-1 text-xs font-semibold text-cyan-700'>
+                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-primary'>
                 <i class='fa-solid fa-file-contract' aria-hidden='true'></i>
                 Multi-year
               </span>
@@ -409,30 +349,19 @@ import '../../styles/global.css';
               Formal MOUs with regional and international institutions for
               sustainable collaboration.
             </p>
-            <a
-              href='#'
-              class='mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cyan-600 hover:text-cyan-800'>
-              Explore pathway
-              <i
-                class='fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1'
-                aria-hidden='true'></i>
-            </a>
           </article>
 
           <!-- Community Health Programs -->
           <article
             class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-rose-200'>
-            <span
-              class='absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-gradient-to-r from-rose-500 to-pink-500 opacity-0 transition-opacity group-hover:opacity-100'
-            ></span>
             <div class='flex items-start justify-between'>
               <div
-                class='h-14 w-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center'>
+                class='h-14 w-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center'>
                 <i class='fa-solid fa-people-group text-2xl' aria-hidden='true'
                 ></i>
               </div>
               <span
-                class='inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700'>
+                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-primary'>
                 <i class='fa-solid fa-location-dot' aria-hidden='true'></i>
                 Field-based
               </span>
@@ -444,14 +373,6 @@ import '../../styles/global.css';
               Student involvement in outreach and public health initiatives
               across Western Kenya.
             </p>
-            <a
-              href='#'
-              class='mt-5 inline-flex items-center gap-2 text-sm font-semibold text-rose-600 hover:text-rose-800'>
-              Explore pathway
-              <i
-                class='fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1'
-                aria-hidden='true'></i>
-            </a>
           </article>
         </div>
       </div>
@@ -478,7 +399,7 @@ import '../../styles/global.css';
         <!-- Heading -->
         <div class='text-center mb-16'>
           <span
-            class='inline-block bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4'>
+            class='inline-block bg-blue-50 text-primary text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4'>
             How It Works
           </span>
           <h2
@@ -505,7 +426,7 @@ import '../../styles/global.css';
             <div
               class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
               <div
-                class='relative z-10 w-16 h-16 shrink-0 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg shadow-blue-200'>
+                class='relative z-10 w-16 h-16 shrink-0 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg'>
                 1
               </div>
               <div class='pt-0 lg:pt-2'>
@@ -526,7 +447,7 @@ import '../../styles/global.css';
             <div
               class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
               <div
-                class='relative z-10 w-16 h-16 shrink-0 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg shadow-blue-200'>
+                class='relative z-10 w-16 h-16 shrink-0 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg'>
                 2
               </div>
               <div class='pt-0 lg:pt-2'>
@@ -547,7 +468,7 @@ import '../../styles/global.css';
             <div
               class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
               <div
-                class='relative z-10 w-16 h-16 shrink-0 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg shadow-blue-200'>
+                class='relative z-10 w-16 h-16 shrink-0 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg'>
                 3
               </div>
               <div class='pt-0 lg:pt-2'>
@@ -568,7 +489,7 @@ import '../../styles/global.css';
             <div
               class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
               <div
-                class='relative z-10 w-16 h-16 shrink-0 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg shadow-blue-200'>
+                class='relative z-10 w-16 h-16 shrink-0 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg'>
                 4
               </div>
               <div class='pt-0 lg:pt-2'>
@@ -588,7 +509,7 @@ import '../../styles/global.css';
             <div
               class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
               <div
-                class='relative z-10 w-16 h-16 shrink-0 bg-emerald-500 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg shadow-emerald-200'>
+                class='relative z-10 w-16 h-16 shrink-0 bg-emerald-500 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg'>
                 ✓
               </div>
               <div class='pt-0 lg:pt-2'>
@@ -630,9 +551,8 @@ import '../../styles/global.css';
           </p>
         </div>
 
-        <div
-          class='bg-white rounded-3xl border border-slate-200 shadow-2xl'>
-          <div class='bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6'>
+        <div class='bg-white rounded-3xl border border-slate-200 shadow-2xl'>
+          <div class='bg-muted rounded-t-3xl px-8 py-6'>
             <h3 class='text-white text-2xl font-bold'>
               Clinical Attachment Application
             </h3>
@@ -672,7 +592,8 @@ import '../../styles/global.css';
                 class='inline-block bg-blue-500/20 text-surface-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4'>
                 Institutional Collaboration
               </span>
-              <h2 class='text-4xl text-surface-2 sm:text-5xl font-extrabold leading-tight'>
+              <h2
+                class='text-4xl text-surface-2 sm:text-5xl font-extrabold leading-tight'>
                 Build Sustainable Partnerships
               </h2>
             </div>
@@ -712,13 +633,6 @@ import '../../styles/global.css';
                 >
               </div>
             </div>
-
-            <!-- Partner logos -->
-            <div class='border-t border-slate-700 pt-8'>
-              <p class='text-xs text-slate-400 uppercase tracking-widest mb-4'>
-                Our Partners Include
-              </p>
-            </div>
           </div>
         </div>
 
@@ -740,8 +654,7 @@ import '../../styles/global.css';
     <!-- 4. PARTNERSHIP INQUIRY FORM -->
     <section
       id='partnership-inquiry'
-      class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-gray-300 text-white '>
-      
+      class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-gray-300 text-white'>
       <div
         class='absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent'>
       </div>
@@ -752,9 +665,7 @@ import '../../styles/global.css';
             class='inline-block bg-blue-500/20 text-secondary text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4'>
             Partnership Inquiry
           </span>
-          <h2 class='text-4xl sm:text-5xl font-extrabold'>
-            Let's Talk
-          </h2>
+          <h2 class='text-4xl sm:text-5xl font-extrabold'>Let's Talk</h2>
           <p class='mt-4 text-lg text-slate-800 max-w-xl mx-auto'>
             Tell us about your institution and partnership interests. We'll get
             back to you within 48 hours.
@@ -763,7 +674,7 @@ import '../../styles/global.css';
 
         <div
           class='bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl border border-slate-700/50 shadow-2xl'>
-          <div class='bg-primary px-8 py-6'>
+          <div class='px-8 py-6'>
             <h3 class='text-white text-2xl font-bold'>
               Institutional Partnership Form
             </h3>
@@ -791,8 +702,8 @@ import '../../styles/global.css';
 
         <div class='mt-10 flex flex-col sm:flex-row justify-center gap-4'>
           <a
-            href='#internships'
-            class='inline-flex items-center justify-center bg-primary hover:bg-blue-800 text-white font-semibold px-8 py-4 rounded-lg transition-colors'>
+            href='#student-application'
+            class='inline-flex items-center justify-center btn-primary text-white font-semibold px-8 py-4 rounded-lg transition-colors'>
             Apply as Student
           </a>
           <a
