@@ -109,11 +109,11 @@ const AdminAuthGate = () => {
                     className="hidden lg:flex lg:w-1/2 relative bg-cover bg-center bg-no-repeat overflow-hidden"
                     style={{ backgroundImage: `url('/img/8.jpg')` }}
                 >
-                    <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-blue-950/90 to-slate-900/95 mix-blend-multiply"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-slate-800/95 via-blue-950/90 to-slate-900/95 mix-blend-multiply"></div>
 
                     <div className="relative z-10 w-full flex flex-col justify-between p-12 lg:p-20 text-white">
                         <div>
-                            <h1 className="text-5xl lg:text-6xl font-black uppercase tracking-tight leading-[1.1] mb-6">
+                            <h1 className="text-5xl lg:text-6xl text-surface-2 font-extrabold uppercase tracking-tight leading-[1.1] mb-6">
                                 St. Paul's<br />Mission Hospital
                             </h1>
                             <p className="text-base text-blue-100 font-medium max-w-md leading-relaxed opacity-95">
@@ -123,7 +123,7 @@ const AdminAuthGate = () => {
 
                         <div className="mt-auto">
                             <p className="text-xs font-bold tracking-widest uppercase text-blue-300/70">
-                                System v2.5 • Authorized Personnel Only
+                                System v1.0 • Authorized Personnel Only
                             </p>
                         </div>
                     </div>
@@ -133,7 +133,7 @@ const AdminAuthGate = () => {
                 <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 lg:p-24 bg-slate-50">
                     <div className="w-full max-w-sm bg-white p-8 rounded-2xl shadow-xl border border-slate-200">
                         <div className="mb-10">
-                            <h2 className="text-2xl font-black text-slate-900 tracking-tight">System Access</h2>
+                            <h2 className="text-2xl font-black text-secondary tracking-wide">System Access</h2>
                             <p className="text-sm text-slate-600 font-medium mt-3">Enter institutional credentials to proceed</p>
                         </div>
 
@@ -171,10 +171,11 @@ const AdminAuthGate = () => {
                             <button
                                 type="submit"
                                 disabled={isLoggingIn}
-                                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold uppercase tracking-wider text-sm py-3 rounded-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-blue-600/30"
+                                className="w-full bg-primary hover:from-blue-700 hover:to-blue-800 text-white font-bold uppercase tracking-wider text-sm py-3 rounded-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                                 {isLoggingIn ? 'Authenticating...' : 'Access Dashboard'}
                             </button>
+                            <a href="/" className='text-accent font-sm flex justify-center text-center hover:text-red-900'>Back Home</a>
                         </form>
                     </div>
                 </div>
@@ -191,7 +192,7 @@ const AdminAuthGate = () => {
                     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between py-4">
                         {/* BRANDING */}
                         <div className="flex flex-col">
-                            <span className="text-xs font-black text-blue-600 tracking-widest uppercase">SPMH Administration</span>
+                            <span className="text-xs font-black text-primary tracking-widest uppercase">SPMH Administration</span>
                             <h1 className="text-lg md:text-xl font-black text-slate-900 tracking-tight">Central Management System</h1>
                         </div>
 
@@ -200,7 +201,7 @@ const AdminAuthGate = () => {
                             {/* TAB NAVIGATION */}
                             <nav className="flex bg-slate-100 p-1 rounded-xl border border-slate-200 gap-1">
                                 {[
-                                    { id: 'appointments', label: 'Appointments' },
+                                    { id: 'applications', label: 'Applications' },
                                     { id: 'careers', label: 'Careers' },
                                     { id: 'partnerships', label: 'Partnerships' },
                                     { id: 'volunteers', label: 'Volunteers' }

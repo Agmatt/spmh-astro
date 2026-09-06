@@ -172,20 +172,20 @@ const TenderAuthGate = () => {
         return (
             <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
                 <img
-                    src="/img/6.jpg"
+                    src="/img/55.jpg"
                     alt="background image"
                     loading="eager"
                     className="absolute inset-0 w-full h-full object-cover"
-                    style={{ transform: 'scale(1.05)', opacity: 0.8 }}
+                    style={{ transform: 'scale(1.05)', opacity: 1.0 }}
                 />
                 <div
                     className="absolute inset-0 pointer-events-none"
                     style={{
-                        background: 'linear-gradient(20deg, rgba(2,6,23,0.95), var(--color-primary) 70%)',
+                        background: 'linear-gradient(60deg, rgba(2,4,13,0.65), var(--color-primary) 50%)',
                     }}
                 />
                 <div
-                    className="absolute inset-0 pointer-events-none opacity-[0.04]"
+                    className="absolute inset-0 pointer-events-none opacity-[0.02]"
                     style={{
                         backgroundImage: 'radial-gradient(circle,#fff 1px,transparent 1px)',
                         backgroundSize: '28px 28px',
@@ -243,6 +243,7 @@ const TenderAuthGate = () => {
                         >
                             {isLoggingIn ? 'Authenticating...' : 'Access Portal'}
                         </button>
+                        <a href="/" className="text-accent font-sm flex justify-center text-center hover:text-red-900">Back Home</a>
                     </form>
 
                     <p className="mt-8 text-[11px] text-slate-400 text-center leading-relaxed">
