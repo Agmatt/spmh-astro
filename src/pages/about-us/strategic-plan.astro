@@ -142,15 +142,11 @@ const timeline = [
 
     <div
       class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center'>
-      <span
-        class='inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-teal-400 bg-teal-500/10 px-4 py-1.5 rounded-full font-bold mb-6 border border-teal-500/20 shadow-inner'>
-        Institutional Blueprint
-      </span>
       <h1
         class='text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white max-w-4xl mx-auto leading-tight'>
         A Shared Vision <br class='hidden sm:block' />
         <span
-          class='text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-cyan-400 to-indigo-400'>
+          class='text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400'>
           For Healing & Community Growth
         </span>
       </h1>
@@ -163,12 +159,12 @@ const timeline = [
         class='mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center'>
         <a
           href='#pillars'
-          class='w-full sm:w-auto text-center bg-teal-600 hover:bg-teal-500 text-white font-bold px-8 py-4 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0'>
+          class='w-full sm:w-auto text-center btn-primary font-bold px-8 py-4'>
           Explore Our Framework
         </a>
         <a
           href='#'
-          class='w-full sm:w-auto text-center border border-slate-700 bg-slate-900/40 hover:bg-slate-800 text-slate-200 font-semibold px-8 py-4 rounded-xl transition-colors backdrop-blur-sm'>
+          class='w-full sm:w-auto text-center  bg-secondary rounded-xl font-semibold px-8 py-4 '>
           Download Full Document (PDF)
         </a>
       </div>
@@ -186,7 +182,7 @@ const timeline = [
 
           <!-- Vision Icon (Eye/Horizon) -->
           <div
-            class='mb-5 h-12 w-12 rounded-2xl bg-teal-50 text-teal-600 border border-teal-100 flex items-center justify-center shadow-sm'>
+            class='mb-5 h-12 w-12 rounded-2xl bg-blue-50 text-primary border border-blue-100 flex items-center justify-center shadow-sm'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -206,7 +202,7 @@ const timeline = [
             </svg>
           </div>
 
-          <h2 class='text-2xl font-bold text-slate-900 mb-4'>Our Vision</h2>
+          <h2 class='text-2xl font-bold mb-4'>Our Vision</h2>
           <p class='text-slate-600 leading-relaxed font-medium'>{vision}</p>
         </div>
 
@@ -217,7 +213,7 @@ const timeline = [
 
           <!-- Mission Icon (Target/Bullseye) -->
           <div
-            class='mb-5 h-12 w-12 rounded-2xl bg-teal-50 text-teal-600 border border-teal-100 flex items-center justify-center shadow-sm'>
+            class='mb-5 h-12 w-12 rounded-2xl bg-blue-50 text-primary border border-blue-100 flex items-center justify-center shadow-sm'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -237,7 +233,7 @@ const timeline = [
             </svg>
           </div>
 
-          <h2 class='text-2xl font-bold text-slate-900 mb-4'>Our Mission</h2>
+          <h2 class='text-2xl font-bold mb-4'>Our Mission</h2>
           <p class='text-slate-600 leading-relaxed font-medium'>{mission}</p>
         </div>
       </div>
@@ -245,7 +241,7 @@ const timeline = [
       <!-- Core Values Box -->
       <div
         class='lg:col-span-2 bg-white p-8 sm:p-10 rounded-3xl shadow-sm border border-slate-200/60 relative'>
-        <h2 class='text-3xl font-bold text-slate-900 mb-3 tracking-tight'>
+        <h2 class='text-3xl font-bold text-secondary mb-3 tracking-tight'>
           Foundational Commitments
         </h2>
         <p class='text-slate-500 mb-8 text-lg font-medium leading-relaxed'>
@@ -257,8 +253,8 @@ const timeline = [
           {
             values.map((val) => (
               <div class='p-6 rounded-2xl bg-slate-50/50 border border-slate-100 hover:bg-slate-50 hover:border-slate-300 transition-all'>
-                <h3 class='text-lg font-bold text-slate-900 mb-2 flex items-center gap-3'>
-                  <span class='h-2.5 w-2.5 rounded-full bg-teal-600 shadow-sm shrink-0' />
+                <h3 class='text-lg font-bold text-secondary mb-2 flex items-center gap-3'>
+                  <span class='h-2.5 w-2.5 rounded-full bg-primary shadow-sm shrink-0' />
                   {val.name}
                 </h3>
                 <p class='text-slate-600 leading-relaxed text-sm font-medium'>
@@ -274,22 +270,18 @@ const timeline = [
 
   <!-- Narrative & Local Impact Section -->
   <section
-    class='bg-gradient-to-b from-slate-900 to-slate-950 text-white py-24 relative overflow-hidden'>
+    class='bg-gray-100 py-24 relative overflow-hidden'>
     <div
       class='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-3xl pointer-events-none'>
     </div>
     <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
       <div class='grid grid-cols-1 lg:grid-cols-12 gap-16 items-center'>
         <div class='lg:col-span-7'>
-          <span
-            class='text-xs font-bold text-teal-400 tracking-widest uppercase bg-teal-500/10 border border-teal-500/20 px-3 py-1.5 rounded-md'
-            >The Human Story</span
-          >
           <h2
             class='text-3xl sm:text-4xl font-extrabold mt-4 mb-6 leading-tight tracking-tight'>
             Meeting Critical Healthcare Demands Head-On
           </h2>
-          <p class='text-lg text-slate-300 leading-relaxed mb-6 font-medium'>
+          <p class='text-lg leading-relaxed mb-6 font-medium'>
             Behind every programmatic choice is a patient, a newborn, or a
             family seeking security in times of crisis. Today, St. Paul's
             Mission Hospital directly anchors vital healthcare services for
@@ -297,7 +289,7 @@ const timeline = [
             an environment of high community demand requires a focused, deeply
             compassionate design for care delivery.
           </p>
-          <p class='text-lg text-slate-300 leading-relaxed font-medium'>
+          <p class='text-lg leading-relaxed font-medium'>
             This approach details our path from an essential regional resource
             toward robust, high-tier healthcare delivery pipelines. It
             guarantees that our medical staff are supported, our spaces are
@@ -345,7 +337,7 @@ const timeline = [
     <div class='max-w-7xl mx-auto'>
       <div class='text-center max-w-3xl mx-auto mb-16'>
         <h2
-          class='text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight'>
+          class='text-3xl sm:text-4xl font-extrabold tracking-tight'>
           Framework Pillars
         </h2>
         <p class='mt-4 text-slate-600 text-lg font-medium leading-relaxed'>
@@ -359,7 +351,7 @@ const timeline = [
           pillars.map((pillar) => (
             <div class='bg-white rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300'>
               <div class='p-8'>
-                <h3 class='text-xl font-bold text-slate-900 mb-1 tracking-tight group-hover:text-teal-700 transition-colors'>
+                <h3 class='text-xl font-bold text-secondary mb-1 tracking-tight group-hover:text-teal-700 transition-colors'>
                   {pillar.title}
                 </h3>
                 <p class='text-xs text-slate-400 font-bold mb-8 uppercase tracking-widest'>
@@ -399,7 +391,7 @@ const timeline = [
     <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
       <div class='text-center max-w-3xl mx-auto mb-16'>
         <h2
-          class='text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight'>
+          class='text-3xl sm:text-4xl font-extrabold tracking-tight'>
           Operational Timeline Phases
         </h2>
         <p class='mt-4 text-slate-600 text-lg font-medium leading-relaxed'>
@@ -413,14 +405,14 @@ const timeline = [
           timeline.map((step) => (
             <div class='bg-slate-50/70 p-8 rounded-3xl border border-slate-200/60 relative shadow-inner hover:border-indigo-200 hover:bg-slate-50 transition-all group'>
               <div class='flex items-center justify-between mb-6'>
-                <span class='text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-xl shadow-sm'>
+                <span class='text-xs font-bold uppercase tracking-wider text-primary bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-xl shadow-sm'>
                   {step.years}
                 </span>
                 <span class='text-xs text-slate-400 font-bold uppercase tracking-widest'>
                   {step.status}
                 </span>
               </div>
-              <h3 class='text-xl font-bold text-slate-900 mb-3 tracking-tight group-hover:text-indigo-900 transition-colors'>
+              <h3 class='text-xl font-bold text-secondary mb-3 tracking-tight group-hover:text-indigo-900 transition-colors'>
                 {step.phase}
               </h3>
               <p class='text-slate-600 font-medium text-sm leading-relaxed'>
@@ -435,13 +427,7 @@ const timeline = [
 
   <!-- High-Impact Partner & Donor CTA Section -->
   <section
-    class='relative bg-slate-950/70 py-28 overflow-hidden border-t border-slate-800'>
-    <div
-      class='absolute inset-0 opacity-15 bg-[radial-gradient(#22d3ee_1px,transparent_1px)] [background-size:24px_24px]'>
-    </div>
-    <div
-      class='absolute -bottom-24 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-3xl pointer-events-none'>
-    </div>
+    class='relative bg-slate-700/70 py-28 overflow-hidden'>
 
     <div
       class='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center'>
