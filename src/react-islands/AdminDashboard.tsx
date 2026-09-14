@@ -40,6 +40,7 @@ const AdminDashboard = () => {
     const [bookings, setBookings] = useState([]);
     const [filteredBookings, setFilteredBookings] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [exporting, setExporting] = useState(false);
 
     // Filters
     const [clinicFilter, setClinicFilter] = useState('all');
@@ -200,14 +201,136 @@ const AdminDashboard = () => {
         } catch (err) { console.error('Error deleting booking:', err); }
     };
 
+    // ── EXPORT FUNCTIONS ──────────────────────────────────────────────────
+    const exportToCSV = () => {
+        if (filteredBookings.length === 0) {
+            alert('No data to export');
+            return;
+        }
+
+        setExporting(true);
+        try {
+            // Define CSV headers
+            const headers = [
+                'Full Name',
+                'Phone',
+                'Email',
+                'Clinic',
+                'Day',
+                'Appointment Date',
+                'Appointment Time',
+                'Status',
+                'Created At'
+            ];
+
+            // Prepare data rows
+            const rows = filteredBookings.map(booking => [
+                booking.full_name || '',
+                booking.phone || '',
+                booking.email || '',
+                clinicNames[booking.clinic_name] || booking.clinic_name || '',
+                booking.clinic_day || clinicDays[booking.clinic_name] || '',
+                booking.appointment_date || '',
+                booking.appointment_time || '',
+                booking.status || '',
+                booking.created_at ? new Date(booking.created_at).toLocaleString() : ''
+            ]);
+
+            // Escape CSV values (handle commas, quotes, newlines)
+            const csvContent = [
+                headers.map(h => `"${h}"`).join(','),
+                ...rows.map(row => row.map(cell => {
+                    const cellStr = String(cell || '');
+                    return `"${cellStr.replace(/"/g, '""')}"`;
+                }).join(','))
+            ].join('\n');
+
+            // Create and download file
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `appointments-${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (err) {
+            console.error('Error exporting CSV:', err);
+            alert('Failed to export CSV');
+        } finally {
+            setExporting(false);
+        }
+    };
+
+    const exportToXLSX = async () => {
+        if (filteredBookings.length === 0) {
+            alert('No data to export');
+            return;
+        }
+
+        setExporting(true);
+        try {
+            // Dynamically import xlsx library
+            const XLSX = await import('xlsx');
+
+            // Prepare data
+            const data = filteredBookings.map(booking => ({
+                'Full Name': booking.full_name || '',
+                'Phone': booking.phone || '',
+                'Email': booking.email || '',
+                'Clinic': clinicNames[booking.clinic_name] || booking.clinic_name || '',
+                'Day': booking.clinic_day || clinicDays[booking.clinic_name] || '',
+                'Appointment Date': booking.appointment_date || '',
+                'Appointment Time': booking.appointment_time || '',
+                'Status': booking.status || '',
+                'Created At': booking.created_at ? new Date(booking.created_at).toLocaleString() : ''
+            }));
+
+            // Create workbook and worksheet
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Appointments');
+
+            // Style headers (basic styling with xlsx)
+            const headerStyle = {
+                font: { bold: true, color: '#FFFFFF' },
+                fill: { fgColor: { rgb: '#860f0f' } },
+                alignment: { horizontal: 'center', vertical: 'center' }
+            };
+
+            // Apply header styling
+            Object.keys(data[0] || {}).forEach((key, idx) => {
+                const cellAddress = XLSX.utils.encode_col(idx) + '1';
+                ws[cellAddress].s = headerStyle;
+            });
+
+            // Auto-fit columns
+            const colWidths = Object.keys(data[0] || {}).map(key => ({
+                wch: Math.max(key.length, 12)
+            }));
+            ws['!cols'] = colWidths;
+
+            // Generate filename
+            const filename = `appointments-${new Date().toISOString().split('T')[0]}.xlsx`;
+
+            // Write file
+            XLSX.writeFile(wb, filename);
+        } catch (err) {
+            console.error('Error exporting XLSX:', err);
+            alert('Failed to export XLSX. Make sure xlsx library is available.');
+        } finally {
+            setExporting(false);
+        }
+    };
+
     // ── LOGIN ────────────────────────────────────────────────────────────────
     if (authState === 'login') {
         return (
-            <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
-                >
+            <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
                 <img src="/img/6.jpg" alt="background image" loading='eager'
                     className="absolute inset-0 w-full h-full object-cover"
-                    style={{transform: 'scale(1.05)', opacity: 0.8 }} />
+                    style={{ transform: 'scale(1.05)', opacity: 0.8 }} />
                 <div className="absolute inset-0 pointer-events-none"
                     style={{ background: 'linear-gradient(20deg, rgba(20,08,30,0.95), rgba(104,15,15,0.5) 70%)' }} />
                 <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
@@ -216,7 +339,7 @@ const AdminDashboard = () => {
                     <div className="flex justify-center mb-6">
                         <img src="/gallery/bg.png" alt="SPMH" className="h-26 w-auto object-contain" loading='eager' />
                     </div>
-                    
+
                     <h2 className="text-2xl font-bold mb-1" style={{ color: C.dark }}>Sign in</h2>
                     <p className="text-sm mb-6" style={{ color: C.muted }}>Access the appointments dashboard</p>
                     <form onSubmit={handleLogin} className="space-y-4">
@@ -331,14 +454,52 @@ const AdminDashboard = () => {
                 <div className="bg-white rounded-xl border p-4 sm:p-6" style={{ borderColor: C.border }}>
                     <div className="flex items-center justify-between mb-4">
                         <h2 className="text-sm font-semibold" style={{ color: C.dark }}>Filters</h2>
-                        {isFiltered && (
-                            <button
-                                onClick={clearFilters}
-                                className="text-xs font-medium px-3 py-1 rounded-lg transition-colors"
-                                style={{ background: C.redBg, color: C.red }}>
-                                Clear all
-                            </button>
-                        )}
+                        <div className="flex items-center gap-2">
+                            {isFiltered && (
+                                <button
+                                    onClick={clearFilters}
+                                    className="text-xs font-medium px-3 py-1 rounded-lg transition-colors"
+                                    style={{ background: C.redBg, color: C.red }}>
+                                    Clear all
+                                </button>
+                            )}
+                            {filteredBookings.length > 0 && (
+                                <div className="flex gap-2 pl-2 border-l" style={{ borderColor: C.border }}>
+                                    <button
+                                        onClick={exportToCSV}
+                                        disabled={exporting}
+                                        className="text-xs font-medium px-3 py-1 rounded-lg transition-colors flex items-center gap-1"
+                                        style={{
+                                            background: '#e0f2fe',
+                                            color: '#0369a1',
+                                            opacity: exporting ? 0.6 : 1,
+                                            cursor: exporting ? 'not-allowed' : 'pointer'
+                                        }}>
+                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                        CSV
+                                    </button>
+                                    <button
+                                        onClick={exportToXLSX}
+                                        disabled={exporting}
+                                        className="text-xs font-medium px-3 py-1 rounded-lg transition-colors flex items-center gap-1"
+                                        style={{
+                                            background: '#dcfce7',
+                                            color: '#166534',
+                                            opacity: exporting ? 0.6 : 1,
+                                            cursor: exporting ? 'not-allowed' : 'pointer'
+                                        }}>
+                                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                        XLSX
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     {/* Row 1: Patient Name, Email Search & Clinic */}
