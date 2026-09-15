@@ -15,22 +15,31 @@ const navGroups = [
   },
   {
     key: 'services',
-    label: 'Our Services',
+    label: 'Services',
     items: [
       { label: 'Clinical Services', href: '/services/clinical' },
       { label: 'Patient Support', href: '/services/patient-support' },
       { label: 'Appointment', href: '/appointments' },
-      { label: 'Telemedicine', href: '/telemedicine' },
     ],
   },
 ];
 
+const telemedicineGroup = {
+  key: 'telemedicine',
+  label: 'Telemedicine',
+  items: [
+    { label: 'Book a Consultation', href: '/telemedicine' },
+    { label: 'How it works', href: '/telemedicine/how-it-works' },
+    { label: 'Telemedicine Portal', href: '/telemedicine/portal' },
+  ],
+};
+
 const staffPortals = [
-  { label: 'Human Resource', href: '/admin/applications' },
-  { label: 'Procurement', href: '/admin/tenders' },
-  { label: 'Appointments', href: '/admin' },
-  { label: 'Students', href: '/portal/students' },
-  { label: 'Editorial Team', href: '/admin/editorial' },
+  { label: 'Human Resource', href: '/admin/applications', badge: 'HR' },
+  { label: 'Procurement', href: '/admin/tenders', badge: 'Tenders' },
+  { label: 'Appointments Admin', href: '/admin', badge: 'Clinical' },
+  { label: 'Student Portal', href: '/portal/students', badge: 'Academics' },
+  { label: 'Editorial Team', href: '/admin/editorial', badge: 'Media' },
 ];
 ---
 
@@ -39,31 +48,103 @@ const staffPortals = [
   <script is:inline src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 -->
 <nav
-  x-data='{ mobileOpen: false, openDropdown: null, mobOpenDropdown: null, mobPortalsOpen: false }'
-  @keydown.escape.window='mobileOpen = false; openDropdown = null'
+  x-data='{ mobileOpen: false, openDropdown: null, mobOpenDropdown: null, loginModalOpen: false }'
+  @keydown.escape.window='mobileOpen = false; openDropdown = null; loginModalOpen = false'
   class='sticky top-0 z-[100] bg-white border-b border-slate-100 shadow-sm'>
   <!-- ========================================== -->
-  <!-- DESKTOP MINIMALIST STAFF UTILITY BAR       -->
+  <!-- DESKTOP TOP UTILITY BAR (Info + Emergency) -->
   <!-- ========================================== -->
   <div
-    class='hidden lg:block bg-blue-950 text-slate-300 border-b border-white/10 text-xs py-1.5'>
+    class='hidden lg:block bg-blue-950 text-white border-b border-white/10 text-xs py-2'>
     <div class='container mx-auto px-6 flex justify-between items-center'>
-      <div class='flex items-center space-x-2 font-medium'>
-        <span class='w-1.5 h-1.5 rounded-full bg-[#860f0f]'></span>
-        <span class='text-white font-bold'>Portals:</span>
+      <!-- Left: Location & Hours -->
+      <div class='flex items-center space-x-6 font-medium text-surface-2'>
+        <!-- Location -->
+        <div class='flex items-center gap-1.5'>
+          <svg
+            class='w-3.5 h-3.5 text-surface-2 shrink-0'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'
+            ></path>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M15 11a3 3 0 11-6 0 3 3 0 016 0z'></path>
+          </svg>
+          <span>Gov Cyprian Awiti Street, Homa Bay Town</span>
+        </div>
+
+        <!-- Hours -->
+        <div class='flex items-center gap-1.5 border-l border-white/15 pl-6'>
+          <svg
+            class='w-3.5 h-3.5 text-surface-2 shrink-0'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'></path>
+          </svg>
+          <span class='text-white font-bold'>Open 24hrs</span>
+        </div>
       </div>
+
+      <!-- Right: Emergency Phone & Staff Login -->
       <div class='flex items-center space-x-6'>
-        {
-          staffPortals.map((portal) => (
-            <a href={portal.href} class='hover:text-white transition-colors'>
-              {portal.label}
-            </a>
-          ))
-        }
+        <!-- Emergency Phone Number -->
+        <a
+          href='tel:+254111817447'
+          class='flex items-center gap-2 text-white hover:text-slate-200 font-bold transition-colors'>
+          
+          <svg
+            class='w-3.5 h-3.5 text-accent'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z'
+            ></path>
+          </svg>
+          <span>For Emergency: +254 111 817447</span>
+        </a>
+
+        <!-- Staff Login Modal Trigger -->
+        <button
+          @click='loginModalOpen = true'
+          class='flex items-center gap-1.5 text-white hover:text-slate-100 font-bold transition-all bg-white/10 hover:bg-[#860f0f] px-3 py-1 rounded-full text-xs focus:outline-none shadow-sm'>
+          <svg
+            class='w-3.5 h-3.5'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1'
+            ></path>
+          </svg>
+          <span>Staff Login</span>
+        </button>
       </div>
     </div>
   </div>
 
+  <!-- ========================================== -->
+  <!-- MAIN NAVBAR HEADER                         -->
+  <!-- ========================================== -->
   <div class='container mx-auto px-6 py-3 flex items-center justify-between'>
     <a href='/' class='flex items-center space-x-4 group' title='Home'>
       <img
@@ -84,116 +165,208 @@ const staffPortals = [
       </div>
     </a>
 
-    <!-- Desktop nav -->
-    <div class='hidden lg:flex items-center space-x-2 lg:space-x-4'>
-      {
-        navGroups.map((group) => (
-          <div
-            class='relative py-4'
-            @mouseenter={`openDropdown = '${group.key}'`}
-            @mouseleave='openDropdown = null'>
-            <button
-              @click={`openDropdown = openDropdown === '${group.key}' ? null : '${group.key}'`}
-              class='flex items-center text-slate-600 font-bold text-sm hover:text-[#125276] transition-colors focus:outline-none'
-              aria-haspopup='true'
-              x-bind:aria-expanded={`openDropdown === '${group.key}'`}>
-              {group.label}
-              <svg
-                class='w-4 h-4 ml-1 transition-transform duration-300'
-                x-bind:class={`{ 'rotate-180': openDropdown === '${group.key}' }`}
-                fill='none'
-                stroke='currentColor'
-                viewBox='0 0 24 24'>
-                <path
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                  stroke-width='2'
-                  d='M19 9l-7 7-7-7'
-                />
-              </svg>
-            </button>
-            <ul
-              x-show={`openDropdown === '${group.key}'`}
-              x-transition:enter='transition ease-out duration-150'
-              x-transition:enter-start='opacity-0 scale-95'
-              x-transition:enter-end='opacity-100 scale-100'
-              x-transition:leave='transition ease-in duration-100'
-              x-transition:leave-start='opacity-100 scale-100'
-              x-transition:leave-end='opacity-0 scale-95'
-              style='display:none'
-              class='absolute top-full left-0 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-3 z-[110]'>
-              {group.items.map((item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-200 hover:text-[#125276]'>
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
-      }
+    <!-- Desktop Nav Items -->
+    <div class='hidden lg:flex items-center space-x-2 xl:space-x-4'>
+      <!-- About Us Dropdown -->
+      <div
+        class='relative py-4'
+        @mouseenter="openDropdown = 'about'"
+        @mouseleave='openDropdown = null'>
+        <button
+          @click="openDropdown = openDropdown === 'about' ? null : 'about'"
+          class='flex items-center text-slate-600 font-bold text-sm hover:text-[#125276] transition-colors focus:outline-none'
+          aria-haspopup='true'
+          x-bind:aria-expanded="openDropdown === 'about'">
+          About Us
+          <svg
+            class='w-4 h-4 ml-1 transition-transform duration-300'
+            x-bind:class="{ 'rotate-180': openDropdown === 'about' }"
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M19 9l-7 7-7-7'></path>
+          </svg>
+        </button>
+        <ul
+          x-show="openDropdown === 'about'"
+          x-transition:enter='transition ease-out duration-150'
+          x-transition:enter-start='opacity-0 scale-95'
+          x-transition:enter-end='opacity-100 scale-100'
+          x-transition:leave='transition ease-in duration-100'
+          x-transition:leave-start='opacity-100 scale-100'
+          x-transition:leave-end='opacity-0 scale-95'
+          style='display:none'
+          class='absolute top-full left-0 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-3 z-[110]'>
+          {
+            navGroups[0].items.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-200 hover:text-[#125276]'>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
 
+      <!-- Services Dropdown -->
+      <div
+        class='relative py-4'
+        @mouseenter="openDropdown = 'services'"
+        @mouseleave='openDropdown = null'>
+        <button
+          @click="openDropdown = openDropdown === 'services' ? null : 'services'"
+          class='flex items-center text-slate-600 font-bold text-sm hover:text-[#125276] transition-colors focus:outline-none'
+          aria-haspopup='true'
+          x-bind:aria-expanded="openDropdown === 'services'">
+          Services
+          <svg
+            class='w-4 h-4 ml-1 transition-transform duration-300'
+            x-bind:class="{ 'rotate-180': openDropdown === 'services' }"
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M19 9l-7 7-7-7'></path>
+          </svg>
+        </button>
+        <ul
+          x-show="openDropdown === 'services'"
+          x-transition:enter='transition ease-out duration-150'
+          x-transition:enter-start='opacity-0 scale-95'
+          x-transition:enter-end='opacity-100 scale-100'
+          x-transition:leave='transition ease-in duration-100'
+          x-transition:leave-start='opacity-100 scale-100'
+          x-transition:leave-end='opacity-0 scale-95'
+          style='display:none'
+          class='absolute top-full left-0 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-3 z-[110]'>
+          {
+            navGroups[1].items.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-200 hover:text-[#125276]'>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Get Involved -->
       <a
         href='/get-involved'
         class='text-slate-600 font-bold text-sm hover:text-[#125276] py-4 transition-colors'>
         Get Involved
       </a>
+
+      <!-- Education -->
       <a
         href='/academics-and-partnerships'
         class='text-slate-600 font-bold text-sm hover:text-[#125276] py-4 transition-colors'>
-        Academics & Partnerships
+        Education
       </a>
+
+      <!-- News & Media -->
       <a
         href='/news-and-media'
         class='text-slate-600 font-bold text-sm hover:text-[#125276] py-4 transition-colors'>
         News & Media
       </a>
 
+      <!-- Telemedicine CTA Dropdown Button -->
+      <div
+        class='relative py-2'
+        @mouseenter="openDropdown = 'telemedicine'"
+        @mouseleave='openDropdown = null'>
+        <button
+          @click="openDropdown = openDropdown === 'telemedicine' ? null : 'telemedicine'"
+          class='flex items-center gap-2 px-4 py-2 bg-primary hover:bg-[#0e405d] text-white font-bold text-sm rounded-full transition-all shadow-sm hover:shadow-md transform hover:-translate-y-0.5 focus:outline-none ml-2'
+          aria-haspopup='true'
+          x-bind:aria-expanded="openDropdown === 'telemedicine'">
+          <span>Telemedicine</span>
+          <svg
+            class='w-3.5 h-3.5 transition-transform duration-300'
+            x-bind:class="{ 'rotate-180': openDropdown === 'telemedicine' }"
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M19 9l-7 7-7-7'></path>
+          </svg>
+        </button>
+
+        <ul
+          x-show="openDropdown === 'telemedicine'"
+          x-transition:enter='transition ease-out duration-150'
+          x-transition:enter-start='opacity-0 scale-95'
+          x-transition:enter-end='opacity-100 scale-100'
+          x-transition:leave='transition ease-in duration-100'
+          x-transition:leave-start='opacity-100 scale-100'
+          x-transition:leave-end='opacity-0 scale-95'
+          style='display:none'
+          class='absolute top-full left-2 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-3 z-[110]'>
+          {
+            telemedicineGroup.items.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class='block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-100 hover:text-[#125276] font-semibold transition-colors'>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Donate Button -->
       <a
-        href='tel:+254111817447'
-        class='flex items-center gap-3 px-6 py-2.5 bg-[#860f0f] text-white rounded-full hover:bg-[#6d0c0c] transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 ml-4'>
-        <span class='relative flex h-2 w-2'>
-          <span
-            class='animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75'
-          ></span>
-          <span class='relative inline-flex rounded-full h-2 w-2 bg-white'
-          ></span>
-        </span>
-        <span class='text-xs font-black uppercase tracking-widest'
-          >+254 111 817447</span
-        >
+        href='/donate'
+        class='flex items-center gap-2 px-5 py-2 bg-[#860f0f] hover:bg-[#6d0c0c] text-white font-bold text-sm rounded-full transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 ml-1'>
+                <span>Donate</span>
       </a>
     </div>
 
-    <!-- Mobile toggle button: hamburger <-> X, animated -->
+    <!-- Mobile Hamburger Button (Right Side) -->
     <div class='lg:hidden flex items-center'>
       <button
         @click='mobileOpen = !mobileOpen'
-        class='relative w-10 h-10 flex items-center justify-center text-[#125276] hover:bg-slate-50 rounded-lg focus:outline-none z-[120]'
-        :class="mobileOpen ? 'text-white' : 'text-[#125276]'"
+        class='relative w-10 h-10 flex items-center justify-center text-[#125276] hover:bg-slate-50 rounded-lg focus:outline-none'
         aria-label='Toggle navigation menu'
         x-bind:aria-expanded='mobileOpen'>
         <span class='sr-only'>Toggle menu</span>
-        <span
-          class='absolute w-6 h-0.5 bg-current rounded-full transition-all duration-300'
-          x-bind:class="mobileOpen ? 'rotate-45 translate-y-0' : '-translate-y-2'"
-        ></span>
-        <span
-          class='absolute w-6 h-0.5 bg-current rounded-full transition-all duration-200'
-          x-bind:class="mobileOpen ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'"
-        ></span>
-        <span
-          class='absolute w-6 h-0.5 bg-current rounded-full transition-all duration-300'
-          x-bind:class="mobileOpen ? '-rotate-45 translate-y-0' : 'translate-y-2'"
-        ></span>
+        <svg
+          class='w-6 h-6'
+          fill='none'
+          stroke='currentColor'
+          viewBox='0 0 24 24'>
+          <path
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            stroke-width='2'
+            d='M4 6h16M4 12h16M4 18h16'></path>
+        </svg>
       </button>
     </div>
   </div>
 
-  <!-- Mobile Off-Canvas Drawer Container -->
+  <!-- ========================================== -->
+  <!-- MOBILE OFF-CANVAS DRAWER (Opens Left Side) -->
+  <!-- ========================================== -->
   <div class='lg:hidden'>
     <!-- Backdrop overlay -->
     <div
@@ -206,110 +379,58 @@ const staffPortals = [
       x-transition:leave-end='opacity-0'
       @click='mobileOpen = false; mobOpenDropdown = null'
       style='display:none'
-      class='fixed inset-0 bg-slate-700/50 backdrop-blur-sm z-[105]'>
+      class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[105]'>
     </div>
 
-    <!-- Full-height right-side slide-in panel -->
+    <!-- Full-height LEFT-SIDE slide-in panel -->
     <div
       x-show='mobileOpen'
       x-transition:enter='transition ease-in-out duration-300 transform'
-      x-transition:enter-start='translate-x-full'
+      x-transition:enter-start='-translate-x-full'
       x-transition:enter-end='translate-x-0'
       x-transition:leave='transition ease-in-out duration-300 transform'
       x-transition:leave-start='translate-x-0'
-      x-transition:leave-end='translate-x-full'
+      x-transition:leave-end='-translate-x-full'
       style='display:none'
-      class='fixed inset-y-0 right-0 w-full max-w-xs bg-gray-800/70 text-white z-[110] flex flex-col'>
-      <!-- Drawer Header with Institutional Branding & Title -->
-      <div class='px-6 py-5 flex items-center justify-between'>
-        <div class='flex items-center space-x-2'>
-          <span class='text-xs uppercase tracking-widest'
-            >ST. Paul's Mission Hospital</span
-          >
-        </div>
+      class='fixed inset-y-0 left-0 w-full max-w-xs bg-gray-900 text-white z-[110] flex flex-col shadow-2xl'>
+      <!-- Panel Header with Close Button on Opposite (Right) Side -->
+      <div
+        class='px-6 py-5 flex items-center justify-between border-b border-white/10 bg-slate-950'>
+        <span class='text-xs font-bold uppercase tracking-widest text-slate-300'
+          >St. Paul's Mission Hospital</span
+        >
+        <button
+          @click='mobileOpen = false; mobOpenDropdown = null'
+          class='p-1.5 rounded-lg bg-white/10 hover:bg-[#860f0f] text-slate-300 hover:text-white transition-colors focus:outline-none'
+          aria-label='Close menu'>
+          <svg
+            class='w-5 h-5'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M6 18L18 6M6 6l12 12'></path>
+          </svg>
+        </button>
       </div>
 
-      <!-- Drawer Content Scrollable Area -->
-      <div class='flex-1 overflow-y-auto px-6 py-4 space-y-4'>
-        <!-- Home Link First -->
-        <a
-          href='/'
-          class='w-full flex items-center p-2 text-sm border-b border-white/10'>
-          Home
-        </a>
+      <div class='flex-1 overflow-y-auto px-6 py-4 space-y-3'>
+        <a href='/' class='block p-2 text-sm font-bold border-b border-white/10'
+          >Home</a
+        >
 
-        {
-          navGroups.map((group) => (
-            <div class='space-y-2 border-b border-white/10'>
-              <button
-                @click={`mobOpenDropdown = mobOpenDropdown === '${group.key}' ? null : '${group.key}'`}
-                class='w-full flex justify-between items-center p-1.5 font-bold text-sm'>
-                {group.label}
-                <svg
-                  class='w-4 h-4 transition-transform duration-300 text-white'
-                  x-bind:class={`{ 'rotate-180': mobOpenDropdown === '${group.key}' }`}
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'>
-                  <path
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
-                    stroke-width='2'
-                    d='M19 9l-7 7-7-7'
-                  />
-                </svg>
-              </button>
-              <ul
-                x-show={`mobOpenDropdown === '${group.key}'`}
-                x-transition
-                style='display:none'
-                class='px-3 py-1 space-y-2 ml-2'>
-                {group.items.map((item) => (
-                  <li>
-                    <a
-                      href={item.href}
-                      class='block py-2 text-white/60 text-sm font-medium border-b border-white/10'>
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        }
-
-        <div class='space-y-2'>
-          <a
-            href='/get-involved'
-            class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/50 transition-colors'>
-            Get Involved
-          </a>
-          <a
-            href='/academics-and-partnerships'
-            class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/50 transition-colors'>
-            Academics & Partnerships
-          </a>
-        </div>
-        <a
-          href='/careers'
-          class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/50 transition-colors'>
-          Careers
-        </a>
-        <a
-          href='/news-and-media'
-          class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/50 transition-colors'>
-          News & Media
-        </a>
-
-        <!-- Staff Portals Accordion Group for Mobile -->
-        <div class='space-y-2 border-b border-white/10 pb-2'>
+        <!-- Mobile About Us Accordion -->
+        <div class='space-y-2 border-b border-white/10 pb-1'>
           <button
-            @click='mobPortalsOpen = !mobPortalsOpen'
-            class='w-full flex justify-between items-center p-1.5 text-sm font-bold text-white'>
-            <span>Staff Portals</span>
+            @click="mobOpenDropdown = mobOpenDropdown === 'about' ? null : 'about'"
+            class='w-full flex justify-between items-center p-2 font-bold text-sm'>
+            <span>About Us</span>
             <svg
               class='w-4 h-4 transition-transform duration-300 text-white'
-              x-bind:class="{ 'rotate-180': mobPortalsOpen }"
+              x-bind:class="{ 'rotate-180': mobOpenDropdown === 'about' }"
               fill='none'
               stroke='currentColor'
               viewBox='0 0 24 24'>
@@ -321,17 +442,17 @@ const staffPortals = [
             </svg>
           </button>
           <ul
-            x-show='mobPortalsOpen'
+            x-show="mobOpenDropdown === 'about'"
             x-transition
             style='display:none'
             class='px-3 py-1 space-y-2 ml-2'>
             {
-              staffPortals.map((portal) => (
+              navGroups[0].items.map((item) => (
                 <li>
                   <a
-                    href={portal.href}
-                    class='block py-2 text-white/60 text-sm font-medium border-b border-white/10 hover:text-white'>
-                    {portal.label}
+                    href={item.href}
+                    class='block py-2 text-white/70 text-sm font-medium border-b border-white/10'>
+                    {item.label}
                   </a>
                 </li>
               ))
@@ -339,13 +460,300 @@ const staffPortals = [
           </ul>
         </div>
 
-        <div class='pt-2'>
+        <!-- Mobile Services Accordion -->
+        <div class='space-y-2 border-b border-white/10 pb-1'>
+          <button
+            @click="mobOpenDropdown = mobOpenDropdown === 'services' ? null : 'services'"
+            class='w-full flex justify-between items-center p-2 font-bold text-sm'>
+            <span>Services</span>
+            <svg
+              class='w-4 h-4 transition-transform duration-300 text-white'
+              x-bind:class="{ 'rotate-180': mobOpenDropdown === 'services' }"
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M19 9l-7 7-7-7'></path>
+            </svg>
+          </button>
+          <ul
+            x-show="mobOpenDropdown === 'services'"
+            x-transition
+            style='display:none'
+            class='px-3 py-1 space-y-2 ml-2'>
+            {
+              navGroups[1].items.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class='block py-2 text-white/70 text-sm font-medium border-b border-white/10'>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <a
+          href='/get-involved'
+          class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/10 transition-colors'>
+          Get Involved
+        </a>
+        <a
+          href='/academics-and-partnerships'
+          class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/10 transition-colors'>
+          Education
+        </a>
+        <a
+          href='/news-and-media'
+          class='block p-2 font-bold text-sm border-b border-white/10 hover:bg-white/10 transition-colors'>
+          News & Media
+        </a>
+
+        <!-- Mobile Telemedicine Accordion -->
+        <div class='space-y-2 border-b border-white/10 pb-2'>
+          <button
+            @click="mobOpenDropdown = mobOpenDropdown === 'telemedicine' ? null : 'telemedicine'"
+            class='w-full flex justify-between items-center p-2 rounded-lg bg-[#125276] font-bold text-sm text-white shadow-sm'>
+            <span class='flex items-center gap-2'>
+              Telemedicine
+            </span>
+            <svg
+              class='w-4 h-4 transition-transform duration-300 text-white'
+              x-bind:class="{ 'rotate-180': mobOpenDropdown === 'telemedicine' }"
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M19 9l-7 7-7-7'></path>
+            </svg>
+          </button>
+          <ul
+            x-show="mobOpenDropdown === 'telemedicine'"
+            x-transition
+            style='display:none'
+            class='px-3 py-1 space-y-2 ml-2'>
+            {
+              telemedicineGroup.items.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class='block py-2 text-white/80 text-sm font-medium border-b border-white/10 hover:text-white'>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <!-- Mobile Staff Login Trigger -->
+        <div class='border-b border-white/10 pb-2'>
+          <button
+            @click='mobileOpen = false; loginModalOpen = true'
+            class='w-full flex items-center justify-between p-2 font-bold text-sm text-white hover:bg-white/10 rounded-lg transition-colors text-left'>
+            <span class='flex items-center gap-2'>
+              <svg
+                class='w-4 h-4 text-[#860f0f]'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'>
+                <path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  stroke-width='2'
+                  d='M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1'
+                ></path>
+              </svg>
+              Staff Login
+            </span>
+            <span
+              class='text-[10px] font-black uppercase tracking-wider bg-[#860f0f] px-2 py-0.5 rounded text-white'
+              >Access</span
+            >
+          </button>
+        </div>
+
+        <!-- Mobile Buttons: Donate & Emergency Call -->
+        <div class='pt-2 space-y-2'>
+          <a
+            href='/donate'
+            class='block w-full text-center p-3 bg-[#860f0f] text-white rounded-xl font-bold uppercase tracking-wider text-xs shadow-md hover:bg-[#6d0c0c] transition-colors flex items-center justify-center gap-2'>
+                        <span>Donate</span>
+          </a>
+
           <a
             href='tel:+254111817447'
-            class='block w-full text-center p-4 bg-[#860f0f] text-white rounded-xl font-black uppercase tracking-wider text-xs shadow-md hover:bg-[#6d0c0c] transition-colors'>
-            Call Emergency
+            class='block w-full text-center p-3 bg-blue-950 text-white rounded-xl font-bold uppercase tracking-wider text-xs shadow-md border border-white/10 hover:bg-blue-900 transition-colors flex items-center justify-center gap-2'>
+            <svg
+              class='w-4 h-4 text-emerald-400'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z'
+              ></path>
+            </svg>
+            <span>For Emergency: +254 111 817447</span>
           </a>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- ALPINE.JS STAFF LOGIN MODAL                -->
+  <!-- ========================================== -->
+  <div
+    x-show='loginModalOpen'
+    x-transition:enter='transition ease-out duration-200'
+    x-transition:enter-start='opacity-0'
+    x-transition:enter-end='opacity-100'
+    x-transition:leave='transition ease-in duration-150'
+    x-transition:leave-start='opacity-100'
+    x-transition:leave-end='opacity-0'
+    style='display:none'
+    class='fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6'>
+    <div
+      @click='loginModalOpen = false'
+      class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm'>
+    </div>
+
+    <div
+      x-show='loginModalOpen'
+      x-transition:enter='transition ease-out duration-200 transform'
+      x-transition:enter-start='opacity-0 scale-95 translate-y-2'
+      x-transition:enter-end='opacity-100 scale-100 translate-y-0'
+      x-transition:leave='transition ease-in duration-150 transform'
+      x-transition:leave-start='opacity-100 scale-100 translate-y-0'
+      x-transition:leave-end='opacity-0 scale-95 translate-y-2'
+      class='relative w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden z-[210]'>
+      <div
+        class='bg-blue-950 px-6 py-5 text-white flex justify-between items-center border-b border-white/10'>
+        <div class='flex items-center space-x-3'>
+          <div class='p-2 bg-white/10 rounded-xl'>
+            <svg
+              class='w-5 h-5 text-white'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'
+              ></path>
+            </svg>
+          </div>
+          <div>
+            <h3
+              class='font-black text-base uppercase tracking-wider text-white'>
+              Staff Portal Access
+            </h3>
+            <p class='text-xs text-slate-300'>
+              Select your department dashboard to log in
+            </p>
+          </div>
+        </div>
+        <button
+          @click='loginModalOpen = false'
+          class='text-slate-400 hover:text-white p-1 rounded-lg transition-colors focus:outline-none'
+          aria-label='Close modal'>
+          <svg
+            class='w-6 h-6'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'>
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M6 18L18 6M6 6l12 12'></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class='p-6 space-y-4 max-h-[75vh] overflow-y-auto bg-slate-50/50'>
+        <p
+          class='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2'>
+          Consolidated Admin Endpoints
+        </p>
+
+        <div class='grid grid-cols-1 gap-2.5'>
+          {
+            staffPortals.map((portal) => (
+              <a
+                href={portal.href}
+                class='group flex items-center justify-between p-3.5 bg-white border border-slate-200 rounded-xl hover:border-[#125276] hover:shadow-md transition-all duration-200'>
+                <div class='flex items-center space-x-3'>
+                  <div class='w-9 h-9 rounded-lg bg-slate-100 text-[#125276] group-hover:bg-[#125276] group-hover:text-white flex items-center justify-center font-bold transition-colors'>
+                    <svg
+                      class='w-5 h-5'
+                      fill='none'
+                      stroke='currentColor'
+                      viewBox='0 0 24 24'>
+                      <path
+                        stroke-linecap='round'
+                        stroke-linejoin='round'
+                        stroke-width='2'
+                        d='M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z'
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <span class='block text-sm font-bold text-slate-800 group-hover:text-[#125276] transition-colors'>
+                      {portal.label}
+                    </span>
+                    <span class='block text-[11px] text-slate-500'>
+                      Authorized login point
+                    </span>
+                  </div>
+                </div>
+                <div class='flex items-center space-x-2'>
+                  <span class='text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded group-hover:bg-blue-50 group-hover:text-[#125276] transition-colors'>
+                    {portal.badge}
+                  </span>
+                  <svg
+                    class='w-4 h-4 text-slate-400 group-hover:text-[#125276] group-hover:translate-x-0.5 transition-all'
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'>
+                    <path
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      stroke-width='2'
+                      d='M9 5l7 7-7 7'
+                    />
+                  </svg>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div
+        class='bg-white px-6 py-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500'>
+        <span class='flex items-center gap-1.5'>
+          <span class='w-2 h-2 rounded-full bg-emerald-500 animate-pulse'
+          ></span>
+          SPMH Secure Gateway
+        </span>
+        <button
+          @click='loginModalOpen = false'
+          class='font-bold text-slate-600 hover:text-slate-900 transition-colors'>
+          Close Window
+        </button>
       </div>
     </div>
   </div>

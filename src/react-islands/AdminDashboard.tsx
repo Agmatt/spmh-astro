@@ -41,6 +41,8 @@ const AdminDashboard = () => {
     const [filteredBookings, setFilteredBookings] = useState([]);
     const [loading, setLoading] = useState(false);
     const [exporting, setExporting] = useState(false);
+    const [selectedBooking, setSelectedBooking] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     // Filters
     const [clinicFilter, setClinicFilter] = useState('all');
@@ -51,6 +53,7 @@ const AdminDashboard = () => {
     const [patientNameFilter, setPatientNameFilter] = useState('');
     const [emailSearchFilter, setEmailSearchFilter] = useState('');
     const [emailPresenceFilter, setEmailPresenceFilter] = useState('all');
+    const [hasMedicalHistoryFilter, setHasMedicalHistoryFilter] = useState('all');
 
     const idleTimerRef = useRef(null);
     const idleTimeoutRef = useRef(null);
@@ -161,6 +164,13 @@ const AdminDashboard = () => {
                 filtered = filtered.filter(b => !b.email || !b.email.trim());
             }
         }
+        if (hasMedicalHistoryFilter !== 'all') {
+            if (hasMedicalHistoryFilter === 'has') {
+                filtered = filtered.filter(b => b.medical_history && b.medical_history.trim());
+            } else if (hasMedicalHistoryFilter === 'missing') {
+                filtered = filtered.filter(b => !b.medical_history || !b.medical_history.trim());
+            }
+        }
         if (statusFilter !== 'all') {
             filtered = filtered.filter(b => b.status === statusFilter);
         }
@@ -181,6 +191,7 @@ const AdminDashboard = () => {
         setPatientNameFilter('');
         setEmailSearchFilter('');
         setEmailPresenceFilter('all');
+        setHasMedicalHistoryFilter('all');
         applyFilters(bookings);
     };
 
@@ -201,6 +212,16 @@ const AdminDashboard = () => {
         } catch (err) { console.error('Error deleting booking:', err); }
     };
 
+    const openBookingDetails = (booking) => {
+        setSelectedBooking(booking);
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+        setSelectedBooking(null);
+    };
+
     // ── EXPORT FUNCTIONS ──────────────────────────────────────────────────
     const exportToCSV = () => {
         if (filteredBookings.length === 0) {
@@ -210,7 +231,6 @@ const AdminDashboard = () => {
 
         setExporting(true);
         try {
-            // Define CSV headers
             const headers = [
                 'Full Name',
                 'Phone',
@@ -219,11 +239,11 @@ const AdminDashboard = () => {
                 'Day',
                 'Appointment Date',
                 'Appointment Time',
+                'Medical History',
                 'Status',
                 'Created At'
             ];
 
-            // Prepare data rows
             const rows = filteredBookings.map(booking => [
                 booking.full_name || '',
                 booking.phone || '',
@@ -232,11 +252,11 @@ const AdminDashboard = () => {
                 booking.clinic_day || clinicDays[booking.clinic_name] || '',
                 booking.appointment_date || '',
                 booking.appointment_time || '',
+                booking.medical_history || '',
                 booking.status || '',
                 booking.created_at ? new Date(booking.created_at).toLocaleString() : ''
             ]);
 
-            // Escape CSV values (handle commas, quotes, newlines)
             const csvContent = [
                 headers.map(h => `"${h}"`).join(','),
                 ...rows.map(row => row.map(cell => {
@@ -245,7 +265,6 @@ const AdminDashboard = () => {
                 }).join(','))
             ].join('\n');
 
-            // Create and download file
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
@@ -271,10 +290,8 @@ const AdminDashboard = () => {
 
         setExporting(true);
         try {
-            // Dynamically import xlsx library
             const XLSX = await import('xlsx');
 
-            // Prepare data
             const data = filteredBookings.map(booking => ({
                 'Full Name': booking.full_name || '',
                 'Phone': booking.phone || '',
@@ -283,38 +300,32 @@ const AdminDashboard = () => {
                 'Day': booking.clinic_day || clinicDays[booking.clinic_name] || '',
                 'Appointment Date': booking.appointment_date || '',
                 'Appointment Time': booking.appointment_time || '',
+                'Medical History': booking.medical_history || '',
                 'Status': booking.status || '',
                 'Created At': booking.created_at ? new Date(booking.created_at).toLocaleString() : ''
             }));
 
-            // Create workbook and worksheet
             const ws = XLSX.utils.json_to_sheet(data);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Appointments');
 
-            // Style headers (basic styling with xlsx)
             const headerStyle = {
                 font: { bold: true, color: '#FFFFFF' },
                 fill: { fgColor: { rgb: '#860f0f' } },
                 alignment: { horizontal: 'center', vertical: 'center' }
             };
 
-            // Apply header styling
             Object.keys(data[0] || {}).forEach((key, idx) => {
                 const cellAddress = XLSX.utils.encode_col(idx) + '1';
                 ws[cellAddress].s = headerStyle;
             });
 
-            // Auto-fit columns
             const colWidths = Object.keys(data[0] || {}).map(key => ({
                 wch: Math.max(key.length, 12)
             }));
             ws['!cols'] = colWidths;
 
-            // Generate filename
             const filename = `appointments-${new Date().toISOString().split('T')[0]}.xlsx`;
-
-            // Write file
             XLSX.writeFile(wb, filename);
         } catch (err) {
             console.error('Error exporting XLSX:', err);
@@ -375,6 +386,9 @@ const AdminDashboard = () => {
                             Sign in
                         </button>
                     </form>
+                    <a href="/" className="text-sm mx-auto flex justify-center py-4 text-center text-primary">
+                        Home
+                    </a>
                 </div>
             </div>
         );
@@ -392,6 +406,121 @@ const AdminDashboard = () => {
         );
     }
 
+    // ── MODAL FOR BOOKING DETAILS ─────────────────────────────────────────
+    const BookingDetailsModal = () => {
+        if (!showModal || !selectedBooking) return null;
+
+        return (
+            <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50"
+                onClick={closeModal}>
+                <div className="bg-white rounded-xl shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto"
+                    onClick={e => e.stopPropagation()}>
+                    {/* Header */}
+                    <div className="sticky top-0 bg-white border-b p-4 flex items-center justify-between" style={{ borderColor: C.border }}>
+                        <h3 className="text-lg font-bold" style={{ color: C.dark }}>Patient Details</h3>
+                        <button
+                            onClick={closeModal}
+                            className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+                            style={{ color: C.muted }}>
+                            ✕
+                        </button>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6 space-y-5">
+                        {/* Personal Info */}
+                        <div>
+                            <p className="text-xs font-semibold uppercase mb-3" style={{ color: C.red }}>Personal Information</p>
+                            <div className="space-y-2">
+                                <div>
+                                    <p className="text-xs" style={{ color: C.mutedL }}>Full Name</p>
+                                    <p className="text-sm font-semibold" style={{ color: C.dark }}>{selectedBooking.full_name}</p>
+                                </div>
+                                <div>
+                                    <p className="text-xs" style={{ color: C.mutedL }}>Phone</p>
+                                    <p className="text-sm font-semibold" style={{ color: C.dark }}>{selectedBooking.phone}</p>
+                                </div>
+                                {selectedBooking.email && (
+                                    <div>
+                                        <p className="text-xs" style={{ color: C.mutedL }}>Email</p>
+                                        <a href={`mailto:${selectedBooking.email}`}
+                                            className="text-sm font-semibold text-blue-600 hover:underline break-all">
+                                            {selectedBooking.email}
+                                        </a>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Appointment Details */}
+                        <div>
+                            <p className="text-xs font-semibold uppercase mb-3" style={{ color: C.red }}>Appointment Details</p>
+                            <div className="space-y-2">
+                                <div>
+                                    <p className="text-xs" style={{ color: C.mutedL }}>Clinic</p>
+                                    <p className="text-sm font-semibold" style={{ color: C.dark }}>
+                                        {clinicNames[selectedBooking.clinic_name] || selectedBooking.clinic_name}
+                                    </p>
+                                </div>
+                                <div>
+                                    <p className="text-xs" style={{ color: C.mutedL }}>Date</p>
+                                    <p className="text-sm font-semibold" style={{ color: C.dark }}>{selectedBooking.appointment_date}</p>
+                                </div>
+                                <div>
+                                    <p className="text-xs" style={{ color: C.mutedL }}>Time</p>
+                                    <p className="text-sm font-semibold" style={{ color: C.dark }}>{selectedBooking.appointment_time}</p>
+                                </div>
+                                <div>
+                                    <p className="text-xs" style={{ color: C.mutedL }}>Status</p>
+                                    <div className="mt-1">
+                                        <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold"
+                                            style={statusStyle[selectedBooking.status] || { background: '#f3f4f6', color: '#374151' }}>
+                                            {selectedBooking.status.charAt(0).toUpperCase() + selectedBooking.status.slice(1)}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Medical History - HIGHLIGHTED */}
+                        {selectedBooking.medical_history && (
+                            <div className="border-l-4 pl-4" style={{ borderColor: C.red, background: C.redBg }}>
+                                <p className="text-xs font-semibold uppercase mb-2" style={{ color: C.red }}>📋 Medical History / Complaints</p>
+                                <p className="text-sm leading-relaxed whitespace-pre-wrap" style={{ color: C.dark }}>
+                                    {selectedBooking.medical_history}
+                                </p>
+                            </div>
+                        )}
+
+                        {!selectedBooking.medical_history && (
+                            <div className="p-3 rounded-lg" style={{ background: C.warm }}>
+                                <p className="text-xs italic" style={{ color: C.mutedL }}>No medical history provided</p>
+                            </div>
+                        )}
+
+                        {/* Metadata */}
+                        <div className="pt-3 border-t" style={{ borderColor: C.border }}>
+                            <p className="text-xs" style={{ color: C.mutedL }}>Booking ID: {selectedBooking.id}</p>
+                            <p className="text-xs mt-1" style={{ color: C.mutedL }}>
+                                Booked on: {new Date(selectedBooking.created_at).toLocaleString()}
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Footer Actions */}
+                    <div className="border-t p-4 space-y-2" style={{ borderColor: C.border }}>
+                        <button
+                            onClick={closeModal}
+                            className="w-full py-2 px-4 rounded-lg text-white font-medium transition-opacity hover:opacity-90"
+                            style={{ background: C.red }}>
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     // ── DASHBOARD ────────────────────────────────────────────────────────────
     const statCards = [
         { label: 'Total Bookings', value: bookings.length },
@@ -400,7 +529,9 @@ const AdminDashboard = () => {
         { label: 'Cancelled', value: bookings.filter(b => b.status === 'cancelled').length },
     ];
 
-    const isFiltered = clinicFilter !== 'all' || dayFilter !== 'all' || dateFromFilter || dateToFilter || statusFilter !== 'all' || patientNameFilter.trim() || emailSearchFilter.trim() || emailPresenceFilter !== 'all';
+    const medicalHistoryCount = bookings.filter(b => b.medical_history && b.medical_history.trim()).length;
+
+    const isFiltered = clinicFilter !== 'all' || dayFilter !== 'all' || dateFromFilter || dateToFilter || statusFilter !== 'all' || patientNameFilter.trim() || emailSearchFilter.trim() || emailPresenceFilter !== 'all' || hasMedicalHistoryFilter !== 'all';
 
     return (
         <div className="min-h-screen" style={{ background: C.warm }}>
@@ -502,7 +633,7 @@ const AdminDashboard = () => {
                         </div>
                     </div>
 
-                    {/* Row 1: Patient Name, Email Search & Clinic */}
+                    {/* Row 1: Patient Name, Email Search & Medical History */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-3">
                         <div>
                             <label className="block text-xs font-medium mb-1.5" style={{ color: C.dark }}>Patient Name</label>
@@ -527,14 +658,14 @@ const AdminDashboard = () => {
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium mb-1.5" style={{ color: C.dark }}>Email Status</label>
-                            <select value={emailPresenceFilter}
-                                onChange={e => { setEmailPresenceFilter(e.target.value); handleFilterChange(); }}
+                            <label className="block text-xs font-medium mb-1.5" style={{ color: C.dark }}>Medical History</label>
+                            <select value={hasMedicalHistoryFilter}
+                                onChange={e => { setHasMedicalHistoryFilter(e.target.value); handleFilterChange(); }}
                                 className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
                                 style={{ borderColor: C.border, color: C.dark }}>
                                 <option value="all">All</option>
-                                <option value="has">Has Email</option>
-                                <option value="missing">No Email</option>
+                                <option value="has">Has Notes ({medicalHistoryCount})</option>
+                                <option value="missing">No Notes</option>
                             </select>
                         </div>
                     </div>
@@ -606,7 +737,7 @@ const AdminDashboard = () => {
                         <table className="w-full">
                             <thead style={{ background: C.warm, borderBottom: `1px solid ${C.border}` }}>
                                 <tr>
-                                    {['Name', 'Phone', 'Email', 'Clinic', 'Day', 'Date', 'Time', 'Status', 'Actions'].map(h => (
+                                    {['Name', 'Phone', 'Email', 'Clinic', 'Date', 'Time', 'Medical Notes', 'Status', 'Actions'].map(h => (
                                         <th key={h} className="px-5 py-3.5 text-left text-xs font-semibold uppercase tracking-wide"
                                             style={{ color: C.red }}>
                                             {h}
@@ -623,7 +754,7 @@ const AdminDashboard = () => {
                                     </tr>
                                 ) : filteredBookings.map((booking, idx) => (
                                     <tr key={booking.id}
-                                        className="border-b transition-colors"
+                                        className="border-b transition-colors cursor-pointer"
                                         style={{ borderColor: '#f3f4f6', background: idx % 2 === 0 ? '#fff' : C.warm }}
                                         onMouseEnter={e => e.currentTarget.style.background = C.redBg}
                                         onMouseLeave={e => e.currentTarget.style.background = idx % 2 === 0 ? '#fff' : C.warm}>
@@ -633,7 +764,8 @@ const AdminDashboard = () => {
                                             {booking.email ? (
                                                 <a href={`mailto:${booking.email}`}
                                                     className="text-blue-600 hover:underline break-all"
-                                                    title={booking.email}>
+                                                    title={booking.email}
+                                                    onClick={e => e.stopPropagation()}>
                                                     {booking.email.length > 25 ? booking.email.substring(0, 25) + '...' : booking.email}
                                                 </a>
                                             ) : (
@@ -643,14 +775,23 @@ const AdminDashboard = () => {
                                         <td className="px-5 py-3.5 text-sm" style={{ color: C.muted }}>
                                             {clinicNames[booking.clinic_name] || booking.clinic_name}
                                         </td>
-                                        <td className="px-5 py-3.5 text-sm" style={{ color: C.muted }}>
-                                            {booking.clinic_day || clinicDays[booking.clinic_name]}
-                                        </td>
                                         <td className="px-5 py-3.5 text-sm" style={{ color: C.muted }}>{booking.appointment_date}</td>
                                         <td className="px-5 py-3.5 text-sm" style={{ color: C.muted }}>{booking.appointment_time}</td>
                                         <td className="px-5 py-3.5">
+                                            <button
+                                                onClick={() => openBookingDetails(booking)}
+                                                className="text-xs font-semibold px-3 py-1 rounded-full transition-colors"
+                                                style={{
+                                                    background: booking.medical_history ? '#fef2f2' : '#f3f4f6',
+                                                    color: booking.medical_history ? C.red : C.muted
+                                                }}>
+                                                {booking.medical_history ? '📋 View' : '—'}
+                                            </button>
+                                        </td>
+                                        <td className="px-5 py-3.5">
                                             <select value={booking.status}
                                                 onChange={e => updateBookingStatus(booking.id, e.target.value)}
+                                                onClick={e => e.stopPropagation()}
                                                 className="px-2.5 py-1 rounded-full text-xs font-semibold border-0 cursor-pointer outline-none"
                                                 style={statusStyle[booking.status] || { background: '#f3f4f6', color: '#374151' }}>
                                                 {statuses.map(s => (
@@ -659,7 +800,7 @@ const AdminDashboard = () => {
                                             </select>
                                         </td>
                                         <td className="px-5 py-3.5">
-                                            <button onClick={() => deleteBooking(booking.id)}
+                                            <button onClick={() => { deleteBooking(booking.id); }}
                                                 className="text-xs font-semibold"
                                                 style={{ color: '#dc2626' }}>
                                                 Delete
@@ -676,21 +817,24 @@ const AdminDashboard = () => {
                         {filteredBookings.length === 0 ? (
                             <p className="px-4 py-10 text-center text-sm" style={{ color: C.mutedL }}>No bookings found</p>
                         ) : filteredBookings.map(booking => (
-                            <div key={booking.id} className="p-4 space-y-2">
+                            <div key={booking.id} className="p-4 space-y-3 cursor-pointer hover:bg-orange-50"
+                                onClick={() => openBookingDetails(booking)}>
                                 <div className="flex items-start justify-between gap-2">
-                                    <div>
+                                    <div className="flex-1">
                                         <p className="text-sm font-bold" style={{ color: C.dark }}>{booking.full_name}</p>
                                         <p className="text-xs" style={{ color: C.muted }}>{booking.phone}</p>
                                         {booking.email && (
                                             <a href={`mailto:${booking.email}`}
                                                 className="text-xs text-blue-600 hover:underline block"
-                                                title={booking.email}>
+                                                title={booking.email}
+                                                onClick={e => e.stopPropagation()}>
                                                 {booking.email.length > 30 ? booking.email.substring(0, 30) + '...' : booking.email}
                                             </a>
                                         )}
                                     </div>
                                     <select value={booking.status}
                                         onChange={e => updateBookingStatus(booking.id, e.target.value)}
+                                        onClick={e => e.stopPropagation()}
                                         className="px-2 py-1 rounded-full text-xs font-semibold border-0 cursor-pointer outline-none flex-shrink-0"
                                         style={statusStyle[booking.status] || {}}>
                                         {statuses.map(s => (
@@ -702,9 +846,16 @@ const AdminDashboard = () => {
                                     <span>🏥 {clinicNames[booking.clinic_name] || booking.clinic_name}</span>
                                     <span>📅 {booking.appointment_date}</span>
                                     <span>⏰ {booking.appointment_time}</span>
-                                    <span>📆 {booking.clinic_day || clinicDays[booking.clinic_name]}</span>
                                 </div>
-                                <button onClick={() => deleteBooking(booking.id)}
+                                {booking.medical_history && (
+                                    <div className="p-2 rounded-lg border-l-2" style={{ borderColor: C.red, background: C.redBg }}>
+                                        <p className="text-xs font-semibold mb-1" style={{ color: C.red }}>📋 Medical Notes</p>
+                                        <p className="text-xs line-clamp-2" style={{ color: C.dark }}>
+                                            {booking.medical_history}
+                                        </p>
+                                    </div>
+                                )}
+                                <button onClick={(e) => { e.stopPropagation(); deleteBooking(booking.id); }}
                                     className="text-xs font-semibold" style={{ color: '#dc2626' }}>
                                     Delete booking
                                 </button>
@@ -717,6 +868,9 @@ const AdminDashboard = () => {
                     Showing {filteredBookings.length} of {bookings.length} bookings
                 </p>
             </main>
+
+            {/* Booking Details Modal */}
+            <BookingDetailsModal />
         </div>
     );
 };
