@@ -1,22 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef, Suspense, lazy } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import * as XLSX from 'xlsx';
 
-// Own session, own audience (Accounts / Procurement), own login screen.
-// This intentionally does NOT share AdminAuthGate — that gate is HR/Admin
-// only. This client points at the same Supabase project because that's
-// where the `tenders`, `tender_applications`, and `vendors` tables live,
-// not because the two dashboards should share a login.
-//
-// URL and anon key are read from env vars (not hardcoded) — same pattern
-// as the News/Editorial dashboard. Set PUBLIC_SUPABASE_TENDERS_URL and
-// PUBLIC_SUPABASE_TENDERS_ANON_KEY in your .env file.
 const SUPABASE_URL = 'https://tzliykelldkbweogledq.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6bGl5a2VsbGRrYndlb2dsZWRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzI1ODUsImV4cCI6MjA5ODE0ODU4NX0.JKWYiiH2lXrg0snuOzxaRwFQgrhzAQ_LU9_7N-e8_VQ';
 
-// Separate storageKey is the important part — without it, this client and
-// AdminAuthGate's client would both persist their session under the same
-// default localStorage key (since they share a project ref), and logging
-// into one would silently log you into the other on the same browser.
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     auth: { storageKey: 'spmh-tenders-auth' },
 });
@@ -90,7 +78,6 @@ const TenderAuthGate = () => {
         }
     };
 
-    // Optimistic logout — UI clears instantly, signOut() finishes in the background.
     const handleLogout = useCallback(() => {
         setIsLoggingOut(true);
         setShowIdleWarning(false);
@@ -155,6 +142,117 @@ const TenderAuthGate = () => {
         lastActivityRef.current = Date.now();
         resetIdleTimers();
     }, [resetIdleTimers]);
+
+    // ── EXPORT FUNCTIONS ──────────────────────────────────────────────────
+    const exportApplicationsToCSV = (filteredApplications, tenders) => {
+        if (filteredApplications.length === 0) {
+            alert('No data to export');
+            return;
+        }
+
+        const headers = ['Vendor Name', 'Email', 'Tender', 'Bid Amount', 'Status'];
+        const rows = filteredApplications.map(a => [
+            a.vendor_name || '',
+            a.vendor_email || '',
+            tenders.find(t => t.id === a.tender_id)?.tender_number || '',
+            a.bid_amount || '',
+            a.status || ''
+        ]);
+
+        const csvContent = [
+            headers.map(h => `"${h}"`).join(','),
+            ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+        ].join('\n');
+
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `applications-${new Date().toISOString().split('T')[0]}.csv`;
+        link.click();
+    };
+
+    const exportApplicationsToXLSX = (filteredApplications, tenders) => {
+        if (filteredApplications.length === 0) {
+            alert('No data to export');
+            return;
+        }
+
+        const headers = ['Vendor Name', 'Email', 'Tender', 'Bid Amount', 'Status'];
+        const rows = filteredApplications.map(a => [
+            a.vendor_name || '',
+            a.vendor_email || '',
+            tenders.find(t => t.id === a.tender_id)?.tender_number || '',
+            a.bid_amount || '',
+            a.status || ''
+        ]);
+
+        const wsData = [headers, ...rows];
+        const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+        const colWidths = headers.map((h, i) => ({
+            wch: Math.max(h.length, ...rows.map(r => String(r[i] || '').length))
+        }));
+        ws['!cols'] = colWidths;
+
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Applications');
+        XLSX.writeFile(wb, `applications-${new Date().toISOString().split('T')[0]}.xlsx`);
+    };
+
+    const exportVendorsToCSV = (filteredVendors) => {
+        if (filteredVendors.length === 0) {
+            alert('No data to export');
+            return;
+        }
+
+        const headers = ['Vendor Name', 'Contact', 'Email', 'Phone', 'Status'];
+        const rows = filteredVendors.map(v => [
+            v.vendor_name || '',
+            v.contact_person || '',
+            v.vendor_email || '',
+            v.phone || '',
+            v.status || ''
+        ]);
+
+        const csvContent = [
+            headers.map(h => `"${h}"`).join(','),
+            ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+        ].join('\n');
+
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `vendors-${new Date().toISOString().split('T')[0]}.csv`;
+        link.click();
+    };
+
+    const exportVendorsToXLSX = (filteredVendors) => {
+        if (filteredVendors.length === 0) {
+            alert('No data to export');
+            return;
+        }
+
+        const headers = ['Vendor Name', 'Contact', 'Email', 'Phone', 'Status'];
+        const rows = filteredVendors.map(v => [
+            v.vendor_name || '',
+            v.contact_person || '',
+            v.vendor_email || '',
+            v.phone || '',
+            v.status || ''
+        ]);
+
+        const wsData = [headers, ...rows];
+        const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+        const colWidths = headers.map((h, i) => ({
+            wch: Math.max(h.length, ...rows.map(r => String(r[i] || '').length))
+        }));
+        ws['!cols'] = colWidths;
+
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Vendors');
+        XLSX.writeFile(wb, `vendors-${new Date().toISOString().split('T')[0]}.xlsx`);
+    };
 
     if (isInitializing) {
         return (
@@ -279,7 +377,12 @@ const TenderAuthGate = () => {
 
             <main className="w-full">
                 <Suspense fallback={<ModuleFallback />}>
-                    <TenderManager />
+                    <TenderManager
+                        exportApplicationsToCSV={exportApplicationsToCSV}
+                        exportApplicationsToXLSX={exportApplicationsToXLSX}
+                        exportVendorsToCSV={exportVendorsToCSV}
+                        exportVendorsToXLSX={exportVendorsToXLSX}
+                    />
                 </Suspense>
             </main>
 

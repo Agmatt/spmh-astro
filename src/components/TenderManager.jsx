@@ -51,7 +51,12 @@ const VENDOR_CATEGORIES = [
   'General Services & Consultancy',
 ];
 
-export default function TenderManager() {
+export default function TenderManager({
+  exportApplicationsToCSV,
+  exportApplicationsToXLSX,
+  exportVendorsToCSV,
+  exportVendorsToXLSX,
+}) {
   const [tab, setTab] = useState('tenders'); // 'tenders' | 'applications'
   const [tenders, setTenders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -349,6 +354,8 @@ export default function TenderManager() {
           filter={appTenderFilter}
           onFilterChange={setAppTenderFilter}
           onStatusChange={handleApplicationStatus}
+          exportToCSV={exportApplicationsToCSV}
+          exportToXLSX={exportApplicationsToXLSX}
         />
       )}
 
@@ -359,6 +366,8 @@ export default function TenderManager() {
           filter={vendorCategoryFilter}
           onFilterChange={setVendorCategoryFilter}
           onStatusChange={handleVendorStatus}
+          exportToCSV={exportVendorsToCSV}
+          exportToXLSX={exportVendorsToXLSX}
         />
       )}
 
@@ -455,24 +464,40 @@ function ApplicationsPanel({
   filter,
   onFilterChange,
   onStatusChange,
+  exportToCSV,
+  exportToXLSX,
 }) {
   return (
     <div>
-      <div className='mb-4 flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2'>
-        <label className='text-[10px] font-bold uppercase text-[var(--color-muted)] shrink-0'>
-          Filter by tender
-        </label>
-        <select
-          value={filter}
-          onChange={(e) => onFilterChange(e.target.value)}
-          className='w-full sm:w-auto sm:max-w-xs text-xs border border-[var(--color-border)] rounded px-2 py-1'>
-          <option value='all'>All tenders</option>
-          {tenders.map((t) => (
-            <option key={t.id} value={t.id}>
-              {t.tender_code} — {t.title}
-            </option>
-          ))}
-        </select>
+      <div className='mb-4 flex flex-col sm:flex-row sm:items-center gap-3'>
+        <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2'>
+          <label className='text-[10px] font-bold uppercase text-[var(--color-muted)] shrink-0'>
+            Filter by tender
+          </label>
+          <select
+            value={filter}
+            onChange={(e) => onFilterChange(e.target.value)}
+            className='w-full sm:w-auto sm:max-w-xs text-xs border border-[var(--color-border)] rounded px-2 py-1'>
+            <option value='all'>All tenders</option>
+            {tenders.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.tender_code} — {t.title}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className='flex gap-2'>
+          <button
+            onClick={() => exportToCSV(applications, tenders)}
+            className='text-xs font-bold px-3 py-1.5 rounded border border-[var(--color-border)] text-[var(--color-muted)] hover:bg-[var(--color-surface)] transition-colors'>
+            CSV
+          </button>
+          <button
+            onClick={() => exportToXLSX(applications, tenders)}
+            className='text-xs font-bold px-3 py-1.5 rounded border border-[var(--color-border)] text-[var(--color-muted)] hover:bg-[var(--color-surface)] transition-colors'>
+            XLSX
+          </button>
+        </div>
       </div>
 
       {loading ? (
@@ -558,24 +583,40 @@ function VendorsPanel({
   filter,
   onFilterChange,
   onStatusChange,
+  exportToCSV,
+  exportToXLSX,
 }) {
   return (
     <div>
-      <div className='mb-4 flex items-center gap-2'>
-        <label className='text-[10px] font-bold uppercase text-[var(--color-muted)]'>
-          Filter by category
-        </label>
-        <select
-          value={filter}
-          onChange={(e) => onFilterChange(e.target.value)}
-          className='text-xs border border-[var(--color-border)] rounded px-2 py-1'>
-          <option value='all'>All categories</option>
-          {VENDOR_CATEGORIES.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
+      <div className='mb-4 flex flex-col sm:flex-row sm:items-center gap-3'>
+        <div className='flex items-center gap-2'>
+          <label className='text-[10px] font-bold uppercase text-[var(--color-muted)]'>
+            Filter by category
+          </label>
+          <select
+            value={filter}
+            onChange={(e) => onFilterChange(e.target.value)}
+            className='text-xs border border-[var(--color-border)] rounded px-2 py-1'>
+            <option value='all'>All categories</option>
+            {VENDOR_CATEGORIES.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className='flex gap-2'>
+          <button
+            onClick={() => exportToCSV(vendors)}
+            className='text-xs font-bold px-3 py-1.5 rounded border border-[var(--color-border)] text-[var(--color-muted)] hover:bg-[var(--color-surface)] transition-colors'>
+            CSV
+          </button>
+          <button
+            onClick={() => exportToXLSX(vendors)}
+            className='text-xs font-bold px-3 py-1.5 rounded border border-[var(--color-border)] text-[var(--color-muted)] hover:bg-[var(--color-surface)] transition-colors'>
+            XLSX
+          </button>
+        </div>
       </div>
 
       {loading ? (
