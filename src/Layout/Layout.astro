@@ -29,7 +29,7 @@ const { title = 'St Pauls Mission Hospital' } = Astro.props;
     <link rel='preconnect' href='https://fonts.googleapis.com' />
     <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
     <link
-      href='https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap'
+      href='https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap'
       rel='stylesheet'
     />
     <link
@@ -37,6 +37,7 @@ const { title = 'St Pauls Mission Hospital' } = Astro.props;
       type='text/css'
       href='https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css'
     />
+    <link rel='canonical' href={new URL(Astro.url.pathname, Astro.site).href} />
     <script src='https://cdn.tailwindcss.com'></script>
     <!-- in your Layout.astro <head> or before </body> -->
     <script

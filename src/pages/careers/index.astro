@@ -2,77 +2,78 @@
 import '../../styles/global.css';
 import Careers from '../../react-islands/Careers';
 
+const pageTitle =
+  "Careers at St. Paul's Mission Hospital | Healthcare Jobs in Homa Bay";
+const pageDescription =
+  "Explore medical, administrative, and clinical opportunities at St. Paul's Mission Hospital in Homa Bay. Build a meaningful career in healthcare with competitive benefits.";
+const canonicalURL = 'https://www.spmh.co.ke/careers';
+const ogImage = 'https://www.spmh.co.ke/img/57.jpg';
+
 const reasons = [
   {
     icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
-    title: 'Mission-driven work',
-    desc: 'Every role directly advances quality healthcare for underserved communities in Homa Bay. Your work has real, visible impact.',
+    title: 'Mission-Driven Impact',
+    desc: 'Every role directly advances quality, accessible healthcare for underserved communities across Homa Bay County.',
   },
   {
     icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6',
-    title: 'Professional growth',
-    desc: 'Continuous learning, CME programmes, and structured career paths. Develop your skills in a truly supportive environment.',
+    title: 'Professional Growth & CME',
+    desc: 'Continuous learning, structured clinical paths, and regular Continuing Medical Education (CME) programmes.',
   },
   {
     icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z',
-    title: 'Collaborative culture',
-    desc: 'Work alongside dedicated professionals who share your values — teamwork, respect, and mutual support define us.',
+    title: 'Collaborative Environment',
+    desc: 'Work shoulder-to-shoulder with multidisciplinary professionals defined by empathy, mutual respect, and teamwork.',
   },
   {
     icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
-    title: 'Competitive benefits',
-    desc: 'Competitive salary, health insurance, performance bonuses, and paid leave. We value our team and show it.',
+    title: 'Comprehensive Benefits',
+    desc: 'Competitive compensation packages, medical cover options, performance recognition, and structured paid leave.',
   },
   {
     icon: 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z',
-    title: 'Work-life balance',
-    desc: 'We understand healthcare demands. Flexible scheduling and reasonable workloads are part of our commitment to you.',
+    title: 'Work-Life Harmony',
+    desc: 'We recognize the intensive nature of healthcare. We design balanced scheduling to protect your well-being.',
   },
   {
     icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064',
-    title: 'Community impact',
-    desc: 'Be part of transforming healthcare in Homa Bay. See the direct result of your contributions every single day.',
+    title: 'Community Roots',
+    desc: 'See the positive transformation of patient lives firsthand every single day in our vibrant local community.',
   },
 ];
 
-const culture = [
-  'Every voice is heard and valued',
-  'Innovation and continuous improvement are encouraged',
-  'Quality care for patients is always our first priority',
-  'Professional development is actively supported',
-  'Teamwork and mutual respect define our relationships',
+const culturePillars = [
+  'Patient-first clinical excellence as our guiding compass',
+  'An open-door environment where every staff member’s voice matters',
+  'Active support for higher training, certifications, and skill upgrades',
+  'Strong peer networks providing mutual encouragement on heavy shifts',
 ];
 
 const departments = [
   {
-    label: 'Clinical staff',
-    desc: 'Doctors, nurses, midwives, lab technicians, and other clinical professionals.',
+    label: 'Clinical & Nursing',
+    desc: 'Medical officers, clinical officers, nursing staff, midwives, and specialized laboratory personnel.',
     icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
   },
   {
-    label: 'Administrative',
-    desc: 'Finance, HR, operations, and management roles that keep us running smoothly.',
+    label: 'Administrative & Management',
+    desc: 'Hospital operations, finance, human resources, supply chain, and data administration.',
     icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
   },
   {
-    label: 'Support services',
-    desc: 'Housekeeping, security, maintenance, and other essential roles.',
+    label: 'Support & Facility Services',
+    desc: 'Patient hospitality, housekeeping, security, logistics, and maintenance infrastructure.',
     icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z',
   },
   {
-    label: 'Technical',
-    desc: 'IT, biomedical engineers, and technical specialists supporting our operations.',
+    label: 'Technical & Biomedical',
+    desc: 'IT systems, health informatics, and specialized biomedical equipment engineering.',
     icon: 'M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18',
   },
   {
-    label: 'Community outreach',
-    desc: 'Health educators, community health workers, and outreach coordinators.',
+    label: 'Community Outreach',
+    desc: 'Public health educators, grassroots field coordinators, and wellness program leads.',
     icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064',
-  },
-  {
-    label: 'Other roles',
-    desc: "We're always looking for passionate people. Check our portal for all current openings.",
-    icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
   },
 ];
 ---
@@ -81,70 +82,78 @@ const departments = [
   <head>
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <title>Careers | SPMH</title>
+
+    <!-- SEO & Metadata -->
+    <title>{pageTitle}</title>
+    <meta name='description' content={pageDescription} />
+    <link rel='canonical' href={canonicalURL} />
     <link rel='icon' type='image/png' href='/file.svg' />
+
+    <!-- Open Graph / Social -->
+    <meta property='og:type' content='website' />
+    <meta property='og:url' content={canonicalURL} />
+    <meta property='og:title' content={pageTitle} />
+    <meta property='og:description' content={pageDescription} />
+    <meta property='og:image' content={ogImage} />
+
+    <!-- Twitter Card -->
+    <meta property='twitter:card' content='summary_large_image' />
+    <meta property='twitter:title' content={pageTitle} />
+    <meta property='twitter:description' content={pageDescription} />
+    <meta property='twitter:image' content={ogImage} />
+
+    <!-- Schema.org Structured Data -->
+    <script type='application/ld+json'>
+      {
+        "@context": "https://schema.org",
+        "@type": "MedicalOrganization",
+        "name": "St. Paul's Mission Hospital",
+        "url": "https://www.spmh.co.ke",
+        "logo": "https://www.spmh.co.ke/file.svg",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Homa Bay",
+          "addressCountry": "KE"
+        }
+      }
+    </script>
   </head>
-  <body>
-    <!-- ══ HERO ══════════════════════════════════════════════════════════════════ -->
-    <section
-      class='relative min-h-[88vh] flex items-center overflow-hidden'
-      style='background:#2b2b2f;'>
-      <!-- BG image slot -->
-      <img
-        src='/img/57.jpg'
-        alt=''
-        class='absolute inset-0 w-full h-full object-cover opacity-25 scale-105'
-      />
-
-      <!-- Diagonal split overlay — crimson bleeds in from the right -->
-      <div
-        class='absolute inset-0'
-        style='background: linear-gradient(115deg, rgba(28,28,30,0.97) 5%, rgba(134,15,15,0.55) 100%);'>
-      </div>
-
-      <!-- Subtle dot texture -->
-      <div
-        class='absolute inset-0 opacity-[0.04]'
-        style='background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); background-size: 30px 30px;'>
-      </div>
-
-      <!-- Bottom fade into warm white -->
-      <div
-        class='absolute bottom-0 left-0 right-0 h-24'
-        style='background: linear-gradient(to top, #f9f6f2, transparent);'>
-      </div>
-
-      <div
-        class='relative z-10 max-w-6xl mx-auto px-4 md:px-6 py-24 md:py-32 w-full flex flex-col md:flex-row md:items-end md:justify-between gap-12'>
-        <div class='max-w-2xl mx-auto text-center'>
-          <!-- Eyebrow badge -->
+  <body
+    class='bg-[#f9f6f2] text-[#1c1c1e] antialiased selection:bg-[#860f0f] selection:text-white'>
+    <main>
+      <!-- ══ HERO SECTION (SIMPLIFIED & SEO OPTIMIZED) ════════════════════════════ -->
+      <header
+        class='bg-gradient-to-br from-[#1565c0] via-[#125276] to-[#0d47a1] text-white py-24 md:py-32 px-6'>
+        <div class='max-w-4xl mx-auto text-center'>
+          <!-- Primary H1 optimized for search intent -->
           <h1
-            class='text-5xl md:text-[4.5rem] font-extrabold text-white leading-[1.04] tracking-tight mb-6'>
-            Build a career that matters.
+            class='text-4xl text-surface-2 md:text-6xl font-black tracking-tight leading-tight mb-6'>
+            Careers at St. Paul's Mission Hospital
           </h1>
 
+          <!-- Subtitle with keyword context -->
           <p
-            class='text-lg leading-relaxed max-w-xl mb-10'
-            style='color:rgba(255,255,255,0.55);'>
-            Join SPMH and make a real difference in community health. We're
-            looking for passionate professionals who share our mission.
+            class='text-base md:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed mb-10'>
+            Build a meaningful career in healthcare. Explore medical, clinical,
+            and administrative job opportunities at our mission hospital in Homa
+            Bay.
           </p>
 
-          <div class='flex flex-wrap mx-auto justify-center gap-4'>
+          <!-- CTA Action Buttons -->
+          <div class='flex flex-wrap justify-center gap-4'>
             <a
               href='#portal'
-              class='inline-flex items-center gap-2 px-7 py-4 font-bold text-sm rounded-xl transition-all text-white shadow-lg'
-              style='background:#860f0f; box-shadow: 0 8px 24px rgba(134,15,15,0.35);'
-              onmouseover="this.style.background='#a01212'"
-              onmouseout="this.style.background='#860f0f'">
-              View open positions
+              class='inline-flex items-center gap-2 px-7 py-4 font-bold text-sm rounded-xl text-white transition-all shadow-lg'
+              style='background:#860f0f;'>
+              View Open Positions
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 class='w-4 h-4'
                 fill='none'
                 viewBox='0 0 24 24'
                 stroke='currentColor'
-                stroke-width='2.5'>
+                stroke-width='2.5'
+                aria-hidden='true'>
                 <path
                   stroke-linecap='round'
                   stroke-linejoin='round'
@@ -154,245 +163,235 @@ const departments = [
             <a
               href='#why-join'
               class='inline-flex items-center gap-2 px-7 py-4 border border-white/20 hover:border-white/40 text-white font-semibold text-sm rounded-xl transition-colors'>
-              Learn more
+              Why Work With Us
             </a>
           </div>
         </div>
-      </div>
-    </section>
+      </header>
 
-    <!-- ══ WHY JOIN ═══════════════════════════════════════════════════════════════ -->
-    <section
-      id='why-join'
-      class='py-24 px-4 md:px-6'
-      style='background:#f9f6f2;'>
-      <div class='max-w-6xl mx-auto'>
-        <div class='flex flex-col mx-auto text-center gap-4 mb-16'>
-          <div>
-            <p
-              class='text-xs font-bold uppercase tracking-[0.2em] mb-3'
-              style='color:#860f0f;'>
-              Why SPMH
-            </p>
+      <!-- ══ WHY JOIN US ═════════════════════════════════════════════════════════ -->
+      <section id='why-join' class='py-28 px-6 md:px-12 bg-[#f9f6f2]'>
+        <div class='max-w-7xl mx-auto'>
+          <div class='max-w-2xl mb-20'>
+            <span
+              class='text-xs font-extrabold uppercase tracking-[0.25em] text-[#860f0f] block mb-3'
+              >The SPMH Advantage</span
+            >
             <h2
-              class='text-4xl md:text-5xl font-extrabold leading-tight'
-              style='color:#1c1c1e;'>
-              Reasons people choose to stay.
+              class='text-3xl sm:text-5xl font-extrabold text-[#1c1c1e] tracking-tight'>
+              Why healthcare professionals choose to build their careers here.
             </h2>
           </div>
-        </div>
 
-        <div class='grid md:grid-cols-2 lg:grid-cols-3 gap-5'>
-          {
-            reasons.map((r) => (
-              <div class='group bg-white border border-gray-100 rounded-2xl p-4 md:p-8 transition-all duration-300 cursor-default hover:shadow-lg'>
-                <div
-                  class='w-11 h-11 rounded-xl flex items-center justify-center mb-6 transition-colors'
-                  style='background:#fef2f2;'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    class='w-5 h-5'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='currentColor'
-                    stroke-width='1.8'
-                    style='color:#860f0f;'>
-                    <path
-                      stroke-linecap='round'
-                      stroke-linejoin='round'
-                      d={r.icon}
-                    />
-                  </svg>
-                </div>
-                <h3
-                  class='text-base font-bold mb-3 transition-colors group-hover:text-white'
-                  style='color:#1c1c1e;'>
-                  {r.title}
-                </h3>
-                <p class='text-sm leading-relaxed text-gray-500'>{r.desc}</p>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <!-- ══ CULTURE SPLIT ══════════════════════════════════════════════════════════ -->
-    <section class='bg-white py-24 px-6'>
-      <div class='max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center'>
-        <!-- Image slot -->
-        <div class='relative order-2 md:order-1'>
-          <div
-            class='rounded-3xl overflow-hidden aspect-[4/4] shadow-2xl'
-            style='background:#1c1c1e;'>
-            <img
-              src='/gallery/1.png'
-              alt='SPMH team'
-              class='w-full h-full object-cover opacity-80'
-            />
-          </div>
-        </div>
-
-        <!-- Text -->
-        <div class='order-1 md:order-2'>
-          <p
-            class='text-xs font-bold uppercase tracking-[0.2em] mb-4'
-            style='color:#860f0f;'>
-            Our culture
-          </p>
-          <h2
-            class='text-4xl md:text-5xl font-extrabold leading-tight mb-6'
-            style='color:#1c1c1e;'>
-            More than a hospital.<br />A community.
-          </h2>
-          <p class='leading-relaxed mb-8 text-sm text-gray-500'>
-            At SPMH, we're united by a common purpose — to serve our patients
-            with excellence and compassion. We foster an environment where
-            people grow, contribute, and belong.
-          </p>
-          <ul class='space-y-4'>
+          <div class='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
             {
-              culture.map((item) => (
-                <li class='flex items-center gap-3'>
-                  <span
-                    class='flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center'
-                    style='background:#860f0f;'>
+              reasons.map((r) => (
+                <div class='group bg-white border border-[#ece8e1] rounded-3xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-1'>
+                  <div class='w-12 h-12 rounded-2xl bg-red-50 flex items-center justify-center mb-6 text-[#860f0f] group-hover:bg-[#860f0f] group-hover:text-white transition-colors duration-300'>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
-                      class='w-3 h-3 text-white'
+                      class='w-6 h-6'
                       fill='none'
                       viewBox='0 0 24 24'
                       stroke='currentColor'
-                      stroke-width='3'>
+                      stroke-width='1.8'
+                      aria-hidden='true'>
                       <path
                         stroke-linecap='round'
                         stroke-linejoin='round'
-                        d='M5 13l4 4L19 7'
+                        d={r.icon}
                       />
                     </svg>
-                  </span>
-                  <span class='text-sm text-gray-600'>{item}</span>
-                </li>
+                  </div>
+                  <h3 class='text-lg font-bold text-[#1c1c1e] mb-3 group-hover:text-[#860f0f] transition-colors'>
+                    {r.title}
+                  </h3>
+                  <p class='text-sm text-gray-500 leading-relaxed'>{r.desc}</p>
+                </div>
               ))
             }
-          </ul>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ══ DEPARTMENTS ════════════════════════════════════════════════════════════ -->
-    <section class='py-24 px-6' style='background:#f9f6f2;'>
-      <div class='max-w-6xl mx-auto'>
-        <div class='text-center mb-14'>
-          <p
-            class='text-xs font-bold uppercase tracking-[0.2em] mb-3'
-            style='color:#860f0f;'>
-            Open to all
-          </p>
-          <h2
-            class='text-4xl md:text-5xl font-extrabold mb-4'
-            style='color:#1c1c1e;'>
-            Where you'll fit in
-          </h2>
-          <p class='text-gray-500 max-w-xl mx-auto text-sm leading-relaxed'>
-            We hire across multiple departments. Whether you're a clinician,
-            administrator, or support staff — there's a place for you.
-          </p>
+      <!-- ══ CULTURE & COMMUNITY ═════════════════════════════════════════════════ -->
+      <section class='py-28 px-6 md:px-12 bg-white border-y border-[#ece8e1]'>
+        <div class='max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center'>
+          <div class='relative'>
+            <div
+              class='rounded-3xl overflow-hidden aspect-[4/3] shadow-2xl bg-[#1c1c1e]'>
+              <img
+                src='/gallery/1.png'
+                alt='St. Pauls Mission Hospital Team Collaboration'
+                class='w-full h-full object-cover opacity-85 hover:scale-105 transition-transform duration-700'
+              />
+            </div>
+            <div
+              class='absolute -bottom-6 -right-6 hidden sm:flex items-center gap-4 bg-[#1c1c1e] text-white px-6 py-4 rounded-2xl shadow-xl border border-white/10'>
+              <span class='text-2xl font-black text-rose-400'>100%</span>
+              <p class='text-xs text-white/70'>
+                Commitment to local community health & safety.
+              </p>
+            </div>
+          </div>
+
+          <div class='space-y-6'>
+            <div>
+              <span
+                class='text-xs font-extrabold uppercase tracking-[0.25em] text-[#860f0f] block mb-3'
+                >Workplace Culture</span
+              >
+              <h2
+                class='text-3xl sm:text-5xl font-extrabold text-[#1c1c1e] tracking-tight leading-tight'>
+                More than a hospital.<br />A supportive family.
+              </h2>
+            </div>
+
+            <p class='text-sm text-gray-600 leading-relaxed'>
+              At St. Paul's Mission Hospital, we believe that caring for our
+              patients starts with deeply caring for our staff. We nurture a
+              professional environment built on psychological safety, equal
+              opportunity, and continuous clinical growth.
+            </p>
+
+            <ul class='space-y-3.5 pt-2'>
+              {
+                culturePillars.map((pillar) => (
+                  <li class='flex items-start gap-3'>
+                    <span class='w-5 h-5 rounded-full bg-red-100 flex items-center justify-center shrink-0 mt-0.5 text-[#860f0f]'>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        class='w-3.5 h-3.5'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        stroke='currentColor'
+                        stroke-width='3'
+                        aria-hidden='true'>
+                        <path
+                          stroke-linecap='round'
+                          stroke-linejoin='round'
+                          d='M5 13l4 4L19 7'
+                        />
+                      </svg>
+                    </span>
+                    <span class='text-sm font-medium text-gray-700'>
+                      {pillar}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
         </div>
+      </section>
 
-        <div class='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
-          {
-            departments.map((dept) => (
-              <div
-                class='flex gap-4 items-start p-6 rounded-2xl border bg-white transition-all hover:shadow-md'
-                style='border-color:#ece8e1;'
-                onmouseover="this.style.borderColor='#860f0f'"
-                onmouseout="this.style.borderColor='#ece8e1'">
-                <div
-                  class='w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5'
-                  style='background:#fef2f2;'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    class='w-5 h-5'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='currentColor'
-                    stroke-width='1.8'
-                    style='color:#860f0f;'>
-                    <path
-                      stroke-linecap='round'
-                      stroke-linejoin='round'
-                      d={dept.icon}
-                    />
-                  </svg>
+      <!-- ══ DEPARTMENTS OVERVIEW ═══════════════════════════════════════════════ -->
+      <section class='py-28 px-6 md:px-12 bg-[#f9f6f2]'>
+        <div class='max-w-7xl mx-auto'>
+          <div class='text-center max-w-2xl mx-auto mb-16'>
+            <span
+              class='text-xs font-extrabold uppercase tracking-[0.25em] text-[#860f0f] block mb-3'
+              >Diverse Opportunities</span
+            >
+            <h2
+              class='text-3xl sm:text-5xl font-extrabold text-[#1c1c1e] tracking-tight mb-4'>
+              Where your expertise fits best
+            </h2>
+            <p class='text-sm text-gray-500'>
+              We hire across varied functional units to maintain seamless,
+              high-grade hospital operations.
+            </p>
+          </div>
+
+          <div class='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
+            {
+              departments.map((dept) => (
+                <div class='bg-white border border-[#ece8e1] p-8 rounded-3xl transition-all hover:border-[#860f0f] hover:shadow-lg flex flex-col justify-between'>
+                  <div>
+                    <div class='w-12 h-12 rounded-2xl bg-red-50 flex items-center justify-center mb-6 text-[#860f0f]'>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        class='w-6 h-6'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        stroke='currentColor'
+                        stroke-width='1.8'
+                        aria-hidden='true'>
+                        <path
+                          stroke-linecap='round'
+                          stroke-linejoin='round'
+                          d={dept.icon}
+                        />
+                      </svg>
+                    </div>
+                    <h3 class='font-bold text-[#1c1c1e] text-base mb-2'>
+                      {dept.label}
+                    </h3>
+                    <p class='text-xs text-gray-500 leading-relaxed'>
+                      {dept.desc}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 class='font-bold mb-1 text-sm' style='color:#1c1c1e;'>
-                    {dept.label}
-                  </h3>
-                  <p class='text-xs leading-relaxed text-gray-400'>
-                    {dept.desc}
-                  </p>
-                </div>
-              </div>
-            ))
-          }
+              ))
+            }
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ══ PORTAL ════════════════════════════════════════════════════════════════ -->
-    <section id='portal' class='py-10 px-4 bg-surface/80'>
-      <div class='max-w-3xl mx-auto text-center'>
-        <p
-          class='text-xs font-bold uppercase tracking-[0.2em] mb-3'
-          style='color:#860f0f;'>
-          Apply now
-        </p>
-        <h2
-          class='text-3xl md:text-4xl font-extrabold mb-3'
-          style='color:#1c1c1e;'>
-          Find the right role for you.
-        </h2>
-        <p class='text-sm leading-relaxed text-gray-500'>
-          Browse our open positions and submit your application below.
-        </p>
-      </div>
-      <Careers client:load />
-    </section>
-
-    <!-- ══ CONTACT ═══════════════════════════════════════════════════════════════ -->
-    <section class='relative py-6 md:py-10 px-6 overflow-hidden bg-muted/70'>
-      <div class='relative z-10 max-w-2xl mx-auto text-center'>
-        <div class='inline-flex items-center gap-2 mb-6'>
-          <span class='text-sm font-bold uppercase tracking-[0.2em] text-white'
-            >Need help?</span
+      <!-- ══ INTERACTIVE JOB PORTAL ══════════════════════════════════════════════ -->
+      <section id='portal' class='py-20 px-4 md:px-12 bg-white'>
+        <div class='max-w-4xl mx-auto text-center mb-12'>
+          <span
+            class='text-xs font-extrabold uppercase tracking-[0.25em] text-[#860f0f] block mb-3'
+            >Current Openings</span
           >
-          <span class='w-6 h-px bg-white'></span>
+          <h2 class='text-3xl sm:text-4xl font-extrabold text-[#1c1c1e] mb-3'>
+            Find and apply for your next role.
+          </h2>
+          <p class='text-sm text-gray-500'>
+            Filter open positions by department or location and submit your
+            application instantly.
+          </p>
         </div>
-        <h2 class='text-3xl md:text-4xl font-extrabold text-white mb-4'>
-          Have a question?
-        </h2>
-        <p class='text-md text-white leading-relaxed mb-8 max-w-md mx-auto'>
-          Our HR team is happy to help with any questions about open roles, the
-          application process, or working at SPMH.
-        </p>
-        <a
-          href='mailto:recruitment@spmh.co.ke'
-          class='inline-flex items-center gap-3 px-7 py-4 mb-4 mr-4 bg-white font-bold text-sm rounded-xl transition-opacity hover:opacity-90 shadow-lg'
-          style='color:#860f0f;'>
-          Contact us
-        </a>
-        <a
-          href='./'
-          class='inline-flex items-center gap-3 px-7 py-4 bg-white font-bold text-sm rounded-xl transition-opacity hover:opacity-90 shadow-lg'
-          style='color:#860f0f;'>
-          Back to Main Website
-        </a>
-        <p class='text-md mt-6 text-white'>
-          We typically respond within 2 business days.
-        </p>
-      </div>
-    </section>
+
+        <!-- React Island Application Portal Component -->
+        <div class='max-w-5xl mx-auto'>
+          <Careers client:load />
+        </div>
+      </section>
+
+      <!-- ══ CONTACT & SUPPORT FOOTER BLOCK ════════════════════════════════════ -->
+      <section class='py-20 px-6 md:px-12 bg-gray-200'>
+        <div class='max-w-4xl mx-auto text-center space-y-6'>
+          <span
+            class='text-xs font-extrabold uppercase tracking-[0.25em] text-accent block'
+            >Questions?</span
+          >
+          <h2 class='text-3xl sm:text-4xl font-extrabold tracking-tight'>
+            Need assistance with your application?
+          </h2>
+          <p class='text-sm text-slate-950 max-w-lg mx-auto leading-relaxed'>
+            Our Human Resources department is available to guide you through the
+            application process or answer questions about working at St. Paul's
+            Mission Hospital.
+          </p>
+
+          <div class='flex flex-wrap justify-center gap-4 pt-4'>
+            <a
+              href='mailto:recruitment@spmh.co.ke'
+              class='inline-flex items-center gap-2 px-8 py-4 bg-white text-[#860f0f] font-bold text-sm rounded-xl transition-all hover:bg-gray-100 shadow-xl'>
+              Email HR Team
+            </a>
+            <a href='./' class='inline-flex items-center btn-primary'>
+              Return to Main Website
+            </a>
+          </div>
+
+          <p class='text-xs text-white/40 pt-6'>
+            We typically review applications and respond within 2 business days.
+          </p>
+        </div>
+      </section>
+    </main>
   </body>
 </html>

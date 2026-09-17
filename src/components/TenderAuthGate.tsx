@@ -150,12 +150,13 @@ const TenderAuthGate = () => {
             return;
         }
 
-        const headers = ['Vendor Name', 'Email', 'Tender', 'Bid Amount', 'Status'];
+        const headers = ['Company', 'Contact', 'Email', 'Tender', 'Submitted', 'Status'];
         const rows = filteredApplications.map(a => [
-            a.vendor_name || '',
-            a.vendor_email || '',
-            tenders.find(t => t.id === a.tender_id)?.tender_number || '',
-            a.bid_amount || '',
+            a.company_name || '',
+            a.contact_name || '',
+            a.email || '',
+            tenders.find(t => t.id === a.tender_id)?.tender_code || '',
+            new Date(a.submitted_at).toLocaleDateString() || '',
             a.status || ''
         ]);
 
@@ -177,12 +178,13 @@ const TenderAuthGate = () => {
             return;
         }
 
-        const headers = ['Vendor Name', 'Email', 'Tender', 'Bid Amount', 'Status'];
+        const headers = ['Company', 'Contact', 'Email', 'Tender', 'Submitted', 'Status'];
         const rows = filteredApplications.map(a => [
-            a.vendor_name || '',
-            a.vendor_email || '',
-            tenders.find(t => t.id === a.tender_id)?.tender_number || '',
-            a.bid_amount || '',
+            a.company_name || '',
+            a.contact_name || '',
+            a.email || '',
+            tenders.find(t => t.id === a.tender_id)?.tender_code || '',
+            new Date(a.submitted_at).toLocaleDateString() || '',
             a.status || ''
         ]);
 
@@ -205,11 +207,13 @@ const TenderAuthGate = () => {
             return;
         }
 
-        const headers = ['Vendor Name', 'Contact', 'Email', 'Phone', 'Status'];
+        const headers = ['Company', 'Category', 'KRA PIN', 'Reg. No.', 'Email', 'Phone', 'Status'];
         const rows = filteredVendors.map(v => [
-            v.vendor_name || '',
-            v.contact_person || '',
-            v.vendor_email || '',
+            v.company_name || '',
+            v.category || '',
+            v.kra_pin || '',
+            v.reg_number || '',
+            v.email || '',
             v.phone || '',
             v.status || ''
         ]);
@@ -232,11 +236,13 @@ const TenderAuthGate = () => {
             return;
         }
 
-        const headers = ['Vendor Name', 'Contact', 'Email', 'Phone', 'Status'];
+        const headers = ['Company', 'Category', 'KRA PIN', 'Reg. No.', 'Email', 'Phone', 'Status'];
         const rows = filteredVendors.map(v => [
-            v.vendor_name || '',
-            v.contact_person || '',
-            v.vendor_email || '',
+            v.company_name || '',
+            v.category || '',
+            v.kra_pin || '',
+            v.reg_number || '',
+            v.email || '',
             v.phone || '',
             v.status || ''
         ]);
