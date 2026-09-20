@@ -2,92 +2,9 @@
 // Import layout
 import Layout from '../../Layout/Layout.astro';
 
-// Doctor profiles data - REAL CREDENTIALS for trust-building
-const doctors = [
-  {
-    id: 1,
-    name: 'Dr. Sarah Ochieng',
-    specialty: 'Ophthalmology',
-    qualification: 'MBChB (University of Nairobi), Diploma in Ophthalmology',
-    yearsExperience: 8,
-    rating: 4.9,
-    reviews: 147,
-    responseTime: '2-4 hours',
-    bio: 'Specialist in diabetic retinopathy, cataracts, and refractive errors. Trained at Kenya Eye Hospital.',
-    photo: '/doctors/sarah-ochieng.jpg',
-    languages: ['Swahili', 'English', 'Luo'],
-  },
-  {
-    id: 2,
-    name: 'Dr. Peter Kipchoge',
-    specialty: 'General Medicine',
-    qualification:
-      'MBChB (Kenyatta University), Postgraduate Diploma in Family Medicine',
-    yearsExperience: 12,
-    rating: 4.8,
-    reviews: 203,
-    responseTime: '1-2 hours',
-    bio: 'General practitioner with focus on preventive care and chronic disease management. Available for routine consultations and referrals.',
-    photo: '/doctors/peter-kipchoge.jpg',
-    languages: ['Swahili', 'English', 'Kikuyu'],
-  },
-  {
-    id: 3,
-    name: 'Dr. Grace Kamau',
-    specialty: 'Obstetrics & Gynaecology',
-    qualification:
-      'MBChB (University of Nairobi), MRCOG (Royal College of Obstetricians)',
-    yearsExperience: 10,
-    rating: 4.95,
-    reviews: 189,
-    responseTime: '1-3 hours',
-    bio: "Experienced OB/GYN specialist. Provides prenatal care, postnatal follow-up, and women's health consultations. Multilingual and patient-centered.",
-    photo: '/doctors/grace-kamau.jpg',
-    languages: ['Swahili', 'English', 'Kikuyu', 'Kamba'],
-  },
-  {
-    id: 4,
-    name: 'Dr. James Mwangi',
-    specialty: 'Pediatrics',
-    qualification:
-      'MBChB (Nairobi University), Diploma in Child Health (RCPCH)',
-    yearsExperience: 9,
-    rating: 4.85,
-    reviews: 156,
-    responseTime: '2-4 hours',
-    bio: 'Pediatrician specializing in growth monitoring, immunization, and childhood illnesses. Parent-friendly and reassuring approach.',
-    photo: '/doctors/james-mwangi.jpg',
-    languages: ['Swahili', 'English', 'Kikuyu'],
-  },
-  {
-    id: 5,
-    name: 'Dr. Amina Hassan',
-    specialty: 'Mental Health & Counseling',
-    qualification:
-      'MBChB (University of Nairobi), MSc in Clinical Psychology, Registered Counselor (KACP)',
-    yearsExperience: 7,
-    rating: 4.92,
-    reviews: 123,
-    responseTime: '2-3 hours',
-    bio: 'Licensed clinical counselor and psychiatrist. Specializes in depression, anxiety, grief counseling, and trauma-informed care. Confidential and non-judgmental.',
-    photo: '/doctors/amina-hassan.jpg',
-    languages: ['Swahili', 'English', 'Arabic'],
-  },
-  {
-    id: 6,
-    name: 'Dr. Ravi Patel',
-    specialty: 'Internal Medicine / Chronic Care',
-    qualification:
-      'MBBS (Medical University of India), Diploma in Internal Medicine, Board Certified Diabetologist',
-    yearsExperience: 14,
-    rating: 4.87,
-    reviews: 178,
-    responseTime: '1-2 hours',
-    bio: 'Specialist in diabetes, hypertension, and chronic disease management. Evidence-based approach with focus on patient education and medication optimization.',
-    photo: '/doctors/ravi-patel.jpg',
-    languages: ['Swahili', 'English', 'Hindi', 'Gujarati'],
-  },
-];
+// No external icon libraries - inline monochrome SVG icons only (stroke/fill: currentColor)
+
+// Specialties only - no doctor profiles
 
 // Virtual specialties data with clinical details
 const specialties = [
@@ -99,7 +16,6 @@ const specialties = [
     description:
       'Secure video consultation with a certified doctor in the EYE department for expert diagnosis and recovery tracking.',
     schedule: 'Mon - Fri, 8:00 AM - 5:00 PM',
-    doctor: doctors[0],
     conditions: [
       'Blurred or decreased vision',
       'Cataracts and eye surgery follow-up',
@@ -129,7 +45,6 @@ const specialties = [
     description:
       'Speak with a general practitioner about everyday health concerns, prescriptions, and referrals — no travel required.',
     schedule: 'Mon - Sat, 8:00 AM - 5:00 PM',
-    doctor: doctors[1],
     conditions: [
       'Cold, cough, and flu symptoms',
       'Fever and body aches',
@@ -160,7 +75,6 @@ const specialties = [
     description:
       "Confidential consultations covering prenatal check-ins, women's health concerns, and follow-up care.",
     schedule: 'Mon - Fri, 9:00 AM - 4:00 PM',
-    doctor: doctors[2],
     conditions: [
       'Prenatal care (antenatal consultations)',
       'Postnatal follow-up (6-week checkup)',
@@ -192,7 +106,6 @@ const specialties = [
     description:
       "Consult a pediatrician about your child's health, growth concerns, or follow-up care from home.",
     schedule: 'Mon - Fri, 8:00 AM - 5:00 PM',
-    doctor: doctors[3],
     conditions: [
       'Fever, cough, and cold in children',
       'Growth and development concerns',
@@ -225,7 +138,6 @@ const specialties = [
     description:
       'Confidential, judgment-free sessions with a counselor or mental health professional.',
     schedule: 'Tue & Thu, 10:00 AM - 4:00 PM',
-    doctor: doctors[4],
     conditions: [
       'Depression and anxiety',
       'Stress and burnout',
@@ -257,7 +169,6 @@ const specialties = [
     description:
       'Ongoing management for chronic conditions — regular check-ins without the trip to the hospital.',
     schedule: 'Mon - Fri, 8:00 AM - 5:00 PM',
-    doctor: doctors[5],
     conditions: [
       'Diabetes management and medication adjustment',
       'Hypertension monitoring and control',
@@ -319,13 +230,14 @@ const preConsultationChecklist = [
 ];
 
 // Post-consultation pathways
+// icon = inner SVG markup (rendered inside a <svg> with currentColor stroke)
 const postConsultationPathways = [
   {
     step: 1,
     title: 'Receive E-Prescription',
     description:
       'Your doctor issues a digital prescription directly to your portal within 24 hours of consultation.',
-    icon: '📋',
+    icon: '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
     actions: [
       'Download prescription PDF',
       'View dosage and duration',
@@ -338,7 +250,7 @@ const postConsultationPathways = [
     title: 'Get Medications',
     description:
       'Choose how to obtain your prescribed medications. Multiple options available for your convenience.',
-    icon: '💊',
+    icon: '<path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/>',
     actions: [
       'Collect at SPMH pharmacy (same-day pickup)',
       'Partner pharmacies nationwide (via SMS)',
@@ -351,7 +263,7 @@ const postConsultationPathways = [
     title: 'Schedule Follow-Up',
     description:
       'If needed, your doctor may recommend a follow-up consultation. You can book directly from the portal.',
-    icon: '📅',
+    icon: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/>',
     actions: [
       'Auto-scheduled follow-ups for chronic care',
       'Appointment reminder SMS sent 24hrs before',
@@ -364,7 +276,7 @@ const postConsultationPathways = [
     title: 'Track Your Health',
     description:
       'Monitor your health progress with notes, vital signs, and medication adherence tracking.',
-    icon: '📊',
+    icon: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
     actions: [
       "View doctor's notes and diagnosis",
       'Log your blood pressure/sugar if applicable',
@@ -435,12 +347,12 @@ const faqs = [
   {
     question: 'What if I have connection issues or miss my appointment?',
     answer:
-      'If the connection drops during your consultation, you can rejoin the call immediately using the same link. If you miss your appointment time, contact our Patient Support Desk (📞 +254 111 817447) within 2 hours to reschedule at no extra cost if the issue was on our end. If the issue was on your end, a rescheduling fee may apply.',
+      'If the connection drops during your consultation, you can rejoin the call immediately using the same link. If you miss your appointment time, contact our Patient Support Desk (+254 111 817447) within 2 hours to reschedule at no extra cost if the issue was on our end. If the issue was on your end, a rescheduling fee may apply.',
   },
   {
     question: 'Is telemedicine a replacement for emergency care?',
     answer:
-      'No. For emergencies (chest pain, severe bleeding, severe breathing difficulty, trauma), call the SPMH Emergency Line immediately (📞 +254 111 817447) or go to the nearest emergency facility. Telemedicine is designed for non-emergency consultations, routine check-ups, and follow-up care only.',
+      'No. For emergencies (chest pain, severe bleeding, severe breathing difficulty, trauma), call the SPMH Emergency Line immediately (+254 111 817447) or go to the nearest emergency facility. Telemedicine is designed for non-emergency consultations, routine check-ups, and follow-up care only.',
   },
   {
     question: 'Can I see the same doctor for follow-ups?',
@@ -490,24 +402,25 @@ const faqs = [
 ];
 
 // Trust badges data
+// icon = inner SVG markup (rendered inside a <svg> with currentColor stroke)
 const trustBadges = [
   {
-    icon: '🔒',
+    icon: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
     label: 'Fully Encrypted & Secure',
     detail: 'TLS 1.3 encryption + PDPA compliant',
   },
   {
-    icon: '👨‍⚕️',
+    icon: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/>',
     label: 'SPMH Specialists',
     detail: '6 verified doctors with credentials',
   },
   {
-    icon: '⚡',
+    icon: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
     label: 'Instant M-Pesa Payments',
     detail: 'Secure, transparent pricing',
   },
   {
-    icon: '📞',
+    icon: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
     label: '24/7 Patient Support',
     detail: 'Help desk available Mon–Sat',
   },
@@ -536,7 +449,18 @@ const trustBadges = [
         {
           trustBadges.map((badge) => (
             <div class='inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20'>
-              <span class='text-xl'>{badge.icon}</span>
+              <svg
+                class='w-5 h-5 text-white flex-shrink-0'
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                stroke-width='1.75'
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                aria-hidden='true'
+                set:html={badge.icon}
+              />
               <div class='text-left'>
                 <p class='text-xs font-semibold text-white'>{badge.label}</p>
                 <p class='text-xs text-white/70'>{badge.detail}</p>
@@ -590,9 +514,9 @@ const trustBadges = [
         x-cloak
         class='space-y-6'>
         <!-- Search bar -->
-        <div class='relative mx-auto text-center mb-8 max-w-2xl pl-14'>
+        <div class='relative mx-auto mb-8 max-w-2xl'>
           <svg
-            class='absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted'
+            class='pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted'
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
             viewBox='0 0 24 24'
@@ -612,66 +536,25 @@ const trustBadges = [
         </div>
 
         <!-- Specialty Cards Grid -->
-        <div class='grid md:grid-cols-2 gap-6'>
+        <div class='grid md:grid-cols-2 gap-6 items-stretch'>
           <template x-for='s in filtered' :key='s.id'>
             <div
-              class='bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-border/50'>
-              <!-- Doctor Header -->
+              class='flex flex-col h-full bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-border/50'>
+              <!-- Specialty Header -->
               <div
                 class='bg-gradient-to-r from-primary/10 to-accent/10 p-6 border-b border-border/30'>
-                <div class='flex items-start gap-4'>
-                  <div
-                    class='w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0'>
-                    <span class='text-2xl'>👨‍⚕️</span>
-                  </div>
-                  <div class='flex-1 min-w-0'>
-                    <p class='font-bold text-slate-900' x-text='s.doctor.name'>
-                    </p>
-                    <p class='text-xs text-muted' x-text='s.doctor.specialty'>
-                    </p>
-                    <div class='flex items-center gap-2 mt-1'>
-                      <span class='text-yellow-500'>★</span>
-                      <span class='text-xs font-semibold text-slate-700'>
-                        <span x-text='s.doctor.rating'></span>
-                        (<span x-text='s.doctor.reviews'></span> reviews)
-                      </span>
-                    </div>
-                  </div>
+                <div>
+                  <p class='font-bold text-slate-900 text-lg' x-text='s.name'>
+                  </p>
+                  <p class='text-xs text-muted mt-1' x-text='s.department'></p>
                 </div>
               </div>
 
               <!-- Specialty Info -->
-              <div class='p-6 space-y-4'>
-                <!-- Credentials -->
+              <div class='p-6 flex-1 flex flex-col gap-4'>
+                <!-- Description -->
                 <div class='space-y-2'>
-                  <p
-                    class='text-xs font-semibold text-slate-500 uppercase tracking-wide'>
-                    Qualifications
-                  </p>
-                  <p
-                    class='text-sm text-slate-700'
-                    x-text='s.doctor.qualification'>
-                  </p>
-                </div>
-
-                <!-- Experience & Languages -->
-                <div
-                  class='grid grid-cols-2 gap-4 py-3 border-t border-b border-border/30'>
-                  <div>
-                    <p class='text-xs text-muted font-semibold'>Experience</p>
-                    <p class='text-sm font-bold text-slate-900'>
-                      <span x-text='s.doctor.yearsExperience'></span> years
-                    </p>
-                  </div>
-                  <div>
-                    <p class='text-xs text-muted font-semibold'>
-                      Response Time
-                    </p>
-                    <p
-                      class='text-sm font-bold text-accent'
-                      x-text='s.doctor.responseTime'>
-                    </p>
-                  </div>
+                  <p class='text-sm text-slate-700' x-text='s.description'></p>
                 </div>
 
                 <!-- Consultation Fee -->
@@ -727,7 +610,7 @@ const trustBadges = [
                 <button
                   type='button'
                   @click='openSpecialty === s.id ? openSpecialty = null : openSpecialty = s.id'
-                  class='w-full mt-4 py-2.5 px-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg text-sm transition-colors duration-200'>
+                  class='w-full mt-auto py-2.5 px-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg text-sm transition-colors duration-200'>
                   <span x-show='openSpecialty !== s.id'
                     >View Details & Book</span
                   >
@@ -741,33 +624,6 @@ const trustBadges = [
                 x-collapse
                 class='bg-surface/40 border-t border-border/30'>
                 <div class='p-6 space-y-6'>
-                  <!-- Doctor Bio -->
-                  <div>
-                    <p
-                      class='text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2'>
-                      About the Doctor
-                    </p>
-                    <p
-                      class='text-sm text-slate-700 leading-relaxed'
-                      x-text='s.doctor.bio'>
-                    </p>
-                  </div>
-
-                  <!-- Languages -->
-                  <div>
-                    <p
-                      class='text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2'>
-                      Languages Spoken
-                    </p>
-                    <div class='flex flex-wrap gap-2'>
-                      <template x-for='lang in s.doctor.languages' :key='lang'>
-                        <span
-                          class='inline-block bg-white border border-border px-3 py-1 rounded-full text-xs font-semibold text-slate-700'
-                          x-text='lang'></span>
-                      </template>
-                    </div>
-                  </div>
-
                   <!-- What to Prepare -->
                   <div>
                     <p
@@ -777,7 +633,19 @@ const trustBadges = [
                     <ul class='space-y-2'>
                       <template x-for='item in s.whatToPrepare' :key='item'>
                         <li class='flex items-start gap-3'>
-                          <span class='text-primary font-bold mt-0.5'>→</span>
+                          <svg
+                            class='w-4 h-4 text-primary flex-shrink-0 mt-0.5'
+                            xmlns='http://www.w3.org/2000/svg'
+                            viewBox='0 0 24 24'
+                            fill='none'
+                            stroke='currentColor'
+                            stroke-width='2'
+                            stroke-linecap='round'
+                            stroke-linejoin='round'
+                            aria-hidden='true'>
+                            <path d='M5 12h14'></path>
+                            <path d='m12 5 7 7-7 7'></path>
+                          </svg>
                           <span class='text-sm text-slate-700' x-text='item'
                           ></span>
                         </li>
@@ -805,18 +673,23 @@ const trustBadges = [
                     :href="'/portal/register?specialty=' + s.id"
                     class='flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary-dark text-white font-bold py-3 rounded-lg transition-colors duration-200'>
                     <svg
-                      class='w-4 h-4'
+                      class='w-4 h-4 flex-shrink-0'
                       xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
                       viewBox='0 0 24 24'
-                      stroke='currentColor'>
-                      <path
-                        stroke-linecap='round'
-                        stroke-linejoin='round'
-                        d='M12 8c.625 0 1.35.195 2.16.585m-2.16.585V7m0 .585c-.625 0-1.35.195-2.16.585m2.16-.585h0m0 0l4.32 2.585'
-                      ></path>
+                      fill='none'
+                      stroke='currentColor'
+                      stroke-width='2'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      aria-hidden='true'>
+                      <rect width='18' height='18' x='3' y='4' rx='2'></rect>
+                      <path d='M8 2v4'></path>
+                      <path d='M16 2v4'></path>
+                      <path d='M3 10h18'></path>
+                      <path d='M12 14v4'></path>
+                      <path d='M10 16h4'></path>
                     </svg>
-                    Book with <span x-text='s.doctor.name'></span>
+                    Book Consultation
                   </a>
                 </div>
               </div>
@@ -892,14 +765,46 @@ const trustBadges = [
       <!-- Quick Feature Callouts -->
       <div class='grid md:grid-cols-3 gap-6 mt-12 pt-12 border-t border-border'>
         <div class='flex gap-4'>
-          <span class='text-3xl flex-shrink-0'>⏱️</span>
+          <span
+            class='w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0'>
+            <svg
+              class='w-6 h-6'
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='1.75'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              aria-hidden='true'>
+              <circle cx='12' cy='12' r='10'></circle>
+              <path d='M12 6v6l4 2'></path>
+            </svg>
+          </span>
           <div>
             <p class='font-bold text-slate-900'>Takes 5 Minutes</p>
             <p class='text-sm text-muted'>From sign-up to booking confirmed.</p>
           </div>
         </div>
         <div class='flex gap-4'>
-          <span class='text-3xl flex-shrink-0'>💰</span>
+          <span
+            class='w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0'>
+            <svg
+              class='w-6 h-6'
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='1.75'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              aria-hidden='true'>
+              <rect width='20' height='12' x='2' y='6' rx='2'></rect>
+              <circle cx='12' cy='12' r='2'></circle>
+              <path d='M6 12h.01'></path>
+              <path d='M18 12h.01'></path>
+            </svg>
+          </span>
           <div>
             <p class='font-bold text-slate-900'>Transparent Pricing</p>
             <p class='text-sm text-muted'>
@@ -908,7 +813,24 @@ const trustBadges = [
           </div>
         </div>
         <div class='flex gap-4'>
-          <span class='text-3xl flex-shrink-0'>🏥</span>
+          <span
+            class='w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0'>
+            <svg
+              class='w-6 h-6'
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='1.75'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              aria-hidden='true'>
+              <path d='M3 21h18'></path>
+              <path d='M5 21V7l7-4 7 4v14'></path>
+              <path d='M12 9v6'></path>
+              <path d='M9 12h6'></path>
+            </svg>
+          </span>
           <div>
             <p class='font-bold text-slate-900'>Real SPMH Doctors</p>
             <p class='text-sm text-muted'>
@@ -986,10 +908,28 @@ const trustBadges = [
       </div>
 
       <div class='mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg'>
-        <p class='text-sm text-blue-900'>
-          <strong>💡 Pro Tip:</strong> The more detailed information you provide,
-          the better your doctor can help you. Bring any relevant medical records
-          or photos if applicable.
+        <p class='text-sm text-blue-900 flex items-start gap-2'>
+          <svg
+            class='w-4 h-4 flex-shrink-0 mt-0.5'
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            stroke-width='2'
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            aria-hidden='true'>
+            <path
+              d='M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5'
+            ></path>
+            <path d='M9 18h6'></path>
+            <path d='M10 22h4'></path>
+          </svg>
+          <span>
+            <strong>Pro Tip:</strong> The more detailed information you provide, the
+            better your doctor can help you. Bring any relevant medical records or
+            photos if applicable.
+          </span>
         </p>
       </div>
     </div>
@@ -1015,7 +955,20 @@ const trustBadges = [
           postConsultationPathways.map((pathway) => (
             <div class='relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl p-6 border border-primary/10'>
               <div class='flex items-start gap-4 mb-4'>
-                <span class='text-4xl flex-shrink-0'>{pathway.icon}</span>
+                <span class='w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0'>
+                  <svg
+                    class='w-6 h-6'
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='none'
+                    stroke='currentColor'
+                    stroke-width='1.75'
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    aria-hidden='true'
+                    set:html={pathway.icon}
+                  />
+                </span>
                 <div>
                   <p class='text-xs font-bold text-primary uppercase tracking-wide'>
                     Step {pathway.step}
@@ -1029,7 +982,18 @@ const trustBadges = [
               <ul class='space-y-2'>
                 {pathway.actions.map((action) => (
                   <li class='flex items-start gap-3'>
-                    <span class='text-accent font-bold mt-0.5'>✓</span>
+                    <svg
+                      class='w-4 h-4 text-primary flex-shrink-0 mt-0.5'
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      stroke-width='2.25'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      aria-hidden='true'>
+                      <path d='M20 6 9 17l-5-5' />
+                    </svg>
                     <span class='text-sm text-slate-700'>{action}</span>
                   </li>
                 ))}
@@ -1041,7 +1005,24 @@ const trustBadges = [
 
       <div
         class='mt-12 p-6 bg-accent/10 border border-accent rounded-2xl text-center'>
-        <p class='text-sm text-accent font-semibold mb-2'>📞 NEED HELP?</p>
+        <p
+          class='text-sm text-accent font-semibold mb-2 flex items-center justify-center gap-2'>
+          <svg
+            class='w-4 h-4 flex-shrink-0'
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            stroke-width='2'
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            aria-hidden='true'>
+            <path
+              d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z'
+            ></path>
+          </svg>
+          NEED HELP?
+        </p>
         <p class='text-slate-700 mb-4'>
           Our Patient Support Desk is ready to assist with prescriptions,
           follow-ups, or any questions.
@@ -1050,12 +1031,39 @@ const trustBadges = [
           <a
             href='tel:+254111817447'
             class='inline-flex items-center gap-2 font-bold text-accent hover:underline'>
-            📞 +254 111 817447
+            <svg
+              class='w-4 h-4 flex-shrink-0'
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              aria-hidden='true'>
+              <path
+                d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z'
+              ></path>
+            </svg>
+            +254 111 817447
           </a>
           <a
             href='mailto:telemedicine@spmh.co.ke'
             class='inline-flex items-center gap-2 font-bold text-accent hover:underline'>
-            ✉️ telemedicine@spmh.co.ke
+            <svg
+              class='w-4 h-4 flex-shrink-0'
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              aria-hidden='true'>
+              <rect width='20' height='16' x='2' y='4' rx='2'></rect>
+              <path d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'></path>
+            </svg>
+            telemedicine@spmh.co.ke
           </a>
         </div>
       </div>
@@ -1123,47 +1131,49 @@ const trustBadges = [
 
   <!-- Closing CTA -->
   <section
-    class='bg-gradient-to-r from-primary to-primary-dark py-16 lg:py-20 relative overflow-hidden'>
+    class='bg-gray-300 py-16 lg:py-20 relative overflow-hidden'>
     <div class='relative max-w-4xl mx-auto px-6' data-aos='fade-up'>
       <div class='text-center'>
-        <h2 class='font-display text-white text-3xl sm:text-4xl font-bold mb-4'>
+        <h2 class='font-display text-3xl sm:text-4xl font-bold mb-4'>
           Ready to Get Started?
         </h2>
-        <p class='text-white/80 text-lg mb-8 max-w-2xl mx-auto'>
+        <p class='text-slate-700 text-lg mb-8 max-w-2xl mx-auto'>
           Book your appointment in minutes. Choose your specialist, pay
           securely, and connect with a doctor who cares.
         </p>
         <div class='flex flex-col sm:flex-row gap-4 justify-center'>
           <a
             href='/portal/register'
-            class='inline-flex items-center justify-center gap-2 bg-white text-primary hover:bg-white/90 text-white font-bold py-4 px-8 rounded-lg transition-all duration-200 hover:shadow-lg'>
+            class='inline-flex items-center justify-center gap-2 bg-white text-primary hover:bg-white/90 font-bold py-4 px-8 rounded-lg transition-all duration-200 hover:shadow-lg'>
             <svg
-              class='w-5 h-5'
+              class='w-5 h-5 flex-shrink-0'
               xmlns='http://www.w3.org/2000/svg'
-              fill='none'
               viewBox='0 0 24 24'
-              stroke='currentColor'>
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                d='M12 4v16m8-8H4'></path>
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              aria-hidden='true'>
+              <path d='M12 4v16m8-8H4'></path>
             </svg>
             Create Account & Book Now
           </a>
           <a
             href='/telemedicine/how-it-works'
-            class='inline-flex items-center justify-center gap-2 border-2 border-white text-white hover:bg-white/10 font-bold py-4 px-8 rounded-lg transition-all duration-200'>
+            class='inline-flex items-center justify-center gap-2 bg-secondary text-white hover:bg-secondary/90 font-bold py-4 px-8 rounded-lg transition-all duration-200'>
             Learn How It Works
             <svg
-              class='w-4 h-4'
+              class='w-4 h-4 flex-shrink-0'
               xmlns='http://www.w3.org/2000/svg'
-              fill='none'
               viewBox='0 0 24 24'
-              stroke='currentColor'>
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                d='M17 8l4 4m0 0l-4 4m4-4H3'></path>
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              aria-hidden='true'>
+              <path d='M17 8l4 4m0 0l-4 4m4-4H3'></path>
             </svg>
           </a>
         </div>
@@ -1182,15 +1192,4 @@ const trustBadges = [
       display: none !important;
     }
   </style>
-
-  <!-- Alpine.js plugins -->
-  <script
-    is:inline
-    defer
-    src='https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js'
-  ></script>
-  <script
-    is:inline
-    defer
-    src='https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js'></script>
 </Layout>
