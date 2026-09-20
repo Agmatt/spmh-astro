@@ -8,7 +8,7 @@ import netlify from '@astrojs/netlify';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://spmh.co.ke',
+  site: 'https://spmh.co.ke/',
   output: 'server',
   adapter: netlify(),
   vite: {

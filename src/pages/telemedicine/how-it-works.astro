@@ -1,0 +1,1059 @@
+---
+// Import layout
+import Layout from '../../Layout/Layout.astro';
+
+// NOTE: Font Awesome icons are loaded via CDN
+// Add this link to your Astro layout <head>:
+// <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+// Detailed workflow steps with diagrams
+const workflowSteps = [
+  {
+    number: '1',
+    title: 'Create Your Account',
+    icon: '📝',
+    time: '3 minutes',
+    details: [
+      'Visit SPMH telemedicine portal',
+      'Enter your email or phone number',
+      'Set a secure password',
+      'Verify via SMS or email (instant)',
+      'Add next-of-kin (emergency contact)',
+      'Accept privacy terms',
+      'Profile is now active!',
+    ],
+    benefits: [
+      'Your data is encrypted and secure',
+      'One account for all future consultations',
+      'Easy password recovery',
+      'GDPR and PDPA compliant',
+    ],
+  },
+  {
+    number: '2',
+    title: 'Browse & Select Specialist',
+    icon: '🔍',
+    time: '5 minutes',
+    details: [
+      'View all 6 available specialties',
+      'Read doctor profiles (credentials, experience)',
+      'Check consultation fees (KES 500–1,200)',
+      'Review doctor ratings and patient reviews',
+      'Read conditions each doctor treats',
+      'Check available time slots',
+      'Select your preferred doctor',
+    ],
+    benefits: [
+      'No pressure to book immediately',
+      'Compare doctors side-by-side',
+      'Transparent pricing with no surprises',
+      'Real reviews from real patients',
+    ],
+  },
+  {
+    number: '3',
+    title: 'Choose Time & Pay',
+    icon: 'fas fa-credit-card',
+    time: '2 minutes',
+    details: [
+      'Select your preferred date and time',
+      'See consultation fee clearly',
+      'Choose M-Pesa as payment method',
+      'Enter M-Pesa phone number',
+      'Receive M-Pesa prompt on your phone',
+      'Confirm payment (just like normal M-Pesa)',
+      'Get instant booking confirmation',
+    ],
+    benefits: [
+      'Instant payment confirmation',
+      'No credit card or bank account needed',
+      'Money-back guarantee if doctor doesn\'t show',
+      'Automatic appointment reminder SMS',
+    ],
+  },
+  {
+    number: '4',
+    title: 'Join Video Consultation',
+    icon: '📹',
+    time: '20–30 minutes',
+    details: [
+      'Receive appointment reminder SMS 24 hours before',
+      '5 minutes before appointment, click "Join Call" in portal',
+      'Secure video room opens automatically',
+      'Doctor joins from SPMH office',
+      'Doctor asks about your symptoms and medical history',
+      'Doctor may request you to share screen for medical records',
+      'Doctor issues e-prescription if needed',
+      'Consultation ends. Rate your experience.',
+    ],
+    benefits: [
+      'Crystal-clear video and audio',
+      'Screen-sharing for medical records',
+      'Doctor\'s notes added to your portal',
+      'Prescription issued immediately',
+      'Record stored securely for 12 months',
+    ],
+  },
+];
+
+// Real use cases
+const useCases = [
+  {
+    icon: '🩺',
+    title: 'Chronic Disease Follow-Up',
+    subtitle: 'Diabetes, Hypertension, Heart Disease',
+    scenario: 'James has had diabetes for 5 years. Every 2 months, he checks in with Dr. Ravi via telemedicine to review his blood sugar logs, adjust medication if needed, and get prescription refills. Total cost: KES 900. Time: 30 min from home. No missing work.',
+    ideal: true,
+    timeline: 'Ongoing monthly or quarterly',
+    cost: 'KES 900 per consultation',
+  },
+  {
+    icon: '🤰',
+    title: 'Pregnancy Monitoring',
+    subtitle: 'Antenatal Care & Postnatal Follow-Up',
+    scenario: 'Grace is 6 months pregnant. Dr. Grace reviews her antenatal card, checks her blood pressure, and asks about any concerns (nausea, swelling). Grace has questions about diet and exercise. Reassured and informed, she schedules her next check-in.',
+    ideal: true,
+    timeline: 'Routine antenatal: monthly then fortnightly',
+    cost: 'KES 1,000 per consultation',
+  },
+  {
+    icon: '🧒',
+    title: 'Pediatric Growth Monitoring',
+    subtitle: 'Child Health & Immunization Follow-Up',
+    scenario: 'Mum brings her 2-year-old\'s growth chart (weight, height). Dr. James reviews it via screen-share. Child is tracking normally. They discuss weaning foods and developmental milestones. Next immunization reminder given. Peace of mind without clinic hassle.',
+    ideal: true,
+    timeline: 'Quarterly or as needed',
+    cost: 'KES 700 per consultation',
+  },
+  {
+    icon: '💬',
+    title: 'Mental Health Counseling',
+    subtitle: 'Anxiety, Depression, Grief Support',
+    scenario: 'Sarah has been struggling with anxiety since her mother passed. Dr. Amina provides trauma-informed counseling sessions via telemedicine. Confidential. Flexible scheduling. Sarah attends weekly sessions from her home.',
+    ideal: true,
+    timeline: 'Weekly or bi-weekly sessions',
+    cost: 'KES 1,200 per session',
+  },
+  {
+    icon: '👀',
+    title: 'Eye Care Check-Ups',
+    subtitle: 'Diabetic Retinopathy Screening',
+    scenario: 'Peter (diabetic) schedules telemedicine consult with Dr. Sarah. She asks about vision changes and when he last had an eye exam. She recommends in-person dilated exam at SPMH to rule out diabetic retinopathy. Booked same-day appointment in clinic.',
+    ideal: true,
+    timeline: 'Annual screening + as needed',
+    cost: 'KES 800 per consultation',
+  },
+  {
+    icon: 'fas fa-times-circle',
+    title: 'What\'s NOT Right for Telemedicine',
+    subtitle: 'When In-Person Visit is Needed',
+    scenario: 'David has severe chest pain and shortness of breath. This is an EMERGENCY. He must call SPMH Emergency Line immediately (📞 +254 111 817447) or go to nearest hospital. Telemedicine cannot diagnose or treat life-threatening emergencies.',
+    ideal: false,
+    timeline: 'IMMEDIATE action required',
+    cost: 'Emergency care at facility',
+  },
+];
+
+// Testimonials
+const testimonials = [
+  {
+    name: 'Sarah M.',
+    location: 'Kisumu',
+    rating: 5,
+    quote: 'My 7-year-old had a persistent cough. I was worried it might be asthma. Dr. James diagnosed mild asthma in 20 minutes via video. Prescribed inhaler, I filled it at a pharmacy near me same day. Total time from registration to medication: 2 hours. At a hospital, it would have been an all-day affair.',
+    specialty: 'Pediatrics',
+    date: '2 months ago',
+  },
+  {
+    name: 'James K.',
+    location: 'Homa Bay',
+    rating: 5,
+    quote: 'Managing my diabetes used to mean a day trip to SPMH every month. Lost work, transport costs, waiting in lines. Now? Dr. Ravi and I video call every 3 weeks. My blood sugar is more stable than ever. I check in from the office during lunch break.',
+    specialty: 'Internal Medicine',
+    date: '6 months ago',
+  },
+  {
+    name: 'Grace O.',
+    location: 'Kakanega',
+    rating: 5,
+    quote: 'During my second pregnancy, I had spotting at 5 months. Terrified. Got a telemedicine OB consultation with Dr. Grace within 2 hours. She reassured me, reviewed my antenatal card, and advised when to seek emergency care. Delivered a healthy baby 4 months later.',
+    specialty: 'Obstetrics & Gynecology',
+    date: '1 year ago',
+  },
+  {
+    name: 'Peter M.',
+    location: 'Rongo',
+    rating: 4.9,
+    quote: 'Had a bad rash and wasn\'t sure if I should go to the hospital. Booked telemedicine consult with Dr. Peter. He diagnosed a fungal infection, prescribed cream, and it cleared in a week. Cost: KES 500. My time: 20 minutes. Very efficient.',
+    specialty: 'General Medicine',
+    date: '3 weeks ago',
+  },
+  {
+    name: 'Amina H.',
+    location: 'Homa Bay Town',
+    rating: 5,
+    quote: 'Therapy via video with Dr. Amina has been life-changing. I have anxiety and some depression. Our weekly sessions are confidential, judgment-free, and I\'m more comfortable opening up from my private space. Mental health should be accessible to everyone.',
+    specialty: 'Mental Health & Counseling',
+    date: '4 months ago',
+  },
+];
+
+// Security & Privacy Details
+const securityDetails = [
+  {
+    title: '🔐 Data Encryption',
+    description: 'All video consultations and data transfers use TLS 1.3 encryption. Patient records at rest are encrypted with AES-256 military-grade encryption.',
+    details: [
+      'Consultations never recorded without consent',
+      'Data automatically deleted after 12 months',
+      'Complies with Kenya PDPA',
+      'HIPAA-adjacent privacy standards',
+    ],
+  },
+  {
+    title: '<i class="fas fa-user-lock mr-2"></i>Access Controls',
+    description: 'Only authorized personnel can access your data. Each staff member has unique login. All access is logged and audited monthly.',
+    details: [
+      'Two-factor authentication (2FA) available',
+      'Role-based access (treating doctor, admin only)',
+      'Automatic logout after 30 min of inactivity',
+      'Monthly audit logs reviewed by management',
+    ],
+  },
+  {
+    title: '📱 Device Security',
+    description: 'We recommend keeping your device software updated. Use a strong password. Never share your login with anyone.',
+    details: [
+      'Change password every 90 days',
+      'Avoid public WiFi for consultations',
+      'Use mobile app when available (auto-logout)',
+      'Report suspicious activity immediately',
+    ],
+  },
+  {
+    title: '⚖️ Legal Compliance',
+    description: 'SPMH operates under Kenya Ministry of Health regulations and Catholic Diocese of Homa Bay governance. Regular audits ensure compliance.',
+    details: [
+      'KMHFL Level 4 certified facility',
+      'Licensed healthcare providers only',
+      'Informed consent process',
+      'Confidentiality agreements with all staff',
+    ],
+  },
+];
+
+// Pricing breakdown
+const pricingBreakdown = [
+  {
+    specialty: 'General Medicine / Outpatient',
+    fee: 'KES 500',
+    includedTime: '15–20 minutes',
+    includes: [
+      'Video consultation with licensed doctor',
+      'Medical history review',
+      'E-prescription (where applicable)',
+      'Medical summary email',
+      '1 follow-up message via portal (within 48 hrs)',
+    ],
+    notIncluded: [
+      'Prescription medicines (buy at pharmacy)',
+      'Lab tests (ordered separately, local clinic)',
+      'Additional follow-ups (book as new consultation)',
+    ],
+  },
+  {
+    specialty: 'Pediatrics',
+    fee: 'KES 700',
+    includedTime: '15–25 minutes',
+    includes: [
+      'Video consultation with pediatrician',
+      'Growth chart review (if available)',
+      'Immunization status check',
+      'E-prescription for medications',
+      'Parental health education',
+    ],
+    notIncluded: [
+      'Physical exam if not suitable for video',
+      'Lab work (stool, blood cultures)',
+      'Vaccination administration (done in-clinic)',
+    ],
+  },
+  {
+    specialty: 'Ophthalmology',
+    fee: 'KES 800',
+    includedTime: '20–30 minutes',
+    includes: [
+      'Video consultation with eye specialist',
+      'Vision history and symptom review',
+      'Advice on when to come in-person',
+      'Glasses prescription (if refraction possible)',
+      'Diabetic retinopathy screening advice',
+    ],
+    notIncluded: [
+      'Dilated eye exam (requires in-clinic visit)',
+      'Tonometry (glaucoma screening)',
+      'Surgical procedures',
+    ],
+  },
+  {
+    specialty: 'Internal Medicine / Chronic Care',
+    fee: 'KES 900',
+    includedTime: '20–25 minutes',
+    includes: [
+      'Chronic disease management consultation',
+      'Medication review and optimization',
+      'Lab result interpretation',
+      'Lifestyle and dietary advice',
+      'E-prescription refills for maintenance meds',
+    ],
+    notIncluded: [
+      'New laboratory tests (ordered, done locally)',
+      'Advanced imaging review',
+      'Specialist surgery referrals',
+    ],
+  },
+  {
+    specialty: 'Obstetrics & Gynaecology',
+    fee: 'KES 1,000',
+    includedTime: '20–30 minutes',
+    includes: [
+      'Antenatal or postnatal consultation',
+      'Antenatal card review',
+      'Pregnancy-related concerns',
+      'Contraception counseling',
+      'Women\'s health advice',
+    ],
+    notIncluded: [
+      'Pelvic exam (requires in-clinic)',
+      'Ultrasound imaging',
+      'Labour and delivery management',
+    ],
+  },
+  {
+    specialty: 'Mental Health & Counseling',
+    fee: 'KES 1,200',
+    includedTime: '45–60 minutes',
+    includes: [
+      'Confidential counseling or therapy session',
+      'Trauma-informed approach',
+      'Coping strategies and tools',
+      'Follow-up care planning',
+      'Crisis support if needed',
+    ],
+    notIncluded: [
+      'Psychiatric medication management (separate consult)',
+      'Couple or family therapy (different rate)',
+      'Hospitalization coordination',
+    ],
+  },
+];
+
+// Insurance & Payment Options
+const paymentOptions = [
+  {
+    method: 'M-Pesa (Current)',
+    icon: '📱',
+    process: 'Enter phone number → Receive M-Pesa prompt → Confirm payment',
+    timeline: 'Instant',
+    status: 'Active',
+  },
+  {
+    method: 'Bank Transfer',
+    icon: '🏦',
+    process: 'Provide SPMH bank details → Transfer amount → Reference consultation',
+    timeline: '1–2 hours',
+    status: '🔜 Coming Q1 2027',
+  },
+  {
+    method: 'Insurance (NHIF/SHA)',
+    icon: '🏥',
+    process: 'SPMH submits claim directly → Insurance reimburses',
+    timeline: '14–30 days',
+    status: '🔜 Coming Q2 2027',
+  },
+  {
+    method: 'Flexible Payment Plans',
+    icon: '📅',
+    process: 'Multiple consultations → Discounted package → Monthly billing',
+    timeline: 'Custom',
+    status: '🔜 Coming 2028',
+  },
+];
+
+// FAQs for this page
+const faqs = [
+  {
+    category: 'Getting Started',
+    questions: [
+      {
+        q: 'Do I need to be tech-savvy to use telemedicine?',
+        a: 'No. If you can make a phone call or send a WhatsApp message, you can use telemedicine. Our patient portal is designed to be simple. We also have video guides and a help desk if you get stuck.',
+      },
+      {
+        q: 'What if I don\'t have a smartphone?',
+        a: 'You can use a tablet or computer instead. Any device with a camera, microphone, and internet connection works. We can also arrange telemedicine at an SPMH clinic computer if needed.',
+      },
+      {
+        q: 'What internet speed do I need?',
+        a: 'Minimum 2 Mbps download speed for video. Most 4G/LTE connections work fine. Wi-Fi is best. Test your speed before your appointment using a free tool like speedtest.net.',
+      },
+    ],
+  },
+  {
+    category: 'Booking & Payment',
+    questions: [
+      {
+        q: 'Can I cancel or reschedule my appointment?',
+        a: 'Yes. You can cancel or reschedule anytime from your portal. Cancellations 24+ hours before = free. Last-minute cancellations (< 24 hrs) may have a small fee. You can also call our Patient Support Desk.',
+      },
+      {
+        q: 'What if I accidentally book the wrong specialty?',
+        a: 'Call Patient Support immediately (📞 +254 111 817447). If within 24 hours of appointment, we\'ll reschedule to correct specialty at no cost. After appointment, rebooking is standard fee.',
+      },
+      {
+        q: 'Is there a refund if the doctor doesn\'t show up?',
+        a: 'Yes, 100% refund if the doctor fails to join your consultation. We take this seriously. Contact Patient Support within 24 hours of missed appointment.',
+      },
+    ],
+  },
+  {
+    category: 'During Consultation',
+    questions: [
+      {
+        q: 'What if my internet drops during the call?',
+        a: 'Don\'t panic. You can rejoin the same video room using the consultation link (sent via SMS & email). Your doctor will wait. If you\'re disconnected > 5 min, contact Patient Support to reschedule.',
+      },
+      {
+        q: 'Can I reschedule mid-consultation if I\'m not ready?',
+        a: 'Yes. Let the doctor know immediately. They can reschedule you for a later date. If the issue was technical (your connection), no fee. If personal, standard rescheduling fee applies.',
+      },
+      {
+        q: 'Will the doctor ask me to come in-person after the video call?',
+        a: 'Maybe, if examination is needed. If so, the doctor books you directly into SPMH outpatient clinic at NO additional booking fee. You\'re fast-tracked.',
+      },
+    ],
+  },
+  {
+    category: 'Prescriptions & Follow-Up',
+    questions: [
+      {
+        q: 'How soon will I get my e-prescription after the call?',
+        a: 'Usually within 24 hours. It appears in your patient portal. You can download it as PDF and take to any licensed pharmacy. For urgent medications, call Patient Support.',
+      },
+      {
+        q: 'Can I get prescription refills without another consultation?',
+        a: 'Yes, for chronic disease medications. Request refill from your portal. Doctor reviews your history and approves if safe. Refill issued within 48 hours. No additional fee.',
+      },
+      {
+        q: 'What if the pharmacy doesn\'t accept my e-prescription?',
+        a: 'Rare, but contact Patient Support. We\'ll provide a printed version signed by the doctor or coordinate with the pharmacy directly.',
+      },
+    ],
+  },
+  {
+    category: 'Safety & Privacy',
+    questions: [
+      {
+        q: 'Is my video consultation recorded?',
+        a: 'No. Consultations are NOT recorded unless you explicitly consent. We value your privacy. You can request a copy of the doctor\'s notes instead.',
+      },
+      {
+        q: 'Can someone else see my consultation?',
+        a: 'No. Only you and the doctor are in the video room. If you want a family member present, let us know and the doctor will allow it.',
+      },
+      {
+        q: 'How long is my data kept?',
+        a: 'Your medical records and consultation notes are kept for 12 months. After that, they\'re securely deleted unless you request longer retention for legal reasons.',
+      },
+    ],
+  },
+  {
+    category: 'Costs & Value',
+    questions: [
+      {
+        q: 'Is telemedicine cheaper than in-person visits?',
+        a: 'Same consultation fees (KES 500–1,200). But you save transport, time off work, and waiting room time. If you\'re managing a chronic disease, telemedicine saves money long-term.',
+      },
+      {
+        q: 'Will my insurance cover telemedicine?',
+        a: 'As of 2026, most insurance (NHIF/SHA) requires M-Pesa payment. We\'re working with insurers for direct reimbursement (coming 2027). Check with your provider.',
+      },
+      {
+        q: 'Are there discounts for multiple consultations?',
+        a: 'Coming in 2027. For now, each consultation is standard price. Patients managing chronic diseases book regularly.',
+      },
+    ],
+  },
+];
+---
+
+<Layout title="How Telemedicine Works — SPMH">
+  <!-- Hero Section -->
+  <section
+    class='relative flex items-center justify-center text-center px-6 py-20 font-body'
+    style="background: linear-gradient(rgba(13, 71, 161, 0.85), rgba(18, 82, 118, 0.9)), url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1400&q=80') center/cover no-repeat;">
+    <div class='max-w-3xl mx-auto'>
+      <h1 class='font-display text-4xl md:text-5xl font-extrabold text-white leading-tight mb-4'>
+        How Telemedicine Works at SPMH
+      </h1>
+      <p class='text-lg text-white/85 mb-8'>
+        Your complete guide from sign-up to prescription. Transparent, secure, and designed for you.
+      </p>
+      <a
+        href='#workflow'
+        class='inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent hover:opacity-90 text-white font-bold rounded-lg transition-opacity duration-200'>
+        See the Process
+        <svg class='w-4 h-4' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+          <path stroke-linecap='round' stroke-linejoin='round' d='M19 14l-7 7m0 0l-7-7m7 7V3' />
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- The 4-Step Workflow: Deep Dive -->
+  <section class='px-6 py-16 md:py-20 font-body bg-white' id="workflow">
+    <div class='max-w-5xl mx-auto'>
+      <div class='text-center mb-16'>
+        <h2 class='font-display text-3xl md:text-4xl font-bold text-slate-900 mb-3'>
+          Your Journey: 4 Simple Steps
+        </h2>
+        <p class='text-muted max-w-2xl mx-auto'>
+          Each step is designed to be quick, secure, and hassle-free.
+        </p>
+      </div>
+
+      <div class='space-y-12'>
+        {
+          workflowSteps.map((step) => (
+            <div
+              x-data='{expanded: false}'
+              class='border-l-4 border-primary pl-6 py-6'>
+              <div class='flex items-start gap-4 cursor-pointer' @click='expanded = !expanded'>
+                <div class='text-4xl flex-shrink-0'>{step.icon}</div>
+                <div class='flex-1 min-w-0'>
+                  <div class='flex items-center justify-between'>
+                    <div>
+                      <p class='text-sm font-bold text-primary uppercase tracking-wider'>
+                        Step {step.number}
+                      </p>
+                      <h3 class='font-bold text-2xl text-slate-900 mt-1'>{step.title}</h3>
+                    </div>
+                    <span
+                      class='inline-block bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-bold flex-shrink-0'>
+                      {step.time}
+                    </span>
+                  </div>
+                </div>
+                <svg
+                  class='w-6 h-6 text-muted flex-shrink-0 transition-transform'
+                  :class="expanded ? 'rotate-180' : ''"
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'>
+                  <path stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7' />
+                </svg>
+              </div>
+
+              <div x-show='expanded' x-collapse class='mt-6 space-y-4'>
+                <div class='grid md:grid-cols-2 gap-8'>
+                  <div>
+                    <h4 class='font-bold text-slate-900 mb-3'>What Happens</h4>
+                    <ol class='space-y-3'>
+                      {step.details.map((detail, idx) => (
+                        <li class='flex gap-3'>
+                          <span class='font-bold text-primary flex-shrink-0'>{idx + 1}.</span>
+                          <span class='text-slate-700'>{detail}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                  <div>
+                    <h4 class='font-bold text-slate-900 mb-3'>Benefits</h4>
+                    <ul class='space-y-2'>
+                      {step.benefits.map((benefit) => (
+                        <li class='flex items-start gap-2 text-slate-700'>
+                          <i class='fas fa-check-circle text-green-600 flex-shrink-0 mt-0.5'></i>
+                          <span>{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Timeline overview -->
+      <div class='mt-16 p-6 bg-surface rounded-2xl border border-border'>
+        <h3 class='font-bold text-slate-900 mb-4'>⏱️ Total Time from Start to Prescription</h3>
+        <div class='grid md:grid-cols-5 gap-4 text-center'>
+          <div class='space-y-2'>
+            <p class='text-2xl font-bold text-primary'>3 min</p>
+            <p class='text-xs text-muted'>Sign-up</p>
+          </div>
+          <div class='flex items-center justify-center'>
+            <svg class='w-6 h-6 text-muted' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+              <path stroke-linecap='round' stroke-linejoin='round' d='M9 5l7 7-7 7' />
+            </svg>
+          </div>
+          <div class='space-y-2'>
+            <p class='text-2xl font-bold text-primary'>5 min</p>
+            <p class='text-xs text-muted'>Browse & Select</p>
+          </div>
+          <div class='flex items-center justify-center'>
+            <svg class='w-6 h-6 text-muted' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+              <path stroke-linecap='round' stroke-linejoin='round' d='M9 5l7 7-7 7' />
+            </svg>
+          </div>
+          <div class='space-y-2'>
+            <p class='text-2xl font-bold text-primary'>25 min</p>
+            <p class='text-xs text-muted'>Consultation</p>
+          </div>
+        </div>
+        <p class='mt-4 text-center text-sm text-slate-700'>
+          <strong>From click to prescription: ~33 minutes</strong> (Plus 24 hours to collect medication)
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real Use Cases -->
+  <section class='px-6 py-16 md:py-20 font-body bg-surface'>
+    <div class='max-w-5xl mx-auto'>
+      <div class='text-center mb-12'>
+        <h2 class='font-display text-3xl md:text-4xl font-bold text-slate-900 mb-3'>
+          Is Telemedicine Right for You?
+        </h2>
+        <p class='text-muted max-w-2xl mx-auto'>
+          See real patient scenarios. Green means ideal for telemedicine. Red means in-person visit needed.
+        </p>
+      </div>
+
+      <div class='grid md:grid-cols-2 gap-6'>
+        {
+          useCases.map((useCase) => (
+            <div
+              class={`rounded-2xl p-6 border-2 transition-all ${
+                useCase.ideal
+                  ? 'border-green-200 bg-green-50'
+                  : 'border-red-200 bg-red-50'
+              }`}>
+              <div class='flex items-start gap-4 mb-4'>
+                <span class='text-4xl flex-shrink-0'>{useCase.icon}</span>
+                <div>
+                  <p
+                    class={`text-xs font-bold uppercase tracking-wider ${
+                      useCase.ideal
+                        ? 'text-green-700'
+                        : 'text-red-700'
+                    }`}>
+                    {useCase.ideal ? 'Ideal' : '<i class="fas fa-times mr-1"></i>Not Ideal'}
+                  </p>
+                  <h3 class='font-bold text-lg text-slate-900 mt-1'>
+                    {useCase.title}
+                  </h3>
+                  <p class='text-xs text-slate-600'>
+                    {useCase.subtitle}
+                  </p>
+                </div>
+              </div>
+
+              <p class='text-sm text-slate-700 mb-4 leading-relaxed'>
+                {useCase.scenario}
+              </p>
+
+              <div class='space-y-2 border-t-2 border-white/50 pt-4'>
+                <div>
+                  <p class='text-xs font-bold text-slate-600 uppercase tracking-wider'>
+                    Timeline
+                  </p>
+                  <p class='text-sm font-semibold text-slate-900'>
+                    {useCase.timeline}
+                  </p>
+                </div>
+                <div>
+                  <p class='text-xs font-bold text-slate-600 uppercase tracking-wider'>
+                    Cost
+                  </p>
+                  <p class='text-sm font-semibold text-slate-900'>
+                    {useCase.cost}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Decision Helper -->
+      <div class='mt-12 p-6 bg-blue-50 border-2 border-blue-200 rounded-2xl'>
+        <h3 class='font-bold text-blue-900 mb-3'>
+          💡 Not Sure if Telemedicine is Right?
+        </h3>
+        <p class='text-blue-900 mb-4'>
+          Book a free consultation with our patient support team. They'll help you decide:
+        </p>
+        <div class='flex gap-4'>
+          <a href='tel:+254111817447' class='inline-flex items-center gap-2 font-bold text-blue-600 hover:underline'>
+            📞 Call +254 111 817447
+          </a>
+          <span class='text-blue-600'>or</span>
+          <a href='mailto:telemedicine@spmh.co.ke' class='inline-flex items-center gap-2 font-bold text-blue-600 hover:underline'>
+            ✉️ Email telemedicine@spmh.co.ke
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class='px-6 py-16 md:py-20 font-body bg-white'>
+    <div class='max-w-5xl mx-auto'>
+      <div class='text-center mb-12'>
+        <h2 class='font-display text-3xl md:text-4xl font-bold text-slate-900 mb-3'>
+          What Patients Say
+        </h2>
+        <p class='text-muted'>
+          Real feedback from real patients who used SPMH telemedicine.
+        </p>
+      </div>
+
+      <div class='grid md:grid-cols-2 gap-6'>
+        {
+          testimonials.map((testimonial) => (
+            <div class='rounded-2xl p-6 border border-border bg-white hover:shadow-lg transition-shadow duration-200'>
+              <div class='flex items-start gap-4 mb-4'>
+                <div class='w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0'>
+                  <i class='fas fa-user-circle text-2xl text-primary'></i>
+                </div>
+                <div class='flex-1 min-w-0'>
+                  <p class='font-bold text-slate-900'>{testimonial.name}</p>
+                  <p class='text-xs text-muted'>
+                    {testimonial.location} • {testimonial.specialty}
+                  </p>
+                  <div class='flex items-center gap-1 mt-1'>
+                    {[...Array(5)].map((_, i) => (
+                      <span
+                        key={i}
+                        class={`text-sm ${
+                          i < testimonial.rating
+                            ? 'text-yellow-500'
+                            : 'text-gray-300'
+                        }`}>
+                        <i class='fas fa-star text-yellow-400'></i>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <p class='text-slate-700 mb-4 italic leading-relaxed'>
+                "{testimonial.quote}"
+              </p>
+              <p class='text-xs text-muted'>{testimonial.date}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Security & Privacy Deep Dive -->
+  <section class='px-6 py-16 md:py-20 font-body bg-surface'>
+    <div class='max-w-5xl mx-auto'>
+      <div class='text-center mb-12'>
+        <h2 class='font-display text-3xl md:text-4xl font-bold text-slate-900 mb-3'>
+          Your Privacy & Security Matter
+        </h2>
+        <p class='text-muted max-w-2xl mx-auto'>
+          Here's exactly how we protect your health data. No mystery. No shortcuts.
+        </p>
+      </div>
+
+      <div class='grid md:grid-cols-2 gap-6 mb-12'>
+        {
+          securityDetails.map((detail) => (
+            <div class='rounded-2xl p-6 bg-white border border-border'>
+              <h3 class='font-bold text-lg text-slate-900 mb-3'>{detail.title}</h3>
+              <p class='text-sm text-slate-700 mb-4'>{detail.description}</p>
+              <ul class='space-y-2'>
+                {detail.details.map((item) => (
+                  <li class='flex items-start gap-3'>
+                    <i class='fas fa-check text-primary font-bold flex-shrink-0'></i>
+                    <span class='text-sm text-slate-700'>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Compliance Badges -->
+      <div class='p-6 bg-white rounded-2xl border border-border text-center'>
+        <h3 class='font-bold text-slate-900 mb-6'>Compliance & Certifications</h3>
+        <div class='grid md:grid-cols-4 gap-6'>
+          <div class='space-y-2'>
+            <i class='fas fa-clipboard text-3xl text-primary'></i>
+            <p class='font-semibold text-slate-900 text-sm'>Kenya PDPA</p>
+            <p class='text-xs text-muted'>Personal Data Protection</p>
+          </div>
+          <div class='space-y-2'>
+            <span class='text-3xl'>🏥</span>
+            <p class='font-semibold text-slate-900 text-sm'>KMHFL Level 4</p>
+            <p class='text-xs text-muted'>Ministry of Health Certified</p>
+          </div>
+          <div class='space-y-2'>
+            <i class='fas fa-shield-alt text-3xl text-blue-600'></i>
+            <p class='font-semibold text-slate-900 text-sm'>TLS 1.3 Encryption</p>
+            <p class='text-xs text-muted'>Military-Grade Security</p>
+          </div>
+          <div class='space-y-2'>
+            <span class='text-3xl'>⚖️</span>
+            <p class='font-semibold text-slate-900 text-sm'>Catholic Diocese</p>
+            <p class='text-xs text-muted'>Governance Oversight</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing & Payment -->
+  <section class='px-6 py-16 md:py-20 font-body bg-white'>
+    <div class='max-w-5xl mx-auto'>
+      <div class='text-center mb-12'>
+        <h2 class='font-display text-3xl md:text-4xl font-bold text-slate-900 mb-3'>
+          Transparent Pricing Breakdown
+        </h2>
+        <p class='text-muted max-w-2xl mx-auto'>
+          Know exactly what's included before you book. No surprises. No hidden fees.
+        </p>
+      </div>
+
+      <div
+        x-data='{selectedSpecialty: 0}'
+        class='space-y-6'>
+        <!-- Specialty selector -->
+        <div class='flex flex-wrap gap-2 justify-center'>
+          <template x-for='(specialty, index) in ${JSON.stringify(pricingBreakdown)}' :key='specialty.specialty'>
+            <button
+              type='button'
+              @click='selectedSpecialty = index'
+              :class='{
+                "bg-primary text-white": selectedSpecialty === index,
+                "bg-surface border border-border text-slate-700": selectedSpecialty !== index
+              }'
+              class='px-4 py-2 rounded-lg font-semibold text-sm transition-colors duration-200'
+              x-text='specialty.specialty.split(" / ")[0]'></button>
+          </template>
+        </div>
+
+        <!-- Pricing details -->
+        <template x-for='(specialty, index) in ${JSON.stringify(pricingBreakdown)}' :key='specialty.specialty'>
+          <div x-show='selectedSpecialty === index' x-collapse class='bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl p-8 border border-primary/10'>
+            <div class='grid md:grid-cols-2 gap-8'>
+              <!-- Left: Header & Fee -->
+              <div>
+                <h3 class='font-bold text-2xl text-slate-900 mb-2' x-text='specialty.specialty'></h3>
+                <div class='space-y-4 mb-6'>
+                  <div>
+                    <p class='text-xs text-muted font-bold uppercase tracking-wider mb-1'>Consultation Fee</p>
+                    <p class='text-4xl font-bold text-primary' x-text='specialty.fee'></p>
+                  </div>
+                  <div>
+                    <p class='text-xs text-muted font-bold uppercase tracking-wider mb-1'>Typical Duration</p>
+                    <p class='text-lg font-semibold text-slate-900' x-text='specialty.includedTime'></p>
+                  </div>
+                </div>
+
+                <!-- Included -->
+                <div>
+                  <h4 class='font-bold text-slate-900 mb-3 flex items-center gap-2'>
+                    <i class='fas fa-check text-green-600 mr-2'></i>What's Included
+                  </h4>
+                  <ul class='space-y-2'>
+                    <template x-for='item in specialty.includes' :key='item'>
+                      <li class='flex items-start gap-2 text-sm text-slate-700'>
+                        <span class='text-green-600 font-bold flex-shrink-0'>•</span>
+                        <span x-text='item'></span>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Right: Not Included -->
+              <div>
+                <h4 class='font-bold text-slate-900 mb-3 flex items-center gap-2'>
+                  <span class='text-gray-400'>○</span> What's Not Included
+                </h4>
+                <ul class='space-y-2 mb-6'>
+                  <template x-for='item in specialty.notIncluded' :key='item'>
+                    <li class='flex items-start gap-2 text-sm text-slate-700'>
+                      <span class='text-gray-400 font-bold flex-shrink-0'>•</span>
+                      <span x-text='item'></span>
+                    </li>
+                  </template>
+                </ul>
+
+                <!-- CTA -->
+                <a
+                  :href='"/portal/register?specialty=" + index'
+                  class='block w-full bg-primary hover:bg-primary-dark text-white font-bold py-3 px-4 rounded-lg text-center transition-colors duration-200'>
+                  Book This Specialty
+                </a>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <!-- Payment Methods -->
+      <div class='mt-12 pt-12 border-t border-border'>
+        <h3 class='font-bold text-2xl text-slate-900 mb-6 text-center'>How You Can Pay</h3>
+        <div class='grid md:grid-cols-2 gap-6'>
+          {
+            paymentOptions.map((option) => (
+              <div class='rounded-2xl p-6 border border-border bg-white'>
+                <div class='flex items-center gap-3 mb-4'>
+                  <span class='text-3xl'>{option.icon}</span>
+                  <h4 class='font-bold text-lg text-slate-900'>{option.method}</h4>
+                </div>
+                <p class='text-sm text-slate-700 mb-4'>{option.process}</p>
+                <div class='flex items-center justify-between'>
+                  <div>
+                    <p class='text-xs text-muted font-bold'>Timeline</p>
+                    <p class='text-sm font-semibold text-slate-900'>{option.timeline}</p>
+                  </div>
+                  <div class='text-right'>
+                    <p class={`text-sm font-bold px-3 py-1 rounded-full ${
+                      option.status.includes('Active')
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-yellow-100 text-yellow-700'
+                    }`}>
+                      {option.status}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class='px-6 py-16 md:py-20 font-body bg-surface'>
+    <div class='max-w-4xl mx-auto'>
+      <div class='text-center mb-12'>
+        <h2 class='font-display text-3xl md:text-4xl font-bold text-slate-900 mb-3'>
+          Questions? We've Got Answers
+        </h2>
+      </div>
+
+      <div
+        x-data='{openCategory: 0}'
+        class='space-y-6'>
+        <div class='flex flex-wrap gap-2 mb-6 justify-center'>
+          <template x-for='(category, index) in ${JSON.stringify(faqs.map(f => f.category))}' :key='category'>
+            <button
+              type='button'
+              @click='openCategory = index'
+              :class='{
+                "bg-primary text-white": openCategory === index,
+                "bg-white border border-border text-slate-700": openCategory !== index
+              }'
+              class='px-4 py-2 rounded-lg font-semibold text-sm transition-colors duration-200'
+              x-text='category'></button>
+          </template>
+        </div>
+
+        <!-- FAQ items by category -->
+        <template x-for='(faqCategory, categoryIndex) in ${JSON.stringify(faqs)}' :key='faqCategory.category'>
+          <div x-show='openCategory === categoryIndex' x-collapse class='space-y-3'>
+            <template x-for='faq in faqCategory.questions' :key='faq.q'>
+              <details class='group bg-white border border-border rounded-lg'>
+                <summary class='flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none hover:bg-surface/50 transition-colors duration-200'>
+                  <span class='font-semibold text-slate-900 text-sm' x-text='faq.q'></span>
+                  <svg
+                    class='w-5 h-5 text-muted flex-shrink-0 transition-transform group-open:rotate-180'
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                    stroke-width='2'>
+                    <path
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      d='M19 9l-7 7-7-7'
+                    />
+                  </svg>
+                </summary>
+                <p class='px-6 pb-5 text-sm text-slate-700 leading-relaxed border-t border-border/30' x-text='faq.a'></p>
+              </details>
+            </template>
+          </div>
+        </template>
+      </div>
+
+      <div class='mt-8 p-6 bg-blue-50 border border-blue-200 rounded-2xl text-center'>
+        <p class='text-sm text-slate-700'>
+          <strong>Didn't find your answer?</strong><br />
+          <a href='tel:+254111817447' class='font-bold text-blue-600 hover:underline'>Call +254 111 817447</a> or
+          <a href='mailto:telemedicine@spmh.co.ke' class='font-bold text-blue-600 hover:underline'>email telemedicine@spmh.co.ke</a><br />
+          <span class='text-xs text-slate-600'>Available Mon–Sat, 8 AM–5 PM</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <>
+    <section class='bg-gradient-to-r from-primary to-primary-dark py-16 lg:py-20'>
+      <div class='max-w-4xl mx-auto px-6 text-center'>
+        <h2 class='font-display text-white text-3xl sm:text-4xl font-bold mb-4'>
+          Ready to Book Your First Consultation?
+        </h2>
+        <p class='text-white/80 text-lg mb-8 max-w-2xl mx-auto'>
+          Everything you need to know about SPMH telemedicine. Now take the next step.
+        </p>
+        <div class='flex flex-col sm:flex-row gap-4 justify-center'>
+          <a
+            href='/telemedicine/index#specialties'
+            class='inline-flex items-center justify-center gap-2 bg-white text-primary hover:bg-white/90 font-bold py-4 px-8 rounded-lg transition-all duration-200 hover:shadow-lg'>
+            <svg class='w-5 h-5' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+              <path stroke-linecap='round' stroke-linejoin='round' d='M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z' />
+            </svg>
+            Browse Specialties
+          </a>
+          <a
+            href='/portal/register'
+            class='inline-flex items-center justify-center gap-2 border-2 border-white text-white hover:bg-white/10 font-bold py-4 px-8 rounded-lg transition-all duration-200'>
+            Create Account
+            <svg class='w-4 h-4' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+              <path stroke-linecap='round' stroke-linejoin='round' d='M17 8l4 4m0 0l-4 4m4-4H3' />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <style>
+      section {
+        @apply transition-all duration-300;
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      [x-cloak] {
+        display: none !important;
+      }
+    </style>
+  </>
+
+  <!-- Alpine.js -->
+</Layout>
