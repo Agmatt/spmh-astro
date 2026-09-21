@@ -1,765 +1,515 @@
 ---
-import { getCollection } from 'astro:content';
+// AcademicsNavbar.astro
+// Main navigation bar for Academics & Training section
+// OPTION A — full-width megamenu band.
+// Panels anchor to the navbar container (not the menu item), so they
+// cannot clip at the left or right margins at any viewport width.
+
+export interface Props {
+  currentPage?: string;
+}
+
+const { currentPage } = Astro.props;
+
+const navItems = [
+  { label: "Home",        href: "/training-and-research",           icon: "home",            mobileOnly: false },
+  { label: "Apply",       href: "/training-and-research/apply",     icon: "user-graduate",   hasDropdown: true, submenu: "apply" },
+  { label: "Collaborate", href: "/training-and-research/collaborate", icon: "handshake",     hasDropdown: true, submenu: "collaborate" },
+  { label: "Research",    href: "/training-and-research/research",  icon: "flask",           hasDropdown: true, submenu: "research" },
+  { label: "Teach",       href: "/training-and-research/teach",     icon: "chalkboard-user", hasDropdown: true, submenu: "teach" },
+  { label: "Resources",   href: "/training-and-research/resources", icon: "book",            hasDropdown: true, submenu: "resources" },
+  { label: "Level 5",     href: "/training-and-research/level-5",   icon: "graduation-cap",  hasDropdown: true, submenu: "level5" }
+];
+
+const megamenus = {
+  apply: {
+    sections: [
+      {
+        title: "Clinical Training",
+        icon: "stethoscope",
+        items: [
+          { label: "Nursing (6-12 weeks)", href: "/training-and-research/apply/clinical/nursing" },
+          { label: "Lab & Diagnostics", href: "/training-and-research/apply/clinical/lab" },
+          { label: "Pharmacy Operations", href: "/training-and-research/apply/clinical/pharmacy" },
+          { label: "Outpatient & Community", href: "/training-and-research/apply/clinical/outpatient" },
+          { label: "Apply Now →", href: "/training-and-research/apply/clinical/form", cta: true }
+        ]
+      },
+      {
+        title: "Internship Program",
+        badge: "NEW",
+        icon: "graduation-cap",
+        items: [
+          { label: "Program Overview", href: "/training-and-research/apply/internship" },
+          { label: "Competency Framework", href: "/training-and-research/apply/internship/competencies" },
+          { label: "Preceptor Assignment", href: "/training-and-research/apply/internship/preceptors" },
+          { label: "Apply Now →", href: "/training-and-research/apply/internship/form", cta: true }
+        ]
+      },
+      {
+        title: "Community Health",
+        icon: "people-group",
+        items: [
+          { label: "CHP Training (4 weeks)", href: "/training-and-research/apply/community-health" },
+          { label: "Field Locations", href: "/training-and-research/apply/community-health/locations" },
+          { label: "Apply Now →", href: "/training-and-research/apply/community-health/form", cta: true }
+        ]
+      },
+      {
+        title: "Digital Health",
+        badge: "NEW",
+        icon: "computer",
+        items: [
+          { label: "EMR & Systems Projects", href: "/training-and-research/apply/digital-health" },
+          { label: "Data Analytics", href: "/training-and-research/apply/digital-health/analytics" },
+          { label: "Apply Now →", href: "/training-and-research/apply/digital-health/form", cta: true }
+        ]
+      }
+    ]
+  },
+  collaborate: {
+    sections: [
+      {
+        title: "Get Started",
+        icon: "handshake",
+        items: [
+          { label: "Start Partnership", href: "/training-and-research/collaborate/start" },
+          { label: "Partnership Categories", href: "/training-and-research/collaborate/categories" },
+          { label: "Submit Inquiry →", href: "/training-and-research/collaborate/inquiry", cta: true }
+        ]
+      },
+      {
+        title: "Framework",
+        badge: "NEW",
+        icon: "file-contract",
+        items: [
+          { label: "MOU Template", href: "/training-and-research/collaborate/mou" },
+          { label: "Partnership Standards", href: "/training-and-research/collaborate/standards" },
+          { label: "Download MOU", href: "/files/mou-template.pdf", download: true }
+        ]
+      },
+      {
+        title: "Partnerships",
+        icon: "building",
+        items: [
+          { label: "Partner Directory", href: "/training-and-research/collaborate/directory" },
+          { label: "Active Partnerships", href: "/training-and-research/collaborate/active" },
+          { label: "Success Stories", href: "/training-and-research/collaborate/stories" }
+        ]
+      }
+    ]
+  },
+  research: {
+    sections: [
+      {
+        title: "Research Areas",
+        icon: "flask",
+        items: [
+          { label: "Community Health KRA", href: "/training-and-research/research/areas/community-health" },
+          { label: "Epidemiology", href: "/training-and-research/research/areas/epidemiology" },
+          { label: "Quality Improvement", href: "/training-and-research/research/areas/qi" },
+          { label: "Maternal & Child Health", href: "/training-and-research/research/areas/mncah" },
+          { label: "View All KRAs", href: "/training-and-research/research/areas" }
+        ]
+      },
+      {
+        title: "Collaborate",
+        icon: "microscope",
+        items: [
+          { label: "Research Protocols", href: "/training-and-research/research/protocols" },
+          { label: "Ethics Review Process", href: "/training-and-research/research/ethics" },
+          { label: "Active Projects", href: "/training-and-research/research/projects" },
+          { label: "Propose Project →", href: "/training-and-research/research/propose", cta: true }
+        ]
+      },
+      {
+        title: "Resources",
+        icon: "book",
+        items: [
+          { label: "Protocol Templates", href: "/training-and-research/research/templates" },
+          { label: "Researcher Guidelines", href: "/files/research-guidelines.pdf", download: true },
+          { label: "Data Management", href: "/training-and-research/research/data-management" }
+        ]
+      }
+    ]
+  },
+  teach: {
+    sections: [
+      {
+        title: "CME Programs",
+        icon: "chalkboard-user",
+        items: [
+          { label: "CME Calendar", href: "/training-and-research/teach/cme/calendar" },
+          { label: "Upcoming Trainings", href: "/training-and-research/teach/cme" },
+          { label: "CPD Credits", href: "/training-and-research/teach/cme/credits" },
+          { label: "Register Now →", href: "/training-and-research/teach/cme/register", cta: true }
+        ]
+      },
+      {
+        title: "Faculty Exchange",
+        badge: "NEW",
+        icon: "suitcase",
+        items: [
+          { label: "Exchange Overview", href: "/training-and-research/teach/faculty-exchange" },
+          { label: "Guidelines & Process", href: "/files/faculty-exchange-guidelines.pdf", download: true },
+          { label: "Apply for Exchange →", href: "/training-and-research/teach/faculty-exchange/apply", cta: true }
+        ]
+      },
+      {
+        title: "Faculty Resources",
+        icon: "folder-open",
+        items: [
+          { label: "Faculty Directory", href: "/training-and-research/teach/faculty-directory" },
+          { label: "Teaching Materials", href: "/training-and-research/teach/resources" },
+          { label: "Preceptor Handbook", href: "/files/preceptor-handbook.pdf", download: true }
+        ]
+      }
+    ]
+  },
+  resources: {
+    sections: [
+      {
+        title: "Documents",
+        icon: "file-pdf",
+        items: [
+          { label: "Internship Manual", href: "/files/internship-manual.pdf", download: true },
+          { label: "MOU Template", href: "/files/mou-template.pdf", download: true },
+          { label: "Research Protocols", href: "/files/research-protocols.pdf", download: true },
+          { label: "Competency Frameworks", href: "/files/competency-frameworks.pdf", download: true }
+        ]
+      },
+      {
+        title: "Training Materials",
+        icon: "book-open",
+        items: [
+          { label: "Preceptor Handbook", href: "/files/preceptor-handbook.pdf", download: true },
+          { label: "Student Onboarding", href: "/files/student-onboarding.pdf", download: true },
+          { label: "Accreditation Standards", href: "/files/level-5-standards.pdf", download: true }
+        ]
+      },
+      {
+        title: "Help",
+        icon: "circle-question",
+        items: [
+          { label: "FAQ", href: "/training-and-research/faq" },
+          { label: "Glossary", href: "/training-and-research/glossary" },
+          { label: "Contact Support", href: "/training-and-research/contact" }
+        ]
+      }
+    ]
+  },
+  level5: {
+    sections: [
+      {
+        title: "Accreditation Journey",
+        icon: "graduation-cap",
+        items: [
+          { label: "2030 Vision", href: "/training-and-research/level-5/vision" },
+          { label: "Strategic Roadmap", href: "/training-and-research/level-5/roadmap" },
+          { label: "Stabilization Phase (2026-27)", href: "/training-and-research/level-5/stabilization" },
+          { label: "Expansion Phase (2028-29)", href: "/training-and-research/level-5/expansion" }
+        ]
+      },
+      {
+        title: "Teaching Hospital",
+        icon: "building",
+        items: [
+          { label: "Vision & Mission", href: "/training-and-research/level-5/teaching-hospital" },
+          { label: "Internship Pipeline", href: "/training-and-research/level-5/internship-pipeline" },
+          { label: "Research Hub", href: "/training-and-research/level-5/research-hub" },
+          { label: "Faculty Development", href: "/training-and-research/level-5/faculty" }
+        ]
+      },
+      {
+        title: "Strategic Milestones",
+        icon: "chart-line",
+        items: [
+          { label: "Partnership Targets", href: "/training-and-research/level-5/partnerships" },
+          { label: "Impact Metrics", href: "/training-and-research/level-5/metrics" },
+          { label: "Performance Dashboard", href: "/training-and-research/level-5/dashboard" }
+        ]
+      }
+    ]
+  }
+};
+
+// Section counts vary (4 for Apply, 3 for the rest). Derive the grid so
+// 3-section menus don't render an empty 4th column.
+const gridCols: Record<number, string> = {
+  2: "grid-cols-2",
+  3: "grid-cols-3",
+  4: "grid-cols-4"
+};
+const colsFor = (n: number) => gridCols[n] ?? "grid-cols-4";
 ---
 
-<!--
-  Academic Navbar – styled to match NewsNavbar
-  Two-tier header: top bar (logo + brand + social) and bottom nav bar (mega-menu + search).
-  Fully responsive: desktop mega‑menu, mobile off‑canvas panel.
--->
 <header
-  class='sticky top-0 z-50 bg-white'
-  x-data='{
-    menuOpen: null,
+  class="sticky top-0 z-50 bg-white"
+  x-data="{
     mobileOpen: false,
-    mobileActiveDropdown: null
-    }'>
-  <!-- ============================================================
-    TOP BAR – Logo, hospital name, "Academic Partnerships" badge, social icons
-    ============================================================ -->
-  <div class='border-b border-[#EDF1F4] bg-white'>
-    <div
-      class='max-w-6xl mx-auto px-6 h-16 md:h-20 flex items-center justify-between'>
-      <!-- Brand -->
-      <div class='flex items-center gap-2'>
-        <img src='/logos/logo.png' alt='SPMH Logo' class='h-12 w-auto' />
-        <span
-          class='text-[#125276] font-black hidden sm:inline text-xs md:text-lg uppercase'>
-          ST. PAUL'S
-        </span>
-        <span
-          class='text-[#860f0f] hidden sm:inline text-xs md:text-lg font-bold uppercase'>
-          MISSION HOSPITAL
-        </span>
-        <span
-          class="font-['Roboto'] hidden sm:inline text-2xl font-bold text-[#3E5262] pl-3 border-l border-primary">
-          Academics & Partnerships
-        </span>
+    desktopDropdown: null,
+    mobileDropdown: null
+  }"
+  @keydown.escape="mobileOpen = false; desktopDropdown = null"
+>
+  <!-- TOP BAR: Logo + Branding + Social Icons -->
+  <div class="border-b border-slate-200 bg-white">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 md:h-20 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 md:gap-4 overflow-hidden">
+        <a href="/" class="flex-shrink-0">
+          <img
+            src="/logos/logo.png"
+            alt="SPMH Logo"
+            class="h-10 sm:h-12 md:h-14 w-auto"
+          />
+        </a>
+        <div class="flex flex-col">
+          <span class="text-[#125276] font-black text-[10px] sm:text-xs md:text-sm uppercase leading-tight truncate">
+            St. Paul's Mission Hospital
+          </span>
+          <span class="text-[#860f0f] font-bold text-[9px] sm:text-xs uppercase truncate">
+            Academics, Research & Training
+          </span>
+          <span class="text-[#1565c0] text-[9px] sm:text-xs font-semibold truncate">
+            Level 5-Ready Teaching Hospital
+          </span>
+        </div>
       </div>
 
-      <!-- Social Icons -->
-      <div class='flex items-center gap-4'>
-        <a
-          href='https://facebook.com/spmhhomabay'
-          aria-label='Facebook'
-          class='text-4xl border rounded-full bg-gray-200 hover:text-[#1877F2] text-slate-400 sm:text-slate-600 transition-colors p-1'>
-          <svg width='24' height='24' viewBox='0 0 24 24' fill='currentColor'>
-            <path
-              d='M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06C2 17.08 5.66 21.23 10.44 22v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22C18.34 21.23 22 17.08 22 12.06Z'
-            ></path>
-          </svg>
+      <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+        <a href="https://facebook.com/spmhhomabay" aria-label="Facebook" class="text-slate-400 hover:text-[#1877F2] transition-colors">
+          <i class="fab fa-facebook text-base sm:text-xl"></i>
         </a>
-        <a
-          href='https://x.com/spmhhomabay'
-          aria-label='X'
-          class='text-4xl border rounded-full bg-gray-200 hover:text-[#1DA1F2] text-slate-400 sm:text-slate-600 transition-colors p-1'>
-          <svg width='24' height='24' viewBox='0 0 24 24' fill='currentColor'>
-            <path
-              d='M18.9 2H22l-7.6 8.7L23.3 22H16.7l-5.2-6.8L5.6 22H2.4l8.1-9.3L1.7 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.7L7.4 3.9H5.6L17.7 20Z'
-            ></path>
-          </svg>
+        <a href="https://x.com/spmhhomabay" aria-label="X" class="text-slate-400 hover:text-black transition-colors">
+          <i class="fab fa-x-twitter text-base sm:text-xl"></i>
         </a>
-        <a
-          href='https://tiktok.com/@spmhhomabay'
-          aria-label='TikTok'
-          class='text-4xl border rounded-full bg-gray-200 hover:text-[#FE2C55] text-slate-400 sm:text-slate-600 transition-colors p-1'>
-          <svg width='24' height='24' viewBox='0 0 24 24' fill='currentColor'>
-            <path
-              d='M16.6 2h-3.2v13.9a3 3 0 1 1-2.4-2.94v-3.3a6.3 6.3 0 1 0 5.6 6.26V8.4a7.4 7.4 0 0 0 4.3 1.37V6.6a4.2 4.2 0 0 1-4.3-4.6Z'
-            ></path>
-          </svg>
+        <a href="https://tiktok.com/@spmhhomabay" aria-label="TikTok" class="text-slate-400 hover:text-[#FE2C55] transition-colors">
+          <i class="fab fa-tiktok text-base sm:text-xl"></i>
         </a>
-        <a
-          href='https://linkedin.com/company/spmhhomabay'
-          aria-label='LinkedIn'
-          class='text-4xl border rounded-full bg-gray-200 hover:text-[#0A66C2] text-slate-400 sm:text-slate-600 transition-colors p-1'>
-          <svg width='24' height='24' viewBox='0 0 24 24' fill='currentColor'>
-            <path
-              d='M6.94 8.5H3.56V21h3.38V8.5ZM5.25 3a1.96 1.96 0 1 0 0 3.92 1.96 1.96 0 0 0 0-3.92ZM20.44 21h-3.37v-6.4c0-1.53-.03-3.5-2.13-3.5-2.14 0-2.47 1.67-2.47 3.39V21H9.1V8.5h3.24v1.71h.05c.45-.86 1.56-1.77 3.21-1.77 3.44 0 4.84 2.26 4.84 5.19V21Z'
-            ></path>
-          </svg>
+        <a href="https://linkedin.com/company/spmhhomabay" aria-label="LinkedIn" class="text-slate-400 hover:text-[#0A66C2] transition-colors">
+          <i class="fab fa-linkedin text-base sm:text-xl"></i>
         </a>
       </div>
     </div>
   </div>
 
-  <!-- ============================================================
-    NAVBAR – Mega‑menu + Search (desktop) / mobile trigger
-    ============================================================ -->
-  <div class='w-full mx-auto px-6 bg-primary text-white'>
-    <div class='max-w-6xl mx-auto flex items-center justify-between h-14'>
-      <!-- Desktop Nav -->
-      <nav class="hidden lg:flex items-center gap-8 font-['Roboto'] text-sm">
-        <a href='/' aria-label='Home' class='ml-6'>
-          <svg
-            width='18'
-            height='18'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2'>
-            <path d='M3 11.5 12 4l9 7.5'></path>
-            <path d='M5 10v10h14V10'></path>
-          </svg>
-        </a>
+  <!-- MAIN NAVBAR -->
+  <!-- @mouseleave here replaces the per-item mouseleave: the panels are DOM
+       descendants of <nav>, so moving into them does NOT close the menu. -->
+  <nav
+    class="bg-[#1565c0] text-white relative"
+    @mouseleave="desktopDropdown = null"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between relative">
 
-        <!-- Pathway Dropdown -->
-        <div
-          class='relative py-2'
-          @mouseenter='menuOpen = 0'
-          @mouseleave='menuOpen = null'>
-          <button
-            @click='menuOpen = menuOpen === 0 ? null : 0'
-            class='flex items-center gap-1 p-2 font-medium uppercase transition-colors focus:outline-none'
-            :class="menuOpen === 0 ? 'text-white hover:bg-[#0e415e]' : ''">
-            Pathways
-            <svg
-              width='10'
-              height='10'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              stroke-width='2.5'
-              class='transition-transform duration-200'
-              :class="menuOpen === 0 ? 'rotate-180' : ''">
-              <path d='M6 9l6 6 6-6'></path>
-            </svg>
-          </button>
-
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex items-center gap-1">
+        {navItems.map((item) => (
           <div
-            x-show='menuOpen === 0'
-            x-transition:enter='transition ease-out duration-150'
-            x-transition:enter-start='opacity-0 -translate-y-1'
-            x-transition:enter-end='opacity-100 translate-y-0'
-            x-transition:leave='transition ease-in duration-100'
-            x-transition:leave-start='opacity-100 translate-y-0'
-            x-transition:leave-end='opacity-0 -translate-y-1'
-            class='absolute top-full w-[600px] bg-white mt-1 border border-[#D8E0E7] rounded-md grid grid-cols-3 gap-6 p-7 z-50 left-0'
-            style='display:none'>
-            <div>
-              <p
-                class='text-[11px] tracking-[0.15em] uppercase text-[#860f0f] font-semibold mb-3'>
-                Collaboration
-              </p>
-              <ul class='space-y-2.5'>
-                <li>
-                  <a
-                    href='#pathways'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >Partnership Pathways</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href='/training-and-research/news'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >News &amp; Updates</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href='/training-and-research/resources'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >Resources</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div>
-              <p
-                class='text-[11px] tracking-[0.15em] uppercase text-[#860f0f] font-semibold mb-3'>
-                Get Involved
-              </p>
-              <ul class='space-y-2.5'>
-                <li>
-                  <a
-                    href='#partnerships'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >Become a Partner</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href='/training-and-research/mou-framework'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >MOU Framework</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div>
-              <p
-                class='text-[11px] tracking-[0.15em] uppercase text-[#860f0f] font-semibold mb-3'>
-                Stories
-              </p>
-              <ul class='space-y-2.5'>
-                <li>
-                  <a
-                    href='/training-and-research/partner-stories'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >Partner Stories</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href='/training-and-research/success-stories'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >Success Stories</a
-                  >
-                </li>
-              </ul>
-            </div>
+            @mouseenter={item.hasDropdown ? `desktopDropdown = '${item.submenu}'` : `desktopDropdown = null`}
+          >
+            <a
+              href={item.href}
+              class={`flex items-center gap-1 px-4 py-2 text-sm font-medium uppercase transition-colors ${
+                currentPage === item.label
+                  ? "text-white bg-[#0d47a1]"
+                  : "text-blue-100 hover:text-white hover:bg-[#0e415e]"
+              }`}
+            >
+              {item.hasDropdown && (
+                <svg
+                  class="w-3 h-3 transition-transform"
+                  :class={`desktopDropdown === '${item.submenu}' ? 'rotate-180' : ''`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+              )}
+              {item.label}
+            </a>
+
+            <!-- Megamenu: full-width band, anchored to the navbar container -->
+            {item.hasDropdown && megamenus[item.submenu] && (
+              <div
+                x-show={`desktopDropdown === '${item.submenu}'`}
+                x-transition:enter="transition ease-out duration-150"
+                x-transition:enter-start="opacity-0 translate-y-1"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-100"
+                x-transition:leave-start="opacity-100 translate-y-0"
+                x-transition:leave-end="opacity-0 translate-y-1"
+                style="display: none;"
+                class={`absolute top-full left-0 right-0 bg-white text-slate-900 rounded-b-lg shadow-2xl border-t-4 border-[#0d47a1] p-8 grid ${colsFor(megamenus[item.submenu].sections.length)} gap-8 z-50`}
+              >
+                {megamenus[item.submenu].sections.map((section) => (
+                  <div key={section.title} class="space-y-3 pb-2 border-b border-slate-100 last:border-b-0">
+                    <div class="flex items-center gap-2 mb-4 pb-2 border-b border-slate-200">
+                      <div class="w-8 h-8 rounded text-[#1565c0] flex items-center justify-center">
+                        <i class={`fas fa-${section.icon}`}></i>
+                      </div>
+                      <h3 class="text-slate-900 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+                        {section.title}
+                        {section.badge && (
+                          <span class="text-xs px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full font-semibold">
+                            {section.badge}
+                          </span>
+                        )}
+                      </h3>
+                    </div>
+
+                    <ul class="space-y-1.5">
+                      {section.items.map((link) => (
+                        <li key={link.label} class="border-b border-slate-100 last:border-0 pb-1.5 last:pb-0">
+                          {link.cta ? (
+                            <a href={link.href} class="text-sm px-3 py-1.5 rounded bg-[#1565c0] text-white hover:bg-[#0d47a1] transition-colors inline-flex items-center gap-1 font-semibold">
+                              {link.label}
+                            </a>
+                          ) : link.download ? (
+                            <a href={link.href} download class="text-sm text-slate-600 hover:text-[#1565c0] transition-colors flex items-center gap-1">
+                              <i class="fas fa-download text-xs"></i>
+                              {link.label}
+                            </a>
+                          ) : (
+                            <a href={link.href} class="text-sm text-slate-600 hover:text-slate-900 transition-colors block py-1">
+                              {link.label}
+                            </a>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
-
-        <!-- Students Dropdown -->
-        <div
-          class='relative py-2'
-          @mouseenter='menuOpen = 1'
-          @mouseleave='menuOpen = null'>
-          <button
-            @click='menuOpen = menuOpen === 1 ? null : 1'
-            class='flex items-center gap-1 p-2 font-medium uppercase transition-colors focus:outline-none'
-            :class="menuOpen === 1 ? 'text-white hover:bg-[#0e415e]' : ''">
-            For Students
-            <svg
-              width='10'
-              height='10'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              stroke-width='2.5'
-              class='transition-transform duration-200'
-              :class="menuOpen === 1 ? 'rotate-180' : ''">
-              <path d='M6 9l6 6 6-6'></path>
-            </svg>
-          </button>
-
-          <div
-            x-show='menuOpen === 1'
-            x-transition:enter='transition ease-out duration-150'
-            x-transition:enter-start='opacity-0 -translate-y-1'
-            x-transition:enter-end='opacity-100 translate-y-0'
-            x-transition:leave='transition ease-in duration-100'
-            x-transition:leave-start='opacity-100 translate-y-0'
-            x-transition:leave-end='opacity-0 -translate-y-1'
-            class='absolute top-full w-[600px] bg-white mt-1 border border-[#D8E0E7] rounded-md grid grid-cols-3 gap-6 p-7 z-50 left-1/2 -translate-x-1/2'
-            style='display:none'>
-            <div>
-              <p
-                class='text-[11px] tracking-[0.15em] uppercase text-[#860f0f] font-semibold mb-3'>
-                Apply
-              </p>
-              <ul class='space-y-2.5'>
-                <li>
-                  <a
-                    href='#internships'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >Apply for Attachment</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href='/training-and-research/student-guide'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >Student Guide</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div>
-              <p
-                class='text-[11px] tracking-[0.15em] uppercase text-[#860f0f] font-semibold mb-3'>
-                Resources
-              </p>
-              <ul class='space-y-2.5'>
-                <li>
-                  <a
-                    href='/training-and-research/resources'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >Guides &amp; Docs</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href='/training-and-research/faq'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >FAQs</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div>
-              <p
-                class='text-[11px] tracking-[0.15em] uppercase text-[#860f0f] font-semibold mb-3'>
-                Achievements
-              </p>
-              <ul class='space-y-2.5'>
-                <li>
-                  <a
-                    href='/training-and-research/success-stories'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >Success Stories</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Institutions Dropdown -->
-        <div
-          class='relative py-2'
-          @mouseenter='menuOpen = 2'
-          @mouseleave='menuOpen = null'>
-          <button
-            @click='menuOpen = menuOpen === 2 ? null : 2'
-            class='flex items-center gap-1 p-2 font-medium uppercase transition-colors focus:outline-none'
-            :class="menuOpen === 2 ? 'text-white hover:bg-[#0e415e]' : ''">
-            For Institutions
-            <svg
-              width='10'
-              height='10'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              stroke-width='2.5'
-              class='transition-transform duration-200'
-              :class="menuOpen === 2 ? 'rotate-180' : ''">
-              <path d='M6 9l6 6 6-6'></path>
-            </svg>
-          </button>
-
-          <div
-            x-show='menuOpen === 2'
-            x-transition:enter='transition ease-out duration-150'
-            x-transition:enter-start='opacity-0 -translate-y-1'
-            x-transition:enter-end='opacity-100 translate-y-0'
-            x-transition:leave='transition ease-in duration-100'
-            x-transition:leave-start='opacity-100 translate-y-0'
-            x-transition:leave-end='opacity-0 -translate-y-1'
-            class='absolute top-full w-[600px] bg-white mt-1 border border-[#D8E0E7] rounded-md grid grid-cols-3 gap-6 p-7 z-50 right-0 left-1'
-            style='display:none'>
-            <div>
-              <p
-                class='text-[11px] tracking-[0.15em] uppercase text-[#860f0f] font-semibold mb-3'>
-                Partner
-              </p>
-              <ul class='space-y-2.5'>
-                <li>
-                  <a
-                    href='#partnerships'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >Start Partnership</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href='/training-and-research/mou-framework'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >MOU Framework</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div>
-              <p
-                class='text-[11px] tracking-[0.15em] uppercase text-[#860f0f] font-semibold mb-3'>
-                Collaborations
-              </p>
-              <ul class='space-y-2.5'>
-                <li>
-                  <a
-                    href='/training-and-research/partner-stories'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >Partner Stories</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div>
-              <p
-                class='text-[11px] tracking-[0.15em] uppercase text-[#860f0f] font-semibold mb-3'>
-                Resources
-              </p>
-              <ul class='space-y-2.5'>
-                <li>
-                  <a
-                    href='/training-and-research/resources'
-                    class='block text-[#3E5262] text-sm hover:text-[#125276] transition-colors'
-                    >Guides &amp; Docs</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQs (direct link) -->
-        <a
-          href='/training-and-research/faq'
-          class='font-medium py-2 hover:bg-[#0e415e] p-2 uppercase'>
-          FAQs
-        </a>
-      </nav>
-
-      <!-- Search (desktop) -->
-      <form
-        action='/search/'
-        method='get'
-        class='hidden lg:flex items-center relative'>
-        <input
-          type='search'
-          name='q'
-          placeholder='Search the site'
-          class="font-['Roboto'] text-sm bg-[#F7F9FB] border border-[#D8E0E7] rounded-full pl-4 pr-9 py-2 w-52 focus:w-64 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30 transition-all text-[#3E5262]"
-        />
-        <button
-          type='submit'
-          aria-label='Search'
-          class='absolute right-3 text-gray-500 hover:text-[#1565c0] transition-colors'>
-          <svg
-            width='15'
-            height='15'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2'>
-            <circle cx='11' cy='11' r='7'></circle>
-            <path d='m21 21-4.3-4.3'></path>
-          </svg>
-        </button>
-      </form>
-
-      <!-- Mobile trigger (hamburger) -->
-      <div class='lg:hidden flex items-center'>
-        <button
-          @click='mobileOpen = !mobileOpen'
-          class='relative w-10 h-10 flex items-center justify-center text-white hover:bg-[#0e415e] rounded-lg focus:outline-none z-[70]'
-          :class="mobileOpen ? 'text-white' : 'text-white'"
-          aria-label='Toggle navigation menu'
-          x-bind:aria-expanded='mobileOpen'>
-          <span class='sr-only'>Toggle menu</span>
-          <span
-            class='absolute w-6 h-0.5 bg-current rounded-full transition-all duration-300'
-            x-bind:class="mobileOpen ? 'rotate-45 translate-y-0' : '-translate-y-2'"
-          ></span>
-          <span
-            class='absolute w-6 h-0.5 bg-current rounded-full transition-all duration-200'
-            x-bind:class="mobileOpen ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'"
-          ></span>
-          <span
-            class='absolute w-6 h-0.5 bg-current rounded-full transition-all duration-300'
-            x-bind:class="mobileOpen ? '-rotate-45 translate-y-0' : 'translate-y-2'"
-          ></span>
-        </button>
+        ))}
       </div>
-    </div>
-  </div>
 
-  <!-- ============================================================
-    MOBILE OFF‑CANVAS PANEL (slide from right)
-    ============================================================ -->
-  <div
-    x-show='mobileOpen'
-    x-transition:enter='transition-opacity ease-linear duration-300'
-    x-transition:enter-start='opacity-0'
-    x-transition:enter-end='opacity-100'
-    x-transition:leave='transition-opacity ease-linear duration-300'
-    x-transition:leave-start='opacity-100'
-    x-transition:leave-end='opacity-0'
-    @click='mobileOpen = false'
-    style='display:none'
-    class='fixed inset-0 bg-slate-700/50 backdrop-blur-xs z-[60] lg:hidden'>
-  </div>
+      <!-- Search + Admin (Desktop) -->
+      <div class="hidden lg:flex items-center flex-1 justify-end gap-4 pl-8">
+        <form class="relative" @mouseenter="desktopDropdown = null">
+          <input
+            type="search"
+            placeholder="Search..."
+            class="bg-blue-900/30 border border-blue-300/30 rounded-full pl-4 pr-10 py-2 text-sm text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 w-48"
+          />
+          <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-blue-200 hover:text-white">
+            <i class="fas fa-search text-sm"></i>
+          </button>
+        </form>
 
-  <div
-    x-show='mobileOpen'
-    x-transition:enter='transition ease-in-out duration-300 transform'
-    x-transition:enter-start='translate-x-full'
-    x-transition:enter-end='translate-x-0'
-    x-transition:leave='transition ease-in-out duration-300 transform'
-    x-transition:leave-start='translate-x-0'
-    x-transition:leave-end='translate-x-full'
-    style='display:none'
-    class='fixed inset-y-0 right-0 w-full max-w-xs bg-[#125276] text-white shadow-2xl z-[70] flex flex-col lg:hidden'>
-    <!-- Header -->
-    <div
-      class='flex items-center justify-between px-6 h-16 border-b border-[#D8E0E7] bg-[#125276]'>
-      <span
-        class="font-['Roboto'] text-xs font-bold tracking-widest text-white uppercase"
-        >Menu</span
-      >
+        <!-- Admin: stays anchored to its own button (small menu, far right) -->
+        <div
+          class="relative"
+          @mouseenter="desktopDropdown = 'admin'"
+          @mouseleave="desktopDropdown = null"
+        >
+          <button class="flex items-center gap-1 px-4 py-2 text-sm font-medium text-blue-100 hover:text-white hover:bg-[#0e415e] rounded transition-colors">
+            <i class="fas fa-lock text-xs"></i>
+            Admin
+            <svg class="w-3 h-3 transition-transform" :class="desktopDropdown === 'admin' ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </button>
+
+          <div
+            x-show="desktopDropdown === 'admin'"
+            x-transition
+            style="display: none;"
+            class="absolute top-full right-0 mt-0 w-56 bg-white text-slate-900 rounded-lg shadow-xl border border-slate-200 py-2 z-50"
+          >
+            <a href="/admin/academics/dashboard"    class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 border-b border-slate-100"><i class="fas fa-chart-line text-xs mr-2 text-[#1565c0]"></i>Dashboard</a>
+            <a href="/admin/academics/applicants"   class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 border-b border-slate-100"><i class="fas fa-users text-xs mr-2 text-[#1565c0]"></i>Applicant Management</a>
+            <a href="/admin/academics/supervisors"  class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 border-b border-slate-100"><i class="fas fa-user-tie text-xs mr-2 text-[#1565c0]"></i>Supervisor Tools</a>
+            <a href="/admin/academics/partnerships" class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 border-b border-slate-100"><i class="fas fa-handshake text-xs mr-2 text-[#1565c0]"></i>Partnership Tracking</a>
+            <a href="/admin/academics/settings"     class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50"><i class="fas fa-cog text-xs mr-2 text-[#1565c0]"></i>Settings</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
       <button
-        @click='mobileOpen = false'
-        aria-label='Close menu'
-        class='text-white hover:text-[#1565c0] transition-colors p-1'>
-        <svg
-          width='22'
-          height='22'
-          viewBox='0 0 24 24'
-          fill='none'
-          stroke='currentColor'
-          stroke-width='2'>
-          <path d='M18 6 6 18M6 6l12 12'></path>
-        </svg>
+        @click="mobileOpen = !mobileOpen"
+        class="lg:hidden flex items-center justify-center w-10 h-10 text-white hover:bg-slate-800 rounded transition-colors ml-auto"
+        :aria-expanded="mobileOpen"
+      >
+        <span class="sr-only">Toggle menu</span>
+        <i :class="mobileOpen ? 'fas fa-times text-lg' : 'fas fa-bars text-lg'"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE DRAWER (unchanged) -->
+  <div
+    x-show="mobileOpen"
+    @click.away="mobileOpen = false"
+    x-transition:enter="transition transform ease-out duration-300"
+    x-transition:enter-start="translate-x-full"
+    x-transition:enter-end="translate-x-0"
+    x-transition:leave="transition transform ease-in duration-200"
+    x-transition:leave-start="translate-x-0"
+    x-transition:leave-end="translate-x-full"
+    style="display:none"
+    class="fixed inset-y-0 right-0 z-50 w-full max-w-xs bg-gradient-to-b from-slate-900 to-slate-950 text-white border-l border-slate-800 shadow-2xl lg:hidden flex flex-col"
+  >
+    <div class="flex items-center justify-between px-4 h-16 border-b border-slate-800 bg-slate-900">
+      <span class="font-bold text-xs uppercase tracking-wider text-slate-300">TRAINING & RESEARCH</span>
+      <button @click="mobileOpen = false" class="w-8 h-8 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 rounded transition-colors">
+        <i class="fas fa-times"></i>
       </button>
     </div>
 
-    <!-- Search (mobile) -->
-    <form
-      action='/search/'
-      method='get'
-      class='px-6 py-4 border-b border-[#D8E0E7]'>
-      <div class='relative'>
-        <input
-          type='search'
-          name='q'
-          placeholder='Search the site'
-          class="font-['Roboto'] text-sm bg-[#F7F9FB] border border-[#D8E0E7] rounded-full pl-4 pr-10 py-2.5 w-full focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30 text-[#3E5262]"
-        />
-        <button
-          type='submit'
-          aria-label='Search'
-          class='absolute right-3 top-3 text-[#7A8A96]'>
-          <svg
-            width='15'
-            height='15'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2'>
-            <circle cx='11' cy='11' r='7'></circle>
-            <path d='m21 21-4.3-4.3'></path>
-          </svg>
-        </button>
-      </div>
-    </form>
+    <div class="flex-1 px-4 py-4 space-y-1 overflow-y-auto divide-y divide-slate-800/60">
+      {navItems.map((item) => (
+        <div key={item.label} class="py-1.5 border-b border-slate-800/80 last:border-0">
+          {item.hasDropdown ? (
+            <button
+              @click={`mobileDropdown = mobileDropdown === '${item.submenu}' ? null : '${item.submenu}'`}
+              class="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium text-slate-200 hover:text-white hover:bg-slate-800/80 rounded transition-colors"
+            >
+              <span>{item.label}</span>
+              <i class="fas fa-chevron-down text-xs transition-transform text-slate-400" :class={`mobileDropdown === '${item.submenu}' ? 'rotate-180 text-white' : ''`}></i>
+            </button>
+          ) : (
+            <a href={item.href} class="block px-3 py-2.5 text-sm font-medium text-slate-200 hover:text-white hover:bg-slate-800/80 rounded transition-colors" @click="mobileOpen = false">
+              {item.label}
+            </a>
+          )}
 
-    <!-- Mobile Nav Accordion -->
-    <nav
-      class="flex-1 overflow-y-auto px-6 py-4 font-['Roboto'] text-sm divide-y divide-[#EDF1F4]">
-      <a
-        href='/'
-        class='block py-3 font-medium text-white hover:text-[#1565c0] transition-colors'
-        >Home</a
-      >
-
-      <!-- Pathways -->
-      <div class='py-2'>
-        <button
-          @click='mobileActiveDropdown = mobileActiveDropdown === 0 ? null : 0'
-          class='w-full flex items-center justify-between py-2 font-medium text-white'>
-          Pathways
-          <svg
-            width='12'
-            height='12'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2.5'
-            :class="mobileActiveDropdown === 0 ? 'rotate-180' : ''"
-            class='transition-transform duration-200 text-white'>
-            <path d='M6 9l6 6 6-6'></path>
-          </svg>
-        </button>
-        <div
-          x-show='mobileActiveDropdown === 0'
-          style='display:none'
-          x-transition
-          class='pb-2 pt-1 space-y-4 pl-2'>
-          <div class='space-y-1.5'>
-            <p
-              class='text-[11px] tracking-[0.15em] uppercase text-white/50 font-semibold'>
-              Collaboration
-            </p>
-            <ul class='space-y-2 pl-2 border-l border-[#EDF1F4]'>
-              <li>
-                <a
-                  href='#pathways'
-                  class='text-white hover:text-[#1565c0] block text-xs py-1 transition-colors'
-                  >Partnership Pathways</a
-                >
-              </li>
-              <li>
-                <a
-                  href='/training-and-research/news'
-                  class='text-white hover:text-[#1565c0] block text-xs py-1 transition-colors'
-                  >News &amp; Updates</a
-                >
-              </li>
-              <li>
-                <a
-                  href='/training-and-research/resources'
-                  class='text-white hover:text-[#1565c0] block text-xs py-1 transition-colors'
-                  >Resources</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class='space-y-1.5'>
-            <p
-              class='text-[11px] tracking-[0.15em] uppercase text-white/50 font-semibold'>
-              Stories
-            </p>
-            <ul class='space-y-2 pl-2 border-l border-[#EDF1F4]'>
-              <li>
-                <a
-                  href='/training-and-research/partner-stories'
-                  class='text-white hover:text-[#1565c0] block text-xs py-1 transition-colors'
-                  >Partner Stories</a
-                >
-              </li>
-              <li>
-                <a
-                  href='/training-and-research/success-stories'
-                  class='text-white hover:text-[#1565c0] block text-xs py-1 transition-colors'
-                  >Success Stories</a
-                >
-              </li>
-            </ul>
-          </div>
+          {item.hasDropdown && megamenus[item.submenu] && (
+            <div
+              x-show={`mobileDropdown === '${item.submenu}'`}
+              x-transition
+              style="display:none"
+              class="bg-slate-950/80 rounded-md my-1 pl-2 border-l-2 border-[#1565c0] space-y-2 py-2"
+            >
+              {megamenus[item.submenu].sections.map((section) => (
+                <div key={section.title} class="border-b border-slate-800/50 last:border-0 pb-2 last:pb-0 px-2">
+                  <p class="text-[11px] font-bold text-blue-400 uppercase pt-2 pb-1 border-b border-slate-800/30 mb-1">{section.title}</p>
+                  <ul class="space-y-1">
+                    {section.items.map((link) => (
+                      <li key={link.label} class="border-b border-slate-800/20 last:border-0 pb-1 last:pb-0">
+                        <a href={link.href} class="block px-2 py-1.5 text-xs text-slate-300 hover:text-white hover:bg-slate-800/50 rounded transition-colors" @click="mobileOpen = false">
+                          {link.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-      </div>
+      ))}
 
-      <!-- Students -->
-      <div class='py-2'>
-        <button
-          @click='mobileActiveDropdown = mobileActiveDropdown === 1 ? null : 1'
-          class='w-full flex items-center justify-between py-2 font-medium text-white'>
-          For Students
-          <svg
-            width='12'
-            height='12'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2.5'
-            :class="mobileActiveDropdown === 1 ? 'rotate-180' : ''"
-            class='transition-transform duration-200 text-white'>
-            <path d='M6 9l6 6 6-6'></path>
-          </svg>
-        </button>
-        <div
-          x-show='mobileActiveDropdown === 1'
-          style='display:none'
-          x-transition
-          class='pb-2 pt-1 space-y-4 pl-2'>
-          <div class='space-y-1.5'>
-            <p
-              class='text-[11px] tracking-[0.15em] uppercase text-white/50 font-semibold'>
-              Apply
-            </p>
-            <ul class='space-y-2 pl-2 border-l border-[#EDF1F4]'>
-              <li>
-                <a
-                  href='#internships'
-                  class='text-white hover:text-[#1565c0] block text-xs py-1 transition-colors'
-                  >Apply for Attachment</a
-                >
-              </li>
-              <li>
-                <a
-                  href='/training-and-research/student-guide'
-                  class='text-white hover:text-[#1565c0] block text-xs py-1 transition-colors'
-                  >Student Guide</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class='space-y-1.5'>
-            <p
-              class='text-[11px] tracking-[0.15em] uppercase text-white/50 font-semibold'>
-              Resources
-            </p>
-            <ul class='space-y-2 pl-2 border-l border-[#EDF1F4]'>
-              <li>
-                <a
-                  href='/training-and-research/resources'
-                  class='text-white hover:text-[#1565c0] block text-xs py-1 transition-colors'
-                  >Guides &amp; Docs</a
-                >
-              </li>
-              <li>
-                <a
-                  href='/training-and-research/faq'
-                  class='text-white hover:text-[#1565c0] block text-xs py-1 transition-colors'
-                  >FAQs</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
+      <div class="pt-3 mt-3 border-t border-slate-800">
+        <a href="/admin/academics/dashboard" class="flex items-center px-3 py-2.5 text-sm font-medium text-slate-200 hover:text-white hover:bg-slate-800/80 rounded transition-colors" @click="mobileOpen = false">
+          <i class="fas fa-lock text-xs mr-2 text-blue-400"></i>
+          Admin Portal
+        </a>
       </div>
-
-      <!-- Institutions -->
-      <div class='py-2'>
-        <button
-          @click='mobileActiveDropdown = mobileActiveDropdown === 2 ? null : 2'
-          class='w-full flex items-center justify-between py-2 font-medium text-white'>
-          For Institutions
-          <svg
-            width='12'
-            height='12'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2.5'
-            :class="mobileActiveDropdown === 2 ? 'rotate-180' : ''"
-            class='transition-transform duration-200 text-white'>
-            <path d='M6 9l6 6 6-6'></path>
-          </svg>
-        </button>
-        <div
-          x-show='mobileActiveDropdown === 2'
-          style='display:none'
-          x-transition
-          class='pb-2 pt-1 space-y-4 pl-2'>
-          <div class='space-y-1.5'>
-            <p
-              class='text-[11px] tracking-[0.15em] uppercase text-white/50 font-semibold'>
-              Partner
-            </p>
-            <ul class='space-y-2 pl-2 border-l border-[#EDF1F4]'>
-              <li>
-                <a
-                  href='#partnerships'
-                  class='text-white hover:text-[#1565c0] block text-xs py-1 transition-colors'
-                  >Start Partnership</a
-                >
-              </li>
-              <li>
-                <a
-                  href='/training-and-research/mou-framework'
-                  class='text-white hover:text-[#1565c0] block text-xs py-1 transition-colors'
-                  >MOU Framework</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class='space-y-1.5'>
-            <p
-              class='text-[11px] tracking-[0.15em] uppercase text-white/50 font-semibold'>
-              Stories
-            </p>
-            <ul class='space-y-2 pl-2 border-l border-[#EDF1F4]'>
-              <li>
-                <a
-                  href='/training-and-research/partner-stories'
-                  class='text-white hover:text-[#1565c0] block text-xs py-1 transition-colors'
-                  >Partner Stories</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <a
-        href='/training-and-research/faq'
-        class='block py-3 font-medium text-white hover:text-[#1565c0] transition-colors'
-        >FAQs</a
-      >
-    </nav>
+    </div>
   </div>
 </header>
