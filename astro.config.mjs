@@ -4,7 +4,7 @@ import react from '@astrojs/react';
 import alpinejs from '@astrojs/alpinejs';
 import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro';
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel'; // ← changed (no /serverless)
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
