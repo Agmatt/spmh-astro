@@ -5,48 +5,319 @@ import StudentAttachmentForm from '../../components/StudentAttachmentForm.jsx';
 import PartnershipInquiryForm from '../../components/PartnershipInquiryForm.jsx';
 import AcademicsFooter from '../../components/AcademicsFooter.astro';
 import '../../styles/global.css';
+
+/*
+  IMAGE ASSETS REQUIRED
+  Drop these into /public/img/ before shipping:
+
+  HERO
+    /img/40.jpg                            (already used — clinical training session)
+
+  PHASE CARDS (Where We're Going)
+    /img/phases/stabilization.jpg          current ward / emergency / triage
+    /img/phases/expansion.jpg              construction, ICU shell, or theatre build
+    /img/phases/consolidation.jpg          aspirational teaching hospital render or ward round
+
+  PATHWAY CARDS (Ways to Collaborate)
+    /img/pathways/clinical-training.jpg    student + preceptor at bedside
+    /img/pathways/research.jpg             lab bench / microscope / data dashboard
+    /img/pathways/cme.jpg                  classroom / case conference
+    /img/pathways/admin.jpg                records office / HR / billing
+    /img/pathways/international.jpg        MOU signing or international visitors
+    /img/pathways/community.jpg            CHP outreach in the field
+
+  RESEARCH BANNER
+    /img/research/header.jpg               wide shot of lab / research team (21:9)
+
+  FACULTY (4:5 portrait crop, chest-up, neutral background)
+    /img/faculty/resident-medical-officer.jpg
+    /img/faculty/senior-nursing-officer.jpg
+    /img/faculty/chief-clinical-officer.jpg
+    /img/faculty/laboratory-manager.jpg
+
+  PARTNERSHIP
+    /img/partnership/collaboration.jpg     real SPMH partnership meeting (replaces Unsplash)
+*/
+
+const faculty = [
+  {
+    name: 'Dr. Crispine Murhula',
+    title: 'Resident Medical Officer',
+    specialty: 'Internal Medicine',
+    bio: 'Leads inpatient medical services and clinical attachment supervision.',
+    photo: '/gallery/cris.jpg',
+  },
+  {
+    name: 'Sr. Beatrice Osanga',
+    title: 'Senior Nursing Officer',
+    specialty: 'Maternal & Newborn Health',
+    bio: 'Coordinates nursing attachments and preceptor assignment.',
+    photo: '/board/4.png',
+  },
+  {
+    name: 'Mr. Bozder Omondi',
+    title: 'Chief Clinical Officer',
+    specialty: 'Emergency & Outpatient Care',
+    bio: 'Supervises clinical officer interns and emergency rotations.',
+    photo: '/gallery/bozder.jpg',
+  },
+  {
+    name: 'Ms. Anderson Abongo',
+    title: 'Laboratory Manager',
+    specialty: 'Medical Laboratory Science',
+    bio: 'Oversees laboratory attachments and diagnostic quality assurance.',
+    photo: '/gallery/anderson.jpg',
+  },
+];
+
+const stats = [
+  { value: '6', label: 'Strategic Pillars' },
+  { value: 'KES 670M', label: '5-Year Investment' },
+  { value: '12-Bed', label: 'ICU Target by 2029' },
+  { value: 'Level 5', label: 'Accreditation by 2030' },
+];
 ---
 
 <html lang='en' class='scroll-smooth'>
   <head>
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <title>Academics, Research & Partnerships | SPMH</title>
+    <title>
+      Clinical Attachment & Medical Internship in Kenya | SPMH Homa Bay
+    </title>
     <link rel='icon' type='image/png' href='/file.svg' />
     <link rel='canonical' href='https://spmh.co.ke/training-and-research' />
 
     <meta
       name='description'
-      content="Clinical training, research partnerships, and institutional collaboration at St. Paul's Mission Hospital."
+      content="Clinical attachment, internship, and research collaboration at St. Paul's Mission Hospital, Homa Bay. Structured rotations, certified preceptors, 6–12 week programmes. Apply online."
     />
-    <!-- Add this once inside your <head> -->
+
     <link
       rel='stylesheet'
       href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
     />
-    <link
-      rel='stylesheet'
-      href='path/to/font-awesome/css/font-awesome.min.css'
+
+    <script
+      type='application/ld+json'
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'MedicalWebPage',
+            '@id': 'https://spmh.co.ke/training-and-research#webpage',
+            url: 'https://spmh.co.ke/training-and-research',
+            name: 'Clinical Attachment, Medical Internship & Research | SPMH Homa Bay',
+            description:
+              "Structured clinical attachment, internship, CME and research collaboration programmes at St. Paul's Mission Hospital, Homa Bay, Kenya. A Level 4 faith-based referral hospital on a pathway to Level 5 teaching hospital accreditation by 2030.",
+            inLanguage: 'en-KE',
+            isPartOf: { '@id': 'https://spmh.co.ke/#website' },
+            about: { '@id': 'https://spmh.co.ke/#organization' },
+            breadcrumb: {
+              '@id': 'https://spmh.co.ke/training-and-research#breadcrumb',
+            },
+            dateModified: '2026-09-21',
+            potentialAction: {
+              '@type': 'ApplyAction',
+              name: 'Apply for Clinical Attachment',
+              target:
+                'https://spmh.co.ke/training-and-research#student-application',
+            },
+          },
+          {
+            '@type': 'BreadcrumbList',
+            '@id': 'https://spmh.co.ke/training-and-research#breadcrumb',
+            itemListElement: [
+              {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://spmh.co.ke/',
+              },
+              {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Training & Research',
+                item: 'https://spmh.co.ke/training-and-research',
+              },
+            ],
+          },
+          {
+            '@type': ['MedicalOrganization', 'EducationalOrganization'],
+            '@id': 'https://spmh.co.ke/#organization',
+            name: "St. Paul's Mission Hospital",
+            alternateName: [
+              'SPMH',
+              'SPMH Homa Bay',
+              "St. Paul's Mission Hospital Homa Bay",
+            ],
+            url: 'https://spmh.co.ke/',
+            logo: 'https://spmh.co.ke/logos/logo.png',
+            description:
+              'A faith-based Level 4 mission hospital under the Catholic Diocese of Homa Bay, providing integrated and compassionate healthcare, clinical training, and health research in Homa Bay County, Kenya.',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'P.O. Box 426',
+              addressLocality: 'Homa Bay',
+              addressRegion: 'Homa Bay County',
+              addressCountry: 'KE',
+            },
+            email: 'info@stpaulshospitalhb.co.ke',
+            parentOrganization: {
+              '@type': 'Organization',
+              name: 'Catholic Diocese of Homa Bay',
+            },
+            memberOf: [
+              {
+                '@type': 'Organization',
+                name: 'Christian Health Association of Kenya (CHAK)',
+              },
+              {
+                '@type': 'Organization',
+                name: 'Catholic Health Commission of Kenya',
+              },
+            ],
+            medicalSpecialty: [
+              'Obstetric',
+              'Pediatric',
+              'Surgical',
+              'Emergency',
+              'CommunityHealth',
+            ],
+            sameAs: [
+              'https://facebook.com/spmhhomabay',
+              'https://x.com/spmhhomabay',
+              'https://tiktok.com/@spmhhomabay',
+              'https://linkedin.com/company/spmhhomabay',
+            ],
+          },
+          {
+            '@type': 'EducationalOccupationalProgram',
+            '@id': 'https://spmh.co.ke/training-and-research#clinical-training',
+            name: 'Clinical Training & Attachment Programme',
+            description:
+              "Structured clinical rotations across nursing, laboratory, pharmacy, and outpatient departments under certified preceptors at St. Paul's Mission Hospital, Homa Bay.",
+            provider: { '@id': 'https://spmh.co.ke/#organization' },
+            educationalCredentialAwarded:
+              'Certificate of Clinical Attachment Completion',
+            timeToComplete: 'P6W',
+            programType: 'ClinicalAttachment',
+            occupationalCategory: [
+              'Nursing',
+              'Medical Laboratory',
+              'Pharmacy',
+              'Clinical Medicine',
+            ],
+          },
+          {
+            '@type': 'EducationalOccupationalProgram',
+            '@id': 'https://spmh.co.ke/training-and-research#internship',
+            name: 'Internship Programme',
+            description:
+              "Structured internship placements for clinical officers, nurses, and selected allied health cadres, forming part of SPMH's Level 5 teaching hospital pathway.",
+            provider: { '@id': 'https://spmh.co.ke/#organization' },
+            timeToComplete: 'P12M',
+            programType: 'Internship',
+          },
+          {
+            '@type': 'EducationalOccupationalProgram',
+            '@id': 'https://spmh.co.ke/training-and-research#cme',
+            name: 'Continuing Medical Education (CME) Programme',
+            description:
+              'Modular CME sessions, case-based teaching, and faculty exchange collaboration for practising health professionals in Western Kenya.',
+            provider: { '@id': 'https://spmh.co.ke/#organization' },
+            educationalCredentialAwarded: 'CPD Credits',
+            programType: 'ContinuingEducation',
+          },
+          {
+            '@type': 'ResearchProject',
+            '@id': 'https://spmh.co.ke/training-and-research#research',
+            name: 'SPMH Health Research Collaboration Programme',
+            description:
+              "Collaborative health research at St. Paul's Mission Hospital across four Key Result Areas: community health, epidemiology, quality improvement, and maternal & child health.",
+            parentOrganization: { '@id': 'https://spmh.co.ke/#organization' },
+          },
+          {
+            '@type': 'FAQPage',
+            '@id': 'https://spmh.co.ke/training-and-research#faq',
+            mainEntity: [
+              {
+                '@type': 'Question',
+                name: 'What is the duration of clinical attachment at SPMH?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: "Clinical attachments at St. Paul's Mission Hospital range from 6 to 12 weeks, depending on your academic programme's requirements. Nursing attachments are typically 6 to 12 weeks, while laboratory, pharmacy, and outpatient rotations can be arranged for 4 to 12 weeks.",
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'What documents are required for clinical attachment application?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'You will need a current letter from your academic institution, a copy of your student ID, your national ID or passport, proof of medical insurance, and a completed SPMH attachment application form.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'Does SPMH offer medical internship placements?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'SPMH offers structured internship placements for clinical officers, nurses, and selected allied health cadres. Medical officer internship placements form part of our Level 5 teaching hospital pathway.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'What research areas does SPMH collaborate on?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'SPMH collaborates on research in community health, epidemiology, quality improvement, and maternal and child health. We welcome proposals aligned to our four Key Result Areas.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'Is SPMH an accredited internship training hospital?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'SPMH is a Level 4 mission hospital currently on a phased pathway to Level 5 teaching hospital accreditation by 2030. We host structured attachments and selected internship placements.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'How long does the clinical attachment application process take?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'The application takes about 15 minutes online. HR verification takes 3 to 5 working days, and preceptor matching is confirmed 1 to 2 weeks before your start date.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'Can international students apply for clinical attachment at SPMH?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Yes. SPMH welcomes international students for clinical attachments, provided they meet Kenyan immigration requirements and provide proof of medical insurance.',
+                },
+              },
+            ],
+          },
+        ],
+      })}
     />
+
     <style>
       .pathway-card {
         transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
       }
-
       .pathway-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 12px 24px rgba(21, 101, 192, 0.15);
       }
-
       .pathway-icon {
         transition: all 300ms ease;
       }
-
       .pathway-card:hover .pathway-icon {
         transform: scale(1.1);
         color: #1565c0;
       }
-
       .hero-section {
         background: linear-gradient(
           135deg,
@@ -57,19 +328,9 @@ import '../../styles/global.css';
         position: relative;
         overflow: hidden;
       }
-
-      .hero-section::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="1200" height="600" fill="url(%23grid)" /></svg>');
-        opacity: 0.5;
-      }
-
       .metric-card {
         animation: slideUp 0.6s ease-out forwards;
       }
-
       .metric-card:nth-child(1) {
         animation-delay: 0.1s;
       }
@@ -82,7 +343,6 @@ import '../../styles/global.css';
       .metric-card:nth-child(4) {
         animation-delay: 0.4s;
       }
-
       @keyframes slideUp {
         from {
           opacity: 0;
@@ -93,25 +353,21 @@ import '../../styles/global.css';
           transform: translateY(0);
         }
       }
-
       .application-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 3rem;
         align-items: center;
       }
-
       @media (max-width: 768px) {
         .application-grid {
           grid-template-columns: 1fr;
         }
       }
-
       .step-item {
         position: relative;
         padding-left: 60px;
       }
-
       .step-number {
         position: absolute;
         left: 0;
@@ -127,18 +383,13 @@ import '../../styles/global.css';
         font-weight: bold;
         font-size: 18px;
       }
-
       .cta-footer {
         background: linear-gradient(135deg, #0d47a1 0%, #125276 100%);
         position: relative;
         overflow: hidden;
       }
-
-      .cta-footer::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="1200" height="400" fill="url(%23grid)" /></svg>');
+      details > summary::-webkit-details-marker {
+        display: none;
       }
     </style>
   </head>
@@ -147,31 +398,31 @@ import '../../styles/global.css';
     <!-- Navbar -->
     <AcademicNavbar />
 
-    <!-- HERO SECTION - Image Left (flush), Text Right -->
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
     <section
       class='relative bg-blue-950 text-white overflow-hidden min-h-[500px] flex flex-col lg:flex-row items-stretch'>
-      <!-- Left Column: Image – stretches full height, no padding -->
       <div class='w-full lg:w-1/2 order-1 lg:order-1 overflow-hidden'>
         <img
           src='/img/40.jpg'
-          alt='Clinical students in training session'
+          alt="Clinical students in a training session at St. Paul's Mission Hospital"
           class='w-full h-full object-cover'
-          loading='lazy'
+          loading='eager'
+          fetchpriority='high'
+          decoding='async'
         />
       </div>
 
-      <!-- Right Column: Content – padded, vertically centered -->
       <div
         class='w-full lg:w-1/2 order-2 lg:order-2 px-5 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28 flex flex-col justify-center'>
-        <!-- Badge -->
         <span
           class='inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold bg-blue-700/50 text-blue-100 border border-blue-500/30 uppercase tracking-wider backdrop-blur-sm self-center lg:self-start'>
-          Clinical Excellence & Learning Hub
+          Clinical Excellence &amp; Learning Hub
         </span>
 
-        <!-- Heading -->
         <h1
-          class='text-3xl text-surface-2 xs:text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight mt-4 sm:mt-5 leading-[1.15] sm:leading-tight text-center lg:text-left'>
+          class='text-3xl xs:text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight mt-4 sm:mt-5 leading-[1.15] sm:leading-tight text-center lg:text-left'>
           Empowering Next-Generation
           <span
             class='text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-200'>
@@ -179,20 +430,19 @@ import '../../styles/global.css';
           </span>
         </h1>
 
-        <!-- Description -->
         <p
           class='mt-4 sm:mt-5 text-base sm:text-lg md:text-xl text-blue-100/90 leading-relaxed max-w-2xl mx-auto lg:mx-0 text-center lg:text-left'>
           Hands-on clinical attachments, internship placements, and structured
-          practical rotations at St. Paul's Mission Hospital. Bridging academic
-          theory with compassionate, direct patient care.
+          practical rotations at St. Paul&apos;s Mission Hospital. Bridging
+          academic theory with compassionate, direct patient care.
         </p>
 
-        <!-- Buttons -->
         <div
           class='mt-7 sm:mt-9 flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4'>
           <a
             href='/portal/students'
             target='_blank'
+            rel='noopener'
             class='inline-flex items-center justify-center px-5 sm:px-7 py-3 sm:py-3.5 text-sm sm:text-base font-semibold rounded-xl text-blue-900 bg-white hover:bg-blue-50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg shadow-blue-900/30'>
             Access Student Portal
             <svg
@@ -216,16 +466,241 @@ import '../../styles/global.css';
       </div>
     </section>
 
-    <!-- Partnership Pathways -->
+    <!-- ============================================================
+         STAT BAND
+         ============================================================ -->
     <section
-      id='pathways'
-      class='py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-surface/20'>
+      class='relative bg-[#0d47a1] text-white border-y border-blue-900/40'>
+      <div
+        class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-center'>
+        {
+          stats.map((stat) => (
+            <div class='flex flex-col items-center'>
+              <span class='text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white'>
+                {stat.value}
+              </span>
+              <span class='mt-2 text-[10px] sm:text-xs uppercase tracking-widest text-blue-200 font-semibold'>
+                {stat.label}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ============================================================
+         WHERE WE'RE GOING
+         ============================================================ -->
+    <section
+      id='where-were-going'
+      class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-slate-50'>
       <div class='max-w-7xl mx-auto'>
         <div class='text-center max-w-3xl mx-auto mb-16 space-y-4'>
           <span
-            class='text-secondary font-bold text-xs uppercase tracking-wider block'>
-            Partnership Pathways
-          </span>
+            class='text-secondary font-bold text-xs uppercase tracking-wider block'
+            >Our 2030 Vision</span
+          >
+          <h2 class='text-3xl sm:text-4xl lg:text-5xl font-bold'>
+            Where We&apos;re Going
+          </h2>
+          <p class='text-base sm:text-lg text-slate-600'>
+            St. Paul&apos;s Mission Hospital is on a phased pathway to Level 5
+            teaching hospital accreditation by 2030. Here is the roadmap your
+            attachment, internship, or partnership will be part of.
+          </p>
+        </div>
+
+        <div class='grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8'>
+          <!-- Phase 1 -->
+          <article
+            class='group relative rounded-2xl border border-slate-200 bg-white shadow-sm hover:shadow-lg transition-shadow overflow-hidden flex flex-col'>
+            <div class='relative aspect-[16/9] overflow-hidden bg-slate-100'>
+              <img
+                src='/gallery/scan.jpg'
+                alt='Emergency triage and stabilization services at SPMH'
+                class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                loading='lazy'
+                decoding='async'
+              />
+            </div>
+            <div class='p-8 flex-1'>
+              <span
+                class='inline-block text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded-full mb-4'>
+                Phase 1 · 2026–2027
+              </span>
+              <h3 class='text-xl font-bold text-slate-900 mb-3'>
+                Stabilization
+              </h3>
+              <ul class='space-y-2 text-sm text-slate-600 leading-relaxed'>
+                <li class='flex gap-2'>
+                  <span class='text-blue-600 font-bold'>→</span> Emergency triage
+                  strengthened; MNCAH services stabilized
+                </li>
+                <li class='flex gap-2'>
+                  <span class='text-blue-600 font-bold'>→</span> Critical clinical
+                  cadres recruited; CPD framework operational
+                </li>
+                <li class='flex gap-2'>
+                  <span class='text-blue-600 font-bold'>→</span> EMR baseline deployed;
+                  CT scanner installed
+                </li>
+                <li class='flex gap-2'>
+                  <span class='text-blue-600 font-bold'>→</span> ICU readiness established;
+                  IPC systems strengthened
+                </li>
+                <li class='flex gap-2'>
+                  <span class='text-blue-600 font-bold'>→</span> Board restructuring;
+                  ethics &amp; risk systems operationalized
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Phase 2 -->
+          <article
+            class='group relative rounded-2xl borde bg-white shadow-sm hover:shadow-lg transition-shadow ring-2 ring-blue-100 overflow-hidden flex flex-col'>
+            <div class='relative aspect-[16/9] overflow-hidden bg-slate-100'>
+              <img
+                src='/gallery/incubator.jpg'
+                alt='Expansion of critical care and diagnostic infrastructure at SPMH'
+                class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                loading='lazy'
+                decoding='async'
+              />
+              <span
+                class='absolute top-4 right-4 inline-flex items-center gap-1 rounded-full bg-blue-600 text-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider shadow-md'>
+                Peak Phase
+              </span>
+            </div>
+            <div class='p-8 flex-1'>
+              <span
+                class='inline-block text-xs font-bold uppercase tracking-wider text-white bg-blue-600 px-3 py-1 rounded-full mb-4'>
+                Phase 2 · 2028–2029
+              </span>
+              <h3 class='text-xl font-bold text-slate-900 mb-3'>Expansion</h3>
+              <ul class='space-y-2 text-sm text-slate-600 leading-relaxed'>
+                <li class='flex gap-2'>
+                  <span class='text-blue-600 font-bold'>→</span> Dialysis unit operational;
+                  NICU established
+                </li>
+                <li class='flex gap-2'>
+                  <span class='text-blue-600 font-bold'>→</span> Theatre expansion;
+                  advanced diagnostics (MRI) online
+                </li>
+                <li class='flex gap-2'>
+                  <span class='text-blue-600 font-bold'>→</span> Specialist recruitment
+                  scaled; leadership pipeline launched
+                </li>
+                <li class='flex gap-2'>
+                  <span class='text-blue-600 font-bold'>→</span> Full EMR integration
+                  hospital-wide; telemedicine scaled
+                </li>
+                <li class='flex gap-2'>
+                  <span class='text-blue-600 font-bold'>→</span> PPP investments activated;
+                  donor diversification
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Phase 3 -->
+          <article
+            class='group relative rounded-2xl border border-slate-200 bg-white shadow-sm hover:shadow-lg transition-shadow overflow-hidden flex flex-col'>
+            <div class='relative aspect-[16/9] overflow-hidden bg-slate-100'>
+              <img
+                src='/gallery/accreditation.jpg'
+                alt='SPMH 2030 vision — accredited Level 5 teaching hospital'
+                class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                loading='lazy'
+                decoding='async'
+              />
+            </div>
+            <div class='p-8 flex-1'>
+              <span
+                class='inline-block text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full mb-4'>
+                Phase 3 · 2030
+              </span>
+              <h3 class='text-xl font-bold text-slate-900 mb-3'>
+                Consolidation &amp; Excellence
+              </h3>
+              <ul class='space-y-2 text-sm text-slate-600 leading-relaxed'>
+                <li class='flex gap-2'>
+                  <span class='text-emerald-600 font-bold'>→</span> Full Level 5 readiness
+                  and accreditation compliance
+                </li>
+                <li class='flex gap-2'>
+                  <span class='text-emerald-600 font-bold'>→</span> Accredited internship
+                  training hospital status
+                </li>
+                <li class='flex gap-2'>
+                  <span class='text-emerald-600 font-bold'>→</span> Fully integrated
+                  digital hospital ecosystem
+                </li>
+                <li class='flex gap-2'>
+                  <span class='text-emerald-600 font-bold'>→</span> Leadership succession
+                  institutionalized
+                </li>
+                <li class='flex gap-2'>
+                  <span class='text-emerald-600 font-bold'>→</span> Population health
+                  impact demonstrated across catchment
+                </li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <div class='mt-12 text-center'>
+          <a
+            href='/training-and-research/level-5'
+            class='inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-lg text-white bg-[#1565c0] hover:bg-[#0d47a1] transition-colors'>
+            Explore the Full Level 5 Roadmap
+            <svg
+              class='ml-2 h-4 w-4'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M14 5l7 7m0 0l-7 7m7-7H3'></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         PULL QUOTE
+         ============================================================ -->
+    <section class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white'>
+      <div class='max-w-4xl mx-auto text-center'>
+        <i class='fas fa-quote-left text-4xl sm:text-5xl text-blue-200 mb-6'
+        ></i>
+        <blockquote
+          class='text-2xl sm:text-3xl lg:text-4xl font-semibold text-secondary leading-snug italic'>
+          &ldquo;Growing not only in excellence and capacity, but also in
+          compassion, faith, innovation, and service to humanity.&rdquo;
+        </blockquote>
+        <p
+          class='mt-8 text-xs sm:text-sm font-semibold uppercase tracking-widest text-slate-500'>
+          — Bishop&apos;s Foreword, SPMH Strategic Plan 2026–2030
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         PARTNERSHIP PATHWAYS (image-headed cards)
+         ============================================================ -->
+    <section
+      id='pathways'
+      class='py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-slate-50'>
+      <div class='max-w-7xl mx-auto'>
+        <div class='text-center max-w-3xl mx-auto mb-16 space-y-4'>
+          <span
+            class='text-secondary font-bold text-xs uppercase tracking-wider block'
+            >Partnership Pathways</span
+          >
           <h2 class='text-3xl sm:text-4xl lg:text-5xl font-bold'>
             Ways to Collaborate
           </h2>
@@ -238,156 +713,473 @@ import '../../styles/global.css';
         <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
           <!-- Clinical Training -->
           <article
-            class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-blue-200'>
-            <div class='flex items-start justify-between'>
+            class='group relative rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden'>
+            <div class='relative aspect-[16/10] overflow-hidden bg-slate-100'>
+              <img
+                src='/gallery/training.jpg'
+                alt='Student and preceptor at a patient bedside'
+                class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                loading='lazy'
+                decoding='async'
+              />
               <div
-                class='h-14 w-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center'>
-                <i class='fa-solid fa-stethoscope text-2xl' aria-hidden='true'
+                class='absolute top-4 left-4 h-12 w-12 rounded-xl bg-white/95 backdrop-blur text-[#1565c0] flex items-center justify-center shadow-md'>
+                <i class='fa-solid fa-stethoscope text-xl' aria-hidden='true'
                 ></i>
               </div>
               <span
-                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-primary'>
-                <i class='fa-regular fa-clock' aria-hidden='true'></i>
-                6–12 weeks
+                class='absolute top-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 backdrop-blur px-3 py-1 text-xs font-semibold text-[#1565c0] shadow-md'>
+                <i class='fa-regular fa-clock' aria-hidden='true'></i> 6–12 weeks
               </span>
             </div>
-            <h3 class='mt-5 text-lg font-bold text-slate-900'>
-              Clinical Training
-            </h3>
-            <p class='mt-2 text-sm leading-relaxed text-slate-600'>
-              Structured rotations across nursing, lab, pharmacy, and outpatient
-              departments under certified preceptors.
-            </p>
+            <div class='p-6'>
+              <h3 class='text-lg font-bold text-slate-900'>
+                Clinical Training
+              </h3>
+              <p class='mt-2 text-sm leading-relaxed text-slate-600'>
+                Structured rotations across nursing, lab, pharmacy, and
+                outpatient departments under certified preceptors.
+              </p>
+            </div>
           </article>
 
           <!-- Research & Innovation -->
           <article
-            class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-emerald-200'>
-            <div class='flex items-start justify-between'>
+            class='group relative rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden'>
+            <div class='relative aspect-[16/10] overflow-hidden bg-slate-100'>
+              <img
+                src='/gallery/research.jpg'
+                alt='Research team reviewing data in the laboratory'
+                class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                loading='lazy'
+                decoding='async'
+              />
               <div
-                class='h-14 w-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center'>
-                <i class='fa-solid fa-microscope text-2xl' aria-hidden='true'
+                class='absolute top-4 left-4 h-12 w-12 rounded-xl bg-white/95 backdrop-blur text-[#1565c0] flex items-center justify-center shadow-md'>
+                <i class='fa-solid fa-microscope text-xl' aria-hidden='true'
                 ></i>
               </div>
               <span
-                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-primary'>
-                <i class='fa-regular fa-clock' aria-hidden='true'></i>
-                3–12 months
+                class='absolute top-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 backdrop-blur px-3 py-1 text-xs font-semibold text-[#1565c0] shadow-md'>
+                <i class='fa-regular fa-clock' aria-hidden='true'></i> 3–12 months
               </span>
             </div>
-            <h3 class='mt-5 text-lg font-bold text-slate-900'>
-              Research & Innovation
-            </h3>
-            <p class='mt-2 text-sm leading-relaxed text-slate-600'>
-              Joint studies in community health, epidemiology, and quality
-              improvement initiatives.
-            </p>
+            <div class='p-6'>
+              <h3 class='text-lg font-bold text-slate-900'>
+                Research &amp; Innovation
+              </h3>
+              <p class='mt-2 text-sm leading-relaxed text-slate-600'>
+                Joint studies in community health, epidemiology, and quality
+                improvement initiatives.
+              </p>
+            </div>
           </article>
 
           <!-- CME Programs -->
           <article
-            class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-purple-200'>
-            <div class='flex items-start justify-between'>
+            class='group relative rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden'>
+            <div class='relative aspect-[16/10] overflow-hidden bg-slate-100'>
+              <img
+                src='/gallery/cme.jpg'
+                alt='Continuing medical education session in progress'
+                class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                loading='lazy'
+                decoding='async'
+              />
               <div
-                class='h-14 w-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center'>
-                <i
-                  class='fa-solid fa-graduation-cap text-2xl'
-                  aria-hidden='true'></i>
+                class='absolute top-4 left-4 h-12 w-12 rounded-xl bg-white/95 backdrop-blur text-[#1565c0] flex items-center justify-center shadow-md'>
+                <i class='fa-solid fa-graduation-cap text-xl' aria-hidden='true'
+                ></i>
               </div>
               <span
-                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-primary'>
-                <i class='fa-solid fa-book-open' aria-hidden='true'></i>
-                Modular
+                class='absolute top-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 backdrop-blur px-3 py-1 text-xs font-semibold text-[#1565c0] shadow-md'>
+                <i class='fa-solid fa-book-open' aria-hidden='true'></i> Modular
               </span>
             </div>
-            <h3 class='mt-5 text-lg font-bold text-slate-900'>CME Programs</h3>
-            <p class='mt-2 text-sm leading-relaxed text-slate-600'>
-              Faculty exchange, case-based teaching, and continuing medical
-              education sessions.
-            </p>
+            <div class='p-6'>
+              <h3 class='text-lg font-bold text-slate-900'>CME Programs</h3>
+              <p class='mt-2 text-sm leading-relaxed text-slate-600'>
+                Faculty exchange, case-based teaching, and continuing medical
+                education sessions.
+              </p>
+            </div>
           </article>
 
           <!-- Administration & Systems -->
           <article
-            class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-amber-200'>
-            <div class='flex items-start justify-between'>
+            class='group relative rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden'>
+            <div class='relative aspect-[16/10] overflow-hidden bg-slate-100'>
+              <img
+                src='/gallery/admin.jpg'
+                alt='Health records and administration staff at work'
+                class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                loading='lazy'
+                decoding='async'
+              />
               <div
-                class='h-14 w-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center'>
-                <i class='fa-solid fa-building text-2xl' aria-hidden='true'></i>
+                class='absolute top-4 left-4 h-12 w-12 rounded-xl bg-white/95 backdrop-blur text-[#1565c0] flex items-center justify-center shadow-md'>
+                <i class='fa-solid fa-building text-xl' aria-hidden='true'></i>
               </div>
               <span
-                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-primary'>
-                <i class='fa-solid fa-gears' aria-hidden='true'></i>
-                Operations
+                class='absolute top-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 backdrop-blur px-3 py-1 text-xs font-semibold text-[#1565c0] shadow-md'>
+                <i class='fa-solid fa-gears' aria-hidden='true'></i> Operations
               </span>
             </div>
-            <h3 class='mt-5 text-lg font-bold text-slate-900'>
-              Administration & Systems
-            </h3>
-            <p class='mt-2 text-sm leading-relaxed text-slate-600'>
-              Hands-on experience in HR, finance, procurement, and health
-              information systems.
-            </p>
+            <div class='p-6'>
+              <h3 class='text-lg font-bold text-slate-900'>
+                Administration &amp; Systems
+              </h3>
+              <p class='mt-2 text-sm leading-relaxed text-slate-600'>
+                Hands-on experience in HR, finance, procurement, and health
+                information systems.
+              </p>
+            </div>
           </article>
 
           <!-- International Partnerships -->
           <article
-            class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-cyan-200'>
-            <div class='flex items-start justify-between'>
+            class='group relative rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden'>
+            <div class='relative aspect-[16/10] overflow-hidden bg-slate-100'>
+              <img
+                src='/gallery/partnership.jpg'
+                alt='MOU signing with international partner institution'
+                class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                loading='lazy'
+                decoding='async'
+              />
               <div
-                class='h-14 w-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center'>
-                <i class='fa-solid fa-globe text-2xl' aria-hidden='true'></i>
+                class='absolute top-4 left-4 h-12 w-12 rounded-xl bg-white/95 backdrop-blur text-[#1565c0] flex items-center justify-center shadow-md'>
+                <i class='fa-solid fa-globe text-xl' aria-hidden='true'></i>
               </div>
               <span
-                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-primary'>
-                <i class='fa-solid fa-file-contract' aria-hidden='true'></i>
-                Multi-year
+                class='absolute top-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 backdrop-blur px-3 py-1 text-xs font-semibold text-[#1565c0] shadow-md'>
+                <i class='fa-solid fa-file-contract' aria-hidden='true'></i> Multi-year
               </span>
             </div>
-            <h3 class='mt-5 text-lg font-bold text-slate-900'>
-              International Partnerships
-            </h3>
-            <p class='mt-2 text-sm leading-relaxed text-slate-600'>
-              Formal MOUs with regional and international institutions for
-              sustainable collaboration.
-            </p>
+            <div class='p-6'>
+              <h3 class='text-lg font-bold text-slate-900'>
+                International Partnerships
+              </h3>
+              <p class='mt-2 text-sm leading-relaxed text-slate-600'>
+                Formal MOUs with regional and international institutions for
+                sustainable collaboration.
+              </p>
+            </div>
           </article>
 
           <!-- Community Health Programs -->
           <article
-            class='group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-rose-200'>
-            <div class='flex items-start justify-between'>
+            class='group relative rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden'>
+            <div class='relative aspect-[16/10] overflow-hidden bg-slate-100'>
+              <img
+                src='/gallery/2.jpg'
+                alt='Community Health Promoter during a field outreach visit'
+                class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                loading='lazy'
+                decoding='async'
+              />
               <div
-                class='h-14 w-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center'>
-                <i class='fa-solid fa-people-group text-2xl' aria-hidden='true'
+                class='absolute top-4 left-4 h-12 w-12 rounded-xl bg-white/95 backdrop-blur text-[#1565c0] flex items-center justify-center shadow-md'>
+                <i class='fa-solid fa-people-group text-xl' aria-hidden='true'
                 ></i>
               </div>
               <span
-                class='inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-primary'>
-                <i class='fa-solid fa-location-dot' aria-hidden='true'></i>
-                Field-based
+                class='absolute top-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 backdrop-blur px-3 py-1 text-xs font-semibold text-[#1565c0] shadow-md'>
+                <i class='fa-solid fa-location-dot' aria-hidden='true'></i> Field-based
               </span>
             </div>
-            <h3 class='mt-5 text-lg font-bold text-slate-900'>
-              Community Health Programs
-            </h3>
-            <p class='mt-2 text-sm leading-relaxed text-slate-600'>
-              Student involvement in outreach and public health initiatives
-              across Western Kenya.
-            </p>
+            <div class='p-6'>
+              <h3 class='text-lg font-bold text-slate-900'>
+                Community Health Programs
+              </h3>
+              <p class='mt-2 text-sm leading-relaxed text-slate-600'>
+                Student involvement in outreach and public health initiatives
+                across Western Kenya.
+              </p>
+            </div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Testimonials Carousel -->
-    <TestimonialCarousel client:only='react' />
+    <!-- ============================================================
+         RESEARCH AT SPMH
+         ============================================================ -->
+    <section
+      id='research'
+      class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-gray-200'>
+      <div class='max-w-7xl mx-auto'>
+        <!-- Wide header image -->
+        <div
+          class='relative aspect-[21/9] rounded-3xl overflow-hidden mb-16 bg-slate-100 shadow-lg'>
+          <img
+            src='/img/12.jpg'
+            alt='SPMH research team at work in the laboratory'
+            class='w-full h-full object-cover'
+            loading='lazy'
+            decoding='async'
+          />
+          <div
+            class='absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/30 to-transparent'>
+          </div>
+          <div class='absolute bottom-0 left-0 right-0 p-8 sm:p-12 text-white'>
+            <span
+              class='text-blue-200 font-extrabold text-xs uppercase tracking-widest block mb-2'
+              >Research Hub</span
+            >
+            <h2
+              class='text-3xl sm:text-4xl lg:text-5xl text-surface-2 font-bold'>
+              Research at SPMH
+            </h2>
+            <p
+              class='mt-3 text-sm sm:text-base text-blue-100/90 max-w-2xl leading-relaxed'>
+              Collaborative health research across four Key Result Areas,
+              aligned to Kenya&apos;s Universal Health Coverage agenda, WHO
+              health system standards, and Catholic Social Teaching.
+            </p>
+          </div>
+        </div>
 
-    <!-- 1. HOW IT WORKS – INLINE TIMELINE (NO CARDS) -->
+        <!-- Research Areas -->
+        <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16'>
+          <article
+            class='rounded-2xl border border-slate-200 bg-white p-6 hover:border-blue-300 hover:shadow-md transition-all'>
+            <div
+              class='w-12 h-12 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center mb-4'>
+              <i class='fa-solid fa-people-group text-lg'></i>
+            </div>
+            <h3 class='text-base font-bold text-slate-900 mb-2'>
+              Community Health KRA
+            </h3>
+            <p class='text-sm text-slate-600 leading-relaxed'>
+              CHP-led systems, referral coordination, and continuum-of-care
+              integration within Homa Bay County.
+            </p>
+          </article>
+
+          <article
+            class='rounded-2xl border border-slate-200 bg-white p-6 hover:border-blue-300 hover:shadow-md transition-all'>
+            <div
+              class='w-12 h-12 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center mb-4'>
+              <i class='fa-solid fa-virus text-lg'></i>
+            </div>
+            <h3 class='text-base font-bold text-slate-900 mb-2'>
+              Epidemiology
+            </h3>
+            <p class='text-sm text-slate-600 leading-relaxed'>
+              Communicable and non-communicable disease burden, surveillance,
+              and outbreak preparedness.
+            </p>
+          </article>
+
+          <article
+            class='rounded-2xl border border-slate-200 bg-white p-6 hover:border-blue-300 hover:shadow-md transition-all'>
+            <div
+              class='w-12 h-12 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center mb-4'>
+              <i class='fa-solid fa-chart-line text-lg'></i>
+            </div>
+            <h3 class='text-base font-bold text-slate-900 mb-2'>
+              Quality Improvement
+            </h3>
+            <p class='text-sm text-slate-600 leading-relaxed'>
+              Patient safety, infection prevention, and accreditation-aligned
+              care standards.
+            </p>
+          </article>
+
+          <article
+            class='rounded-2xl border border-slate-200 bg-white p-6 hover:border-blue-300 hover:shadow-md transition-all'>
+            <div
+              class='w-12 h-12 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center mb-4'>
+              <i class='fa-solid fa-baby text-lg'></i>
+            </div>
+            <h3 class='text-base font-bold text-slate-900 mb-2'>
+              Maternal &amp; Child Health
+            </h3>
+            <p class='text-sm text-slate-600 leading-relaxed'>
+              Maternal, newborn, child, and adolescent health outcomes with
+              focus on preventable mortality.
+            </p>
+          </article>
+        </div>
+
+        <!-- Research Pathways -->
+        <div class='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+          <div
+            class='rounded-2xl border border-slate-200 bg-white p-6 shadow-sm'>
+            <h3
+              class='text-sm font-bold uppercase tracking-wider text-slate-500 mb-3'>
+              Collaborate
+            </h3>
+            <ul class='space-y-2 text-sm'>
+              <li>
+                <a
+                  href='/training-and-research/research/protocols'
+                  class='text-slate-700 hover:text-blue-700 transition-colors'
+                  >Research Protocols</a
+                >
+              </li>
+              <li>
+                <a
+                  href='/training-and-research/research/ethics'
+                  class='text-slate-700 hover:text-blue-700 transition-colors'
+                  >Ethics Review Process</a
+                >
+              </li>
+              <li>
+                <a
+                  href='/training-and-research/research/projects'
+                  class='text-slate-700 hover:text-blue-700 transition-colors'
+                  >Active Projects</a
+                >
+              </li>
+              <li>
+                <a
+                  href='/training-and-research/research/propose'
+                  class='text-blue-700 font-semibold hover:underline'
+                  >Propose a Project →</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class='rounded-2xl border border-slate-200 bg-white p-6 shadow-sm'>
+            <h3
+              class='text-sm font-bold uppercase tracking-wider text-slate-500 mb-3'>
+              Resources
+            </h3>
+            <ul class='space-y-2 text-sm'>
+              <li>
+                <a
+                  href='/training-and-research/research/templates'
+                  class='text-slate-700 hover:text-blue-700 transition-colors'
+                  >Protocol Templates</a
+                >
+              </li>
+              <li>
+                <a
+                  href='/files/research-guidelines.pdf'
+                  download
+                  class='text-slate-700 hover:text-blue-700 transition-colors flex items-center gap-1'>
+                  <i class='fas fa-download text-xs'></i>Researcher Guidelines
+                </a>
+              </li>
+              <li>
+                <a
+                  href='/training-and-research/research/data-management'
+                  class='text-slate-700 hover:text-blue-700 transition-colors'
+                  >Data Management</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class='rounded-2xl border border-slate-200 bg-white p-6 shadow-sm'>
+            <h3
+              class='text-sm font-bold uppercase tracking-wider text-slate-500 mb-3'>
+              Collaboration Domains
+            </h3>
+            <ul class='space-y-2 text-sm text-slate-600'>
+              <li>Academic institutions &amp; universities</li>
+              <li>County and national health agencies</li>
+              <li>Development partners &amp; NGOs</li>
+              <li>Faith-based health networks</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+     OUR FACULTY (circular avatar, centered, sleek cards)
+     ============================================================ -->
+    <section
+      id='faculty'
+      class='relative py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-slate-50'>
+      <div class='max-w-7xl mx-auto'>
+        <div class='text-center max-w-3xl mx-auto mb-16 space-y-4'>
+          <span
+            class='text-secondary font-bold text-xs uppercase tracking-wider block'>
+            Preceptors &amp; Faculty
+          </span>
+          <h2 class='text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900'>
+            Who You&apos;ll Learn From
+          </h2>
+          <p class='text-base sm:text-lg text-slate-600'>
+            Certified, registered, and practising clinicians who supervise every
+            attachment and internship rotation.
+          </p>
+        </div>
+
+        <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
+          {
+            faculty.map((member) => (
+              <article class='group relative rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-blue-200 flex flex-col'>
+                {/* Top accent line — appears on hover */}
+                <span class='absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#1565c0] to-[#0d47a1] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left' />
+
+                <div class='p-6 pt-8 pb-6 flex-1 flex flex-col items-center'>
+                  {/* Circular avatar in a soft ring */}
+                  {member.photo ? (
+                    <div class='w-28 h-28 rounded-full p-1'>
+                      <img
+                        src={member.photo}
+                        alt={`Portrait of ${member.name}, ${member.title} at SPMH`}
+                        class='w-full h-full rounded-full object-cover object-top bg-white'
+                        loading='lazy'
+                        decoding='async'
+                      />
+                    </div>
+                  ) : (
+                    <div class='w-28 h-28 rounded-full p-1 bg-gradient-to-br from-blue-100 to-blue-200 shadow-sm'>
+                      <div class='w-full h-full rounded-full bg-white flex items-center justify-center'>
+                        <span class='text-3xl font-bold text-blue-700'>
+                          {member.name
+                            .split(' ')
+                            .map((n) => n[0])
+                            .join('')
+                            .slice(0, 2)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Name + role */}
+                  <h3 class='mt-5 text-base font-bold text-slate-900 leading-tight'>
+                    {member.name}
+                  </h3>
+                  <p class='text-sm text-[#1565c0] font-semibold mt-1'>
+                    {member.title}
+                  </p>
+
+                  {/* Specialty */}
+                  <p class='text-xs text-slate-500 mt-2 uppercase tracking-wider font-medium'>
+                    {member.specialty}
+                  </p>
+
+                  {/* Bio */}
+                  <p class='mt-4 text-xs text-slate-600 leading-relaxed line-clamp-3'>
+                    {member.bio}
+                  </p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Carousel -->
+    <!-- <TestimonialCarousel client:only='react' /> -->
+
+    <!-- ============================================================
+         HOW IT WORKS
+         ============================================================ -->
     <section
       id='how-it-works'
       class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-gray-200 overflow-hidden'>
-      <!-- Decorative background -->
       <div class='absolute inset-0 opacity-10 pointer-events-none'>
         <div
           class='absolute -top-24 -left-24 w-96 h-96 bg-blue-300 rounded-full blur-3xl'>
@@ -398,7 +1190,6 @@ import '../../styles/global.css';
       </div>
 
       <div class='relative max-w-7xl mx-auto'>
-        <!-- Heading -->
         <div class='text-center mb-16'>
           <span
             class='inline-block bg-blue-50 text-primary text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4'>
@@ -414,17 +1205,13 @@ import '../../styles/global.css';
           </p>
         </div>
 
-        <!-- Inline Steps (Horizontal) -->
         <div class='relative'>
-          <!-- Horizontal line (desktop only) -->
           <div
             class='hidden lg:block absolute top-8 left-0 right-0 h-0.5 bg-blue-200'>
           </div>
 
-          <!-- Steps Grid -->
           <div
             class='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-4'>
-            <!-- Step 1 -->
             <div
               class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
               <div
@@ -445,7 +1232,6 @@ import '../../styles/global.css';
               </div>
             </div>
 
-            <!-- Step 2 -->
             <div
               class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
               <div
@@ -461,12 +1247,11 @@ import '../../styles/global.css';
                   availability.
                 </p>
                 <p class='text-xs lg:text-sm text-slate-400 mt-2 font-medium'>
-                  ⏱ 3-5 working days
+                  ⏱ 3–5 working days
                 </p>
               </div>
             </div>
 
-            <!-- Step 3 -->
             <div
               class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
               <div
@@ -482,12 +1267,11 @@ import '../../styles/global.css';
                   department.
                 </p>
                 <p class='text-xs lg:text-sm text-slate-400 mt-2 font-medium'>
-                  ⏱ 1-2 weeks before start
+                  ⏱ 1–2 weeks before start
                 </p>
               </div>
             </div>
 
-            <!-- Step 4 -->
             <div
               class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
               <div
@@ -502,12 +1286,11 @@ import '../../styles/global.css';
                   Begin hands-on training with real patients and clinical teams.
                 </p>
                 <p class='text-xs lg:text-sm text-slate-400 mt-2 font-medium'>
-                  ⏱ 6-12 weeks
+                  ⏱ 6–12 weeks
                 </p>
               </div>
             </div>
 
-            <!-- Step 5 -->
             <div
               class='flex flex-row lg:flex-col items-start lg:items-center gap-4 lg:gap-6 lg:text-center'>
               <div
@@ -529,11 +1312,12 @@ import '../../styles/global.css';
       </div>
     </section>
 
-    <!-- 2. STUDENT APPLICATION FORM -->
+    <!-- ============================================================
+         STUDENT APPLICATION FORM
+         ============================================================ -->
     <section
       id='student-application'
       class='relative py-20 sm:py-28 px-2 sm:px-4 lg:px-8 bg-white overflow-hidden'>
-      <!-- Subtle grid pattern -->
       <div
         class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNlMmU4ZjAiIGZpbGwtb3BhY2l0eT0iMC40Ij48cGF0aCBkPSJNMzYgMzRoLTJ2LTJoMnYyem0wLTZoLTJ2LTJoMnYyem0wLTZoLTJ2LTJoMnYyem0tNiAwaC0ydi0yaDJ2MnptMCA2aC0ydi0yaDJ2MnptMCA2aC0ydi0yaDJ2MnptLTYgMGgtMnYtMmgyem0wIDZoLTJ2LTJoMnYyem0wLTZoLTJ2LTJoMnYyem0wLTZoLTJ2LTJoMnYyem02LTZoLTJ2LTJoMnYyem0wLTZoLTJ2LTJoMnYyem0wLTZoLTJ2LTJoMnYyem0wIDBoLTJ2LTJoMnYyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-20 pointer-events-none">
       </div>
@@ -548,13 +1332,13 @@ import '../../styles/global.css';
             Apply Now
           </h2>
           <p class='mt-4 text-lg text-slate-600 max-w-xl mx-auto'>
-            Secure your clinical attachment. You'll get a tracking code upon
-            submission.
+            Secure your clinical attachment. You&apos;ll get a tracking code
+            upon submission.
           </p>
         </div>
 
         <div class='bg-white rounded-3xl border border-slate-200 shadow-2xl'>
-          <div class='bg-muted rounded-t-3xl px-8 py-6'>
+          <div class='bg-[#1565c0] rounded-t-3xl px-8 py-6'>
             <h3 class='text-white text-2xl font-bold'>
               Clinical Attachment Application
             </h3>
@@ -569,11 +1353,12 @@ import '../../styles/global.css';
       </div>
     </section>
 
-    <!-- 3. INSTITUTIONAL PARTNERSHIP INFO (TEXT LEFT, IMAGE RIGHT) -->
+    <!-- ============================================================
+         INSTITUTIONAL PARTNERSHIP (text left, image right)
+         ============================================================ -->
     <section
       id='partnerships'
       class='relative bg-slate-900 text-white overflow-hidden'>
-      <!-- Decorative gradients -->
       <div
         class='absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pointer-events-none'>
       </div>
@@ -585,29 +1370,27 @@ import '../../styles/global.css';
       </div>
 
       <div class='relative flex flex-col lg:flex-row items-stretch'>
-        <!-- Left: Text content -->
         <div
           class='w-full lg:w-1/2 px-4 sm:px-6 lg:pl-8 lg:pr-12 py-20 sm:py-28 flex flex-col justify-center'>
           <div class='space-y-8'>
             <div>
               <span
-                class='inline-block bg-blue-500/20 text-surface-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4'>
+                class='inline-block bg-blue-500/20 text-blue-100 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4'>
                 Institutional Collaboration
               </span>
               <h2
-                class='text-4xl text-surface-2 sm:text-5xl font-extrabold leading-tight'>
+                class='text-4xl sm:text-5xl font-extrabold leading-tight text-white'>
                 Build Sustainable Partnerships
               </h2>
             </div>
 
             <p class='text-lg text-blue-100/90 leading-relaxed'>
-              We're actively expanding our network of academic partners—from
-              single placements to standing MOUs covering teaching, research,
-              and faculty exchange. Let's discuss what partnership looks like
-              for your institution.
+              We&apos;re actively expanding our network of academic
+              partners—from single placements to standing MOUs covering
+              teaching, research, and faculty exchange. Let&apos;s discuss what
+              partnership looks like for your institution.
             </p>
 
-            <!-- Benefits -->
             <div class='space-y-4'>
               <div class='flex items-center gap-3'>
                 <span class='h-2 w-2 rounded-full bg-blue-400 shrink-0'></span>
@@ -638,14 +1421,14 @@ import '../../styles/global.css';
           </div>
         </div>
 
-        <!-- Right: Image (touches right edge) -->
         <div class='w-full lg:w-1/2 relative min-h-[300px] lg:min-h-full'>
           <img
-            src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80'
-            alt='Partnership collaboration'
+            src='/gallery/partnerships.jpg'
+            alt='SPMH leadership in a partnership meeting with visiting institutional delegates'
             class='absolute inset-0 w-full h-full object-cover'
+            loading='lazy'
+            decoding='async'
           />
-          <!-- Optional overlay for better text contrast if needed -->
           <div
             class='absolute inset-0 bg-gradient-to-r from-slate-900/50 to-transparent lg:from-slate-900/20 lg:to-transparent'>
           </div>
@@ -653,10 +1436,12 @@ import '../../styles/global.css';
       </div>
     </section>
 
-    <!-- 4. PARTNERSHIP INQUIRY FORM -->
+    <!-- ============================================================
+         PARTNERSHIP INQUIRY FORM
+         ============================================================ -->
     <section
       id='partnership-inquiry'
-      class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-gray-300 text-white'>
+      class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-slate-100'>
       <div
         class='absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent'>
       </div>
@@ -664,13 +1449,15 @@ import '../../styles/global.css';
       <div class='relative max-w-3xl mx-auto'>
         <div class='text-center mb-12'>
           <span
-            class='inline-block bg-blue-500/20 text-secondary text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4'>
+            class='inline-block bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4'>
             Partnership Inquiry
           </span>
-          <h2 class='text-4xl sm:text-5xl font-extrabold'>Let's Talk</h2>
-          <p class='mt-4 text-lg text-slate-800 max-w-xl mx-auto'>
-            Tell us about your institution and partnership interests. We'll get
-            back to you within 48 hours.
+          <h2 class='text-4xl sm:text-5xl font-extrabold text-slate-900'>
+            Let&apos;s Talk
+          </h2>
+          <p class='mt-4 text-lg text-slate-600 max-w-xl mx-auto'>
+            Tell us about your institution and partnership interests. We&apos;ll
+            get back to you within 48 hours.
           </p>
         </div>
 
@@ -691,15 +1478,83 @@ import '../../styles/global.css';
       </div>
     </section>
 
-    <!-- CTA Footer -->
-    <section class='bg-surface/30 py-20 px-4 sm:px-6 lg:px-8'>
+    <!-- ============================================================
+         FAQ
+         ============================================================ -->
+    <section
+      id='faq'
+      class='relative py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white'>
+      <div class='max-w-3xl mx-auto'>
+        <div class='text-center mb-12 space-y-4'>
+          <span
+            class='text-secondary font-bold text-xs uppercase tracking-wider block'
+            >Frequently Asked</span
+          >
+          <h2 class='text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900'>
+            Questions We Get
+          </h2>
+        </div>
+
+        <div class='space-y-4'>
+          {
+            [
+              {
+                q: 'What is the duration of clinical attachment at SPMH?',
+                a: "Clinical attachments at St. Paul's Mission Hospital range from 6 to 12 weeks, depending on your academic programme's requirements. Nursing attachments are typically 6 to 12 weeks, while laboratory, pharmacy, and outpatient rotations can be arranged for 4 to 12 weeks. Exact durations are confirmed during HR verification.",
+              },
+              {
+                q: 'What documents are required for clinical attachment application?',
+                a: 'You will need a current letter from your academic institution, a copy of your student ID, your national ID or passport, proof of medical insurance, and a completed SPMH attachment application form. International applicants should also provide a valid visa or work permit where applicable.',
+              },
+              {
+                q: 'Does SPMH offer medical internship placements?',
+                a: 'SPMH offers structured internship placements for clinical officers, nurses, and selected allied health cadres. Medical officer internship placements form part of our Level 5 teaching hospital pathway and will expand as our accredited internship training capacity is established between 2028 and 2030.',
+              },
+              {
+                q: 'What research areas does SPMH collaborate on?',
+                a: 'SPMH collaborates on research in community health, epidemiology, quality improvement, and maternal and child health. We welcome proposals aligned to our four Key Result Areas and require ethical review through our Research Ethics Committee before commencement.',
+              },
+              {
+                q: 'Is SPMH an accredited internship training hospital?',
+                a: 'SPMH is a Level 4 mission hospital currently on a phased pathway to Level 5 teaching hospital accreditation by 2030. We host structured attachments and selected internship placements, and are building the infrastructure, faculty, and accreditation required for full internship training hospital status.',
+              },
+              {
+                q: 'How long does the clinical attachment application process take?',
+                a: 'The application takes about 15 minutes to complete online. HR verification takes 3 to 5 working days, and preceptor matching is confirmed 1 to 2 weeks before your start date. Total turnaround from submission to confirmed placement is typically 2 to 3 weeks.',
+              },
+              {
+                q: 'Can international students apply for clinical attachment at SPMH?',
+                a: 'Yes. SPMH welcomes international students for clinical attachments, provided they meet Kenyan immigration requirements and provide proof of medical insurance. International placements are arranged through our institutional partnership pathway and typically require 4 to 8 weeks of lead time.',
+              },
+            ].map((item) => (
+              <details class='group rounded-xl border border-slate-200 bg-slate-50 open:bg-white open:shadow-md transition-all'>
+                <summary class='flex items-center justify-between cursor-pointer px-6 py-4 font-semibold text-slate-900 list-none'>
+                  <span>{item.q}</span>
+                  <i class='fas fa-chevron-down text-xs text-slate-400 transition-transform group-open:rotate-180' />
+                </summary>
+                <div class='px-6 pb-5 text-sm text-slate-600 leading-relaxed'>
+                  {item.a}
+                </div>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CTA FOOTER
+         ============================================================ -->
+    <section class='bg-gray-200 py-20 px-4 sm:px-6 lg:px-8'>
       <div class='max-w-3xl mx-auto text-center'>
-        <h2 class='text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight'>
+        <h2
+          class='text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900'>
           Ready to Start Your Journey?
         </h2>
-        <p class='mt-4 text-lg max-w-2xl mx-auto'>
-          Whether you're a student seeking clinical experience or an institution
-          building partnerships, SPMH is ready to collaborate with you.
+        <p class='mt-4 text-lg max-w-2xl mx-auto text-slate-600'>
+          Whether you&apos;re a student seeking clinical experience or an
+          institution building partnerships, SPMH is ready to collaborate with
+          you.
         </p>
 
         <div class='mt-10 flex flex-col sm:flex-row justify-center gap-4'>
@@ -715,7 +1570,7 @@ import '../../styles/global.css';
           </a>
         </div>
 
-        <p class='mt-8 text-sm'>
+        <p class='mt-8 text-sm text-slate-600'>
           Questions? Check our
           <a
             href='/academics-and-partnerships/faq'
@@ -731,100 +1586,102 @@ import '../../styles/global.css';
         </p>
       </div>
     </section>
-  </body>
 
-  <!-- Footer -->
-  <AcademicsFooter />
+    <!-- Footer -->
+    <AcademicsFooter />
 
-  <script>
-    import { createClient } from '@supabase/supabase-js';
+    <!-- Supabase / Alpine scripts -->
+    <script>
+      import { createClient } from '@supabase/supabase-js';
 
-    const supabase = createClient(
-      import.meta.env.PUBLIC_SUPABASE_URL,
-      import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-    );
+      const supabase = createClient(
+        import.meta.env.PUBLIC_SUPABASE_URL,
+        import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
+      );
 
-    const alpineWindow = window as Window &
-      typeof globalThis & {
-        Alpine: {
-          data: (
-            name: string,
-            component: () => Record<string, unknown>,
-          ) => void;
-        };
-      };
-
-    document.addEventListener('alpine:init', () => {
-      alpineWindow.Alpine.data('internshipForm', () => ({
-        form: {
-          full_name: '',
-          email: '',
-          phone: '',
-          home_institution: '',
-          rotation_type: '',
-          duration_text: '',
-          start_date: '',
-          end_date: '',
-          cover_letter: '',
-        },
-        loading: false,
-        successReference: null,
-        async submitApplication() {
-          this.loading = true;
-          const refCode =
-            'SPMH-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-
-          const applicationData = {
-            ...(this.form as Record<string, string>),
-            reference_code: refCode,
-            status: 'submitted',
+      const alpineWindow = window as Window &
+        typeof globalThis & {
+          Alpine: {
+            data: (
+              name: string,
+              component: () => Record<string, unknown>,
+            ) => void;
           };
+        };
 
-          const { error } = await supabase
-            .from('internship_applications')
-            .insert([applicationData]);
+      document.addEventListener('alpine:init', () => {
+        alpineWindow.Alpine.data('internshipForm', () => ({
+          form: {
+            full_name: '',
+            email: '',
+            phone: '',
+            home_institution: '',
+            rotation_type: '',
+            duration_text: '',
+            start_date: '',
+            end_date: '',
+            cover_letter: '',
+          },
+          loading: false,
+          successReference: null,
+          async submitApplication() {
+            this.loading = true;
+            const refCode =
+              'SPMH-' +
+              Math.random().toString(36).substring(2, 8).toUpperCase();
 
-          this.loading = false;
-          if (!error) {
-            this.successReference = refCode;
-          } else {
-            alert('Error submitting application. Please try again.');
-          }
-        },
-      }));
-
-      alpineWindow.Alpine.data('partnershipForm', () => ({
-        pForm: {
-          institution_name: '',
-          contact_person: '',
-          email: '',
-          location_type: 'local',
-          inquiry_type: 'student_attachment',
-          message: '',
-        },
-        pLoading: false,
-        pSuccess: false,
-        async submitPartnership() {
-          this.pLoading = true;
-          const { error } = await supabase
-            .from('partnership_inquiries')
-            .insert([this.pForm]);
-          this.pLoading = false;
-          if (!error) {
-            this.pSuccess = true;
-            this.pForm = {
-              institution_name: '',
-              contact_person: '',
-              email: '',
-              location_type: 'local',
-              inquiry_type: 'student_attachment',
-              message: '',
+            const applicationData = {
+              ...(this.form as Record<string, string>),
+              reference_code: refCode,
+              status: 'submitted',
             };
-          } else {
-            alert('Error submitting partnership inquiry.');
-          }
-        },
-      }));
-    });
-  </script>
+
+            const { error } = await supabase
+              .from('internship_applications')
+              .insert([applicationData]);
+
+            this.loading = false;
+            if (!error) {
+              this.successReference = refCode;
+            } else {
+              alert('Error submitting application. Please try again.');
+            }
+          },
+        }));
+
+        alpineWindow.Alpine.data('partnershipForm', () => ({
+          pForm: {
+            institution_name: '',
+            contact_person: '',
+            email: '',
+            location_type: 'local',
+            inquiry_type: 'student_attachment',
+            message: '',
+          },
+          pLoading: false,
+          pSuccess: false,
+          async submitPartnership() {
+            this.pLoading = true;
+            const { error } = await supabase
+              .from('partnership_inquiries')
+              .insert([this.pForm]);
+            this.pLoading = false;
+            if (!error) {
+              this.pSuccess = true;
+              this.pForm = {
+                institution_name: '',
+                contact_person: '',
+                email: '',
+                location_type: 'local',
+                inquiry_type: 'student_attachment',
+                message: '',
+              };
+            } else {
+              alert('Error submitting partnership inquiry.');
+            }
+          },
+        }));
+      });
+    </script>
+  </body>
 </html>
