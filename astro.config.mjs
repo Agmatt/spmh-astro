@@ -4,13 +4,13 @@ import react from '@astrojs/react';
 import alpinejs from '@astrojs/alpinejs';
 import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro';
-import netlify from '@astrojs/netlify';
+import vercel from '@astrojs/vercel/serverless';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://spmh.co.ke/',
   output: 'server',
-  adapter: netlify(),
+  adapter: vercel(),
   vite: {
     plugins: [tailwindcss()],
   },
