@@ -8,7 +8,7 @@ import vercel from '@astrojs/vercel'; // ← changed (no /serverless)
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://spmh.co.ke/',
+  site: 'https://www.spmh.co.ke/',
   output: 'server',
   adapter: vercel(),
   vite: {
