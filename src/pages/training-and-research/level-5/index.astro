@@ -1,0 +1,1132 @@
+---
+import AcademicNavbar from '../../../components/AcademicsNavbar.astro';
+import AcademicsFooter from '../../../components/AcademicsFooter.astro';
+import '../../../styles/global.css';
+
+/*
+  IMAGE ASSETS REQUIRED — drop into /public/img/level-5/
+
+  HERO
+    /img/level-5/hero.jpg               wide shot of hospital facility, aerial, or entrance
+
+  PHASE CARDS
+    /img/level-5/phases/stabilization.jpg    emergency triage, ward round, or equipment install
+    /img/level-5/phases/expansion.jpg        construction, ICU shell, or theatre build
+    /img/level-5/phases/consolidation.jpg    ward round in modern facility, or architectural render
+
+  CAPABILITY CARDS
+    /img/level-5/capabilities/icu.jpg        critical care / monitoring equipment
+    /img/level-5/capabilities/theatre.jpg    operating theatre
+    /img/level-5/capabilities/imaging.jpg    CT or MRI scanner
+    /img/level-5/capabilities/lab.jpg        laboratory analyser or bench
+    /img/level-5/capabilities/teaching.jpg   teaching session, classroom, or ward-based teaching
+    /img/level-5/capabilities/ict.jpg        EMR dashboard, server room, or workstation
+
+  PARTNERSHIP CTA
+    /img/level-5/partnership.jpg         MOU signing or partnership meeting
+*/
+
+const phases = [
+  {
+    key: 'stabilization',
+    badge: 'Phase 1',
+    years: '2026–2027',
+    title: 'Stabilization',
+    image: '/img/level-5/phases/stabilization.jpg',
+    alt: 'Emergency triage and stabilization services at SPMH',
+    description:
+      'Restore core institutional functionality, close critical safety gaps, and establish the foundational systems required for safe, accountable service delivery.',
+    milestones: [
+      'Emergency triage and MNCAH services stabilized',
+      'Critical clinical cadres recruited; CPD framework operational',
+      'EMR baseline deployed; CT scanner installed',
+      'ICU readiness established; IPC systems strengthened',
+      'Board restructuring; ethics and risk systems operationalized',
+    ],
+  },
+  {
+    key: 'expansion',
+    badge: 'Phase 2',
+    years: '2028–2029',
+    title: 'Expansion',
+    image: '/img/level-5/phases/expansion.jpg',
+    alt: 'Expansion of critical care and diagnostic infrastructure at SPMH',
+    description:
+      'Scale clinical and diagnostic services, expand infrastructure and digital systems, and accelerate workforce and financial capacity toward Level 5 readiness.',
+    milestones: [
+      'Dialysis unit operational; NICU established',
+      'Theatre expansion; advanced diagnostics (MRI) online',
+      'Specialist recruitment scaled; leadership pipeline launched',
+      'Full EMR integration hospital-wide; telemedicine scaled',
+      'PPP investments activated; donor diversification',
+    ],
+    highlight: true,
+  },
+  {
+    key: 'consolidation',
+    badge: 'Phase 3',
+    years: '2030',
+    title: 'Consolidation & Excellence',
+    image: '/img/level-5/phases/consolidation.jpg',
+    alt: 'SPMH Level 5 teaching hospital vision achieved',
+    description:
+      'Institutionalize high performance, innovation, research, and accreditation readiness. Position SPMH as a leading regional referral and mission-based teaching institution.',
+    milestones: [
+      'Full Level 5 readiness and accreditation compliance',
+      'Accredited internship training hospital status',
+      'Fully integrated digital hospital ecosystem',
+      'Leadership succession institutionalized',
+      'Population health impact demonstrated across catchment',
+    ],
+  },
+];
+
+const gapMatrix = [
+  {
+    domain: 'ICU Services',
+    requirement: 'Minimum 12-bed fully functional ICU',
+    current: 'Not available',
+    severity: 'critical',
+  },
+  {
+    domain: 'HDU Services',
+    requirement: 'Minimum 12-bed HDU',
+    current: 'Not available',
+    severity: 'critical',
+  },
+  {
+    domain: 'Inpatient Capacity',
+    requirement: 'Fully structured 500-bed hospital',
+    current: 'Significant deficit',
+    severity: 'critical',
+  },
+  {
+    domain: 'Theatre Complex',
+    requirement: 'At least 7 fully equipped theatres',
+    current: '1–2 functional',
+    severity: 'critical',
+  },
+  {
+    domain: 'Radiology & Imaging',
+    requirement: 'CT, MRI, EEG, Mammography',
+    current: 'Basic X-ray only',
+    severity: 'critical',
+  },
+  {
+    domain: 'Laboratory Services',
+    requirement: 'PCR, histopathology, DNA, toxicology',
+    current: 'Basic laboratory only',
+    severity: 'high',
+  },
+  {
+    domain: 'Training Status',
+    requirement: 'Accredited internship training hospital',
+    current: 'Not available',
+    severity: 'high',
+  },
+  {
+    domain: 'Emergency Systems',
+    requirement: '24/7 casualty, emergency theatre, ambulance',
+    current: 'Basic emergency care',
+    severity: 'high',
+  },
+  {
+    domain: 'Sterilization Systems',
+    requirement: 'SPU + fully functional CSSD',
+    current: 'Partial CSSD only',
+    severity: 'high',
+  },
+  {
+    domain: 'ICT & Automation',
+    requirement: 'Fully integrated hospital information system',
+    current: 'Fragmented systems',
+    severity: 'high',
+  },
+  {
+    domain: 'Specialist Services',
+    requirement: 'Dialysis, chemotherapy, radiotherapy',
+    current: 'Partially available',
+    severity: 'high',
+  },
+  {
+    domain: 'Forensic Pathology',
+    requirement: 'Full medico-legal and forensic services',
+    current: 'Not available',
+    severity: 'high',
+  },
+  {
+    domain: 'Core Clinical Departments',
+    requirement: 'Fully functional Medicine, Surgery, Paeds, O&G',
+    current: 'Present but unevenly resourced',
+    severity: 'moderate',
+  },
+  {
+    domain: 'Service Separation (OPD vs A&E)',
+    requirement: 'Fully separate OPD and 24-hour A&E',
+    current: 'Partially integrated',
+    severity: 'moderate',
+  },
+  {
+    domain: 'Pharmacy Systems',
+    requirement: '24-hour differentiated pharmacy',
+    current: 'Partial coverage',
+    severity: 'moderate',
+  },
+  {
+    domain: 'GBV Services',
+    requirement: 'Dedicated GBV recovery centre',
+    current: 'Not established',
+    severity: 'moderate',
+  },
+];
+
+const capabilities = [
+  {
+    name: 'Critical Care',
+    current: 'No ICU beds',
+    target: '12-bed ICU + 12-bed HDU',
+    timeline: 'By 2029',
+    image: '/img/level-5/capabilities/icu.jpg',
+    alt: 'ICU monitoring equipment',
+  },
+  {
+    name: 'Surgical Services',
+    current: '1–2 theatres',
+    target: '7 fully equipped theatres',
+    timeline: 'By 2029',
+    image: '/img/level-5/capabilities/theatre.jpg',
+    alt: 'Operating theatre',
+  },
+  {
+    name: 'Diagnostic Imaging',
+    current: 'X-ray and ultrasound',
+    target: 'CT, MRI, EEG, mammography',
+    timeline: 'CT by 2027 · MRI by 2029',
+    image: '/img/level-5/capabilities/imaging.jpg',
+    alt: 'Advanced diagnostic imaging equipment',
+  },
+  {
+    name: 'Laboratory Medicine',
+    current: 'Basic laboratory',
+    target: 'PCR, histopathology, DNA testing',
+    timeline: 'By 2029',
+    image: '/img/level-5/capabilities/lab.jpg',
+    alt: 'Laboratory analyser',
+  },
+  {
+    name: 'Teaching Hospital',
+    current: 'Attachments only',
+    target: 'Accredited internship training hospital',
+    timeline: 'By 2030',
+    image: '/img/level-5/capabilities/teaching.jpg',
+    alt: 'Clinical teaching session',
+  },
+  {
+    name: 'Digital Health',
+    current: 'Fragmented systems',
+    target: 'Fully integrated EMR ecosystem',
+    timeline: 'By 2029',
+    image: '/img/level-5/capabilities/ict.jpg',
+    alt: 'EMR workstation in clinical use',
+  },
+];
+
+const scorecard = [
+  { metric: 'Bed capacity', current: '~52', target: '500' },
+  { metric: 'ICU beds', current: '0', target: '12' },
+  { metric: 'HDU beds', current: '0', target: '12' },
+  { metric: 'Operating theatres', current: '1–2', target: '7' },
+  { metric: 'MRI scanners', current: '0', target: '1' },
+  { metric: 'CT scanners', current: '0', target: '1' },
+  { metric: 'Internship accreditation', current: 'No', target: 'Yes' },
+  { metric: 'Integrated EMR', current: 'Partial', target: 'Full' },
+];
+
+const subpages = [
+  {
+    label: '2030 Vision',
+    href: '/training-and-research/level-5/vision',
+    description: 'The end-state we are building toward',
+  },
+  {
+    label: 'Strategic Roadmap',
+    href: '/training-and-research/level-5/roadmap',
+    description: 'Full sequencing across all six pillars',
+  },
+  {
+    label: 'Stabilization Phase',
+    href: '/training-and-research/level-5/stabilization',
+    description: '2026–2027 · Foundation and readiness',
+  },
+  {
+    label: 'Expansion Phase',
+    href: '/training-and-research/level-5/expansion',
+    description: '2028–2029 · Scale and diversify',
+  },
+  {
+    label: 'Teaching Hospital',
+    href: '/training-and-research/level-5/teaching-hospital',
+    description: 'Vision, mission, and accreditation pathway',
+  },
+  {
+    label: 'Internship Pipeline',
+    href: '/training-and-research/level-5/internship-pipeline',
+    description: 'From attachment to accredited internship',
+  },
+  {
+    label: 'Research Hub',
+    href: '/training-and-research/level-5/research-hub',
+    description: 'Clinical research and innovation agenda',
+  },
+  {
+    label: 'Faculty Development',
+    href: '/training-and-research/level-5/faculty',
+    description: 'Teaching capacity and succession planning',
+  },
+  {
+    label: 'Partnership Targets',
+    href: '/training-and-research/level-5/partnerships',
+    description: 'PPP, academic, and donor collaboration',
+  },
+  {
+    label: 'Impact Metrics',
+    href: '/training-and-research/level-5/metrics',
+    description: 'Health outcomes and institutional performance',
+  },
+  {
+    label: 'Performance Dashboard',
+    href: '/training-and-research/level-5/dashboard',
+    description: 'Real-time progress against milestones',
+  },
+];
+
+const faqs = [
+  {
+    q: 'What does Level 5 accreditation mean for a Kenyan hospital?',
+    a: 'Level 5 status is defined by the Kenya Ministry of Health as a fully equipped provincial or referral hospital. Achieving it requires meeting minimum standards for ICU and HDU capacity, theatre count, diagnostic depth, laboratory services, inpatient capacity, integrated digital systems, and accreditation as a teaching hospital. It is a significant institutional upgrade, not a formality.',
+  },
+  {
+    q: 'Where is SPMH today on the Level 5 pathway?',
+    a: 'SPMH is an advanced Level 4 facility with partial readiness for Level 5. A structured gap analysis places overall readiness at approximately 30 to 40 percent. Core clinical services are functional and trusted, but critical gaps remain in critical care, specialist services, diagnostic depth, infrastructure scale, and teaching hospital capacity. These gaps form the agenda of the 2026–2030 Strategic Plan.',
+  },
+  {
+    q: 'How much investment does the Level 5 transition require?',
+    a: 'The Costed Implementation Plan in the 2026–2030 Strategic Plan allocates KES 670 million across the three implementation phases: KES 265 million during Stabilization (2026–2027), KES 310 million during Expansion (2028–2029), and KES 95 million during Consolidation and Excellence (2030). Funding is structured through a blend of insurance reimbursements, county and national support, donor and development partner financing, public-private partnerships, and faith-based contributions.',
+  },
+  {
+    q: 'What role will partnerships play in the Level 5 transition?',
+    a: 'Partnerships are a core enabler of the Level 5 agenda. The Strategic Plan identifies public-private partnerships, academic partnerships with universities and teaching hospitals, development partner financing, and faith-based network collaboration as essential mechanisms. Priority investment areas open to partnership include ICU and HDU expansion, advanced diagnostics, theatre modernization, digital infrastructure, and specialist service development.',
+  },
+  {
+    q: 'When will SPMH accept medical interns?',
+    a: 'SPMH currently hosts clinical officer interns, nursing interns, and selected allied health placements. Medical officer internship placements will scale as the accreditation requirements for a teaching hospital are met. The institutional target is accredited internship training hospital status by 2030, with progressive expansion beginning in the 2028–2029 Expansion Phase.',
+  },
+  {
+    q: 'How can I follow progress against these milestones?',
+    a: 'Progress is tracked through the Monitoring, Evaluation, Accountability and Learning framework described in Chapter 5 of the Strategic Plan. Milestone tracking, annual performance reviews, and Board-level accountability systems underpin delivery. A public performance dashboard is being developed as part of the digital transformation agenda.',
+  },
+];
+
+const year = new Date().getFullYear();
+---
+
+<html lang='en' class='scroll-smooth'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Level 5 Teaching Hospital Pathway | SPMH Homa Bay</title>
+    <link rel='icon' type='image/png' href='/file.svg' />
+    <link
+      rel='canonical'
+      href='https://spmh.co.ke/training-and-research/level-5'
+    />
+
+    <meta
+      name='description'
+      content="SPMH's phased pathway to Level 5 teaching hospital accreditation by 2030. Three-phase roadmap, capability targets, and investment framework for Homa Bay County's referral institution."
+    />
+
+    <link
+      rel='stylesheet'
+      href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
+    />
+
+    <script
+      type='application/ld+json'
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'MedicalWebPage',
+            '@id': 'https://spmh.co.ke/training-and-research/level-5#webpage',
+            url: 'https://spmh.co.ke/training-and-research/level-5',
+            name: 'Level 5 Teaching Hospital Pathway | SPMH Homa Bay',
+            description:
+              "SPMH's phased pathway to Level 5 teaching hospital accreditation by 2030. Three-phase roadmap, capability targets, and investment framework.",
+            inLanguage: 'en-KE',
+            isPartOf: { '@id': 'https://spmh.co.ke/#website' },
+            about: { '@id': 'https://spmh.co.ke/#organization' },
+            breadcrumb: {
+              '@id':
+                'https://spmh.co.ke/training-and-research/level-5#breadcrumb',
+            },
+            dateModified: '2026-09-22',
+          },
+          {
+            '@type': 'BreadcrumbList',
+            '@id':
+              'https://spmh.co.ke/training-and-research/level-5#breadcrumb',
+            itemListElement: [
+              {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://spmh.co.ke/',
+              },
+              {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Training & Research',
+                item: 'https://spmh.co.ke/training-and-research',
+              },
+              {
+                '@type': 'ListItem',
+                position: 3,
+                name: 'Level 5 Pathway',
+                item: 'https://spmh.co.ke/training-and-research/level-5',
+              },
+            ],
+          },
+          {
+            '@type': ['MedicalOrganization', 'EducationalOrganization'],
+            '@id': 'https://spmh.co.ke/#organization',
+            name: "St. Paul's Mission Hospital",
+            alternateName: ['SPMH', 'SPMH Homa Bay'],
+            url: 'https://spmh.co.ke/',
+            logo: 'https://spmh.co.ke/logos/logo.png',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'P.O. Box 426',
+              addressLocality: 'Homa Bay',
+              addressRegion: 'Homa Bay County',
+              addressCountry: 'KE',
+            },
+            parentOrganization: {
+              '@type': 'Organization',
+              name: 'Catholic Diocese of Homa Bay',
+            },
+          },
+          {
+            '@type': 'FAQPage',
+            '@id': 'https://spmh.co.ke/training-and-research/level-5#faq',
+            mainEntity: [
+              {
+                '@type': 'Question',
+                name: 'What does Level 5 accreditation mean for a Kenyan hospital?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Level 5 status is defined by the Kenya Ministry of Health as a fully equipped provincial or referral hospital. Achieving it requires meeting minimum standards for ICU and HDU capacity, theatre count, diagnostic depth, laboratory services, inpatient capacity, integrated digital systems, and accreditation as a teaching hospital.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'Where is SPMH today on the Level 5 pathway?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'SPMH is an advanced Level 4 facility with partial readiness for Level 5. A structured gap analysis places overall readiness at approximately 30 to 40 percent. Critical gaps remain in critical care, specialist services, diagnostic depth, infrastructure scale, and teaching hospital capacity.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'How much investment does the Level 5 transition require?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'The Costed Implementation Plan allocates KES 670 million across three phases: KES 265 million for Stabilization (2026–2027), KES 310 million for Expansion (2028–2029), and KES 95 million for Consolidation and Excellence (2030). Funding blends insurance reimbursements, county and national support, donor financing, PPPs, and faith-based contributions.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'When will SPMH accept medical interns?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'SPMH currently hosts clinical officer interns, nursing interns, and selected allied health placements. Medical officer internship placements will scale as teaching hospital accreditation requirements are met, targeting accredited internship training hospital status by 2030.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'How can I follow progress against Level 5 milestones?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Progress is tracked through the Monitoring, Evaluation, Accountability and Learning framework described in Chapter 5 of the Strategic Plan. Milestone tracking, annual performance reviews, and Board-level accountability systems underpin delivery.',
+                },
+              },
+            ],
+          },
+        ],
+      })}
+    />
+
+    <style>
+      details > summary::-webkit-details-marker {
+        display: none;
+      }
+      details > summary {
+        list-style: none;
+      }
+    </style>
+  </head>
+
+  <body class='bg-white text-slate-900'>
+    <AcademicNavbar />
+
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
+    <section
+      class='relative bg-slate-950 text-white overflow-hidden min-h-[560px] flex items-center'>
+      <div class='absolute inset-0'>
+        <img
+          src='/img/33.jpg'
+          alt="St. Paul's Mission Hospital facility in Homa Bay"
+          class='w-full h-full object-cover opacity-40'
+          loading='eager'
+          fetchpriority='high'
+          decoding='async'
+        />
+        <div
+          class='absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-slate-950/40'>
+        </div>
+      </div>
+
+      <div
+        class='relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 w-full'>
+        <div class='max-w-3xl'>
+          <span
+            class='inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold bg-blue-500/20 text-blue-200 border border-blue-400/30 uppercase tracking-wider backdrop-blur-sm'>
+            <i class='fas fa-flag-checkered text-[10px]'></i>
+            Strategic Plan 2026–2030
+          </span>
+
+          <h1
+            class='mt-6 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]'>
+            A Level 5 teaching hospital
+            <span
+              class='text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-200'>
+              for Homa Bay County
+            </span>
+            by 2030.
+          </h1>
+
+          <p
+            class='mt-6 text-lg sm:text-xl text-blue-100/90 leading-relaxed max-w-2xl'>
+            SPMH is on a documented, costed, and phased pathway to Level 5
+            accreditation. This is the roadmap — the phases, the capability
+            targets, the investment, and the partnership opportunities.
+          </p>
+
+          <div class='mt-9 flex flex-wrap items-center gap-4'>
+            <a
+              href='#roadmap'
+              class='inline-flex items-center justify-center px-6 py-3.5 text-sm font-semibold rounded-xl text-blue-900 bg-white hover:bg-blue-50 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-blue-900/30'>
+              Explore the Roadmap
+              <i class='fas fa-arrow-down ml-2 text-xs'></i>
+            </a>
+            <a
+              href='/training-and-research#partnerships'
+              class='inline-flex items-center justify-center px-6 py-3.5 text-sm font-medium rounded-xl text-white border border-white/30 hover:bg-white/10 hover:border-white/50 transition-all backdrop-blur-sm'>
+              Partner With Us
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         STAT BAND
+         ============================================================ -->
+    <section
+      class='relative bg-[#0d47a1] text-white border-y border-blue-900/40'>
+      <div
+        class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-center'>
+        <div class='flex flex-col items-center'>
+          <span
+            class='text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white'
+            >30–40%</span
+          >
+          <span
+            class='mt-2 text-[10px] sm:text-xs uppercase tracking-widest text-blue-200 font-semibold'
+            >Current Readiness</span
+          >
+        </div>
+        <div class='flex flex-col items-center'>
+          <span
+            class='text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white'
+            >KES 670M</span
+          >
+          <span
+            class='mt-2 text-[10px] sm:text-xs uppercase tracking-widest text-blue-200 font-semibold'
+            >5-Year Investment</span
+          >
+        </div>
+        <div class='flex flex-col items-center'>
+          <span
+            class='text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white'
+            >500</span
+          >
+          <span
+            class='mt-2 text-[10px] sm:text-xs uppercase tracking-widest text-blue-200 font-semibold'
+            >Bed Capacity Target</span
+          >
+        </div>
+        <div class='flex flex-col items-center'>
+          <span
+            class='text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white'
+            >2030</span
+          >
+          <span
+            class='mt-2 text-[10px] sm:text-xs uppercase tracking-widest text-blue-200 font-semibold'
+            >Accreditation Target</span
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         READINESS SNAPSHOT
+         ============================================================ -->
+    <section class='relative py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white'>
+      <div class='max-w-4xl mx-auto text-center'>
+        <span
+          class='text-secondary font-bold text-xs uppercase tracking-wider block'
+          >Where We Stand</span
+        >
+        <h2
+          class='mt-3 text-3xl sm:text-4xl font-bold leading-tight'>
+          An advanced Level 4 facility with partial Level 5 readiness.
+        </h2>
+        <p class='mt-6 text-lg text-slate-600 leading-relaxed'>
+          SPMH delivers functional Level 4 clinical services with strong
+          community trust and a committed workforce. A structured gap analysis
+          against Ministry of Health Level 5 requirements places overall
+          readiness at approximately 30 to 40 percent. Critical gaps remain in
+          critical care, specialist services, diagnostic depth, infrastructure
+          scale, and teaching hospital capacity — all of which the 2026–2030
+          Strategic Plan directly addresses.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         THREE-PHASE ROADMAP
+         ============================================================ -->
+    <section
+      id='roadmap'
+      class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-slate-50'>
+      <div class='max-w-7xl mx-auto'>
+        <div class='text-center max-w-3xl mx-auto mb-16 space-y-4'>
+          <span
+            class='text-secondary font-bold text-xs uppercase tracking-wider block'
+            >The Pathway</span
+          >
+          <h2 class='text-3xl sm:text-4xl lg:text-5xl font-bold'>
+            Three Phases to Level 5
+          </h2>
+          <p class='text-base sm:text-lg text-slate-600'>
+            Implementation is sequenced so stabilization precedes expansion, and
+            expansion precedes consolidation. Each phase delivers the
+            institutional foundation the next phase requires.
+          </p>
+        </div>
+
+        <div class='grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8'>
+          {
+            phases.map((phase) => (
+              <article
+                class={`group relative rounded-2xl border bg-white shadow-sm hover:shadow-lg transition-shadow overflow-hidden flex flex-col ${
+                  phase.highlight
+                    ? 'border-blue-200 ring-2 ring-blue-100'
+                    : 'border-slate-200'
+                }`}>
+                <div class='relative aspect-[16/9] overflow-hidden bg-slate-100'>
+                  <img
+                    src={phase.image}
+                    alt={phase.alt}
+                    class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                    loading='lazy'
+                    decoding='async'
+                  />
+                  {phase.highlight && (
+                    <span class='absolute top-4 right-4 inline-flex items-center gap-1 rounded-full bg-blue-600 text-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider shadow-md'>
+                      Peak Phase
+                    </span>
+                  )}
+                </div>
+                <div class='p-8 flex-1 flex flex-col'>
+                  <div class='flex items-center gap-3 mb-4'>
+                    <span class='inline-block text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded-full'>
+                      {phase.badge} · {phase.years}
+                    </span>
+                  </div>
+                  <h3 class='text-xl font-bold text-slate-900 mb-3'>
+                    {phase.title}
+                  </h3>
+                  <p class='text-sm text-slate-600 leading-relaxed mb-5'>
+                    {phase.description}
+                  </p>
+                  <ul class='space-y-2 text-sm text-slate-600 leading-relaxed mt-auto'>
+                    {phase.milestones.map((m) => (
+                      <li class='flex gap-2'>
+                        <span class='text-blue-600 font-bold shrink-0'>→</span>
+                        <span>{m}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         GAP MATRIX
+         ============================================================ -->
+    <section
+      id='gap-matrix'
+      class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white'>
+      <div class='max-w-6xl mx-auto'>
+        <div class='text-center max-w-3xl mx-auto mb-14 space-y-4'>
+          <span
+            class='text-secondary font-bold text-xs uppercase tracking-wider block'
+            >Level 5 Readiness Assessment</span
+          >
+          <h2 class='text-3xl sm:text-4xl lg:text-5xl font-bold'>
+            The Gap Matrix
+          </h2>
+          <p class='text-base sm:text-lg text-slate-600'>
+            Every domain below is benchmarked against Ministry of Health Level 5
+            requirements. Severity reflects how far current capacity sits from
+            accreditation standard.
+          </p>
+        </div>
+
+        <!-- Severity legend -->
+        <div class='flex flex-wrap items-center justify-center gap-4 mb-8'>
+          <span class='inline-flex items-center gap-2 text-xs text-slate-600'>
+            <span class='w-2.5 h-2.5 rounded-full bg-red-500'></span>
+            Critical
+          </span>
+          <span class='inline-flex items-center gap-2 text-xs text-slate-600'>
+            <span class='w-2.5 h-2.5 rounded-full bg-amber-500'></span>
+            High
+          </span>
+          <span class='inline-flex items-center gap-2 text-xs text-slate-600'>
+            <span class='w-2.5 h-2.5 rounded-full bg-slate-400'></span>
+            Moderate
+          </span>
+        </div>
+
+        <!-- Table (desktop) / Cards (mobile) -->
+        <div
+          class='hidden md:block overflow-hidden rounded-2xl border border-slate-200 shadow-sm'>
+          <table class='w-full text-left'>
+            <thead class='bg-slate-50 border-b border-slate-200'>
+              <tr>
+                <th
+                  class='px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-700'
+                  >Domain</th
+                >
+                <th
+                  class='px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-700'
+                  >MoH Level 5 Requirement</th
+                >
+                <th
+                  class='px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-700'
+                  >Current Status</th
+                >
+                <th
+                  class='px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-700'
+                  >Gap</th
+                >
+              </tr>
+            </thead>
+            <tbody class='divide-y divide-slate-100'>
+              {
+                gapMatrix.map((row) => (
+                  <tr class='hover:bg-slate-50/60 transition-colors'>
+                    <td class='px-6 py-4 text-sm font-semibold text-secondary'>
+                      {row.domain}
+                    </td>
+                    <td class='px-6 py-4 text-sm text-slate-600'>
+                      {row.requirement}
+                    </td>
+                    <td class='px-6 py-4 text-sm text-slate-600'>
+                      {row.current}
+                    </td>
+                    <td class='px-6 py-4'>
+                      <span
+                        class={`inline-flex items-center gap-1.5 text-xs font-semibold rounded-full px-2.5 py-1 ${
+                          row.severity === 'critical'
+                            ? 'bg-red-50 text-red-700'
+                            : row.severity === 'high'
+                              ? 'bg-amber-50 text-amber-700'
+                              : 'bg-slate-100 text-slate-600'
+                        }`}>
+                        <span
+                          class={`w-1.5 h-1.5 rounded-full ${
+                            row.severity === 'critical'
+                              ? 'bg-red-500'
+                              : row.severity === 'high'
+                                ? 'bg-amber-500'
+                                : 'bg-slate-400'
+                          }`}
+                        />
+                        {row.severity.charAt(0).toUpperCase() +
+                          row.severity.slice(1)}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mobile cards -->
+        <div class='md:hidden space-y-4'>
+          {
+            gapMatrix.map((row) => (
+              <article class='rounded-xl border border-slate-200 bg-white p-5'>
+                <div class='flex items-start justify-between gap-3 mb-3'>
+                  <h3 class='text-sm font-bold text-slate-900'>{row.domain}</h3>
+                  <span
+                    class={`shrink-0 inline-flex items-center gap-1.5 text-[10px] font-semibold rounded-full px-2 py-0.5 ${
+                      row.severity === 'critical'
+                        ? 'bg-red-50 text-red-700'
+                        : row.severity === 'high'
+                          ? 'bg-amber-50 text-amber-700'
+                          : 'bg-slate-100 text-slate-600'
+                    }`}>
+                    {row.severity.charAt(0).toUpperCase() +
+                      row.severity.slice(1)}
+                  </span>
+                </div>
+                <dl class='space-y-2 text-xs'>
+                  <div>
+                    <dt class='text-slate-500 uppercase tracking-wider font-semibold text-[10px]'>
+                      Requirement
+                    </dt>
+                    <dd class='text-slate-700 mt-0.5'>{row.requirement}</dd>
+                  </div>
+                  <div>
+                    <dt class='text-slate-500 uppercase tracking-wider font-semibold text-[10px]'>
+                      Current
+                    </dt>
+                    <dd class='text-slate-700 mt-0.5'>{row.current}</dd>
+                  </div>
+                </dl>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CAPABILITY DOMAINS
+         ============================================================ -->
+    <section
+      id='capabilities'
+      class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-slate-50'>
+      <div class='max-w-7xl mx-auto'>
+        <div class='text-center max-w-3xl mx-auto mb-16 space-y-4'>
+          <span
+            class='text-secondary font-bold text-xs uppercase tracking-wider block'
+            >What Changes</span
+          >
+          <h2 class='text-3xl sm:text-4xl lg:text-5xl font-bold'>
+            Six Capability Transformations
+          </h2>
+          <p class='text-base sm:text-lg text-slate-600'>
+            The Level 5 upgrade is not a single change. It is six interlocking
+            capability shifts that together move SPMH into accreditation-grade
+            service delivery.
+          </p>
+        </div>
+
+        <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+          {
+            capabilities.map((cap) => (
+              <article class='group rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-col'>
+                <div class='relative aspect-[16/10] overflow-hidden bg-slate-100'>
+                  <img
+                    src={cap.image}
+                    alt={cap.alt}
+                    class='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                    loading='lazy'
+                    decoding='async'
+                  />
+                </div>
+                <div class='p-6 flex-1 flex flex-col'>
+                  <h3 class='text-lg font-bold '>{cap.name}</h3>
+
+                  <div class='mt-4 space-y-3 text-sm flex-1'>
+                    <div class='flex items-start gap-3'>
+                      <span class='shrink-0 mt-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500 w-16'>
+                        Today
+                      </span>
+                      <span class='text-slate-600'>{cap.current}</span>
+                    </div>
+                    <div class='flex items-start gap-3'>
+                      <span class='shrink-0 mt-0.5 text-[10px] font-bold uppercase tracking-wider text-blue-700 w-16'>
+                        2030
+                      </span>
+                      <span class='text-slate-900 font-semibold'>
+                        {cap.target}
+                      </span>
+                    </div>
+                  </div>
+
+                  <p class='mt-4 pt-4 border-t border-slate-100 text-xs font-semibold text-slate-500 uppercase tracking-wider'>
+                    <i class='fas fa-calendar-check text-blue-500 mr-1.5' />
+                    {cap.timeline}
+                  </p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCORECARD
+         ============================================================ -->
+    <section
+      id='scorecard'
+      class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white'>
+      <div class='max-w-5xl mx-auto'>
+        <div class='text-center max-w-3xl mx-auto mb-14 space-y-4'>
+          <span
+            class='text-secondary font-bold text-xs uppercase tracking-wider block'
+            >By the Numbers</span
+          >
+          <h2 class='text-3xl sm:text-4xl lg:text-5xl font-bol'>
+            Current vs Target
+          </h2>
+          <p class='text-base sm:text-lg text-slate-600'>
+            The eight measures that will define whether SPMH meets Level 5
+            accreditation standards by 2030.
+          </p>
+        </div>
+
+        <div
+          class='overflow-hidden rounded-2xl border border-slate-200 shadow-sm'>
+          <table class='w-full'>
+            <thead class='bg-slate-900 text-white'>
+              <tr>
+                <th
+                  class='px-6 py-4 text-left text-xs font-bold uppercase tracking-wider'
+                  >Measure</th
+                >
+                <th
+                  class='px-6 py-4 text-center text-xs font-bold uppercase tracking-wider'
+                  >Today</th
+                >
+                <th
+                  class='px-6 py-4 text-center text-xs font-bold uppercase tracking-wider'
+                  >2030 Target</th
+                >
+              </tr>
+            </thead>
+            <tbody class='divide-y divide-slate-100 bg-white'>
+              {
+                scorecard.map((row) => (
+                  <tr class='hover:bg-slate-50/60 transition-colors'>
+                    <td class='px-6 py-4 text-sm font-semibold text-slate-900'>
+                      {row.metric}
+                    </td>
+                    <td class='px-6 py-4 text-center text-sm text-slate-500'>
+                      {row.current}
+                    </td>
+                    <td class='px-6 py-4 text-center text-sm font-bold text-[#1565c0]'>
+                      {row.target}
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SUBPAGE NAVIGATION GRID
+         ============================================================ -->
+    <section
+      id='explore'
+      class='relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-muted text-white'>
+      <div class='max-w-7xl mx-auto'>
+        <div class='text-center max-w-3xl mx-auto mb-16 space-y-4'>
+          <span
+            class='text-blue-300 font-bold text-xs uppercase tracking-wider block'
+            >Explore the Pathway</span
+          >
+          <h2 class='text-3xl sm:text-4xl lg:text-5xl font-bold text-white'>
+            Go Deeper
+          </h2>
+          <p class='text-base sm:text-lg text-blue-100/80'>
+            Each phase, capability, and partnership domain has its own page.
+            Follow the pathway that matters most to you.
+          </p>
+        </div>
+
+        <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+          {
+            subpages.map((page) => (
+              <a
+                href={page.href}
+                class='group block rounded-2xl border border-slate-700/60 bg-slate-800/40 hover:bg-slate-800 hover:border-blue-500/50 p-6 transition-all'>
+                <div class='flex items-start justify-between gap-4'>
+                  <div class='flex-1'>
+                    <h3 class='text-base font-bold text-white group-hover:text-blue-200 transition-colors'>
+                      {page.label}
+                    </h3>
+                    <p class='mt-2 text-sm text-slate-400 leading-relaxed'>
+                      {page.description}
+                    </p>
+                  </div>
+                  <i class='fas fa-arrow-right text-xs text-slate-500 group-hover:text-blue-300 group-hover:translate-x-1 transition-all shrink-0 mt-1' />
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         PARTNERSHIP CTA
+         ============================================================ -->
+    <section class='relative bg-slate-950 text-white overflow-hidden'>
+      <div class='relative flex flex-col lg:flex-row items-stretch'>
+        <div
+          class='w-full lg:w-1/2 px-4 sm:px-6 lg:pl-8 lg:pr-12 py-20 sm:py-28 flex flex-col justify-center'>
+          <span
+            class='inline-block bg-blue-500/20 text-blue-200 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4 self-start'>
+            Partnership Opportunity
+          </span>
+          <h2
+            class='text-4xl sm:text-5xl font-extrabold leading-tight text-white'>
+            Partner with us on the Level 5 journey.
+          </h2>
+          <p class='mt-6 text-lg text-blue-100/90 leading-relaxed'>
+            The Level 5 transition opens structured partnership pathways across
+            infrastructure, medical technology, digital systems, workforce
+            development, and academic collaboration. Priority investment areas
+            include ICU and HDU expansion, advanced diagnostics, theatre
+            modernization, and teaching hospital capacity.
+          </p>
+
+          <div class='mt-8 flex flex-wrap gap-3'>
+            <a
+              href='/training-and-research#partnership-inquiry'
+              class='inline-flex items-center justify-center px-6 py-3.5 text-sm font-semibold rounded-xl text-blue-900 bg-white hover:bg-blue-50 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-blue-900/30'>
+              Start a Partnership Conversation
+              <i class='fas fa-arrow-right ml-2 text-xs'></i>
+            </a>
+            <a
+              href='/files/spmh-strategic-plan-2026-2030.pdf'
+              download
+              class='inline-flex items-center justify-center px-6 py-3.5 text-sm font-medium rounded-xl text-white border border-white/30 hover:bg-white/10 hover:border-white/50 transition-all'>
+              <i class='fas fa-file-pdf mr-2'></i>
+              Download Strategic Plan
+            </a>
+          </div>
+        </div>
+
+        <div class='w-full lg:w-1/2 relative min-h-[320px] lg:min-h-full'>
+          <img
+            src='/img/37.jpg'
+            alt='SPMH leadership signing a partnership agreement'
+            class='absolute inset-0 w-full h-full object-cover'
+            loading='lazy'
+            decoding='async'
+          />
+          <div
+            class='absolute inset-0 bg-gradient-to-r from-slate-950/60 to-transparent lg:from-slate-950/30 lg:to-transparent'>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FAQ
+         ============================================================ -->
+    <section
+      id='faq'
+      class='relative py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white'>
+      <div class='max-w-3xl mx-auto'>
+        <div class='text-center mb-12 space-y-4'>
+          <span
+            class='text-secondary font-bold text-xs uppercase tracking-wider block'>
+            Frequently Asked
+          </span>
+          <h2 class='text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900'>
+            Level 5 Questions
+          </h2>
+        </div>
+
+        <div class='space-y-4'>
+          {
+            faqs.map((item) => (
+              <details class='group rounded-xl border border-slate-200 bg-slate-50 open:bg-white open:shadow-md transition-all'>
+                <summary class='flex items-center justify-between cursor-pointer px-6 py-4 font-semibold text-slate-900'>
+                  <span>{item.q}</span>
+                  <i class='fas fa-chevron-down text-xs text-slate-400 transition-transform group-open:rotate-180' />
+                </summary>
+                <div class='px-6 pb-5 text-sm text-slate-600 leading-relaxed'>
+                  {item.a}
+                </div>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FINAL CTA
+         ============================================================ -->
+    <section class='bg-gray-200 py-20 px-4 sm:px-6 lg:px-8'>
+      <div class='max-w-3xl mx-auto text-center'>
+        <h2
+          class='text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900'>
+          Follow the Journey
+        </h2>
+        <p class='mt-4 text-lg max-w-2xl mx-auto text-slate-600'>
+          Whether you are a student, an academic partner, a development partner,
+          or a member of the Homa Bay community — this pathway is being built
+          with you.
+        </p>
+
+        <div class='mt-10 flex flex-col sm:flex-row justify-center gap-4'>
+          <a
+            href='/training-and-research'
+            class='inline-flex items-center justify-center btn-primary text-white font-semibold px-8 py-4 rounded-lg transition-colors'>
+            Back to Training &amp; Research
+          </a>
+          <a
+            href='/contact'
+            class='inline-flex items-center justify-center btn-secondary font-semibold px-8 py-4 rounded-lg transition-colors'>
+            Contact the Team
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <AcademicsFooter />
+  </body>
+</html>

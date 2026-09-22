@@ -70,12 +70,6 @@ const faculty = [
   },
 ];
 
-const stats = [
-  { value: '6', label: 'Strategic Pillars' },
-  { value: 'KES 670M', label: '5-Year Investment' },
-  { value: '12-Bed', label: 'ICU Target by 2029' },
-  { value: 'Level 5', label: 'Accreditation by 2030' },
-];
 ---
 
 <html lang='en' class='scroll-smooth'>
@@ -465,29 +459,7 @@ const stats = [
         </div>
       </div>
     </section>
-
-    <!-- ============================================================
-         STAT BAND
-         ============================================================ -->
-    <section
-      class='relative bg-[#0d47a1] text-white border-y border-blue-900/40'>
-      <div
-        class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-center'>
-        {
-          stats.map((stat) => (
-            <div class='flex flex-col items-center'>
-              <span class='text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white'>
-                {stat.value}
-              </span>
-              <span class='mt-2 text-[10px] sm:text-xs uppercase tracking-widest text-blue-200 font-semibold'>
-                {stat.label}
-              </span>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-
+    
     <!-- ============================================================
          WHERE WE'RE GOING
          ============================================================ -->
