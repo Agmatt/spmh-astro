@@ -2,14 +2,14 @@
 const year = new Date().getFullYear()
 
 const quickLinks = [
-  { label: "Our Mission",       href: "/about-us/mission-vision-values" },
-  { label: "History",           href: "/about-us/history"               },
+  { label: "Our Mission",        href: "/about-us/mission-vision-values" },
+  { label: "History",            href: "/about-us/history"                },
   { label: "Clinical Services", href: "/services/clinical"              },
-  { label: "News & Media",      href: "/news-and-media"                 },
-  { label: "Careers",           href: "/careers",         external: true        },
-  { label: "Volunteer",         href: "/volunteer",          external: true      },
-  { label: "Partner With Us",   href: "/partner",              external: true     },
-  { label: "FAQ",           href: "/faq"               },
+  { label: "News & Media",      href: "/news-and-media"                  },
+  { label: "Careers",            href: "/careers",         external: true        },
+  { label: "Volunteer",          href: "/volunteer",          external: true      },
+  { label: "Partner With Us",    href: "/partner",             external: true     },
+  { label: "FAQ",            href: "/faq"                            },
 ]
 
 const contact = [
@@ -57,18 +57,23 @@ const socials = [
   },
   {
     label: "Facebook",
-    href: "https://facebook.com/st-paul's mission hospital/",
+    href: "https://facebook.com/stpaulsmhhomabay",
     path: "M22 12a10 10 0 10-11.5 9.87v-6.99H7.9v-2.88h2.6V9.84c0-2.56 1.52-3.98 3.85-3.98 1.12 0 2.3.2 2.3.2v2.53h-1.3c-1.28 0-1.68.8-1.68 1.61v1.93h2.86l-.46 2.88h-2.4v6.99A10 10 0 0022 12z",
   },
   {
     label: "Twitter / X",
-    href: "https://twitter.com/",
+    href: "https://twitter.com/@stpaulsmh_hb",
     path: "M18.9 2.5h3.4l-7.4 8.46L23.5 21.5h-6.9l-5.4-7.06-6.18 7.06H1.6l7.93-9.06L1 2.5h7.07l4.88 6.45L18.9 2.5z",
   },
   {
     label: "TikTok",
-    href: "https://tiktok.com/",
+    href: "https://tiktok.com/@st.paulsmh.ke",
     path: "M16.6 5.82a4.28 4.28 0 0 1-2.6-3.34h-3.07v13.3a2.6 2.6 0 1 1-1.83-2.48v-2.1a5.6 5.6 0 1 0 5.6 5.6V9.13a7.36 7.36 0 0 0 4.3 1.38V7.36a4.28 4.28 0 0 1-2.4-1.54z",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/company/st-paul-s-mission-hospital",
+    path: "M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z",
   },
 ]
 ---
@@ -201,7 +206,7 @@ const socials = [
                     {c.label}
                   </p>
                   <p class="text-white/70 group-hover:text-white text-sm leading-relaxed
-                             whitespace-pre-line transition-colors duration-200">
+                            whitespace-pre-line transition-colors duration-200">
                     {c.value}
                   </p>
                 </div>
@@ -244,9 +249,9 @@ const socials = [
 
       <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
         {[
-          { label: "Strategic Plan",  href: "/about-us/strategic-plan"        },
-          { label: "Contact",         href: "/about-us/contact"               },
-          { label: "Tenders",         href: "/about-us/tenders"               },
+          { label: "Strategic Plan",  href: "/about-us/strategic-plan"         },
+          { label: "Contact",         href: "/about-us/contact"                },
+          { label: "Tenders",         href: "/about-us/tenders"                },
         ].map((l, i, arr) => (
           <>
             <a href={l.href}
