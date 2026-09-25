@@ -1,38 +1,62 @@
 ---
-// src/pages/news-and-media/[slug].astro
-// SSR detail page for a single content_items row (article, blog, press_release, event).
 import NewsNavbar from '../../components/NewsNavbar.astro';
 import NewsFooter from '../../components/NewsFooter.astro';
-import { supabase } from '../../lib/supabase-news'; // adjust path to your existing client
+import { supabase } from '../../lib/supabase-news';
+import { PILLARS } from '../../lib/pillars';
 import '../../styles/global.css';
 
 const { slug } = Astro.params;
 
-const { data: item, error } = await supabase
-  .from('content_items')
-  .select('*')
-  .eq('slug', slug)
-  .eq('status', 'published')
-  .single();
+const FULL_FIELDS = '*';
+const SAFE_FIELDS =
+  'id, type, title, slug, excerpt, cover_image, author, published_at, event_date, location, body, status';
 
-if (error || !item) {
+let item: any = null;
+{
+  const { data, error } = await supabase
+    .from('content_items')
+    .select(FULL_FIELDS)
+    .eq('slug', slug)
+    .eq('status', 'published')
+    .single();
+
+  if (error || !data) {
+    const { data: safe } = await supabase
+      .from('content_items')
+      .select(SAFE_FIELDS)
+      .eq('slug', slug)
+      .eq('status', 'published')
+      .single();
+    if (safe) item = { ...safe, pillar: null, author_avatar: null };
+  } else {
+    item = data;
+  }
+}
+
+if (!item) {
   return Astro.redirect('/404');
 }
 
-const TYPE_LABEL = {
+const TYPE_LABEL: Record<string, string> = {
   article: 'Story',
   blog: 'Blog',
   press_release: 'Press Release',
   event: 'Event',
 };
-const TYPE_COLOR = {
+const TYPE_COLOR: Record<string, string> = {
   article: '#1565c0',
   blog: '#125276',
   press_release: '#860f0f',
   event: '#1565c0',
 };
+const TYPE_ARCHIVE: Record<string, string> = {
+  article: '/news-and-media/news/',
+  blog: '/news-and-media/blog/',
+  press_release: '/news-and-media/press/',
+  event: '/news-and-media/events/',
+};
 
-const fmtDate = (d) =>
+const fmtDate = (d: string | null | undefined) =>
   d
     ? new Date(d).toLocaleDateString('en-KE', {
         day: 'numeric',
@@ -40,7 +64,7 @@ const fmtDate = (d) =>
         year: 'numeric',
       })
     : '';
-const fmtDateShort = (d) =>
+const fmtDateShort = (d: string | null | undefined) =>
   d
     ? new Date(d).toLocaleDateString('en-KE', {
         day: '2-digit',
@@ -48,24 +72,83 @@ const fmtDateShort = (d) =>
         year: 'numeric',
       })
     : '';
+const initials = (n: string | null | undefined) =>
+  n
+    ? n
+        .split(' ')
+        .map((x) => x[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase()
+    : '·';
 
-// "More like this" — same type, excluding current item
-const { data: moreRaw } = await supabase
-  .from('content_items')
-  .select(
-    'id, type, title, slug, excerpt, cover_image, published_at, event_date, location',
-  )
-  .eq('status', 'published')
-  .eq('type', item.type)
-  .neq('id', item.id)
-  .order('published_at', { ascending: false })
-  .limit(3);
-const more = moreRaw ?? [];
+let more: any[] = [];
+{
+  const { data, error } = await supabase
+    .from('content_items')
+    .select(
+      'id, type, title, slug, excerpt, cover_image, author, author_avatar, published_at, event_date, location, pillar',
+    )
+    .eq('status', 'published')
+    .eq('type', item.type)
+    .neq('id', item.id)
+    .order('published_at', { ascending: false })
+    .limit(8);
+
+  let pool = error ? [] : (data ?? []);
+  if (error) {
+    const { data: safe } = await supabase
+      .from('content_items')
+      .select(
+        'id, type, title, slug, excerpt, cover_image, author, published_at, event_date, location',
+      )
+      .eq('status', 'published')
+      .eq('type', item.type)
+      .neq('id', item.id)
+      .order('published_at', { ascending: false })
+      .limit(8);
+    pool = (safe ?? []).map((r: any) => ({
+      ...r,
+      pillar: null,
+      author_avatar: null,
+    }));
+  }
+
+  more = pool
+    .sort((a: any, b: any) => {
+      const aMatch = item.pillar && a.pillar === item.pillar ? 1 : 0;
+      const bMatch = item.pillar && b.pillar === item.pillar ? 1 : 0;
+      return bMatch - aMatch;
+    })
+    .slice(0, 3);
+}
 
 const pageUrl = new URL(
   Astro.url.pathname,
   Astro.site ?? Astro.url.origin,
 ).toString();
+const pillar =
+  item.pillar && PILLARS[item.pillar] ? PILLARS[item.pillar] : null;
+const backHref = TYPE_ARCHIVE[item.type] ?? '/news-and-media/';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  headline: item.title,
+  description: item.excerpt ?? '',
+  datePublished: item.published_at ?? item.event_date ?? '',
+  author: item.author ? { '@type': 'Person', name: item.author } : undefined,
+  publisher: {
+    '@type': 'Organization',
+    name: "St. Paul's Mission Hospital",
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.spmh.co.ke/logos/logo.png',
+    },
+  },
+  image: item.cover_image ? [item.cover_image] : undefined,
+  mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+};
 ---
 
 <html lang='en'>
@@ -74,60 +157,84 @@ const pageUrl = new URL(
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>{item.title} | St. Paul's Mission Hospital</title>
     <meta name='description' content={item.excerpt ?? ''} />
+    <link rel='canonical' href={pageUrl} />
 
-    <!-- Open Graph / social sharing -->
     <meta property='og:type' content='article' />
+    <meta property='og:site_name' content="St. Paul's Mission Hospital" />
     <meta property='og:title' content={item.title} />
     <meta property='og:description' content={item.excerpt ?? ''} />
+    <meta property='og:url' content={pageUrl} />
     {
       item.cover_image && (
         <meta property='og:image' content={item.cover_image} />
       )
     }
-    <meta property='og:url' content={pageUrl} />
+    <meta name='twitter:card' content='summary_large_image' />
+    <meta name='twitter:title' content={item.title} />
+    <meta name='twitter:description' content={item.excerpt ?? ''} />
+    {
+      item.cover_image && (
+        <meta name='twitter:image' content={item.cover_image} />
+      )
+    }
 
-    <link rel='icon' type='image/png' href='/favicon.png' />
-    <link rel='apple-touch-icon' href='/favicon.png' />
+    <link rel='icon' type='image/png' href='/file.svg' />
     <script
       defer
       src='https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js'
     ></script>
+    <script type='application/ld+json' set:html={JSON.stringify(jsonLd)} />
   </head>
   <body class='bg-[#F7F9FB] text-[#14202B]'>
     <NewsNavbar />
 
     <main class='max-w-3xl mx-auto px-6 py-12'>
       <a
-        href='/news-and-media/'
-        class="font-['Open Sans'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
-        <span aria-hidden='true'>←</span> Back to News &amp; Media
+        href={backHref}
+        class="font-['Open_Sans'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
+        <span aria-hidden='true'>←</span> Back to {
+          TYPE_LABEL[item.type] ?? 'News'
+        }
       </a>
 
-      <!-- Header -->
       <header class='mb-8'>
-        <span
-          class="font-['Open Sans'] text-xs font-semibold tracking-[0.15em] uppercase"
-          style={`color:${TYPE_COLOR[item.type] ?? '#1565c0'}`}>
-          {TYPE_LABEL[item.type] ?? item.type}
-        </span>
+        <div class='flex items-center gap-3 flex-wrap'>
+          <span
+            class="font-['Open_Sans'] text-[10px] font-semibold tracking-[0.18em] uppercase"
+            style={`color:${TYPE_COLOR[item.type] ?? '#1565c0'}`}>
+            {TYPE_LABEL[item.type] ?? item.type}
+          </span>
+          {
+            pillar && item.pillar && (
+              <>
+                <span class='w-px h-3 bg-[#D8E0E7]' />
+                <a
+                  href={`/news-and-media/pillar/${item.pillar}/`}
+                  class="font-['Open_Sans'] text-[10px] font-semibold tracking-[0.14em] uppercase hover:underline"
+                  style={`color:${pillar.color}`}>
+                  {pillar.label}
+                </a>
+              </>
+            )
+          }
+        </div>
 
         <h1
-          class="font-['Roboto'] text-3xl sm:text-4xl font-semibold leading-tight mt-3">
+          class="font-['Lato'] text-3xl sm:text-4xl font-semibold leading-tight text-[#0E2A47] mt-3">
           {item.title}
         </h1>
 
         {
           item.excerpt && (
-            <p class="font-['Open Sans'] text-lg text-[#5A6B77] leading-relaxed mt-4">
+            <p class="font-['Open_Sans'] text-lg text-[#5A6B77] leading-relaxed mt-4">
               {item.excerpt}
             </p>
           )
         }
 
-        <!-- Type-specific meta row -->
         {
           item.type === 'event' ? (
-            <div class="flex flex-wrap items-center gap-x-6 gap-y-2 mt-6 font-['Open Sans'] text-sm text-[#3E5262] border-y border-[#D8E0E7] py-4">
+            <div class="flex flex-wrap items-center gap-x-6 gap-y-2 mt-6 font-['Open_Sans'] text-sm text-[#3E5262] border-y border-[#D8E0E7] py-4">
               <span class='flex items-center gap-2'>
                 <svg
                   width='15'
@@ -158,42 +265,92 @@ const pageUrl = new URL(
               )}
             </div>
           ) : (
-            <p class="font-['Open Sans'] text-sm text-[#7A8A96] mt-6 border-y border-[#D8E0E7] py-4">
-              {item.author && (
-                <span class='text-[#3E5262] font-medium'>{item.author}</span>
+            <div class='flex items-center gap-3 mt-6 border-y border-[#D8E0E7] py-4'>
+              {item.author_avatar ? (
+                <img
+                  src={item.author_avatar}
+                  alt={item.author}
+                  class='w-8 h-8 rounded-full object-cover'
+                />
+              ) : (
+                item.author && (
+                  <span class="w-8 h-8 rounded-full bg-[#E7ECF0] text-[#125276] flex items-center justify-center font-['Open_Sans'] text-[11px] font-semibold">
+                    {initials(item.author)}
+                  </span>
+                )
               )}
-              {item.author && ' · '}
-              {fmtDate(item.published_at)}
-            </p>
+              <p class="font-['Open_Sans'] text-sm text-[#7A8A96]">
+                {item.author && (
+                  <span class='text-[#3E5262] font-medium'>{item.author}</span>
+                )}
+                {item.author && <span class='mx-1.5'>·</span>}
+                {fmtDate(item.published_at)}
+              </p>
+            </div>
           )
         }
       </header>
 
       {
         item.cover_image && (
-          <div class='rounded-sm overflow-hidden bg-[#E7ECF0] mb-10'>
+          <div class='overflow-hidden bg-[#E7ECF0] mb-10'>
             <img
               src={item.cover_image}
               alt={item.title}
               class='w-full h-auto object-cover'
-              loading="lazy"
+              loading='lazy'
             />
           </div>
         )
       }
 
-      <!-- Body: handles both old plain-text posts and new HTML (Tiptap) posts -->
       <div
-        class="font-['Open Sans'] text-[#243440] leading-relaxed prose-content"
-        set:html={item.body.includes('<') ? item.body : `<p>${item.body.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`}
+        class="font-['Open_Sans'] text-[#243440] leading-relaxed prose-content"
+        set:html={item.body.includes('<')
+          ? item.body
+          : `<p>${item.body.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`}
       />
 
-      <!-- Share -->
+      {
+        pillar && item.pillar && (
+          <aside
+            class='mt-12 border-l-2 pl-5 py-3'
+            style={`border-color:${pillar.color}`}>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase font-semibold"
+              style={`color:${pillar.color}`}>
+              {pillar.label}
+            </p>
+            <p class="font-['Open_Sans'] text-[14px] text-[#3E5262] leading-relaxed mt-2">
+              This {TYPE_LABEL[item.type]?.toLowerCase() ?? 'story'} relates to
+              the
+              <strong class='text-[#0E2A47] font-medium'>
+                {pillar.label}
+              </strong>{' '}
+              pillar — one of six guiding St. Paul's Mission Hospital's
+              transformation toward 2026–2030.
+            </p>
+            <div class='flex flex-wrap items-center gap-x-4 gap-y-2 mt-3'>
+              <a
+                href='/strategic-plan/'
+                class="font-['Open_Sans'] text-[13px] font-medium text-[#1565c0] hover:underline inline-flex items-center gap-1">
+                Read the Strategic Plan <span aria-hidden='true'>→</span>
+              </a>
+              <a
+                href={`/news-and-media/pillar/${item.pillar}/`}
+                class="font-['Open_Sans'] text-[13px] font-medium text-[#1565c0] hover:underline inline-flex items-center gap-1">
+                All {pillar.label} stories <span aria-hidden='true'>→</span>
+              </a>
+            </div>
+          </aside>
+        )
+      }
+
       <div class='flex items-center gap-4 mt-12 pt-6 border-t border-[#D8E0E7]'>
         <span
-          class="font-['Open Sans'] text-xs tracking-[0.15em] uppercase text-[#7A8A96] font-semibold"
-          >Share</span
-        >
+          class="font-['Open_Sans'] text-xs tracking-[0.15em] uppercase text-[#7A8A96] font-semibold">
+          Share
+        </span>
         <a
           href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`}
           target='_blank'
@@ -233,35 +390,46 @@ const pageUrl = new URL(
       </div>
     </main>
 
-    <!-- More like this -->
     {
       more.length > 0 && (
         <section class='max-w-5xl mx-auto px-6 pb-16'>
-          <h2 class="font-['Roboto'] text-xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-7">
-            More {TYPE_LABEL[item.type] ?? ''}
+          <h2 class="font-['Lato'] text-xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-7">
+            More {TYPE_LABEL[item.type] ?? ''}s
           </h2>
           <div class='grid sm:grid-cols-3 gap-7'>
             {more.map((m) => (
-              <a href={`/news-and-media/${m.slug}/`} class='group block'>
-                <div class='overflow-hidden rounded-sm bg-[#E7ECF0] aspect-[3/2] mb-3.5'>
-                  {m.cover_image && (
-                    <img
-                      src={m.cover_image}
-                      alt={m.title}
-                      loading='lazy'
-                      class='w-full h-full object-cover transition duration-500 group-hover:scale-[1.03]'
-                    />
-                  )}
-                </div>
-                <h3 class="font-['Roboto'] text-base font-semibold leading-snug group-hover:text-[#1565c0] transition-colors">
-                  {m.title}
-                </h3>
-                <p class="font-['Open Sans'] text-xs text-[#7A8A96] mt-2">
+              <div class='group'>
+                <a href={`/news-and-media/${m.slug}/`} class='block'>
+                  <div class='overflow-hidden bg-[#E7ECF0] aspect-[3/2] mb-3.5'>
+                    {m.cover_image && (
+                      <img
+                        src={m.cover_image}
+                        alt={m.title}
+                        loading='lazy'
+                        class='w-full h-full object-cover transition duration-500 group-hover:scale-[1.03]'
+                      />
+                    )}
+                  </div>
+                </a>
+                {m.pillar && PILLARS[m.pillar] && (
+                  <a
+                    href={`/news-and-media/pillar/${m.pillar}/`}
+                    class="inline-block font-['Open_Sans'] text-[9.5px] font-semibold tracking-[0.14em] uppercase px-2 py-0.5 mb-2 hover:opacity-80 transition-opacity"
+                    style={`background:${PILLARS[m.pillar].bg}; color:${PILLARS[m.pillar].color}`}>
+                    {PILLARS[m.pillar].label}
+                  </a>
+                )}
+                <a href={`/news-and-media/${m.slug}/`} class='block'>
+                  <h3 class="font-['Lato'] text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors">
+                    {m.title}
+                  </h3>
+                </a>
+                <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-2">
                   {m.type === 'event'
                     ? fmtDateShort(m.event_date)
                     : fmtDateShort(m.published_at)}
                 </p>
-              </a>
+              </div>
             ))}
           </div>
         </section>
@@ -271,21 +439,21 @@ const pageUrl = new URL(
     <NewsFooter />
 
     <style>
-      /* Body copy styling for rich-text HTML from the editorial dashboard */
       .prose-content :global(p) {
         margin-bottom: 1.25em;
       }
       .prose-content :global(h2) {
-        font-family: 'Playfair Display', serif;
+        font-family: 'Lato', sans-serif;
         font-size: 1.4rem;
         font-weight: 600;
         color: #125276;
         margin: 1.75em 0 0.6em;
       }
       .prose-content :global(h3) {
-        font-family: 'Playfair Display', serif;
+        font-family: 'Lato', sans-serif;
         font-size: 1.15rem;
         font-weight: 600;
+        color: #0e2a47;
         margin: 1.5em 0 0.5em;
       }
       .prose-content :global(a) {
@@ -310,7 +478,6 @@ const pageUrl = new URL(
         margin: 1.5em 0;
       }
       .prose-content :global(img) {
-        border-radius: 2px;
         margin: 1.5em 0;
       }
     </style>

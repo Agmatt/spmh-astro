@@ -11,6 +11,51 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const IDLE_TIME = 15 * 60 * 1000; // 15 minutes
 
+const PILLARS = [
+  { key: 'clinical', label: 'Clinical Services', color: '#1565c0' },
+  { key: 'workforce', label: 'Health Workforce', color: '#2E7D32' },
+  {
+    key: 'infrastructure',
+    label: 'Infrastructure & Digital',
+    color: '#00695C',
+  },
+  { key: 'financing', label: 'Health Financing', color: '#B26A00' },
+  { key: 'community', label: 'Community Health', color: '#6A1B9A' },
+  { key: 'governance', label: 'Governance', color: '#860f0f' },
+];
+
+function suggestPillar(title = '', excerpt = '') {
+  const t = (title + ' ' + excerpt).toLowerCase();
+  const rules = [
+    [
+      'clinical',
+      /(icu|maternity|surgery|emergency|newborn|delivery|clinical|opd|inpatient|pediatric|vaccin)/,
+    ],
+    [
+      'workforce',
+      /(staff|training|cpd|nurse|doctor|recruit|workforce|leadership|midwife)/,
+    ],
+    [
+      'infrastructure',
+      /(emr|digital|equipment|theatre|building|renovation|infrastructure|telemedicine|ict|biomedical)/,
+    ],
+    [
+      'financing',
+      /(sha|nhif|claims|revenue|donor|financing|budget|cost|funding)/,
+    ],
+    [
+      'community',
+      /(outreach|chp|community|camp|screening|public health|village)/,
+    ],
+    [
+      'governance',
+      /(board|governance|partnership|diocese|bishop|policy|ethics)/,
+    ],
+  ];
+  for (const [key, re] of rules) if (re.test(t)) return key;
+  return '';
+}
+
 const EditorialDashboard = () => {
   const [authState, setAuthState] = useState('loading');
   const [user, setUser] = useState(null);
@@ -42,9 +87,9 @@ const EditorialDashboard = () => {
     published_at: new Date().toISOString().split('T')[0],
     event_date: '',
     location: '',
+    pillar: '',
   });
 
-  // Tiptap editor
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -158,6 +203,7 @@ const EditorialDashboard = () => {
       published_at: new Date().toISOString().split('T')[0],
       event_date: '',
       location: '',
+      pillar: '',
     });
   }
 
@@ -245,6 +291,11 @@ const EditorialDashboard = () => {
       return;
     }
 
+    if (!form.pillar) {
+      setError('Please select a Strategic Pillar (or click "Auto-suggest")');
+      return;
+    }
+
     try {
       const payload = {
         type: form.type,
@@ -258,6 +309,7 @@ const EditorialDashboard = () => {
         published_at: form.status === 'published' ? form.published_at : null,
         event_date: form.type === 'event' ? form.event_date : null,
         location: form.type === 'event' ? form.location : null,
+        pillar: form.pillar,
       };
 
       if (editingId) {
@@ -302,6 +354,7 @@ const EditorialDashboard = () => {
       published_at: new Date().toISOString().split('T')[0],
       event_date: '',
       location: '',
+      pillar: '',
     });
     if (editor) {
       editor.commands.setContent('');
@@ -323,6 +376,7 @@ const EditorialDashboard = () => {
       published_at: item.published_at ? item.published_at.split('T')[0] : '',
       event_date: item.event_date ? item.event_date.split('T')[0] : '',
       location: item.location || '',
+      pillar: item.pillar || '',
     });
     if (editor) {
       editor.commands.setContent(item.body || '');
@@ -544,7 +598,7 @@ const EditorialDashboard = () => {
                   key={item.id}
                   className='bg-white border border-[#D8E0E7] rounded-sm p-5 flex items-center justify-between'>
                   <div className='min-w-0'>
-                    <div className='flex items-center gap-3 mb-1'>
+                    <div className='flex items-center gap-3 mb-1 flex-wrap'>
                       <span className="font-['Outfit'] text-xs font-semibold uppercase text-[#1565c0]">
                         {item.type}
                       </span>
@@ -558,6 +612,25 @@ const EditorialDashboard = () => {
                         }`}>
                         {item.status}
                       </span>
+                      {item.pillar ? (
+                        <span
+                          className="font-['Outfit'] text-xs px-2 py-1 rounded-sm font-medium"
+                          style={{
+                            background:
+                              (PILLARS.find((p) => p.key === item.pillar)
+                                ?.color || '#7A8A96') + '15',
+                            color:
+                              PILLARS.find((p) => p.key === item.pillar)
+                                ?.color || '#7A8A96',
+                          }}>
+                          {PILLARS.find((p) => p.key === item.pillar)?.label ||
+                            item.pillar}
+                        </span>
+                      ) : (
+                        <span className="font-['Outfit'] text-xs px-2 py-1 rounded-sm bg-[#860f0f]/10 text-[#860f0f]">
+                          ⚠ No pillar
+                        </span>
+                      )}
                     </div>
                     <h3 className="font-['Playfair_Display'] text-base font-semibold text-[#125276] truncate">
                       {item.title}
@@ -587,6 +660,49 @@ const EditorialDashboard = () => {
           <form
             onSubmit={handleSubmit}
             className='max-w-2xl space-y-6 bg-white border border-[#D8E0E7] rounded-sm p-8'>
+            <div>
+              <div className='flex items-center justify-between mb-2'>
+                <label className="block font-['Outfit'] text-sm font-medium text-[#14202B]">
+                  Strategic Pillar *
+                </label>
+                <button
+                  type='button'
+                  onClick={() =>
+                    setForm((prev) => ({
+                      ...prev,
+                      pillar: suggestPillar(prev.title, prev.excerpt),
+                    }))
+                  }
+                  className="font-['Outfit'] text-xs text-[#1565c0] hover:underline">
+                  Auto-suggest from title
+                </button>
+              </div>
+              <select
+                name='pillar'
+                value={form.pillar}
+                onChange={handleInputChange}
+                className="w-full font-['Outfit'] bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30">
+                <option value=''>— Select a pillar —</option>
+                {PILLARS.map((p) => (
+                  <option key={p.key} value={p.key}>
+                    {p.label}
+                  </option>
+                ))}
+              </select>
+              {form.pillar && (
+                <p className="font-['Outfit'] text-xs text-[#7A8A96] mt-1.5">
+                  This item will appear on{' '}
+                  <a
+                    href={`/news-and-media/pillar/${form.pillar}/`}
+                    target='_blank'
+                    rel='noopener'
+                    className='text-[#1565c0] hover:underline'>
+                    /news-and-media/pillar/{form.pillar}/
+                  </a>
+                </p>
+              )}
+            </div>
+
             <div>
               <label className="block font-['Outfit'] text-sm font-medium text-[#14202B] mb-2">
                 Content Type
@@ -654,13 +770,11 @@ const EditorialDashboard = () => {
               />
             </div>
 
-            {/* Tiptap Editor */}
             <div>
               <label className="block font-['Outfit'] text-sm font-medium text-[#14202B] mb-2">
                 Body Content *
               </label>
               <div className='border border-[#D8E0E7] rounded-sm bg-white'>
-                {/* Toolbar */}
                 <div className='flex flex-wrap gap-1 border-b border-[#D8E0E7] p-2 bg-[#F7F9FB]'>
                   <button
                     type='button'
@@ -738,7 +852,6 @@ const EditorialDashboard = () => {
                   </button>
                 </div>
 
-                {/* Editor */}
                 <EditorContent
                   editor={editor}
                   className='prose prose-sm max-w-none px-4 py-3 min-h-64 outline-none'

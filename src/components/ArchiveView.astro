@@ -1,0 +1,227 @@
+---
+import NewsNavbar from './NewsNavbar.astro';
+import NewsFooter from './NewsFooter.astro';
+import { supabase } from '../lib/supabase-news';
+import { PILLARS } from '../lib/pillars';
+import '../styles/global.css';
+
+const {
+  type,
+  title,
+  blurb,
+  backHref = '/news-and-media/',
+  backLabel = 'Back to News & Media',
+} = Astro.props;
+
+const fmtDate = (d) =>
+  d
+    ? new Date(d).toLocaleDateString('en-KE', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      })
+    : '';
+const initials = (n) =>
+  n
+    ? n
+        .split(' ')
+        .map((x) => x[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase()
+    : '·';
+
+const FULL_FIELDS =
+  'id, type, title, slug, excerpt, cover_image, author, author_avatar, published_at, event_date, location, pillar';
+const SAFE_FIELDS =
+  'id, type, title, slug, excerpt, cover_image, author, published_at, event_date, location';
+
+const buildQuery = (fields: string) => {
+  let q = supabase
+    .from('content_items')
+    .select(fields)
+    .eq('status', 'published')
+    .eq('type', type);
+
+  if (type === 'event') {
+    q = q
+      .gte('event_date', new Date().toISOString())
+      .order('event_date', { ascending: true });
+  } else {
+    q = q.order('published_at', { ascending: false });
+  }
+  return q.limit(48);
+};
+
+let items: any[] = [];
+try {
+  const { data, error } = await buildQuery(FULL_FIELDS);
+  if (error) {
+    const { data: safe, error: safeErr } = await buildQuery(SAFE_FIELDS);
+    if (!safeErr)
+      items = (safe ?? []).map((r: any) => ({
+        ...r,
+        pillar: null,
+        author_avatar: null,
+      }));
+  } else {
+    items = data ?? [];
+  }
+} catch (e) {
+  console.error(`Failed to load archive ${type}:`, e);
+}
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>{title} | St. Paul's Mission Hospital</title>
+    <link
+      rel='canonical'
+      href={`https://www.spmh.co.ke${Astro.url.pathname}`}
+    />
+    <link rel='icon' type='image/png' href='/file.svg' />
+    <script
+      defer
+      src='https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js'
+    ></script>
+  </head>
+  <body class='bg-[#F7F9FB] text-[#14202B]'>
+    <NewsNavbar />
+
+    <main class='max-w-7xl mx-auto px-6 py-12'>
+      <a
+        href={backHref}
+        class="font-['Open_Sans'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
+        <span aria-hidden='true'>←</span>
+        {backLabel}
+      </a>
+
+      <header class='border-b border-[#D8E0E7] pb-8 mb-10'>
+        <p
+          class="font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase text-[#860f0f] font-semibold">
+          Archive
+        </p>
+        <h1
+          class="font-['Lato'] text-3xl sm:text-4xl font-semibold text-[#0E2A47] mt-3">
+          {title}
+        </h1>
+        {
+          blurb && (
+            <p class="font-['Open_Sans'] text-[#5A6B77] mt-3 max-w-2xl leading-relaxed">
+              {blurb}
+            </p>
+          )
+        }
+        <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-4">
+          {items.length}
+          {items.length === 1 ? 'item' : 'items'}
+        </p>
+      </header>
+
+      {
+        items.length === 0 ? (
+          <p class="font-['Open_Sans'] text-[#7A8A96] py-16 text-center">
+            Nothing published here yet.
+          </p>
+        ) : type === 'event' ? (
+          <div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+            {items.map((ev) => {
+              const d = ev.event_date ? new Date(ev.event_date) : null;
+              const day = d
+                ? d.toLocaleDateString('en-KE', { day: '2-digit' })
+                : '';
+              const month = d
+                ? d
+                    .toLocaleDateString('en-KE', { month: 'short' })
+                    .toUpperCase()
+                : '';
+              return (
+                <a
+                  href={`/news-and-media/${ev.slug}/`}
+                  class='group flex gap-4 items-start border border-[#D8E0E7] bg-white p-5 hover:border-[#1565c0] transition-colors'>
+                  <div class='shrink-0 w-14 text-center bg-[#1565c0]'>
+                    <p class="font-['Open_Sans'] text-[10px] tracking-[0.1em] uppercase text-white/80 pt-1.5">
+                      {month}
+                    </p>
+                    <p class="font-['Lato'] text-xl text-white font-semibold pb-1.5">
+                      {day}
+                    </p>
+                  </div>
+                  <div class='min-w-0'>
+                    <h3 class="font-['Lato'] text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors">
+                      {ev.title}
+                    </h3>
+                    {ev.location && (
+                      <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-1.5">
+                        {ev.location}
+                      </p>
+                    )}
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        ) : (
+          <div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10'>
+            {items.map((item) => (
+              <div class='group'>
+                <a href={`/news-and-media/${item.slug}/`} class='block'>
+                  <div class='overflow-hidden bg-[#E7ECF0] aspect-[3/2] mb-3.5'>
+                    {item.cover_image && (
+                      <img
+                        src={item.cover_image}
+                        alt={item.title}
+                        loading='lazy'
+                        class='w-full h-full object-cover transition duration-500 group-hover:scale-[1.03]'
+                      />
+                    )}
+                  </div>
+                </a>
+                {item.pillar && PILLARS[item.pillar] && (
+                  <a
+                    href={`/news-and-media/pillar/${item.pillar}/`}
+                    class="inline-block font-['Open_Sans'] text-[9.5px] font-semibold tracking-[0.14em] uppercase px-2 py-0.5 mb-2 hover:opacity-80 transition-opacity"
+                    style={`background:${PILLARS[item.pillar].bg}; color:${PILLARS[item.pillar].color}`}>
+                    {PILLARS[item.pillar].label}
+                  </a>
+                )}
+                <a href={`/news-and-media/${item.slug}/`} class='block'>
+                  <h3 class="font-['Lato'] text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors">
+                    {item.title}
+                  </h3>
+                  {item.excerpt && (
+                    <p class="font-['Open_Sans'] text-sm text-[#5A6B77] mt-1.5 line-clamp-2">
+                      {item.excerpt}
+                    </p>
+                  )}
+                </a>
+                <div class='flex items-center gap-2 mt-3'>
+                  {item.author_avatar ? (
+                    <img
+                      src={item.author_avatar}
+                      alt={item.author}
+                      class='w-5 h-5 rounded-full object-cover'
+                    />
+                  ) : (
+                    item.author && (
+                      <span class="w-5 h-5 rounded-full bg-[#E7ECF0] text-[#125276] flex items-center justify-center font-['Open_Sans'] text-[9px] font-semibold">
+                        {initials(item.author)}
+                      </span>
+                    )
+                  )}
+                  <p class="font-['Open_Sans'] text-xs text-[#7A8A96]">
+                    {fmtDate(item.published_at)}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      }
+    </main>
+
+    <NewsFooter />
+  </body>
+</html>

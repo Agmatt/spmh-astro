@@ -1,24 +1,40 @@
 ---
-// src/pages/news-and-media/index.astro
-import NewsNavbar from '../../components//NewsNavbar.astro';
-import NewsFooter from '../../components//NewsFooter.astro';
-import { supabase } from '../../lib/supabase-news'; // adjust path to your existing client
+import NewsNavbar from '../../components/NewsNavbar.astro';
+import NewsFooter from '../../components/NewsFooter.astro';
+import { supabase } from '../../lib/supabase-news';
+import { PILLARS } from '../../lib/pillars';
 import '../../styles/global.css';
 
-
-
 const fmtDate = (d) => d ? new Date(d).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+const fmtDateLong = (d) => d ? new Date(d).toLocaleDateString('en-KE', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+const initials = (n) => n ? n.split(' ').map(x => x[0]).join('').slice(0, 2).toUpperCase() : '·';
+
+const FULL_FIELDS = 'id, type, title, slug, excerpt, cover_image, author, author_avatar, published_at, event_date, location, pillar';
+const SAFE_FIELDS = 'id, type, title, slug, excerpt, cover_image, author, published_at, event_date, location';
 
 async function fetchType(type, limit) {
-  try {
-    const { data, error } = await supabase
+  const buildQuery = (fields) => {
+    let q = supabase
       .from('content_items')
-      .select('id, type, title, slug, excerpt, cover_image, author, published_at, event_date, location')
+      .select(fields)
       .eq('status', 'published')
-      .eq('type', type)
-      .order('published_at', { ascending: false })
-      .limit(limit);
-    if (error) throw error;
+      .eq('type', type);
+
+    if (type === 'event') {
+      q = q.gte('event_date', new Date().toISOString()).order('event_date', { ascending: true });
+    } else {
+      q = q.order('published_at', { ascending: false });
+    }
+    return q.limit(limit);
+  };
+
+  try {
+    const { data, error } = await buildQuery(FULL_FIELDS);
+    if (error) {
+      const { data: safe, error: safeErr } = await buildQuery(SAFE_FIELDS);
+      if (safeErr) throw safeErr;
+      return (safe ?? []).map((r) => ({ ...r, pillar: null, author_avatar: null }));
+    }
     return data ?? [];
   } catch (e) {
     console.error(`Failed to load ${type}:`, e);
@@ -27,38 +43,250 @@ async function fetchType(type, limit) {
 }
 
 const [articles, blogPosts, pressReleases, events] = await Promise.all([
-  fetchType('article', 4),
+  fetchType('article', 5),
   fetchType('blog', 4),
-  fetchType('press_release', 4),
+  fetchType('press_release', 5),
   fetchType('event', 6),
 ]);
 
-// Carousel: 1 article, 1 blog, 1 press release
-const carouselSlides = [articles[0], blogPosts[0], pressReleases[0]].filter(Boolean);
-const featured = articles.slice(0, 3);
-const blogList = blogPosts.slice(0, 3);
-const pressList = pressReleases.slice(0, 4);
+const heroLead = articles[0] ?? null;
+const heroSecondaries = [blogPosts[0], pressReleases[0], events[0]].filter(Boolean);
+
+const carouselSlides = [articles[1], blogPosts[1], pressReleases[1]].filter(Boolean);
+const featured = articles.slice(2, 5);
+const blogList = blogPosts.slice(1, 4);
+const pressList = pressReleases.slice(1, 5);
+
+const taggedArticles = articles.filter((a) => a.pillar);
+const planRail = taggedArticles.length >= 3 ? taggedArticles.slice(0, 3) : articles.slice(0, 3);
+
+const PHASES = [
+  { label: 'Stabilization', years: '2026–2027', status: 'current' },
+  { label: 'Expansion',     years: '2028–2029', status: 'next'    },
+  { label: 'Excellence',    years: '2030',      status: 'next'    },
+];
+const CURRENT_PHASE = PHASES.find((p) => p.status === 'current');
+
+const SECTIONS = [
+  { id: 'stories', label: 'Stories' },
+  { id: 'blog',    label: 'Blog' },
+  { id: 'press',   label: 'Press Releases' },
+  { id: 'events',  label: 'Events' },
+];
 ---
 
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>News & Media | St. Paul's Mission Hospital</title>
-      <link rel='canonical' href='https://www.spmh.co.ke/news-and-media' />
-
+  <link rel="canonical" href="https://www.spmh.co.ke/news-and-media" />
   <link rel="icon" type="image/png" href="/file.svg" />
+  <link rel="alternate" type="application/rss+xml" title="St. Paul's Mission Hospital — News & Media" href="/news-and-media/rss.xml" />
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js"></script>
 </head>
 <body class="bg-[#F7F9FB] text-[#14202B]">
 
   <NewsNavbar />
 
-  <main class="max-w-6xl mx-auto px-6 py-10">
+  <!-- ===================== SECTION JUMP STRIP ===================== -->
+  <div
+    class="bg-[#0E2A47] text-white border-b border-[#1E3D5C]"
+    x-data="{ active: null }"
+    @scroll.window.throttle.100ms="
+      const y = window.scrollY + 150;
+      let current = null;
+      ['stories','blog','press','events'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= y) current = id;
+      });
+      active = current;
+    "
+  >
+    <div class="max-w-7xl mx-auto px-6">
+      <nav class="flex items-center gap-1 sm:gap-2 h-11 overflow-x-auto">
+
+        <span class="hidden sm:inline font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase text-[#C9A961] font-semibold pr-3 shrink-0">
+          Jump to
+        </span>
+
+        {SECTIONS.map((s) => (
+          <a
+            href={`#${s.id}`}
+            class="relative shrink-0 px-3 py-1.5 font-['Open_Sans'] text-[12.5px] font-medium transition-colors whitespace-nowrap"
+            :class={`active === '${s.id}' ? 'text-[#C9A961]' : 'text-white/80 hover:text-white'}`}
+          >
+            {s.label}
+            <span
+              class="absolute left-3 right-3 -bottom-0.5 h-[2px] bg-[#C9A961] origin-left transition-transform duration-200"
+              :class={`active === '${s.id}' ? 'scale-x-100' : 'scale-x-0'}`}
+            ></span>
+          </a>
+        ))}
+
+        <a
+          href="/strategic-plan/"
+          class="ml-auto hidden md:inline-flex items-center gap-1.5 shrink-0 font-['Open_Sans'] text-[12.5px] font-medium text-[#C9A961] hover:text-white transition-colors"
+        >
+          Strategic Plan <span aria-hidden="true">→</span>
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="bg-white border-b border-[#E5EBF0]">
+    <div class="max-w-7xl mx-auto px-6 py-10 lg:py-14">
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-10">
+
+        {heroLead && (
+          <a href={`/news-and-media/${heroLead.slug}/`} class="lg:col-span-8 group block">
+            <div class="overflow-hidden bg-[#E7ECF0] aspect-[16/9] mb-5">
+              {heroLead.cover_image && (
+                <img src={heroLead.cover_image} alt={heroLead.title}
+                     class="w-full h-full object-cover transition duration-500 group-hover:scale-[1.02]" />
+              )}
+            </div>
+
+            <div class="flex items-center gap-3 flex-wrap">
+              <span class="font-['Open_Sans'] text-[10px] font-semibold tracking-[0.18em] uppercase text-[#860f0f]">
+                Lead Story
+              </span>
+              {heroLead.pillar && PILLARS[heroLead.pillar] && (
+                <>
+                  <span class="w-px h-3 bg-[#D8E0E7]"></span>
+                  <a href={`/news-and-media/pillar/${heroLead.pillar}/`}
+                     class="font-['Open_Sans'] text-[10px] font-semibold tracking-[0.14em] uppercase hover:underline"
+                     style={`color:${PILLARS[heroLead.pillar].color}`}>
+                    {PILLARS[heroLead.pillar].label}
+                  </a>
+                </>
+              )}
+            </div>
+
+            <h1 class="font-['Lato'] text-3xl sm:text-4xl lg:text-[40px] font-semibold leading-[1.15] text-[#0E2A47] mt-3 group-hover:text-[#125276] transition-colors">
+              {heroLead.title}
+            </h1>
+
+            {heroLead.excerpt && (
+              <p class="font-['Open_Sans'] text-[16px] text-[#5A6B77] leading-relaxed mt-4 max-w-2xl line-clamp-2">
+                {heroLead.excerpt}
+              </p>
+            )}
+
+            <div class="flex items-center gap-3 mt-5">
+              {heroLead.author_avatar ? (
+                <img src={heroLead.author_avatar} alt={heroLead.author}
+                     class="w-8 h-8 rounded-full object-cover" />
+              ) : heroLead.author && (
+                <span class="w-8 h-8 rounded-full bg-[#E7ECF0] text-[#125276] flex items-center justify-center font-['Open_Sans'] text-[11px] font-semibold">
+                  {initials(heroLead.author)}
+                </span>
+              )}
+              <div class="font-['Open_Sans'] text-sm text-[#7A8A96]">
+                {heroLead.author && <span class="text-[#3E5262] font-medium">{heroLead.author}</span>}
+                {heroLead.author && <span class="mx-1.5">·</span>}
+                {fmtDateLong(heroLead.published_at)}
+              </div>
+            </div>
+          </a>
+        )}
+
+        <div class="lg:col-span-4 flex flex-col">
+          <p class="font-['Open_Sans'] text-[10px] tracking-[0.2em] uppercase text-[#860f0f] font-semibold pb-3 border-b border-[#E5EBF0] mb-5">
+            In the Newsroom
+          </p>
+
+          <ul class="divide-y divide-[#EDF1F4] flex-1">
+            {heroSecondaries.map((item) => (
+              <li>
+                <a href={`/news-and-media/${item.slug}/`} class="group block py-4">
+                  <div class="flex items-center gap-2 mb-1.5">
+                    <span class="font-['Open_Sans'] text-[10px] font-semibold tracking-[0.14em] uppercase text-[#860f0f]">
+                      {item.type === 'article' ? 'Story' : item.type === 'blog' ? 'Blog' : item.type === 'press_release' ? 'Press' : 'Event'}
+                    </span>
+                    {item.pillar && PILLARS[item.pillar] && (
+                      <>
+                        <span class="w-px h-3 bg-[#D8E0E7]"></span>
+                        <span class="font-['Open_Sans'] text-[10px] font-semibold tracking-[0.14em] uppercase"
+                              style={`color:${PILLARS[item.pillar].color}`}>
+                          {PILLARS[item.pillar].label}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                  <h3 class="font-['Lato'] text-[16px] font-semibold leading-snug text-[#0E2A47] group-hover:text-[#125276] transition-colors">
+                    {item.title}
+                  </h3>
+                  <div class="flex items-center gap-2 mt-2">
+                    {item.author_avatar ? (
+                      <img src={item.author_avatar} alt={item.author} class="w-5 h-5 rounded-full object-cover" />
+                    ) : item.author && (
+                      <span class="w-5 h-5 rounded-full bg-[#E7ECF0] text-[#125276] flex items-center justify-center font-['Open_Sans'] text-[9px] font-semibold">
+                        {initials(item.author)}
+                      </span>
+                    )}
+                    <p class="font-['Open_Sans'] text-xs text-[#7A8A96]">
+                      {item.type === 'event' ? fmtDate(item.event_date) : fmtDate(item.published_at)}
+                    </p>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BELOW THE FOLD ===================== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
     <div class="lg:grid lg:grid-cols-4 lg:gap-10">
 
-      <!-- Carousel + sections: 3/4 width -->
       <div class="lg:col-span-3 order-1">
+
+        <!-- From the Strategic Plan -->
+        {planRail.length > 0 && (
+          <section class="bg-[#0E2A47] text-white p-7 sm:p-9 mb-14">
+            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
+              <div class="max-w-lg">
+                <p class="font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase text-[#C9A961] font-semibold">
+                  From the Strategic Plan 2026–2030
+                </p>
+                <h2 class="font-['Lato'] text-xl sm:text-2xl font-semibold leading-snug mt-3">
+                  Building a resilient, high-performing, mission-driven referral institution.
+                </h2>
+                <p class="font-['Open_Sans'] text-[13.5px] text-[#AEC0CC] mt-3 leading-relaxed">
+                  Current phase: <span class="text-[#C9A961] font-medium">{CURRENT_PHASE.label} ({CURRENT_PHASE.years})</span>
+                </p>
+              </div>
+              <a href="/strategic-plan/"
+                 class="font-['Open_Sans'] text-sm font-medium text-[#C9A961] hover:text-white inline-flex items-center gap-1.5 hover:gap-2.5 transition-all shrink-0">
+                Read the Plan <span aria-hidden="true">→</span>
+              </a>
+            </div>
+
+            <div class="grid sm:grid-cols-3 gap-6 pt-8 border-t border-[#1E3D5C]">
+              {planRail.map((item) => (
+                <div class="group">
+                  {item.pillar && PILLARS[item.pillar] && (
+                    <a href={`/news-and-media/pillar/${item.pillar}/`}
+                       class="inline-block font-['Open_Sans'] text-[9.5px] font-semibold tracking-[0.14em] uppercase px-2 py-0.5 mb-2.5 hover:opacity-90 transition-opacity"
+                       style={`background:${PILLARS[item.pillar].bg}; color:${PILLARS[item.pillar].color}`}>
+                      {PILLARS[item.pillar].label}
+                    </a>
+                  )}
+                  <a href={`/news-and-media/${item.slug}/`} class="block">
+                    <h3 class="font-['Lato'] text-[15px] font-semibold leading-snug text-white group-hover:text-[#C9A961] transition-colors">
+                      {item.title}
+                    </h3>
+                  </a>
+                  <p class="font-['Open_Sans'] text-[11.5px] text-[#7A8A96] mt-2">{fmtDate(item.published_at)}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         <!-- Carousel -->
         {carouselSlides.length > 0 && (
@@ -72,51 +300,55 @@ const pressList = pressReleases.slice(0, 4);
               goToSlide(n) { this.slide = n; this.resetAutoplay(); },
               resetAutoplay() {
                 if (this.autoplayInterval) clearInterval(this.autoplayInterval);
-                this.autoplayInterval = setInterval(() => { this.slide = (this.slide + 1) % this.total; }, 5000);
+                this.autoplayInterval = setInterval(() => { this.slide = (this.slide + 1) % this.total; }, 7000);
               },
-              init() { this.resetAutoplay(); },
+              init() {
+                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) this.resetAutoplay();
+              },
             }`}
             @init="init()"
-            class="relative overflow-hidden rounded-sm bg-[#0E1B24] aspect-[16/9] sm:aspect-[2/1]"
+            @mouseenter="autoplayInterval && clearInterval(autoplayInterval)"
+            @mouseleave="resetAutoplay()"
+            class="relative overflow-hidden bg-[#0E1B24] aspect-[16/9] sm:aspect-[2/1] mb-14"
           >
             {carouselSlides.map((slide, i) => (
-              <div
-                x-show={`slide === ${i}`}
-                x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0"
-                x-transition:enter-end="opacity-100"
-                class="absolute inset-0"
-                style={i === 0 ? '' : 'display:none'}
-              >
+              <div x-show={`slide === ${i}`} x-transition:enter="transition ease-out duration-300"
+                   x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                   class="absolute inset-0" style={i === 0 ? '' : 'display:none'}>
                 {slide.cover_image && (
-                  <img src={slide.cover_image} alt={slide.title} class="absolute inset-0 w-full h-full object-cover opacity-60" />
+                  <img src={slide.cover_image} alt={slide.title}
+                       class="absolute inset-0 w-full h-full object-cover opacity-60" />
                 )}
                 <div class="absolute inset-0 bg-gradient-to-t from-[#0E1B24] via-[#0E1B24]/40 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 p-6 sm:p-10 max-w-xl">
-                  <span class="font-['Open Sans'] text-xs font-semibold tracking-[0.15em] uppercase text-[#7FB2E5]">
+                  <span class="font-['Open_Sans'] text-xs font-semibold tracking-[0.15em] uppercase text-[#7FB2E5]">
                     {slide.type === 'article' ? 'Story' : slide.type === 'blog' ? 'Blog' : 'Press Release'}
                   </span>
                   <h2 class="font-['Lato'] text-xl sm:text-3xl text-white font-semibold leading-snug mt-2">
                     {slide.title}
                   </h2>
-                  <a href={`/news-and-media/${slide.slug}/`} class="font-['Open Sans'] text-sm text-white font-medium inline-flex items-center gap-1.5 mt-4 hover:gap-2.5 transition-all">
+                  <a href={`/news-and-media/${slide.slug}/`}
+                     class="font-['Open_Sans'] text-sm text-white font-medium inline-flex items-center gap-1.5 mt-4 hover:gap-2.5 transition-all">
                     Read more <span aria-hidden="true">→</span>
                   </a>
                 </div>
               </div>
             ))}
-
             {carouselSlides.length > 1 && (
               <>
-                <button @click="prev()" aria-label="Previous" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center backdrop-blur-sm transition-colors hidden lg:flex">
+                <button @click="prev()" aria-label="Previous"
+                        class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center backdrop-blur-sm transition-colors hidden lg:flex">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
                 </button>
-                <button @click="next()" aria-label="Next" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center backdrop-blur-sm transition-colors hidden lg:flex">
+                <button @click="next()" aria-label="Next"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center backdrop-blur-sm transition-colors hidden lg:flex">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
                 </button>
                 <div class="absolute bottom-4 right-6 flex gap-2">
                   {carouselSlides.map((_, i) => (
-                    <button @click={`goToSlide(${i})`} aria-label={`Go to slide ${i + 1}`} class="w-2 h-2 rounded-full transition-colors" :class={`slide === ${i} ? 'bg-white' : 'bg-white/40'`}></button>
+                    <button @click={`goToSlide(${i})`} aria-label={`Go to slide ${i + 1}`}
+                            class="w-2 h-2 rounded-full transition-colors"
+                            :class={`slide === ${i} ? 'bg-white' : 'bg-white/40'`}></button>
                   ))}
                 </div>
               </>
@@ -125,63 +357,95 @@ const pressList = pressReleases.slice(0, 4);
         )}
 
         <!-- Featured Stories -->
-        <section class="mt-14">
+        <section id="stories" class="mt-4 scroll-mt-32">
           <div class="flex items-baseline justify-between border-b border-[#D8E0E7] pb-3 mb-7">
             <h2 class="font-['Lato'] text-2xl font-semibold text-[#125276]">Featured Stories</h2>
           </div>
           <div class="grid sm:grid-cols-3 gap-7">
             {featured.map((item) => (
-              <a href={`/news-and-media/${item.slug}/`} class="group block">
-                <div class="overflow-hidden rounded-sm bg-[#E7ECF0] aspect-[3/2] mb-3.5">
-                  {item.cover_image && (
-                    <img src={item.cover_image} alt={item.title} loading="lazy" class="w-full h-full object-cover transition duration-500 group-hover:scale-[1.03]" />
+              <div class="group">
+                <a href={`/news-and-media/${item.slug}/`} class="block">
+                  <div class="overflow-hidden bg-[#E7ECF0] aspect-[3/2] mb-3.5">
+                    {item.cover_image && (
+                      <img src={item.cover_image} alt={item.title} loading="lazy"
+                           class="w-full h-full object-cover transition duration-500 group-hover:scale-[1.03]" />
+                    )}
+                  </div>
+                </a>
+                {item.pillar && PILLARS[item.pillar] && (
+                  <a href={`/news-and-media/pillar/${item.pillar}/`}
+                     class="inline-block font-['Open_Sans'] text-[9.5px] font-semibold tracking-[0.14em] uppercase px-2 py-0.5 mb-2 hover:opacity-80 transition-opacity"
+                     style={`background:${PILLARS[item.pillar].bg}; color:${PILLARS[item.pillar].color}`}>
+                    {PILLARS[item.pillar].label}
+                  </a>
+                )}
+                <a href={`/news-and-media/${item.slug}/`} class="block">
+                  <h3 class="font-['Lato'] text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors">
+                    {item.title}
+                  </h3>
+                  {item.excerpt && <p class="font-['Open_Sans'] text-sm text-[#5A6B77] mt-1.5 line-clamp-2">{item.excerpt}</p>}
+                </a>
+                <div class="flex items-center gap-2 mt-3">
+                  {item.author_avatar ? (
+                    <img src={item.author_avatar} alt={item.author} class="w-5 h-5 rounded-full object-cover" />
+                  ) : item.author && (
+                    <span class="w-5 h-5 rounded-full bg-[#E7ECF0] text-[#125276] flex items-center justify-center font-['Open_Sans'] text-[9px] font-semibold">
+                      {initials(item.author)}
+                    </span>
                   )}
+                  <p class="font-['Open_Sans'] text-xs text-[#7A8A96]">{fmtDate(item.published_at)}</p>
                 </div>
-                <h3 class="font-['Lato'] text-base font-semibold leading-snug group-hover:text-[#1565c0] transition-colors">
-                  {item.title}
-                </h3>
-                {item.excerpt && <p class="font-['Open Sans'] text-sm text-[#5A6B77] mt-1.5 line-clamp-2">{item.excerpt}</p>}
-                <p class="font-['Open Sans'] text-xs text-[#7A8A96] mt-2">{fmtDate(item.published_at)}</p>
-              </a>
+              </div>
             ))}
           </div>
-          {featured.length === 0 && <p class="font-['Open Sans'] text-sm text-[#7A8A96]">No stories published yet.</p>}
-          <a href="/news-and-media/?type=article" class="font-['Open Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-7 hover:gap-2.5 transition-all">
+          {featured.length === 0 && <p class="font-['Open_Sans'] text-sm text-[#7A8A96]">No stories published yet.</p>}
+          <a href="/news-and-media/news/"
+             class="font-['Open_Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-7 hover:gap-2.5 transition-all">
             View all stories <span aria-hidden="true">→</span>
           </a>
         </section>
 
-        <!-- Blog: compact list, small thumbnail, no big photography -->
-        <section class="mt-14">
+        <!-- Blog -->
+        <section id="blog" class="mt-14 scroll-mt-32">
           <div class="flex items-baseline justify-between border-b border-[#D8E0E7] pb-3 mb-2">
             <h2 class="font-['Lato'] text-2xl font-semibold text-[#125276]">Blog</h2>
           </div>
           <div class="divide-y divide-[#EDF1F4]">
             {blogList.map((item) => (
               <a href={`/news-and-media/${item.slug}/`} class="group flex items-start gap-4 py-5">
-                <div class="shrink-0 w-16 h-16 rounded-sm overflow-hidden bg-[#E7ECF0]">
+                <div class="shrink-0 w-16 h-16 overflow-hidden bg-[#E7ECF0]">
                   {item.cover_image && <img src={item.cover_image} alt="" loading="lazy" class="w-full h-full object-cover" />}
                 </div>
-                <div class="min-w-0">
-                  <h3 class="font-['Lato'] text-base font-semibold leading-snug group-hover:text-[#1565c0] transition-colors">
+                <div class="min-w-0 flex-1">
+                  <h3 class="font-['Lato'] text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors">
                     {item.title}
                   </h3>
-                  {item.excerpt && <p class="font-['Open Sans'] text-sm text-[#5A6B77] mt-1 line-clamp-1">{item.excerpt}</p>}
-                  <p class="font-['Open Sans'] text-xs text-[#7A8A96] mt-1.5">
-                    {item.author && <span>{item.author} · </span>}{fmtDate(item.published_at)}
-                  </p>
+                  {item.excerpt && <p class="font-['Open_Sans'] text-sm text-[#5A6B77] mt-1 line-clamp-1">{item.excerpt}</p>}
+                  <div class="flex items-center gap-2 mt-2">
+                    {item.author_avatar ? (
+                      <img src={item.author_avatar} alt={item.author} class="w-6 h-6 rounded-full object-cover" />
+                    ) : item.author && (
+                      <span class="w-6 h-6 rounded-full bg-[#E7ECF0] text-[#125276] flex items-center justify-center font-['Open_Sans'] text-[10px] font-semibold">
+                        {initials(item.author)}
+                      </span>
+                    )}
+                    <p class="font-['Open_Sans'] text-xs text-[#7A8A96]">
+                      {item.author && <span class="text-[#3E5262]">{item.author} · </span>}{fmtDate(item.published_at)}
+                    </p>
+                  </div>
                 </div>
               </a>
             ))}
           </div>
-          {blogList.length === 0 && <p class="font-['Open Sans'] text-sm text-[#7A8A96] py-4">No blog posts published yet.</p>}
-          <a href="/news-and-media/?type=blog" class="font-['Open Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-3 hover:gap-2.5 transition-all">
+          {blogList.length === 0 && <p class="font-['Open_Sans'] text-sm text-[#7A8A96] py-4">No blog posts published yet.</p>}
+          <a href="/news-and-media/blog/"
+             class="font-['Open_Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-3 hover:gap-2.5 transition-all">
             View all blog posts <span aria-hidden="true">→</span>
           </a>
         </section>
 
-        <!-- Press Releases: formal block list, no images -->
-        <section class="mt-14 mb-4">
+        <!-- Press Releases -->
+        <section id="press" class="mt-14 mb-4 scroll-mt-32">
           <div class="border-b border-[#D8E0E7] pb-3 mb-2">
             <h2 class="font-['Lato'] text-2xl font-semibold text-[#125276]">Press Releases</h2>
           </div>
@@ -189,8 +453,10 @@ const pressList = pressReleases.slice(0, 4);
             {pressList.map((item) => (
               <a href={`/news-and-media/${item.slug}/`} class="group flex items-center justify-between gap-6 py-5">
                 <div class="min-w-0">
-                  <p class="font-['Open Sans'] text-xs text-[#860f0f] font-semibold tracking-[0.1em] uppercase mb-1">{fmtDate(item.published_at)}</p>
-                  <h3 class="font-['Lato'] text-base font-semibold leading-snug group-hover:text-[#1565c0] transition-colors truncate">
+                  <p class="font-['Open_Sans'] text-xs text-[#860f0f] font-semibold tracking-[0.1em] uppercase mb-1">
+                    {fmtDate(item.published_at)}
+                  </p>
+                  <h3 class="font-['Lato'] text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors truncate">
                     {item.title}
                   </h3>
                 </div>
@@ -198,16 +464,17 @@ const pressList = pressReleases.slice(0, 4);
               </a>
             ))}
           </div>
-          {pressList.length === 0 && <p class="font-['Open Sans'] text-sm text-[#7A8A96] py-4">No press releases published yet.</p>}
-          <a href="/news-and-media/?type=press_release" class="font-['Open Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-3 hover:gap-2.5 transition-all">
+          {pressList.length === 0 && <p class="font-['Open_Sans'] text-sm text-[#7A8A96] py-4">No press releases published yet.</p>}
+          <a href="/news-and-media/press/"
+             class="font-['Open_Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-3 hover:gap-2.5 transition-all">
             View all press releases <span aria-hidden="true">→</span>
           </a>
         </section>
 
-        <!-- Events: date-badge cards, distinct from the read-more cards above -->
-        <section id="events" class="mt-14 mb-4">
+        <!-- Events -->
+        <section id="events" class="mt-14 mb-4 scroll-mt-32">
           <div class="border-b border-[#D8E0E7] pb-3 mb-7">
-            <h2 class="font-['Lato'] text-2xl font-semibold text-[#125276]">Events</h2>
+            <h2 class="font-['Lato'] text-2xl font-semibold text-[#125276]">Upcoming Events</h2>
           </div>
           <div class="grid sm:grid-cols-3 gap-7">
             {events.map((ev) => {
@@ -215,17 +482,18 @@ const pressList = pressReleases.slice(0, 4);
               const day = d ? d.toLocaleDateString('en-KE', { day: '2-digit' }) : '';
               const month = d ? d.toLocaleDateString('en-KE', { month: 'short' }).toUpperCase() : '';
               return (
-                <a href={`/news-and-media/${ev.slug}/`} class="group flex gap-4 items-start border border-[#D8E0E7] rounded-sm p-5 bg-white hover:border-[#1565c0] transition-colors">
-                  <div class="shrink-0 w-14 rounded-sm overflow-hidden text-center bg-[#1565c0]">
-                    <p class="font-['Open Sans'] text-[10px] tracking-[0.1em] uppercase text-white/80 pt-1.5">{month}</p>
+                <a href={`/news-and-media/${ev.slug}/`} data-event-date={ev.event_date}
+                   class="group flex gap-4 items-start border border-[#D8E0E7] p-5 bg-white hover:border-[#1565c0] transition-colors">
+                  <div class="shrink-0 w-14 overflow-hidden text-center bg-[#1565c0]">
+                    <p class="font-['Open_Sans'] text-[10px] tracking-[0.1em] uppercase text-white/80 pt-1.5">{month}</p>
                     <p class="font-['Lato'] text-xl text-white font-semibold pb-1.5">{day}</p>
                   </div>
                   <div class="min-w-0">
-                    <h3 class="font-['Lato'] text-base font-semibold leading-snug group-hover:text-[#1565c0] transition-colors">
+                    <h3 class="font-['Lato'] text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors">
                       {ev.title}
                     </h3>
                     {ev.location && (
-                      <p class="font-['Open Sans'] text-xs text-[#7A8A96] mt-1.5 flex items-center gap-1">
+                      <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-1.5 flex items-center gap-1">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                         {ev.location}
                       </p>
@@ -235,61 +503,110 @@ const pressList = pressReleases.slice(0, 4);
               );
             })}
           </div>
-          {events.length === 0 && <p class="font-['Open Sans'] text-sm text-[#7A8A96]">No upcoming events right now.</p>}
-          <a href="/news-and-media/?type=event" class="font-['Open Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-7 hover:gap-2.5 transition-all">
+          {events.length === 0 && <p class="font-['Open_Sans'] text-sm text-[#7A8A96]">No upcoming events right now.</p>}
+          <a href="/news-and-media/events/"
+             class="font-['Open_Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-7 hover:gap-2.5 transition-all">
             View all events <span aria-hidden="true">→</span>
           </a>
         </section>
+
+        <!-- Browse by Strategic Pillar -->
+        <section class="mt-14 bg-gray-300 py-6 sm:py-16 px-4 sm:px-6 lg:px-8">
+          <div class="border-b border-[#D8E0E7] pb-3 mb-7">
+            <h2 class="font-['Lato'] text-2xl font-semibold text-[#125276]">Browse by Strategic Pillar</h2>
+          </div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Object.entries(PILLARS).map(([key, p]) => (
+              <a href={`/news-and-media/pillar/${key}/`}
+                 class="group flex flex-col border-l-2 bg-white hover:bg-[#F0F5FA] p-5 transition-colors"
+                 style={`border-color:${p.color}`}>
+                <p class="font-['Open_Sans'] text-[10px] uppercase tracking-[0.15em] font-semibold"
+                   style={`color:${p.color}`}>
+                  Pillar
+                </p>
+                <h3 class="font-['Lato'] text-base font-semibold text-[#0E2A47] mt-1.5 group-hover:text-[#125276] transition-colors">
+                  {p.label}
+                </h3>
+                <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-2 leading-relaxed line-clamp-2">
+                  {p.blurb}
+                </p>
+                <span class="font-['Open_Sans'] text-xs font-medium text-[#1565c0] mt-3 inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                  View stories <span aria-hidden="true">→</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
       </div>
 
-      <!-- Sidebar: 1/4 width, stacked below carousel on mobile -->
+      <!-- ===================== SIDEBAR ===================== -->
       <aside class="lg:col-span-1 order-2 mt-14 lg:mt-0">
-        <div class="lg:sticky lg:top-6 space-y-8">
+        <div class="lg:sticky lg:top-28 space-y-8">
 
-          <div class="bg-[#125276] rounded-sm p-6">
+          <div class="bg-[#125276] p-6">
             <h3 class="font-['Lato'] text-lg text-white font-semibold">Stay informed</h3>
-            <p class="font-['Open Sans'] text-sm text-[#C6D6E0] mt-2 leading-relaxed">
+            <p class="font-['Open_Sans'] text-sm text-[#C6D6E0] mt-2 leading-relaxed">
               Get new stories, press releases and event updates from SPMH in your inbox.
             </p>
             <form class="mt-4 space-y-2.5" data-newsletter-form>
-              <input
-                type="email" required placeholder="you@example.com" name="email"
-                class="w-full font-['Open Sans'] text-sm text-center rounded-sm px-3.5 py-2.5 bg-white/95 focus:outline-none focus:ring-2 focus:ring-white/40"
-              />
-              <button type="submit" class="w-full font-['Open Sans'] text-sm font-medium bg-white text-[#125276] rounded-sm py-2.5 hover:bg-[#E7ECF0] transition-colors">
+              <input type="email" required placeholder="you@example.com" name="email"
+                     class="w-full font-['Open_Sans'] text-sm text-center px-3.5 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-white/40" />
+              <button type="submit"
+                      class="w-full font-['Open_Sans'] text-sm font-medium bg-white text-[#125276] py-2.5 hover:bg-[#E7ECF0] transition-colors">
                 Subscribe
               </button>
             </form>
           </div>
 
+          <a href="/strategic-plan/download/"
+             class="block border border-[#D8E0E7] bg-white p-5 hover:border-[#125276] transition-colors group">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="font-['Open_Sans'] text-[10px] tracking-[0.2em] uppercase text-[#860f0f] font-semibold">
+                The Plan
+              </span>
+            </div>
+            <p class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] group-hover:text-[#125276] transition-colors leading-snug">
+              Strategic Plan 2026–2030
+            </p>
+            <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-2">Full document · PDF</p>
+            <span class="inline-flex items-center gap-1 mt-3 font-['Open_Sans'] text-xs font-medium text-[#1565c0] group-hover:gap-2 transition-all">
+              Download <span aria-hidden="true">→</span>
+            </span>
+          </a>
+
           {events.length > 0 && (
-            <div>
-              <p class="font-['Open Sans'] text-xs tracking-[0.15em] uppercase text-[#7A8A96] font-semibold mb-4">Upcoming Events</p>
+            <div data-events-widget>
+              <p class="font-['Open_Sans'] text-xs tracking-[0.15em] uppercase text-[#7A8A96] font-semibold mb-4">Upcoming</p>
               <ul class="space-y-4">
                 {events.slice(0, 3).map((ev) => (
-                  <li>
+                  <li data-event-date={ev.event_date}>
                     <a href={`/news-and-media/${ev.slug}/`} class="group block">
-                      <p class="font-['Open Sans'] text-xs text-[#1565c0] font-semibold">{fmtDate(ev.event_date)}</p>
-                      <p class="font-['Lato'] text-sm font-semibold leading-snug group-hover:text-[#1565c0] transition-colors mt-0.5">
+                      <p class="font-['Open_Sans'] text-xs text-[#1565c0] font-semibold">{fmtDate(ev.event_date)}</p>
+                      <p class="font-['Lato'] text-sm font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors mt-0.5">
                         {ev.title}
                       </p>
-                      {ev.location && <p class="font-['Open Sans'] text-xs text-[#7A8A96] mt-0.5">{ev.location}</p>}
+                      {ev.location && <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-0.5">{ev.location}</p>}
                     </a>
                   </li>
                 ))}
               </ul>
-              <a href="#events" class="font-['Open Sans'] text-xs font-medium text-[#1565c0] inline-flex items-center gap-1 mt-4 hover:gap-1.5 transition-all">
-                See all upcoming <span aria-hidden="true">↓</span>
-              </a>
             </div>
           )}
 
           <div class="border-t border-[#D8E0E7] pt-6">
-            <p class="font-['Open Sans'] text-xs tracking-[0.15em] uppercase text-[#7A8A96] font-semibold mb-3">Media Inquiries</p>
-            <p class="font-['Open Sans'] text-sm text-[#3E5262] leading-relaxed">
-              For interviews or press materials, reach our communications office.
+            <p class="font-['Open_Sans'] text-xs tracking-[0.15em] uppercase text-[#7A8A96] font-semibold mb-3">Media Inquiries</p>
+            <p class="font-['Open_Sans'] text-sm text-[#3E5262] leading-relaxed mb-2">
+              Interviews, press accreditation, or spokespersons:
             </p>
-            <a href="mailto:editorial@spmh.co.ke" class="font-['Open Sans'] text-sm font-medium text-[#1565c0] mt-2 inline-block hover:underline">
+            <a href="mailto:media@spmh.co.ke"
+               class="font-['Open_Sans'] text-sm font-medium text-[#1565c0] inline-block hover:underline">
+              media@spmh.co.ke
+            </a>
+            <p class="font-['Open_Sans'] text-sm text-[#3E5262] leading-relaxed mt-4 mb-2">
+              Story tips, corrections, or general editorial:
+            </p>
+            <a href="mailto:editorial@spmh.co.ke"
+               class="font-['Open_Sans'] text-sm font-medium text-[#1565c0] inline-block hover:underline">
               editorial@spmh.co.ke
             </a>
           </div>
@@ -301,15 +618,20 @@ const pressList = pressReleases.slice(0, 4);
   <NewsFooter />
 
   <script>
-    // Wire the newsletter form to a Supabase `newsletter_subscribers` table (email, subscribed_at).
     document.addEventListener('submit', async (e) => {
       const form = e.target.closest('[data-newsletter-form]');
       if (!form) return;
       e.preventDefault();
-      // TODO: replace with your Supabase client insert, e.g.:
-      // const email = form.email.value;
-      // await supabase.from('newsletter_subscribers').insert({ email });
       form.reset();
+    });
+
+    const now = new Date();
+    document.querySelectorAll('[data-event-date]').forEach((el) => {
+      const d = el.getAttribute('data-event-date');
+      if (d && new Date(d) < now) {
+        const target = el.closest('[data-events-widget] li') || el.closest('a[data-event-date]');
+        if (target) target.remove();
+      }
     });
   </script>
 </body>

@@ -1,0 +1,209 @@
+---
+import NewsNavbar from '../../../components/NewsNavbar.astro';
+import NewsFooter from '../../../components/NewsFooter.astro';
+import { supabase } from '../../../lib/supabase-news';
+import { PILLARS } from '../../../lib/pillars';
+import '../../../styles/global.css';
+
+const { pillar: pillarParam } = Astro.params;
+const validKeys = Object.keys(PILLARS) as Array<keyof typeof PILLARS>;
+
+if (!pillarParam || !validKeys.includes(pillarParam as any)) {
+  return Astro.redirect('/404');
+}
+
+const pillarKey = pillarParam as keyof typeof PILLARS;
+const pillar = PILLARS[pillarKey];
+
+const fmtDate = (d: string | null | undefined) =>
+  d
+    ? new Date(d).toLocaleDateString('en-KE', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      })
+    : '';
+const initials = (n: string | null | undefined) =>
+  n
+    ? n
+        .split(' ')
+        .map((x) => x[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase()
+    : '·';
+
+const FULL =
+  'id, type, title, slug, excerpt, cover_image, author, author_avatar, published_at, event_date, location, pillar';
+const SAFE =
+  'id, type, title, slug, excerpt, cover_image, author, published_at, event_date, location';
+
+let items: any[] = [];
+try {
+  const { data, error } = await supabase
+    .from('content_items')
+    .select(FULL)
+    .eq('status', 'published')
+    .eq('pillar', pillarKey)
+    .order('published_at', { ascending: false })
+    .limit(60);
+
+  if (error) {
+    const { data: safe } = await supabase
+      .from('content_items')
+      .select(SAFE)
+      .eq('status', 'published')
+      .eq('pillar', pillarKey)
+      .order('published_at', { ascending: false })
+      .limit(60);
+    items = (safe ?? []).map((r: any) => ({
+      ...r,
+      pillar: pillarKey,
+      author_avatar: null,
+    }));
+  } else {
+    items = data ?? [];
+  }
+} catch (e) {
+  console.error(`Pillar ${pillarKey} fetch failed:`, e);
+}
+
+const TYPE_LABEL: Record<string, string> = {
+  article: 'Story',
+  blog: 'Blog',
+  press_release: 'Press Release',
+  event: 'Event',
+};
+
+const pageTitle = `${pillar.label} | St. Paul's Mission Hospital`;
+const pageUrl = new URL(
+  Astro.url.pathname,
+  Astro.site ?? Astro.url.origin,
+).toString();
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>{pageTitle}</title>
+    <meta name='description' content={pillar.blurb} />
+    <link rel='canonical' href={pageUrl} />
+    <link rel='icon' type='image/png' href='/file.svg' />
+    <meta property='og:title' content={pageTitle} />
+    <meta property='og:description' content={pillar.blurb} />
+    <meta property='og:type' content='website' />
+    <meta property='og:url' content={pageUrl} />
+    <script
+      defer
+      src='https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js'
+    ></script>
+  </head>
+  <body class='bg-[#F7F9FB] text-[#14202B]'>
+    <NewsNavbar />
+
+    <main class='max-w-7xl mx-auto px-6 py-12'>
+      <a
+        href='/news-and-media/'
+        class="font-['Open_Sans'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
+        <span aria-hidden='true'>←</span> Back to News &amp; Media
+      </a>
+
+      <header class='border-b border-[#D8E0E7] pb-8 mb-10'>
+        <div class='h-1 w-16 mb-5' style={`background:${pillar.color}`}></div>
+
+        <p
+          class="font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase font-semibold"
+          style={`color:${pillar.color}`}>
+          Strategic Pillar
+        </p>
+
+        <h1
+          class="font-['Lato'] text-3xl sm:text-4xl font-semibold text-[#0E2A47] mt-3">
+          {pillar.label}
+        </h1>
+
+        <p
+          class="font-['Open_Sans'] text-[#5A6B77] leading-relaxed mt-3 max-w-3xl">
+          {pillar.blurb}
+        </p>
+
+        <div
+          class="flex items-center gap-4 mt-6 font-['Open_Sans'] text-sm text-[#7A8A96]">
+          <p>
+            {items.length}
+            {items.length === 1 ? 'item' : 'items'} in this pillar
+          </p>
+          <span class='w-px h-3 bg-[#D8E0E7]'></span>
+          <a
+            href='/strategic-plan/'
+            class='font-medium text-[#1565c0] hover:underline inline-flex items-center gap-1'>
+            Read the Strategic Plan <span aria-hidden='true'>→</span>
+          </a>
+        </div>
+      </header>
+
+      {
+        items.length === 0 ? (
+          <p class="font-['Open_Sans'] text-[#7A8A96] py-16 text-center">
+            Nothing published under this pillar yet.
+          </p>
+        ) : (
+          <div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10'>
+            {items.map((item) => (
+              <a href={`/news-and-media/${item.slug}/`} class='group block'>
+                <div class='overflow-hidden bg-[#E7ECF0] aspect-[3/2] mb-3.5'>
+                  {item.cover_image && (
+                    <img
+                      src={item.cover_image}
+                      alt={item.title}
+                      loading='lazy'
+                      class='w-full h-full object-cover transition duration-500 group-hover:scale-[1.03]'
+                    />
+                  )}
+                </div>
+
+                <span class="inline-block font-['Open_Sans'] text-[9.5px] font-semibold tracking-[0.14em] uppercase text-[#860f0f] mb-2">
+                  {TYPE_LABEL[item.type] ?? item.type}
+                </span>
+
+                <h3 class="font-['Lato'] text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors">
+                  {item.title}
+                </h3>
+
+                {item.excerpt && (
+                  <p class="font-['Open_Sans'] text-sm text-[#5A6B77] mt-1.5 line-clamp-2">
+                    {item.excerpt}
+                  </p>
+                )}
+
+                <div class='flex items-center gap-2 mt-3'>
+                  {item.author_avatar ? (
+                    <img
+                      src={item.author_avatar}
+                      alt={item.author}
+                      class='w-5 h-5 rounded-full object-cover'
+                    />
+                  ) : (
+                    item.author && (
+                      <span class="w-5 h-5 rounded-full bg-[#E7ECF0] text-[#125276] flex items-center justify-center font-['Open_Sans'] text-[9px] font-semibold">
+                        {initials(item.author)}
+                      </span>
+                    )
+                  )}
+                  <p class="font-['Open_Sans'] text-xs text-[#7A8A96]">
+                    {item.type === 'event'
+                      ? fmtDate(item.event_date)
+                      : fmtDate(item.published_at)}
+                  </p>
+                </div>
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </main>
+
+    <NewsFooter />
+  </body>
+</html>
