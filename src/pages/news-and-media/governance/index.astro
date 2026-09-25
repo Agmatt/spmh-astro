@@ -1,0 +1,270 @@
+---
+import NewsNavbar from '../../../components/NewsNavbar.astro';
+import NewsFooter from '../../../components/NewsFooter.astro';
+import { DOCUMENTS, getDocHref, isDownloadable } from '../../../lib/documents';
+import '../../../styles/global.css';
+
+const govDocs = DOCUMENTS.filter((d) => d.category === 'governance');
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Governance &amp; Accountability | St. Paul's Mission Hospital</title>
+    <meta
+      name='description'
+      content="Board, leadership, charters, policies, and accountability frameworks at St. Paul's Mission Hospital."
+    />
+    <link rel='icon' type='image/png' href='/file.svg' />
+    <script
+      defer
+      src='https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js'
+    ></script>
+  </head>
+  <body class='bg-[#F7F9FB] text-[#14202B]'>
+    <NewsNavbar />
+
+    <main class='max-w-7xl mx-auto px-6 py-12'>
+      <a
+        href='/news-and-media/'
+        class="font-['Open_Sans'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
+        <span aria-hidden='true'>←</span> Back to News &amp; Media
+      </a>
+
+      <header class='border-b border-[#D8E0E7] pb-8 mb-12 max-w-3xl'>
+        <p
+          class="font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase text-[#860f0f] font-semibold">
+          Governance
+        </p>
+        <h1
+          class="font-['Lato'] text-3xl sm:text-4xl font-semibold text-[#0E2A47] mt-3">
+          Governance &amp; Accountability
+        </h1>
+        <p class="font-['Open_Sans'] text-[#5A6B77] leading-relaxed mt-3">
+          St. Paul's Mission Hospital operates under a clear separation of
+          oversight, management, and operational roles — anchored in Catholic
+          Social Teaching, national regulatory frameworks, and donor fiduciary
+          standards.
+        </p>
+      </header>
+
+      <section class='mb-16'>
+        <h2
+          class="font-['Lato'] text-2xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-6">
+          Governance structure
+        </h2>
+        <div class='grid sm:grid-cols-3 gap-5'>
+          {
+            [
+              {
+                role: 'Ecclesiastical Authority',
+                body: 'Catholic Diocese of Homa Bay',
+                desc: 'Spiritual oversight, mission integrity, and alignment with Catholic Social Teaching and the healing ministry of the Church.',
+              },
+              {
+                role: 'Strategic Governance',
+                body: 'Board of Management',
+                desc: 'Strategic direction, policy approval, fiduciary oversight, and institutional performance monitoring.',
+              },
+              {
+                role: 'Executive Leadership',
+                body: 'Hospital Management Team',
+                desc: 'Day-to-day operations, departmental coordination, and translation of Board decisions into operational outcomes.',
+              },
+            ].map((r) => (
+              <div class='border-l-2 border-[#C9A961] pl-6'>
+                <p class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold">
+                  {r.role}
+                </p>
+                <h3 class="font-['Lato'] text-lg font-semibold text-[#0E2A47] mt-2">
+                  {r.body}
+                </h3>
+                <p class="font-['Open_Sans'] text-[13.5px] text-[#5A6B77] leading-relaxed mt-3">
+                  {r.desc}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class='mb-16'>
+        <h2
+          class="font-['Lato'] text-2xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-6">
+          Leadership
+        </h2>
+        <div class='grid sm:grid-cols-2 gap-6'>
+          {
+            [
+              {
+                name: 'Sr. Carmelina Beatrice Osanga',
+                role: 'Hospital Administrator',
+                note: "Executive leadership of St. Paul's Mission Hospital.",
+              },
+              {
+                name: 'Board of Management',
+                role: 'Governance',
+                note: 'Strategic oversight, fiduciary responsibility, and policy approval.',
+              },
+              {
+                name: 'His Lordship the Bishop',
+                role: 'Catholic Diocese of Homa Bay',
+                note: 'Spiritual authority and mission stewardship.',
+              },
+              {
+                name: 'Hospital Management Team',
+                role: 'Executive',
+                note: 'Departmental leadership and operational delivery.',
+              },
+            ].map((p) => (
+              <div class='border border-[#D8E0E7] bg-white p-6'>
+                <p class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#C9A961] font-semibold">
+                  {p.role}
+                </p>
+                <p class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] mt-2">
+                  {p.name}
+                </p>
+                <p class="font-['Open_Sans'] text-[13px] text-[#7A8A96] mt-2 leading-relaxed">
+                  {p.note}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class='mb-16'>
+        <h2
+          class="font-['Lato'] text-2xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-6">
+          Accountability framework
+        </h2>
+        <div class='grid sm:grid-cols-2 gap-6'>
+          <div class='bg-white border border-[#D8E0E7] p-6'>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold">
+              Internal
+            </p>
+            <ul class='mt-4 space-y-2.5'>
+              {
+                [
+                  'Internal audit and compliance monitoring',
+                  'Routine performance reporting',
+                  'Management review and corrective action',
+                  'Clinical governance committees',
+                  'Ethics and risk governance structures',
+                ].map((i) => (
+                  <li class='flex items-start gap-2.5'>
+                    <span class='shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full bg-[#125276]' />
+                    <span class="font-['Open_Sans'] text-[13.5px] text-[#3E5262] leading-relaxed">
+                      {i}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <div class='bg-white border border-[#D8E0E7] p-6'>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold">
+              External
+            </p>
+            <ul class='mt-4 space-y-2.5'>
+              {
+                [
+                  'Diocesan governance structures',
+                  'Ministry of Health and County Department of Health',
+                  'Statutory audit requirements',
+                  'Professional regulatory bodies',
+                  'Development partners and donor fiduciary standards',
+                ].map((i) => (
+                  <li class='flex items-start gap-2.5'>
+                    <span class='shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full bg-[#C9A961]' />
+                    <span class="font-['Open_Sans'] text-[13.5px] text-[#3E5262] leading-relaxed">
+                      {i}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class='mb-16'>
+        <h2
+          class="font-['Lato'] text-2xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-6">
+          Charters &amp; policies
+        </h2>
+        <div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-5'>
+          {
+            govDocs.map((doc) => (
+              <a
+                href={getDocHref(doc)}
+                download={isDownloadable(doc)}
+                class='group flex flex-col border border-[#D8E0E7] bg-white p-6 hover:border-[#125276] transition-colors'>
+                <span class='w-10 h-10 flex items-center justify-center bg-[#F0F5FA] text-[#125276] group-hover:bg-[#125276] group-hover:text-white transition-colors mb-3'>
+                  <svg
+                    width='16'
+                    height='16'
+                    viewBox='0 0 24 24'
+                    fill='none'
+                    stroke='currentColor'
+                    stroke-width='2'>
+                    <path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z' />
+                    <path d='M14 2v6h6M16 13H8M16 17H8' />
+                  </svg>
+                </span>
+                <h3 class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] leading-snug group-hover:text-[#125276] transition-colors">
+                  {doc.title}
+                </h3>
+                <p class="font-['Open_Sans'] text-[13px] text-[#5A6B77] mt-2 leading-relaxed line-clamp-3 flex-1">
+                  {doc.description}
+                </p>
+                <span class="font-['Open_Sans'] text-xs font-medium text-[#1565c0] mt-4 inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                  {isDownloadable(doc) ? 'Download' : 'Coming soon'}
+                  <span aria-hidden='true'>
+                    {isDownloadable(doc) ? '↓' : '→'}
+                  </span>
+                </span>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class='bg-[#0E2A47] text-white p-8 sm:p-10'>
+        <div class='max-w-3xl'>
+          <p
+            class="font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase text-[#C9A961] font-semibold">
+            Community voice
+          </p>
+          <h2 class="font-['Lato'] text-2xl font-semibold mt-3">
+            Have a concern, question, or feedback?
+          </h2>
+          <p
+            class="font-['Open_Sans'] text-[14.5px] text-[#AEC0CC] leading-relaxed mt-4">
+            Community feedback — including complaints, compliments, and
+            suggestions — is treated as an accountability measure. Every
+            submission is logged, reviewed, and used to strengthen services.
+          </p>
+          <div class='flex flex-wrap items-center gap-4 mt-6'>
+            <a
+              href='/news-and-media/contact/'
+              class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#C9A961] hover:bg-[#B8984D] text-[#0E2A47] font-['Open_Sans'] text-sm font-semibold transition-colors">
+              Submit feedback <span aria-hidden='true'>→</span>
+            </a>
+            <a
+              href='/patients/patient-rights/'
+              class="font-['Open_Sans'] text-sm font-medium text-white hover:text-[#C9A961] transition-colors inline-flex items-center gap-1.5">
+              Patient rights charter <span aria-hidden='true'>→</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <NewsFooter />
+  </body>
+</html>

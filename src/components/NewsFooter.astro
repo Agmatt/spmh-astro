@@ -1,7 +1,7 @@
 ---
 // src/components/NewsFooter.astro
-// Media Center footer. Trimmed to 17 content links across 3 columns
-// + contact band + compliance bar.
+// Media Center footer. Trimmed to 3 content columns + contact band
+// + compliance bar. Every link resolves to an existing page.
 
 const YEAR = new Date().getFullYear();
 
@@ -9,35 +9,32 @@ const COLUMNS = [
   {
     heading: 'Newsroom',
     links: [
-      { label: 'Top Stories', href: '/news-and-media/?type=article' },
-      { label: 'Blog', href: '/news-and-media/?type=blog' },
-      { label: 'Press Releases', href: '/news-and-media/?type=press_release' },
-      { label: 'Events', href: '/news-and-media/?type=event' },
-      { label: 'In the News', href: '/news-and-media/coverage/' },
+      { label: 'Top Stories', href: '/news-and-media/news/' },
+      { label: 'Blog', href: '/news-and-media/blog/' },
+      { label: 'Press Releases', href: '/news-and-media/press/' },
+      { label: 'Events', href: '/news-and-media/events/' },
+      { label: 'Publications', href: '/news-and-media/publications/' },
     ],
   },
   {
     heading: 'Strategic Plan',
     links: [
-      { label: 'Overview', href: '/strategic-plan/' },
-      { label: 'Download PDF', href: '/strategic-plan/download/' },
-      { label: 'Progress Updates', href: '/strategic-plan/progress/' },
-      { label: 'Publications', href: '/news-and-media/publications/' },
+      { label: 'Overview', href: '/news-and-media/strategic-plan/' },
+      { label: 'Implementation Phases', href: '/news-and-media/strategic-plan/#phases' },
+      {
+        label: 'Download PDF',
+        href: '/documents/strategic-plan-2026-2030.pdf',
+      },
+      { label: 'Governance', href: '/news-and-media/governance/' },
     ],
   },
   {
     heading: 'Media Center',
     links: [
       { label: 'Press Kit', href: '/news-and-media/press-kit/' },
-      { label: 'Fact Sheet', href: '/news-and-media/press-kit/fact-sheet/' },
-      {
-        label: 'Leadership Bios',
-        href: '/news-and-media/press-kit/leadership/',
-      },
-      {
-        label: 'Interview Requests',
-        href: '/news-and-media/press-kit/request/',
-      },
+      { label: 'Contact Media', href: '/news-and-media/contact/' },
+      { label: 'Search Archive', href: '/news-and-media/search/' },
+      { label: 'RSS Feed', href: '/news-and-media/rss.xml' },
     ],
   },
 ];
@@ -224,7 +221,7 @@ const COLUMNS = [
     </div>
   </div>
 
-  <!-- ============================ COMPLIANCE BAR (kept as-is) ============================ -->
+  <!-- ============================ COMPLIANCE BAR ============================ -->
   <div class='border-t border-[#1E3D5C] bg-[#0A2038]'>
     <div
       class='max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4'>

@@ -1,0 +1,102 @@
+---
+import NewsNavbar from '../../../components/NewsNavbar.astro';
+import NewsFooter from '../../../components/NewsFooter.astro';
+import '../../../styles/global.css';
+
+const doc = (Astro.url.searchParams.get('doc') ?? '').trim();
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Document Coming Soon | St. Paul's Mission Hospital</title>
+    <meta name='robots' content='noindex' />
+    <link rel='icon' type='image/png' href='/file.svg' />
+    <script
+      defer
+      src='https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js'
+    ></script>
+  </head>
+  <body class='bg-[#F7F9FB] text-[#14202B]'>
+    <NewsNavbar />
+
+    <main class='max-w-3xl mx-auto px-6 py-20'>
+      <a
+        href='/news-and-media/publications/'
+        class="font-['Open_Sans'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-10 transition-colors">
+        <span aria-hidden='true'>←</span> Back to Publications
+      </a>
+
+      <div class='bg-white border border-[#D8E0E7] p-8 sm:p-12'>
+        <div
+          class='w-14 h-14 flex items-center justify-center bg-[#FFF4E0] text-[#B26A00] mb-6'>
+          <svg
+            width='24'
+            height='24'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            stroke-width='2'>
+            <circle cx='12' cy='12' r='10'></circle>
+            <path d='M12 6v6l4 2'></path>
+          </svg>
+        </div>
+
+        <p
+          class="font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase text-[#860f0f] font-semibold">
+          Coming soon
+        </p>
+
+        <h1
+          class="font-['Lato'] text-2xl sm:text-3xl font-semibold text-[#0E2A47] mt-3 leading-snug">
+          {doc ? doc : 'This document'} is not yet available for download.
+        </h1>
+
+        <p
+          class="font-['Open_Sans'] text-[15px] text-[#5A6B77] leading-relaxed mt-5">
+          We're preparing the file for public release. It will appear on the
+          Publications page as soon as it's ready.
+        </p>
+
+        <div
+          class='border-t border-[#E5EBF0] mt-8 pt-6 grid sm:grid-cols-2 gap-6'>
+          <div>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold mb-3">
+              Be notified
+            </p>
+            <p
+              class="font-['Open_Sans'] text-[13.5px] text-[#5A6B77] leading-relaxed mb-3">
+              Subscribe to the RSS feed to receive new publications
+              automatically.
+            </p>
+            <a
+              href='/news-and-media/rss.xml'
+              class="font-['Open_Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 hover:gap-2.5 transition-all">
+              RSS feed <span aria-hidden='true'>→</span>
+            </a>
+          </div>
+          <div>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold mb-3">
+              Need it now?
+            </p>
+            <p
+              class="font-['Open_Sans'] text-[13.5px] text-[#5A6B77] leading-relaxed mb-3">
+              For urgent access to a specific document, reach the communications
+              office.
+            </p>
+            <a
+              href='mailto:media@spmh.co.ke?subject=Document%20request'
+              class="font-['Open_Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 hover:gap-2.5 transition-all">
+              media@spmh.co.ke <span aria-hidden='true'>→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <NewsFooter />
+  </body>
+</html>

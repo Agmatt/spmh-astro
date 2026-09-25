@@ -1,0 +1,258 @@
+---
+import NewsNavbar from '../../../components/NewsNavbar.astro';
+import NewsFooter from '../../../components/NewsFooter.astro';
+import { supabase } from '../../../lib/supabase-news';
+import { PILLARS } from '../../../lib/pillars';
+import '../../../styles/global.css';
+
+const q = (Astro.url.searchParams.get('q') ?? '').trim();
+const term = q.length >= 2 ? q : '';
+
+const fmtDate = (d) =>
+  d
+    ? new Date(d).toLocaleDateString('en-KE', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      })
+    : '';
+const initials = (n) =>
+  n
+    ? n
+        .split(' ')
+        .map((x) => x[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase()
+    : '·';
+
+const TYPE_LABEL: Record<string, string> = {
+  article: 'Story',
+  blog: 'Blog',
+  press_release: 'Press Release',
+  event: 'Event',
+};
+
+let items: any[] = [];
+if (term) {
+  const like = `%${term.replace(/[%_]/g, '\\$&')}%`;
+  try {
+    const { data, error } = await supabase
+      .from('content_items')
+      .select(
+        'id, type, title, slug, excerpt, cover_image, author, author_avatar, published_at, event_date, location, pillar',
+      )
+      .eq('status', 'published')
+      .or(`title.ilike.${like},excerpt.ilike.${like},body.ilike.${like}`)
+      .order('published_at', { ascending: false })
+      .limit(60);
+
+    if (error) {
+      const { data: safe } = await supabase
+        .from('content_items')
+        .select(
+          'id, type, title, slug, excerpt, cover_image, author, published_at, event_date, location',
+        )
+        .eq('status', 'published')
+        .or(`title.ilike.${like},excerpt.ilike.${like},body.ilike.${like}`)
+        .order('published_at', { ascending: false })
+        .limit(60);
+      items = (safe ?? []).map((r) => ({
+        ...r,
+        pillar: null,
+        author_avatar: null,
+      }));
+    } else {
+      items = data ?? [];
+    }
+  } catch (e) {
+    console.error('Search query failed:', e);
+  }
+}
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>
+      {term ? `Search: ${term}` : 'Search'} | St. Paul's Mission Hospital
+    </title>
+    <link rel='icon' type='image/png' href='/file.svg' />
+    <meta name='robots' content='noindex' />
+    <script
+      defer
+      src='https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js'
+    ></script>
+  </head>
+  <body class='bg-[#F7F9FB] text-[#14202B]'>
+    <NewsNavbar />
+
+    <main class='max-w-7xl mx-auto px-6 py-12'>
+      <a
+        href='/news-and-media/'
+        class="font-['Open_Sans'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
+        <span aria-hidden='true'>←</span> Back to News &amp; Media
+      </a>
+
+      <header class='border-b border-[#D8E0E7] pb-8 mb-10'>
+        <p
+          class="font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase text-[#860f0f] font-semibold">
+          Search
+        </p>
+        <h1
+          class="font-['Lato'] text-3xl sm:text-4xl font-semibold text-[#0E2A47] mt-3">
+          {term ? `Results for “${term}”` : 'Search the Media Center'}
+        </h1>
+        {
+          term && (
+            <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-4">
+              {items.length} {items.length === 1 ? 'result' : 'results'}
+            </p>
+          )
+        }
+      </header>
+
+      <form
+        action='/news-and-media/search/'
+        method='get'
+        class='mb-12 max-w-2xl'>
+        <div class='relative border border-[#D8E0E7] bg-white'>
+          <svg
+            class='absolute left-4 top-1/2 -translate-y-1/2 text-[#7A8A96]'
+            width='18'
+            height='18'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            stroke-width='2'>
+            <circle cx='11' cy='11' r='7'></circle><path d='m21 21-4.3-4.3'
+            ></path>
+          </svg>
+          <input
+            type='search'
+            name='q'
+            value={term}
+            placeholder='Search stories, press releases, events…'
+            autocomplete='off'
+            class="w-full pl-12 pr-28 py-3 font-['Open_Sans'] text-[15px] text-[#14202B] placeholder:text-[#B8C9D9] bg-transparent focus:outline-none"
+          />
+          <button
+            type='submit'
+            class="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 bg-[#0E2A47] hover:bg-[#125276] text-white font-['Open_Sans'] text-[13px] font-medium transition-colors">
+            Search
+          </button>
+        </div>
+      </form>
+
+      {
+        !term ? (
+          <p class="font-['Open_Sans'] text-[#7A8A96] py-16 text-center">
+            Enter a search term above to explore the Media Center.
+          </p>
+        ) : items.length === 0 ? (
+          <div class='py-16 text-center max-w-lg mx-auto'>
+            <p class="font-['Lato'] text-xl text-[#0E2A47] font-semibold">
+              Nothing found for “{term}”
+            </p>
+            <p class="font-['Open_Sans'] text-sm text-[#5A6B77] mt-3 leading-relaxed">
+              Try a broader term, check your spelling, or browse by section.
+            </p>
+            <div class='flex flex-wrap items-center justify-center gap-3 mt-6'>
+              <a
+                href='/news-and-media/news/'
+                class="font-['Open_Sans'] text-sm font-medium text-[#1565c0] hover:underline">
+                All stories
+              </a>
+              <span class='text-[#D8E0E7]'>·</span>
+              <a
+                href='/news-and-media/blog/'
+                class="font-['Open_Sans'] text-sm font-medium text-[#1565c0] hover:underline">
+                Blog
+              </a>
+              <span class='text-[#D8E0E7]'>·</span>
+              <a
+                href='/news-and-media/press/'
+                class="font-['Open_Sans'] text-sm font-medium text-[#1565c0] hover:underline">
+                Press
+              </a>
+              <span class='text-[#D8E0E7]'>·</span>
+              <a
+                href='/news-and-media/events/'
+                class="font-['Open_Sans'] text-sm font-medium text-[#1565c0] hover:underline">
+                Events
+              </a>
+            </div>
+          </div>
+        ) : (
+          <div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10'>
+            {items.map((item) => (
+              <div class='group'>
+                <a href={`/news-and-media/${item.slug}/`} class='block'>
+                  <div class='overflow-hidden bg-[#E7ECF0] aspect-[3/2] mb-3.5'>
+                    {item.cover_image && (
+                      <img
+                        src={item.cover_image}
+                        alt={item.title}
+                        loading='lazy'
+                        class='w-full h-full object-cover transition duration-500 group-hover:scale-[1.03]'
+                      />
+                    )}
+                  </div>
+                </a>
+                <div class='flex items-center gap-2 mb-2 flex-wrap'>
+                  <span class="font-['Open_Sans'] text-[9.5px] font-semibold tracking-[0.14em] uppercase text-[#860f0f]">
+                    {TYPE_LABEL[item.type] ?? item.type}
+                  </span>
+                  {item.pillar && PILLARS[item.pillar] && (
+                    <>
+                      <span class='w-px h-3 bg-[#D8E0E7]' />
+                      <a
+                        href={`/news-and-media/pillar/${item.pillar}/`}
+                        class="font-['Open_Sans'] text-[9.5px] font-semibold tracking-[0.14em] uppercase hover:underline"
+                        style={`color:${PILLARS[item.pillar].color}`}>
+                        {PILLARS[item.pillar].label}
+                      </a>
+                    </>
+                  )}
+                </div>
+                <a href={`/news-and-media/${item.slug}/`} class='block'>
+                  <h3 class="font-['Lato'] text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors">
+                    {item.title}
+                  </h3>
+                  {item.excerpt && (
+                    <p class="font-['Open_Sans'] text-sm text-[#5A6B77] mt-1.5 line-clamp-2">
+                      {item.excerpt}
+                    </p>
+                  )}
+                </a>
+                <div class='flex items-center gap-2 mt-3'>
+                  {item.author_avatar ? (
+                    <img
+                      src={item.author_avatar}
+                      alt={item.author}
+                      class='w-5 h-5 rounded-full object-cover'
+                    />
+                  ) : (
+                    item.author && (
+                      <span class="w-5 h-5 rounded-full bg-[#E7ECF0] text-[#125276] flex items-center justify-center font-['Open_Sans'] text-[9px] font-semibold">
+                        {initials(item.author)}
+                      </span>
+                    )
+                  )}
+                  <p class="font-['Open_Sans'] text-xs text-[#7A8A96]">
+                    {item.type === 'event'
+                      ? fmtDate(item.event_date)
+                      : fmtDate(item.published_at)}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      }
+    </main>
+
+    <NewsFooter />
+  </body>
+</html>

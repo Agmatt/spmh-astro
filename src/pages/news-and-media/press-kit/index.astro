@@ -1,0 +1,404 @@
+---
+import NewsNavbar from '../../../components/NewsNavbar.astro';
+import NewsFooter from '../../../components/NewsFooter.astro';
+import {
+  INSTITUTION,
+  KEY_STATS,
+  PILLAR_SUMMARY,
+} from '../../../lib/press-kit-facts';
+import { PILLARS } from '../../../lib/pillars';
+import '../../../styles/global.css';
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Press Kit | St. Paul's Mission Hospital</title>
+    <meta
+      name='description'
+      content="Institutional fact sheet, key statistics, leadership information, and brand assets for journalists covering St. Paul's Mission Hospital."
+    />
+    <link rel='icon' type='image/png' href='/file.svg' />
+    <script
+      defer
+      src='https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js'
+    ></script>
+  </head>
+  <body class='bg-[#F7F9FB] text-[#14202B]'>
+    <NewsNavbar />
+
+    <main class='max-w-7xl mx-auto px-6 py-12'>
+      <a
+        href='/news-and-media/'
+        class="font-['Open_Sans'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
+        <span aria-hidden='true'>←</span> Back to News &amp; Media
+      </a>
+
+      <header class='border-b border-[#D8E0E7] pb-8 mb-12 max-w-3xl'>
+        <p
+          class="font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase text-[#860f0f] font-semibold">
+          Press Kit
+        </p>
+        <h1
+          class="font-['Lato'] text-3xl sm:text-4xl font-semibold text-[#0E2A47] mt-3">
+          For Journalists
+        </h1>
+        <p class="font-['Open_Sans'] text-[#5A6B77] leading-relaxed mt-3">
+          Everything you need to cover St. Paul's Mission Hospital —
+          institutional facts, key statistics, leadership information, and
+          downloadable brand assets.
+        </p>
+      </header>
+
+      <!-- ===================== FACT SHEET ===================== -->
+      <section class='mb-16'>
+        <h2
+          class="font-['Lato'] text-2xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-6">
+          Institutional fact sheet
+        </h2>
+        <div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-5'>
+          {
+            [
+              { k: 'Full name', v: INSTITUTION.name },
+              { k: 'Abbreviation', v: INSTITUTION.shortName },
+              { k: 'Facility level', v: INSTITUTION.level },
+              { k: 'Ownership', v: INSTITUTION.ownership },
+              { k: 'Location', v: INSTITUTION.location },
+              { k: 'Postal address', v: INSTITUTION.postal },
+              { k: 'Website', v: INSTITUTION.website },
+              { k: 'Tagline', v: INSTITUTION.tagline },
+              { k: 'Descriptor', v: INSTITUTION.descriptor },
+            ].map(({ k, v }) => (
+              <div class='border-b border-[#EDF1F4] pb-3'>
+                <p class="font-['Open_Sans'] text-[10px] tracking-[0.15em] uppercase text-[#860f0f] font-semibold">
+                  {k}
+                </p>
+                <p class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] mt-1.5">
+                  {v}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- ===================== KEY STATS ===================== -->
+      <section class='mb-16'>
+        <div
+          class='flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 border-b border-[#D8E0E7] pb-3 mb-6'>
+          <h2 class="font-['Lato'] text-2xl font-semibold text-[#125276]">
+            Key statistics
+          </h2>
+          <p class="font-['Open_Sans'] text-xs text-[#7A8A96]">
+            Source: SPMH Strategic Plan 2026–2030 baseline assessment
+          </p>
+        </div>
+        <div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6'>
+          {
+            KEY_STATS.map((s) => (
+              <div>
+                <p class="font-['Lato'] text-2xl font-semibold text-[#0E2A47]">
+                  {s.value}
+                </p>
+                <p class="font-['Open_Sans'] text-[13px] font-medium text-[#125276] mt-1">
+                  {s.label}
+                </p>
+                <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-1 leading-relaxed">
+                  {s.context}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- ===================== LEADERSHIP ===================== -->
+      <section class='mb-16'>
+        <h2
+          class="font-['Lato'] text-2xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-6">
+          Leadership
+        </h2>
+        <div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+          {
+            [
+              {
+                role: 'Hospital Administrator',
+                name: 'Sr. Carmelina Beatrice Osanga',
+                note: 'Executive leadership and institutional oversight',
+              },
+              {
+                role: 'Board of Management',
+                name: 'Chairperson',
+                note: 'Strategic governance and fiduciary oversight',
+              },
+              {
+                role: 'Catholic Diocese of Homa Bay',
+                name: 'His Lordship the Bishop',
+                note: 'Spiritual authority and mission stewardship',
+              },
+            ].map((p) => (
+              <div class='border border-[#D8E0E7] bg-white p-6'>
+                <p class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#C9A961] font-semibold">
+                  {p.role}
+                </p>
+                <p class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] mt-2">
+                  {p.name}
+                </p>
+                <p class="font-['Open_Sans'] text-[13px] text-[#7A8A96] mt-2 leading-relaxed">
+                  {p.note}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+        <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-5 italic">
+          Full leadership bios and headshots are available on request from the
+          communications office.
+        </p>
+      </section>
+
+      <!-- ===================== PILLARS ===================== -->
+      <section class='mb-16'>
+        <h2
+          class="font-['Lato'] text-2xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-6">
+          Strategic pillars 2026–2030
+        </h2>
+        <p
+          class="font-['Open_Sans'] text-[14px] text-[#5A6B77] mb-6 max-w-3xl leading-relaxed">
+          St. Paul's Mission Hospital's five-year transformation is organised
+          around six interdependent pillars. Each pillar anchors a set of
+          programmes, investments, and measurable outcomes.
+        </p>
+        <div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+          {
+            PILLAR_SUMMARY.map((p) => (
+              <a
+                href={`/news-and-media/pillar/${p.key}/`}
+                class='group flex flex-col border-l-2 bg-white p-5 hover:bg-[#F0F5FA] transition-colors'
+                style={`border-color:${PILLARS[p.key].color}`}>
+                <p
+                  class="font-['Open_Sans'] text-[10px] uppercase tracking-[0.15em] font-semibold"
+                  style={`color:${PILLARS[p.key].color}`}>
+                  Pillar
+                </p>
+                <h3 class="font-['Lato'] text-base font-semibold text-[#0E2A47] mt-1.5 group-hover:text-[#125276] transition-colors">
+                  {p.label}
+                </h3>
+                <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-2 leading-relaxed line-clamp-3">
+                  {p.summary}
+                </p>
+                <span class="font-['Open_Sans'] text-xs font-medium text-[#1565c0] mt-3 inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                  View stories <span aria-hidden='true'>→</span>
+                </span>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- ===================== BRAND ASSETS ===================== -->
+      <section class='mb-16'>
+        <h2
+          class="font-['Lato'] text-2xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-6">
+          Brand assets
+        </h2>
+        <div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-5'>
+          <div class='border border-[#D8E0E7] bg-white p-6'>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold">
+              Logo
+            </p>
+            <p
+              class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] mt-2">
+              Primary logo
+            </p>
+            <p
+              class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-2 leading-relaxed">
+              Full colour, on light or dark backgrounds.
+            </p>
+            <a
+              href='/logos/logo.png'
+              download
+              class="font-['Open_Sans'] text-xs font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-3 hover:underline">
+              Download PNG →
+            </a>
+          </div>
+
+          <div class='border border-[#D8E0E7] bg-white p-6'>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold">
+              Logo
+            </p>
+            <p
+              class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] mt-2">
+              Monochrome mark
+            </p>
+            <p
+              class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-2 leading-relaxed">
+              Single-colour variant for restricted printing.
+            </p>
+            <span
+              class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-3 inline-block italic">
+              Available on request
+            </span>
+          </div>
+
+          <div class='border border-[#D8E0E7] bg-white p-6'>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold">
+              Colours
+            </p>
+            <p
+              class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] mt-2">
+              Institutional palette
+            </p>
+            <div class='flex items-center gap-2 mt-3'>
+              <span
+                class='w-8 h-8 rounded-sm'
+                style='background:#0E2A47'
+                title='#0E2A47'></span>
+              <span
+                class='w-8 h-8 rounded-sm'
+                style='background:#125276'
+                title='#125276'></span>
+              <span
+                class='w-8 h-8 rounded-sm'
+                style='background:#C9A961'
+                title='#C9A961'></span>
+              <span
+                class='w-8 h-8 rounded-sm'
+                style='background:#860f0f'
+                title='#860f0f'></span>
+            </div>
+            <p
+              class="font-['Open_Sans'] text-[11px] text-[#7A8A96] mt-2 leading-relaxed">
+              Navy · Deep blue · Gold · Accent red
+            </p>
+          </div>
+
+          <div class='border border-[#D8E0E7] bg-white p-6'>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold">
+              Typography
+            </p>
+            <p
+              class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] mt-2">
+              Fonts
+            </p>
+            <p
+              class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-2 leading-relaxed">
+              Lato (headings) · Open Sans (body copy)
+            </p>
+          </div>
+
+          <div class='border border-[#D8E0E7] bg-white p-6'>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold">
+              Photography
+            </p>
+            <p
+              class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] mt-2">
+              Approved imagery
+            </p>
+            <p
+              class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-2 leading-relaxed">
+              Clinical, community and facility photos cleared for press use.
+            </p>
+            <a
+              href='mailto:media@spmh.co.ke?subject=Photography%20request'
+              class="font-['Open_Sans'] text-xs font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-3 hover:underline">
+              Request access →
+            </a>
+          </div>
+
+          <div class='border border-[#D8E0E7] bg-white p-6'>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold">
+              Guidelines
+            </p>
+            <p
+              class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] mt-2">
+              Brand usage
+            </p>
+            <p
+              class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-2 leading-relaxed">
+              Logo clear-space, minimum sizes, and correct usage on press
+              materials.
+            </p>
+            <span
+              class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-3 inline-block italic">
+              Document pending
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== FOR JOURNALISTS ===================== -->
+      <section class='mb-4'>
+        <h2
+          class="font-['Lato'] text-2xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-6">
+          For journalists
+        </h2>
+        <div class='grid sm:grid-cols-3 gap-5'>
+          <a
+            href='/news-and-media/contact/'
+            class='group border border-[#D8E0E7] bg-white p-6 hover:border-[#125276] transition-colors'>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#C9A961] font-semibold">
+              Requests
+            </p>
+            <p
+              class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] mt-2 group-hover:text-[#125276] transition-colors">
+              Interview &amp; accreditation
+            </p>
+            <p
+              class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-2 leading-relaxed">
+              Request interviews, spokespersons, or press accreditation for
+              events.
+            </p>
+          </a>
+
+          <div class='border border-[#D8E0E7] bg-white p-6'>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#C9A961] font-semibold">
+              Policy
+            </p>
+            <p
+              class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] mt-2">
+              Spokesperson policy
+            </p>
+            <p
+              class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-2 leading-relaxed">
+              Only designated spokespersons may comment on behalf of the
+              hospital.
+            </p>
+            <span
+              class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-3 inline-block italic">
+              Document pending
+            </span>
+          </div>
+
+          <a
+            href='/news-and-media/rss.xml'
+            class='group border border-[#D8E0E7] bg-white p-6 hover:border-[#125276] transition-colors'>
+            <p
+              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#C9A961] font-semibold">
+              Subscribe
+            </p>
+            <p
+              class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] mt-2 group-hover:text-[#125276] transition-colors">
+              RSS feed
+            </p>
+            <p
+              class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-2 leading-relaxed">
+              Receive new stories and press releases as they publish.
+            </p>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <NewsFooter />
+  </body>
+</html>

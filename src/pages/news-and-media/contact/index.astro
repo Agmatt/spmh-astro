@@ -1,0 +1,262 @@
+---
+import NewsNavbar from '../../../components/NewsNavbar.astro';
+import NewsFooter from '../../../components/NewsFooter.astro';
+import '../../../styles/global.css';
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Media Inquiries | St. Paul's Mission Hospital</title>
+    <meta
+      name='description'
+      content='Contact the SPMH Media Center for interviews, press accreditation, statements, and editorial correspondence.'
+    />
+    <link rel='icon' type='image/png' href='/file.svg' />
+    <script
+      defer
+      src='https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js'
+    ></script>
+  </head>
+  <body class='bg-[#F7F9FB] text-[#14202B]'>
+    <NewsNavbar />
+
+    <main class='max-w-7xl mx-auto px-6 py-12'>
+      <a
+        href='/news-and-media/'
+        class="font-['Open_Sans'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
+        <span aria-hidden='true'>←</span> Back to News &amp; Media
+      </a>
+
+      <header class='border-b border-[#D8E0E7] pb-8 mb-12 max-w-3xl'>
+        <p
+          class="font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase text-[#860f0f] font-semibold">
+          Contact
+        </p>
+        <h1
+          class="font-['Lato'] text-3xl sm:text-4xl font-semibold text-[#0E2A47] mt-3">
+          Media Inquiries
+        </h1>
+        <p class="font-['Open_Sans'] text-[#5A6B77] leading-relaxed mt-3">
+          For interviews, press accreditation, official statements, or editorial
+          correspondence — choose the right channel below. Our communications
+          team responds within one business day.
+        </p>
+      </header>
+
+      <!-- ===================== PRIMARY CHANNELS ===================== -->
+      <section class='grid sm:grid-cols-3 gap-6 mb-14'>
+        <a
+          href='mailto:media@spmh.co.ke?subject=Media%20inquiry'
+          class='group border border-[#D8E0E7] bg-white p-6 hover:border-[#125276] transition-colors'>
+          <p
+            class="font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase text-[#C9A961] font-semibold">
+            Media &amp; Press
+          </p>
+          <h2
+            class="font-['Lato'] text-lg font-semibold text-[#0E2A47] mt-2 group-hover:text-[#125276] transition-colors">
+            media@spmh.co.ke
+          </h2>
+          <p
+            class="font-['Open_Sans'] text-[13.5px] text-[#5A6B77] mt-3 leading-relaxed">
+            Interview requests, press accreditation, official statements, and
+            spokesperson arrangements.
+          </p>
+        </a>
+
+        <a
+          href='mailto:editorial@spmh.co.ke?subject=Editorial%20correspondence'
+          class='group border border-[#D8E0E7] bg-white p-6 hover:border-[#125276] transition-colors'>
+          <p
+            class="font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase text-[#C9A961] font-semibold">
+            Editorial
+          </p>
+          <h2
+            class="font-['Lato'] text-lg font-semibold text-[#0E2A47] mt-2 group-hover:text-[#125276] transition-colors">
+            editorial@spmh.co.ke
+          </h2>
+          <p
+            class="font-['Open_Sans'] text-[13.5px] text-[#5A6B77] mt-3 leading-relaxed">
+            Story tips, factual corrections, general editorial correspondence,
+            and feedback on published content.
+          </p>
+        </a>
+
+        <div class='border-l-2 border-[#860f0f] pl-6 bg-white p-6'>
+          <p
+            class="font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase text-[#E85A5A] font-semibold">
+            Medical Emergency
+          </p>
+          <a
+            href='tel:+254111817447'
+            class="font-['Lato'] text-lg font-semibold text-[#0E2A47] mt-2 block hover:text-[#860f0f] transition-colors">
+            +254 111 817 447
+          </a>
+          <p
+            class="font-['Open_Sans'] text-[13.5px] text-[#5A6B77] mt-3 leading-relaxed">
+            24/7 emergency, accident, and obstetric care.
+            <strong class='text-[#860f0f] font-medium'
+              >Not for media enquiries.</strong
+            >
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================== GUIDANCE ===================== -->
+      <section class='grid lg:grid-cols-3 gap-10 mb-14'>
+        <div class='lg:col-span-2'>
+          <h2
+            class="font-['Lato'] text-2xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-6">
+            Before you reach out
+          </h2>
+
+          <div class='space-y-6'>
+            <div>
+              <h3
+                class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47]">
+                Interview requests
+              </h3>
+              <p
+                class="font-['Open_Sans'] text-[14px] text-[#5A6B77] mt-1.5 leading-relaxed">
+                Include the outlet, the topic, your preferred date and time, and
+                any specific questions. Interviews are arranged with the
+                appropriate spokesperson — clinical, administrative, or diocesan
+                — depending on subject matter.
+              </p>
+            </div>
+
+            <div>
+              <h3
+                class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47]">
+                Press accreditation
+              </h3>
+              <p
+                class="font-['Open_Sans'] text-[14px] text-[#5A6B77] mt-1.5 leading-relaxed">
+                Journalists covering an event, campaign, or facility visit
+                should request accreditation at least 48 hours in advance.
+                Please include your outlet, editor contact, and expected
+                coverage scope.
+              </p>
+            </div>
+
+            <div>
+              <h3
+                class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47]">
+                Patient privacy
+              </h3>
+              <p
+                class="font-['Open_Sans'] text-[14px] text-[#5A6B77] mt-1.5 leading-relaxed">
+                Patient confidentiality is protected under law and Catholic
+                ethical standards. Story leads involving individual patients
+                require documented consent before any details can be shared.
+              </p>
+            </div>
+
+            <div>
+              <h3
+                class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47]">
+                Emails we don't respond to
+              </h3>
+              <p
+                class="font-['Open_Sans'] text-[14px] text-[#5A6B77] mt-1.5 leading-relaxed">
+                Unsolicited commercial pitches, bulk marketing, and SEO service
+                offers. Clinical questions, appointment bookings, or billing
+                enquiries should go through the hospital's main channels — see <a
+                  href='/about-us/contact/'
+                  class='text-[#1565c0] hover:underline'>our contact page</a
+                >.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <aside>
+          <h2
+            class="font-['Lato'] text-2xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-6">
+            Useful resources
+          </h2>
+          <ul class='space-y-4'>
+            <li>
+              <a
+                href='/news-and-media/press-kit/'
+                class='group block border border-[#D8E0E7] bg-white p-4 hover:border-[#125276] transition-colors'>
+                <p
+                  class="font-['Lato'] text-[14px] font-semibold text-[#0E2A47] group-hover:text-[#125276] transition-colors">
+                  Press Kit
+                </p>
+                <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-1">
+                  Fact sheet, statistics, bios, logos
+                </p>
+              </a>
+            </li>
+            <li>
+              <a
+                href='/news-and-media/strategic-plan/'
+                class='group block border border-[#D8E0E7] bg-white p-4 hover:border-[#125276] transition-colors'>
+                <p
+                  class="font-['Lato'] text-[14px] font-semibold text-[#0E2A47] group-hover:text-[#125276] transition-colors">
+                  Strategic Plan 2026–2030
+                </p>
+                <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-1">
+                  The five-year transformation roadmap
+                </p>
+              </a>
+            </li>
+            <li>
+              <a
+                href='/news-and-media/publications/'
+                class='group block border border-[#D8E0E7] bg-white p-4 hover:border-[#125276] transition-colors'>
+                <p
+                  class="font-['Lato'] text-[14px] font-semibold text-[#0E2A47] group-hover:text-[#125276] transition-colors">
+                  Publications
+                </p>
+                <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-1">
+                  Annual reports, MEAL reports, charters
+                </p>
+              </a>
+            </li>
+          </ul>
+        </aside>
+      </section>
+
+      <!-- ===================== LOCATION ===================== -->
+      <section
+        class='border-t border-[#D8E0E7] pt-10 grid sm:grid-cols-2 gap-8'>
+        <div>
+          <h2 class="font-['Lato'] text-lg font-semibold text-[#0E2A47]">
+            Visit us
+          </h2>
+          <p
+            class="font-['Open_Sans'] text-[14px] text-[#5A6B77] leading-relaxed mt-3">
+            St. Paul's Mission Hospital<br />
+            P.O. Box 426 – Homa Bay<br />
+            Homa Bay County, Kenya
+          </p>
+          <p
+            class="font-['Open_Sans'] text-[14px] text-[#5A6B77] leading-relaxed mt-4">
+            Media visits to clinical areas require prior approval and must be
+            accompanied by a member of the communications team.
+          </p>
+        </div>
+        <div>
+          <h2 class="font-['Lato'] text-lg font-semibold text-[#0E2A47]">
+            Website &amp; syndication
+          </h2>
+          <p
+            class="font-['Open_Sans'] text-[14px] text-[#5A6B77] leading-relaxed mt-3">
+            Subscribe to our RSS feed to receive new stories and press releases
+            automatically:
+          </p>
+          <a
+            href='/news-and-media/rss.xml'
+            class="font-['Open_Sans'] text-sm font-medium text-[#1565c0] inline-flex items-center gap-1.5 mt-3 hover:gap-2.5 transition-all">
+            /news-and-media/rss.xml <span aria-hidden='true'>→</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <NewsFooter />
+  </body>
+</html>

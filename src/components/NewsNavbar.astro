@@ -1,8 +1,7 @@
 ---
 // src/components/NewsNavbar.astro
 // Media Center navigation — 3 destinations + Media Inquiries CTA.
-// Structure mirrors the 12-page architecture; the Strategic Plan's six
-// pillars are content tags, not nav items.
+// Every link below resolves to a page that exists in the current build.
 
 const NAV = [
   {
@@ -10,25 +9,26 @@ const NAV = [
     href: '/news-and-media/',
     columns: [
       {
-        heading: 'Stories',
+        heading: 'Latest',
         links: [
-          { label: 'Top Stories',    href: '/news-and-media/?type=article' },
-          { label: 'Blog',           href: '/news-and-media/?type=blog' },
-          { label: 'In the News',    href: '/news-and-media/coverage/' },
+          { label: 'Top Stories',    href: '/news-and-media/news/' },
+          { label: 'Blog',           href: '/news-and-media/blog/' },
+          { label: 'Publications',   href: '/news-and-media/publications/' },
         ],
       },
       {
         heading: 'Official',
         links: [
-          { label: 'Press Releases', href: '/news-and-media/?type=press_release' },
-          { label: 'Public Notices', href: '/news-and-media/notices/' },
+          { label: 'Press Releases', href: '/news-and-media/press/' },
+          { label: 'Governance',     href: '/news-and-media/governance/' },
         ],
       },
       {
-        heading: 'Events',
+        heading: 'Updates',
         links: [
-          { label: 'Upcoming Events', href: '/news-and-media/?type=event' },
-          { label: 'Past Events',     href: '/news-and-media/events/past/' },
+          { label: 'Upcoming Events', href: '/news-and-media/events/' },
+          { label: 'RSS Feed',        href: '/news-and-media/rss.xml' },
+          { label: 'Contact Media',   href: '/news-and-media/contact/' },
         ],
       },
     ],
@@ -40,25 +40,25 @@ const NAV = [
       {
         heading: 'The Plan',
         links: [
-          { label: 'Overview',          href: '/strategic-plan/' },
-          { label: 'Download PDF',      href: '/strategic-plan/download/' },
-          { label: 'Executive Summary', href: '/strategic-plan/summary/' },
+          { label: 'Overview',              href: '/news-and-media/strategic-plan/' },
+          { label: 'Implementation Phases', href: '/news-and-media/strategic-plan/#phases' },
+          { label: 'Download PDF',          href: '/documents/strategic-plan-2026-2030.pdf' },
         ],
       },
       {
-        heading: 'Progress',
+        heading: 'Pillars',
         links: [
-          { label: 'Implementation Phases', href: '/strategic-plan/phases/' },
-          { label: 'Annual Milestones',     href: '/strategic-plan/milestones/' },
-          { label: 'MEAL Reports',          href: '/strategic-plan/meal/' },
+          { label: 'Clinical Services',       href: '/news-and-media/pillar/clinical/' },
+          { label: 'Health Workforce',         href: '/news-and-media/pillar/workforce/' },
+          { label: 'Infrastructure & Digital', href: '/news-and-media/pillar/infrastructure/' },
         ],
       },
       {
-        heading: 'Publications',
+        heading: 'Reports',
         links: [
-          { label: 'Annual Reports',      href: '/news-and-media/publications/annual/' },
-          { label: 'Financial Summaries', href: '/news-and-media/publications/financial/' },
-          { label: 'Service Charter',     href: '/news-and-media/governance/service-charter/' },
+          { label: 'All Publications', href: '/news-and-media/publications/' },
+          { label: 'MEAL Reports',     href: '/news-and-media/publications/' },
+          { label: 'Annual Reports',   href: '/news-and-media/publications/' },
         ],
       },
     ],
@@ -70,24 +70,25 @@ const NAV = [
       {
         heading: 'Institutional',
         links: [
-          { label: 'Fact Sheet',       href: '/news-and-media/press-kit/fact-sheet/' },
-          { label: 'Key Statistics',   href: '/news-and-media/press-kit/statistics/' },
-          { label: 'Leadership Bios',  href: '/news-and-media/press-kit/leadership/' },
+          { label: 'Fact Sheet',      href: '/news-and-media/press-kit/' },
+          { label: 'Key Statistics',  href: '/news-and-media/press-kit/' },
+          { label: 'Leadership',      href: '/news-and-media/press-kit/' },
         ],
       },
       {
         heading: 'Brand Assets',
         links: [
-          { label: 'Logos & Marks',    href: '/news-and-media/press-kit/logos/' },
-          { label: 'Photography',      href: '/news-and-media/press-kit/photos/' },
-          { label: 'Brand Guidelines', href: '/news-and-media/press-kit/guidelines/' },
+          { label: 'Logos & Marks',    href: '/news-and-media/press-kit/' },
+          { label: 'Photography',      href: '/news-and-media/press-kit/' },
+          { label: 'Colour & Type',    href: '/news-and-media/press-kit/' },
         ],
       },
       {
         heading: 'For Journalists',
         links: [
-          { label: 'Spokesperson Policy', href: '/news-and-media/press-kit/spokespersons/' },
-          { label: 'Interview Requests',  href: '/news-and-media/press-kit/request/' },
+          { label: 'Media Inquiries', href: '/news-and-media/contact/' },
+          { label: 'Search Archive',  href: '/news-and-media/search/' },
+          { label: 'RSS Feed',        href: '/news-and-media/rss.xml' },
         ],
       },
     ],
@@ -140,7 +141,6 @@ const NAV = [
               ></span>
             </a>
 
-            <!-- Mega menu -->
             <div
               x-show={`menuOpen === ${i}`}
               x-transition:enter="transition ease-out duration-150"
@@ -275,7 +275,7 @@ const NAV = [
           x-show="!loading && q.length >= 2 && results.length === 0"
           class="font-['Open_Sans'] text-sm text-[#7A8A96]"
         >
-          No matches for "<span x-text="q" class="text-[#0E2A47] font-medium"></span>".
+          No matches for “<span x-text="q" class="text-[#0E2A47] font-medium"></span>”.
         </p>
 
         <ul x-show="!loading && results.length > 0" class="divide-y divide-[#EDF1F4]">
@@ -327,7 +327,7 @@ const NAV = [
           :href="`/news-and-media/search/?q=${encodeURIComponent(q)}`"
           class="inline-flex items-center gap-2 mt-8 font-['Open_Sans'] text-sm font-medium text-[#125276] hover:text-[#0E2A47] transition-colors"
         >
-          View all results for "<span x-text="q"></span>" →
+          View all results for “<span x-text="q"></span>” →
         </a>
       </div>
     </div>
@@ -471,22 +471,11 @@ const NAV = [
       timer: null,
       searchError: false,
 
-      // ============================================================
-      // Menu & Navigation
-      // ============================================================
-      openMenu(i) { 
-        this.menuOpen = i; 
-      },
-      closeMenu() { 
-        this.menuOpen = null; 
-      },
+      openMenu(i) { this.menuOpen = i; },
+      closeMenu() { this.menuOpen = null; },
 
-      // ============================================================
-      // Search: Open/Close & Focus Management
-      // ============================================================
       openSearch() {
         this.searchOpen = true;
-        // Use queueMicrotask instead of Vue's $nextTick
         queueMicrotask(() => {
           this.$refs.searchInput?.focus();
         });
@@ -499,46 +488,27 @@ const NAV = [
         this.activeIndex = -1;
       },
 
-      // ============================================================
-      // Keyboard Escape Handler
-      // ============================================================
       onEscape() {
         this.menuOpen = null;
         this.mobileOpen = false;
         this.closeSearch();
       },
 
-      // ============================================================
-      // Search: API Call with Error Handling
-      // ============================================================
       async runSearch() {
         const term = this.q.trim();
-        
-        // Exit early if query too short
-        if (term.length < 2) { 
+        if (term.length < 2) {
           this.results = [];
           this.searchError = false;
-          return; 
+          return;
         }
-
         this.loading = true;
         this.searchError = false;
-
         try {
           const encoded = encodeURIComponent(term);
           const res = await fetch(`/api/search.json?q=${encoded}&limit=10`);
-          
-          if (!res.ok) {
-            throw new Error(`HTTP ${res.status}: Search endpoint returned an error`);
-          }
-
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const data = await res.json();
-          
-          // Validate response structure
-          if (!Array.isArray(data.results)) {
-            throw new Error('Invalid search response format');
-          }
-
+          if (!Array.isArray(data.results)) throw new Error('Invalid response');
           this.results = data.results ?? [];
           this.activeIndex = -1;
         } catch (e) {
@@ -549,36 +519,21 @@ const NAV = [
           this.loading = false;
         }
       },
-
-      // ============================================================
-      // Search: Debounce with Timer
-      // ============================================================
       queue() {
         clearTimeout(this.timer);
         this.timer = setTimeout(() => this.runSearch(), 250);
       },
-
-      // ============================================================
-      // Search: Keyboard Navigation (↑↓)
-      // ============================================================
       moveDown() {
         if (!this.results.length) return;
-        // Start at 0 if no selection; otherwise increment
-        this.activeIndex = this.activeIndex < 0 
-          ? 0 
+        this.activeIndex = this.activeIndex < 0
+          ? 0
           : (this.activeIndex + 1) % this.results.length;
       },
       moveUp() {
         if (!this.results.length) return;
-        // Wrap around to last item if at start
         this.activeIndex = (this.activeIndex - 1 + this.results.length) % this.results.length;
       },
-
-      // ============================================================
-      // Search: Navigate to Selected Result (Enter)
-      // ============================================================
       go() {
-        // If a result is highlighted, go directly to it
         if (this.activeIndex >= 0 && this.results[this.activeIndex]) {
           const slug = this.results[this.activeIndex].slug;
           if (slug) {
@@ -586,22 +541,11 @@ const NAV = [
             return;
           }
         }
-
-        // Otherwise, go to full search results page
         const term = this.q.trim();
         if (term.length >= 2) {
-          try {
-            const encoded = encodeURIComponent(term);
-            window.location.href = `/news-and-media/search/?q=${encoded}`;
-          } catch (e) {
-            console.error('Navigation failed:', e);
-          }
+          window.location.href = `/news-and-media/search/?q=${encodeURIComponent(term)}`;
         }
       },
-
-      // ============================================================
-      // Helpers: Type Label & Date Formatting
-      // ============================================================
       typeLabel(t) {
         const labels = {
           article: 'Story',
@@ -611,19 +555,13 @@ const NAV = [
         };
         return labels[t] ?? (t || 'Item');
       },
-
       fmtDate(d) {
         if (!d) return '';
         try {
-          return new Date(d).toLocaleDateString('en-KE', { 
-            day: 'numeric', 
-            month: 'short', 
-            year: 'numeric' 
+          return new Date(d).toLocaleDateString('en-KE', {
+            day: 'numeric', month: 'short', year: 'numeric'
           });
-        } catch (e) {
-          console.error('Date formatting error:', e);
-          return '';
-        }
+        } catch { return ''; }
       },
     }));
   });
