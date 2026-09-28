@@ -191,7 +191,7 @@ const jsonLd = {
     <main class='max-w-3xl mx-auto px-6 py-12'>
       <a
         href={backHref}
-        class="font-['Open_Sans'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
+        class="text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
         <span aria-hidden='true'>←</span> Back to {
           TYPE_LABEL[item.type] ?? 'News'
         }
@@ -200,7 +200,7 @@ const jsonLd = {
       <header class='mb-8'>
         <div class='flex items-center gap-3 flex-wrap'>
           <span
-            class="font-['Open_Sans'] text-[10px] font-semibold tracking-[0.18em] uppercase"
+            class="text-[10px] font-semibold tracking-[0.18em] uppercase"
             style={`color:${TYPE_COLOR[item.type] ?? '#1565c0'}`}>
             {TYPE_LABEL[item.type] ?? item.type}
           </span>
@@ -210,7 +210,7 @@ const jsonLd = {
                 <span class='w-px h-3 bg-[#D8E0E7]' />
                 <a
                   href={`/news-and-media/pillar/${item.pillar}/`}
-                  class="font-['Open_Sans'] text-[10px] font-semibold tracking-[0.14em] uppercase hover:underline"
+                  class="text-[10px] font-semibold tracking-[0.14em] uppercase hover:underline"
                   style={`color:${pillar.color}`}>
                   {pillar.label}
                 </a>
@@ -220,13 +220,13 @@ const jsonLd = {
         </div>
 
         <h1
-          class="font-['Lato'] text-3xl sm:text-4xl font-semibold leading-tight text-[#0E2A47] mt-3">
+          class="text-3xl sm:text-4xl font-semibold leading-tight text-primary mt-3">
           {item.title}
         </h1>
 
         {
           item.excerpt && (
-            <p class="font-['Open_Sans'] text-lg text-[#5A6B77] leading-relaxed mt-4">
+            <p class="text-lg text-[#5A6B77] leading-relaxed mt-4">
               {item.excerpt}
             </p>
           )
@@ -234,7 +234,7 @@ const jsonLd = {
 
         {
           item.type === 'event' ? (
-            <div class="flex flex-wrap items-center gap-x-6 gap-y-2 mt-6 font-['Open_Sans'] text-sm text-[#3E5262] border-y border-[#D8E0E7] py-4">
+            <div class="flex flex-wrap items-center gap-x-6 gap-y-2 mt-6 text-sm text-[#3E5262] border-y border-[#D8E0E7] py-4">
               <span class='flex items-center gap-2'>
                 <svg
                   width='15'
@@ -274,12 +274,12 @@ const jsonLd = {
                 />
               ) : (
                 item.author && (
-                  <span class="w-8 h-8 rounded-full bg-[#E7ECF0] text-[#125276] flex items-center justify-center font-['Open_Sans'] text-[11px] font-semibold">
+                  <span class="w-8 h-8 rounded-full bg-[#E7ECF0] text-[#125276] flex items-center justify-center text-[11px] font-semibold">
                     {initials(item.author)}
                   </span>
                 )
               )}
-              <p class="font-['Open_Sans'] text-sm text-[#7A8A96]">
+              <p class="text-sm text-[#7A8A96]">
                 {item.author && (
                   <span class='text-[#3E5262] font-medium'>{item.author}</span>
                 )}
@@ -305,7 +305,7 @@ const jsonLd = {
       }
 
       <div
-        class="font-['Open_Sans'] text-[#243440] leading-relaxed prose-content"
+        class="text-[#243440] leading-relaxed prose-content"
         set:html={item.body.includes('<')
           ? item.body
           : `<p>${item.body.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`}
@@ -317,14 +317,14 @@ const jsonLd = {
             class='mt-12 border-l-2 pl-5 py-3'
             style={`border-color:${pillar.color}`}>
             <p
-              class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase font-semibold"
+              class="text-[10px] tracking-[0.18em] uppercase font-semibold"
               style={`color:${pillar.color}`}>
               {pillar.label}
             </p>
-            <p class="font-['Open_Sans'] text-[14px] text-[#3E5262] leading-relaxed mt-2">
+            <p class="text-[14px] text-[#3E5262] leading-relaxed mt-2">
               This {TYPE_LABEL[item.type]?.toLowerCase() ?? 'story'} relates to
               the
-              <strong class='text-[#0E2A47] font-medium'>
+              <strong class='text-primary font-medium'>
                 {pillar.label}
               </strong>{' '}
               pillar — one of six guiding St. Paul's Mission Hospital's
@@ -333,12 +333,12 @@ const jsonLd = {
             <div class='flex flex-wrap items-center gap-x-4 gap-y-2 mt-3'>
               <a
                 href='/strategic-plan/'
-                class="font-['Open_Sans'] text-[13px] font-medium text-[#1565c0] hover:underline inline-flex items-center gap-1">
+                class="text-[13px] font-medium text-[#1565c0] hover:underline inline-flex items-center gap-1">
                 Read the Strategic Plan <span aria-hidden='true'>→</span>
               </a>
               <a
                 href={`/news-and-media/pillar/${item.pillar}/`}
-                class="font-['Open_Sans'] text-[13px] font-medium text-[#1565c0] hover:underline inline-flex items-center gap-1">
+                class="text-[13px] font-medium text-[#1565c0] hover:underline inline-flex items-center gap-1">
                 All {pillar.label} stories <span aria-hidden='true'>→</span>
               </a>
             </div>
@@ -348,7 +348,7 @@ const jsonLd = {
 
       <div class='flex items-center gap-4 mt-12 pt-6 border-t border-[#D8E0E7]'>
         <span
-          class="font-['Open_Sans'] text-xs tracking-[0.15em] uppercase text-[#7A8A96] font-semibold">
+          class="text-xs tracking-[0.15em] uppercase text-[#7A8A96] font-semibold">
           Share
         </span>
         <a
@@ -393,7 +393,7 @@ const jsonLd = {
     {
       more.length > 0 && (
         <section class='max-w-5xl mx-auto px-6 pb-16'>
-          <h2 class="font-['Lato'] text-xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-7">
+          <h2 class="text-xl font-semibold text-[#125276] border-b border-[#D8E0E7] pb-3 mb-7">
             More {TYPE_LABEL[item.type] ?? ''}s
           </h2>
           <div class='grid sm:grid-cols-3 gap-7'>
@@ -414,17 +414,17 @@ const jsonLd = {
                 {m.pillar && PILLARS[m.pillar] && (
                   <a
                     href={`/news-and-media/pillar/${m.pillar}/`}
-                    class="inline-block font-['Open_Sans'] text-[9.5px] font-semibold tracking-[0.14em] uppercase px-2 py-0.5 mb-2 hover:opacity-80 transition-opacity"
+                    class="inline-block  text-[9.5px] font-semibold tracking-[0.14em] uppercase px-2 py-0.5 mb-2 hover:opacity-80 transition-opacity"
                     style={`background:${PILLARS[m.pillar].bg}; color:${PILLARS[m.pillar].color}`}>
                     {PILLARS[m.pillar].label}
                   </a>
                 )}
                 <a href={`/news-and-media/${m.slug}/`} class='block'>
-                  <h3 class="font-['Lato'] text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors">
+                  <h3 class="text-base font-semibold leading-snug text-primary group-hover:text-[#1565c0] transition-colors">
                     {m.title}
                   </h3>
                 </a>
-                <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-2">
+                <p class="text-xs text-[#7A8A96] mt-2">
                   {m.type === 'event'
                     ? fmtDateShort(m.event_date)
                     : fmtDateShort(m.published_at)}

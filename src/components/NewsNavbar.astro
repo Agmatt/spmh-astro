@@ -112,10 +112,10 @@ const NAV = [
           class="h-11 w-auto"
         />
         <span class="hidden sm:flex flex-col leading-none">
-          <span class="font-['Lato'] text-[15px] font-semibold text-[#0E2A47] tracking-tight group-hover:text-[#125276] transition-colors">
+          <span class="text-[15px] font-semibold text-[#0E2A47] tracking-tight group-hover:text-[#125276] transition-colors">
             St. Paul's Mission Hospital
           </span>
-          <span class="font-['Open_Sans'] text-[10px] uppercase tracking-[0.22em] text-[#860f0f] font-semibold mt-1">
+          <span class="text-[10px] uppercase tracking-[0.22em] text-[#860f0f] font-semibold mt-1">
             Media Center
           </span>
         </span>
@@ -131,7 +131,7 @@ const NAV = [
           >
             <a
               href={item.href}
-              class="relative flex items-center px-5 font-['Open_Sans'] text-[13.5px] font-medium text-[#1A2A38] hover:text-[#125276] transition-colors"
+              class="relative flex items-center px-5 text-[13.5px] font-medium text-[#1A2A38] hover:text-[#125276] transition-colors"
               :class={`menuOpen === ${i} ? 'text-[#125276]' : ''}`}
             >
               {item.label}
@@ -160,7 +160,7 @@ const NAV = [
             >
               {item.columns.map((col) => (
                 <div>
-                  <p class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold mb-3.5">
+                  <p class="text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold mb-3.5">
                     {col.heading}
                   </p>
                   <ul class="space-y-2.5">
@@ -168,7 +168,7 @@ const NAV = [
                       <li>
                         <a
                           href={l.href}
-                          class="block font-['Open_Sans'] text-[13.5px] text-[#3E5262] hover:text-[#125276] hover:translate-x-0.5 transition-all"
+                          class="block text-[13.5px] text-[#3E5262] hover:text-[#125276] hover:translate-x-0.5 transition-all"
                         >
                           {l.label}
                         </a>
@@ -196,7 +196,7 @@ const NAV = [
 
         <a
           href="/news-and-media/contact/"
-          class="hidden md:inline-flex items-center gap-2 h-10 px-5 rounded-full bg-[#0E2A47] hover:bg-[#125276] text-white font-['Open_Sans'] text-[13px] font-medium transition-colors"
+          class="hidden md:inline-flex items-center gap-2 h-10 px-5 rounded-full bg-[#0E2A47] hover:bg-[#125276] text-white text-[13px] font-medium transition-colors"
         >
           Media Inquiries
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -227,7 +227,7 @@ const NAV = [
   >
     <div class="max-w-3xl mx-auto px-6 pt-20 pb-12">
       <div class="flex items-center justify-between mb-10">
-        <p class="font-['Open_Sans'] text-[10px] tracking-[0.2em] uppercase text-[#860f0f] font-semibold">
+        <p class="text-[10px] tracking-[0.2em] uppercase text-[#860f0f] font-semibold">
           Search Media Center
         </p>
         <button
@@ -258,22 +258,22 @@ const NAV = [
           @keydown.enter.prevent="go()"
           placeholder="Search stories, press releases, events, strategic plan…"
           autocomplete="off"
-          class="w-full pl-9 pr-4 py-2 font-['Lato'] text-xl sm:text-2xl text-[#0E2A47] placeholder:text-[#B8C9D9] bg-transparent focus:outline-none"
+          class="w-full pl-9 pr-4 py-2 text-xl sm:text-2xl text-[#0E2A47] placeholder:text-[#B8C9D9] bg-transparent focus:outline-none"
         />
       </div>
 
-      <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-3">
+      <p class="text-xs text-[#7A8A96] mt-3">
         <kbd class="px-1.5 py-0.5 bg-[#F0F5FA] border border-[#E5EBF0] text-[10px]">↑↓</kbd> navigate ·
         <kbd class="px-1.5 py-0.5 bg-[#F0F5FA] border border-[#E5EBF0] text-[10px]">Enter</kbd> open ·
         <kbd class="px-1.5 py-0.5 bg-[#F0F5FA] border border-[#E5EBF0] text-[10px]">Esc</kbd> close
       </p>
 
       <div class="mt-8">
-        <p x-show="loading" class="font-['Open_Sans'] text-sm text-[#7A8A96]">Searching…</p>
+        <p x-show="loading" class="text-sm text-[#7A8A96]">Searching…</p>
 
         <p
           x-show="!loading && q.length >= 2 && results.length === 0"
-          class="font-['Open_Sans'] text-sm text-[#7A8A96]"
+          class="text-sm text-[#7A8A96]"
         >
           No matches for “<span x-text="q" class="text-[#0E2A47] font-medium"></span>”.
         </p>
@@ -288,7 +288,7 @@ const NAV = [
                 :class="activeIndex === idx ? 'bg-[#F7F9FB]' : ''"
               >
                 <span
-                  class="shrink-0 mt-1 font-['Open_Sans'] text-[10px] font-semibold tracking-[0.12em] uppercase px-2 py-1"
+                  class="shrink-0 mt-1 text-[10px] font-semibold tracking-[0.12em] uppercase px-2 py-1"
                   :class="{
                     'bg-[#E6F0FA] text-[#125276]': r.type === 'article',
                     'bg-[#EAF1F5] text-[#125276]': r.type === 'blog',
@@ -299,16 +299,16 @@ const NAV = [
                 ></span>
                 <span class="min-w-0 flex-1">
                   <span
-                    class="block font-['Lato'] text-[15px] font-semibold text-[#0E2A47] leading-snug"
+                    class="block text-[15px] font-semibold text-[#0E2A47] leading-snug"
                     x-text="r.title"
                   ></span>
                   <span
                     x-show="r.excerpt"
-                    class="block font-['Open_Sans'] text-[13px] text-[#5A6B77] mt-1 line-clamp-1"
+                    class="block text-[13px] text-[#5A6B77] mt-1 line-clamp-1"
                     x-text="r.excerpt"
                   ></span>
                   <span
-                    class="block font-['Open_Sans'] text-[11px] text-[#7A8A96] mt-1.5"
+                    class="block text-[11px] text-[#7A8A96] mt-1.5"
                     x-text="fmtDate(r.published_at || r.event_date)"
                   ></span>
                 </span>
@@ -325,7 +325,7 @@ const NAV = [
         <a
           x-show="!loading && q.length >= 2 && results.length > 0"
           :href="`/news-and-media/search/?q=${encodeURIComponent(q)}`"
-          class="inline-flex items-center gap-2 mt-8 font-['Open_Sans'] text-sm font-medium text-[#125276] hover:text-[#0E2A47] transition-colors"
+          class="inline-flex items-center gap-2 mt-8 text-sm font-medium text-[#125276] hover:text-[#0E2A47] transition-colors"
         >
           View all results for “<span x-text="q"></span>” →
         </a>
@@ -354,7 +354,7 @@ const NAV = [
     class="fixed inset-y-0 right-0 w-full max-w-[400px] bg-white z-[80] flex flex-col lg:hidden shadow-2xl"
   >
     <div class="flex items-center justify-between px-6 h-16 border-b border-[#E5EBF0]">
-      <p class="font-['Open_Sans'] text-[10px] tracking-[0.2em] uppercase text-[#860f0f] font-semibold">
+      <p class="text-[10px] tracking-[0.2em] uppercase text-[#860f0f] font-semibold">
         Menu
       </p>
       <button
@@ -371,7 +371,7 @@ const NAV = [
     <div class="px-6 py-4 border-b border-[#E5EBF0]">
       <button
         @click="mobileOpen = false; openSearch();"
-        class="w-full flex items-center gap-3 h-11 px-4 bg-[#F7F9FB] border border-[#E5EBF0] text-[#7A8A96] font-['Open_Sans'] text-sm hover:border-[#125276] transition-colors"
+        class="w-full flex items-center gap-3 h-11 px-4 bg-[#F7F9FB] border border-[#E5EBF0] text-[#7A8A96] text-sm hover:border-[#125276] transition-colors"
       >
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
@@ -380,10 +380,10 @@ const NAV = [
       </button>
     </div>
 
-    <nav class="flex-1 overflow-y-auto px-6 py-4 font-['Open_Sans']">
+    <nav class="flex-1 overflow-y-auto px-6 py-4">
       <a
         href="/news-and-media/"
-        class="block py-3.5 font-['Lato'] text-[15px] font-semibold text-[#0E2A47] hover:text-[#125276] border-b border-[#EDF1F4] transition-colors"
+        class="block py-3.5 text-[15px] font-semibold text-[#0E2A47] hover:text-[#125276] border-b border-[#EDF1F4] transition-colors"
       >
         Media Center Home
       </a>
@@ -392,7 +392,7 @@ const NAV = [
         <div class="border-b border-[#EDF1F4]">
           <button
             @click={`mobileAccordion = mobileAccordion === ${i} ? null : ${i}`}
-            class="w-full flex items-center justify-between py-3.5 font-['Lato'] text-[15px] font-semibold text-[#0E2A47]"
+            class="w-full flex items-center justify-between py-3.5 text-[15px] font-semibold text-[#0E2A47]"
           >
             {item.label}
             <svg
@@ -412,7 +412,7 @@ const NAV = [
           >
             {item.columns.map((col) => (
               <div>
-                <p class="font-['Open_Sans'] text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold mb-2.5">
+                <p class="text-[10px] tracking-[0.18em] uppercase text-[#860f0f] font-semibold mb-2.5">
                   {col.heading}
                 </p>
                 <ul class="space-y-2 pl-3 border-l border-[#E5EBF0]">
@@ -420,7 +420,7 @@ const NAV = [
                     <li>
                       <a
                         href={l.href}
-                        class="block font-['Open_Sans'] text-[13.5px] text-[#3E5262] hover:text-[#125276] py-0.5 transition-colors"
+                        class="block text-[13.5px] text-[#3E5262] hover:text-[#125276] py-0.5 transition-colors"
                       >
                         {l.label}
                       </a>
@@ -437,7 +437,7 @@ const NAV = [
     <div class="px-6 py-5 border-t border-[#E5EBF0]">
       <a
         href="/news-and-media/contact/"
-        class="flex items-center justify-between w-full h-11 px-4 bg-[#0E2A47] hover:bg-[#125276] text-white font-['Open_Sans'] text-sm font-medium transition-colors"
+        class="flex items-center justify-between w-full h-11 px-4 bg-[#0E2A47] hover:bg-[#125276] text-white text-sm font-medium transition-colors"
       >
         Media Inquiries
         <span aria-hidden="true">→</span>

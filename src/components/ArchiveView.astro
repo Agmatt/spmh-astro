@@ -93,28 +93,28 @@ try {
     <main class='max-w-7xl mx-auto px-6 py-12'>
       <a
         href={backHref}
-        class="font-['Open_Sans'] text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
+        class="text-sm text-[#7A8A96] hover:text-[#1565c0] inline-flex items-center gap-1.5 mb-8 transition-colors">
         <span aria-hidden='true'>←</span>
         {backLabel}
       </a>
 
       <header class='border-b border-[#D8E0E7] pb-8 mb-10'>
         <p
-          class="font-['Open_Sans'] text-[10px] tracking-[0.22em] uppercase text-[#860f0f] font-semibold">
+          class="text-[10px] tracking-[0.22em] uppercase text-[#860f0f] font-semibold">
           Archive
         </p>
         <h1
-          class="font-['Lato'] text-3xl sm:text-4xl font-semibold text-[#0E2A47] mt-3">
+          class="text-3xl sm:text-4xl font-semibold text-[#0E2A47] mt-3">
           {title}
         </h1>
         {
           blurb && (
-            <p class="font-['Open_Sans'] text-[#5A6B77] mt-3 max-w-2xl leading-relaxed">
+            <p class="text-[#5A6B77] mt-3 max-w-2xl leading-relaxed">
               {blurb}
             </p>
           )
         }
-        <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-4">
+        <p class="text-xs text-[#7A8A96] mt-4">
           {items.length}
           {items.length === 1 ? 'item' : 'items'}
         </p>
@@ -122,7 +122,7 @@ try {
 
       {
         items.length === 0 ? (
-          <p class="font-['Open_Sans'] text-[#7A8A96] py-16 text-center">
+          <p class="text-[#7A8A96] py-16 text-center">
             Nothing published here yet.
           </p>
         ) : type === 'event' ? (
@@ -142,19 +142,19 @@ try {
                   href={`/news-and-media/${ev.slug}/`}
                   class='group flex gap-4 items-start border border-[#D8E0E7] bg-white p-5 hover:border-[#1565c0] transition-colors'>
                   <div class='shrink-0 w-14 text-center bg-[#1565c0]'>
-                    <p class="font-['Open_Sans'] text-[10px] tracking-[0.1em] uppercase text-white/80 pt-1.5">
+                    <p class="text-[10px] tracking-[0.1em] uppercase text-white/80 pt-1.5">
                       {month}
                     </p>
-                    <p class="font-['Lato'] text-xl text-white font-semibold pb-1.5">
+                    <p class="text-xl text-white font-semibold pb-1.5">
                       {day}
                     </p>
                   </div>
                   <div class='min-w-0'>
-                    <h3 class="font-['Lato'] text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors">
+                    <h3 class="text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors">
                       {ev.title}
                     </h3>
                     {ev.location && (
-                      <p class="font-['Open_Sans'] text-xs text-[#7A8A96] mt-1.5">
+                      <p class="text-xs text-[#7A8A96] mt-1.5">
                         {ev.location}
                       </p>
                     )}
@@ -182,17 +182,17 @@ try {
                 {item.pillar && PILLARS[item.pillar] && (
                   <a
                     href={`/news-and-media/pillar/${item.pillar}/`}
-                    class="inline-block font-['Open_Sans'] text-[9.5px] font-semibold tracking-[0.14em] uppercase px-2 py-0.5 mb-2 hover:opacity-80 transition-opacity"
+                    class="inline-block text-[9.5px] font-semibold tracking-[0.14em] uppercase px-2 py-0.5 mb-2 hover:opacity-80 transition-opacity"
                     style={`background:${PILLARS[item.pillar].bg}; color:${PILLARS[item.pillar].color}`}>
                     {PILLARS[item.pillar].label}
                   </a>
                 )}
                 <a href={`/news-and-media/${item.slug}/`} class='block'>
-                  <h3 class="font-['Lato'] text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors">
+                  <h3 class="text-base font-semibold leading-snug text-[#0E2A47] group-hover:text-[#1565c0] transition-colors">
                     {item.title}
                   </h3>
                   {item.excerpt && (
-                    <p class="font-['Open_Sans'] text-sm text-[#5A6B77] mt-1.5 line-clamp-2">
+                    <p class="text-sm text-[#5A6B77] mt-1.5 line-clamp-2">
                       {item.excerpt}
                     </p>
                   )}
@@ -206,12 +206,12 @@ try {
                     />
                   ) : (
                     item.author && (
-                      <span class="w-5 h-5 rounded-full bg-[#E7ECF0] text-[#125276] flex items-center justify-center font-['Open_Sans'] text-[9px] font-semibold">
+                      <span class="w-5 h-5 rounded-full bg-[#E7ECF0] text-[#125276] flex items-center justify-center text-[9px] font-semibold">
                         {initials(item.author)}
                       </span>
                     )
                   )}
-                  <p class="font-['Open_Sans'] text-xs text-[#7A8A96]">
+                  <p class="text-xs text-[#7A8A96]">
                     {fmtDate(item.published_at)}
                   </p>
                 </div>
