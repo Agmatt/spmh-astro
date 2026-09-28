@@ -440,16 +440,16 @@ const EditorialDashboard = () => {
             />
           </div>
 
-          <h2 className="text-2xl font-bold mb-1 font-['Lato'] text-[#1c1c1e]">
+          <h2 className="text-2xl font-bold mb-1 text-[#1c1c1e]">
             Editorial Access
           </h2>
-          <p className="text-sm mb-6 font-['Open Sans'] text-[#6b7280]">
+          <p className="text-sm mb-6 text-[#6b7280]">
             Sign in to manage News & Media posts
           </p>
 
           <form onSubmit={handleLogin} className='space-y-4'>
             <div>
-              <label className="block text-xs font-semibold mb-1.5 font-['Open Sans'] text-[#1c1c1e]">
+              <label className="block text-xs font-semibold mb-1.5 text-[#1c1c1e]">
                 Email
               </label>
               <input
@@ -458,11 +458,11 @@ const EditorialDashboard = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder='editor@spmh.co.ke'
-                className="w-full px-4 py-3 rounded-lg border text-sm outline-none transition-all font-['Outfit'] border-[#ece8e1] text-[#1c1c1e] focus:border-[#860f0f]"
+                className="w-full px-4 py-3 rounded-lg border text-sm outline-none transition-all border-[#ece8e1] text-[#1c1c1e] focus:border-[#860f0f]"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1.5 font-['Open Sans'] text-[#1c1c1e]">
+              <label className="block text-xs font-semibold mb-1.5  text-[#1c1c1e]">
                 Password
               </label>
               <input
@@ -471,24 +471,24 @@ const EditorialDashboard = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder='••••••••'
-                className="w-full px-4 py-3 rounded-lg border text-sm outline-none transition-all font-['Outfit'] border-[#ece8e1] text-[#1c1c1e] focus:border-[#860f0f]"
+                className="w-full px-4 py-3 rounded-lg border text-sm outline-none transition-all border-[#ece8e1] text-[#1c1c1e] focus:border-[#860f0f]"
               />
             </div>
 
             {loginError && (
-              <div className="p-3 rounded-lg text-sm font-['Open Sans'] bg-[#fef2f2] border border-[#fecaca] text-[#b91c1c]">
+              <div className="p-3 rounded-lg text-sm bg-[#fef2f2] border border-[#fecaca] text-[#b91c1c]">
                 {loginError}
               </div>
             )}
 
             <button
               type='submit'
-              className="w-full py-3 rounded-lg text-white font-bold text-sm transition-opacity hover:opacity-90 font-['Open Sans'] bg-[#860f0f]">
+              className="w-full py-3 rounded-lg text-white font-bold text-sm transition-opacity hover:opacity-90  bg-[#860f0f]">
               Sign In
             </button>
           </form>
 
-          <p className="text-center text-xs mt-6 font-['Open Sans'] text-[#9ca3af]">
+          <p className="text-center text-xs mt-6 text-[#9ca3af]">
             <a href='/' className='text-[#860f0f] hover:underline'>
               Back to home
             </a>
@@ -510,7 +510,7 @@ const EditorialDashboard = () => {
               border: '3px solid #D8E0E7',
               borderTopColor: '#1565c0',
             }}></div>
-          <p className="font-['Outfit'] text-sm text-[#7A8A96]">Loading...</p>
+          <p className="text-sm text-[#7A8A96]">Loading...</p>
         </div>
       </div>
     );
@@ -523,21 +523,21 @@ const EditorialDashboard = () => {
         <div className='max-w-7xl mx-auto px-6 h-16 flex items-center justify-between'>
           <div className='flex items-center gap-3'>
             <img
-              src='/images/spmh-logo.svg'
+              src='/logos/logo.png'
               alt='SPMH'
               className='h-8 w-auto'
             />
-            <h1 className="font-['Playfair_Display'] text-lg font-semibold text-[#125276]">
+            <h1 className="text-sm sm:text-lg font-semibold text-[#125276]">
               Editorial Dashboard
             </h1>
           </div>
           <div className='flex items-center gap-4'>
-            <span className="font-['Outfit'] text-sm text-[#7A8A96]">
+            <span className="text-sm hidden sm:inline text-[#7A8A96]">
               {user?.email}
             </span>
             <button
               onClick={handleLogout}
-              className="font-['Outfit'] text-sm bg-[#860f0f] text-white px-4 py-2 rounded-sm hover:bg-[#6B0B09] transition-colors">
+              className="text-sm bg-[#860f0f] text-white px-4 py-2 rounded-sm hover:bg-[#6B0B09] transition-colors">
               Logout
             </button>
           </div>
@@ -551,7 +551,7 @@ const EditorialDashboard = () => {
               setActiveTab('list');
               resetForm();
             }}
-            className={`font-['Outfit'] text-sm font-medium pb-3 border-b-2 transition-colors ${
+            className={`text-sm font-medium pb-3 border-b-2 transition-colors ${
               activeTab === 'list'
                 ? 'text-[#125276] border-[#125276]'
                 : 'text-[#7A8A96] border-transparent hover:text-[#3E5262]'
@@ -560,7 +560,7 @@ const EditorialDashboard = () => {
           </button>
           <button
             onClick={() => setActiveTab('create')}
-            className={`font-['Outfit'] text-sm font-medium pb-3 border-b-2 transition-colors ${
+            className={`text-sm font-medium pb-3 border-b-2 transition-colors ${
               activeTab === 'create'
                 ? 'text-[#125276] border-[#125276]'
                 : 'text-[#7A8A96] border-transparent hover:text-[#3E5262]'
@@ -572,12 +572,12 @@ const EditorialDashboard = () => {
 
       <div className='max-w-7xl mx-auto px-6 py-8'>
         {error && (
-          <div className="p-4 bg-[#860f0f]/10 border border-[#860f0f]/30 rounded-sm text-[#860f0f] font-['Outfit'] text-sm mb-6">
+          <div className="p-4 bg-[#860f0f]/10 border border-[#860f0f]/30 rounded-sm text-[#860f0f] text-sm mb-6">
             {error}
           </div>
         )}
         {success && (
-          <div className="p-4 bg-[#1565c0]/10 border border-[#1565c0]/30 rounded-sm text-[#1565c0] font-['Outfit'] text-sm mb-6">
+          <div className="p-4 bg-[#1565c0]/10 border border-[#1565c0]/30 rounded-sm text-[#1565c0] text-sm mb-6">
             {success}
           </div>
         )}
@@ -585,11 +585,11 @@ const EditorialDashboard = () => {
         {activeTab === 'list' ? (
           <div className='space-y-3'>
             {loading ? (
-              <p className="font-['Outfit'] text-[#7A8A96] py-8 text-center">
+              <p className="text-[#7A8A96] py-8 text-center">
                 Loading posts...
               </p>
             ) : items.length === 0 ? (
-              <p className="font-['Outfit'] text-[#7A8A96] py-8 text-center">
+              <p className="text-[#7A8A96] py-8 text-center">
                 No posts yet. Create one to get started.
               </p>
             ) : (
@@ -599,11 +599,11 @@ const EditorialDashboard = () => {
                   className='bg-white border border-[#D8E0E7] rounded-sm p-5 flex items-center justify-between'>
                   <div className='min-w-0'>
                     <div className='flex items-center gap-3 mb-1 flex-wrap'>
-                      <span className="font-['Outfit'] text-xs font-semibold uppercase text-[#1565c0]">
+                      <span className="text-xs font-semibold uppercase text-[#1565c0]">
                         {item.type}
                       </span>
                       <span
-                        className={`font-['Outfit'] text-xs px-2 py-1 rounded-sm ${
+                        className={`text-xs px-2 py-1 rounded-sm ${
                           item.status === 'published'
                             ? 'bg-[#1565c0]/10 text-[#1565c0]'
                             : item.status === 'draft'
@@ -614,7 +614,7 @@ const EditorialDashboard = () => {
                       </span>
                       {item.pillar ? (
                         <span
-                          className="font-['Outfit'] text-xs px-2 py-1 rounded-sm font-medium"
+                          className="text-xs px-2 py-1 rounded-sm font-medium"
                           style={{
                             background:
                               (PILLARS.find((p) => p.key === item.pillar)
@@ -627,15 +627,15 @@ const EditorialDashboard = () => {
                             item.pillar}
                         </span>
                       ) : (
-                        <span className="font-['Outfit'] text-xs px-2 py-1 rounded-sm bg-[#860f0f]/10 text-[#860f0f]">
+                        <span className="text-xs px-2 py-1 rounded-sm bg-[#860f0f]/10 text-[#860f0f]">
                           ⚠ No pillar
                         </span>
                       )}
                     </div>
-                    <h3 className="font-['Playfair_Display'] text-base font-semibold text-[#125276] truncate">
+                    <h3 className="text-base font-semibold text-[#125276] truncate">
                       {item.title}
                     </h3>
-                    <p className="font-['Outfit'] text-xs text-[#7A8A96] mt-0.5">
+                    <p className="text-xs text-[#7A8A96] mt-0.5">
                       {new Date(item.created_at).toLocaleDateString('en-KE')} ·{' '}
                       {item.author || '—'}
                     </p>
@@ -643,12 +643,12 @@ const EditorialDashboard = () => {
                   <div className='flex items-center gap-2 shrink-0 ml-4'>
                     <button
                       onClick={() => editItem(item)}
-                      className="font-['Outfit'] text-xs bg-[#125276] text-white px-3 py-2 rounded-sm hover:bg-[#0E3F52] transition-colors">
+                      className="text-xs bg-[#125276] text-white px-3 py-2 rounded-sm hover:bg-[#0E3F52] transition-colors">
                       Edit
                     </button>
                     <button
                       onClick={() => deleteItem(item.id)}
-                      className="font-['Outfit'] text-xs bg-[#860f0f] text-white px-3 py-2 rounded-sm hover:bg-[#6B0B09] transition-colors">
+                      className="text-xs bg-[#860f0f] text-white px-3 py-2 rounded-sm hover:bg-[#6B0B09] transition-colors">
                       Delete
                     </button>
                   </div>
@@ -662,7 +662,7 @@ const EditorialDashboard = () => {
             className='max-w-2xl space-y-6 bg-white border border-[#D8E0E7] rounded-sm p-8'>
             <div>
               <div className='flex items-center justify-between mb-2'>
-                <label className="block font-['Outfit'] text-sm font-medium text-[#14202B]">
+                <label className="block text-sm font-medium text-[#14202B]">
                   Strategic Pillar *
                 </label>
                 <button
@@ -673,7 +673,7 @@ const EditorialDashboard = () => {
                       pillar: suggestPillar(prev.title, prev.excerpt),
                     }))
                   }
-                  className="font-['Outfit'] text-xs text-[#1565c0] hover:underline">
+                  className="text-xs text-[#1565c0] hover:underline">
                   Auto-suggest from title
                 </button>
               </div>
@@ -681,7 +681,7 @@ const EditorialDashboard = () => {
                 name='pillar'
                 value={form.pillar}
                 onChange={handleInputChange}
-                className="w-full font-['Outfit'] bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30">
+                className="w-full bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30">
                 <option value=''>— Select a pillar —</option>
                 {PILLARS.map((p) => (
                   <option key={p.key} value={p.key}>
@@ -690,7 +690,7 @@ const EditorialDashboard = () => {
                 ))}
               </select>
               {form.pillar && (
-                <p className="font-['Outfit'] text-xs text-[#7A8A96] mt-1.5">
+                <p className=" text-xs text-[#7A8A96] mt-1.5">
                   This item will appear on{' '}
                   <a
                     href={`/news-and-media/pillar/${form.pillar}/`}
@@ -704,14 +704,14 @@ const EditorialDashboard = () => {
             </div>
 
             <div>
-              <label className="block font-['Outfit'] text-sm font-medium text-[#14202B] mb-2">
+              <label className="block text-sm font-medium text-[#14202B] mb-2">
                 Content Type
               </label>
               <select
                 name='type'
                 value={form.type}
                 onChange={handleInputChange}
-                className="w-full font-['Outfit'] bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30">
+                className="w-full bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30">
                 <option value='article'>Story (Article)</option>
                 <option value='blog'>Blog Post</option>
                 <option value='press_release'>Press Release</option>
@@ -721,7 +721,7 @@ const EditorialDashboard = () => {
 
             <div className='grid sm:grid-cols-2 gap-4'>
               <div>
-                <label className="block font-['Outfit'] text-sm font-medium text-[#14202B] mb-2">
+                <label className="block text-sm font-medium text-[#14202B] mb-2">
                   Title *
                 </label>
                 <input
@@ -738,11 +738,11 @@ const EditorialDashboard = () => {
                     }))
                   }
                   placeholder='Enter title'
-                  className="w-full font-['Outfit'] bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30"
+                  className="w-full bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30"
                 />
               </div>
               <div>
-                <label className="block font-['Outfit'] text-sm font-medium text-[#14202B] mb-2">
+                <label className="block text-sm font-medium text-[#14202B] mb-2">
                   Slug
                 </label>
                 <input
@@ -751,13 +751,13 @@ const EditorialDashboard = () => {
                   value={form.slug}
                   onChange={handleInputChange}
                   placeholder='auto-generated'
-                  className="w-full font-['Outfit'] bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30 text-[#7A8A96]"
+                  className="w-full bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30 text-[#7A8A96]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block font-['Outfit'] text-sm font-medium text-[#14202B] mb-2">
+              <label className="block text-sm font-medium text-[#14202B] mb-2">
                 Excerpt / Summary
               </label>
               <textarea
@@ -766,12 +766,12 @@ const EditorialDashboard = () => {
                 onChange={handleInputChange}
                 placeholder='Brief summary for preview'
                 rows='2'
-                className="w-full font-['Outfit'] bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30 resize-none"
+                className="w-full bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30 resize-none"
               />
             </div>
 
             <div>
-              <label className="block font-['Outfit'] text-sm font-medium text-[#14202B] mb-2">
+              <label className="block text-sm font-medium text-[#14202B] mb-2">
                 Body Content *
               </label>
               <div className='border border-[#D8E0E7] rounded-sm bg-white'>
@@ -861,13 +861,13 @@ const EditorialDashboard = () => {
                   }}
                 />
               </div>
-              <p className="font-['Outfit'] text-xs text-[#7A8A96] mt-1">
+              <p className="text-xs text-[#7A8A96] mt-1">
                 Click buttons above to format. No HTML needed.
               </p>
             </div>
 
             <div>
-              <label className="block font-['Outfit'] text-sm font-medium text-[#14202B] mb-2">
+              <label className="block text-sm font-medium text-[#14202B] mb-2">
                 Author Name
               </label>
               <input
@@ -876,12 +876,12 @@ const EditorialDashboard = () => {
                 value={form.author}
                 onChange={handleInputChange}
                 placeholder='e.g., Communications Team'
-                className="w-full font-['Outfit'] bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30"
+                className="w-full bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30"
               />
             </div>
 
             <div>
-              <label className="block font-['Outfit'] text-sm font-medium text-[#14202B] mb-2">
+              <label className="block text-sm font-medium text-[#14202B] mb-2">
                 Cover Image
               </label>
               <div className='flex flex-col gap-3'>
@@ -890,7 +890,7 @@ const EditorialDashboard = () => {
                   accept='image/*'
                   onChange={handleImageUpload}
                   disabled={uploading}
-                  className="font-['Outfit'] text-sm"
+                  className="text-sm"
                 />
                 {form.cover_image_url && (
                   <div className='rounded-sm overflow-hidden bg-[#E7ECF0]'>
@@ -908,7 +908,7 @@ const EditorialDashboard = () => {
               <>
                 <div className='grid sm:grid-cols-2 gap-4'>
                   <div>
-                    <label className="block font-['Outfit'] text-sm font-medium text-[#14202B] mb-2">
+                    <label className="block text-sm font-medium text-[#14202B] mb-2">
                       Event Date *
                     </label>
                     <input
@@ -917,11 +917,11 @@ const EditorialDashboard = () => {
                       name='event_date'
                       value={form.event_date}
                       onChange={handleInputChange}
-                      className="w-full font-['Outfit'] bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30"
+                      className="w-full bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30"
                     />
                   </div>
                   <div>
-                    <label className="block font-['Outfit'] text-sm font-medium text-[#14202B] mb-2">
+                    <label className="block text-sm font-medium text-[#14202B] mb-2">
                       Location
                     </label>
                     <input
@@ -930,7 +930,7 @@ const EditorialDashboard = () => {
                       value={form.location}
                       onChange={handleInputChange}
                       placeholder='e.g., Main Hall, SPMH'
-                      className="w-full font-['Outfit'] bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30"
+                      className="w-full bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30"
                     />
                   </div>
                 </div>
@@ -939,14 +939,14 @@ const EditorialDashboard = () => {
 
             <div className='grid sm:grid-cols-2 gap-4'>
               <div>
-                <label className="block font-['Outfit'] text-sm font-medium text-[#14202B] mb-2">
+                <label className="block text-sm font-medium text-[#14202B] mb-2">
                   Status
                 </label>
                 <select
                   name='status'
                   value={form.status}
                   onChange={handleInputChange}
-                  className="w-full font-['Outfit'] bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30">
+                  className="w-fullbg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30">
                   <option value='draft'>Draft</option>
                   <option value='published'>Published</option>
                   <option value='archived'>Archived</option>
@@ -954,7 +954,7 @@ const EditorialDashboard = () => {
               </div>
               {form.status === 'published' && (
                 <div>
-                  <label className="block font-['Outfit'] text-sm font-medium text-[#14202B] mb-2">
+                  <label className="block text-sm font-medium text-[#14202B] mb-2">
                     Publish Date
                   </label>
                   <input
@@ -962,7 +962,7 @@ const EditorialDashboard = () => {
                     name='published_at'
                     value={form.published_at}
                     onChange={handleInputChange}
-                    className="w-full font-['Outfit'] bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30"
+                    className="w-full bg-[#F7F9FB] border border-[#D8E0E7] rounded-sm px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1565c0]/30"
                   />
                 </div>
               )}
@@ -971,7 +971,7 @@ const EditorialDashboard = () => {
             <div className='flex gap-3 pt-4'>
               <button
                 type='submit'
-                className="flex-1 font-['Outfit'] font-medium bg-[#1565c0] text-white rounded-sm py-3 hover:bg-[#0D4BA8] transition-colors">
+                className="flex-1 font-medium bg-[#1565c0] text-white rounded-sm py-3 hover:bg-[#0D4BA8] transition-colors">
                 {editingId ? 'Update Post' : 'Create Post'}
               </button>
               {editingId && (
@@ -981,7 +981,7 @@ const EditorialDashboard = () => {
                     resetForm();
                     setActiveTab('list');
                   }}
-                  className="flex-1 font-['Outfit'] font-medium bg-[#7A8A96] text-white rounded-sm py-3 hover:bg-[#5A6B77] transition-colors">
+                  className="flex-1 font-medium bg-[#7A8A96] text-white rounded-sm py-3 hover:bg-[#5A6B77] transition-colors">
                   Cancel
                 </button>
               )}
