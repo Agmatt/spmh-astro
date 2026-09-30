@@ -25,3 +25,12 @@ pnpm-debug.log*
 
 # Local Netlify folder
 .netlify
+
+.vercel
+dist
+.astro
+
+.vercel
+.env
+.env.*
+!.env.example
