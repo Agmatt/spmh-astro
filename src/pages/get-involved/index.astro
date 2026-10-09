@@ -2,115 +2,116 @@
 // src/pages/get-involved/index.astro
 import Layout from '../../Layout/Layout.astro';
 
-/* ── Site constants ─────────────────────────────── */
-const SITE      = 'https://www.spmh.co.ke'; // ← update
-const PATH      = '/get-involved';
+/* ── Site ─────────────────────────────────────── */
+const SITE = 'https://www.spmh.co.ke';
+const PATH = '/get-involved';
 const canonical = `${SITE}${PATH}`;
-const ogImage   = `${SITE}/img/54.jpg`;
+const ogImage = `${SITE}/img/54.jpg`;
 
-const pageTitle =
-  "Get Involved — Volunteer, Donate & Partner | St. Paul's Mission Hospital";
-
+const pageTitle = "Get Involved | St. Paul's Mission Hospital, Homa Bay";
 const pageDescription =
-  "Volunteer, donate, build a career, or partner with St. Paul's Mission Hospital in Homa Bay, Kenya. Serving the community as a faith-based Level 4 mission hospital since 1983.";
+  "Donate, volunteer, build a career or partner with St. Paul's Mission Hospital, a faith-based Level 4 hospital in Homa Bay, Kenya, serving since 1983.";
 
-/* ── Featured pathway (primary ask) ─────────────── */
-const featured = {
-  title: 'Donate',
-  path: '/donate',
-  cta: 'Support our mission',
-  badge: 'Every gift counts',
-  desc:
-    "Your gift directly funds patient care for Homa Bay's most vulnerable families, medical equipment, and our new Maternity & Surgical Wing.",
-  points: [
-    'Underprivileged patient care',
-    'New Maternity & Surgical Wing',
-    'Newborn Unit & High Dependency Unit',
-  ],
-};
-
-/* ── Secondary pathways ─────────────────────────── */
-const secondary = [
-  {
-    title: 'Volunteer',
-    path: '/volunteer',
-    cta: 'Register your interest',
-    badge: 'Open now',
-    desc: 'Serve as a healthcare professional, student, or general volunteer — clinical or non-clinical.',
-    icon:
-      'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z',
-  },
-  {
-    title: 'Partner',
-    path: '/partner',
-    cta: 'Start a conversation',
-    badge: 'Open to proposals',
-    desc: 'NGOs, faith-based organisations, government, and academic institutions — co-develop care.',
-    icon:
-      'M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z',
-  },
-  {
-    title: 'Careers',
-    path: '/careers',
-    cta: 'Explore opportunities',
-    badge: "We're hiring",
-    desc: 'Join clinicians, nurses, and support staff building a Level 5 facility — values-driven.',
-    icon:
-      'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
-  },
-];
-
-const trustMarkers = [
+/* ── Content ──────────────────────────────────── */
+const accreditations = [
   'SHA Accredited',
   'KMPDC Certified',
-  'Catholic Diocese of Homa Bay',
   'Registered FBO Non-Profit',
-  'Est. 1983',
 ];
 
-const impactStats = [
-  { stat: '40+',  label: 'Years serving Homa Bay County' },
-  { stat: '9+',   label: 'Clinical departments & specialities' },
-  { stat: '24/7', label: 'Emergency & maternity care' },
-  { stat: 'L4→5', label: 'Facility upgrade roadmap to 2030' },
+const pathways = [
+  {
+    id: 'donate',
+    title: 'Donate',
+    href: '/donate',
+    desc: "Fund patient care for Homa Bay's most vulnerable families, medical equipment, and the new Maternity & Surgical Wing.",
+    linkLabel: 'Learn more about donating to the hospital',
+    featured: true,
+  },
+  {
+    id: 'volunteer',
+    title: 'Volunteer',
+    href: '/volunteer',
+    desc: 'Serve as a healthcare professional, student, or general volunteer in clinical or non-clinical roles.',
+    linkLabel: 'Learn more about volunteering with us',
+  },
+  {
+    id: 'partner',
+    title: 'Partner',
+    href: '/partner',
+    desc: 'Work with us as an NGO, faith-based organisation, government agency, or academic institution.',
+    linkLabel: 'Learn more about partnering with the hospital',
+  },
+  {
+    id: 'careers',
+    title: 'Careers',
+    href: 'https://recruitment.spmh.co.ke',
+    desc: 'Join the clinicians, nurses, and support staff building a Level 5 facility.',
+    linkLabel: 'Learn more about careers at St. Paul\u2019s',
+  },
+];
+
+const quickFacts = [
+  { label: 'Founded', value: '1983' },
+  { label: 'Facility level', value: 'Level 4 Hospital' },
+  { label: 'Location', value: 'Homa Bay County, Kenya' },
+  { label: 'Sponsor', value: 'Catholic Diocese of Homa Bay' },
+];
+
+const relatedPages = [
+  {
+    title: 'About the Hospital',
+    href: '/about',
+    desc: 'Our history, mission and values as a faith-based hospital of the Catholic Diocese of Homa Bay.',
+  },
+  {
+    title: 'Our Services',
+    href: '/services',
+    desc: 'Clinical, maternal, surgical and diagnostic care available at our Homa Bay facility.',
+  },
+  {
+    title: 'Contact Us',
+    href: '/contact',
+    desc: 'Directions, phone numbers and the development office for donations and partnerships.',
+  },
 ];
 
 const faqs = [
   {
-    q: "How can I volunteer at St. Paul's Mission Hospital?",
-    a: "Register your interest through our volunteer page. We welcome healthcare professionals, students, and general volunteers for short- and long-term placements across clinical and non-clinical roles. Applications are reviewed on a rolling basis.",
+    q: 'Is my donation tax-deductible?',
+    a: "St. Paul's is a registered faith-based non-profit under the Catholic Diocese of Homa Bay. Tax treatment depends on your jurisdiction; contact our development office for a receipt and any required documentation.",
   },
   {
-    q: "Is my donation tax-deductible?",
-    a: "St. Paul's Mission Hospital is a registered faith-based non-profit under the Catholic Diocese of Homa Bay. Tax treatment depends on your jurisdiction — contact our development office for a receipt and any required documentation.",
+    q: 'How can I volunteer?',
+    a: 'Register your interest through our volunteer page. We welcome healthcare professionals, students, and general volunteers for short- and long-term placements. Applications are reviewed on a rolling basis.',
   },
   {
-    q: "What career opportunities are available?",
-    a: "We recruit clinicians, nurses, midwives, laboratory and radiology staff, and administrative personnel. Open vacancies appear on our careers page; speculative applications can be sent to Human Resources.",
+    q: 'What career opportunities are available?',
+    a: 'We recruit clinicians, nurses, midwives, laboratory and radiology staff, and administrative personnel. Open vacancies appear on our careers page, and speculative applications can be sent to Human Resources.',
   },
   {
-    q: "How do I partner with the hospital?",
-    a: "We partner with NGOs, faith-based organisations, government agencies, private companies, and academic institutions on programmes, infrastructure, equipment, research, and training. Submit a proposal and our leadership team will respond.",
-  },
-  {
-    q: "Where is St. Paul's Mission Hospital located?",
-    a: "The hospital is in Homa Bay County, Kenya, serving patients from across the wider Lake Region. Directions and contact details are on our contact page.",
+    q: 'Where is the hospital located?',
+    a: "St. Paul's is in Homa Bay County, Kenya, serving patients across the wider Lake Region. Directions and contact details are on our contact page.",
   },
 ];
 
-/* ── Structured data ────────────────────────────── */
+/* ── Shared styles ────────────────────────────── */
+const focus =
+  'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent';
+
+/* ── Structured data ──────────────────────────── */
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': ['Hospital', 'MedicalOrganization', 'NGO'],
+      '@type': ['Hospital', 'MedicalOrganization'],
       '@id': `${SITE}/#organization`,
       name: "St. Paul's Mission Hospital",
       url: SITE,
       logo: `${SITE}/img/logo.png`,
       image: ogImage,
       description:
-        "Faith-based, not-for-profit Level 4 mission hospital serving Homa Bay County, Kenya since 1983.",
+        'Faith-based, not-for-profit Level 4 mission hospital serving Homa Bay County, Kenya, since 1983.',
       foundingDate: '1983',
       address: {
         '@type': 'PostalAddress',
@@ -118,26 +119,39 @@ const jsonLd = {
         addressRegion: 'Homa Bay County',
         addressCountry: 'KE',
       },
-      areaServed: { '@type': 'AdministrativeArea', name: 'Homa Bay County, Kenya' },
-      parentOrganization: { '@type': 'Organization', name: 'Catholic Diocese of Homa Bay' },
+      areaServed: {
+        '@type': 'AdministrativeArea',
+        name: 'Homa Bay County, Kenya',
+      },
+      parentOrganization: {
+        '@type': 'Organization',
+        name: 'Catholic Diocese of Homa Bay',
+      },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      url: canonical,
+      name: pageTitle,
+      description: pageDescription,
+      isPartOf: { '@id': `${SITE}/#website` },
+      about: { '@id': `${SITE}/#organization` },
+      primaryImageOfPage: { '@type': 'ImageObject', url: ogImage },
+      breadcrumb: { '@id': `${canonical}#breadcrumb` },
+      inLanguage: 'en-KE',
     },
     {
       '@type': 'BreadcrumbList',
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home',         item: SITE },
-        { '@type': 'ListItem', position: 2, name: 'Get Involved', item: canonical },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Get Involved',
+          item: canonical,
+        },
       ],
-    },
-    {
-      '@type': 'WebPage',
-      '@id': canonical,
-      url: canonical,
-      name: pageTitle,
-      description: pageDescription,
-      isPartOf: { '@id': `${SITE}/#organization` },
-      primaryImageOfPage: ogImage,
-      inLanguage: 'en-KE',
     },
     {
       '@type': 'FAQPage',
@@ -157,324 +171,377 @@ const jsonLd = {
   description={pageDescription}
   image={ogImage}
   canonical={canonical}
-  type="website"
->
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  type='website'>
+  <script type='application/ld+json' set:html={JSON.stringify(jsonLd)} />
 
-
-  <!-- ══════════════════════════════════════════════
-       §1  HERO  — headline + one clear next step
-  ══════════════════════════════════════════════ -->
-  <header class="relative min-h-[85vh] flex items-end overflow-hidden">
-    <div class="absolute inset-0 z-0">
-      <img
-        src="/img/54.jpg"
+  <main id='main-content'>
+    <!-- Hero -->
+    <section
+      class='relative isolate flex min-h-[70svh] items-end overflow-hidden bg-slate-800 md:min-h-[80vh]'
+      aria-labelledby='page-heading'>
+      <!-- <img
+        src='/img/54.jpg'
         alt="Clinical staff and volunteers at St. Paul's Mission Hospital, Homa Bay, Kenya"
-        class="absolute inset-0 w-full h-full object-cover object-center brightness-[0.28]"
-        width="1920"
-        height="1280"
-        loading="eager"
-        fetchpriority="high"
-        decoding="async"
+        class='absolute inset-0 -z-10 size-full object-cover object-center opacity-80'
+        width='1920'
+        height='1280'
+        fetchpriority='high'
+        decoding='async' -->
       />
-      <div class="absolute inset-0 bg-gradient-to-t from-secondary-dark via-secondary-dark/60 to-secondary-dark/30"></div>
-    </div>
+      <!-- <div
+        class='absolute inset-0 -z-10 bg-gradient-to-t from-secondary-dark via-secondary-dark/70 to-transparent'
+        aria-hidden='true'>
+      </div> -->
 
-    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-16 pb-20 pt-32 w-full">
+      <div class='mx-auto w-full max-w-7xl px-6 pb-20 pt-32 lg:px-16'>
+        <nav aria-label='Breadcrumb' class='mb-8'>
+          <ol
+            class='flex gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/70'>
+            <li>
+              <a href='/' class={`rounded-sm hover:text-white ${focus}`}>Home</a
+              >
+            </li>
+            <li aria-hidden='true'>/</li>
+            <li aria-current='page' class='text-white'>Get Involved</li>
+          </ol>
+        </nav>
 
-      <nav aria-label="Breadcrumb" class="mb-10">
-        <ol class="flex items-center gap-2 text-[0.68rem] tracking-[0.18em] uppercase font-semibold text-white/45">
-          <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
-          <li aria-hidden="true">·</li>
-          <li aria-current="page" class="text-white/75">Get Involved</li>
-        </ol>
-      </nav>
+        <div class='max-w-3xl'>
+          <h1
+            id='page-heading'
+            class='font-display text-5xl font-normal leading-[1.02] text-white sm:text-6xl lg:text-7xl'>
+            Be part of <em class='font-semibold not-italic text-primary-light'
+              >the mission.</em
+            >
+            <span class='sr-only'>
+              — support St. Paul's Mission Hospital, Homa Bay, Kenya
+            </span>
+          </h1>
 
-      <div class="max-w-3xl">
-        <p class="text-primary-light text-[0.68rem] tracking-[0.28em] uppercase font-semibold mb-6">
-          Get Involved
-        </p>
+          <p class='mt-6 max-w-xl text-lg leading-relaxed text-white/80'>
+            Extending dignified healthcare across Homa Bay County since 1983.
+          </p>
 
-        <h1 class="font-display text-white text-5xl sm:text-6xl lg:text-7xl font-normal leading-[1.02]">
-          Be part of<br />
-          <span class="font-semibold italic text-primary-light">the mission.</span>
-        </h1>
-
-        <p class="mt-8 text-white/70 text-lg leading-relaxed max-w-xl">
-          Volunteer, donate, build a career, or partner with us — extending
-          dignified healthcare across Homa Bay County since 1983.
-        </p>
-
-        <div class="mt-10 flex flex-wrap gap-3">
-          <a
-            href="/donate"
-            class="inline-flex items-center gap-2.5 bg-primary text-white hover:bg-primary-dark
-                   px-8 py-4 text-xs font-bold tracking-[0.14em] uppercase
-                   transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
-          >
-            Donate now
-            <svg class="size-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-          <a
-            href="/volunteer"
-            class="inline-flex items-center gap-2.5 border border-white/30 text-white
-                   hover:bg-white hover:text-secondary
-                   px-8 py-4 text-xs font-bold tracking-[0.14em] uppercase
-                   transition-all duration-200 hover:-translate-y-0.5"
-          >
-            Become a volunteer
-          </a>
+          <div class='mt-10 flex flex-wrap items-center gap-6'>
+            <a
+              href='/donate'
+              class={`inline-flex items-center gap-2.5 bg-primary px-8 py-4 text-xs font-bold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:bg-primary-dark hover:shadow-xl motion-safe:hover:-translate-y-0.5 ${focus}`}>
+              Donate now
+              <span class='sr-only'>to St. Paul's Mission Hospital</span>
+            </a>
+            <a
+              href='/volunteer'
+              class={`rounded-sm text-xs font-bold uppercase tracking-[0.14em] text-white underline-offset-8 hover:underline ${focus}`}>
+              Volunteer with us
+              <span class='sr-only'>at our Homa Bay hospital</span>
+              <span aria-hidden='true'>&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </header>
+    </section>
 
+    <!-- Accreditations -->
+    <section
+      aria-labelledby='accreditations-heading'
+      class='border-y border-white/10 bg-secondary-dark'>
+      <h2 id='accreditations-heading' class='sr-only'>
+        Accreditations and certifications
+      </h2>
+      <ul
+        role='list'
+        class='mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-10 gap-y-2 px-6 py-4 lg:px-16'>
+        {
+          accreditations.map((item) => (
+            <li class='whitespace-nowrap text-xs font-semibold uppercase tracking-[0.2em] text-white/70'>
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
 
-  <!-- ══════════════════════════════════════════════
-       §2  TRUST STRIP
-  ══════════════════════════════════════════════ -->
-  <section aria-label="Accreditations"
-           class="bg-secondary-dark border-y border-white/10">
-    <div class="max-w-7xl mx-auto px-6 lg:px-16 py-4
-                flex flex-wrap items-center justify-center gap-x-10 gap-y-2">
-      {trustMarkers.map((m) => (
-        <span class="text-white/50 text-[0.6rem] tracking-[0.22em] uppercase font-semibold whitespace-nowrap">
-          {m}
-        </span>
-      ))}
-    </div>
-  </section>
+    <!-- Intro / why it matters -->
+    <section class='bg-white py-20 lg:py-28' aria-labelledby='involved-heading'>
+      <div
+        class='mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-12 lg:gap-16 lg:px-10'>
+        <div class='lg:col-span-7'>
+          <p class='text-xs font-bold uppercase tracking-[0.2em] text-primary'>
+            Get involved in Homa Bay
+          </p>
 
+          <h2
+            id='involved-heading'
+            class='mt-4 font-display text-4xl font-normal leading-[1.1] text-secondary sm:text-5xl'>
+            Every gift of time, skill or funding
+            <em class='font-semibold not-italic text-primary'>extends care.</em>
+          </h2>
 
-  <!-- ══════════════════════════════════════════════
-       §3  FOUR PATHWAYS  — featured Donate + 3 secondary
-  ══════════════════════════════════════════════ -->
-  <section class="bg-surface py-20 lg:py-28" aria-labelledby="ways-heading">
-    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+          <p class='mt-6 text-base leading-relaxed text-muted'>
+            St. Paul's Mission Hospital has served patients across Homa Bay
+            County and the wider Lake Region since 1983. As a not-for-profit,
+            faith-based Level 4 hospital under the Catholic Diocese of Homa Bay,
+            we rely on donors, volunteers, partners and dedicated staff to keep
+            quality healthcare within reach of the families who need it most.
+          </p>
 
-      <header class="max-w-2xl mb-14">
-        <p class="text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-4">
-          Ways to contribute
-        </p>
-        <h2 id="ways-heading" class="font-display text-secondary text-4xl sm:text-5xl font-normal leading-[1.1]">
-          Choose how you'll
-          <span class="font-semibold italic text-primary"> help.</span>
-        </h2>
-      </header>
+          <p class='mt-4 text-base leading-relaxed text-muted'>
+            Whether you give once, serve on placement, or build a long-term
+            partnership, your contribution goes directly towards patient care
+            and the growth of our facility.
+          </p>
 
-      <div class="grid lg:grid-cols-12 gap-6">
+          <a
+            href='/about'
+            class={`mt-8 inline-flex items-center gap-2 rounded-sm text-xs font-bold uppercase tracking-[0.14em] text-primary underline-offset-8 hover:underline ${focus}`}>
+            Read about our history and mission
+            <span aria-hidden='true'>&rarr;</span>
+          </a>
+        </div>
 
-        <!-- ─── FEATURED: Donate ─────────────────────── -->
-        <article class="lg:col-span-5 relative bg-secondary text-white p-9 lg:p-11
-                        flex flex-col overflow-hidden">
-          <!-- Accent strip -->
-          <div class="absolute top-0 left-0 right-0 h-[3px] bg-accent"></div>
-
-          <span class="text-accent text-[0.6rem] font-bold tracking-[0.22em] uppercase mb-6">
-            {featured.badge}
-          </span>
-
-          <h3 class="font-display text-3xl lg:text-4xl font-semibold mb-5">
-            {featured.title}
+        <aside class='lg:col-span-5' aria-labelledby='facts-heading'>
+          <h3 id='facts-heading' class='sr-only'>
+            Key facts about St. Paul's Mission Hospital
           </h3>
 
-          <p class="text-white/70 text-sm leading-relaxed mb-8">
-            {featured.desc}
-          </p>
-
-          <ul class="space-y-3 mb-10">
-            {featured.points.map((pt) => (
-              <li class="flex items-start gap-3">
-                <svg class="size-3.5 text-accent shrink-0 mt-1"
-                     fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                <span class="text-white/80 text-sm leading-relaxed">{pt}</span>
-              </li>
-            ))}
-          </ul>
-
-          <a
-            href={featured.path}
-            aria-label={`${featured.cta} — ${featured.title}`}
-            class="group/btn mt-auto inline-flex items-center justify-between gap-3
-                   bg-accent text-white hover:bg-accent-dark
-                   px-6 py-4 text-xs font-bold tracking-[0.14em] uppercase
-                   transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
-          >
-            {featured.cta}
-            <svg class="size-4 group-hover/btn:translate-x-1 transition-transform duration-200"
-                 fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-        </article>
-
-        <!-- ─── SECONDARY: Volunteer / Partner / Careers ─ -->
-        <div class="lg:col-span-7 flex flex-col gap-px bg-border/60">
-
-          {secondary.map((ch) => (
-            <a
-              href={ch.path}
-              aria-label={`${ch.cta} — ${ch.title}`}
-              class="group flex items-center gap-6 bg-white
-                     p-7 lg:p-8 transition-all duration-300
-                     hover:bg-surface-2"
-            >
-              <!-- Icon -->
-              <div class="size-12 shrink-0 flex items-center justify-center
-                          bg-secondary/5 group-hover:bg-secondary
-                          transition-colors duration-300">
-                <svg class="size-5 text-secondary group-hover:text-white transition-colors duration-300"
-                     fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d={ch.icon} />
-                </svg>
-              </div>
-
-              <!-- Content -->
-              <div class="flex-1 min-w-0">
-                <div class="flex items-baseline gap-3 mb-1.5 flex-wrap">
-                  <h3 class="font-display text-xl lg:text-2xl font-semibold text-secondary
-                             group-hover:text-primary transition-colors duration-200">
-                    {ch.title}
-                  </h3>
-                  <span class="text-[0.55rem] font-bold tracking-[0.16em] uppercase text-muted">
-                    {ch.badge}
-                  </span>
+          <dl class='divide-y divide-border/60 border-y border-border/60'>
+            {
+              quickFacts.map((fact) => (
+                <div class='flex items-baseline justify-between gap-6 py-4'>
+                  <dt class='text-xs font-bold uppercase tracking-[0.18em] text-muted'>
+                    {fact.label}
+                  </dt>
+                  <dd class='text-right font-display text-lg font-semibold text-secondary'>
+                    {fact.value}
+                  </dd>
                 </div>
-                <p class="text-muted text-xs lg:text-sm leading-relaxed">
-                  {ch.desc}
-                </p>
-              </div>
-
-              <!-- Arrow -->
-              <svg class="size-4 shrink-0 text-secondary/40 group-hover:text-primary
-                          group-hover:translate-x-1 transition-all duration-200"
-                   fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          ))}
-
-        </div>
-
+              ))
+            }
+          </dl>
+        </aside>
       </div>
-    </div>
-  </section>
+    </section>
 
-
-  <!-- ══════════════════════════════════════════════
-       §4  IMPACT  — proof, in numbers
-  ══════════════════════════════════════════════ -->
-  <section class="bg-secondary py-20 lg:py-24" aria-labelledby="impact-heading">
-    <div class="max-w-7xl mx-auto px-6 lg:px-10">
-
-      <div class="grid lg:grid-cols-12 gap-12 items-center">
-
-        <div class="lg:col-span-5">
-          <p class="text-white/40 text-[0.62rem] tracking-[0.22em] uppercase font-semibold mb-5">
-            Our impact
-          </p>
-          <h2 id="impact-heading" class="font-display text-white text-3xl sm:text-4xl font-normal leading-snug">
-            Four decades of care,
-            <span class="italic font-semibold text-primary-light">one community at a time.</span>
+    <!-- Pathways -->
+    <section
+      id='ways-to-help'
+      class='bg-surface py-20 lg:py-28'
+      aria-labelledby='pathways-heading'>
+      <div class='mx-auto max-w-7xl px-6 lg:px-10'>
+        <header class='mb-12 max-w-2xl'>
+          <h2
+            id='pathways-heading'
+            class='font-display text-4xl font-normal leading-[1.1] text-secondary sm:text-5xl'>
+            Choose how you'll <em class='font-semibold not-italic text-primary'
+              >help.</em
+            >
           </h2>
+          <p class='mt-5 text-base leading-relaxed text-muted'>
+            Four ways to support St. Paul's Mission Hospital — give, serve,
+            partner or grow your career with us.
+          </p>
+        </header>
+
+        <ul
+          role='list'
+          class='grid gap-px bg-border/60 sm:grid-cols-2 lg:grid-cols-4'>
+          {
+            pathways.map((p) => (
+              <li
+                id={p.id}
+                class={
+                  p.featured
+                    ? 'bg-secondary text-white'
+                    : 'bg-white text-secondary'
+                }>
+                <a
+                  href={p.href}
+                  class={`group flex h-full flex-col p-8 transition-colors duration-300 lg:p-9 ${focus} ${
+                    p.featured
+                      ? 'hover:bg-secondary-dark'
+                      : 'hover:bg-surface-2'
+                  }`}>
+                  <span
+                    class={`mb-6 h-[3px] w-10 ${p.featured ? 'bg-accent' : 'bg-primary/30 group-hover:bg-primary'} transition-colors duration-300`}
+                    aria-hidden='true'
+                  />
+
+                  <h3 class='font-display text-2xl font-semibold'>{p.title}</h3>
+
+                  <p
+                    class={`mt-3 flex-1 text-sm leading-relaxed ${p.featured ? 'text-white/80' : 'text-muted'}`}>
+                    {p.desc}
+                  </p>
+
+                  <span
+                    class={`mt-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] ${
+                      p.featured ? 'text-accent' : 'text-primary'
+                    }`}>
+                    Learn more
+                    <span class='sr-only'>{p.linkLabel}</span>
+                    <svg
+                      class='size-3.5 transition-transform duration-200 motion-safe:group-hover:translate-x-1'
+                      fill='none'
+                      stroke='currentColor'
+                      stroke-width='2.5'
+                      viewBox='0 0 24 24'
+                      aria-hidden='true'>
+                      <path
+                        stroke-linecap='round'
+                        stroke-linejoin='round'
+                        d='M17 8l4 4m0 0l-4 4m4-4H3'
+                      />
+                    </svg>
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class='bg-white py-20 lg:py-28' aria-labelledby='faq-heading'>
+      <div class='mx-auto max-w-3xl px-6 lg:px-10'>
+        <h2
+          id='faq-heading'
+          class='mb-12 font-display text-4xl font-normal leading-[1.1] text-secondary sm:text-5xl'>
+          Common <em class='font-semibold not-italic text-primary'
+            >questions.</em
+          >
+        </h2>
+
+        <div class='divide-y divide-border/60 border-y border-border/60'>
+          {
+            faqs.map((f, i) => (
+              <details class='group py-6' open={i === 0}>
+                <summary
+                  class={`flex cursor-pointer list-none items-center justify-between gap-6 rounded-sm font-display text-lg font-semibold text-secondary transition-colors hover:text-primary [&::-webkit-details-marker]:hidden ${focus}`}>
+                  <span>{f.q}</span>
+                  <svg
+                    class='size-4 shrink-0 text-primary transition-transform duration-300 group-open:rotate-45'
+                    fill='none'
+                    stroke='currentColor'
+                    stroke-width='2'
+                    viewBox='0 0 24 24'
+                    aria-hidden='true'>
+                    <path
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      d='M12 4v16m8-8H4'
+                    />
+                  </svg>
+                </summary>
+                <p class='mt-4 max-w-2xl text-sm leading-relaxed text-muted'>
+                  {f.a}
+                </p>
+              </details>
+            ))
+          }
         </div>
 
-        <dl class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-px bg-white/10">
-          {impactStats.map((s) => (
-            <div class="bg-secondary p-6">
-              <dt class="font-display text-white text-3xl lg:text-4xl font-bold leading-none mb-3">
-                {s.stat}
-              </dt>
-              <dd class="text-white/50 text-xs leading-snug">{s.label}</dd>
-            </div>
-          ))}
-        </dl>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ══════════════════════════════════════════════
-       §5  FAQ  — SEO surface + objection handling
-  ══════════════════════════════════════════════ -->
-  <section class="bg-white py-20 lg:py-28" aria-labelledby="faq-heading">
-    <div class="max-w-4xl mx-auto px-6 lg:px-10">
-
-      <header class="mb-12">
-        <p class="text-primary text-xs tracking-[0.22em] uppercase font-semibold mb-4">
-          Questions, answered
+        <p class='mt-10 text-sm leading-relaxed text-muted'>
+          Still have a question?{' '}
+          <a
+            href='/contact'
+            class={`rounded-sm font-semibold text-primary underline-offset-4 hover:underline ${focus}`}>
+            Contact our team
+          </a>{' '}
+          and we'll get back to you.
         </p>
-        <h2 id="faq-heading" class="font-display text-secondary text-4xl sm:text-5xl font-normal leading-[1.1]">
-          Before you
-          <span class="font-semibold text-primary">get involved.</span>
+      </div>
+    </section>
+
+    <!-- Related pages -->
+    <section
+      class='bg-surface py-20 lg:py-28'
+      aria-labelledby='related-heading'>
+      <div class='mx-auto max-w-7xl px-6 lg:px-10'>
+        <h2
+          id='related-heading'
+          class='font-display text-4xl font-normal leading-[1.1] text-secondary sm:text-5xl'>
+          Explore more of
+          <em class='font-semibold not-italic text-primary'>St. Paul's.</em>
         </h2>
-      </header>
 
-      <div class="border-y border-border/60 divide-y divide-border/60">
-        {faqs.map((f, i) => (
-          <details class="group py-6" open={i === 0}>
-            <summary class="flex items-center justify-between gap-6 cursor-pointer list-none
-                            text-secondary font-display text-lg font-semibold
-                            hover:text-primary transition-colors">
-              <span>{f.q}</span>
-              <svg class="size-4 shrink-0 text-primary transition-transform duration-300
-                          group-open:rotate-45"
-                   fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-              </svg>
-            </summary>
-            <p class="mt-4 text-muted text-sm leading-relaxed max-w-3xl">{f.a}</p>
-          </details>
-        ))}
+        <ul
+          role='list'
+          class='mt-12 grid gap-px bg-border/60 sm:grid-cols-2 lg:grid-cols-3'>
+          {
+            relatedPages.map((page) => (
+              <li class='bg-white'>
+                <a
+                  href={page.href}
+                  class={`group flex h-full flex-col p-8 transition-colors duration-300 hover:bg-surface-2 lg:p-9 ${focus}`}>
+                  <h3 class='font-display text-xl font-semibold text-secondary'>
+                    {page.title}
+                  </h3>
+                  <p class='mt-3 flex-1 text-sm leading-relaxed text-muted'>
+                    {page.desc}
+                  </p>
+                  <span class='mt-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-primary'>
+                    Visit page
+                    <span class='sr-only'>{page.title}</span>
+                    <svg
+                      class='size-3.5 transition-transform duration-200 motion-safe:group-hover:translate-x-1'
+                      fill='none'
+                      stroke='currentColor'
+                      stroke-width='2.5'
+                      viewBox='0 0 24 24'
+                      aria-hidden='true'>
+                      <path
+                        stroke-linecap='round'
+                        stroke-linejoin='round'
+                        d='M17 8l4 4m0 0l-4 4m4-4H3'
+                      />
+                    </svg>
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
       </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- Closing CTA -->
+    <section
+      class='bg-secondary-dark py-20 lg:py-24'
+      aria-labelledby='cta-heading'>
+      <div
+        class='mx-auto flex max-w-7xl flex-col gap-10 px-6 lg:flex-row lg:items-center lg:justify-between lg:px-10'>
+        <div class='max-w-2xl'>
+          <h2
+            id='cta-heading'
+            class='font-display text-3xl font-normal leading-[1.15] text-white sm:text-4xl'>
+            Your support keeps
+            <em class='font-semibold not-italic text-primary-light'
+              >care within reach.</em
+            >
+          </h2>
+          <p class='mt-4 text-base leading-relaxed text-white/75'>
+            Give today, or talk to our development office about volunteering,
+            partnerships and career opportunities at St. Paul's Mission
+            Hospital.
+          </p>
+        </div>
 
-
-  <!-- ══════════════════════════════════════════════
-       §6  FINAL CTA
-  ══════════════════════════════════════════════ -->
-  <section class="bg-surface-2 py-20 lg:py-28 border-t border-border/60" aria-labelledby="cta-heading">
-    <div class="max-w-4xl mx-auto px-6 lg:px-10 text-center">
-
-      <h2 id="cta-heading" class="font-display text-secondary text-4xl sm:text-5xl font-normal leading-[1.1] mb-6">
-        Your involvement becomes
-        <span class="font-semibold italic text-primary"> someone's healing.</span>
-      </h2>
-
-      <p class="text-muted text-base max-w-xl mx-auto leading-relaxed mb-10">
-        Every contribution — large or small — extends the reach of dignified
-        healthcare across Homa Bay County.
-      </p>
-
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/donate"
-           class="inline-flex items-center gap-2 bg-accent text-white hover:bg-accent-dark
-                  px-7 py-4 text-xs font-bold tracking-[0.14em] uppercase
-                  transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
-          Donate now
-        </a>
-        <a href="/volunteer"
-           class="inline-flex items-center gap-2 bg-secondary text-white hover:bg-secondary-dark
-                  px-7 py-4 text-xs font-bold tracking-[0.14em] uppercase
-                  transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
-          Volunteer with us
-        </a>
-        <a href="/partner"
-           class="inline-flex items-center gap-2 border border-border text-secondary hover:border-secondary
-                  px-7 py-4 text-xs font-bold tracking-[0.14em] uppercase
-                  transition-all duration-200 hover:-translate-y-0.5">
-          Partner with us
-        </a>
+        <div class='flex flex-wrap items-center gap-6'>
+          <a
+            href='/donate'
+            class={`inline-flex items-center gap-2.5 bg-primary px-8 py-4 text-xs font-bold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:bg-primary-dark hover:shadow-xl motion-safe:hover:-translate-y-0.5 ${focus}`}>
+            Donate now
+            <span class='sr-only'>to St. Paul's Mission Hospital</span>
+          </a>
+          <a
+            href='/contact'
+            class={`rounded-sm text-xs font-bold uppercase tracking-[0.14em] text-white underline-offset-8 hover:underline ${focus}`}>
+            Contact us
+            <span aria-hidden='true'>&rarr;</span>
+          </a>
+        </div>
       </div>
-
-    </div>
-  </section>
-
+    </section>
+  </main>
 </Layout>
