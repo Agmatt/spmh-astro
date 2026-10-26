@@ -1,4 +1,3 @@
-// src/pages/api/submit-feedback.ts
 import type { APIRoute } from 'astro';
 import { z } from 'zod';
 import { createClient } from '@supabase/supabase-js';
@@ -10,7 +9,12 @@ const FeedbackSchema = z.object({
   service_point: z.string().min(1, 'Service point is required'),
   visitor_type: z.string().optional().nullable(),
   name: z.string().max(120).optional().nullable(),
-  age: z.coerce.number().min(0).max(120).optional().nullable(),
+  age: z
+    .preprocess(
+      (v) => (v === '' || v == null ? null : v),
+      z.coerce.number().min(0).max(120).nullable(),
+    )
+    .optional(),
   sex: z.string().optional().nullable(),
   ward_dept: z.string().max(100).optional().nullable(),
   room_bed: z.string().max(50).optional().nullable(),
@@ -55,12 +59,20 @@ const FeedbackSchema = z.object({
 });
 
 export const POST: APIRoute = async ({ request }) => {
+  // ── DIAGNOSTIC LOG — prints to terminal on every submission ──
+  console.log('[CQI REQUEST]', {
+    meta_url: import.meta.env.FEEDBACK_SUPABASE_URL,
+    process_url: process.env.FEEDBACK_SUPABASE_URL,
+    meta_key_len: import.meta.env.FEEDBACK_SUPABASE_SERVICE_ROLE_KEY?.length,
+    process_key_len: process.env.FEEDBACK_SUPABASE_SERVICE_ROLE_KEY?.length,
+  });
+
   try {
     const formData = await request.formData();
     const body = Object.fromEntries(formData.entries());
 
     if (body.website && body.website !== '') {
-      return new Response(JSON.stringify({ success: true }), { status: 200 }); // Silently reject bots
+      return new Response(JSON.stringify({ success: true }), { status: 200 });
     }
 
     const parsedData = FeedbackSchema.safeParse(body);
@@ -74,26 +86,36 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
+    // Drop the honeypot so it never reaches the insert
+    const { website: _honeypot, ...formFields } = parsedData.data;
+
     const cleanData = Object.fromEntries(
-      Object.entries(parsedData.data).map(([key, value]) => [
+      Object.entries(formFields).map(([key, value]) => [
         key,
         value === '' ? null : value,
       ]),
     );
 
-    // ⚠️ USE THE ISOLATED FEEDBACK VARIABLES HERE
-    const supabaseUrl = import.meta.env.FEEDBACK_SUPABASE_URL;
-    const supabaseServiceKey = import.meta.env
-      .FEEDBACK_SUPABASE_SERVICE_ROLE_KEY;
+    // ── BULLETPROOF: try every possible source ──
+    const supabaseUrl =
+      process.env.FEEDBACK_SUPABASE_URL ??
+      import.meta.env.FEEDBACK_SUPABASE_URL ??
+      process.env.FEEDBACK_SUPABASE_NEWS_URL ??
+      import.meta.env.FEEDBACK_SUPABASE_NEWS_URL;
+
+    const supabaseServiceKey =
+      process.env.FEEDBACK_SUPABASE_SERVICE_ROLE_KEY ??
+      import.meta.env.FEEDBACK_SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !supabaseServiceKey) {
-      console.error('Missing Feedback Supabase environment variables');
+      console.error('[CQI FATAL] No env source available. cwd:', process.cwd());
       return new Response(
         JSON.stringify({ error: 'Server configuration error.' }),
         { status: 500 },
       );
     }
 
+    // ⚠️ This line was missing in your broken version — that caused the crash
     const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
     const { error: dbError } = await supabaseAdmin

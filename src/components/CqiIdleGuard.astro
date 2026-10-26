@@ -1,0 +1,101 @@
+---
+// Usage: <CqiIdleGuard />
+---
+
+<div x-data='cqiIdleGuard()' x-init='init()'></div>
+
+<script is:inline>
+  window.cqiIdleGuard = function () {
+    return {
+      warning: false,
+      seconds: 60,
+      warnTimer: null,
+      logoutTimer: null,
+      countdown: null,
+
+      init() {
+        const events = [
+          'click',
+          'keydown',
+          'mousemove',
+          'scroll',
+          'touchstart',
+        ];
+        events.forEach((e) =>
+          window.addEventListener(e, () => this.reset(), { passive: true }),
+        );
+        this.reset();
+      },
+
+      reset() {
+        if (this.warning) return; // don't reset while warning is showing — user must click "Stay signed in"
+        clearTimeout(this.warnTimer);
+        clearTimeout(this.logoutTimer);
+        this.warnTimer = setTimeout(() => this.showWarning(), 9 * 60 * 1000); // 9 min
+      },
+
+      showWarning() {
+        this.warning = true;
+        this.seconds = 60;
+        this.countdown = setInterval(() => {
+          this.seconds--;
+          if (this.seconds <= 0) this.doLogout();
+        }, 1000);
+      },
+
+      stay() {
+        this.warning = false;
+        clearInterval(this.countdown);
+        this.reset();
+      },
+
+      async doLogout() {
+        clearInterval(this.countdown);
+        try {
+          await fetch('/admin/cqi/logout', { method: 'POST' });
+        } catch {}
+        window.location.href = '/admin/cqi/login?timeout=1';
+      },
+    };
+  };
+</script>
+
+<!-- Warning modal -->
+<template x-teleport='body'>
+  <div
+    x-data='cqiIdleGuard()'
+    x-show='warning'
+    x-cloak
+    style='display:none;'
+    class='fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4'>
+    <div
+      @click.stop
+      class='bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center'>
+      <div
+        class='w-14 h-14 rounded-full bg-amber-100 mx-auto flex items-center justify-center mb-4'>
+        <svg
+          class='w-7 h-7 text-amber-600'
+          fill='none'
+          stroke='currentColor'
+          viewBox='0 0 24 24'>
+          <path
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            stroke-width='2'
+            d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'></path>
+        </svg>
+      </div>
+      <h2 class='text-xl font-bold text-slate-900 mb-2'>Still there?</h2>
+      <p class='text-sm text-slate-600 mb-6'>
+        You'll be signed out in <span
+          class='font-bold text-amber-600'
+          x-text='seconds'></span> seconds due to inactivity.
+      </p>
+      <button
+        @click='stay()'
+        class='w-full bg-[#125276] hover:bg-[#0e405d] text-white font-bold text-sm px-6 py-3 rounded-xl'>
+        Stay signed in
+      </button>
+    </div>
+  </div>
+</template>

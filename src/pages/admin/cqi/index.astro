@@ -1,0 +1,403 @@
+---
+// src/pages/admin/cqi/index.astro
+import { requireCqiUser } from '../../../lib/cqi-auth';
+import '../../../styles/global.css';
+import CqiIdleGuard from '../../../components/CqiIdleGuard.astro';
+
+export const prerender = false;
+
+// ── AUTH + ROLE + IDLE CHECK (all in one helper) ──
+const auth = await requireCqiUser(Astro.cookies);
+if (!auth.ok) return Astro.redirect(auth.redirect);
+const { user, role, adminClient } = auth;
+
+// ── Filters ──
+const url = Astro.url;
+const servicePoint = url.searchParams.get('service_point') || '';
+const statusFilter = url.searchParams.get('status') || '';
+const range = url.searchParams.get('range') || '30';
+const showArchived = url.searchParams.get('archived') === '1';
+
+let query = adminClient
+  .from('patient_feedback')
+  .select('*')
+  .is('deleted_at', null) // soft-deleted rows never show
+  .order('submitted_at', { ascending: false })
+  .limit(500);
+
+if (showArchived) query = query.not('archived_at', 'is', null);
+else query = query.is('archived_at', null);
+
+if (servicePoint) query = query.eq('service_point', servicePoint);
+if (statusFilter) query = query.eq('status', statusFilter);
+
+if (range !== 'all') {
+  const days = parseInt(range, 10) || 30;
+  const since = new Date();
+  since.setDate(since.getDate() - days);
+  query = query.gte('submitted_at', since.toISOString());
+}
+
+const { data: feedback, error } = await query;
+const rows = feedback || [];
+
+// ── KPIs ──
+const total = rows.length;
+const ratingMap: Record<string, number> = {
+  Excellent: 5,
+  Good: 4,
+  Fair: 3,
+  Poor: 2,
+};
+let scoreSum = 0;
+let scoreCount = 0;
+for (const f of rows) {
+  for (let i = 1; i <= 18; i++) {
+    const v = (f as any)[`q${i}`];
+    if (v && ratingMap[v]) {
+      scoreSum += ratingMap[v];
+      scoreCount++;
+    }
+  }
+}
+const avgScore = scoreCount > 0 ? (scoreSum / scoreCount).toFixed(2) : '—';
+const followupPending = rows.filter(
+  (f: any) => f.wants_followup === 'Yes' && f.status === 'new',
+).length;
+const pctPositive =
+  total > 0
+    ? Math.round(
+        (rows.filter((f: any) => f.q17 === 'Excellent' || f.q17 === 'Good')
+          .length /
+          total) *
+          100,
+      )
+    : 0;
+
+const serviceOptions = [
+  'OPD',
+  'Maternity',
+  'Theatre',
+  'Pharmacy',
+  'Lab',
+  'IPD',
+  'Emergency',
+];
+const statusOptions = ['new', 'reviewed', 'action_taken', 'closed'];
+
+const statusLabel = (s: string | null) => (s ?? 'new').replace(/_/g, ' ');
+
+const statusBadge = (s: string) => {
+  switch (s) {
+    case 'new':
+      return 'bg-blue-100 text-blue-700 border-blue-200';
+    case 'reviewed':
+      return 'bg-amber-100 text-amber-700 border-amber-200';
+    case 'action_taken':
+      return 'bg-emerald-100 text-emerald-700 border-emerald-200';
+    case 'closed':
+      return 'bg-slate-100 text-slate-600 border-slate-200';
+    default:
+      return 'bg-slate-100 text-slate-600 border-slate-200';
+  }
+};
+
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='robots' content='noindex, nofollow' />
+    <title>CQI Dashboard — St. Paul's Mission Hospital</title>
+  </head>
+  <body>
+    <CqiIdleGuard />
+    <div class='min-h-screen bg-slate-50'>
+      <header class='bg-[#125276] text-white sticky top-0 z-40 shadow-md'>
+        <div
+          class='max-w-7xl mx-auto px-6 py-4 flex items-center justify-between'>
+          <div class='flex items-center gap-4'>
+            <div
+              class='w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center border border-white/20'>
+              <svg
+                class='w-5 h-5'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'>
+                <path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  stroke-width='2'
+                  d='M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z'
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <h1 class='font-bold text-lg leading-tight'>
+                CQI Feedback Portal
+              </h1>
+              <p class='text-blue-100 text-xs'>St. Paul's Mission Hospital</p>
+            </div>
+          </div>
+          <div class='flex items-center gap-3'>
+            {
+              role === 'cqi_super_admin' && (
+                <a
+                  href='/admin/cqi/team'
+                  class='text-xs bg-white/10 hover:bg-white/20 px-3 py-2 rounded-lg font-bold transition-colors'>
+                  Team
+                </a>
+              )
+            }
+            <span class='hidden sm:inline text-xs text-blue-100'>
+              {user.email} · {role.replace('cqi_', '')}
+            </span>
+            <form method='POST' action='/admin/cqi/logout'>
+              <button
+                type='submit'
+                class='text-xs bg-white/10 hover:bg-[#860f0f] px-3 py-2 rounded-lg font-bold transition-colors'>
+                Sign Out
+              </button>
+            </form>
+          </div>
+        </div>
+      </header>
+
+      <main class='max-w-7xl mx-auto px-6 py-8 space-y-6'>
+        <div class='flex gap-1 border-b border-slate-200'>
+          <a
+            href='/admin/cqi'
+            class={`px-4 py-2.5 text-sm font-bold transition-colors ${!showArchived ? 'text-[#125276] border-b-2 border-[#125276]' : 'text-slate-500 hover:text-[#125276]'}`}>
+            Active ({!showArchived ? total : '—'})
+          </a>
+          <a
+            href='/admin/cqi?archived=1'
+            class={`px-4 py-2.5 text-sm font-bold transition-colors ${showArchived ? 'text-[#125276] border-b-2 border-[#125276]' : 'text-slate-500 hover:text-[#125276]'}`}>
+            Archived {showArchived ? `(${total})` : ''}
+          </a>
+        </div>
+
+        <div class='grid grid-cols-2 lg:grid-cols-4 gap-4'>
+          <div
+            class='bg-white rounded-2xl shadow-sm border border-slate-200 p-5'>
+            <p
+              class='text-xs font-bold text-slate-500 uppercase tracking-wider'>
+              Total Feedback
+            </p>
+            <p class='text-3xl font-bold text-[#125276] mt-1'>{total}</p>
+            <p class='text-xs text-slate-400 mt-1'>
+              {range === 'all' ? 'All time' : `Last ${range} days`}
+            </p>
+          </div>
+          <div
+            class='bg-white rounded-2xl shadow-sm border border-slate-200 p-5'>
+            <p
+              class='text-xs font-bold text-slate-500 uppercase tracking-wider'>
+              Avg Rating
+            </p>
+            <p class='text-3xl font-bold text-emerald-600 mt-1'>
+              {avgScore}
+              <span class='text-sm text-slate-400'>/ 5</span>
+            </p>
+            <p class='text-xs text-slate-400 mt-1'>Across 18 dimensions</p>
+          </div>
+          <div
+            class='bg-white rounded-2xl shadow-sm border border-slate-200 p-5'>
+            <p
+              class='text-xs font-bold text-slate-500 uppercase tracking-wider'>
+              % Positive (Q17)
+            </p>
+            <p class='text-3xl font-bold text-[#860f0f] mt-1'>{pctPositive}%</p>
+            <p class='text-xs text-slate-400 mt-1'>Excellent + Good</p>
+          </div>
+          <div
+            class='bg-white rounded-2xl shadow-sm border border-slate-200 p-5'>
+            <p
+              class='text-xs font-bold text-slate-500 uppercase tracking-wider'>
+              Follow-ups Pending
+            </p>
+            <p class='text-3xl font-bold text-amber-600 mt-1'>
+              {followupPending}
+            </p>
+            <p class='text-xs text-slate-400 mt-1'>
+              Requested &amp; unreviewed
+            </p>
+          </div>
+        </div>
+
+        <form
+          method='GET'
+          class='bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-wrap items-end gap-3'>
+          {showArchived && <input type='hidden' name='archived' value='1' />}
+          <div class='flex-1 min-w-[160px]'>
+            <label
+              class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5'
+              >Service</label
+            >
+            <select
+              name='service_point'
+              class='w-full bg-slate-50 border border-slate-300 text-sm rounded-lg px-3 py-2'>
+              <option value=''>All</option>
+              {
+                serviceOptions.map((s) => (
+                  <option value={s} selected={servicePoint === s}>
+                    {s}
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+          <div class='flex-1 min-w-[160px]'>
+            <label
+              class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5'
+              >Status</label
+            >
+            <select
+              name='status'
+              class='w-full bg-slate-50 border border-slate-300 text-sm rounded-lg px-3 py-2'>
+              <option value=''>All</option>
+              {
+                statusOptions.map((s) => (
+                  <option value={s} selected={statusFilter === s}>
+                    {statusLabel(s)}
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+          <div class='flex-1 min-w-[160px]'>
+            <label
+              class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5'
+              >Range</label
+            >
+            <select
+              name='range'
+              class='w-full bg-slate-50 border border-slate-300 text-sm rounded-lg px-3 py-2'>
+              <option value='7' selected={range === '7'}>Last 7 days</option>
+              <option value='30' selected={range === '30'}>Last 30 days</option>
+              <option value='90' selected={range === '90'}>Last 90 days</option>
+              <option value='all' selected={range === 'all'}>All time</option>
+            </select>
+          </div>
+          <button
+            type='submit'
+            class='bg-[#125276] hover:bg-[#0e405d] text-white text-sm font-bold px-5 py-2.5 rounded-lg transition-colors'>
+            Apply
+          </button>
+          <a
+            href='/api/cqi/export'
+            class='bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg transition-colors'>
+            Export CSV
+          </a>
+        </form>
+
+        <div
+          class='bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden'>
+          {
+            error && (
+              <div class='p-4 bg-red-50 text-red-700 text-sm border-b border-red-200'>
+                Failed to load feedback: {error.message}
+              </div>
+            )
+          }
+          {
+            rows.length === 0 ? (
+              <div class='p-12 text-center text-slate-400'>
+                <p class='text-sm'>No feedback matches these filters.</p>
+              </div>
+            ) : (
+              <div class='overflow-x-auto'>
+                <table class='w-full text-sm'>
+                  <thead class='bg-slate-50 border-b border-slate-200'>
+                    <tr>
+                      <th class='text-left px-5 py-3 text-xs font-bold text-slate-600 uppercase tracking-wider'>
+                        Date
+                      </th>
+                      <th class='text-left px-5 py-3 text-xs font-bold text-slate-600 uppercase tracking-wider'>
+                        Service
+                      </th>
+                      <th class='text-left px-5 py-3 text-xs font-bold text-slate-600 uppercase tracking-wider'>
+                        Q17
+                      </th>
+                      <th class='text-left px-5 py-3 text-xs font-bold text-slate-600 uppercase tracking-wider'>
+                        Critical Concern
+                      </th>
+                      <th class='text-left px-5 py-3 text-xs font-bold text-slate-600 uppercase tracking-wider'>
+                        Follow-up
+                      </th>
+                      <th class='text-left px-5 py-3 text-xs font-bold text-slate-600 uppercase tracking-wider'>
+                        Status
+                      </th>
+                      <th />
+                    </tr>
+                  </thead>
+                  <tbody class='divide-y divide-slate-100'>
+                    {rows.map((row: any) => (
+                      <tr class='hover:bg-slate-50 transition-colors'>
+                        <td class='px-5 py-3 text-slate-600 text-xs whitespace-nowrap'>
+                          {formatDate(row.submitted_at)}
+                        </td>
+                        <td class='px-5 py-3 font-semibold text-slate-800'>
+                          {row.service_point || '—'}
+                        </td>
+                        <td class='px-5 py-3'>
+                          <span
+                            class={`text-xs font-bold px-2 py-1 rounded ${
+                              row.q17 === 'Excellent'
+                                ? 'bg-emerald-100 text-emerald-700'
+                                : row.q17 === 'Good'
+                                  ? 'bg-blue-100 text-blue-700'
+                                  : row.q17 === 'Fair'
+                                    ? 'bg-amber-100 text-amber-700'
+                                    : row.q17 === 'Poor'
+                                      ? 'bg-rose-100 text-rose-700'
+                                      : 'bg-slate-100 text-slate-500'
+                            }`}>
+                            {row.q17 || '—'}
+                          </span>
+                        </td>
+                        <td class='px-5 py-3 text-slate-700 max-w-xs truncate'>
+                          {row.critical_improvement || '—'}
+                        </td>
+                        <td class='px-5 py-3'>
+                          {row.wants_followup === 'Yes' ? (
+                            <span class='text-xs font-bold text-amber-700'>
+                              Yes
+                            </span>
+                          ) : (
+                            <span class='text-xs text-slate-400'>No</span>
+                          )}
+                        </td>
+                        <td class='px-5 py-3'>
+                          <span
+                            class={`text-xs font-bold px-2 py-1 rounded border ${statusBadge(row.status)}`}>
+                            {statusLabel(row.status)}
+                          </span>
+                        </td>
+                        <td class='px-5 py-3 text-right'>
+                          <a
+                            href={`/admin/cqi/${row.id}`}
+                            class='text-xs font-bold text-[#125276] hover:underline'>
+                            View →
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )
+          }
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,493 @@
+---
+// src/pages/admin/cqi/[id].astro
+import { requireCqiUser } from '../../../lib/cqi-auth';
+import '../../../styles/global.css';
+import CqiIdleGuard from '../../../components/CqiIdleGuard.astro';
+
+export const prerender = false;
+
+const { id } = Astro.params;
+if (!id) return Astro.redirect('/admin/cqi');
+
+// ── AUTH + ROLE + IDLE CHECK (all in one helper) ──
+const auth = await requireCqiUser(Astro.cookies);
+if (!auth.ok) return Astro.redirect(auth.redirect);
+const { user, role, adminClient } = auth;
+
+// ── Fetch row (soft-deleted rows are treated as not found) ──
+const { data: row, error } = await adminClient
+  .from('patient_feedback')
+  .select('*')
+  .eq('id', id)
+  .is('deleted_at', null)
+  .maybeSingle();
+
+if (error || !row) return Astro.redirect('/admin/cqi');
+
+// ── Helpers ──
+const ratingBadge = (v: string) =>
+  ({
+    Excellent: 'bg-emerald-100 text-emerald-700',
+    Good: 'bg-blue-100 text-blue-700',
+    Fair: 'bg-amber-100 text-amber-700',
+    Poor: 'bg-rose-100 text-rose-700',
+  })[v] || 'bg-slate-100 text-slate-500';
+
+const labels: Record<string, string> = {
+  q1: 'Registration / admission ease',
+  q2: 'Reception courtesy',
+  q3: 'Waiting time',
+  q4: 'Reception clarity',
+  q5: 'Doctor professionalism',
+  q6: 'Nursing kindness',
+  q7: 'Diagnosis explanation',
+  q8: 'Pain attention',
+  q9: 'Privacy & dignity',
+  q10: 'Medicine availability',
+  q11: 'Lab speed & accuracy',
+  q12: 'Pharmacy instructions',
+  q13: 'Cleanliness',
+  q14: 'Ward comfort',
+  q15: 'Meals quality',
+  q16: 'Safety & security',
+  q17: 'Overall satisfaction',
+  q18: 'Recommendation likelihood',
+};
+
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+const statusOptions = ['new', 'reviewed', 'action_taken', 'closed'];
+const statusLabel = (s: string | null) => (s ?? 'new').replace(/_/g, ' ');
+const currentStatus: string = row.status ?? 'new';
+
+const canEdit = role === 'cqi_admin' || role === 'cqi_super_admin';
+const canDelete = role === 'cqi_super_admin';
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='robots' content='noindex, nofollow' />
+    <title>Feedback Detail — CQI</title>
+  </head>
+  <body>
+    <CqiIdleGuard />
+    <div class='min-h-screen bg-slate-50'>
+      <header class='bg-[#125276] text-white sticky top-0 z-40 shadow-md'>
+        <div
+          class='max-w-5xl mx-auto px-6 py-4 flex items-center justify-between'>
+          <a
+            href='/admin/cqi'
+            class='flex items-center gap-2 text-sm font-bold text-blue-100 hover:text-white transition-colors'>
+            <svg
+              class='w-4 h-4'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M10 19l-7-7m0 0l7-7m-7 7h18'></path>
+            </svg>
+            Back to Dashboard
+          </a>
+          <div class='flex items-center gap-3'>
+            <span class='hidden sm:inline text-xs text-blue-100'>
+              {user.email} · {role.replace('cqi_', '')}
+            </span>
+            <form method='POST' action='/admin/cqi/logout'>
+              <button
+                type='submit'
+                class='text-xs bg-white/10 hover:bg-[#860f0f] px-3 py-2 rounded-lg font-bold transition-colors'>
+                Sign Out
+              </button>
+            </form>
+          </div>
+        </div>
+      </header>
+
+      <main
+        id='detail-main'
+        data-feedback-id={row.id}
+        class='max-w-5xl mx-auto px-6 py-8 space-y-6'>
+        <!-- Summary + actions -->
+        <div class='bg-white rounded-2xl shadow-sm border border-slate-200 p-6'>
+          <div class='flex items-center justify-between flex-wrap gap-4'>
+            <div>
+              <p
+                class='text-xs font-bold text-slate-500 uppercase tracking-wider'>
+                Submitted
+              </p>
+              <p class='text-slate-800 font-semibold mt-1'>
+                {formatDate(row.submitted_at)}
+              </p>
+            </div>
+            <div>
+              <p
+                class='text-xs font-bold text-slate-500 uppercase tracking-wider'>
+                Service
+              </p>
+              <p class='text-slate-800 font-semibold mt-1'>
+                {row.service_point || '—'}
+              </p>
+            </div>
+            <div>
+              <p
+                class='text-xs font-bold text-slate-500 uppercase tracking-wider'>
+                Current Status
+              </p>
+              <span
+                id='current-status-badge'
+                class='inline-block mt-1 text-xs font-bold px-3 py-1 rounded bg-[#125276] text-white uppercase tracking-wider'>
+                {statusLabel(currentStatus)}
+              </span>
+            </div>
+
+            {
+              (canEdit || canDelete) && (
+                <div class='flex gap-2 flex-wrap'>
+                  {canEdit && !row.archived_at && (
+                    <button
+                      type='button'
+                      data-action='archive'
+                      class='text-xs font-bold px-3 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors disabled:opacity-60'>
+                      Archive
+                    </button>
+                  )}
+                  {canEdit && row.archived_at && (
+                    <button
+                      type='button'
+                      data-action='unarchive'
+                      class='text-xs font-bold px-3 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors disabled:opacity-60'>
+                      Unarchive
+                    </button>
+                  )}
+                  {canDelete && (
+                    <button
+                      type='button'
+                      data-action='delete'
+                      class='text-xs font-bold px-3 py-2 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 transition-colors disabled:opacity-60'>
+                      Delete
+                    </button>
+                  )}
+                </div>
+              )
+            }
+          </div>
+        </div>
+
+        <!-- Respondent -->
+        <div class='bg-white rounded-2xl shadow-sm border border-slate-200 p-6'>
+          <h2 class='font-bold text-slate-900 mb-4'>Respondent</h2>
+          <div class='grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm'>
+            <div>
+              <p class='text-xs text-slate-500 uppercase font-bold'>Type</p>
+              <p class='text-slate-800 mt-1'>{row.visitor_type || '—'}</p>
+            </div>
+            <div>
+              <p class='text-xs text-slate-500 uppercase font-bold'>Name</p>
+              <p class='text-slate-800 mt-1'>{row.name || 'Anonymous'}</p>
+            </div>
+            <div>
+              <p class='text-xs text-slate-500 uppercase font-bold'>Age</p>
+              <p class='text-slate-800 mt-1'>{row.age ?? '—'}</p>
+            </div>
+            <div>
+              <p class='text-xs text-slate-500 uppercase font-bold'>Sex</p>
+              <p class='text-slate-800 mt-1'>{row.sex || '—'}</p>
+            </div>
+            <div>
+              <p class='text-xs text-slate-500 uppercase font-bold'>
+                Ward / Dept
+              </p>
+              <p class='text-slate-800 mt-1'>{row.ward_dept || '—'}</p>
+            </div>
+            <div>
+              <p class='text-xs text-slate-500 uppercase font-bold'>
+                Room / Bed
+              </p>
+              <p class='text-slate-800 mt-1'>{row.room_bed || '—'}</p>
+            </div>
+            <div>
+              <p class='text-xs text-slate-500 uppercase font-bold'>Phone</p>
+              <p class='text-slate-800 mt-1'>{row.phone || '—'}</p>
+            </div>
+            <div>
+              <p class='text-xs text-slate-500 uppercase font-bold'>Email</p>
+              <p class='text-slate-800 mt-1 break-all'>{row.email || '—'}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ratings -->
+        <div class='bg-white rounded-2xl shadow-sm border border-slate-200 p-6'>
+          <h2 class='font-bold text-slate-900 mb-4'>Service Quality Ratings</h2>
+          <div class='space-y-1'>
+            {
+              Object.entries(labels).map(([key, label]) => {
+                const val = (row as any)[key] as string | null;
+                return (
+                  <div class='flex items-center justify-between py-2 border-b border-slate-100 last:border-0'>
+                    <span class='text-sm text-slate-700'>{label}</span>
+                    <span
+                      class={`text-xs font-bold px-2.5 py-1 rounded ${val ? ratingBadge(val) : 'bg-slate-100 text-slate-400'}`}>
+                      {val || '—'}
+                    </span>
+                  </div>
+                );
+              })
+            }
+          </div>
+        </div>
+
+        <!-- Comments -->
+        <div class='bg-white rounded-2xl shadow-sm border border-slate-200 p-6'>
+          <h2 class='font-bold text-slate-900 mb-4'>Comments</h2>
+          <div class='space-y-4'>
+            <div>
+              <p
+                class='text-xs font-bold text-[#860f0f] uppercase tracking-wider mb-1'>
+                Critical Concern
+              </p>
+              <p
+                class='text-sm text-slate-800 bg-red-50 border border-red-100 rounded-lg p-3 whitespace-pre-wrap'>
+                {row.critical_improvement || '—'}
+              </p>
+            </div>
+            <div>
+              <p
+                class='text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1'>
+                What we did well
+              </p>
+              <p
+                class='text-sm text-slate-800 bg-emerald-50 border border-emerald-100 rounded-lg p-3 whitespace-pre-wrap'>
+                {row.comment_positive || '—'}
+              </p>
+            </div>
+            <div>
+              <p
+                class='text-xs font-bold text-amber-700 uppercase tracking-wider mb-1'>
+                Where we can improve
+              </p>
+              <p
+                class='text-sm text-slate-800 bg-amber-50 border border-amber-100 rounded-lg p-3 whitespace-pre-wrap'>
+                {row.comment_improvement || '—'}
+              </p>
+            </div>
+            <div>
+              <p
+                class='text-xs font-bold text-slate-600 uppercase tracking-wider mb-1'>
+                Other comments
+              </p>
+              <p
+                class='text-sm text-slate-800 bg-slate-50 border border-slate-100 rounded-lg p-3 whitespace-pre-wrap'>
+                {row.comment_other || '—'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {
+          row.wants_followup === 'Yes' && (
+            <div class='bg-amber-50 rounded-2xl shadow-sm border border-amber-200 p-6'>
+              <h2 class='font-bold text-amber-900 mb-4'>Follow-Up Requested</h2>
+              <div class='grid grid-cols-2 gap-4 text-sm'>
+                <div>
+                  <p class='text-xs text-amber-700 uppercase font-bold'>
+                    Phone
+                  </p>
+                  <p class='text-slate-800 mt-1'>{row.followup_phone || '—'}</p>
+                </div>
+                <div>
+                  <p class='text-xs text-amber-700 uppercase font-bold'>
+                    Email
+                  </p>
+                  <p class='text-slate-800 mt-1 break-all'>
+                    {row.followup_email || '—'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )
+        }
+
+        {
+          canEdit && (
+            <>
+              <div
+                id='update-panel'
+                class='bg-white rounded-2xl shadow-sm border border-slate-200 p-6'>
+                <h2 class='font-bold text-slate-900 mb-4'>Update Status</h2>
+                <form id='status-form' class='space-y-4'>
+                  <div>
+                    <label
+                      for='new-status'
+                      class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'>
+                      New Status
+                    </label>
+                    <select
+                      id='new-status'
+                      class='w-full bg-slate-50 border border-slate-300 text-sm rounded-lg px-3 py-2.5 focus:outline-none focus:border-[#125276]'>
+                      {statusOptions.map((s) => (
+                        <option value={s} selected={s === currentStatus}>
+                          {statusLabel(s)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      for='notes'
+                      class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'>
+                      Resolution Notes (internal)
+                    </label>
+                    <textarea
+                      id='notes'
+                      rows='3'
+                      placeholder='Actions taken, referral, follow-up outcome...'
+                      class='w-full bg-slate-50 border border-slate-300 text-sm rounded-lg px-3 py-2.5 resize-none focus:outline-none focus:border-[#125276]'
+                    />
+                  </div>
+                  <div
+                    id='status-error'
+                    class='hidden text-red-600 text-sm font-semibold'></div>
+                  <button
+                    id='save-btn'
+                    type='submit'
+                    class='bg-[#125276] hover:bg-[#0e405d] text-white font-bold text-sm px-6 py-2.5 rounded-lg disabled:opacity-60 transition-colors'>
+                    Save Changes
+                  </button>
+                </form>
+              </div>
+
+              <div
+                id='saved-panel'
+                class='hidden bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center'>
+                <p class='text-emerald-800 font-bold'>
+                  Status updated successfully.
+                </p>
+                <a
+                  href='/admin/cqi'
+                  class='inline-block mt-3 text-sm text-[#125276] font-bold hover:underline'>
+                  ← Back to dashboard
+                </a>
+              </div>
+            </>
+          )
+        }
+
+        {
+          !canEdit && (
+            <div class='bg-slate-100 border border-slate-200 rounded-2xl p-4 text-center text-sm text-slate-600'>
+              You have view-only access. Contact a CQI admin to update this
+              feedback.
+            </div>
+          )
+        }
+      </main>
+    </div>
+
+    <script>
+      const main = document.getElementById('detail-main') as HTMLElement;
+      const feedbackId = main.dataset.feedbackId as string;
+
+      // ── Update status (only exists for admins) ──
+      const statusForm = document.getElementById(
+        'status-form',
+      ) as HTMLFormElement | null;
+
+      if (statusForm) {
+        const statusSelect = document.getElementById(
+          'new-status',
+        ) as HTMLSelectElement;
+        const notesEl = document.getElementById('notes') as HTMLTextAreaElement;
+        const saveBtn = document.getElementById(
+          'save-btn',
+        ) as HTMLButtonElement;
+        const errBox = document.getElementById('status-error') as HTMLElement;
+        const badge = document.getElementById('current-status-badge');
+        const updatePanel = document.getElementById(
+          'update-panel',
+        ) as HTMLElement;
+        const savedPanel = document.getElementById(
+          'saved-panel',
+        ) as HTMLElement;
+
+        statusForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          errBox.classList.add('hidden');
+          saveBtn.disabled = true;
+          saveBtn.textContent = 'Saving…';
+
+          try {
+            const res = await fetch('/api/cqi/update-status', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                id: feedbackId,
+                status: statusSelect.value,
+                notes: notesEl.value,
+              }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.error || 'Update failed');
+
+            if (badge)
+              badge.textContent = statusSelect.value.replace(/_/g, ' ');
+            updatePanel.classList.add('hidden');
+            savedPanel.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } catch (err) {
+            errBox.textContent =
+              err instanceof Error ? err.message : 'Something went wrong.';
+            errBox.classList.remove('hidden');
+          } finally {
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Save Changes';
+          }
+        });
+      }
+
+      // ── Archive / Unarchive / Delete buttons ──
+      const confirmText: Record<string, string> = {
+        archive:
+          'Archive this feedback? It will be hidden from the active list.',
+        unarchive: '',
+        delete: 'Delete this feedback? It will be removed from the dashboard.',
+      };
+
+      document
+        .querySelectorAll<HTMLButtonElement>('[data-action]')
+        .forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            const action = btn.dataset.action as string;
+            if (confirmText[action] && !confirm(confirmText[action])) return;
+
+            btn.disabled = true;
+            try {
+              const res = await fetch('/api/cqi/archive', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: feedbackId, action }),
+              });
+              if (!res.ok) throw new Error('Action failed');
+              window.location.href = '/admin/cqi';
+            } catch {
+              alert('Action failed. Please try again.');
+              btn.disabled = false;
+            }
+          });
+        });
+    </script>
+  </body>
+</html>

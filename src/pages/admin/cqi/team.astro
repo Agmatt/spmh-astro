@@ -1,0 +1,278 @@
+---
+import { createSupabaseServer } from '../../../lib/supabase-server';
+import '../../../styles/global.css';
+import CqiIdleGuard from '../../../components/CqiIdleGuard.astro';
+
+const supabase = createSupabaseServer(Astro.cookies);
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+if (!user) return Astro.redirect('/admin/cqi/login');
+
+const { data: roleRow } = await supabase
+  .from('user_roles')
+  .select('role')
+  .eq('user_id', user.id)
+  .eq('role', 'cqi_super_admin')
+  .maybeSingle();
+
+if (!roleRow) return Astro.redirect('/admin/cqi');
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='robots' content='noindex, nofollow' />
+    <title>Team Management · CQI</title>
+  </head>
+  <body class='min-h-screen bg-slate-50'>
+    <CqiIdleGuard />
+    <header class='bg-[#125276] text-white shadow-md'>
+      <div
+        class='max-w-6xl mx-auto px-6 py-4 flex items-center justify-between'>
+        <a
+          href='/admin/cqi'
+          class='text-sm font-bold text-blue-100 hover:text-white'
+          >← Dashboard</a
+        >
+        <span class='text-xs text-blue-100'>{user.email} · SUPER ADMIN</span>
+      </div>
+    </header>
+
+    <main
+      class='max-w-6xl mx-auto px-6 py-8 space-y-6'
+      x-data='teamPage()'
+      x-init='load()'>
+      <div class='flex items-center justify-between'>
+        <div>
+          <h1 class='text-2xl font-bold text-slate-900'>Team Management</h1>
+          <p class='text-sm text-slate-500'>
+            Add, promote, or remove CQI users.
+          </p>
+        </div>
+        <button
+          @click='showCreate = !showCreate'
+          class='bg-[#125276] hover:bg-[#0e405d] text-white text-sm font-bold px-5 py-2.5 rounded-lg'>
+          + Add User
+        </button>
+      </div>
+
+      <!-- Create form -->
+      <div
+        x-show='showCreate'
+        style='display: none;'
+        class='bg-white rounded-2xl shadow-sm border border-slate-200 p-6'>
+        <h2 class='font-bold text-slate-900 mb-4'>Create new CQI user</h2>
+        <form
+          @submit.prevent='createUser'
+          class='flex flex-wrap gap-3 items-end'>
+          <div class='flex-1 min-w-[220px]'>
+            <label
+              class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'
+              >Email</label
+            >
+            <input
+              type='email'
+              x-model='newEmail'
+              required
+              class='w-full bg-slate-50 border border-slate-300 text-sm rounded-lg px-3 py-2.5'
+            />
+          </div>
+          <div class='min-w-[180px]'>
+            <label
+              class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'
+              >Role</label
+            >
+            <select
+              x-model='newRole'
+              class='w-full bg-slate-50 border border-slate-300 text-sm rounded-lg px-3 py-2.5'>
+              <option value='cqi_viewer'>Viewer</option>
+              <option value='cqi_admin'>Admin</option>
+              <option value='cqi_super_admin'>Super Admin</option>
+            </select>
+          </div>
+          <button
+            type='submit'
+            :disabled='creating'
+            class='bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg disabled:opacity-60'>
+            <span x-show='!creating'>Create</span>
+            <span x-show='creating' style='display: none;'>Creating…</span>
+          </button>
+        </form>
+        <div
+          x-show='createResult'
+          style='display: none;'
+          class='mt-4 bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-sm'>
+          <p class='text-emerald-800 font-bold'>
+            User created. Share these credentials securely:
+          </p>
+          <p class='text-slate-800 mt-1'>
+            <strong>Email:</strong>
+            <span x-text='createResult?.email'></span>
+          </p>
+          <p class='text-slate-800'>
+            <strong>Temp password:</strong>
+            <code
+              class='bg-slate-100 px-1.5 py-0.5 rounded text-xs'
+              x-text='createResult?.tempPassword'></code>
+          </p>
+          <p class='text-xs text-slate-500 mt-2'>
+            Ask the user to change it via "Forgot password" on the login page.
+          </p>
+        </div>
+        <div
+          x-show='error'
+          style='display: none;'
+          class='mt-4 text-red-600 text-sm'
+          x-text='error'>
+        </div>
+      </div>
+
+      <!-- Team list -->
+      <div
+        class='bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden'>
+        <div
+          x-show='loading'
+          style='display: none;'
+          class='p-12 text-center text-slate-400 text-sm'>
+          Loading team…
+        </div>
+        <div x-show='!loading' class='overflow-x-auto'>
+          <table class='w-full text-sm'>
+            <thead class='bg-slate-50 border-b border-slate-200'>
+              <tr>
+                <th
+                  class='text-left px-5 py-3 text-xs font-bold text-slate-600 uppercase'
+                  >Email</th
+                >
+                <th
+                  class='text-left px-5 py-3 text-xs font-bold text-slate-600 uppercase'
+                  >Role</th
+                >
+                <th
+                  class='text-left px-5 py-3 text-xs font-bold text-slate-600 uppercase'
+                  >Last Sign In</th
+                >
+                <th></th>
+              </tr>
+            </thead>
+            <tbody class='divide-y divide-slate-100'>
+              <template x-for='m in team' :key='m.id'>
+                <tr>
+                  <td
+                    class='px-5 py-3 font-semibold text-slate-800'
+                    x-text='m.email'></td>
+                  <td class='px-5 py-3'>
+                    <select
+                      :value="m.roles[0] || 'cqi_viewer'"
+                      @change='changeRole(m.id, $event.target.value)'
+                      class='bg-slate-50 border border-slate-300 text-xs rounded-lg px-2 py-1.5'>
+                      <option value='cqi_viewer'>Viewer</option>
+                      <option value='cqi_admin'>Admin</option>
+                      <option value='cqi_super_admin'>Super Admin</option>
+                    </select>
+                  </td>
+                  <td
+                    class='px-5 py-3 text-xs text-slate-500'
+                    x-text="m.last_sign_in_at ? new Date(m.last_sign_in_at).toLocaleString('en-GB') : 'Never'"
+                  ></td>
+                  <td class='px-5 py-3 text-right'>
+                    <button
+                      @click='removeUser(m.id)'
+                      class='text-xs font-bold text-rose-600 hover:underline'
+                      >Remove</button
+                    >
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <script is:inline>
+      window.teamPage = function () {
+        return {
+          team: [],
+          loading: true,
+          showCreate: false,
+          newEmail: '',
+          newRole: 'cqi_viewer',
+          creating: false,
+          createResult: null,
+          error: '',
+          async load() {
+            try {
+              const res = await fetch('/api/cqi/team');
+              const data = await res.json();
+              if (!res.ok) throw new Error(data.error);
+              this.team = data.team;
+            } catch (e) {
+              this.error = e.message;
+            } finally {
+              this.loading = false;
+            }
+          },
+          async createUser() {
+            this.creating = true;
+            this.error = '';
+            this.createResult = null;
+            try {
+              const res = await fetch('/api/cqi/team', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  action: 'create',
+                  email: this.newEmail,
+                  role: this.newRole,
+                }),
+              });
+              const data = await res.json();
+              if (!res.ok) throw new Error(data.error);
+              this.createResult = data;
+              this.newEmail = '';
+              await this.load();
+            } catch (e) {
+              this.error = e.message;
+            } finally {
+              this.creating = false;
+            }
+          },
+          async changeRole(userId, role) {
+            try {
+              const res = await fetch('/api/cqi/team', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  action: 'set_role',
+                  user_id: userId,
+                  role,
+                }),
+              });
+              if (!res.ok) throw new Error((await res.json()).error);
+            } catch (e) {
+              alert('Role update failed: ' + e.message);
+            }
+          },
+          async removeUser(userId) {
+            if (!confirm('Remove this user permanently?')) return;
+            try {
+              const res = await fetch('/api/cqi/team', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'remove', user_id: userId }),
+              });
+              if (!res.ok) throw new Error((await res.json()).error);
+              await this.load();
+            } catch (e) {
+              alert('Remove failed: ' + e.message);
+            }
+          },
+        };
+      };
+    </script>
+  </body>
+</html>
