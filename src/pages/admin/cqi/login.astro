@@ -5,6 +5,13 @@ import '../../../styles/global.css';
 
 export const prerender = false;
 
+// ── EDIT THESE THREE LINES ──
+// Files go in the /public folder. '/images/logo.png' means public/images/logo.png
+const LEFT_IMAGE = '/img/54.jpg'; // photo for the left panel
+const LOGO = '/logos/logo.png'; // hospital logo, shown above the form
+const MAIN_SITE_URL =
+  import.meta.env.PUBLIC_SITE_URL ?? 'https://www.spmh.co.ke';
+
 const errorParam = Astro.url.searchParams.get('error');
 const timeoutParam = Astro.url.searchParams.get('timeout');
 const emailParam = Astro.url.searchParams.get('email') ?? '';
@@ -41,15 +48,24 @@ const errorMsg =
   </head>
   <body class='min-h-screen bg-slate-100'>
     <div class='min-h-screen grid lg:grid-cols-2'>
-      <!-- LEFT: brand panel -->
+      <!-- LEFT: photo panel with the original text on top -->
       <div
-        class='relative hidden lg:flex flex-col justify-between bg-gradient-to-br from-[#125276] via-[#0e405d] to-[#860f0f] p-12 text-white overflow-hidden'>
+        class='relative hidden lg:flex flex-col justify-between bg-[#0e405d] p-12 text-white overflow-hidden'>
+        <!-- Photo (if the file is missing, the colour behind it shows instead) -->
+        <img
+          src={LEFT_IMAGE}
+          alt=''
+          class='absolute inset-0 w-full h-full object-cover'
+          onerror="this.style.display='none'"
+        />
+        <!-- Colour overlay keeps the text readable on any photo -->
         <div
-          class='absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_20%_20%,white_0%,transparent_40%),radial-gradient(circle_at_80%_80%,white_0%,transparent_40%)]'>
+          class='absolute inset-0 bg-gradient-to-br from-[#125276]/90 via-[#0e405d]/75 to-[#860f0f]/85'>
         </div>
+
         <div class='relative z-10'>
           <div
-            class='w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center border border-white/20 mb-8'>
+            class='w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center border border-white/20 mb-8 backdrop-blur-sm'>
             <svg
               class='w-8 h-8'
               fill='none'
@@ -63,7 +79,7 @@ const errorMsg =
               ></path>
             </svg>
           </div>
-          <h1 class='text-4xl font-bold leading-tight mb-4'>
+          <h1 class='text-4xl text-surface-2 font-bold leading-tight mb-4'>
             Quality Improvement<br />Feedback Portal
           </h1>
           <p class='text-blue-100 text-lg leading-relaxed max-w-md'>
@@ -82,17 +98,20 @@ const errorMsg =
         </div>
       </div>
 
-      <!-- RIGHT: form panel -->
+      <!-- RIGHT: logo, form, main-site link -->
       <div class='flex items-center justify-center p-6 lg:p-12'>
         <div class='w-full max-w-md'>
-          <div class='lg:hidden text-center mb-6'>
-            <div
-              class='inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#125276]/10 text-[#125276] text-xs font-bold uppercase tracking-widest'>
-              St. Paul's Mission Hospital
-            </div>
+          <!-- Hospital logo (falls back to the hospital name if the file is missing) -->
+          <div class='flex justify-center mb-8'>
+            <img
+              src={LOGO}
+              alt="St. Paul's Mission Hospital"
+              class='h-40 w-auto object-contain'
+              onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')"
+            />
           </div>
 
-          <div class='mb-8'>
+          <div class='mb-8 text-center lg:text-left'>
             <h2 class='text-2xl font-bold text-slate-900'>
               Sign in to CQI Portal
             </h2>
@@ -261,9 +280,27 @@ const errorMsg =
             Session expires after 10 minutes of inactivity.<br />
             Need access? Contact <a
               href='mailto:cqi-admin@spmh.co.ke'
-              class='text-[#125276] font-bold'>cqi-admin@spmh.co.ke</a
+              class='text-[#125276] font-bold'>cqi@spmh.co.ke</a
             >
           </p>
+
+          <!-- Link back to the main website -->
+          <a
+            href={MAIN_SITE_URL}
+            class='mt-6 flex items-center justify-center gap-2 w-full border border-slate-300 bg-white hover:border-[#125276] hover:text-[#125276] text-slate-600 text-sm font-bold px-6 py-3 rounded-xl transition-colors'>
+            <svg
+              class='w-4 h-4'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                stroke-width='2'
+                d='M10 19l-7-7m0 0l7-7m-7 7h18'></path>
+            </svg>
+            Back to the main website
+          </a>
         </div>
       </div>
     </div>
