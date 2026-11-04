@@ -1,0 +1,230 @@
+---
+// src/pages/admin/cqi/settings.astro
+// Change your own password. Open to every CQI role.
+// If an admin gave you a temporary password, this is the first page you see
+// and you cannot go anywhere else until you choose your own.
+
+import { requireCqiUser } from '../../../lib/cqi-auth';
+import '../../../styles/global.css';
+import CqiIdleGuard from '../../../components/CqiIdleGuard.astro';
+
+export const prerender = false;
+
+// skipPasswordGate: otherwise a user with a temporary password would loop forever
+const auth = await requireCqiUser(Astro.cookies, { skipPasswordGate: true });
+if (!auth.ok) return Astro.redirect(auth.redirect);
+
+const { user, role } = auth;
+const forced = user.app_metadata?.must_change_password === true;
+const roleLabel = role.replace('cqi_', '').replace('_', ' ').toUpperCase();
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='robots' content='noindex, nofollow' />
+    <title>Account Settings · CQI</title>
+  </head>
+  <body class='min-h-screen bg-slate-50'>
+    <CqiIdleGuard />
+    <header class='bg-[#125276] text-white shadow-md'>
+      <div
+        class='max-w-3xl mx-auto px-6 py-4 flex items-center justify-between'>
+        {
+          forced ? (
+            <span class='text-sm font-bold'>CQI Feedback Portal</span>
+          ) : (
+            <a
+              href='/admin/cqi'
+              class='text-sm font-bold text-blue-100 hover:text-white'>
+              ← Dashboard
+            </a>
+          )
+        }
+        <div class='flex items-center gap-3'>
+          <span class='hidden sm:inline text-xs text-blue-100'>
+            {user.email} · {roleLabel}
+          </span>
+          <form method='POST' action='/admin/cqi/logout'>
+            <button
+              type='submit'
+              class='text-xs bg-white/10 hover:bg-[#860f0f] px-3 py-2 rounded-lg font-bold transition-colors'>
+              Sign Out
+            </button>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <main
+      id='settings-main'
+      data-forced={forced ? '1' : '0'}
+      class='max-w-3xl mx-auto px-6 py-8 space-y-6'>
+      <div>
+        <h1 class='text-2xl font-bold text-slate-900'>
+          {forced ? 'Choose your own password' : 'Account Settings'}
+        </h1>
+        <p class='text-sm text-slate-500'>
+          {
+            forced
+              ? 'For your security, replace the temporary password you were given before you continue.'
+              : 'Change the password you use to sign in.'
+          }
+        </p>
+      </div>
+
+      {
+        forced && (
+          <div class='bg-amber-50 border border-amber-200 text-amber-900 text-sm rounded-xl p-4'>
+            Enter the <strong>temporary password</strong> you were given, then
+            choose a new one that only you know.
+          </div>
+        )
+      }
+
+      <div class='bg-white rounded-2xl shadow-sm border border-slate-200 p-6'>
+        <div
+          id='pw-msg'
+          class='hidden border text-sm rounded-xl p-3 mb-4'
+          role='alert'>
+        </div>
+        <form id='pw-form' class='space-y-4'>
+          <div>
+            <label
+              for='pw-current'
+              class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'>
+              {forced ? 'Temporary password' : 'Current password'}
+            </label>
+            <input
+              id='pw-current'
+              type='password'
+              required
+              autocomplete='current-password'
+              class='w-full bg-slate-50 border border-slate-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#125276]/20 focus:border-[#125276]'
+            />
+          </div>
+          <div>
+            <label
+              for='pw-new'
+              class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'
+              >New password (minimum 10 characters)</label
+            >
+            <input
+              id='pw-new'
+              type='password'
+              required
+              minlength='10'
+              autocomplete='new-password'
+              class='w-full bg-slate-50 border border-slate-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#125276]/20 focus:border-[#125276]'
+            />
+          </div>
+          <div>
+            <label
+              for='pw-confirm'
+              class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'
+              >Confirm new password</label
+            >
+            <input
+              id='pw-confirm'
+              type='password'
+              required
+              minlength='10'
+              autocomplete='new-password'
+              class='w-full bg-slate-50 border border-slate-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#125276]/20 focus:border-[#125276]'
+            />
+          </div>
+          <button
+            id='pw-btn'
+            type='submit'
+            class='bg-[#125276] hover:bg-[#0e405d] text-white font-bold text-sm px-6 py-2.5 rounded-lg disabled:opacity-60'>
+            {forced ? 'Save and continue' : 'Update password'}
+          </button>
+        </form>
+      </div>
+
+      <p class='text-xs text-slate-400 text-center'>
+        Forgot your password? Ask a CQI super admin to reset it for you.
+      </p>
+    </main>
+
+    <script>
+      const main = document.getElementById('settings-main') as HTMLElement;
+      const forced = main.dataset.forced === '1';
+
+      const form = document.getElementById('pw-form') as HTMLFormElement;
+      const currentEl = document.getElementById(
+        'pw-current',
+      ) as HTMLInputElement;
+      const newEl = document.getElementById('pw-new') as HTMLInputElement;
+      const confirmEl = document.getElementById(
+        'pw-confirm',
+      ) as HTMLInputElement;
+      const btn = document.getElementById('pw-btn') as HTMLButtonElement;
+      const msg = document.getElementById('pw-msg') as HTMLElement;
+      const idleLabel = btn.textContent ?? 'Update password';
+
+      function setMessage(text: string, ok: boolean) {
+        msg.textContent = text;
+        msg.classList.remove(
+          'hidden',
+          'bg-emerald-50',
+          'border-emerald-200',
+          'text-emerald-800',
+          'bg-red-50',
+          'border-red-200',
+          'text-red-700',
+        );
+        msg.classList.add(
+          ...(ok
+            ? ['bg-emerald-50', 'border-emerald-200', 'text-emerald-800']
+            : ['bg-red-50', 'border-red-200', 'text-red-700']),
+        );
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        msg.classList.add('hidden');
+
+        if (newEl.value !== confirmEl.value) {
+          setMessage('New passwords do not match.', false);
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Saving…';
+        try {
+          const res = await fetch('/api/cqi/account', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              current_password: currentEl.value,
+              new_password: newEl.value,
+            }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) throw new Error(data.error || 'Request failed.');
+
+          form.reset();
+          if (forced) {
+            setMessage('Password saved. Taking you to the dashboard…', true);
+            setTimeout(() => window.location.assign('/admin/cqi'), 1200);
+            return; // keep the button disabled while we redirect
+          }
+          setMessage(
+            'Password updated. Use it the next time you sign in.',
+            true,
+          );
+        } catch (err) {
+          setMessage(
+            err instanceof Error ? err.message : 'Something went wrong.',
+            false,
+          );
+        }
+        btn.disabled = false;
+        btn.textContent = idleLabel;
+      });
+    </script>
+  </body>
+</html>

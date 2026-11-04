@@ -1,77 +1,73 @@
+// src/pages/api/cqi/archive.ts
 import type { APIRoute } from 'astro';
-import { createClient } from '@supabase/supabase-js';
-import { createSupabaseServer } from '../../../lib/supabase-server';
+import { requireCqiUser } from '../../../lib/cqi-auth';
+import { logAudit } from '../../../lib/cqi-audit';
 
 export const prerender = false;
 
+const ACTIONS = ['archive', 'unarchive', 'delete'];
+const AUDIT_NAME: Record<string, string> = {
+  archive: 'archived',
+  unarchive: 'unarchived',
+  delete: 'deleted',
+};
+
+const json = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  });
+
 export const POST: APIRoute = async ({ request, cookies }) => {
-  const supabase = createSupabaseServer(cookies);
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user)
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-      status: 401,
-    });
+  const auth = await requireCqiUser(cookies);
+  if (!auth.ok) return json({ error: 'Not signed in.' }, 401);
 
-  const { data: roleRow } = await supabase
-    .from('user_roles')
-    .select('role')
-    .eq('user_id', user.id)
-    .in('role', ['cqi_admin', 'cqi_super_admin'])
-    .maybeSingle();
-  if (!roleRow)
-    return new Response(JSON.stringify({ error: 'Insufficient permissions' }), {
-      status: 403,
-    });
-
-  const { id, action } = await request.json();
-  if (!id || !['archive', 'unarchive', 'delete'].includes(action)) {
-    return new Response(JSON.stringify({ error: 'Invalid request' }), {
-      status: 422,
-    });
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'Invalid request.' }, 400);
   }
 
-  // Only super admin can delete
-  if (action === 'delete' && roleRow.role !== 'cqi_super_admin') {
-    return new Response(
-      JSON.stringify({ error: 'Only super admins can delete' }),
-      { status: 403 },
-    );
+  const { id, action } = body ?? {};
+  if (!id || typeof id !== 'string' || !ACTIONS.includes(action)) {
+    return json({ error: 'Invalid request.' }, 400);
   }
 
-  const url =
-    import.meta.env.FEEDBACK_SUPABASE_URL ?? process.env.FEEDBACK_SUPABASE_URL!;
-  const key =
-    import.meta.env.FEEDBACK_SUPABASE_SERVICE_ROLE_KEY ??
-    process.env.FEEDBACK_SUPABASE_SERVICE_ROLE_KEY!;
-  const admin = createClient(url, key);
+  // Archive / unarchive: admins and super admins. Delete: super admins only.
+  const canEdit = auth.role === 'cqi_admin' || auth.role === 'cqi_super_admin';
+  const canDelete = auth.role === 'cqi_super_admin';
+  if (action === 'delete' ? !canDelete : !canEdit) {
+    return json({ error: 'You do not have permission to do that.' }, 403);
+  }
 
-  const update =
+  const now = new Date().toISOString();
+  const uid = auth.user.id;
+
+  const patch =
     action === 'archive'
-      ? { archived_at: new Date().toISOString(), archived_by: user.id }
+      ? { archived_at: now, archived_by: uid }
       : action === 'unarchive'
         ? { archived_at: null, archived_by: null }
-        : { deleted_at: new Date().toISOString(), deleted_by: user.id };
+        : { deleted_at: now, deleted_by: uid }; // soft delete: row is kept for audit
 
-  const { error } = await admin
+  const { data, error } = await auth.adminClient
     .from('patient_feedback')
-    .update(update)
-    .eq('id', id);
-  if (error)
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-    });
+    .update(patch)
+    .eq('id', id)
+    .is('deleted_at', null)
+    .select('id')
+    .maybeSingle();
 
-  await admin.from('cqi_audit_log').insert([
-    {
-      feedback_id: id,
-      user_id: user.id,
-      user_email: user.email,
-      action: `feedback_${action}`,
-      details: {},
-    },
-  ]);
+  if (error) {
+    console.error('[CQI archive]', error);
+    return json({ error: 'Action failed.' }, 500);
+  }
+  if (!data) return json({ error: 'Feedback not found.' }, 404);
 
-  return new Response(JSON.stringify({ success: true }), { status: 200 });
+  await logAudit(auth.adminClient, auth.user, AUDIT_NAME[action], {
+    feedbackId: id,
+  });
+
+  return json({ success: true });
 };

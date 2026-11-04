@@ -1,6 +1,6 @@
 // src/lib/cqi-auth.ts
-// One shared place for: login check → role lookup → 10-minute idle check.
-// Used by the dashboard and the detail page so the logic can't drift apart.
+// One shared place for: login check → role lookup → idle check → password gate.
+// Used by every CQI page and API route so the rules can't drift apart.
 
 import type { AstroCookies } from 'astro';
 import {
@@ -43,8 +43,18 @@ export type CqiAuthResult =
   | { ok: false; redirect: string }
   | { ok: true; user: User; role: CqiRole; adminClient: SupabaseClient };
 
+type Options = {
+  /**
+   * Only the Settings page and the account API set this.
+   * Everything else sends a user who still has a temporary password
+   * to the Settings page first.
+   */
+  skipPasswordGate?: boolean;
+};
+
 export async function requireCqiUser(
   cookies: AstroCookies,
+  options: Options = {},
 ): Promise<CqiAuthResult> {
   const supabase = createSupabaseServer(cookies);
 
@@ -75,19 +85,11 @@ export async function requireCqiUser(
     .sort((a, b) => ROLE_PRIORITY.indexOf(a) - ROLE_PRIORITY.indexOf(b))[0];
 
   if (!role) {
-    // Diagnostics: tells us exactly which account and database the server used
-    const { count: totalRoleRows } = await adminClient
-      .from('user_roles')
-      .select('*', { count: 'exact', head: true });
-
     console.warn('[CQI] no CQI role →', {
       signedInAs: user.email,
       userId: user.id,
       rolesFoundForThisUser: roleRows,
-      totalRowsInUserRoles: totalRoleRows,
-      databaseHost: new URL(String(feedbackUrl())).host,
     });
-
     await supabase.auth.signOut();
     return {
       ok: false,
@@ -112,7 +114,6 @@ export async function requireCqiUser(
     : 0;
 
   // Only idle if the old activity belongs to THIS login.
-  // (A row left over from a previous login must not log you out again.)
   if (
     lastActivity !== null &&
     lastActivity > signedInAt &&
@@ -131,6 +132,15 @@ export async function requireCqiUser(
       { onConflict: 'user_id' },
     );
   if (upsertErr) console.error('[CQI session write error]', upsertErr);
+
+  // ── 4. Temporary password? Must choose their own first ──
+  // app_metadata can only be changed by the server, never by the user.
+  if (
+    !options.skipPasswordGate &&
+    user.app_metadata?.must_change_password === true
+  ) {
+    return { ok: false, redirect: '/admin/cqi/settings' };
+  }
 
   return { ok: true, user, role, adminClient };
 }

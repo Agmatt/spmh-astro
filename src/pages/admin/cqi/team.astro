@@ -1,22 +1,16 @@
 ---
-import { createSupabaseServer } from '../../../lib/supabase-server';
+// src/pages/admin/cqi/team.astro
+import { requireCqiUser } from '../../../lib/cqi-auth';
 import '../../../styles/global.css';
 import CqiIdleGuard from '../../../components/CqiIdleGuard.astro';
 
-const supabase = createSupabaseServer(Astro.cookies);
-const {
-  data: { user },
-} = await supabase.auth.getUser();
-if (!user) return Astro.redirect('/admin/cqi/login');
+export const prerender = false;
 
-const { data: roleRow } = await supabase
-  .from('user_roles')
-  .select('role')
-  .eq('user_id', user.id)
-  .eq('role', 'cqi_super_admin')
-  .maybeSingle();
-
-if (!roleRow) return Astro.redirect('/admin/cqi');
+// Login + role + idle + password gate, then super admin only
+const auth = await requireCqiUser(Astro.cookies);
+if (!auth.ok) return Astro.redirect(auth.redirect);
+if (auth.role !== 'cqi_super_admin') return Astro.redirect('/admin/cqi');
+const { user } = auth;
 ---
 
 <!doctype html>
@@ -42,18 +36,20 @@ if (!roleRow) return Astro.redirect('/admin/cqi');
     </header>
 
     <main
-      class='max-w-6xl mx-auto px-6 py-8 space-y-6'
-      x-data='teamPage()'
-      x-init='load()'>
+      id='team-main'
+      data-current-user={user.id}
+      class='max-w-6xl mx-auto px-6 py-8 space-y-6'>
       <div class='flex items-center justify-between'>
         <div>
           <h1 class='text-2xl font-bold text-slate-900'>Team Management</h1>
           <p class='text-sm text-slate-500'>
-            Add, promote, or remove CQI users.
+            Add CQI users, change their role, reset their password, or remove
+            their CQI access.
           </p>
         </div>
         <button
-          @click='showCreate = !showCreate'
+          id='toggle-create'
+          type='button'
           class='bg-[#125276] hover:bg-[#0e405d] text-white text-sm font-bold px-5 py-2.5 rounded-lg'>
           + Add User
         </button>
@@ -61,32 +57,31 @@ if (!roleRow) return Astro.redirect('/admin/cqi');
 
       <!-- Create form -->
       <div
-        x-show='showCreate'
-        style='display: none;'
-        class='bg-white rounded-2xl shadow-sm border border-slate-200 p-6'>
-        <h2 class='font-bold text-slate-900 mb-4'>Create new CQI user</h2>
-        <form
-          @submit.prevent='createUser'
-          class='flex flex-wrap gap-3 items-end'>
+        id='create-panel'
+        class='hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-6'>
+        <h2 class='font-bold text-slate-900 mb-4'>Add a CQI user</h2>
+        <form id='create-form' class='flex flex-wrap gap-3 items-end'>
           <div class='flex-1 min-w-[220px]'>
             <label
+              for='new-email'
               class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'
               >Email</label
             >
             <input
+              id='new-email'
               type='email'
-              x-model='newEmail'
               required
               class='w-full bg-slate-50 border border-slate-300 text-sm rounded-lg px-3 py-2.5'
             />
           </div>
           <div class='min-w-[180px]'>
             <label
+              for='new-role'
               class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'
               >Role</label
             >
             <select
-              x-model='newRole'
+              id='new-role'
               class='w-full bg-slate-50 border border-slate-300 text-sm rounded-lg px-3 py-2.5'>
               <option value='cqi_viewer'>Viewer</option>
               <option value='cqi_admin'>Admin</option>
@@ -94,52 +89,55 @@ if (!roleRow) return Astro.redirect('/admin/cqi');
             </select>
           </div>
           <button
+            id='create-btn'
             type='submit'
-            :disabled='creating'
             class='bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg disabled:opacity-60'>
-            <span x-show='!creating'>Create</span>
-            <span x-show='creating' style='display: none;'>Creating…</span>
+            Create
           </button>
         </form>
-        <div
-          x-show='createResult'
-          style='display: none;'
-          class='mt-4 bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-sm'>
-          <p class='text-emerald-800 font-bold'>
-            User created. Share these credentials securely:
-          </p>
-          <p class='text-slate-800 mt-1'>
-            <strong>Email:</strong>
-            <span x-text='createResult?.email'></span>
-          </p>
-          <p class='text-slate-800'>
-            <strong>Temp password:</strong>
-            <code
-              class='bg-slate-100 px-1.5 py-0.5 rounded text-xs'
-              x-text='createResult?.tempPassword'></code>
-          </p>
-          <p class='text-xs text-slate-500 mt-2'>
-            Ask the user to change it via "Forgot password" on the login page.
-          </p>
-        </div>
-        <div
-          x-show='error'
-          style='display: none;'
-          class='mt-4 text-red-600 text-sm'
-          x-text='error'>
-        </div>
+      </div>
+
+      <!-- One-time result (new user or password reset) -->
+      <div
+        id='result-panel'
+        class='hidden bg-emerald-50 border border-emerald-200 rounded-2xl p-5 text-sm'>
+        <p id='result-title' class='text-emerald-800 font-bold'></p>
+        <p class='text-slate-800 mt-2'>
+          <strong>Email:</strong>
+          <span id='result-email'></span>
+        </p>
+        <p id='result-password-row' class='hidden text-slate-800 mt-1'>
+          <strong>Temporary password:</strong>
+          <code
+            id='result-password'
+            class='bg-white border border-slate-200 px-2 py-1 rounded text-sm select-all'
+          ></code>
+          <button
+            id='copy-btn'
+            type='button'
+            class='ml-2 text-xs font-bold text-[#125276] hover:underline'
+            >Copy</button
+          >
+        </p>
+        <p id='result-hint' class='text-xs text-slate-600 mt-2'></p>
+        <p
+          id='result-once'
+          class='hidden text-xs text-amber-700 mt-2 font-semibold'>
+          This password is shown only once. Give it to the person in person or
+          by phone, never in a group chat.
+        </p>
+      </div>
+
+      <div
+        id='team-error'
+        class='hidden bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl p-3'
+        role='alert'>
       </div>
 
       <!-- Team list -->
       <div
         class='bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden'>
-        <div
-          x-show='loading'
-          style='display: none;'
-          class='p-12 text-center text-slate-400 text-sm'>
-          Loading team…
-        </div>
-        <div x-show='!loading' class='overflow-x-auto'>
+        <div class='overflow-x-auto'>
           <table class='w-full text-sm'>
             <thead class='bg-slate-50 border-b border-slate-200'>
               <tr>
@@ -158,121 +156,316 @@ if (!roleRow) return Astro.redirect('/admin/cqi');
                 <th></th>
               </tr>
             </thead>
-            <tbody class='divide-y divide-slate-100'>
-              <template x-for='m in team' :key='m.id'>
-                <tr>
-                  <td
-                    class='px-5 py-3 font-semibold text-slate-800'
-                    x-text='m.email'></td>
-                  <td class='px-5 py-3'>
-                    <select
-                      :value="m.roles[0] || 'cqi_viewer'"
-                      @change='changeRole(m.id, $event.target.value)'
-                      class='bg-slate-50 border border-slate-300 text-xs rounded-lg px-2 py-1.5'>
-                      <option value='cqi_viewer'>Viewer</option>
-                      <option value='cqi_admin'>Admin</option>
-                      <option value='cqi_super_admin'>Super Admin</option>
-                    </select>
-                  </td>
-                  <td
-                    class='px-5 py-3 text-xs text-slate-500'
-                    x-text="m.last_sign_in_at ? new Date(m.last_sign_in_at).toLocaleString('en-GB') : 'Never'"
-                  ></td>
-                  <td class='px-5 py-3 text-right'>
-                    <button
-                      @click='removeUser(m.id)'
-                      class='text-xs font-bold text-rose-600 hover:underline'
-                      >Remove</button
-                    >
-                  </td>
-                </tr>
-              </template>
+            <tbody id='team-body' class='divide-y divide-slate-100'>
+              <tr>
+                <td colspan='4' class='p-12 text-center text-slate-400 text-sm'>
+                  Loading team…
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
     </main>
 
-    <script is:inline>
-      window.teamPage = function () {
-        return {
-          team: [],
-          loading: true,
-          showCreate: false,
-          newEmail: '',
-          newRole: 'cqi_viewer',
-          creating: false,
-          createResult: null,
-          error: '',
-          async load() {
-            try {
-              const res = await fetch('/api/cqi/team');
-              const data = await res.json();
-              if (!res.ok) throw new Error(data.error);
-              this.team = data.team;
-            } catch (e) {
-              this.error = e.message;
-            } finally {
-              this.loading = false;
-            }
-          },
-          async createUser() {
-            this.creating = true;
-            this.error = '';
-            this.createResult = null;
-            try {
-              const res = await fetch('/api/cqi/team', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  action: 'create',
-                  email: this.newEmail,
-                  role: this.newRole,
-                }),
-              });
-              const data = await res.json();
-              if (!res.ok) throw new Error(data.error);
-              this.createResult = data;
-              this.newEmail = '';
-              await this.load();
-            } catch (e) {
-              this.error = e.message;
-            } finally {
-              this.creating = false;
-            }
-          },
-          async changeRole(userId, role) {
-            try {
-              const res = await fetch('/api/cqi/team', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  action: 'set_role',
-                  user_id: userId,
-                  role,
-                }),
-              });
-              if (!res.ok) throw new Error((await res.json()).error);
-            } catch (e) {
-              alert('Role update failed: ' + e.message);
-            }
-          },
-          async removeUser(userId) {
-            if (!confirm('Remove this user permanently?')) return;
-            try {
-              const res = await fetch('/api/cqi/team', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'remove', user_id: userId }),
-              });
-              if (!res.ok) throw new Error((await res.json()).error);
-              await this.load();
-            } catch (e) {
-              alert('Remove failed: ' + e.message);
-            }
-          },
-        };
+    <script>
+      type Member = {
+        id: string;
+        email: string | null;
+        roles: string[];
+        last_sign_in_at: string | null;
       };
+
+      const ROLE_ORDER = ['cqi_super_admin', 'cqi_admin', 'cqi_viewer'];
+      const ROLE_LABELS: Record<string, string> = {
+        cqi_super_admin: 'Super Admin',
+        cqi_admin: 'Admin',
+        cqi_viewer: 'Viewer',
+      };
+
+      const main = document.getElementById('team-main') as HTMLElement;
+      const currentUserId = main.dataset.currentUser as string;
+
+      const tbody = document.getElementById('team-body') as HTMLElement;
+      const errorBox = document.getElementById('team-error') as HTMLElement;
+      const togglePanel = document.getElementById(
+        'toggle-create',
+      ) as HTMLButtonElement;
+      const createPanel = document.getElementById(
+        'create-panel',
+      ) as HTMLElement;
+      const createForm = document.getElementById(
+        'create-form',
+      ) as HTMLFormElement;
+      const newEmail = document.getElementById('new-email') as HTMLInputElement;
+      const newRole = document.getElementById('new-role') as HTMLSelectElement;
+      const createBtn = document.getElementById(
+        'create-btn',
+      ) as HTMLButtonElement;
+
+      const resultPanel = document.getElementById(
+        'result-panel',
+      ) as HTMLElement;
+      const resultTitle = document.getElementById(
+        'result-title',
+      ) as HTMLElement;
+      const resultEmail = document.getElementById(
+        'result-email',
+      ) as HTMLElement;
+      const resultPasswordRow = document.getElementById(
+        'result-password-row',
+      ) as HTMLElement;
+      const resultPassword = document.getElementById(
+        'result-password',
+      ) as HTMLElement;
+      const resultHint = document.getElementById('result-hint') as HTMLElement;
+      const resultOnce = document.getElementById('result-once') as HTMLElement;
+      const copyBtn = document.getElementById('copy-btn') as HTMLButtonElement;
+
+      function showError(message: string) {
+        errorBox.textContent = message;
+        errorBox.classList.remove('hidden');
+      }
+      function clearError() {
+        errorBox.classList.add('hidden');
+      }
+      function messageOf(err: unknown) {
+        return err instanceof Error ? err.message : 'Something went wrong.';
+      }
+
+      function showResult(
+        title: string,
+        email: string,
+        password: string | null,
+        hint: string,
+      ) {
+        resultTitle.textContent = title;
+        resultEmail.textContent = email;
+        resultHint.textContent = hint;
+        if (password) {
+          resultPassword.textContent = password;
+          resultPasswordRow.classList.remove('hidden');
+          resultOnce.classList.remove('hidden');
+        } else {
+          resultPassword.textContent = '';
+          resultPasswordRow.classList.add('hidden');
+          resultOnce.classList.add('hidden');
+        }
+        resultPanel.classList.remove('hidden');
+        resultPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(resultPassword.textContent ?? '');
+          copyBtn.textContent = 'Copied';
+          setTimeout(() => (copyBtn.textContent = 'Copy'), 1500);
+        } catch {
+          /* clipboard blocked: the password is selectable on screen */
+        }
+      });
+
+      async function api(body?: Record<string, unknown>) {
+        const res = await fetch(
+          '/api/cqi/team',
+          body
+            ? {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+              }
+            : undefined,
+        );
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || 'Request failed.');
+        return data;
+      }
+
+      function renderTeam(team: Member[]) {
+        tbody.replaceChildren();
+
+        if (team.length === 0) {
+          const tr = document.createElement('tr');
+          const td = document.createElement('td');
+          td.colSpan = 4;
+          td.className = 'p-12 text-center text-slate-400 text-sm';
+          td.textContent = 'No CQI users yet.';
+          tr.appendChild(td);
+          tbody.appendChild(tr);
+          return;
+        }
+
+        for (const m of team) {
+          const isSelf = m.id === currentUserId;
+          const tr = document.createElement('tr');
+
+          // Email
+          const tdEmail = document.createElement('td');
+          tdEmail.className = 'px-5 py-3 font-semibold text-slate-800';
+          tdEmail.textContent = m.email ?? '—';
+          if (isSelf) {
+            const tag = document.createElement('span');
+            tag.className = 'ml-2 text-xs font-bold text-[#125276]';
+            tag.textContent = '(you)';
+            tdEmail.appendChild(tag);
+          }
+          tr.appendChild(tdEmail);
+
+          // Role
+          const tdRole = document.createElement('td');
+          tdRole.className = 'px-5 py-3';
+          const select = document.createElement('select');
+          select.className =
+            'bg-slate-50 border border-slate-300 text-xs rounded-lg px-2 py-1.5 disabled:opacity-60';
+          for (const role of ROLE_ORDER.slice().reverse()) {
+            const opt = document.createElement('option');
+            opt.value = role;
+            opt.textContent = ROLE_LABELS[role];
+            select.appendChild(opt);
+          }
+          select.value =
+            ROLE_ORDER.find((r) => m.roles.includes(r)) ?? 'cqi_viewer';
+          select.disabled = isSelf;
+          select.addEventListener('change', async () => {
+            clearError();
+            try {
+              await api({
+                action: 'set_role',
+                user_id: m.id,
+                role: select.value,
+              });
+            } catch (err) {
+              showError('Role update failed: ' + messageOf(err));
+              await load(); // put the dropdown back to the real value
+            }
+          });
+          tdRole.appendChild(select);
+          tr.appendChild(tdRole);
+
+          // Last sign in
+          const tdLast = document.createElement('td');
+          tdLast.className = 'px-5 py-3 text-xs text-slate-500';
+          tdLast.textContent = m.last_sign_in_at
+            ? new Date(m.last_sign_in_at).toLocaleString('en-GB')
+            : 'Never';
+          tr.appendChild(tdLast);
+
+          // Actions (not for your own row)
+          const tdAction = document.createElement('td');
+          tdAction.className = 'px-5 py-3 text-right whitespace-nowrap';
+          if (!isSelf) {
+            const resetBtn = document.createElement('button');
+            resetBtn.type = 'button';
+            resetBtn.className =
+              'text-xs font-bold text-[#125276] hover:underline mr-4';
+            resetBtn.textContent = 'Reset password';
+            resetBtn.addEventListener('click', async () => {
+              if (
+                !confirm(
+                  `Reset the password for ${m.email ?? 'this user'}? They get a new temporary password and must choose their own at next sign-in.`,
+                )
+              )
+                return;
+              clearError();
+              try {
+                const data = await api({
+                  action: 'reset_password',
+                  user_id: m.id,
+                });
+                showResult(
+                  'Password reset. Share these details securely:',
+                  data.email ?? m.email ?? '',
+                  data.tempPassword,
+                  'They sign in with this password and are asked to choose their own straight away.',
+                );
+              } catch (err) {
+                showError('Reset failed: ' + messageOf(err));
+              }
+            });
+            tdAction.appendChild(resetBtn);
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className =
+              'text-xs font-bold text-rose-600 hover:underline';
+            removeBtn.textContent = 'Remove access';
+            removeBtn.addEventListener('click', async () => {
+              if (
+                !confirm(
+                  `Remove CQI access for ${m.email ?? 'this user'}? Their login account stays in the system.`,
+                )
+              )
+                return;
+              clearError();
+              try {
+                await api({ action: 'remove', user_id: m.id });
+                await load();
+              } catch (err) {
+                showError('Remove failed: ' + messageOf(err));
+              }
+            });
+            tdAction.appendChild(removeBtn);
+          }
+          tr.appendChild(tdAction);
+
+          tbody.appendChild(tr);
+        }
+      }
+
+      async function load() {
+        try {
+          const data = await api();
+          renderTeam(data.team as Member[]);
+        } catch (err) {
+          tbody.replaceChildren();
+          showError(messageOf(err));
+        }
+      }
+
+      togglePanel.addEventListener('click', () => {
+        createPanel.classList.toggle('hidden');
+      });
+
+      createForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        clearError();
+        resultPanel.classList.add('hidden');
+        createBtn.disabled = true;
+        createBtn.textContent = 'Creating…';
+
+        try {
+          const data = await api({
+            action: 'create',
+            email: newEmail.value.trim(),
+            role: newRole.value,
+          });
+
+          if (data.tempPassword) {
+            showResult(
+              'User created. Share these details securely:',
+              data.email,
+              data.tempPassword,
+              'They sign in with this password and are asked to choose their own straight away.',
+            );
+          } else {
+            showResult(
+              'Access granted. This person already had an account, so their password is unchanged.',
+              data.email,
+              null,
+              'Use "Reset password" in the list if they no longer know it.',
+            );
+          }
+          newEmail.value = '';
+          await load();
+        } catch (err) {
+          showError(messageOf(err));
+        } finally {
+          createBtn.disabled = false;
+          createBtn.textContent = 'Create';
+        }
+      });
+
+      load();
     </script>
   </body>
 </html>

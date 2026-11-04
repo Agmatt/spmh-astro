@@ -7,8 +7,8 @@ export const prerender = false;
 
 // ── EDIT THESE THREE LINES ──
 // Files go in the /public folder. '/images/logo.png' means public/images/logo.png
-const LEFT_IMAGE = '/img/54.jpg'; // photo for the left panel
-const LOGO = '/logos/logo.png'; // hospital logo, shown above the form
+const LEFT_IMAGE = '/images/cqi-login.jpg'; // photo for the left panel
+const LOGO = '/images/logo.png'; // hospital logo, shown above the form
 const MAIN_SITE_URL =
   import.meta.env.PUBLIC_SITE_URL ?? 'https://www.spmh.co.ke';
 
@@ -26,13 +26,21 @@ if (!errorParam && !timeoutParam) {
   if (user) return Astro.redirect('/admin/cqi');
 }
 
+const reasonParam = Astro.url.searchParams.get('reason');
+const linkMessage =
+  reasonParam === 'browser'
+    ? 'Open the reset link in the same browser you used to request it, then try again. Request a new link if needed.'
+    : reasonParam === 'session'
+      ? 'The reset link worked, but your browser did not keep the sign-in. Request a new link and open it in the same browser. If this repeats, contact the administrator.'
+      : 'This reset link is invalid, has expired, or was already used. Only the newest email works, so request one new link and use it straight away.';
+
 const errorMsg =
   errorParam === 'no_access'
     ? `The account ${emailParam || 'you signed in with'} has no CQI role in this project. Contact the administrator.`
     : errorParam === 'server'
       ? 'We could not verify your access right now. Please try again, and contact the administrator if it keeps happening.'
       : errorParam === 'invalid_link'
-        ? 'The reset link has expired. Request a new one.'
+        ? linkMessage
         : timeoutParam === '1'
           ? 'You were logged out due to 10 minutes of inactivity.'
           : '';
@@ -79,7 +87,7 @@ const errorMsg =
               ></path>
             </svg>
           </div>
-          <h1 class='text-4xl text-surface-2 font-bold leading-tight mb-4'>
+          <h1 class='text-4xl font-bold leading-tight mb-4'>
             Quality Improvement<br />Feedback Portal
           </h1>
           <p class='text-blue-100 text-lg leading-relaxed max-w-md'>
@@ -106,9 +114,13 @@ const errorMsg =
             <img
               src={LOGO}
               alt="St. Paul's Mission Hospital"
-              class='h-40 w-auto object-contain rounded-xl shadow-lg'
+              class='h-20 w-auto object-contain'
               onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')"
             />
+            <span
+              class='hidden inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#125276]/10 text-[#125276] text-xs font-bold uppercase tracking-widest'>
+              St. Paul's Mission Hospital
+            </span>
           </div>
 
           <div class='mb-8 text-center lg:text-left'>
@@ -173,11 +185,6 @@ const errorMsg =
                   class='block text-xs font-bold text-slate-600 uppercase tracking-wider'
                   >Password</label
                 >
-                <a
-                  href='/admin/cqi/forgot-password'
-                  class='text-xs font-bold text-[#125276] hover:underline'>
-                  Forgot password?
-                </a>
               </div>
               <div class='relative'>
                 <input
@@ -278,9 +285,9 @@ const errorMsg =
           <p
             class='text-[11px] text-slate-400 text-center mt-8 leading-relaxed'>
             Session expires after 10 minutes of inactivity.<br />
-            Need access? Contact <a
+            Forgot your password or need access? Contact <a
               href='mailto:cqi-admin@spmh.co.ke'
-              class='text-[#125276] font-bold'>cqi@spmh.co.ke</a
+              class='text-[#125276] font-bold'>cqi-admin@spmh.co.ke</a
             >
           </p>
 
