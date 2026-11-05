@@ -61,8 +61,14 @@ export async function requireCqiUser(
   // ── 1. Is anyone logged in? (getUser validates the token with Supabase) ──
   const {
     data: { user },
+    error: getUserErr,
   } = await supabase.auth.getUser();
-  if (!user) return { ok: false, redirect: '/admin/cqi/login' };
+  if (!user) {
+    console.warn('[CQI] no session found on request', {
+      reason: getUserErr?.message ?? 'no user in session',
+    });
+    return { ok: false, redirect: '/admin/cqi/login' };
+  }
 
   const adminClient = createAdminClient();
 

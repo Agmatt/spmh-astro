@@ -97,28 +97,110 @@ const roleLabel = role.replace('cqi_', '').replace('_', ' ').toUpperCase();
               class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'>
               {forced ? 'Temporary password' : 'Current password'}
             </label>
-            <input
-              id='pw-current'
-              type='password'
-              required
-              autocomplete='current-password'
-              class='w-full bg-slate-50 border border-slate-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#125276]/20 focus:border-[#125276]'
-            />
+            <div class='relative'>
+              <input
+                id='pw-current'
+                type='password'
+                required
+                autocomplete='current-password'
+                class='w-full bg-slate-50 border border-slate-300 text-sm rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-[#125276]/20 focus:border-[#125276]'
+              />
+              <button
+                type='button'
+                id='toggle-current'
+                class='absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1'
+                aria-label='Show password'>
+                <svg
+                  id='eye-on-current'
+                  class='w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'></path>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'
+                  ></path>
+                </svg>
+                <svg
+                  id='eye-off-current'
+                  class='hidden w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21'
+                  ></path>
+                </svg>
+              </button>
+            </div>
           </div>
           <div>
             <label
               for='pw-new'
               class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'
-              >New password (minimum 10 characters)</label
+              >New password</label
             >
-            <input
-              id='pw-new'
-              type='password'
-              required
-              minlength='10'
-              autocomplete='new-password'
-              class='w-full bg-slate-50 border border-slate-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#125276]/20 focus:border-[#125276]'
-            />
+            <div class='relative'>
+              <input
+                id='pw-new'
+                type='password'
+                required
+                minlength='8'
+                autocomplete='new-password'
+                class='w-full bg-slate-50 border border-slate-300 text-sm rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-[#125276]/20 focus:border-[#125276]'
+              />
+              <button
+                type='button'
+                id='toggle-new'
+                class='absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1'
+                aria-label='Show password'>
+                <svg
+                  id='eye-on-new'
+                  class='w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'></path>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'
+                  ></path>
+                </svg>
+                <svg
+                  id='eye-off-new'
+                  class='hidden w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21'
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <p class='text-xs text-slate-500 mt-1.5'>
+              At least 8 characters, with 1 uppercase letter, 1 number, and 1
+              symbol (e.g. ! @ # ?).
+            </p>
           </div>
           <div>
             <label
@@ -126,14 +208,53 @@ const roleLabel = role.replace('cqi_', '').replace('_', ' ').toUpperCase();
               class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'
               >Confirm new password</label
             >
-            <input
-              id='pw-confirm'
-              type='password'
-              required
-              minlength='10'
-              autocomplete='new-password'
-              class='w-full bg-slate-50 border border-slate-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#125276]/20 focus:border-[#125276]'
-            />
+            <div class='relative'>
+              <input
+                id='pw-confirm'
+                type='password'
+                required
+                minlength='8'
+                autocomplete='new-password'
+                class='w-full bg-slate-50 border border-slate-300 text-sm rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-[#125276]/20 focus:border-[#125276]'
+              />
+              <button
+                type='button'
+                id='toggle-confirm'
+                class='absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1'
+                aria-label='Show password'>
+                <svg
+                  id='eye-on-confirm'
+                  class='w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'></path>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'
+                  ></path>
+                </svg>
+                <svg
+                  id='eye-off-confirm'
+                  class='hidden w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21'
+                  ></path>
+                </svg>
+              </button>
+            </div>
           </div>
           <button
             id='pw-btn'
@@ -165,6 +286,37 @@ const roleLabel = role.replace('cqi_', '').replace('_', ' ').toUpperCase();
       const msg = document.getElementById('pw-msg') as HTMLElement;
       const idleLabel = btn.textContent ?? 'Update password';
 
+      // Same rule as the server: 8+ chars, 1 uppercase, 1 number, 1 symbol
+      const PASSWORD_RE = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+
+      function setupEyeToggle(fieldId: string) {
+        const input = document.getElementById(
+          `pw-${fieldId}`,
+        ) as HTMLInputElement;
+        const toggle = document.getElementById(
+          `toggle-${fieldId}`,
+        ) as HTMLButtonElement;
+        const eyeOn = document.getElementById(
+          `eye-on-${fieldId}`,
+        ) as unknown as SVGElement;
+        const eyeOff = document.getElementById(
+          `eye-off-${fieldId}`,
+        ) as unknown as SVGElement;
+        toggle.addEventListener('click', () => {
+          const show = input.type === 'password';
+          input.type = show ? 'text' : 'password';
+          eyeOn.classList.toggle('hidden', show);
+          eyeOff.classList.toggle('hidden', !show);
+          toggle.setAttribute(
+            'aria-label',
+            show ? 'Hide password' : 'Show password',
+          );
+        });
+      }
+      setupEyeToggle('current');
+      setupEyeToggle('new');
+      setupEyeToggle('confirm');
+
       function setMessage(text: string, ok: boolean) {
         msg.textContent = text;
         msg.classList.remove(
@@ -187,6 +339,13 @@ const roleLabel = role.replace('cqi_', '').replace('_', ' ').toUpperCase();
         event.preventDefault();
         msg.classList.add('hidden');
 
+        if (!PASSWORD_RE.test(newEl.value)) {
+          setMessage(
+            'New password needs at least 8 characters, 1 uppercase letter, 1 number, and 1 symbol.',
+            false,
+          );
+          return;
+        }
         if (newEl.value !== confirmEl.value) {
           setMessage('New passwords do not match.', false);
           return;
@@ -204,7 +363,13 @@ const roleLabel = role.replace('cqi_', '').replace('_', ' ').toUpperCase();
             }),
           });
           const data = await res.json().catch(() => ({}));
-          if (!res.ok) throw new Error(data.error || 'Request failed.');
+          if (!res.ok) {
+            if (res.status === 401 && data.redirect) {
+              window.location.assign(data.redirect);
+              return;
+            }
+            throw new Error(data.error || 'Request failed.');
+          }
 
           form.reset();
           if (forced) {

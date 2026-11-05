@@ -7,8 +7,8 @@ export const prerender = false;
 
 // ── EDIT THESE THREE LINES ──
 // Files go in the /public folder. '/images/logo.png' means public/images/logo.png
-const LEFT_IMAGE = '/images/cqi-login.jpg'; // photo for the left panel
-const LOGO = '/images/logo.png'; // hospital logo, shown above the form
+const LEFT_IMAGE = '/gallery/cqi.png'; // photo for the left panel
+const LOGO = '/logos/logo.png'; // hospital logo, shown above the form
 const MAIN_SITE_URL =
   import.meta.env.PUBLIC_SITE_URL ?? 'https://www.spmh.co.ke';
 
@@ -52,6 +52,8 @@ const errorMsg =
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <meta name='robots' content='noindex, nofollow' />
+    <link rel='icon' type='image/svg+xml' href='/file.svg' />
+
     <title>CQI Login · St. Paul's Mission Hospital</title>
   </head>
   <body class='min-h-screen bg-slate-100'>
@@ -87,7 +89,7 @@ const errorMsg =
               ></path>
             </svg>
           </div>
-          <h1 class='text-4xl font-bold leading-tight mb-4'>
+          <h1 class='text-4xl text-surface-2 font-bold leading-tight mb-4'>
             Quality Improvement<br />Feedback Portal
           </h1>
           <p class='text-blue-100 text-lg leading-relaxed max-w-md'>
@@ -114,13 +116,9 @@ const errorMsg =
             <img
               src={LOGO}
               alt="St. Paul's Mission Hospital"
-              class='h-20 w-auto object-contain'
+              class='h-50 w-auto object-contain rounded-2xl shadow-lg'
               onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')"
             />
-            <span
-              class='hidden inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#125276]/10 text-[#125276] text-xs font-bold uppercase tracking-widest'>
-              St. Paul's Mission Hospital
-            </span>
           </div>
 
           <div class='mb-8 text-center lg:text-left'>
