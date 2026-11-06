@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-// Adjust this import to match wherever your existing Supabase client lives
-// (the same one your appointments / job-applications dashboards already use).
 import { supabase } from '../lib/supabase';
+import * as XLSX from 'xlsx';
 
 const EMPTY_FORM = {
   id: null,
@@ -51,13 +50,148 @@ const VENDOR_CATEGORIES = [
   'General Services & Consultancy',
 ];
 
-export default function TenderManager({
-  exportApplicationsToCSV,
-  exportApplicationsToXLSX,
-  exportVendorsToCSV,
-  exportVendorsToXLSX,
-}) {
-  const [tab, setTab] = useState('tenders'); // 'tenders' | 'applications'
+// ── EXPORT HELPERS ──────────────────────────────────────────────────
+// Moved in from the old TenderAuthGate, which no longer exists — the
+// server-side auth gate (dashboard/tenders/index.astro) replaced it.
+function exportApplicationsToCSV(filteredApplications, tenders) {
+  if (filteredApplications.length === 0) {
+    alert('No data to export');
+    return;
+  }
+  const headers = [
+    'Company',
+    'Contact',
+    'Email',
+    'Tender',
+    'Submitted',
+    'Status',
+  ];
+  const rows = filteredApplications.map((a) => [
+    a.company_name || '',
+    a.contact_name || '',
+    a.email || '',
+    tenders.find((t) => t.id === a.tender_id)?.tender_code || '',
+    new Date(a.submitted_at).toLocaleDateString() || '',
+    a.status || '',
+  ]);
+  const csvContent = [
+    headers.map((h) => `"${h}"`).join(','),
+    ...rows.map((row) =>
+      row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','),
+    ),
+  ].join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `applications-${new Date().toISOString().split('T')[0]}.csv`;
+  link.click();
+}
+
+function exportApplicationsToXLSX(filteredApplications, tenders) {
+  if (filteredApplications.length === 0) {
+    alert('No data to export');
+    return;
+  }
+  const headers = [
+    'Company',
+    'Contact',
+    'Email',
+    'Tender',
+    'Submitted',
+    'Status',
+  ];
+  const rows = filteredApplications.map((a) => [
+    a.company_name || '',
+    a.contact_name || '',
+    a.email || '',
+    tenders.find((t) => t.id === a.tender_id)?.tender_code || '',
+    new Date(a.submitted_at).toLocaleDateString() || '',
+    a.status || '',
+  ]);
+  const wsData = [headers, ...rows];
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+  ws['!cols'] = headers.map((h, i) => ({
+    wch: Math.max(h.length, ...rows.map((r) => String(r[i] || '').length)),
+  }));
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Applications');
+  XLSX.writeFile(
+    wb,
+    `applications-${new Date().toISOString().split('T')[0]}.xlsx`,
+  );
+}
+
+function exportVendorsToCSV(filteredVendors) {
+  if (filteredVendors.length === 0) {
+    alert('No data to export');
+    return;
+  }
+  const headers = [
+    'Company',
+    'Category',
+    'KRA PIN',
+    'Reg. No.',
+    'Email',
+    'Phone',
+    'Status',
+  ];
+  const rows = filteredVendors.map((v) => [
+    v.company_name || '',
+    v.category || '',
+    v.kra_pin || '',
+    v.reg_number || '',
+    v.email || '',
+    v.phone || '',
+    v.status || '',
+  ]);
+  const csvContent = [
+    headers.map((h) => `"${h}"`).join(','),
+    ...rows.map((row) =>
+      row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','),
+    ),
+  ].join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `vendors-${new Date().toISOString().split('T')[0]}.csv`;
+  link.click();
+}
+
+function exportVendorsToXLSX(filteredVendors) {
+  if (filteredVendors.length === 0) {
+    alert('No data to export');
+    return;
+  }
+  const headers = [
+    'Company',
+    'Category',
+    'KRA PIN',
+    'Reg. No.',
+    'Email',
+    'Phone',
+    'Status',
+  ];
+  const rows = filteredVendors.map((v) => [
+    v.company_name || '',
+    v.category || '',
+    v.kra_pin || '',
+    v.reg_number || '',
+    v.email || '',
+    v.phone || '',
+    v.status || '',
+  ]);
+  const wsData = [headers, ...rows];
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+  ws['!cols'] = headers.map((h, i) => ({
+    wch: Math.max(h.length, ...rows.map((r) => String(r[i] || '').length)),
+  }));
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Vendors');
+  XLSX.writeFile(wb, `vendors-${new Date().toISOString().split('T')[0]}.xlsx`);
+}
+
+export default function TenderManager() {
+  const [tab, setTab] = useState('tenders'); // 'tenders' | 'applications' | 'vendors'
   const [tenders, setTenders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -140,9 +274,6 @@ export default function TenderManager({
   }
 
   async function openEditForm(t) {
-    // List rows are trimmed to id/code/title/status/closing_date for a
-    // faster initial load — pull the full record now that we actually need
-    // the summary, requirements, and document fields for editing.
     setForm({
       ...EMPTY_FORM,
       id: t.id,
