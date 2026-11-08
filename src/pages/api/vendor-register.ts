@@ -3,6 +3,10 @@ import type { APIRoute } from 'astro';
 import { createClient } from '@supabase/supabase-js';
 import { resend, fromEmail, getVendorEmailHtml } from '../../lib/resend';
 
+// Force Vercel to use the Node.js runtime instead of Edge
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
