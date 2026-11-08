@@ -205,7 +205,7 @@ export default function TenderApplicationForm({ tenderCode }) {
 
   if (!tender) {
     return (
-      <div className='max-w-lg mx-auto text-center py-16 border border-dashed border-slate-300 rounded-lg bg-slate-50'>
+      <div className='max-w-lg mx-auto text-center py-16 border border-dashed border-slate-300 rounded-lg bg-gray-200'>
         <p className='text-lg font-semibold text-slate-700 mb-2'>
           Tender Not Found
         </p>
