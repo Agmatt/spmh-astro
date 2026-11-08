@@ -1,5 +1,5 @@
 ---
-// src/pages/dashboard/tenders/login.astro
+// src/pages/admin/tenders/login.astro
 import { createSupabaseServer } from '../../../lib/supabase-server';
 import '../../../styles/global.css';
 
@@ -8,7 +8,7 @@ export const prerender = false;
 // ── EDIT THESE THREE LINES ──
 // Files go in the /public folder. '/images/logo.png' means public/images/logo.png
 const LEFT_IMAGE = '/img/55.jpg'; // reuse the existing tenders-portal background
-const LOGO = '/images/logo.png'; // hospital logo, shown above the form
+const LOGO = '/logos/logo.png'; // confirmed to exist — used by the old TenderAuthGate
 const MAIN_SITE_URL =
   import.meta.env.PUBLIC_SITE_URL ?? 'https://www.spmh.co.ke';
 
@@ -23,7 +23,7 @@ if (!errorParam && !timeoutParam) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (user) return Astro.redirect('/dashboard/tenders');
+  if (user) return Astro.redirect('/admin/tenders');
 }
 
 const reasonParam = Astro.url.searchParams.get('reason');
@@ -53,6 +53,7 @@ const errorMsg =
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <meta name='robots' content='noindex, nofollow' />
     <title>Tender &amp; Vendor Portal · St. Paul's Mission Hospital</title>
+    <link rel='icon' type='image/png' href='/file.svg' />
   </head>
   <body class='min-h-screen bg-slate-100'>
     <div class='min-h-screen grid lg:grid-cols-2'>
@@ -87,7 +88,7 @@ const errorMsg =
               ></path>
             </svg>
           </div>
-          <h1 class='text-4xl font-bold leading-tight mb-4'>
+          <h1 class='text-4xl font-bold text-surface-2 leading-tight mb-4'>
             Tender &amp; Vendor<br />Portal
           </h1>
           <p class='text-blue-100 text-lg leading-relaxed max-w-md'>
@@ -114,13 +115,9 @@ const errorMsg =
             <img
               src={LOGO}
               alt="St. Paul's Mission Hospital"
-              class='h-20 w-auto object-contain'
+              class='h-50 rounded-2xl shadow-lg w-auto object-contain'
               onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')"
             />
-            <span
-              class='hidden inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#125276]/10 text-[#125276] text-xs font-bold uppercase tracking-widest'>
-              St. Paul's Mission Hospital
-            </span>
           </div>
 
           <div class='mb-8 text-center lg:text-left'>
@@ -313,7 +310,7 @@ const errorMsg =
     </div>
 
     <script>
-      import { getBrowserSupabase } from '../../../lib/supabase-browser';
+      import { getTendersBrowserSupabase as getBrowserSupabase } from '../../../lib/tenders-supabase-browser';
 
       const supabase = getBrowserSupabase();
 
@@ -383,7 +380,7 @@ const errorMsg =
           if (error) throw error;
 
           // Session cookie is now set; the server will pick it up.
-          window.location.assign('/dashboard/tenders');
+          window.location.assign('/admin/tenders');
         } catch (err) {
           showError(err instanceof Error ? err.message : 'Login failed.');
           setLoading(false);

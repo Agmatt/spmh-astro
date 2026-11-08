@@ -1,5 +1,5 @@
 ---
-// src/pages/dashboard/tenders/team.astro
+// src/pages/admin/tenders/team.astro
 import { requireTendersUser } from '../../../lib/tenders-auth';
 import '../../../styles/global.css';
 
@@ -9,7 +9,7 @@ export const prerender = false;
 const auth = await requireTendersUser(Astro.cookies);
 if (!auth.ok) return Astro.redirect(auth.redirect);
 if (auth.role !== 'tenders_super_admin')
-  return Astro.redirect('/dashboard/tenders');
+  return Astro.redirect('/admin/tenders');
 const { user } = auth;
 ---
 
@@ -20,13 +20,14 @@ const { user } = auth;
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <meta name='robots' content='noindex, nofollow' />
     <title>Team Management · Tenders Portal</title>
+    <link rel='icon' type='image/png' href='/file.svg' />
   </head>
   <body class='min-h-screen bg-slate-50'>
     <header class='bg-[#125276] text-white shadow-md'>
       <div
         class='max-w-6xl mx-auto px-6 py-4 flex items-center justify-between'>
         <a
-          href='/dashboard/tenders'
+          href='/admin/tenders'
           class='text-sm font-bold text-blue-100 hover:text-white'
           >← Dashboard</a
         >

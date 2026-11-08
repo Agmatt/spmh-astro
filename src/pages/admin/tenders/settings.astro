@@ -1,5 +1,5 @@
 ---
-// src/pages/dashboard/tenders/settings.astro
+// src/pages/admin/tenders/settings.astro
 // Change your own password. Open to every tenders role.
 // If an admin gave you a temporary password, this is the first page you see
 // and you cannot go anywhere else until you choose your own.
@@ -27,6 +27,7 @@ const roleLabel = role.replace('tenders_', '').replace('_', ' ').toUpperCase();
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <meta name='robots' content='noindex, nofollow' />
     <title>Account Settings · Tenders Portal</title>
+    <link rel='icon' type='image/png' href='/file.svg' />
   </head>
   <body class='min-h-screen bg-slate-50'>
     <header class='bg-[#125276] text-white shadow-md'>
@@ -37,7 +38,7 @@ const roleLabel = role.replace('tenders_', '').replace('_', ' ').toUpperCase();
             <span class='text-sm font-bold'>Tender & Vendor Portal</span>
           ) : (
             <a
-              href='/dashboard/tenders'
+              href='/admin/tenders'
               class='text-sm font-bold text-blue-100 hover:text-white'>
               ← Dashboard
             </a>
@@ -47,7 +48,7 @@ const roleLabel = role.replace('tenders_', '').replace('_', ' ').toUpperCase();
           <span class='hidden sm:inline text-xs text-blue-100'>
             {user.email} · {roleLabel}
           </span>
-          <form method='POST' action='/dashboard/tenders/logout'>
+          <form method='POST' action='/admin/tenders/logout'>
             <button
               type='submit'
               class='text-xs bg-white/10 hover:bg-[#860f0f] px-3 py-2 rounded-lg font-bold transition-colors'>
@@ -374,10 +375,7 @@ const roleLabel = role.replace('tenders_', '').replace('_', ' ').toUpperCase();
           form.reset();
           if (forced) {
             setMessage('Password saved. Taking you to the dashboard…', true);
-            setTimeout(
-              () => window.location.assign('/dashboard/tenders'),
-              1200,
-            );
+            setTimeout(() => window.location.assign('/admin/tenders'), 1200);
             return; // keep the button disabled while we redirect
           }
           setMessage(

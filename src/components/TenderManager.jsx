@@ -39,8 +39,6 @@ const VENDOR_STATUS_STYLES = {
   rejected: 'bg-red-50 text-red-700 border-red-300',
 };
 
-// Same list used on the public /procurement/register form — kept here too so
-// the filter dropdown doesn't depend on vendors already existing in a category.
 const VENDOR_CATEGORIES = [
   'Medical Supplies & Equipment',
   'Pharmaceuticals',
@@ -51,8 +49,6 @@ const VENDOR_CATEGORIES = [
 ];
 
 // ── EXPORT HELPERS ──────────────────────────────────────────────────
-// Moved in from the old TenderAuthGate, which no longer exists — the
-// server-side auth gate (dashboard/tenders/index.astro) replaced it.
 function exportApplicationsToCSV(filteredApplications, tenders) {
   if (filteredApplications.length === 0) {
     alert('No data to export');
@@ -191,7 +187,7 @@ function exportVendorsToXLSX(filteredVendors) {
 }
 
 export default function TenderManager() {
-  const [tab, setTab] = useState('tenders'); // 'tenders' | 'applications' | 'vendors'
+  const [tab, setTab] = useState('tenders');
   const [tenders, setTenders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -413,10 +409,40 @@ export default function TenderManager() {
     else loadApplications();
   }
 
+  // ── NEW: Delete Application ──
+  async function handleDeleteApplication(app) {
+    if (
+      !confirm(
+        `Delete application from ${app.company_name}? This cannot be undone.`,
+      )
+    )
+      return;
+    const { error } = await supabase
+      .from('tender_applications')
+      .delete()
+      .eq('id', app.id);
+    if (error) setError(error.message);
+    else loadApplications();
+  }
+
   async function handleVendorStatus(vendor, newStatus) {
     const { error } = await supabase
       .from('vendors')
       .update({ status: newStatus })
+      .eq('id', vendor.id);
+    if (error) setError(error.message);
+    else loadVendors();
+  }
+
+  // ── NEW: Delete Vendor ──
+  async function handleDeleteVendor(vendor) {
+    if (
+      !confirm(`Delete vendor ${vendor.company_name}? This cannot be undone.`)
+    )
+      return;
+    const { error } = await supabase
+      .from('vendors')
+      .delete()
       .eq('id', vendor.id);
     if (error) setError(error.message);
     else loadVendors();
@@ -485,6 +511,7 @@ export default function TenderManager() {
           filter={appTenderFilter}
           onFilterChange={setAppTenderFilter}
           onStatusChange={handleApplicationStatus}
+          onDelete={handleDeleteApplication}
           exportToCSV={exportApplicationsToCSV}
           exportToXLSX={exportApplicationsToXLSX}
         />
@@ -497,6 +524,7 @@ export default function TenderManager() {
           filter={vendorCategoryFilter}
           onFilterChange={setVendorCategoryFilter}
           onStatusChange={handleVendorStatus}
+          onDelete={handleDeleteVendor}
           exportToCSV={exportVendorsToCSV}
           exportToXLSX={exportVendorsToXLSX}
         />
@@ -595,6 +623,7 @@ function ApplicationsPanel({
   filter,
   onFilterChange,
   onStatusChange,
+  onDelete,
   exportToCSV,
   exportToXLSX,
 }) {
@@ -652,6 +681,7 @@ function ApplicationsPanel({
                 <th className='text-left p-3'>Submitted</th>
                 <th className='text-left p-3'>Docs</th>
                 <th className='text-left p-3'>Status</th>
+                <th className='text-right p-3'>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -698,6 +728,13 @@ function ApplicationsPanel({
                       ))}
                     </select>
                   </td>
+                  <td className='p-3 text-right'>
+                    <button
+                      onClick={() => onDelete(a)}
+                      className='text-red-600 font-bold hover:underline'>
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -714,6 +751,7 @@ function VendorsPanel({
   filter,
   onFilterChange,
   onStatusChange,
+  onDelete,
   exportToCSV,
   exportToXLSX,
 }) {
@@ -770,6 +808,7 @@ function VendorsPanel({
                 <th className='text-left p-3'>Contact</th>
                 <th className='text-left p-3'>Registered</th>
                 <th className='text-left p-3'>Status</th>
+                <th className='text-right p-3'>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -806,6 +845,13 @@ function VendorsPanel({
                         </option>
                       ))}
                     </select>
+                  </td>
+                  <td className='p-3 text-right'>
+                    <button
+                      onClick={() => onDelete(v)}
+                      className='text-red-600 font-bold hover:underline'>
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}

@@ -8,7 +8,7 @@ import {
   type SupabaseClient,
   type User,
 } from '@supabase/supabase-js';
-import { createSupabaseServer } from './supabase-server';
+import { createTendersSupabaseServer as createSupabaseServer } from './tenders-supabase-server';
 
 export type TendersRole = 'tenders_super_admin' | 'tenders_staff';
 
@@ -63,7 +63,7 @@ export async function requireTendersUser(
     console.warn('[Tenders] no session found on request', {
       reason: getUserErr?.message ?? 'no user in session',
     });
-    return { ok: false, redirect: '/dashboard/tenders/login' };
+    return { ok: false, redirect: '/admin/tenders/login' };
   }
 
   const adminClient = createAdminClient();
@@ -77,7 +77,7 @@ export async function requireTendersUser(
   if (roleErr) {
     console.error('[Tenders role error]', roleErr);
     await supabase.auth.signOut();
-    return { ok: false, redirect: '/dashboard/tenders/login?error=server' };
+    return { ok: false, redirect: '/admin/tenders/login?error=server' };
   }
 
   // Ignore roles that belong to other systems (e.g. news editor roles)
@@ -95,7 +95,7 @@ export async function requireTendersUser(
     await supabase.auth.signOut();
     return {
       ok: false,
-      redirect: `/dashboard/tenders/login?error=no_access&email=${encodeURIComponent(user.email ?? '')}`,
+      redirect: `/admin/tenders/login?error=no_access&email=${encodeURIComponent(user.email ?? '')}`,
     };
   }
 
@@ -123,7 +123,7 @@ export async function requireTendersUser(
   ) {
     await adminClient.from('tenders_sessions').delete().eq('user_id', user.id);
     await supabase.auth.signOut();
-    return { ok: false, redirect: '/dashboard/tenders/login?timeout=1' };
+    return { ok: false, redirect: '/admin/tenders/login?timeout=1' };
   }
 
   // Awaited on purpose: on Vercel, un-awaited work can be cut off.
@@ -141,7 +141,7 @@ export async function requireTendersUser(
     !options.skipPasswordGate &&
     user.app_metadata?.must_change_password === true
   ) {
-    return { ok: false, redirect: '/dashboard/tenders/settings' };
+    return { ok: false, redirect: '/admin/tenders/settings' };
   }
 
   return { ok: true, user, role, adminClient };

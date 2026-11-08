@@ -11,6 +11,20 @@ const categories = [
   'Food & Catering Supplies',
   'General Services & Consultancy',
 ];
+
+const countries = [
+  'Kenya',
+  'Uganda',
+  'Tanzania',
+  'Rwanda',
+  'United Kingdom',
+  'United States',
+  'United Arab Emirates',
+  'South Africa',
+  'India',
+  'China',
+  'Other',
+];
 ---
 
 <html lang='en'>
@@ -31,29 +45,79 @@ const categories = [
         description='Join the framework registry to be notified when a notice in your category opens, ahead of the next procurement cycle.'
       />
 
-      <div class='max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-10'>
+      <div class='max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 mt-10'>
         <div
           x-data='vendorRegisterForm()'
-          class='bg-white border border-[var(--color-border)] rounded-lg shadow-sm p-6 sm:p-8 relative'>
+          class='bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden relative'>
+          <div class='bg-[#125276] p-6 text-white'>
+            <h2 class='text-2xl font-serif font-bold mt-1'>
+              Vendor Registration
+            </h2>
+            <p class='text-sm text-slate-300 mt-2'>
+              Please fill in your company details to join our framework
+              registry.
+            </p>
+          </div>
+
           <template x-if='!submitted'>
-            <form @submit.prevent='submit' class='space-y-5' novalidate>
-              <div class='grid grid-cols-1 sm:grid-cols-2 gap-5'>
+            <form
+              @submit.prevent='submit'
+              class='p-6 md:p-8 space-y-6'
+              novalidate>
+              <!-- Country Selection -->
+              <div>
+                <label
+                  class='block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2'>
+                  Country of Registration <span class='text-red-500'>*</span>
+                </label>
+                <select
+                  required
+                  x-model='form.country'
+                  @change='validateKraPin()'
+                  class='w-full border border-slate-300 rounded-lg px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white'>
+                  <option value='' disabled selected>Select your country</option
+                  >
+                  {countries.map((c) => <option value={c}>{c}</option>)}
+                </select>
+              </div>
+
+              <!-- NEW: Custom Country Field (Only shows if "Other" is selected) -->
+              <div x-show="form.country === 'Other'" x-cloak>
+                <label
+                  class='block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2'>
+                  Please specify your country <span class='text-red-500'>*</span
+                  >
+                </label>
+                <input
+                  type='text'
+                  x-model='form.customCountry'
+                  :required="form.country === 'Other'"
+                  placeholder='Type your country name here'
+                  class='w-full border border-slate-300 rounded-lg px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500'
+                />
+              </div>
+
+              <div class='grid grid-cols-1 sm:grid-cols-2 gap-6'>
                 <div>
                   <label
-                    class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] block mb-1.5'>
-                    Company Name
+                    class='block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2'>
+                    Company Name <span class='text-red-500'>*</span>
                   </label>
                   <input
                     type='text'
                     required
                     x-model='form.companyName'
-                    class='w-full text-sm border border-[var(--color-border)] rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]'
+                    placeholder='e.g. Acme Suppliers Ltd'
+                    class='w-full border border-slate-300 rounded-lg px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500'
                   />
                 </div>
                 <div>
                   <label
-                    class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] block mb-1.5'>
-                    KRA PIN
+                    class='block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2'>
+                    <span
+                      x-text="form.country === 'Kenya' || !form.country ? 'KRA PIN' : 'Tax ID / Registration No.'"
+                    ></span>
+                    <span class='text-red-500'>*</span>
                   </label>
                   <input
                     type='text'
@@ -61,68 +125,71 @@ const categories = [
                     x-model='form.kraPin'
                     @input='validateKraPin()'
                     @blur='validateKraPin()'
-                    maxlength='11'
-                    placeholder='A000000000Z'
+                    :maxlength="form.country === 'Kenya' || !form.country ? 11 : 50"
+                    :placeholder="form.country === 'Kenya' || !form.country ? 'A000000000Z' : 'Enter your local tax ID'"
                     autocomplete='off'
-                    :aria-invalid='!!fieldErrors.kraPin'
                     :class='fieldErrors.kraPin
-                      ? "border-[var(--color-accent)] focus:ring-[var(--color-accent)] focus:border-[var(--color-accent)] bg-red-50/40"
-                      : "border-[var(--color-border)] focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"'
-                    class='w-full text-sm rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 uppercase'
+                      ? "border-red-500 bg-red-50 focus:ring-red-500 focus:border-red-500"
+                      : "border-slate-300 focus:ring-red-500 focus:border-red-500"'
+                    class='w-full border text-sm rounded-lg px-4 py-3 focus:outline-none focus:ring-2 uppercase transition-colors'
                   />
                   <p
                     x-show='fieldErrors.kraPin'
                     x-text='fieldErrors.kraPin'
                     x-cloak
-                    class='text-xs text-[var(--color-accent)] font-medium mt-1.5'>
+                    class='text-xs text-red-600 font-medium mt-1.5'>
                   </p>
                 </div>
               </div>
 
               <div>
                 <label
-                  class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] block mb-1.5'>
-                  Business Registration Number
+                  class='block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2'>
+                  Business Registration Number <span class='text-red-500'
+                    >*</span
+                  >
                 </label>
                 <input
                   type='text'
                   required
                   x-model='form.regNumber'
-                  class='w-full text-sm border border-[var(--color-border)] rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]'
+                  placeholder='e.g. CPR/2023/123456'
+                  class='w-full border border-slate-300 rounded-lg px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500'
                 />
               </div>
 
               <div>
                 <label
-                  class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] block mb-1.5'>
-                  Primary Supply Category
+                  class='block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2'>
+                  Primary Supply Category <span class='text-red-500'>*</span>
                 </label>
                 <select
                   required
                   x-model='form.category'
-                  class='w-full text-sm border border-[var(--color-border)] rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-white'>
+                  class='w-full border border-slate-300 rounded-lg px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white'>
                   <option value='' disabled selected>Select a category</option>
                   {categories.map((cat) => <option value={cat}>{cat}</option>)}
                 </select>
               </div>
 
-              <div class='grid grid-cols-1 sm:grid-cols-2 gap-5'>
+              <div class='grid grid-cols-1 sm:grid-cols-2 gap-6'>
                 <div>
                   <label
-                    class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] block mb-1.5'>
-                    Contact Email
+                    class='block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2'>
+                    Contact Email <span class='text-red-500'>*</span>
                   </label>
                   <input
                     type='email'
                     required
                     x-model='form.email'
-                    class='w-full text-sm border border-[var(--color-border)] rounded-md px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]'
+                    placeholder='name@company.com'
+                    class='w-full border border-slate-300 rounded-lg px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500'
                   />
                 </div>
                 <div>
                   <label
-                    class='text-[10px] font-mono uppercase tracking-wider text-[var(--color-muted)] block mb-1.5'>
-                    Phone Number
+                    class='block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2'>
+                    Phone Number <span class='text-red-500'>*</span>
                   </label>
                   <input
                     type='tel'
@@ -130,55 +197,80 @@ const categories = [
                     x-model='form.phone'
                     @input='validatePhone()'
                     @blur='validatePhone()'
-                    placeholder='+2547XXXXXXXX or 07XXXXXXXX'
+                    placeholder='+2547XXXXXXXX'
                     autocomplete='off'
-                    :aria-invalid='!!fieldErrors.phone'
                     :class='fieldErrors.phone
-                      ? "border-[var(--color-accent)] focus:ring-[var(--color-accent)] focus:border-[var(--color-accent)] bg-red-50/40"
-                      : "border-[var(--color-border)] focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"'
-                    class='w-full text-sm rounded-md px-3 py-2.5 focus:outline-none focus:ring-1'
+                      ? "border-red-500 bg-red-50 focus:ring-red-500 focus:border-red-500"
+                      : "border-slate-300 focus:ring-red-500 focus:border-red-500"'
+                    class='w-full border text-sm rounded-lg px-4 py-3 focus:outline-none focus:ring-2 transition-colors'
                   />
                   <p
                     x-show='fieldErrors.phone'
                     x-text='fieldErrors.phone'
                     x-cloak
-                    class='text-xs text-[var(--color-accent)] font-medium mt-1.5'>
+                    class='text-xs text-red-600 font-medium mt-1.5'>
                   </p>
                 </div>
               </div>
 
-              <label class='flex items-start gap-2.5 pt-1'>
-                <input
-                  type='checkbox'
-                  required
-                  x-model='form.agree'
-                  class='mt-0.5'
-                />
-                <span class='text-xs text-slate-600 leading-relaxed'>
-                  I confirm the details above are accurate and I have read the
-                  <a
-                    href='/procurement/terms'
-                    class='text-[var(--color-primary)] underline'
-                    >Terms &amp; Conditions</a
-                  >.
-                </span>
-              </label>
+              <div class='bg-blue-50 border border-blue-100 rounded-lg p-4'>
+                <label class='flex items-start gap-3 cursor-pointer'>
+                  <input
+                    type='checkbox'
+                    required
+                    x-model='form.agree'
+                    class='mt-0.5 w-4 h-4 text-[#125276] rounded border-slate-300 focus:ring-red-500'
+                  />
+                  <span class='text-xs text-blue-900 leading-relaxed'>
+                    I confirm the details above are accurate and I have read the
+                    <a
+                      href='/procurement/terms'
+                      class='font-bold underline hover:text-[#125276]'
+                      >Terms &amp; Conditions</a
+                    >.
+                  </span>
+                </label>
+              </div>
 
               <button
                 type='submit'
                 :disabled='loading'
-                class='btn btn-primary w-full sm:w-auto text-center text-xs px-6 py-3 font-bold tracking-wide shadow-sm disabled:opacity-60'>
+                class='w-full bg-[#125276] text-white font-bold py-3.5 rounded-lg hover:bg-[#0d3f5c] transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md flex justify-center items-center'>
+                <svg
+                  x-show='loading'
+                  class='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  x-cloak
+                  ><circle
+                    class='opacity-25'
+                    cx='12'
+                    cy='12'
+                    r='10'
+                    stroke='currentColor'
+                    stroke-width='4'></circle><path
+                    class='opacity-75'
+                    fill='currentColor'
+                    d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                  ></path></svg
+                >
+
                 <span x-show='!loading'>Submit Registration</span>
-                <span x-show='loading'>Submitting&hellip;</span>
+                <span x-show='loading' x-cloak>Submitting...</span>
               </button>
 
               <p
                 x-show='errorMsg'
                 x-text='errorMsg'
-                class='text-xs text-[var(--color-accent)] font-medium'>
+                x-cloak
+                class='text-xs text-red-600 font-medium text-center bg-red-50 border border-red-200 p-3 rounded-lg'>
               </p>
-              <div class='mt-4 mx-auto max-w-xs text-center'>
-                <a href='/' class='btn-tertiary text-white font-bold text-sm'>
+
+              <div class='text-center pt-2'>
+                <a
+                  href='/'
+                  class='text-xs font-bold text-slate-500 hover:text-[#125276] transition-colors'>
                   Back to Main Website
                 </a>
               </div>
@@ -186,25 +278,32 @@ const categories = [
           </template>
 
           <template x-if='submitted'>
-            <div class='text-center py-8'>
+            <div class='text-center p-8 md:p-12'>
               <div
-                class='w-12 h-12 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center mx-auto mb-4 text-emerald-600 text-lg font-bold select-none'>
+                class='w-16 h-16 rounded-full bg-emerald-100 border-2 border-emerald-500 flex items-center justify-center mx-auto mb-6 text-emerald-600 text-2xl font-bold select-none'>
                 ✓
               </div>
-              <h2
-                class='text-sm font-bold text-[var(--color-secondary)] uppercase tracking-wider mb-2'>
+              <h2 class='text-2xl font-serif font-bold text-slate-900 mb-3'>
                 Registration Received
               </h2>
               <p
-                class='text-xs text-[var(--color-muted)] leading-relaxed max-w-sm mx-auto'>
-                You will be notified by email when a notice in your category is
-                published on this portal.
+                class='text-sm text-slate-600 leading-relaxed max-w-md mx-auto mb-8'>
+                Thank you for registering. A confirmation email has been sent.
+                You will be notified when a notice in your category is published
+                on this portal.
               </p>
-              <a
-                href='/about-us/tenders'
-                class='text-[var(--color-primary)] hover:text-accent'>
-                View Active Notices
-              </a>
+              <div class='flex flex-col sm:flex-row justify-center gap-4'>
+                <a
+                  href='/about-us/tenders'
+                  class='bg-[#125276] text-white text-xs px-6 py-3 rounded-lg font-bold hover:bg-[#0d3f5c] transition-colors shadow-sm'>
+                  View Active Notices
+                </a>
+                <a
+                  href='/'
+                  class='text-xs px-6 py-3 rounded-lg font-bold border border-slate-300 bg-white hover:bg-slate-50 transition-colors text-slate-700'>
+                  Back to Website
+                </a>
+              </div>
             </div>
           </template>
         </div>
@@ -214,20 +313,15 @@ const categories = [
     <ProcurementFooter />
 
     <script>
-      // NOTE: wire this up to a Supabase `vendors` table + Astro API route,
-      // the same pattern used by src/pages/api for the clinic booking system
-      // (insert on POST, Resend confirmation email on success). Left as a
-      // client-side stub here since the vendors schema doesn't exist yet.
       function vendorRegisterForm() {
         return {
           loading: false,
           submitted: false,
           errorMsg: '',
-          fieldErrors: {
-            kraPin: '',
-            phone: '',
-          },
+          fieldErrors: { kraPin: '', phone: '' },
           form: {
+            country: 'Kenya',
+            customCountry: '', // Added for "Other"
             companyName: '',
             kraPin: '',
             regNumber: '',
@@ -236,7 +330,6 @@ const categories = [
             phone: '',
             agree: false,
           },
-          // KRA PIN: one letter, 9 digits, one letter — e.g. A000000000Z
           validateKraPin() {
             const value = this.form.kraPin.trim().toUpperCase();
             this.form.kraPin = value;
@@ -244,40 +337,60 @@ const categories = [
               this.fieldErrors.kraPin = '';
               return true;
             }
-            const pattern = /^[A-Z]\d{9}[A-Z]$/;
-            if (!pattern.test(value)) {
-              this.fieldErrors.kraPin =
-                'Enter a valid KRA PIN — one letter, 9 digits, one letter (e.g. A000000000Z)';
-              return false;
+
+            if (this.form.country === 'Kenya') {
+              if (!/^[A-Z]\d{9}[A-Z]$/.test(value)) {
+                this.fieldErrors.kraPin =
+                  'Enter a valid Kenyan KRA PIN (e.g. A000000000Z)';
+                return false;
+              }
             }
+
             this.fieldErrors.kraPin = '';
             return true;
           },
-          // Phone: must start with + or 0, e.g. +2547XXXXXXXX or 07XXXXXXXX
           validatePhone() {
             const value = this.form.phone.trim();
             if (!value) {
               this.fieldErrors.phone = '';
               return true;
             }
-            const pattern = /^(\+\d{9,14}|0\d{9})$/;
-            if (!pattern.test(value)) {
-              this.fieldErrors.phone =
-                'Enter a valid phone number starting with + or 0 (e.g. +2547XXXXXXXX or 07XXXXXXXX)';
-              return false;
+
+            if (this.form.country === 'Kenya') {
+              if (!/^(\+\d{9,14}|0\d{9})$/.test(value)) {
+                this.fieldErrors.phone =
+                  'Enter a valid phone number starting with + or 0';
+                return false;
+              }
+            } else {
+              if (value.replace(/\D/g, '').length < 7) {
+                this.fieldErrors.phone =
+                  'Enter a valid international phone number';
+                return false;
+              }
             }
+
             this.fieldErrors.phone = '';
             return true;
           },
           async submit() {
+            // If "Other" is selected, ensure custom country is filled
+            if (
+              this.form.country === 'Other' &&
+              !this.form.customCountry.trim()
+            ) {
+              this.errorMsg = 'Please specify your country.';
+              return;
+            }
+
             const kraOk = this.validateKraPin();
             const phoneOk = this.validatePhone();
-            if (!this.form.kraPin.trim()) {
-              this.fieldErrors.kraPin = 'KRA PIN is required';
-            }
-            if (!this.form.phone.trim()) {
+
+            if (!this.form.kraPin.trim())
+              this.fieldErrors.kraPin = 'This field is required';
+            if (!this.form.phone.trim())
               this.fieldErrors.phone = 'Phone number is required';
-            }
+
             if (
               this.fieldErrors.kraPin ||
               this.fieldErrors.phone ||
@@ -291,16 +404,38 @@ const categories = [
 
             this.loading = true;
             this.errorMsg = '';
+
+            // Calculate the final country value before sending
+            const finalCountry =
+              this.form.country === 'Other'
+                ? this.form.customCountry.trim()
+                : this.form.country;
+
             try {
               const res = await fetch('/api/vendor-register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(this.form),
+                body: JSON.stringify({
+                  companyName: this.form.companyName,
+                  kraPin: this.form.kraPin,
+                  regNumber: this.form.regNumber,
+                  category: this.form.category,
+                  email: this.form.email,
+                  phone: this.form.phone,
+                  country: finalCountry, // Send the combined country
+                }),
               });
-              if (!res.ok) throw new Error('Submission failed');
+
+              const data = await res.json();
+
+              if (!res.ok) {
+                throw new Error(data.error || 'Submission failed');
+              }
+
               this.submitted = true;
             } catch (err) {
               this.errorMsg =
+                err.message ||
                 'Something went wrong. Please try again or email procurement@spmh.co.ke directly.';
             } finally {
               this.loading = false;

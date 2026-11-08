@@ -1,19 +1,37 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
-// Validation utilities
 const VALIDATION = {
   email: (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
   phone: (phone) => {
-    // Kenyan mobile numbers only: +254/254/0 prefix + 7xx or 1xx + 7 digits
     const stripped = phone.replace(/[\s\-()]/g, '');
     return /^(?:\+254|254|0)[17]\d{8}$/.test(stripped);
   },
   companyName: (name) => name.trim().length >= 3,
   contactName: (name) => name.trim().length >= 2,
-  fileSize: (bytes) => bytes <= 5 * 1024 * 1024, // 5MB max
+  fileSize: (bytes) => bytes <= 5 * 1024 * 1024,
   fileType: (file) => file.type === 'application/pdf',
 };
+
+// Helper to format dates like "26th August 2026"
+function formatDate(dateString) {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = date.toLocaleString('en-GB', { month: 'long' });
+  const year = date.getFullYear();
+
+  const suffix =
+    day % 10 === 1 && day !== 11
+      ? 'st'
+      : day % 10 === 2 && day !== 12
+        ? 'nd'
+        : day % 10 === 3 && day !== 13
+          ? 'rd'
+          : 'th';
+
+  return `${day}${suffix} ${month} ${year}`;
+}
 
 export default function TenderApplicationForm({ tenderCode }) {
   const [tender, setTender] = useState(null);
@@ -33,9 +51,8 @@ export default function TenderApplicationForm({ tenderCode }) {
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState('');
 
-  // Rate limiting: track last submission timestamp per session
   const [lastSubmissionTime, setLastSubmissionTime] = useState(0);
-  const SUBMISSION_COOLDOWN = 2000; // 2 seconds between submissions
+  const SUBMISSION_COOLDOWN = 2000;
 
   useEffect(() => {
     if (!tenderCode) {
@@ -56,19 +73,18 @@ export default function TenderApplicationForm({ tenderCode }) {
 
   function validateForm() {
     const newErrors = {};
-
-    if (!VALIDATION.companyName(form.company_name)) {
+    if (!VALIDATION.companyName(form.company_name))
       newErrors.company_name = 'Company name must be at least 3 characters';
-    }
-    if (!VALIDATION.contactName(form.contact_name)) {
+    if (!VALIDATION.contactName(form.contact_name))
       newErrors.contact_name = 'Contact name must be at least 2 characters';
-    }
-    if (!VALIDATION.email(form.email)) {
+    if (!VALIDATION.email(form.email))
       newErrors.email = 'Please enter a valid email address';
-    }
-    if (form.phone && !VALIDATION.phone(form.phone)) {
-      newErrors.phone =
-        'Enter a valid Kenyan number, e.g. 0712345678 or +254712345678';
+
+    // Phone is now Mandatory
+    if (!form.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+    } else if (!VALIDATION.phone(form.phone)) {
+      newErrors.phone = 'Enter a valid Kenyan number, e.g. 0712345678';
     }
 
     setErrors(newErrors);
@@ -82,7 +98,6 @@ export default function TenderApplicationForm({ tenderCode }) {
       setFileError('');
       return;
     }
-
     if (!VALIDATION.fileType(selectedFile)) {
       setFileError('Only PDF files are accepted');
       setFile(null);
@@ -93,7 +108,6 @@ export default function TenderApplicationForm({ tenderCode }) {
       setFile(null);
       return;
     }
-
     setFile(selectedFile);
     setFileError('');
   }
@@ -102,7 +116,12 @@ export default function TenderApplicationForm({ tenderCode }) {
     e.preventDefault();
     setGeneralError('');
 
-    // Rate limiting check
+    // Document is now Mandatory
+    if (!file) {
+      setFileError('Supporting document (PDF) is required');
+      return;
+    }
+
     const now = Date.now();
     if (now - lastSubmissionTime < SUBMISSION_COOLDOWN) {
       setGeneralError('Please wait a moment before submitting again');
@@ -122,20 +141,14 @@ export default function TenderApplicationForm({ tenderCode }) {
           .upload(path, file);
         if (uploadError) throw uploadError;
 
-        // Generate signed URL (valid for 365 days)
         const { data: signedData, error: signError } = await supabase.storage
           .from('tender-applications')
           .createSignedUrl(path, 365 * 24 * 60 * 60);
-
-        if (signError) {
-          console.error('Signed URL error:', signError);
+        if (signError)
           throw new Error('Failed to process your document. Please try again.');
-        }
-
         documentUrl = signedData?.signedUrl;
       }
 
-      // Sanitize inputs to prevent XSS
       const sanitize = (str) => {
         const div = document.createElement('div');
         div.textContent = str;
@@ -149,11 +162,23 @@ export default function TenderApplicationForm({ tenderCode }) {
           company_name: sanitize(form.company_name.trim()),
           contact_name: sanitize(form.contact_name.trim()),
           email: form.email.toLowerCase().trim(),
-          phone: form.phone.trim() || null,
+          phone: form.phone.trim(),
           document_url: documentUrl,
         });
 
       if (insertError) throw insertError;
+
+      fetch('/api/send-tender-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          companyName: form.company_name.trim(),
+          contactName: form.contact_name.trim(),
+          email: form.email.toLowerCase().trim(),
+          tenderCode: tender.tender_code,
+          tenderTitle: tender.title,
+        }),
+      }).catch((err) => console.error('Email trigger failed:', err));
 
       setLastSubmissionTime(now);
       setSubmitted(true);
@@ -161,33 +186,36 @@ export default function TenderApplicationForm({ tenderCode }) {
       console.error('Submission error:', err);
       setGeneralError(
         err.message ||
-          'Something went wrong submitting your application. Please try again or contact procurement@spmh.co.ke',
+          'Something went wrong. Please try again or contact procurement@spmh.co.ke',
       );
     } finally {
       setSubmitting(false);
     }
   }
 
-  if (loadingTender)
+  if (loadingTender) {
     return (
-      <div class='max-w-lg mx-auto py-16'>
-        <div class='animate-pulse text-center'>
-          <p class='text-sm text-slate-500'>Loading tender information…</p>
+      <div className='max-w-lg mx-auto py-16'>
+        <div className='animate-pulse text-center'>
+          <p className='text-sm text-slate-500'>Loading tender information…</p>
         </div>
       </div>
     );
+  }
 
   if (!tender) {
     return (
-      <div class='max-w-lg mx-auto text-center py-16 border border-dashed border-slate-300 rounded-lg bg-slate-50'>
-        <p class='text-lg font-semibold text-slate-700 mb-2'>
+      <div className='max-w-lg mx-auto text-center py-16 border border-dashed border-slate-300 rounded-lg bg-slate-50'>
+        <p className='text-lg font-semibold text-slate-700 mb-2'>
           Tender Not Found
         </p>
-        <p class='text-sm text-slate-500 mb-6'>
+        <p className='text-sm text-slate-500 mb-6'>
           This tender is no longer open for applications, or the link is
           invalid.
         </p>
-        <a href='/tenders' class='text-accent font-bold hover:underline'>
+        <a
+          href='/about-us/tenders'
+          className='text-[#125276] font-bold hover:underline'>
           ← Browse all tenders
         </a>
       </div>
@@ -196,34 +224,34 @@ export default function TenderApplicationForm({ tenderCode }) {
 
   if (submitted) {
     return (
-      <div class='max-w-lg mx-auto py-16'>
-        <div class='bg-slate-50 border border-slate-200 rounded-lg p-4 md:p-8 text-center'>
-          <div class='text-5xl mb-4 text-[#125276]'>✓</div>
-          <h2 class='text-xl font-serif font-bold text-slate-900 mb-2'>
+      <div className='max-w-lg mx-auto py-16'>
+        <div className='bg-white border-2 border-emerald-500 rounded-xl p-8 text-center shadow-lg'>
+          <div className='w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold'>
+            ✓
+          </div>
+          <h2 className='text-2xl font-serif font-bold text-slate-900 mb-3'>
             Application Submitted
           </h2>
-          <p class='text-slate-600 mb-6'>
-            Your submission for <strong>{tender.tender_code}</strong> has been
-            received and recorded securely.
+          <p className='text-slate-600 mb-6'>
+            Your submission for{' '}
+            <strong className='text-[#125276]'>{tender.tender_code}</strong> has
+            been received and recorded securely. A confirmation email has been
+            sent to <strong>{form.email}</strong>.
           </p>
-          <div class='bg-white rounded p-4 mb-6 text-left text-sm text-slate-600 border border-slate-200'>
-            <p class='mb-2'>
-              <strong>What happens next:</strong>
-            </p>
-            <ul class='space-y-1 ml-4 list-disc'>
+          <div className='bg-slate-50 rounded-lg p-5 mb-8 text-left text-sm text-slate-600 border border-slate-200'>
+            <p className='font-bold text-slate-800 mb-2'>What happens next:</p>
+            <ul className='space-y-2 ml-4 list-disc marker:text-emerald-500'>
               <li>Our procurement team will review your submission</li>
+              {/* Using the new formatDate function here */}
               <li>
                 All applicants will be notified of outcomes by{' '}
-                {tender.closing_date}
+                {formatDate(tender.closing_date)}
               </li>
             </ul>
           </div>
-          <p class='text-xs text-slate-500 mb-6'>
-            Keep a copy of your submission details for your records.
-          </p>
           <a
             href='/about-us/tenders'
-            class='inline-block bg-[#125276] text-white font-bold px-6 py-2 rounded-lg hover:bg-[#0d3f5c] transition-colors'>
+            className='inline-block bg-[#125276] text-white font-bold px-8 py-3 rounded-lg hover:bg-[#0d3f5c] transition-colors shadow-sm'>
             View Other Opportunities
           </a>
         </div>
@@ -232,33 +260,28 @@ export default function TenderApplicationForm({ tenderCode }) {
   }
 
   return (
-    <div class='max-w-lg mx-auto'>
-      <div class='bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden'>
-        {/* Header */}
-        <div class='bg-slate-50 p-6 border-b border-slate-200'>
-          <span class='text-xs font-bold text-accent'>
+    <div className='max-w-lg mx-auto'>
+      <div className='bg-white rounded-xl border border-slate-200 shadow-lg overflow-hidden'>
+        <div className='bg-[#125276] p-6 text-white'>
+          <span className='text-xs font-bold text-emerald-300 uppercase tracking-wider'>
             {tender.tender_code}
           </span>
-          <h2 class='text-xl font-serif font-bold text-slate-900 mt-1'>
-            {tender.title}
-          </h2>
-          <p class='text-xs text-slate-500 mt-2'>
-            Submit your application below
+          <h2 className='text-2xl font-serif font-bold mt-1'>{tender.title}</h2>
+          <p className='text-sm text-slate-300 mt-2'>
+            Please fill in your details carefully to apply.
           </p>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} class='p-4 md:p-6 space-y-5'>
+        <form onSubmit={handleSubmit} className='p-6 md:p-8 space-y-6'>
           {generalError && (
-            <div class='bg-red-50 border border-accent rounded p-4 text-sm text-accent'>
+            <div className='bg-red-50 border-l-4 border-red-500 rounded p-4 text-sm text-red-700 font-medium'>
               {generalError}
             </div>
           )}
 
-          {/* Company Name */}
           <div>
-            <label class='block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2'>
-              Company Name *
+            <label className='block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2'>
+              Company Name <span className='text-red-500'>*</span>
             </label>
             <input
               type='text'
@@ -269,22 +292,23 @@ export default function TenderApplicationForm({ tenderCode }) {
                 if (errors.company_name)
                   setErrors({ ...errors, company_name: '' });
               }}
-              placeholder='Your company name'
-              class={`w-full border-2 rounded px-4 py-2 text-sm transition-colors ${
+              placeholder='e.g. Acme Suppliers Ltd'
+              className={`w-full border rounded-lg px-4 py-3 text-sm transition-colors focus:ring-2 focus:ring-[#125276] focus:border-[#125276] outline-none ${
                 errors.company_name
-                  ? 'border-accent bg-red-50'
-                  : 'border-slate-200 hover:border-slate-300 focus:border-[#125276]'
-              } focus:outline-none`}
+                  ? 'border-red-500 bg-red-50'
+                  : 'border-slate-300'
+              }`}
             />
             {errors.company_name && (
-              <p class='text-xs text-accent mt-1'>{errors.company_name}</p>
+              <p className='text-xs text-red-600 mt-1.5 font-medium'>
+                {errors.company_name}
+              </p>
             )}
           </div>
 
-          {/* Contact Name */}
           <div>
-            <label class='block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2'>
-              Contact Person *
+            <label className='block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2'>
+              Contact Person <span className='text-red-500'>*</span>
             </label>
             <input
               type='text'
@@ -296,22 +320,23 @@ export default function TenderApplicationForm({ tenderCode }) {
                   setErrors({ ...errors, contact_name: '' });
               }}
               placeholder='Full name'
-              class={`w-full border-2 rounded px-4 py-2 text-sm transition-colors ${
+              className={`w-full border rounded-lg px-4 py-3 text-sm transition-colors focus:ring-2 focus:ring-[#125276] focus:border-[#125276] outline-none ${
                 errors.contact_name
-                  ? 'border-accent bg-red-50'
-                  : 'border-slate-200 hover:border-slate-300 focus:border-[#125276]'
-              } focus:outline-none`}
+                  ? 'border-red-500 bg-red-50'
+                  : 'border-slate-300'
+              }`}
             />
             {errors.contact_name && (
-              <p class='text-xs text-accent mt-1'>{errors.contact_name}</p>
+              <p className='text-xs text-red-600 mt-1.5 font-medium'>
+                {errors.contact_name}
+              </p>
             )}
           </div>
 
-          {/* Email & Phone (Grid) */}
-          <div class='grid grid-cols-2 gap-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
             <div>
-              <label class='block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2'>
-                Email *
+              <label className='block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2'>
+                Email <span className='text-red-500'>*</span>
               </label>
               <input
                 type='email'
@@ -322,108 +347,140 @@ export default function TenderApplicationForm({ tenderCode }) {
                   if (errors.email) setErrors({ ...errors, email: '' });
                 }}
                 placeholder='name@company.com'
-                class={`w-full border-2 rounded px-3 py-2 text-sm transition-colors ${
-                  errors.email
-                    ? 'border-accent bg-red-50'
-                    : 'border-slate-200 hover:border-slate-300 focus:border-[#125276]'
-                } focus:outline-none`}
+                className={`w-full border rounded-lg px-4 py-3 text-sm transition-colors focus:ring-2 focus:ring-[#125276] focus:border-[#125276] outline-none ${
+                  errors.email ? 'border-red-500 bg-red-50' : 'border-slate-300'
+                }`}
               />
               {errors.email && (
-                <p class='text-xs text-accent mt-1'>{errors.email}</p>
+                <p className='text-xs text-red-600 mt-1.5 font-medium'>
+                  {errors.email}
+                </p>
               )}
             </div>
             <div>
-              <label class='block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2'>
-                Phone
+              {/* Phone is now Mandatory */}
+              <label className='block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2'>
+                Phone <span className='text-red-500'>*</span>
               </label>
               <input
                 type='tel'
+                required
                 value={form.phone}
                 onChange={(e) => {
                   setForm({ ...form, phone: e.target.value });
                   if (errors.phone) setErrors({ ...errors, phone: '' });
                 }}
                 placeholder='0712345678'
-                class={`w-full border-2 rounded px-3 py-2 text-sm transition-colors ${
-                  errors.phone
-                    ? 'border-accent bg-red-50'
-                    : 'border-slate-200 hover:border-slate-300 focus:border-[#125276]'
-                } focus:outline-none`}
+                className={`w-full border rounded-lg px-4 py-3 text-sm transition-colors focus:ring-2 focus:ring-[#125276] focus:border-[#125276] outline-none ${
+                  errors.phone ? 'border-red-500 bg-red-50' : 'border-slate-300'
+                }`}
               />
               {errors.phone && (
-                <p class='text-xs text-accent mt-1'>{errors.phone}</p>
+                <p className='text-xs text-red-600 mt-1.5 font-medium'>
+                  {errors.phone}
+                </p>
               )}
             </div>
           </div>
 
-          {/* File Upload */}
           <div>
-            <label class='block text-xs font-bold uppercase tracking-widest text-slate-600 mb-2'>
-              Supporting Documents (PDF, optional)
+            {/* Document is now Mandatory */}
+            <label className='block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2'>
+              Supporting Documents <span className='text-red-500'>*</span>
             </label>
             <label
-              class={`block border-2 border-dashed rounded px-4 py-6 text-center cursor-pointer transition-colors ${
+              className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${
                 fileError
-                  ? 'border-accent bg-red-50'
+                  ? 'border-red-500 bg-red-50'
                   : 'border-slate-300 hover:border-[#125276] hover:bg-slate-50'
               }`}>
+              <div className='flex flex-col items-center justify-center pt-5 pb-6'>
+                <svg
+                  className='w-8 h-8 mb-3 text-slate-400'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12'></path>
+                </svg>
+                {file ? (
+                  <p className='text-sm font-semibold text-[#125276]'>
+                    ✓ {file.name} ({(file.size / 1024).toFixed(0)} KB)
+                  </p>
+                ) : (
+                  <>
+                    <p className='mb-1 text-sm text-slate-600'>
+                      <span className='font-semibold text-[#125276]'>
+                        Click to upload
+                      </span>{' '}
+                      or drag and drop
+                    </p>
+                    <p className='text-xs text-slate-500'>
+                      PDF format only (MAX. 5MB)
+                    </p>
+                  </>
+                )}
+              </div>
               <input
                 type='file'
                 accept='application/pdf'
+                required
                 onChange={handleFileChange}
-                class='hidden'
+                className='hidden'
               />
-              {file ? (
-                <div>
-                  <p class='text-sm font-semibold text-slate-900'>
-                    ✓ {file.name}
-                  </p>
-                  <p class='text-xs text-slate-500 mt-1'>
-                    {(file.size / 1024).toFixed(0)} KB
-                  </p>
-                </div>
-              ) : (
-                <div>
-                  <p class='text-sm font-semibold text-slate-700 mb-1'>
-                    📄 Click to upload PDF
-                  </p>
-                  <p class='text-xs text-slate-500'>Max 5MB, PDF format only</p>
-                </div>
-              )}
             </label>
-            {fileError && <p class='text-xs text-accent mt-2'>{fileError}</p>}
+            {fileError && (
+              <p className='text-xs text-red-600 mt-2 font-medium'>
+                {fileError}
+              </p>
+            )}
           </div>
 
-          {/* Privacy Notice */}
-          <div class='bg-slate-50 border border-slate-200 rounded p-4'>
-            <p class='text-xs text-slate-600'>
+          <div className='bg-blue-50 border border-blue-100 rounded-lg p-4'>
+            <p className='text-xs text-blue-800 leading-relaxed'>
               <strong>Privacy & Security:</strong> Your information is encrypted
-              and handled per Kenya's PDPA. We only use it to evaluate your
-              application.
+              and handled in accordance with Kenya's PDPA. We only use it to
+              evaluate your application.
             </p>
           </div>
 
-          {/* Submit Button */}
           <button
             type='submit'
             disabled={submitting}
-            class='w-full bg-[#125276] text-white font-bold py-3 rounded-lg hover:bg-[#0d3f5c] transition-colors disabled:opacity-50 disabled:cursor-not-allowed'>
-            {submitting ? 'Submitting…' : 'Submit Application'}
+            className='w-full bg-[#125276] text-white font-bold py-3.5 rounded-lg hover:bg-[#0d3f5c] transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md flex justify-center items-center'>
+            {submitting ? (
+              <>
+                <svg
+                  className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'>
+                  <circle
+                    className='opacity-25'
+                    cx='12'
+                    cy='12'
+                    r='10'
+                    stroke='currentColor'
+                    strokeWidth='4'></circle>
+                  <path
+                    className='opacity-75'
+                    fill='currentColor'
+                    d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'></path>
+                </svg>
+                Submitting Application...
+              </>
+            ) : (
+              'Submit Application'
+            )}
           </button>
 
-          {/* Footer Note */}
-          <p class='text-xs text-slate-500 text-center'>
+          <p className='text-xs text-slate-500 text-center'>
             By submitting, you confirm you meet the tender requirements.
           </p>
         </form>
-        <div class='text-center mx-auto my-5 flex-col md:flex-row item-center judstify-center gap-5'>
-          <a href='/about-us/tenders' class='btn-primary text-center flex-1 mb-4 mr-4'>
-            ← Back to Tenders
-          </a>
-          <a href='/' class='btn-secondary text-center flex-1'>
-            Back to Main Website
-          </a>
-        </div>
       </div>
     </div>
   );
