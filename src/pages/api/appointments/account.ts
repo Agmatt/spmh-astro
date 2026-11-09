@@ -1,0 +1,128 @@
+// src/pages/api/appointments/account.ts
+// A signed-in appointments team member (any role) changes their OWN password.
+// This is also the forced "choose your own password" step after an admin
+// creates the account or resets the password.
+// Email addresses are NOT changed here: a typo would lock the person out.
+
+import type { APIRoute } from 'astro';
+import { createClient } from '@supabase/supabase-js';
+import { requireAppointmentsUser } from '../../../lib/appointments-auth';
+import { logAudit } from '../../../lib/appointments-audit';
+
+export const prerender = false;
+
+const MIN_LENGTH = 8;
+// Same rule as the client: 8+ chars, 1 uppercase, 1 number, 1 symbol
+const PASSWORD_RE = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+
+const json = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+/** Checks the current password without touching the user's real session. */
+async function currentPasswordIsCorrect(
+  email: string,
+  password: string,
+): Promise<boolean> {
+  const url =
+    import.meta.env.FEEDBACK_SUPABASE_URL ?? process.env.FEEDBACK_SUPABASE_URL;
+  const anonKey =
+    import.meta.env.PUBLIC_SUPABASE_NEWS_ANON_KEY ??
+    import.meta.env.PUBLIC_SUPABASE_NEWS_ANON_KEY;
+  if (!url || !anonKey) throw new Error('Missing Supabase env vars');
+
+  const client = createClient(url, anonKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+    },
+  });
+  const { error } = await client.auth.signInWithPassword({ email, password });
+  return !error;
+}
+
+export const POST: APIRoute = async ({ request, cookies }) => {
+  // skipPasswordGate: this is the endpoint that CLEARS the "must change" flag
+  const auth = await requireAppointmentsUser(cookies, {
+    skipPasswordGate: true,
+  });
+  if (!auth.ok) {
+    console.warn(
+      '[Appointments account] rejected, redirect was:',
+      auth.redirect,
+    );
+    const message = auth.redirect.includes('timeout=1')
+      ? 'Your session timed out from inactivity. Please sign in again.'
+      : auth.redirect.includes('error=no_access')
+        ? 'This account has no appointments role.'
+        : auth.redirect.includes('error=server')
+          ? 'Could not verify your access right now. Please try again.'
+          : 'You are not signed in. Please sign in again.';
+    return json({ error: message, redirect: auth.redirect }, 401);
+  }
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'Invalid request.' }, 400);
+  }
+
+  const { current_password, new_password } = body ?? {};
+  const email = auth.user.email;
+  if (!email) return json({ error: 'Your account has no email.' }, 400);
+
+  if (typeof current_password !== 'string' || !current_password) {
+    return json({ error: 'Enter your current password.' }, 400);
+  }
+  if (typeof new_password !== 'string' || !PASSWORD_RE.test(new_password)) {
+    return json(
+      {
+        error: `New password needs at least ${MIN_LENGTH} characters, 1 uppercase letter, 1 number, and 1 symbol.`,
+      },
+      400,
+    );
+  }
+  if (new_password.length > 72) {
+    return json(
+      { error: 'New password is too long (max 72 characters).' },
+      400,
+    );
+  }
+  if (new_password === current_password) {
+    return json(
+      { error: 'New password must be different from the current one.' },
+      400,
+    );
+  }
+
+  try {
+    if (!(await currentPasswordIsCorrect(email, current_password))) {
+      return json({ error: 'Your current password is incorrect.' }, 400);
+    }
+  } catch (err) {
+    console.error('[Appointments account verify]', err);
+    return json({ error: 'Could not verify your password.' }, 500);
+  }
+
+  const { error } = await auth.adminClient.auth.admin.updateUserById(
+    auth.user.id,
+    {
+      password: new_password,
+      app_metadata: { must_change_password: false },
+    },
+  );
+  if (error) {
+    console.error('[Appointments account password]', error.message);
+    return json(
+      { error: error.message || 'Could not change the password.' },
+      400,
+    );
+  }
+
+  await logAudit(auth.adminClient, auth.user, 'password_changed');
+  return json({ success: true });
+};
