@@ -1,35 +1,71 @@
 ---
-// src/pages/admin/news.astro
-// Editorial dashboard for News & Media. Protected route; redirects to login if no session.
+// src/pages/admin/editorial/index.astro
+// Server-side gate first: session, role, idle timeout. Only then does the
+// editor render. The old client-only checks in Editorialdashboard are no
+// longer the security boundary.
 
+import { requireEditorialUser } from '../../../lib/editorial-auth';
 import EditorialDashboard from '../../../components/Editorialdashboard';
 import '../../../styles/global.css';
 
-// In SSR/Edge, you can optionally check if a session cookie exists.
-// For now, we'll rely on the client-side check in the React component.
-// If you want server-side enforcement, check Astro.cookies for the editorial session.
+export const prerender = false;
 
-const cookies = Astro.cookies;
-const hasSession = cookies.has('editorial_session');
-
-if (!hasSession) {
-  // Optional: enforce at server level. Otherwise, the React component handles redirect.
-  // return Astro.redirect('/editorial/login');
-}
+const auth = await requireEditorialUser(Astro.cookies);
+if (!auth.ok) return Astro.redirect(auth.redirect);
+const { user, role } = auth;
 ---
 
+<!doctype html>
 <html lang='en'>
   <head>
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <title>Editorial Dashboard | St. Paul's Mission Hospital</title>
+    <meta name='robots' content='noindex, nofollow' />
+    <title>Editorial Dashboard · St. Paul's Mission Hospital</title>
     <link rel='icon' type='image/png' href='/file.svg' />
-    <script
-      defer
-      src='https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js'
-    ></script>
   </head>
-  <body class='bg-[#061e35]'>
-    <EditorialDashboard client:load />
+  <body class='min-h-screen bg-[#061e35]'>
+    <header class='bg-slate-800 border-b border-white/10 sticky top-0 z-50'>
+      <div
+        class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between'>
+        <div>
+          <span
+            class='text-[10px] font-mono uppercase tracking-[0.3em] text-blue-200'
+            >News &amp; Media</span
+          >
+          <h1 class='text-base font-bold text-white'>Editorial Dashboard</h1>
+        </div>
+        <div class='flex items-center gap-3'>
+          {
+            role === 'editorial_super_admin' && (
+              <a
+                href='/admin/editorial/team'
+                class='text-xs font-bold text-slate-200 hover:text-white border border-white/20 hover:border-white/50 px-3 py-2 rounded-lg transition-colors'>
+                Team
+              </a>
+            )
+          }
+          <a
+            href='/admin/editorial/settings'
+            class='text-xs font-bold text-slate-200 hover:text-white border border-white/20 hover:border-white/50 px-3 py-2 rounded-lg transition-colors'>
+            Settings
+          </a>
+          <span class='hidden sm:inline text-xs text-slate-300'
+            >{user.email}</span
+          >
+          <form method='POST' action='/admin/editorial/logout'>
+            <button
+              type='submit'
+              class='px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-200 hover:text-white border border-white/20 hover:border-red-400 hover:bg-red-400/10 rounded-lg transition-all'>
+              Sign Out
+            </button>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <EditorialDashboard client:load userId={user.id} />
+    </main>
   </body>
 </html>

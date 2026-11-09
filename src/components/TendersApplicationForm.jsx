@@ -243,10 +243,10 @@ export default function TenderApplicationForm({ tenderCode }) {
             <ul className='space-y-2 ml-4 list-disc marker:text-emerald-500'>
               <li>Our procurement team will review your submission</li>
               {/* Using the new formatDate function here */}
-              <li>
+              {/* <li>
                 All applicants will be notified of outcomes by{' '}
                 {formatDate(tender.closing_date)}
-              </li>
+              </li> */}
             </ul>
           </div>
           <a

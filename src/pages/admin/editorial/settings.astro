@@ -1,0 +1,399 @@
+---
+// src/pages/admin/editorial/settings.astro
+// Change your own password. Open to every editorial role.
+// If an admin gave you a temporary password, this is the first page you see
+// and you cannot go anywhere else until you choose your own.
+
+import { requireEditorialUser } from '../../../lib/editorial-auth';
+import '../../../styles/global.css';
+
+export const prerender = false;
+
+// skipPasswordGate: otherwise a user with a temporary password would loop forever
+const auth = await requireEditorialUser(Astro.cookies, {
+  skipPasswordGate: true,
+});
+if (!auth.ok) return Astro.redirect(auth.redirect);
+
+const { user, role } = auth;
+const forced = user.app_metadata?.must_change_password === true;
+const roleLabel = role
+  .replace('editorial_', '')
+  .replace('_', ' ')
+  .toUpperCase();
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='robots' content='noindex, nofollow' />
+    <title>Account Settings · Editorial Portal</title>
+    <link rel='icon' type='image/png' href='/file.svg' />
+  </head>
+  <body class='min-h-screen bg-slate-50'>
+    <header class='bg-slate-800 text-white shadow-md'>
+      <div
+        class='max-w-3xl mx-auto px-6 py-4 flex items-center justify-between'>
+        {
+          forced ? (
+            <span class='text-sm font-bold'>Editorial Dashboard</span>
+          ) : (
+            <a
+              href='/admin/editorial'
+              class='text-sm font-bold text-blue-100 hover:text-white'>
+              ← Dashboard
+            </a>
+          )
+        }
+        <div class='flex items-center gap-3'>
+          <span class='hidden sm:inline text-xs text-blue-100'>
+            {user.email} · {roleLabel}
+          </span>
+          <form method='POST' action='/admin/editorial/logout'>
+            <button
+              type='submit'
+              class='text-xs bg-white/10 hover:bg-[#860f0f] px-3 py-2 rounded-lg font-bold transition-colors'>
+              Sign Out
+            </button>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <main
+      id='settings-main'
+      data-forced={forced ? '1' : '0'}
+      class='max-w-3xl mx-auto px-6 py-8 space-y-6'>
+      <div>
+        <h1 class='text-2xl font-bold text-slate-900'>
+          {forced ? 'Choose your own password' : 'Account Settings'}
+        </h1>
+        <p class='text-sm text-slate-500'>
+          {
+            forced
+              ? 'For your security, replace the temporary password you were given before you continue.'
+              : 'Change the password you use to sign in.'
+          }
+        </p>
+      </div>
+
+      {
+        forced && (
+          <div class='bg-amber-50 border border-amber-200 text-amber-900 text-sm rounded-xl p-4'>
+            Enter the <strong>temporary password</strong> you were given, then
+            choose a new one that only you know.
+          </div>
+        )
+      }
+
+      <div class='bg-white rounded-2xl shadow-sm border border-slate-200 p-6'>
+        <div
+          id='pw-msg'
+          class='hidden border text-sm rounded-xl p-3 mb-4'
+          role='alert'>
+        </div>
+        <form id='pw-form' class='space-y-4'>
+          <div>
+            <label
+              for='pw-current'
+              class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'>
+              {forced ? 'Temporary password' : 'Current password'}
+            </label>
+            <div class='relative'>
+              <input
+                id='pw-current'
+                type='password'
+                required
+                autocomplete='current-password'
+                class='w-full bg-slate-50 border border-slate-300 text-sm rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-[#125276]/20 focus:border-[#125276]'
+              />
+              <button
+                type='button'
+                id='toggle-current'
+                class='absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1'
+                aria-label='Show password'>
+                <svg
+                  id='eye-on-current'
+                  class='w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'></path>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'
+                  ></path>
+                </svg>
+                <svg
+                  id='eye-off-current'
+                  class='hidden w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21'
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div>
+            <label
+              for='pw-new'
+              class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'
+              >New password</label
+            >
+            <div class='relative'>
+              <input
+                id='pw-new'
+                type='password'
+                required
+                minlength='8'
+                autocomplete='new-password'
+                class='w-full bg-slate-50 border border-slate-300 text-sm rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-[#125276]/20 focus:border-[#125276]'
+              />
+              <button
+                type='button'
+                id='toggle-new'
+                class='absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1'
+                aria-label='Show password'>
+                <svg
+                  id='eye-on-new'
+                  class='w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'></path>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'
+                  ></path>
+                </svg>
+                <svg
+                  id='eye-off-new'
+                  class='hidden w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21'
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <p class='text-xs text-slate-500 mt-1.5'>
+              At least 8 characters, with 1 uppercase letter, 1 number, and 1
+              symbol (e.g. ! @ # ?).
+            </p>
+          </div>
+          <div>
+            <label
+              for='pw-confirm'
+              class='block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2'
+              >Confirm new password</label
+            >
+            <div class='relative'>
+              <input
+                id='pw-confirm'
+                type='password'
+                required
+                minlength='8'
+                autocomplete='new-password'
+                class='w-full bg-slate-50 border border-slate-300 text-sm rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-[#125276]/20 focus:border-[#125276]'
+              />
+              <button
+                type='button'
+                id='toggle-confirm'
+                class='absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1'
+                aria-label='Show password'>
+                <svg
+                  id='eye-on-confirm'
+                  class='w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'></path>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'
+                  ></path>
+                </svg>
+                <svg
+                  id='eye-off-confirm'
+                  class='hidden w-5 h-5'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21'
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <button
+            id='pw-btn'
+            type='submit'
+            class='bg-[#125276] hover:bg-[#0e405d] text-white font-bold text-sm px-6 py-2.5 rounded-lg disabled:opacity-60'>
+            {forced ? 'Save and continue' : 'Update password'}
+          </button>
+        </form>
+      </div>
+
+      <p class='text-xs text-slate-400 text-center'>
+        Forgot your password? Ask an editorial super admin to reset it for you.
+      </p>
+    </main>
+
+    <script>
+      const main = document.getElementById('settings-main') as HTMLElement;
+      const forced = main.dataset.forced === '1';
+
+      const form = document.getElementById('pw-form') as HTMLFormElement;
+      const currentEl = document.getElementById(
+        'pw-current',
+      ) as HTMLInputElement;
+      const newEl = document.getElementById('pw-new') as HTMLInputElement;
+      const confirmEl = document.getElementById(
+        'pw-confirm',
+      ) as HTMLInputElement;
+      const btn = document.getElementById('pw-btn') as HTMLButtonElement;
+      const msg = document.getElementById('pw-msg') as HTMLElement;
+      const idleLabel = btn.textContent ?? 'Update password';
+
+      // Same rule as the server: 8+ chars, 1 uppercase, 1 number, 1 symbol
+      const PASSWORD_RE = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+
+      function setupEyeToggle(fieldId: string) {
+        const input = document.getElementById(
+          `pw-${fieldId}`,
+        ) as HTMLInputElement;
+        const toggle = document.getElementById(
+          `toggle-${fieldId}`,
+        ) as HTMLButtonElement;
+        const eyeOn = document.getElementById(
+          `eye-on-${fieldId}`,
+        ) as unknown as SVGElement;
+        const eyeOff = document.getElementById(
+          `eye-off-${fieldId}`,
+        ) as unknown as SVGElement;
+        toggle.addEventListener('click', () => {
+          const show = input.type === 'password';
+          input.type = show ? 'text' : 'password';
+          eyeOn.classList.toggle('hidden', show);
+          eyeOff.classList.toggle('hidden', !show);
+          toggle.setAttribute(
+            'aria-label',
+            show ? 'Hide password' : 'Show password',
+          );
+        });
+      }
+      setupEyeToggle('current');
+      setupEyeToggle('new');
+      setupEyeToggle('confirm');
+
+      function setMessage(text: string, ok: boolean) {
+        msg.textContent = text;
+        msg.classList.remove(
+          'hidden',
+          'bg-emerald-50',
+          'border-emerald-200',
+          'text-emerald-800',
+          'bg-red-50',
+          'border-red-200',
+          'text-red-700',
+        );
+        msg.classList.add(
+          ...(ok
+            ? ['bg-emerald-50', 'border-emerald-200', 'text-emerald-800']
+            : ['bg-red-50', 'border-red-200', 'text-red-700']),
+        );
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        msg.classList.add('hidden');
+
+        if (!PASSWORD_RE.test(newEl.value)) {
+          setMessage(
+            'New password needs at least 8 characters, 1 uppercase letter, 1 number, and 1 symbol.',
+            false,
+          );
+          return;
+        }
+        if (newEl.value !== confirmEl.value) {
+          setMessage('New passwords do not match.', false);
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Saving…';
+        try {
+          const res = await fetch('/api/editorial/account', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              current_password: currentEl.value,
+              new_password: newEl.value,
+            }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            if (res.status === 401 && data.redirect) {
+              window.location.assign(data.redirect);
+              return;
+            }
+            throw new Error(data.error || 'Request failed.');
+          }
+
+          form.reset();
+          if (forced) {
+            setMessage('Password saved. Taking you to the dashboard…', true);
+            setTimeout(() => window.location.assign('/admin/editorial'), 1200);
+            return; // keep the button disabled while we redirect
+          }
+          setMessage(
+            'Password updated. Use it the next time you sign in.',
+            true,
+          );
+        } catch (err) {
+          setMessage(
+            err instanceof Error ? err.message : 'Something went wrong.',
+            false,
+          );
+        }
+        btn.disabled = false;
+        btn.textContent = idleLabel;
+      });
+    </script>
+  </body>
+</html>
