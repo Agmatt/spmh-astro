@@ -213,13 +213,16 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Confirmations. Never fail the booking because email failed.
+    let patientEmailSent = false;
+    let staffNotified = false;
     const resendKey = env('RESEND_API_KEY');
     if (resendKey) {
       try {
         const resend = new Resend(resendKey);
+        // Own setting, so vendor emails (RESEND_FROM_EMAIL = procurement) never leak into bookings
         const from =
-          env('RESEND_FROM_EMAIL') ??
-          'SPMH Appointments <appointments@spmh.co.ke>';
+          env('APPOINTMENTS_FROM_EMAIL') ??
+          "St. Paul's Mission Hospital <info@spmh.co.ke>";
         const details = `
           <p><strong>Clinic:</strong> ${escapeHtml(clinic.name)}<br/>
           <strong>Date:</strong> ${escapeHtml(date)}<br/>
@@ -236,6 +239,7 @@ export const POST: APIRoute = async ({ request }) => {
               <p>If you need to change this appointment, please call the front desk.</p></div>`,
           });
           if (error) console.error('[appointments patient email]', error);
+          else patientEmailSent = true;
         }
 
         const { error: staffErr } = await resend.emails.send({
@@ -249,6 +253,7 @@ export const POST: APIRoute = async ({ request }) => {
             <strong>Email:</strong> ${escapeHtml(email || '—')}</p>${details}</div>`,
         });
         if (staffErr) console.error('[appointments staff email]', staffErr);
+        else staffNotified = true;
       } catch (mailErr: any) {
         console.error('[appointments email failed]', mailErr?.message);
       }
@@ -259,7 +264,16 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     return json(
-      { success: true, clinic: clinic.name, day: clinic.day, date, time },
+      {
+        success: true,
+        clinic: clinic.name,
+        day: clinic.day,
+        date,
+        time,
+        emailRequested: !!email,
+        patientEmailSent,
+        staffNotified,
+      },
       201,
     );
   } catch (err: any) {

@@ -381,7 +381,7 @@ const errorMsg =
           if (error) throw error;
 
           // Session cookie is now set; the server will pick it up.
-          window.location.assign('/admin/cqi');
+          window.location.replace('/admin/cqi');
         } catch (err) {
           showError(err instanceof Error ? err.message : 'Login failed.');
           setLoading(false);

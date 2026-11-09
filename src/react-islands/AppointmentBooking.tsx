@@ -1,635 +1,289 @@
-import React, { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
+// src/react-islands/AppointmentBooking.jsx
+// Public booking form. Talks only to /api/appointments/book:
+//  GET  → booked counts per date (no patient data is ever read here)
+//  POST → validated booking, with delivery flags for the confirmation screen
 
-const SUPABASE_URL = 'https://zzlngxryoalajdpsbpnn.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6bG5neHJ5b2FsYWpkcHNicG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MDk3NjYsImV4cCI6MjA5ODE4NTc2Nn0.NN2MqqqOITkizXpMw1qrAwbb4GYIySa7jsIcWnmP-Ag';
+import { useState, useEffect } from 'react';
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const MAX_PER_DAY = 15;
 
-const MAX_BOOKINGS_PER_DAY = 15;
+const CLINICS = [
+    { id: 'sopc', name: 'Surgical Outpatient Clinic (SOPC)', day: 'Monday', weekday: 1 },
+    { id: 'mopc', name: 'Medical Outpatient Clinic (MOPC)', day: 'Tuesday', weekday: 2 },
+    { id: 'obgyn', name: 'OB/GYN Outpatient Clinic', day: 'Wednesday', weekday: 3 },
+    { id: 'popc', name: 'Pediatric Outpatient Clinic (POPC)', day: 'Thursday', weekday: 4 },
+];
 
-const AppointmentBooking = () => {
+const TIME_SLOTS = ['08:00 AM', '08:30 AM', '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM'];
+
+const EMPTY = { clinic: '', date: '', time: '', fullName: '', phone: '', email: '', medicalHistory: '' };
+
+// Next 8 weeks of the clinic's weekday, as YYYY-MM-DD (UTC, matches the server)
+function upcomingDates(weekday) {
+    const dates = [];
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    for (let i = 0; i < 56; i++) {
+        const d = new Date(today);
+        d.setUTCDate(today.getUTCDate() + i);
+        if (d.getUTCDay() === weekday) dates.push(d.toISOString().split('T')[0]);
+    }
+    return dates;
+}
+
+const validName = (n) => (!n.trim() ? 'Name is required' : n.trim().length < 3 ? 'Enter your full name (at least 3 characters)' : '');
+const validPhone = (p) => {
+    if (!p.trim()) return 'Phone number is required';
+    const c = p.replace(/[\s\-().]/g, '');
+    return /^(?:\+254|254|0)[17]\d{8}$/.test(c) ? '' : 'Enter a valid Kenyan number, e.g. 0712345678 or +254712345678';
+};
+const validEmail = (e) => (!e || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e) ? '' : 'Enter a valid email address');
+
+export default function AppointmentBooking() {
     const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState({
-        clinic: '',
-        date: '',
-        time: '',
-        fullName: '',
-        phone: '',
-        email: '',
-        medicalHistory: '',
-    });
-    const [submitted, setSubmitted] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [availableDates, setAvailableDates] = useState([]);
-    const [dateCapacity, setDateCapacity] = useState({});
-    const [notificationStatus, setNotificationStatus] = useState('');
-
-    // Validation state
-    const [errors, setErrors] = useState({});
+    const [form, setForm] = useState(EMPTY);
     const [touched, setTouched] = useState({});
+    const [availableDates, setAvailableDates] = useState([]);
+    const [counts, setCounts] = useState({});
+    const [loadingAvailability, setLoadingAvailability] = useState(false);
+    const [error, setError] = useState('');
+    const [submitting, setSubmitting] = useState(false);
+    const [confirmation, setConfirmation] = useState(null);
 
-    const clinics = [
-        { id: 'sopc', name: 'Surgical Outpatient Clinic (SOPC)', day: 'Monday' },
-        { id: 'mopc', name: 'Medical Outpatient Clinic (MOPC)', day: 'Tuesday' },
-        { id: 'obgyn', name: 'OB/GYN Outpatient Clinic', day: 'Wednesday' },
-        { id: 'popc', name: 'Pediatric Outpatient Clinic (POPC)', day: 'Thursday' },
-    ];
-
-    const timeSlots = [
-        '08:00 AM', '08:30 AM', '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
-    ];
-
-    // Get next 8 weeks of available dates for a specific clinic day
-    const getAvailableDatesForClinic = (clinicDay) => {
-        const dayMap = { Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4 };
-        const targetDay = dayMap[clinicDay];
-        const dates = [];
-        const today = new Date();
-
-        for (let i = 0; i < 56; i++) {
-            const date = new Date(today);
-            date.setDate(date.getDate() + i);
-            if (date.getDay() === targetDay) {
-                dates.push(date.toISOString().split('T')[0]);
-            }
-        }
-        return dates;
+    const clinic = CLINICS.find((c) => c.id === form.clinic);
+    const errors = {
+        fullName: touched.fullName ? validName(form.fullName) : '',
+        phone: touched.phone ? validPhone(form.phone) : '',
+        email: touched.email ? validEmail(form.email) : '',
     };
+    const detailsValid = !validName(form.fullName) && !validPhone(form.phone) && !validEmail(form.email);
+    const dateFull = (d) => (counts[d] ?? 0) >= MAX_PER_DAY;
 
-    const checkCapacityForDates = async (clinicId, dates) => {
-        try {
-            const { data, error } = await supabase
-                .from('appointments')
-                .select('appointment_date, id')
-                .eq('clinic_name', clinicId);
-
-            if (error) throw error;
-
-            const capacityMap = {};
-            dates.forEach(date => {
-                const bookingsOnDate = data.filter(d => d.appointment_date === date).length;
-                capacityMap[date] = {
-                    booked: bookingsOnDate,
-                    available: MAX_BOOKINGS_PER_DAY - bookingsOnDate,
-                    isFull: bookingsOnDate >= MAX_BOOKINGS_PER_DAY,
-                };
-            });
-            setDateCapacity(capacityMap);
-            return capacityMap;
-        } catch (err) {
-            console.error('Error checking capacity:', err);
-            return {};
-        }
-    };
-
-    // Validation functions
-    const validateFullName = (name) => {
-        if (!name || !name.trim()) {
-            return 'Name is required';
-        }
-        if (name.trim().length < 3) {
-            return 'Enter full name (minimum 3 characters)';
-        }
-        return '';
-    };
-
-    const validatePhone = (phone) => {
-        if (!phone || !phone.trim()) {
-            return 'Phone number is required';
-        }
-
-        const cleanPhone = phone.replace(/[\s\-().]/g, '');
-
-        if (!cleanPhone.startsWith('+') && !cleanPhone.startsWith('0')) {
-            return 'Phone must start with + (international) or 0 (local)';
-        }
-
-        const digitsOnly = cleanPhone.replace(/[^0-9]/g, '');
-        if (digitsOnly.length < 10) {
-            return `Phone must have at least 10 digits (you have ${digitsOnly.length})`;
-        }
-
-        if (cleanPhone.startsWith('+')) {
-            if (digitsOnly.length < 10 || digitsOnly.length > 15) {
-                return 'International format: +country code + 9-13 digits';
-            }
-        }
-
-        if (cleanPhone.startsWith('0')) {
-            if (digitsOnly.length !== 10) {
-                return 'Local format: 0 followed by 9 digits (10 total)';
-            }
-        }
-
-        return '';
-    };
-
-    const validateEmail = (email) => {
-        if (!email) return '';
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            return 'Enter valid email address';
-        }
-        return '';
-    };
-
-    const validateStep = (stepNum) => {
-        const newErrors = {};
-
-        if (stepNum === 1) {
-            if (!formData.clinic) {
-                newErrors.clinic = 'Select a clinic';
-            }
-        }
-
-        if (stepNum === 2) {
-            if (!formData.date) {
-                newErrors.date = 'Select a date';
-            }
-            if (!formData.time) {
-                newErrors.time = 'Select a time';
-            }
-        }
-
-        if (stepNum === 3) {
-            const nameError = validateFullName(formData.fullName);
-            if (nameError) newErrors.fullName = nameError;
-
-            const phoneError = validatePhone(formData.phone);
-            if (phoneError) newErrors.phone = phoneError;
-
-            const emailError = validateEmail(formData.email);
-            if (emailError) newErrors.email = emailError;
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const handleClinicSelect = async (clinicId) => {
-        setFormData({ ...formData, clinic: clinicId, date: '', time: '' });
-        setError('');
-        setErrors({});
-        setTouched({});
-        setStep(2);
-
-        const clinic = clinics.find(c => c.id === clinicId);
-        const dates = getAvailableDatesForClinic(clinic.day);
+    async function chooseClinic(id) {
+        const c = CLINICS.find((x) => x.id === id);
+        const dates = upcomingDates(c.weekday);
+        setForm({ ...EMPTY, clinic: id });
         setAvailableDates(dates);
-        await checkCapacityForDates(clinicId, dates);
-    };
-
-    const handleDateChange = (e) => {
-        const selectedDate = e.target.value;
-        const capacity = dateCapacity[selectedDate];
-
-        if (capacity && capacity.isFull) {
-            setError(`⚠️ This date is fully booked (15/15). Please select another ${clinics.find(c => c.id === formData.clinic)?.day}.`);
-            setFormData({ ...formData, date: '', time: '' });
-            return;
-        }
-
+        setCounts({});
         setError('');
-        setFormData({ ...formData, date: selectedDate, time: '' });
-        setTouched({ ...touched, date: true });
-    };
-
-    const handleTimeSelect = (time) => {
-        setFormData({ ...formData, time });
-        setTouched({ ...touched, time: true });
-        setStep(3);
-    };
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-        setTouched({ ...touched, [name]: true });
-
-        if (name === 'fullName') {
-            const nameError = validateFullName(value);
-            setErrors({ ...errors, fullName: nameError });
-        }
-        if (name === 'phone') {
-            const phoneError = validatePhone(value);
-            setErrors({ ...errors, phone: phoneError });
-        }
-        if (name === 'email') {
-            const emailError = validateEmail(value);
-            setErrors({ ...errors, email: emailError });
-        }
-    };
-
-    // Send notifications via API
-    const sendNotifications = async (bookingData) => {
+        setStep(2);
+        setLoadingAvailability(true);
         try {
-            setNotificationStatus('sending');
+            const res = await fetch(`/api/appointments/book?clinic=${id}&dates=${dates.join(',')}`);
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.error || 'Could not load availability.');
+            setCounts(data.counts || {});
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoadingAvailability(false);
+        }
+    }
 
-            // Call your backend API to send email + SMS
-            const response = await fetch('/api/send-booking-confirmation', {
+    function chooseDate(date) {
+        if (!date) return setForm({ ...form, date: '', time: '' });
+        if (dateFull(date)) {
+            setError(`That ${clinic.day} is fully booked. Please choose another.`);
+            return setForm({ ...form, date: '', time: '' });
+        }
+        setError('');
+        setForm({ ...form, date, time: '' });
+    }
+
+    async function submit(e) {
+        e.preventDefault();
+        setTouched({ fullName: true, phone: true, email: true });
+        if (!detailsValid) return;
+
+        setSubmitting(true);
+        setError('');
+        try {
+            const res = await fetch('/api/appointments/book', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    fullName: bookingData.fullName,
-                    phone: bookingData.phone,
-                    email: bookingData.email,
-                    clinic: bookingData.clinicName,
-                    date: bookingData.date,
-                    time: bookingData.time,
+                    clinic: form.clinic,
+                    date: form.date,
+                    time: form.time,
+                    fullName: form.fullName,
+                    phone: form.phone,
+                    email: form.email,
+                    medicalHistory: form.medicalHistory,
                 }),
             });
-
-            if (!response.ok) {
-                console.warn('Notification send failed, but booking was saved');
-                setNotificationStatus('');
-                return true; // Booking still succeeded
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                setError(data.error || 'Could not complete your booking. Please try again.');
+                if (res.status === 409) setStep(2); // full: back to date choice
+                return;
             }
-
-            setNotificationStatus('sent');
-            return true;
-        } catch (err) {
-            console.warn('Error sending notifications:', err);
-            setNotificationStatus('');
-            return true; // Don't fail booking if notifications fail
+            setConfirmation({ ...data, fullName: form.fullName, email: form.email });
+        } catch {
+            setError('Network problem. Please check your connection and try again.');
+        } finally {
+            setSubmitting(false);
         }
-    };
+    }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        if (!validateStep(3)) {
-            return;
-        }
-
-        const selectedDateCapacity = dateCapacity[formData.date];
-        if (selectedDateCapacity && selectedDateCapacity.isFull) {
-            setError('This date just became full. Please select another date.');
-            return;
-        }
-
-        if (formData.clinic && formData.fullName && formData.phone && formData.date && formData.time) {
-            setLoading(true);
-            setError('');
-
-            try {
-                const selectedClinic = clinics.find(c => c.id === formData.clinic);
-
-                const { data: insertData, error: insertError } = await supabase
-                    .from('appointments')
-                    .insert([
-                        {
-                            clinic_name: formData.clinic,
-                            clinic_day: selectedClinic?.day,
-                            appointment_date: formData.date,
-                            appointment_time: formData.time,
-                            full_name: formData.fullName,
-                            phone: formData.phone,
-                            email: formData.email || null,
-                            medical_history: formData.medicalHistory || null,
-                            status: 'approved',
-                        },
-                    ])
-                    .select();
-
-                if (insertError) {
-                    setError(`Error booking appointment: ${insertError.message}`);
-                    setLoading(false);
-                    return;
-                }
-
-                // Send email + SMS notifications
-                await sendNotifications({
-                    fullName: formData.fullName,
-                    phone: formData.phone,
-                    email: formData.email,
-                    clinicName: selectedClinic?.name,
-                    date: formData.date,
-                    time: formData.time,
-                });
-
-                console.log('Appointment created:', insertData);
-                setSubmitted(true);
-            } catch (err) {
-                setError('An unexpected error occurred. Please try again.');
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        }
-    };
-
-    const goToStep = (stepNum) => {
-        setStep(stepNum);
-    };
-
-    const resetBooking = () => {
-        setSubmitted(false);
+    function startAgain() {
+        setConfirmation(null);
+        setForm(EMPTY);
         setStep(1);
         setError('');
-        setErrors({});
         setTouched({});
-        setNotificationStatus('');
-        setFormData({
-            clinic: '',
-            date: '',
-            time: '',
-            fullName: '',
-            phone: '',
-            email: '',
-            medicalHistory: '',
-        });
-    };
+    }
 
-    const selectedClinic = clinics.find(c => c.id === formData.clinic);
-    const selectedDateCapacity = dateCapacity[formData.date];
-    const progressPercentage = (step / 3) * 100;
-    const isStep3Valid = !errors.fullName && !errors.phone && !errors.email && formData.fullName && formData.phone;
+    // ── Confirmation ────────────────────────────────────────────────────────
+    if (confirmation) {
+        const emailLine = !confirmation.emailRequested
+            ? 'You did not give an email address, so no email was sent. Please write these details down.'
+            : confirmation.patientEmailSent
+                ? `A confirmation email has been sent to ${confirmation.email}.`
+                : `We could not send the confirmation email to ${confirmation.email}. Please write these details down.`;
 
-    if (submitted) {
         return (
-            <div className="fixed inset-0 flex items-center justify-center bg-black/40 p-4 z-50">
-                <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center">
-                    <div className="flex justify-center mb-4">
-                        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-2xl font-bold text-green-700">
-                            ✓
-                        </div>
-                    </div>
-                    <h2 className="text-2xl font-bold text-primary mb-2">Booking confirmed</h2>
-                    <p className="text-muted mb-6">
-                        Your appointment has been scheduled.
-                    </p>
-                    <div className="bg-surface-2 rounded-lg p-4 text-left mb-6 text-sm space-y-2">
-                        <p>
-                            <span className="font-medium text-primary">Clinic:</span> {selectedClinic?.name}
-                        </p>
-                        <p>
-                            <span className="font-medium text-primary">Day:</span> {selectedClinic?.day}
-                        </p>
-                        <p>
-                            <span className="font-medium text-primary">Date:</span> {formData.date}
-                        </p>
-                        <p>
-                            <span className="font-medium text-primary">Time:</span> {formData.time}
-                        </p>
-                    </div>
-                    <button
-                        onClick={resetBooking}
-                        className="w-full btn-primary rounded-lg"
-                    >
-                        Book another appointment
-                    </button>
+            <div className='text-center py-6'>
+                <div className='w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-2xl font-bold text-green-700 mx-auto mb-4'>✓</div>
+                <h2 className='text-2xl font-bold text-[#0d3b6e] mb-2'>Booking confirmed</h2>
+                <p className='text-gray-600 mb-6'>{confirmation.fullName}, your appointment is saved.</p>
+                <div className='bg-gray-50 rounded-lg p-4 text-left text-sm space-y-1 mb-4'>
+                    <p><span className='font-semibold'>Clinic:</span> {CLINICS.find((c) => c.id === form.clinic)?.name ?? confirmation.clinic}</p>
+                    <p><span className='font-semibold'>Day:</span> {confirmation.day}</p>
+                    <p><span className='font-semibold'>Date:</span> {confirmation.date}</p>
+                    <p><span className='font-semibold'>Time:</span> {confirmation.time}</p>
                 </div>
+                <p className={`text-sm mb-6 ${confirmation.emailRequested && !confirmation.patientEmailSent ? 'text-amber-700' : 'text-gray-600'}`}>
+                    {emailLine}
+                </p>
+                <button onClick={startAgain} className='w-full py-3 rounded-lg bg-[#0d3b6e] text-white font-bold'>
+                    Book another appointment
+                </button>
             </div>
         );
     }
 
+    // ── Steps ───────────────────────────────────────────────────────────────
+    const inputClass = (bad) =>
+        `w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 ${bad ? 'border-red-400 bg-red-50 focus:ring-red-200' : 'border-gray-300 focus:ring-[#0d3b6e]/20'}`;
+
     return (
-        <div className="w-full max-w-4xl mx-auto p-4 bg-white rounded-xl shadow-sm border border-border">
-            <div className="mb-8">
-                <div className="flex justify-between mb-2">
-                    <span className="text-sm font-medium text-primary">Step {step} of 3</span>
-                    <span className="text-sm text-muted">{Math.round(progressPercentage)}%</span>
+        <div>
+            <div className='mb-6'>
+                <div className='flex justify-between text-sm mb-2'>
+                    <span className='font-medium text-[#0d3b6e]'>Step {step} of 3</span>
+                    <span className='text-gray-500'>{Math.round((step / 3) * 100)}%</span>
                 </div>
-                <div className="w-full h-2 bg-surface-2 rounded-full overflow-hidden">
-                    <div
-                        className="h-full bg-primary transition-all duration-300"
-                        style={{ width: `${progressPercentage}%` }}
-                    />
+                <div className='w-full h-2 bg-gray-100 rounded-full overflow-hidden'>
+                    <div className='h-full bg-[#0d3b6e] transition-all' style={{ width: `${(step / 3) * 100}%` }} />
                 </div>
             </div>
 
-            {error && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
-                    {error}
+            {error && <div className='mb-5 p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700'>{error}</div>}
+
+            {step === 1 && (
+                <div>
+                    <h3 className='text-xl font-bold text-[#0d3b6e] mb-2'>Select a clinic</h3>
+                    <p className='text-gray-600 mb-5'>Each clinic runs on one day of the week.</p>
+                    <div className='space-y-3'>
+                        {CLINICS.map((c) => (
+                            <button key={c.id} type='button' onClick={() => chooseClinic(c.id)}
+                                className='w-full p-4 rounded-lg border-2 border-gray-200 text-left hover:border-[#0d3b6e] transition'>
+                                <p className='font-bold text-[#0d3b6e]'>{c.name}</p>
+                                <p className='text-sm text-gray-500 mt-1'>{c.day}s, 8:00 AM – 12:00 PM</p>
+                            </button>
+                        ))}
+                    </div>
                 </div>
             )}
 
-            <form onSubmit={handleSubmit}>
-                {step === 1 && (
+            {step === 2 && clinic && (
+                <div>
+                    <h3 className='text-xl font-bold text-[#0d3b6e] mb-2'>Pick a date and time</h3>
+                    <p className='text-gray-600 mb-5'>{clinic.name} runs on {clinic.day}s.</p>
+
+                    <label className='block text-sm font-medium text-[#0d3b6e] mb-2'>Date</label>
+                    {loadingAvailability ? (
+                        <p className='text-sm text-gray-500 mb-5'>Checking availability…</p>
+                    ) : (
+                        <select value={form.date} onChange={(e) => chooseDate(e.target.value)} className={`${inputClass(false)} mb-5`}>
+                            <option value=''>-- Select a date --</option>
+                            {availableDates.map((d) => {
+                                const full = dateFull(d);
+                                const left = MAX_PER_DAY - (counts[d] ?? 0);
+                                const label = new Date(`${d}T00:00:00Z`).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+                                return (
+                                    <option key={d} value={d} disabled={full}>
+                                        {label} – {full ? 'FULL' : `${left} slots left`}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    )}
+
+                    {form.date && (
+                        <>
+                            <label className='block text-sm font-medium text-[#0d3b6e] mb-3'>Time</label>
+                            <div className='grid grid-cols-4 gap-2 mb-6'>
+                                {TIME_SLOTS.map((t) => (
+                                    <button key={t} type='button' onClick={() => { setForm({ ...form, time: t }); setStep(3); }}
+                                        className={`py-2 rounded-lg border text-sm font-medium ${form.time === t ? 'bg-[#0d3b6e] text-white border-[#0d3b6e]' : 'border-gray-300 text-[#0d3b6e] hover:border-[#0d3b6e]'}`}>
+                                        {t}
+                                    </button>
+                                ))}
+                            </div>
+                        </>
+                    )}
+
+                    <button type='button' onClick={() => setStep(1)} className='w-full py-2.5 rounded-lg border border-gray-300 text-[#0d3b6e] font-medium'>
+                        Back
+                    </button>
+                </div>
+            )}
+
+            {step === 3 && (
+                <form onSubmit={submit} className='space-y-4'>
+                    <h3 className='text-xl font-bold text-[#0d3b6e]'>Your details</h3>
+                    <p className='text-gray-600 text-sm'>* required. Your phone number is how we reach you, so please check it.</p>
+
                     <div>
-                        <h3 className="text-2xl font-bold text-primary mb-2">Select a clinic</h3>
-                        <p className="text-muted mb-6">Choose the clinic you want to visit. Each clinic operates on a specific day and has 15 available slots per day.</p>
-                        <div className="space-y-3">
-                            {clinics.map((clinic) => (
-                                <button
-                                    key={clinic.id}
-                                    type="button"
-                                    onClick={() => handleClinicSelect(clinic.id)}
-                                    className={`w-full p-4 rounded-lg border-2 transition-all text-left ${formData.clinic === clinic.id
-                                        ? 'border-primary bg-primary text-white'
-                                        : 'border-border text-primary hover:border-primary hover:bg-primary/5'
-                                        }`}
-                                >
-                                    <p className="font-bold">{clinic.name}</p>
-                                    <p className={`text-sm mt-1 ${formData.clinic === clinic.id ? 'text-white/80' : 'text-muted'}`}>
-                                        Available: {clinic.day}s, 8:00 AM - 12:00 PM (Max 15 bookings/day)
-                                    </p>
-                                </button>
-                            ))}
-                        </div>
+                        <label className='block text-sm font-medium text-[#0d3b6e] mb-1.5'>Full name *</label>
+                        <input type='text' value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+                            onBlur={() => setTouched({ ...touched, fullName: true })} placeholder='John Doe' className={inputClass(!!errors.fullName)} />
+                        {errors.fullName && <p className='text-xs text-red-600 mt-1'>{errors.fullName}</p>}
                     </div>
-                )}
 
-                {step === 2 && (
                     <div>
-                        <h3 className="text-2xl font-bold text-primary mb-2">Pick a date and time</h3>
-                        <p className="text-muted mb-2">
-                            <span className="font-semibold">{selectedClinic?.name}</span> operates on <span className="font-semibold">{selectedClinic?.day}s</span>
-                        </p>
-                        <p className="text-muted mb-6">Please select a {selectedClinic?.day} for your appointment. Dates in red are fully booked.</p>
-
-                        <div className="mb-6">
-                            <label className="block text-sm font-medium text-primary mb-2">Date</label>
-                            <select
-                                value={formData.date}
-                                onChange={handleDateChange}
-                                className="w-full px-4 py-3 rounded-lg border border-border focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-                            >
-                                <option value="">-- Select a date --</option>
-                                {availableDates.map(date => {
-                                    const capacity = dateCapacity[date];
-                                    const isFull = capacity?.isFull;
-                                    const availableSlots = capacity?.available || 0;
-                                    const dateStr = new Date(date).toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
-
-                                    return (
-                                        <option
-                                            key={date}
-                                            value={date}
-                                            disabled={isFull}
-                                            style={{ color: isFull ? '#999' : '#000' }}
-                                        >
-                                            {dateStr} - {isFull ? 'FULL (15/15)' : `${availableSlots} slots available`}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                            {formData.date && selectedDateCapacity && (
-                                <p className={`text-sm mt-2 font-medium ${selectedDateCapacity.isFull ? 'text-red-600' : 'text-green-600'}`}>
-                                    {selectedDateCapacity.booked}/{MAX_BOOKINGS_PER_DAY} booked • {selectedDateCapacity.available} available
-                                </p>
-                            )}
-                        </div>
-
-                        {formData.date && !selectedDateCapacity?.isFull && (
-                            <div>
-                                <label className="block text-sm font-medium text-primary mb-3">Time (8:00 AM - 12:00 PM)</label>
-                                <div className="grid grid-cols-4 gap-2">
-                                    {timeSlots.map((slot) => (
-                                        <button
-                                            key={slot}
-                                            type="button"
-                                            onClick={() => handleTimeSelect(slot)}
-                                            className={`py-2 px-2 rounded-lg border transition-all text-sm font-medium ${formData.time === slot
-                                                ? 'bg-primary text-white border-primary'
-                                                : 'border-border text-primary hover:border-primary hover:bg-primary/5'
-                                                }`}
-                                        >
-                                            {slot}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        <button
-                            type="button"
-                            onClick={() => goToStep(1)}
-                            className="mt-6 w-full py-2 px-4 rounded-lg border border-border text-primary hover:bg-surface-2 transition-colors font-medium"
-                        >
-                            Back
-                        </button>
+                        <label className='block text-sm font-medium text-[#0d3b6e] mb-1.5'>Phone number *</label>
+                        <input type='tel' value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                            onBlur={() => setTouched({ ...touched, phone: true })} placeholder='0712 345 678' className={inputClass(!!errors.phone)} />
+                        {errors.phone && <p className='text-xs text-red-600 mt-1'>{errors.phone}</p>}
                     </div>
-                )}
 
-                {step === 3 && (
                     <div>
-                        <h3 className="text-2xl font-bold text-primary mb-2">Your information</h3>
-                        <p className="text-muted mb-6">Please provide your details (* = required)</p>
-
-                        <div className="space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium text-primary mb-2">Full name *</label>
-                                <input
-                                    type="text"
-                                    name="fullName"
-                                    value={formData.fullName}
-                                    onChange={handleInputChange}
-                                    onBlur={() => setTouched({ ...touched, fullName: true })}
-                                    placeholder="John Doe"
-                                    className={`w-full px-4 py-3 rounded-lg border transition-all focus:outline-none focus:ring-2 ${touched.fullName && errors.fullName
-                                        ? 'border-red-400 bg-red-50 focus:ring-red-200'
-                                        : touched.fullName && formData.fullName
-                                            ? 'border-green-400 focus:ring-green-200'
-                                            : 'border-border focus:border-primary focus:ring-primary/20'
-                                        }`}
-                                />
-                                {touched.fullName && errors.fullName && (
-                                    <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
-                                        ✗ {errors.fullName}
-                                    </p>
-                                )}
-                                {touched.fullName && !errors.fullName && formData.fullName && (
-                                    <p className="text-xs text-green-600 mt-1.5 flex items-center gap-1">
-                                        ✓ Looks good
-                                    </p>
-                                )}
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-primary mb-2">Phone number *</label>
-                                <input
-                                    type="tel"
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={handleInputChange}
-                                    onBlur={() => setTouched({ ...touched, phone: true })}
-                                    placeholder="+254 712 345 678"
-                                    className={`w-full px-4 py-3 rounded-lg border transition-all focus:outline-none focus:ring-2 ${touched.phone && errors.phone
-                                        ? 'border-red-400 bg-red-50 focus:ring-red-200'
-                                        : touched.phone && formData.phone
-                                            ? 'border-green-400 focus:ring-green-200'
-                                            : 'border-border focus:border-primary focus:ring-primary/20'
-                                        }`}
-                                />
-                                {touched.phone && errors.phone && (
-                                    <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
-                                        ✗ {errors.phone}
-                                    </p>
-                                )}
-                                {touched.phone && !errors.phone && formData.phone && (
-                                    <p className="text-xs text-green-600 mt-1.5 flex items-center gap-1">
-                                        ✓ Valid phone number
-                                    </p>
-                                )}
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-primary mb-2">Email <span className="text-muted text-xs font-normal">(optional)</span></label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleInputChange}
-                                    onBlur={() => setTouched({ ...touched, email: true })}
-                                    placeholder="john@example.com"
-                                    className={`w-full px-4 py-3 rounded-lg border transition-all focus:outline-none focus:ring-2 ${touched.email && errors.email
-                                        ? 'border-red-400 bg-red-50 focus:ring-red-200'
-                                        : touched.email && formData.email
-                                            ? 'border-green-400 focus:ring-green-200'
-                                            : 'border-border focus:border-primary focus:ring-primary/20'
-                                        }`}
-                                />
-                                {touched.email && errors.email && (
-                                    <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
-                                        ✗ {errors.email}
-                                    </p>
-                                )}
-                                {touched.email && !errors.email && formData.email && (
-                                    <p className="text-xs text-green-600 mt-1.5 flex items-center gap-1">
-                                        ✓ Valid email
-                                    </p>
-                                )}
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-primary mb-2">
-                                    Medical history / complaints <span className="text-muted text-xs font-normal">(optional)</span>
-                                </label>
-                                <textarea
-                                    name="medicalHistory"
-                                    value={formData.medicalHistory}
-                                    onChange={handleInputChange}
-                                    placeholder="Any allergies, current medications, or symptoms we should know about?"
-                                    rows={4}
-                                    className="w-full px-4 py-3 rounded-lg border border-border focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-3 mt-6">
-                            <button
-                                type="submit"
-                                disabled={loading || !isStep3Valid}
-                                className="w-full btn-primary rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
-                            >
-                                {loading ? 'Booking...' : 'Confirm appointment'}
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => goToStep(2)}
-                                disabled={loading}
-                                className="w-full py-2 px-4 rounded-lg border border-border text-primary hover:bg-surface-2 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                Back
-                            </button>
-                        </div>
+                        <label className='block text-sm font-medium text-[#0d3b6e] mb-1.5'>Email <span className='text-gray-500 font-normal'>(optional, for a written confirmation)</span></label>
+                        <input type='email' value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
+                            onBlur={() => setTouched({ ...touched, email: true })} placeholder='john@example.com' className={inputClass(!!errors.email)} />
+                        {errors.email && <p className='text-xs text-red-600 mt-1'>{errors.email}</p>}
                     </div>
-                )}
-            </form>
+
+                    <div>
+                        <label className='block text-sm font-medium text-[#0d3b6e] mb-1.5'>Medical history / complaints <span className='text-gray-500 font-normal'>(optional)</span></label>
+                        <textarea rows={4} value={form.medicalHistory} onChange={(e) => setForm({ ...form, medicalHistory: e.target.value })}
+                            placeholder='Allergies, current medications, or symptoms we should know about?' className={inputClass(false)} />
+                    </div>
+
+                    <div className='bg-gray-50 rounded-lg p-3 text-sm text-gray-700'>
+                        <strong>{clinic?.name}</strong> · {form.date} · {form.time}
+                    </div>
+
+                    <button type='submit' disabled={submitting} className='w-full py-3 rounded-lg bg-[#0d3b6e] text-white font-bold disabled:opacity-50'>
+                        {submitting ? 'Booking…' : 'Confirm appointment'}
+                    </button>
+                    <button type='button' onClick={() => setStep(2)} disabled={submitting} className='w-full py-2.5 rounded-lg border border-gray-300 text-[#0d3b6e] font-medium'>
+                        Back
+                    </button>
+                </form>
+            )}
         </div>
     );
-};
-
-export default AppointmentBooking;
+}
