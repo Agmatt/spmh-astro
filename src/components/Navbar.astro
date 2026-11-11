@@ -24,15 +24,6 @@ const navGroups = [
   },
 ];
 
-const telemedicineGroup = {
-  key: 'telemedicine',
-  label: 'Telemedicine',
-  items: [
-    { label: 'Book a Consultation', href: '/telemedicine' },
-    { label: 'How it works', href: '/telemedicine/how-it-works' },
-    { label: 'Telemedicine Portal', href: '/telemedicine/portal' },
-  ],
-};
 
 const staffPortals = [
   {
@@ -288,53 +279,11 @@ const staffPortals = [
       </a>
 
       <!-- Telemedicine CTA Dropdown Button -->
-      <div
-        class='relative py-2'
-        @mouseenter="openDropdown = 'telemedicine'"
-        @mouseleave='openDropdown = null'>
-        <button
-          @click="openDropdown = openDropdown === 'telemedicine' ? null : 'telemedicine'"
-          class='flex items-center gap-2 px-4 py-2 bg-primary hover:bg-[#0e405d] text-white font-bold text-sm rounded-full transition-all shadow-sm hover:shadow-md transform hover:-translate-y-0.5 focus:outline-none ml-2'
-          aria-haspopup='true'
-          x-bind:aria-expanded="openDropdown === 'telemedicine'">
-          <span>Telemedicine</span>
-          <svg
-            class='w-3.5 h-3.5 transition-transform duration-300'
-            x-bind:class="{ 'rotate-180': openDropdown === 'telemedicine' }"
-            fill='none'
-            stroke='currentColor'
-            viewBox='0 0 24 24'>
-            <path
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              stroke-width='2'
-              d='M19 9l-7 7-7-7'></path>
-          </svg>
-        </button>
-
-        <ul
-          x-show="openDropdown === 'telemedicine'"
-          x-transition:enter='transition ease-out duration-150'
-          x-transition:enter-start='opacity-0 scale-95'
-          x-transition:enter-end='opacity-100 scale-100'
-          x-transition:leave='transition ease-in duration-100'
-          x-transition:leave-start='opacity-100 scale-100'
-          x-transition:leave-end='opacity-0 scale-95'
-          style='display:none'
-          class='absolute top-full left-2 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-3 z-[110]'>
-          {
-            telemedicineGroup.items.map((item) => (
-              <li>
-                <a
-                  href={item.href}
-                  class='block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-100 hover:text-[#125276] font-semibold transition-colors'>
-                  {item.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      <a
+        href='https://telemedicine.spmh.co.ke'
+        class='flex items-center gap-2 px-5 py-2 bg-primary hover:bg-primary text-white font-bold text-sm rounded-full transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 ml-1'>
+        <span>Telemedicine</span>
+      </a>
 
       <!-- Donate Button -->
       <a
@@ -518,42 +467,11 @@ const staffPortals = [
         </a>
 
         <!-- Mobile Telemedicine Accordion -->
-        <div class='space-y-2 border-b border-white/10 pb-2'>
-          <button
-            @click="mobOpenDropdown = mobOpenDropdown === 'telemedicine' ? null : 'telemedicine'"
-            class='w-full flex justify-between items-center p-2 rounded-lg bg-[#125276] font-bold text-sm text-white shadow-sm'>
-            <span class='flex items-center gap-2'> Telemedicine </span>
-            <svg
-              class='w-4 h-4 transition-transform duration-300 text-white'
-              x-bind:class="{ 'rotate-180': mobOpenDropdown === 'telemedicine' }"
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'>
-              <path
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                stroke-width='2'
-                d='M19 9l-7 7-7-7'></path>
-            </svg>
-          </button>
-          <ul
-            x-show="mobOpenDropdown === 'telemedicine'"
-            x-transition
-            style='display:none'
-            class='px-3 py-1 space-y-2 ml-2'>
-            {
-              telemedicineGroup.items.map((item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    class='block py-2 text-white/80 text-sm font-medium border-b border-white/10 hover:text-white'>
-                    {item.label}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
+        <a
+            href='https://telemedicine.spmh.co.ke'
+            class='block w-full text-center p-3 bg-primary text-white rounded-xl font-bold uppercase tracking-wider text-xs shadow-md hover:bg-primary transition-colors flex items-center justify-center gap-2'>
+            <span>Telemedicine</span>
+          </a>
 
         <!-- Mobile Staff Login Trigger -->
         <div class='border-b border-white/10 pb-2'>
