@@ -1,0 +1,40 @@
+---
+// src/components/SEOHead.astro
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = "St. Paul's Mission Hospital provides compassionate, high-quality healthcare in Homa Bay and the surrounding regions.",
+  ogImage = '/logos/logo.png',
+} = Astro.props;
+
+const siteUrl = Astro.site || new URL('https://www.spmh.co.ke');
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const absoluteImageURL = new URL(ogImage, siteUrl);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalOrganization',
+  name: "St. Paul's Mission Hospital",
+  url: siteUrl.toString(),
+  logo: absoluteImageURL.toString(),
+};
+---
+
+<title>{title}</title>
+<meta name='description' content={description} />
+<link rel='canonical' href={canonicalURL} />
+
+<!-- Open Graph -->
+<meta property='og:type' content='website' />
+<meta property='og:url' content={canonicalURL} />
+<meta property='og:title' content={title} />
+<meta property='og:description' content={description} />
+<meta property='og:image' content={absoluteImageURL} />
+
+<!-- Structured Data -->
+<script type='application/ld+json' set:html={JSON.stringify(schema)} />

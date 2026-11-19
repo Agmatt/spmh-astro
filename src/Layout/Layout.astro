@@ -5,7 +5,10 @@ import PatientAffairs from '../components/PatientAffairs.astro';
 import '../styles/global.css';
 import 'aos/dist/aos.css';
 import WhatsappFloat from '../components/WhatsappFloat.astro';
-const { title = 'St Pauls Mission Hospital' } = Astro.props;
+import SEOHead from '../components/SEOHead.astro'; // <-- 1. Import the new component
+
+// 2. Add description to the props
+const { title = 'St Pauls Mission Hospital', description } = Astro.props;
 ---
 
 <script>
@@ -23,8 +26,10 @@ const { title = 'St Pauls Mission Hospital' } = Astro.props;
       content='Wvq9fxjSav_polOYZYi_sJwou0_vV82ElShn9yIjsWo'
     />
     <meta name='viewport' content='width=device-width' />
-    
-    <title>{title}</title>
+
+    <!-- 3. Replace the old <title> with the SEO Component -->
+    <SEOHead title={title} description={description} />
+
     <link rel='icon' type='image/svg+xml' href='/file.svg' />
 
     <link rel='preconnect' href='https://fonts.googleapis.com' />
@@ -38,13 +43,11 @@ const { title = 'St Pauls Mission Hospital' } = Astro.props;
       type='text/css'
       href='https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css'
     />
-    <link rel='canonical' href='https://www.spmh.co.ke/' />
+    <!-- Note: I see your canonical was hardcoded here. The SEO Component handles this dynamically now, so you can remove the hardcoded canonical link. -->
     <script src='https://cdn.tailwindcss.com'></script>
-    <!-- in your Layout.astro <head> or before </body> -->
     <script
       defer
-      src='https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js'
-    ></script>
+      src='https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js'></script>
     <link
       rel='stylesheet'
       href='path/to/font-awesome/css/font-awesome.min.css'
@@ -58,6 +61,5 @@ const { title = 'St Pauls Mission Hospital' } = Astro.props;
     <Footer />
     <WhatsappFloat />
   </body>
-  <script src='https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js'
-  ></script>
+  <script src='https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js'></script>
 </html>
