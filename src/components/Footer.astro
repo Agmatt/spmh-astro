@@ -1,177 +1,187 @@
 ---
-const year = new Date().getFullYear()
+const year = new Date().getFullYear();
 
 const quickLinks = [
-  { label: "Our Mission",        href: "/about-us/mission-vision-values" },
-  { label: "History",            href: "/about-us/history"                },
-  { label: "Clinical Services", href: "/services/clinical"              },
-  { label: "News & Media",      href: "https://newsroom.spmh.co.ke"},
-  { label: "Careers",            href: "https://recruitment.spmh.co.ke",         external: true        },
-  { label: "Volunteer",          href: "/volunteer",          external: true      },
-  { label: "Partner With Us",    href: "/partner",             external: true     },
-  { label: "FAQ",            href: "/faq"                            },
-]
+  { label: 'Our Mission', href: '/about-us/mission-vision-values' },
+  { label: 'History', href: '/about-us/history' },
+  { label: 'Clinical Services', href: '/services/clinical' },
+  { label: 'News & Media', href: 'https://newsroom.spmh.co.ke' },
+  { label: 'Careers', href: 'https://recruitment.spmh.co.ke', external: true },
+  { label: 'Volunteer', href: '/volunteer', external: true },
+  { label: 'Partner With Us', href: '/partner', external: true },
+  { label: 'FAQ', href: '/faq' },
+];
 
 const contact = [
   {
-    icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z",
-    label: "Address",
-    value: "P . O Box 426, Gov. Cyprian Awiti Street\nHoma Bay, Kenya",
-    href: "https://maps.google.com/?q=St+Paul+Mission+Hospital+Homa+Bay",
+    icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z',
+    label: 'Address',
+    value: 'P . O Box 426, Gov. Cyprian Awiti Street\nHoma Bay, Kenya',
+    href: 'https://maps.google.com/?q=St+Paul+Mission+Hospital+Homa+Bay',
     external: true,
   },
   {
-    icon: "M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 7V5z",
-    label: "Phone",
-    value: "+254 111 817447",
-    href: "tel:+254111817447",
+    icon: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 7V5z',
+    label: 'Phone',
+    value: '+254 111 817447',
+    href: 'tel:+254111817447',
     external: false,
   },
   {
-    icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
-    label: "Email",
-    value: "info@spmh.co.ke",
-    href: "mailto:info@spmh.co.ke",
+    icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+    label: 'Email',
+    value: 'info@spmh.co.ke',
+    href: 'mailto:info@spmh.co.ke',
     external: false,
   },
-]
+];
 
 const hours = [
-  { label: "Morning", time: "06:00 AM – 06:30 AM" },
-  { label: "Afternoon", time: "1:00 PM – 2:00 PM" },
-  { label: "Evening", time: "5:00 PM – 7:00 PM" },
-  { label: "Maternity Ward", time: "24/7 (Special hours by arrangement)" },
-]
+  { label: 'Morning', time: '06:00 AM – 06:30 AM' },
+  { label: 'Afternoon', time: '1:00 PM – 2:00 PM' },
+  { label: 'Evening', time: '5:00 PM – 7:00 PM' },
+  { label: 'Maternity Ward', time: '24/7 (Special hours by arrangement)' },
+];
 
 // TODO: swap these placeholder hrefs for the hospital's actual social profiles
-const PHONE = "254111817447"
+const PHONE = '254111817447';
 const WA_LINK = `https://wa.me/${PHONE}?text=${encodeURIComponent(
-  "Hello, I would like to book an appointment at St. Paul's Mission Hospital."
-)}`
+  "Hello, I would like to book an appointment at St. Paul's Mission Hospital.",
+)}`;
 
 const socials = [
   {
-    label: "WhatsApp",
+    label: 'WhatsApp',
     href: WA_LINK,
-    path: "M22.517,16.379l-5.07-2.173a1.086,1.086,0,0,0-1.268.312l-2.245,2.743A16.78,16.78,0,0,1,5.912,9.24L8.656,6.995a1.084,1.084,0,0,0,.312-1.268L6.795.657A1.094,1.094,0,0,0,5.55.028L.842,1.114A1.086,1.086,0,0,0,0,2.173,21,21,0,0,0,21.005,23.178a1.086,1.086,0,0,0,1.059-.842l1.086-4.708a1.1,1.1,0,0,0-.634-1.249Z",
+    path: 'M22.517,16.379l-5.07-2.173a1.086,1.086,0,0,0-1.268.312l-2.245,2.743A16.78,16.78,0,0,1,5.912,9.24L8.656,6.995a1.084,1.084,0,0,0,.312-1.268L6.795.657A1.094,1.094,0,0,0,5.55.028L.842,1.114A1.086,1.086,0,0,0,0,2.173,21,21,0,0,0,21.005,23.178a1.086,1.086,0,0,0,1.059-.842l1.086-4.708a1.1,1.1,0,0,0-.634-1.249Z',
   },
   {
-    label: "Facebook",
-    href: "https://facebook.com/stpaulsmhhomabay",
-    path: "M22 12a10 10 0 10-11.5 9.87v-6.99H7.9v-2.88h2.6V9.84c0-2.56 1.52-3.98 3.85-3.98 1.12 0 2.3.2 2.3.2v2.53h-1.3c-1.28 0-1.68.8-1.68 1.61v1.93h2.86l-.46 2.88h-2.4v6.99A10 10 0 0022 12z",
+    label: 'Facebook',
+    href: 'https://facebook.com/stpaulsmhhomabay',
+    path: 'M22 12a10 10 0 10-11.5 9.87v-6.99H7.9v-2.88h2.6V9.84c0-2.56 1.52-3.98 3.85-3.98 1.12 0 2.3.2 2.3.2v2.53h-1.3c-1.28 0-1.68.8-1.68 1.61v1.93h2.86l-.46 2.88h-2.4v6.99A10 10 0 0022 12z',
   },
   {
-    label: "Twitter / X",
-    href: "https://x.com/@stpaulsmh_hb",
-    path: "M18.9 2.5h3.4l-7.4 8.46L23.5 21.5h-6.9l-5.4-7.06-6.18 7.06H1.6l7.93-9.06L1 2.5h7.07l4.88 6.45L18.9 2.5z",
+    label: 'Twitter / X',
+    href: 'https://x.com/@stpaulsmh_hb',
+    path: 'M18.9 2.5h3.4l-7.4 8.46L23.5 21.5h-6.9l-5.4-7.06-6.18 7.06H1.6l7.93-9.06L1 2.5h7.07l4.88 6.45L18.9 2.5z',
   },
   {
-    label: "TikTok",
-    href: "https://tiktok.com/@st.paulsmh.ke",
-    path: "M16.6 5.82a4.28 4.28 0 0 1-2.6-3.34h-3.07v13.3a2.6 2.6 0 1 1-1.83-2.48v-2.1a5.6 5.6 0 1 0 5.6 5.6V9.13a7.36 7.36 0 0 0 4.3 1.38V7.36a4.28 4.28 0 0 1-2.4-1.54z",
+    label: 'TikTok',
+    href: 'https://tiktok.com/@st.paulsmh.ke',
+    path: 'M16.6 5.82a4.28 4.28 0 0 1-2.6-3.34h-3.07v13.3a2.6 2.6 0 1 1-1.83-2.48v-2.1a5.6 5.6 0 1 0 5.6 5.6V9.13a7.36 7.36 0 0 0 4.3 1.38V7.36a4.28 4.28 0 0 1-2.4-1.54z',
   },
   {
-    label: "LinkedIn",
-    href: "https://linkedin.com/company/st-paul-s-mission-hospital",
-    path: "M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z",
+    label: 'LinkedIn',
+    href: 'https://linkedin.com/company/st-paul-s-mission-hospital',
+    path: 'M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z',
   },
-]
+];
 ---
 
-<footer class="bg-secondary relative overflow-hidden">
-
+<footer class='bg-[#0E2A47] relative overflow-hidden'>
   <!-- ── Main grid ── -->
-  <div class="relative max-w-7xl mx-auto px-6 lg:px-16 pt-14 pb-10">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
-
+  <div class='relative max-w-7xl mx-auto px-6 lg:px-16 pt-14 pb-10'>
+    <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8'>
       <!-- Brand column — 4 cols -->
-      <div class="sm:col-span-2 lg:col-span-4 flex flex-col gap-5">
-
+      <div class='sm:col-span-2 lg:col-span-4 flex flex-col gap-5'>
         <!-- Logo + name -->
-        <a href="/" class="flex items-center gap-3 group w-fit">
+        <a href='/' class='flex items-center gap-3 group w-fit'>
           <img
-            src="/logos/logo.png"
+            src='/logos/logo.png'
             alt="St. Paul's Mission Hospital"
-            class="h-10 w-auto opacity-90 group-hover:opacity-100 transition-opacity duration-200"
+            class='h-10 w-auto opacity-90 group-hover:opacity-100 transition-opacity duration-200'
           />
-          <div class="flex flex-col leading-tight">
-            <span class="text-white font-black tracking-tighter text-base uppercase">
+          <div class='flex flex-col leading-tight'>
+            <span class='text-white font-black tracking-tighter text-base uppercase'>
               St. Paul's
             </span>
-            <span class="text-white text-[0.6rem] font-bold tracking-[0.2em] uppercase">
+            <span class='text-white text-[0.6rem] font-bold tracking-[0.2em] uppercase'>
               Mission Hospital
             </span>
           </div>
         </a>
 
         <!-- Tagline -->
-        <div class="border-l-2 border-primary/40 pl-4">
-          <p class="font-display text-white/70 text-sm italic leading-relaxed">
-            Serving the Homa Bay community with compassionate, affordable, and dignified healthcare since 1983.
+        <div class='border-l-2 border-primary/40 pl-4'>
+          <p class='font-display text-white/70 text-sm italic leading-relaxed'>
+            Serving the Homa Bay community with compassionate, affordable, and
+            dignified healthcare since 1983.
           </p>
         </div>
 
         <!-- Accreditation trust signals -->
-        <div class="flex flex-col gap-2">
-          <div class="flex items-center gap-2">
-            <svg class="size-3.5 text-primary-light shrink-0" fill="none" stroke="currentColor"
-                 stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        <div class='flex flex-col gap-2'>
+          <div class='flex items-center gap-2'>
+            <svg
+              class='size-3.5 text-primary-light shrink-0'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+              />
             </svg>
-            <span class="text-white/70 text-[0.62rem] tracking-wide">
+            <span class='text-white/70 text-[0.62rem] tracking-wide'>
               SHA Accredited · Level 4 Facility
             </span>
           </div>
-          <div class="flex items-center gap-2">
-            <svg class="size-3.5 text-primary-light shrink-0" fill="none" stroke="currentColor"
-                 stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          <div class='flex items-center gap-2'>
+            <svg
+              class='size-3.5 text-primary-light shrink-0'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+              />
             </svg>
-            <span class="text-white/70 text-[0.62rem] tracking-wide">
+            <span class='text-white/70 text-[0.62rem] tracking-wide'>
               Catholic Diocese of Homa Bay · KEC–CHC
             </span>
           </div>
         </div>
 
         <!-- Social links -->
-        <div class="flex items-center gap-3 mt-1">
-          {socials.map(s => (
-            
-            <a  
-            href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
+        <div class='flex items-center gap-3 mt-1'>
+          {socials.map((s) => (
+            <a
+              href={s.href}
+              target='_blank'
+              rel='noopener noreferrer'
               aria-label={s.label}
-              class="size-9 flex items-center justify-center rounded-full bg-white/8 text-white  hover:bg-primary hover:text-white transition-colors duration-200">            
-              <svg class="size-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d={s.path}/>
+              class='size-9 flex items-center justify-center rounded-full bg-white/8 text-white hover:bg-primary hover:text-white transition-colors duration-200'>
+              <svg class='size-4' viewBox='0 0 24 24' fill='currentColor'>
+                <path d={s.path} />
               </svg>
             </a>
           ))}
         </div>
-
       </div>
 
       <!-- Quick Links — 2 cols -->
-      <div class="lg:col-span-2">
-        <h3 class="text-white/70 text-[0.62rem] tracking-[0.22em] uppercase font-bold mb-5">
+      <div class='lg:col-span-2'>
+        <h3 class='text-white/70 text-[0.62rem] tracking-[0.22em] uppercase font-bold mb-5'>
           Quick Links
         </h3>
-        <ul class="flex flex-col gap-y-3">
-          {quickLinks.map(link => (
+        <ul class='flex flex-col gap-y-3'>
+          {quickLinks.map((link) => (
             <li>
               <a
                 href={link.href}
-                target={link.external ? "_blank" : "_self"}
-                rel={link.external ? "noopener noreferrer" : ""}
-                class="group flex items-center gap-2.5 text-white/60 hover:text-white
-                       text-sm transition-colors duration-200"
-              >
+                target={link.external ? '_blank' : '_self'}
+                rel={link.external ? 'noopener noreferrer' : ''}
+                class='group flex items-center gap-2.5 text-white/60 hover:text-white
+                       text-sm transition-colors duration-200'>
                 <!-- Animated dash -->
-                <span class="w-3 h-px bg-white/20 group-hover:w-5 group-hover:bg-primary-light
-                             transition-all duration-300 shrink-0"></span>
+                <span
+                  class='w-3 h-px bg-white/20 group-hover:w-5 group-hover:bg-primary-light
+                             transition-all duration-300 shrink-0'></span>
                 {link.label}
               </a>
             </li>
@@ -180,33 +190,42 @@ const socials = [
       </div>
 
       <!-- Contact — 3 cols -->
-      <div class="lg:col-span-3">
-        <h3 class="text-white/70 text-[0.62rem] tracking-[0.22em] uppercase font-bold mb-5">
+      <div class='lg:col-span-3'>
+        <h3 class='text-white/70 text-[0.62rem] tracking-[0.22em] uppercase font-bold mb-5'>
           Contact Us
         </h3>
-        <ul class="space-y-5">
-          {contact.map(c => (
+        <ul class='space-y-5'>
+          {contact.map((c) => (
             <li>
               <a
                 href={c.href}
-                target={c.external ? "_blank" : "_self"}
-                rel={c.external ? "noopener noreferrer" : ""}
-                class="group flex items-start gap-3 w-fit"
-              >
+                target={c.external ? '_blank' : '_self'}
+                rel={c.external ? 'noopener noreferrer' : ''}
+                class='group flex items-start gap-3 w-fit'>
                 <!-- Icon box — aligned to top of multi-line text -->
-                <div class="size-7 bg-white/8 flex items-center justify-center shrink-0
-                            group-hover:bg-primary transition-colors duration-200 mt-0.5">
-                  <svg class="size-3.5 text-primary-light" fill="none" stroke="currentColor"
-                       stroke-width="1.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d={c.icon}/>
+                <div
+                  class='size-7 bg-white/8 flex items-center justify-center shrink-0
+                            group-hover:bg-primary transition-colors duration-200 mt-0.5'>
+                  <svg
+                    class='size-3.5 text-primary-light'
+                    fill='none'
+                    stroke='currentColor'
+                    stroke-width='1.5'
+                    viewBox='0 0 24 24'>
+                    <path
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      d={c.icon}
+                    />
                   </svg>
                 </div>
                 <div>
-                  <p class="text-white/30 text-[0.58rem] tracking-widest uppercase mb-0.5">
+                  <p class='text-white/30 text-[0.58rem] tracking-widest uppercase mb-0.5'>
                     {c.label}
                   </p>
-                  <p class="text-white/70 group-hover:text-white text-sm leading-relaxed
-                            whitespace-pre-line transition-colors duration-200">
+                  <p
+                    class='text-white/70 group-hover:text-white text-sm leading-relaxed
+                            whitespace-pre-line transition-colors duration-200'>
                     {c.value}
                   </p>
                 </div>
@@ -217,56 +236,53 @@ const socials = [
       </div>
 
       <!-- Visiting Hours — 3 cols -->
-      <div class="lg:col-span-3">
-        <h3 class="text-white/70 text-[0.62rem] tracking-[0.22em] uppercase font-bold mb-5">
+      <div class='lg:col-span-3'>
+        <h3 class='text-white/70 text-[0.62rem] tracking-[0.22em] uppercase font-bold mb-5'>
           Visiting Hours
         </h3>
-        <ul class="space-y-4">
-          {hours.map(h => (
+        <ul class='space-y-4'>
+          {hours.map((h) => (
             <li>
-              <p class="text-white/30 text-[0.58rem] tracking-widest uppercase mb-1">
+              <p class='text-white/30 text-[0.58rem] tracking-widest uppercase mb-1'>
                 {h.label}
               </p>
-              <p class="text-white/70 text-sm leading-relaxed">
-                {h.time}
-              </p>
+              <p class='text-white/70 text-sm leading-relaxed'>{h.time}</p>
             </li>
           ))}
         </ul>
       </div>
-
     </div>
   </div>
 
   <!-- ── Bottom bar: copyright + utility links ── -->
-  <div class="border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-6 lg:px-16 py-5
-                flex flex-col sm:flex-row items-center justify-between gap-3">
-
-      <p class="text-white/70 text-[0.62rem] tracking-wide text-center sm:text-left">
-        © {year} St. Paul's Mission Hospital, Homa Bay | All rights reserved | <span class="text-teal-300">Powered by The AgLabs.</span>
+  <div class='border-t border-white/10'>
+    <div
+      class='max-w-7xl mx-auto px-6 lg:px-16 py-5
+                flex flex-col sm:flex-row items-center justify-between gap-3'>
+      <p class='text-white/70 text-[0.62rem] tracking-wide text-center sm:text-left'>
+        © {year} St. Paul's Mission Hospital, Homa Bay | All rights reserved |{' '}
+        <span class='text-teal-300'>Powered by The AgLabs.</span>
       </p>
 
-      <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+      <div class='flex flex-wrap items-center justify-center gap-x-4 gap-y-1'>
         {[
-          { label: "Strategic Plan",  href: "/about-us/strategic-plan"         },
-          { label: "Contact",         href: "/about-us/contact"                },
-          { label: "Tenders",         href: "/about-us/tenders"                },
+          { label: 'Strategic Plan', href: '/about-us/strategic-plan' },
+          { label: 'Contact', href: '/about-us/contact' },
+          { label: 'Tenders', href: '/about-us/tenders' },
         ].map((l, i, arr) => (
           <>
-            <a href={l.href}
-               class="text-white/80 hover:text-white/60 text-[0.62rem] tracking-wide
-                      transition-colors duration-200">
+            <a
+              href={l.href}
+              class='text-white/80 hover:text-white/60 text-[0.62rem] tracking-wide
+                      transition-colors duration-200'>
               {l.label}
             </a>
             {i < arr.length - 1 && (
-              <span class="text-white/15 text-xs hidden sm:inline">·</span>
+              <span class='text-white/15 text-xs hidden sm:inline'>·</span>
             )}
           </>
         ))}
       </div>
-
     </div>
   </div>
-
 </footer>

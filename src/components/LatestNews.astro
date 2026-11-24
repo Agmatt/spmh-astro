@@ -1,48 +1,65 @@
 ---
-/**
- * LatestNews.astro
- * Feeds the homepage with fresh content to boost SEO and engagement.
- * Currently links to the newsroom subdomain; will be updated to /newsroom/ in Phase 2.
- */
+import { createClient } from '@supabase/supabase-js';
 
-const newsArticles = [
-  {
-    id: 'community-outreach',
-    category: 'Community Health',
-    title: 'SPMH Conducts Free Medical Camp in Homa Bay',
-    excerpt:
-      'Over 500 residents received free consultations, medications, and health screenings during our weekend outreach program.',
-    date: 'Oct 24, 2026',
-    image: '/img/news-outreach.jpg', // Ensure you have placeholder images
-    href: 'https://newsroom.spmh.co.ke/community-outreach-homa-bay', // External link for now
-    featured: true,
-  },
-  {
-    id: 'new-equipment',
-    category: 'Hospital News',
-    title: 'New Ultrasound Machine Installed',
-    excerpt: 'Enhancing our maternal care with high-resolution imaging.',
-    date: 'Oct 18, 2026',
-    image: '/img/news-ultrasound.jpg',
-    href: 'https://newsroom.spmh.co.ke/new-ultrasound-machine',
-    featured: false,
-  },
-  {
-    id: 'staff-award',
-    category: 'Milestones',
-    title: 'Dr. Ochieng Honored for Excellence',
-    excerpt: 'Recognized by the county for outstanding surgical leadership.',
-    date: 'Oct 10, 2026',
-    image: '/img/news-award.jpg',
-    href: 'https://newsroom.spmh.co.ke/dr-ochieng-award',
-    featured: false,
-  },
-];
+// 1. Initialize a read-only client for the news database
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_NEWS_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_NEWS_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// 2. Fetch the 3 latest published articles
+// We only fetch 'article' and 'press_release' for the homepage
+let latestNews = [];
+try {
+  const { data, error } = await supabase
+    .from('content_items')
+    .select('title, slug, excerpt, cover_image, published_at, type, pillar')
+    .eq('status', 'published')
+    .in('type', ['article', 'press_release'])
+    .order('published_at', { ascending: false })
+    .limit(3);
+
+  if (!error && data) {
+    latestNews = data;
+  }
+} catch (err) {
+  console.error('Failed to fetch latest news:', err);
+}
+
+// 3. Fallback if database is empty
+if (latestNews.length === 0) {
+  latestNews = [
+    {
+      title: 'Welcome to our new website',
+      slug: '',
+      excerpt:
+        'Explore our new digital home and learn more about our services.',
+      cover_image: '/img/6.jpg',
+      published_at: new Date().toISOString(),
+      type: 'article',
+    },
+  ];
+}
+
+const featured = latestNews[0];
+const secondary = latestNews.slice(1);
+
+// Format Date
+const formatDate = (d) =>
+  d
+    ? new Date(d).toLocaleDateString('en-KE', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      })
+    : '';
+
+// CRITICAL: Change this to '/newsroom' when we migrate in Phase 2!
+const BASE_URL = 'https://newsroom.spmh.co.ke';
 ---
 
 <section class='py-20 lg:py-24 bg-white border-t border-slate-100'>
   <div class='max-w-7xl mx-auto px-4 md:px-6 lg:px-10'>
-    <!-- ── Header ── -->
+    <!-- Header -->
     <div class='flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6'>
       <div class='max-w-2xl'>
         <p class='text-primary text-xs tracking-[0.22em] uppercase font-bold mb-3'>
@@ -53,7 +70,7 @@ const newsArticles = [
         </h2>
       </div>
       <a
-        href='https://newsroom.spmh.co.ke'
+        href={BASE_URL}
         class='group inline-flex items-center gap-2 text-primary font-bold text-sm uppercase tracking-wide hover:text-primary-dark transition-colors'>
         Visit Newsroom
         <svg
@@ -72,53 +89,52 @@ const newsArticles = [
       </a>
     </div>
 
-    <!-- ── Grid Layout ── -->
+    <!-- Grid Layout -->
     <div class='grid grid-cols-1 lg:grid-cols-12 gap-8'>
-      <!-- Featured Article (Left Side) -->
-      {newsArticles
-        .filter((a) => a.featured)
-        .map((article) => (
-          <a
-            href={article.href}
-            class='lg:col-span-7 group block relative overflow-hidden rounded-2xl bg-slate-900 h-[400px] lg:h-[500px]'>
-            <img
-              src={article.image}
-              alt={article.title}
-              class='absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700'
-              loading='lazy'
-              width='800'
-              height='600'
-            />
-            <div class='absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent'></div>
+      <!-- Featured Article -->
+      {featured && (
+        <a
+          href={`${BASE_URL}/${featured.slug}/`}
+          class='lg:col-span-7 group block relative overflow-hidden rounded-2xl bg-slate-900 h-[400px] lg:h-[500px]'>
+          <img
+            src={featured.cover_image || '/img/placeholder-news.jpg'}
+            alt={featured.title}
+            class='absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700'
+            loading='lazy'
+            width='800'
+            height='600'
+          />
+          <div class='absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent'></div>
 
-            <div class='absolute bottom-0 left-0 p-6 lg:p-10 w-full'>
-              <span class='inline-block px-3 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-full mb-4'>
-                {article.category}
-              </span>
-              <h3 class='text-2xl lg:text-3xl font-bold text-white leading-snug mb-3 group-hover:text-primary-light transition-colors'>
-                {article.title}
-              </h3>
-              <p class='text-slate-300 text-sm lg:text-base leading-relaxed mb-4 line-clamp-2'>
-                {article.excerpt}
-              </p>
-              <div class='text-slate-400 text-xs font-medium'>
-                {article.date}
-              </div>
+          <div class='absolute bottom-0 left-0 p-6 lg:p-10 w-full'>
+            <span class='inline-block px-3 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-full mb-4'>
+              {featured.type === 'press_release'
+                ? 'Press Release'
+                : 'Latest Story'}
+            </span>
+            <h3 class='text-2xl lg:text-3xl font-bold text-white leading-snug mb-3 group-hover:text-primary-light transition-colors'>
+              {featured.title}
+            </h3>
+            <p class='text-slate-300 text-sm lg:text-base leading-relaxed mb-4 line-clamp-2'>
+              {featured.excerpt}
+            </p>
+            <div class='text-slate-400 text-xs font-medium'>
+              {formatDate(featured.published_at)}
             </div>
-          </a>
-        ))}
+          </div>
+        </a>
+      )}
 
-      <!-- Secondary Articles (Right Side) -->
-      <div class='lg:col-span-5 flex flex-col gap-8'>
-        {newsArticles
-          .filter((a) => !a.featured)
-          .map((article) => (
+      <!-- Secondary Articles -->
+      {secondary.length > 0 && (
+        <div class='lg:col-span-5 flex flex-col gap-8'>
+          {secondary.map((article) => (
             <a
-              href={article.href}
+              href={`${BASE_URL}/${article.slug}/`}
               class='group flex flex-col sm:flex-row gap-5 items-start'>
               <div class='w-full sm:w-2/5 shrink-0 overflow-hidden rounded-xl h-40 sm:h-full'>
                 <img
-                  src={article.image}
+                  src={article.cover_image || '/img/placeholder-news.jpg'}
                   alt={article.title}
                   class='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
                   loading='lazy'
@@ -128,21 +144,19 @@ const newsArticles = [
               </div>
               <div class='flex-1'>
                 <span class='text-primary text-[10px] font-bold uppercase tracking-widest block mb-2'>
-                  {article.category}
+                  {article.type === 'press_release' ? 'Press Release' : 'News'}
                 </span>
-                <h4 class='text-secondary font-bold text-lg leading-snug mb-2 group-hover:text-primary transition-colors'>
+                <h4 class='text-secondary font-bold text-lg leading-snug mb-2 group-hover:text-primary transition-colors line-clamp-2'>
                   {article.title}
                 </h4>
-                <p class='text-slate-500 text-sm leading-relaxed mb-3 line-clamp-2'>
-                  {article.excerpt}
-                </p>
-                <div class='text-slate-400 text-xs font-medium'>
-                  {article.date}
+                <div class='text-slate-400 text-xs font-medium mt-3'>
+                  {formatDate(article.published_at)}
                 </div>
               </div>
             </a>
           ))}
-      </div>
+        </div>
+      )}
     </div>
   </div>
 </section>

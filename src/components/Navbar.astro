@@ -24,7 +24,6 @@ const navGroups = [
   },
 ];
 
-
 const staffPortals = [
   {
     label: 'Human Resource',
@@ -32,7 +31,11 @@ const staffPortals = [
     badge: 'HR',
   },
   { label: 'Procurement', href: '/admin/tenders', badge: 'Tenders' },
-  { label: 'Appointments Admin', href: '/admin/appointments', badge: 'Clinical' },
+  {
+    label: 'Appointments Admin',
+    href: '/admin/appointments',
+    badge: 'Clinical',
+  },
   { label: 'CQI Team', href: '/admin/cqi', badge: 'CQI' },
   { label: 'Editorial Team', href: '/admin/editorial', badge: 'Media' },
 ];
@@ -49,8 +52,7 @@ const staffPortals = [
   <!-- ========================================== -->
   <!-- DESKTOP TOP UTILITY BAR (Info + Emergency) -->
   <!-- ========================================== -->
-  <div
-    class='hidden lg:block bg-blue-950 text-white border-b border-white/10 text-xs py-2'>
+  <div class='hidden lg:block bg-[#0E2A47] text-white border-b border-white/10 text-xs py-2'>
     <div class='container mx-auto px-6 flex justify-between items-center'>
       <!-- Left: Location & Hours -->
       <div class='flex items-center space-x-6 font-medium text-surface-2'>
@@ -65,8 +67,7 @@ const staffPortals = [
               stroke-linecap='round'
               stroke-linejoin='round'
               stroke-width='2'
-              d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'
-            ></path>
+              d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'></path>
             <path
               stroke-linecap='round'
               stroke-linejoin='round'
@@ -108,8 +109,7 @@ const staffPortals = [
               stroke-linecap='round'
               stroke-linejoin='round'
               stroke-width='2'
-              d='M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z'
-            ></path>
+              d='M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z'></path>
           </svg>
           <span>For Emergency: +254 111 817447</span>
         </a>
@@ -127,8 +127,7 @@ const staffPortals = [
               stroke-linecap='round'
               stroke-linejoin='round'
               stroke-width='2'
-              d='M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1'
-            ></path>
+              d='M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1'></path>
           </svg>
           <span>Staff Login</span>
         </button>
@@ -148,14 +147,12 @@ const staffPortals = [
         class='h-12 w-auto transition-transform duration-300 group-hover:scale-105'
       />
       <div class='flex flex-col'>
-        <span
-          class='text-[#125276] font-black tracking-tighter leading-none text-lg uppercase'
-          >St. Paul's</span
-        >
-        <span
-          class='text-[#860f0f] text-[10px] font-bold tracking-[0.2em] uppercase'
-          >Mission Hospital</span
-        >
+        <span class='text-[#125276] font-black tracking-tighter leading-none text-lg uppercase'>
+          St. Paul's
+        </span>
+        <span class='text-[#860f0f] text-[10px] font-bold tracking-[0.2em] uppercase'>
+          Mission Hospital
+        </span>
       </div>
     </a>
 
@@ -195,17 +192,15 @@ const staffPortals = [
           x-transition:leave-end='opacity-0 scale-95'
           style='display:none'
           class='absolute top-full left-0 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-3 z-[110]'>
-          {
-            navGroups[0].items.map((item) => (
-              <li>
-                <a
-                  href={item.href}
-                  class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-200 hover:text-[#125276]'>
-                  {item.label}
-                </a>
-              </li>
-            ))
-          }
+          {navGroups[0].items.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-200 hover:text-[#125276]'>
+                {item.label}
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
 
@@ -243,17 +238,15 @@ const staffPortals = [
           x-transition:leave-end='opacity-0 scale-95'
           style='display:none'
           class='absolute top-full left-0 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-3 z-[110]'>
-          {
-            navGroups[1].items.map((item) => (
-              <li>
-                <a
-                  href={item.href}
-                  class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-200 hover:text-[#125276]'>
-                  {item.label}
-                </a>
-              </li>
-            ))
-          }
+          {navGroups[1].items.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class='block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-200 hover:text-[#125276]'>
+                {item.label}
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
 
@@ -331,8 +324,7 @@ const staffPortals = [
       x-transition:leave-end='opacity-0'
       @click='mobileOpen = false; mobOpenDropdown = null'
       style='display:none'
-      class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[105]'>
-    </div>
+      class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[105]'></div>
 
     <!-- Full-height LEFT-SIDE slide-in panel -->
     <div
@@ -346,11 +338,10 @@ const staffPortals = [
       style='display:none'
       class='fixed inset-y-0 left-0 w-full max-w-xs bg-gray-900 text-white z-[110] flex flex-col shadow-2xl'>
       <!-- Panel Header with Close Button on Opposite (Right) Side -->
-      <div
-        class='px-6 py-5 flex items-center justify-between border-b border-white/10 bg-slate-950'>
-        <span class='text-xs font-bold uppercase tracking-widest text-slate-300'
-          >St. Paul's Mission Hospital</span
-        >
+      <div class='px-6 py-5 flex items-center justify-between border-b border-white/10 bg-slate-950'>
+        <span class='text-xs font-bold uppercase tracking-widest text-slate-300'>
+          St. Paul's Mission Hospital
+        </span>
         <button
           @click='mobileOpen = false; mobOpenDropdown = null'
           class='p-1.5 rounded-lg bg-white/10 hover:bg-[#860f0f] text-slate-300 hover:text-white transition-colors focus:outline-none'
@@ -370,9 +361,11 @@ const staffPortals = [
       </div>
 
       <div class='flex-1 overflow-y-auto px-6 py-4 space-y-3'>
-        <a href='/' class='block p-2 text-sm font-bold border-b border-white/10'
-          >Home</a
-        >
+        <a
+          href='/'
+          class='block p-2 text-sm font-bold border-b border-white/10'>
+          Home
+        </a>
 
         <!-- Mobile About Us Accordion -->
         <div class='space-y-2 border-b border-white/10 pb-1'>
@@ -398,17 +391,15 @@ const staffPortals = [
             x-transition
             style='display:none'
             class='px-3 py-1 space-y-2 ml-2'>
-            {
-              navGroups[0].items.map((item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    class='block py-2 text-white/70 text-sm font-medium border-b border-white/10'>
-                    {item.label}
-                  </a>
-                </li>
-              ))
-            }
+            {navGroups[0].items.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class='block py-2 text-white/70 text-sm font-medium border-b border-white/10'>
+                  {item.label}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -436,17 +427,15 @@ const staffPortals = [
             x-transition
             style='display:none'
             class='px-3 py-1 space-y-2 ml-2'>
-            {
-              navGroups[1].items.map((item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    class='block py-2 text-white/70 text-sm font-medium border-b border-white/10'>
-                    {item.label}
-                  </a>
-                </li>
-              ))
-            }
+            {navGroups[1].items.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class='block py-2 text-white/70 text-sm font-medium border-b border-white/10'>
+                  {item.label}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -468,10 +457,10 @@ const staffPortals = [
 
         <!-- Mobile Telemedicine Accordion -->
         <a
-            href='https://telemedicine.spmh.co.ke'
-            class='block w-full text-center p-3 bg-primary text-white rounded-xl font-bold uppercase tracking-wider text-xs shadow-md hover:bg-primary transition-colors flex items-center justify-center gap-2'>
-            <span>Telemedicine</span>
-          </a>
+          href='https://telemedicine.spmh.co.ke'
+          class='block w-full text-center p-3 bg-primary text-white rounded-xl font-bold uppercase tracking-wider text-xs shadow-md hover:bg-primary transition-colors flex items-center justify-center gap-2'>
+          <span>Telemedicine</span>
+        </a>
 
         <!-- Mobile Staff Login Trigger -->
         <div class='border-b border-white/10 pb-2'>
@@ -488,15 +477,13 @@ const staffPortals = [
                   stroke-linecap='round'
                   stroke-linejoin='round'
                   stroke-width='2'
-                  d='M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1'
-                ></path>
+                  d='M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1'></path>
               </svg>
               Staff Login
             </span>
-            <span
-              class='text-[10px] font-black uppercase tracking-wider bg-[#860f0f] px-2 py-0.5 rounded text-white'
-              >Access</span
-            >
+            <span class='text-[10px] font-black uppercase tracking-wider bg-[#860f0f] px-2 py-0.5 rounded text-white'>
+              Access
+            </span>
           </button>
         </div>
 
@@ -520,8 +507,7 @@ const staffPortals = [
                 stroke-linecap='round'
                 stroke-linejoin='round'
                 stroke-width='2'
-                d='M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z'
-              ></path>
+                d='M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z'></path>
             </svg>
             <span>For Emergency: +254 111 817447</span>
           </a>
@@ -545,8 +531,7 @@ const staffPortals = [
     class='fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6'>
     <div
       @click='loginModalOpen = false'
-      class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm'>
-    </div>
+      class='fixed inset-0 bg-slate-900/60 backdrop-blur-sm'></div>
 
     <div
       x-show='loginModalOpen'
@@ -557,8 +542,7 @@ const staffPortals = [
       x-transition:leave-start='opacity-100 scale-100 translate-y-0'
       x-transition:leave-end='opacity-0 scale-95 translate-y-2'
       class='relative w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden z-[210]'>
-      <div
-        class='bg-blue-950 px-6 py-5 text-white flex justify-between items-center border-b border-white/10'>
+      <div class='bg-blue-950 px-6 py-5 text-white flex justify-between items-center border-b border-white/10'>
         <div class='flex items-center space-x-3'>
           <div class='p-2 bg-white/10 rounded-xl'>
             <svg
@@ -570,13 +554,11 @@ const staffPortals = [
                 stroke-linecap='round'
                 stroke-linejoin='round'
                 stroke-width='2'
-                d='M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'
-              ></path>
+                d='M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'></path>
             </svg>
           </div>
           <div>
-            <h3
-              class='font-black text-base uppercase tracking-wider text-white'>
+            <h3 class='font-black text-base uppercase tracking-wider text-white'>
               Staff Portal Access
             </h3>
             <p class='text-xs text-slate-300'>
@@ -603,47 +585,19 @@ const staffPortals = [
       </div>
 
       <div class='p-6 space-y-4 max-h-[75vh] overflow-y-auto bg-slate-50/50'>
-        <p
-          class='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2'>
+        <p class='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2'>
           Consolidated Admin Endpoints
         </p>
 
         <div class='grid grid-cols-1 gap-2.5'>
-          {
-            staffPortals.map((portal) => (
-              <a
-                href={portal.href}
-                class='group flex items-center justify-between p-3.5 bg-white border border-slate-200 rounded-xl hover:border-[#125276] hover:shadow-md transition-all duration-200'>
-                <div class='flex items-center space-x-3'>
-                  <div class='w-9 h-9 rounded-lg bg-slate-100 text-[#125276] group-hover:bg-[#125276] group-hover:text-white flex items-center justify-center font-bold transition-colors'>
-                    <svg
-                      class='w-5 h-5'
-                      fill='none'
-                      stroke='currentColor'
-                      viewBox='0 0 24 24'>
-                      <path
-                        stroke-linecap='round'
-                        stroke-linejoin='round'
-                        stroke-width='2'
-                        d='M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z'
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <span class='block text-sm font-bold text-slate-800 group-hover:text-[#125276] transition-colors'>
-                      {portal.label}
-                    </span>
-                    <span class='block text-[11px] text-slate-500'>
-                      Authorized login point
-                    </span>
-                  </div>
-                </div>
-                <div class='flex items-center space-x-2'>
-                  <span class='text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded group-hover:bg-blue-50 group-hover:text-[#125276] transition-colors'>
-                    {portal.badge}
-                  </span>
+          {staffPortals.map((portal) => (
+            <a
+              href={portal.href}
+              class='group flex items-center justify-between p-3.5 bg-white border border-slate-200 rounded-xl hover:border-[#125276] hover:shadow-md transition-all duration-200'>
+              <div class='flex items-center space-x-3'>
+                <div class='w-9 h-9 rounded-lg bg-slate-100 text-[#125276] group-hover:bg-[#125276] group-hover:text-white flex items-center justify-center font-bold transition-colors'>
                   <svg
-                    class='w-4 h-4 text-slate-400 group-hover:text-[#125276] group-hover:translate-x-0.5 transition-all'
+                    class='w-5 h-5'
                     fill='none'
                     stroke='currentColor'
                     viewBox='0 0 24 24'>
@@ -651,21 +605,44 @@ const staffPortals = [
                       stroke-linecap='round'
                       stroke-linejoin='round'
                       stroke-width='2'
-                      d='M9 5l7 7-7 7'
+                      d='M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z'
                     />
                   </svg>
                 </div>
-              </a>
-            ))
-          }
+                <div>
+                  <span class='block text-sm font-bold text-slate-800 group-hover:text-[#125276] transition-colors'>
+                    {portal.label}
+                  </span>
+                  <span class='block text-[11px] text-slate-500'>
+                    Authorized login point
+                  </span>
+                </div>
+              </div>
+              <div class='flex items-center space-x-2'>
+                <span class='text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded group-hover:bg-blue-50 group-hover:text-[#125276] transition-colors'>
+                  {portal.badge}
+                </span>
+                <svg
+                  class='w-4 h-4 text-slate-400 group-hover:text-[#125276] group-hover:translate-x-0.5 transition-all'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'>
+                  <path
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M9 5l7 7-7 7'
+                  />
+                </svg>
+              </div>
+            </a>
+          ))}
         </div>
       </div>
 
-      <div
-        class='bg-white px-6 py-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500'>
+      <div class='bg-white px-6 py-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500'>
         <span class='flex items-center gap-1.5'>
-          <span class='w-2 h-2 rounded-full bg-emerald-500 animate-pulse'
-          ></span>
+          <span class='w-2 h-2 rounded-full bg-emerald-500 animate-pulse'></span>
           SPMH Secure Gateway
         </span>
         <button
