@@ -56,7 +56,7 @@ export default function Carousel() {
                   ? 'translate-y-0 opacity-100'
                   : 'translate-y-10 opacity-0'
               }`}>
-              <span className='text-blue-500 font-mono text-[10px] uppercase tracking-[0.4em] font-bold mb-4 block'>
+              <span className='text-surface-2 font-mono text-[10px] uppercase tracking-[0.4em] font-bold mb-4 block'>
                 {slide.label}
               </span>
 

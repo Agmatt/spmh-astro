@@ -11,183 +11,199 @@
 
 const services = [
   {
-    title:  "Outpatient & General Consultation",
-    short:  "OPD",
-    desc:   "For any new health concern, follow-up, or general medical advice.",
-    icon:   "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
-    fill:   false,
-    href:   "/services/clinical#opd",
+    title: 'Outpatient & General Consultation',
+    short: 'OPD',
+    desc: 'For any new health concern, follow-up, or general medical advice.',
+    icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
+    fill: false,
+    href: '/services/clinical#opd',
   },
   {
-    title:  "Emergency & Casualty",
-    short:  "24/7",
-    desc:   "Immediate care around the clock — no appointment needed.",
-    icon:   "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z",
-    fill:   false,
-    href:   "/services/clinical#emergency",
+    title: 'Emergency & Casualty',
+    short: '24/7',
+    desc: 'Immediate care around the clock — no appointment needed.',
+    icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
+    fill: false,
+    href: '/services/clinical#emergency',
     urgent: true,
   },
   {
-    title:  "Maternal & Neonatal Care",
-    short:  "Maternity",
-    desc:   "Antenatal, delivery, postnatal, and newborn unit services.",
-    icon:   "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
-    fill:   true,
-    href:   "/services/clinical#maternal",
+    title: 'Maternal & Neonatal Care',
+    short: 'Maternity',
+    desc: 'Antenatal, delivery, postnatal, and newborn unit services.',
+    icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
+    fill: true,
+    href: '/services/clinical#maternal',
   },
   {
-    title:  "Surgical Services",
-    short:  "Surgery",
-    desc:   "Elective and emergency surgical procedures with full recovery support.",
-    icon:   "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z",
-    fill:   false,
-    href:   "/services/clinical#surgical",
+    title: 'Surgical Services',
+    short: 'Surgery',
+    desc: 'Elective and emergency surgical procedures with full recovery support.',
+    icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z',
+    fill: false,
+    href: '/services/clinical#surgical',
   },
   {
-    title:  "CCC & HIV / AIDS Care",
-    short:  "CCC",
-    desc:   "Confidential HIV testing, counselling, and antiretroviral therapy.",
-    icon:   "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
-    fill:   false,
-    href:   "/services/ccc",
+    title: 'CCC & HIV / AIDS Care',
+    short: 'CCC',
+    desc: 'Confidential HIV testing, counselling, and antiretroviral therapy.',
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    fill: false,
+    href: '/services/ccc',
   },
   {
-    title:  "Physiotherapy & Rehabilitation",
-    short:  "Physio",
-    desc:   "Recovery support for injury, surgery, stroke, and chronic pain.",
-    icon:   "M13 10V3L4 14h7v7l9-11h-7z",
-    fill:   false,
-    href:   "/services/clinical#physio",
+    title: 'Physiotherapy & Rehabilitation',
+    short: 'Physio',
+    desc: 'Recovery support for injury, surgery, stroke, and chronic pain.',
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    fill: false,
+    href: '/services/clinical#physio',
   },
   {
-    title:  "Laboratory & Diagnostics",
-    short:  "Lab & Imaging",
-    desc:   "Blood tests, X-Ray, and Ultrasound — most results same day.",
-    icon:   "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
-    fill:   false,
-    href:   "/services/clinical#diagnostics",
+    title: 'Laboratory & Diagnostics',
+    short: 'Lab & Imaging',
+    desc: 'Blood tests, X-Ray, and Ultrasound — most results same day.',
+    icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+    fill: false,
+    href: '/services/clinical#diagnostics',
   },
   {
-    title:  "Pharmacy",
-    short:  "Pharmacy",
-    desc:   "Prescription dispensing and medication guidance, every day.",
-    icon:   "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z",
-    fill:   false,
-    href:   "/services/clinical#pharmacy",
+    title: 'Pharmacy',
+    short: 'Pharmacy',
+    desc: 'Prescription dispensing and medication guidance, every day.',
+    icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z',
+    fill: false,
+    href: '/services/clinical#pharmacy',
   },
   {
-    title:  "Medical & In-patient Wards",
-    short:  "In-patient",
-    desc:   "Round-the-clock nursing and medical care for admitted patients.",
-    icon:   "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
-    fill:   false,
-    href:   "/services/clinical#medical",
+    title: 'Medical & In-patient Wards',
+    short: 'In-patient',
+    desc: 'Round-the-clock nursing and medical care for admitted patients.',
+    icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
+    fill: false,
+    href: '/services/clinical#medical',
   },
-]
+];
 ---
 
-<section id="services" class="py-16 lg:py-24 bg-white">
-  <div class="max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
-
+<section id='services' class='py-16 lg:py-24 bg-white'>
+  <div class='max-w-6xl mx-auto px-4 md:px-6 lg:px-8'>
     <!-- ── Header ── -->
-    <div class="mb-14 text-center">
-      <div class="flex items-center justify-center gap-3 mb-4">
-        <div class="w-8 h-px bg-[#1565c0]"></div>
-        <span class="text-sm font-bold text-[#5a6f8c] uppercase tracking-wide">Our Care</span>
-        <div class="w-8 h-px bg-[#1565c0]"></div>
+    <div class='mb-14 text-center'>
+      <div class='flex items-center justify-center gap-3 mb-4'>
+        <div class='w-8 h-px bg-[#1565c0]'></div>
+        <span class='text-sm font-bold text-[#5a6f8c] uppercase tracking-wide'>
+          Our Care
+        </span>
+        <div class='w-8 h-px bg-[#1565c0]'></div>
       </div>
-      <h2 class="text-4xl lg:text-5xl font-black text-[#125276] tracking-tight mb-4">
+      <h2 class='text-4xl lg:text-5xl font-black text-[#125276] tracking-tight mb-4'>
         Comprehensive Services
       </h2>
-      <p class="text-[#5a6f8c] text-lg max-w-2xl leading-relaxed mx-auto">
-        From your first consultation to long-term recovery — we are here for every step of your health journey.
+      <p class='text-[#5a6f8c] text-lg max-w-2xl leading-relaxed mx-auto'>
+        From your first consultation to long-term recovery — we are here for
+        every step of your health journey.
       </p>
     </div>
 
     <!-- ── Grid ── -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-
-      {services.map(service => (
+    <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12'>
+      {services.map((service) => (
         <a
           href={service.href}
-          class="group relative block p-6 border border-[#c5d8f7] bg-surface
+          class='group relative block p-6 border border-[#c5d8f7] bg-surface
                  hover:border-[#1565c0] hover:shadow-md hover:shadow-[#1565c0]/10
-                 transition-all duration-200"
-        >
+                 transition-all duration-200'>
           <!-- Urgent badge — Emergency only -->
           {service.urgent && (
-            <div class="absolute top-4 right-4 flex items-center gap-1.5">
-              <span class="relative flex size-2">
-                <span class="absolute inline-flex size-full rounded-full bg-[#860f0f] animate-pulse opacity-75"></span>
-                <span class="relative inline-flex size-2 rounded-full bg-[#860f0f]"></span>
+            <div class='absolute top-4 right-4 flex items-center gap-1.5'>
+              <span class='relative flex size-2'>
+                <span class='absolute inline-flex size-full rounded-full bg-[#860f0f] animate-pulse opacity-75'></span>
+                <span class='relative inline-flex size-2 rounded-full bg-[#860f0f]'></span>
               </span>
-              <span class="text-[#860f0f] text-xs font-bold tracking-wide uppercase">
+              <span class='text-[#860f0f] text-xs font-bold tracking-wide uppercase'>
                 24 / 7
               </span>
             </div>
           )}
 
           <!-- Icon -->
-          <div class="mb-4">
-            <div class="w-12 h-12 bg-[#e8f0fc] flex items-center justify-center
-                        group-hover:bg-[#1565c0] transition-colors duration-200">
+          <div class='mb-4'>
+            <div
+              class='w-12 h-12 bg-[#e8f0fc] flex items-center justify-center
+                        group-hover:bg-[#1565c0] transition-colors duration-200'>
               <svg
-                class="w-6 h-6 text-[#1565c0] group-hover:text-white transition-colors duration-200"
-                fill={service.fill ? "currentColor" : "none"}
-                stroke={service.fill ? "none" : "currentColor"}
-                stroke-width="1.5"
-                viewBox="0 0 24 24"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" d={service.icon}/>
+                aria-hidden='true'
+                class='w-6 h-6 text-[#1565c0] group-hover:text-white transition-colors duration-200'
+                fill={service.fill ? 'currentColor' : 'none'}
+                stroke={service.fill ? 'none' : 'currentColor'}
+                stroke-width='1.5'
+                viewBox='0 0 24 24'>
+                <path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  d={service.icon}
+                />
               </svg>
             </div>
           </div>
 
           <!-- Text -->
-          <div class="flex-1 mb-4">
-            <h3 class="text-[#125276] font-bold text-base mb-2 leading-snug">
+          <div class='flex-1 mb-4'>
+            <h3 class='text-[#125276] font-bold text-base mb-2 leading-snug'>
               {service.title}
             </h3>
-            <p class="text-[#5a6f8c] text-sm leading-relaxed">
-              {service.desc}
-            </p>
+            <p class='text-[#5a6f8c] text-sm leading-relaxed'>{service.desc}</p>
           </div>
 
           <!-- Arrow link -->
-          <div class="flex items-center gap-2 text-[#1565c0] text-xs font-semibold uppercase tracking-wider
-                      group-hover:gap-3 transition-all duration-200">
+          <div
+            class='flex items-center gap-2 text-[#1565c0] text-xs font-semibold uppercase tracking-wider
+                      group-hover:gap-3 transition-all duration-200'>
             Learn more
-            <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200"
-                 fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            <svg
+              class='w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2.5'
+              viewBox='0 0 24 24'>
+              <path
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                d='M17 8l4 4m0 0l-4 4m4-4H3'
+              />
             </svg>
           </div>
-
         </a>
       ))}
-
     </div>
 
     <!-- ── CTA Footer ── -->
-    <div class="pt-8 border-t border-[#c5d8f7] flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-
-      <p class="text-[#5a6f8c] text-base max-w-xl">
-        Each department has dedicated staff, clear hours, and a direct path to booking. Find full details, what to expect, and how to get there.
+    <div class='pt-8 border-t border-[#c5d8f7] flex flex-col sm:flex-row sm:items-center justify-between gap-6'>
+      <p class='text-[#5a6f8c] text-base max-w-xl'>
+        Each department has dedicated staff, clear hours, and a direct path to
+        booking. Find full details, what to expect, and how to get there.
       </p>
 
       <a
-        href="/services/clinical"
-        class="inline-flex items-center gap-3 px-6 py-3 bg-[#1565c0] hover:bg-[#0d47a1]
+        href='/services/clinical'
+        class='inline-flex items-center gap-3 px-6 py-3 bg-[#1565c0] hover:bg-[#0d47a1]
                text-white font-bold text-sm uppercase tracking-wide
-               transition-colors duration-200"
-      >
+               transition-colors duration-200'>
         Explore all services
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        <svg
+          class='w-4 h-4'
+          fill='none'
+          stroke='currentColor'
+          stroke-width='2.5'
+          viewBox='0 0 24 24'>
+          <path
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            d='M17 8l4 4m0 0l-4 4m4-4H3'
+          />
         </svg>
       </a>
-
     </div>
-
   </div>
 </section>
